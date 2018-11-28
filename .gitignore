@@ -1,0 +1,11 @@
+.next
+.env
+node_modules
+npm-debug.log.*
+*.log
+yarn.lock
+.DS_Store
+.vscode/*
+build
+cypress/screenshots
+*.swp
