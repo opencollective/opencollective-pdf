@@ -15,7 +15,9 @@ ARG NODE_ENV=production
 ENV NODE_ENV $NODE_ENV
 
 ARG API_URL=https://api-staging.opencollective.com
+ARG WEBSITE_URL=https://staging.opencollective.com
 ENV API_URL $API_URL
+ENV WEBSITE_URL $WEBSITE_URL
 
 ARG INVOICES_URL=https://invoices-staging.opencollective.com
 ENV INVOICES_URL $INVOICES_URL

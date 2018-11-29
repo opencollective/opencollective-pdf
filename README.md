@@ -52,8 +52,8 @@ npm run dev
 If you use this service through frontend, you're ready to go - frontend will pass
 your authorization token directly to the app.
 
-However if you're using the service directly you'll need to set an `Authorization`
-header to identify your requests.
+However if you're using the service directly you'll need to set the `Authorization`
+header with your token to identify your requests.
 
 ## Contributing
 
@@ -72,7 +72,7 @@ To deploy to staging or production, you need to be a core member of the Open Col
 ### Staging (now)
 
 ```
-now -e API_KEY=09u624Pc9F47zoGLlkg1TBSbOl2ydSAq -e API_URL=https://api-staging.opencollective.com
+now -e API_KEY=09u624Pc9F47zoGLlkg1TBSbOl2ydSAq -e API_URL=https://api-staging.opencollective.com -e WEBSITE_URL=https://staging.opencollective.com
 now alias invoices-staging.opencollective.com
 ```
 
@@ -81,7 +81,7 @@ now alias invoices-staging.opencollective.com
 ### Production (now)
 
 ```
-now -e API_KEY=@opencollective_api_key -e API_URL=https://api.opencollective.com
+now -e API_KEY=@opencollective_api_key -e API_URL=https://api.opencollective.com -e WEBSITE_URL=https://opencollective.com
 now alias invoices.opencollective.com
 ```
 

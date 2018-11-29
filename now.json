@@ -4,7 +4,8 @@
   "alias": "invoices.opencollective.com",
   "env": {
     "API_KEY": "@opencollective_api_key",
-    "API_URL": "https://api.opencollective.com"
+    "API_URL": "https://api.opencollective.com",
+    "WEBSITE_URL": "https://opencollective.com"
   },
   "scale": {
     "sfo1": {
