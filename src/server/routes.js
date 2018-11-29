@@ -35,7 +35,7 @@ export default (server, app) => {
    * Endpoint to download invoice in HTML, PDF or JSON
    */
   server.get(
-    '/collectives/:collectiveSlug/invoices/:invoiceSlug.:format(html|pdf|json)',
+    '/collectives/:collectiveSlug/:invoiceSlug.:format(html|pdf|json)',
     (req, res, next) => {
       req.app = app;
       next();

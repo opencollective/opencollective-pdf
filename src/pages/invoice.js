@@ -86,13 +86,12 @@ class InvoicePage extends React.Component {
     this.data = [];
     invoice.transactions.forEach(transaction => {
       const createdAt = new Date(transaction.createdAt);
+      const collective = this.getTransactionEmitter(transaction);
       this.data.push({
         date: moment(createdAt).format('l'),
         description: this.transactionDescription(transaction),
-        collective: (
-          <a href={`https://opencollective.com/${transaction.collective.slug}`}>{transaction.collective.name}</a>
-        ),
-        amount: formatCurrency(transaction.amount, transaction.currency),
+        collective: <a href={`https://opencollective.com/${collective.slug}`}>{collective.name}</a>,
+        amount: this.renderTransactionAmountInHostCurrency(transaction),
         key: transaction.id,
       });
     });
@@ -113,16 +112,41 @@ class InvoicePage extends React.Component {
     };
   }
 
+  /** Given a transaction, return the collective that sent the money */
+  getTransactionEmitter(transaction) {
+    return transaction.type === 'CREDIT' ? transaction.collective : transaction.fromCollective;
+  }
+
+  /** Get amount in host currency for transaction */
+  renderTransactionAmountInHostCurrency(transaction) {
+    const amount = transaction.type === 'CREDIT' ? transaction.amount : transaction.netAmountInCollectiveCurrency * -1;
+    return formatCurrency(amount, transaction.hostCurrency);
+  }
+
+  /** Get a description for transaction, with a mention to virtual card emitter if necessary */
   transactionDescription(transaction) {
     if (!transaction.usingVirtualCardFromCollective) {
       return transaction.description;
     }
 
-    const userCollective = transaction.fromCollective;
+    const userCollective = transaction.type === 'CREDIT' ? transaction.fromCollective : transaction.collective;
     return (
       <span>
         {transaction.description} (gift card used by{' '}
         <a href={`https://opencollective.com/${userCollective.slug}`}>{userCollective.name}</a>)
+      </span>
+    );
+  }
+
+  /** Render date for transaction */
+  renderDate({ year, month, day = null }) {
+    return !day ? (
+      <span>
+        {year}/{month}
+      </span>
+    ) : (
+      <span>
+        {year}/{month}/{day}
       </span>
     );
   }
@@ -194,7 +218,7 @@ class InvoicePage extends React.Component {
                 <h2>{invoice.title || 'Donation Receipt'}</h2>
                 <div className="detail">
                   <label>Date:</label>
-                  {invoice.year}/{invoice.month}
+                  {this.renderDate(invoice)}
                 </div>
                 <div className="detail reference">
                   <label>Reference:</label> {invoice.slug}

@@ -18,6 +18,7 @@ const invoiceFields = `
   currency
   year
   month
+  day
   host {
     id
     slug
@@ -47,6 +48,9 @@ const invoiceFields = `
     description
     amount
     currency
+    type
+    hostCurrency
+    netAmountInCollectiveCurrency
     fromCollective {
       id
       slug
