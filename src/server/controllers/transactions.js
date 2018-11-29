@@ -1,26 +1,88 @@
+import { get } from 'lodash';
 import pdf from 'html-pdf';
+import sanitizeHtmlLib from 'sanitize-html';
 
 import { logger } from '../logger';
-import { fetchInvoice } from '../lib/graphql';
+import { fetchInvoice, fetchTransactionInvoice } from '../lib/graphql';
 
-export async function invoice(req, res, next) {
-  // Keeping the resulting info for 10mn in the CDN cache
-  res.setHeader('Cache-Control', `public, max-age=${60 * 10}`);
-  let invoice, html;
-  const authorizationHeader = req.headers && req.headers.authorization;
-  if (!authorizationHeader) return next(new Error('Not authorized. Please provide an accessToken.'));
+const getPageFormat = (req, invoice) => {
+  if (req.query.pageFormat === 'A4' || invoice.fromCollective.currency === 'EUR') {
+    return 'A4';
+  } else {
+    return 'Letter';
+  }
+};
+
+const getAccessToken = req => {
+  const authorizationHeader = get(req, 'headers.authorization');
+  if (!authorizationHeader) {
+    throw new Error('Not authorized. Please provide an accessToken.');
+  }
 
   const parts = authorizationHeader.split(' ');
   const scheme = parts[0];
   const accessToken = parts[1];
   if (!/^Bearer$/i.test(scheme) || !accessToken) {
-    return next(new Error('Invalid authorization header. Format should be: Authorization: Bearer [token]'));
+    throw new Error('Invalid authorization header. Format should be: Authorization: Bearer [token]');
   }
+  return accessToken;
+};
 
-  const { invoiceSlug, format } = req.params;
+/**
+ * Sanitize HTML with only safe values
+ */
+const sanitizeHtml = html => {
+  return sanitizeHtmlLib(html, {
+    allowedTags: sanitizeHtmlLib.defaults.allowedTags.concat(['img', 'style', 'h1', 'h2']),
+    allowedAttributes: Object.assign(sanitizeHtmlLib.defaults.allowedAttributes, {
+      '*': ['style', 'class'],
+    }),
+  });
+};
+
+/**
+ * Download the invoice in the format given by `req.params`
+ */
+const downloadInvoice = async (req, res, next, invoice) => {
+  const pageFormat = getPageFormat(req, invoice);
+  const params = { invoice, pageFormat };
+  const { format } = req.params;
+
+  if (format === 'json') {
+    res.send(invoice);
+  } else if (format === 'html') {
+    const html = await req.app.renderToHTML(req, res, '/invoice', params);
+    res.send(sanitizeHtml(html));
+  } else if (format === 'pdf') {
+    const rawHtml = await req.app.renderToHTML(req, res, '/invoice', params);
+    const cleanHtml = sanitizeHtml(rawHtml);
+    const filename = `${invoice.slug}.pdf`;
+    const pdfOptions = { format: pageFormat, renderDelay: 3000 };
+
+    res.setHeader('content-type', 'application/pdf');
+    res.setHeader('content-disposition', `inline; filename="${filename}"`); // or attachment?
+    pdf.create(cleanHtml, pdfOptions).toStream((err, stream) => {
+      if (err) {
+        logger.error('>>> Error while generating pdf at %s', req.url, err);
+        return next(err);
+      }
+      stream.pipe(res);
+    });
+  } else {
+    logger.error('>>> Unknown format %s for invoice %s', format, invoice.slug);
+    throw new Error('Unknown format');
+  }
+};
+
+export async function invoice(req, res, next) {
+  // Keeping the resulting info for 10mn in the CDN cache
+  res.setHeader('Cache-Control', `public, max-age=${60 * 10}`);
+
+  const accessToken = getAccessToken(req);
+  let invoice;
 
   try {
-    invoice = await fetchInvoice(invoiceSlug, accessToken);
+    invoice = await fetchInvoice(req.params.invoiceSlug, accessToken);
   } catch (e) {
     logger.debug('>>> transactions.invoice error', e);
     if (e.message.match(/No collective found/)) {
@@ -29,40 +91,12 @@ export async function invoice(req, res, next) {
     return next(e);
   }
 
-  const pageFormat = req.query.pageFormat === 'A4' || invoice.fromCollective.currency === 'EUR' ? 'A4' : 'Letter';
+  return downloadInvoice(req, res, next, invoice);
+}
 
-  const params = {
-    invoice,
-    pageFormat,
-  };
-
-  switch (format) {
-    case 'json':
-      res.send(invoice);
-      break;
-    case 'html':
-      html = await req.app.renderToHTML(req, res, '/invoice', params);
-      res.send(html);
-      break;
-    case 'pdf': {
-      html = await req.app.renderToHTML(req, res, '/invoice', params);
-      const options = {
-        format: pageFormat,
-        renderDelay: 3000,
-      };
-      html = html.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');
-      const filename = `${invoice.slug}.pdf`;
-
-      res.setHeader('content-type', 'application/pdf');
-      res.setHeader('content-disposition', `inline; filename="${filename}"`); // or attachment?
-      pdf.create(html, options).toStream((err, stream) => {
-        if (err) {
-          logger.error('>>> Error while generating pdf at %s', req.url, err);
-          return next(err);
-        }
-        stream.pipe(res);
-      });
-      break;
-    }
-  }
+export async function transactionInvoice(req, res, next) {
+  const { transactionUuid } = req.params;
+  const accessToken = getAccessToken(req);
+  const invoice = await fetchTransactionInvoice(transactionUuid, accessToken);
+  return downloadInvoice(req, res, next, invoice);
 }

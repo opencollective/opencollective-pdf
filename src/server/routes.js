@@ -32,15 +32,27 @@ export default (server, app) => {
   });
 
   /**
-   * Endpoint to download invoices in HTML, PDF or JSON
+   * Endpoint to download invoice in HTML, PDF or JSON
    */
   server.get(
-    '/:collectiveSlug/invoices/:invoiceSlug.:format(html|pdf|json)',
+    '/collectives/:collectiveSlug/invoices/:invoiceSlug.:format(html|pdf|json)',
     (req, res, next) => {
       req.app = app;
       next();
     },
     controllers.transactions.invoice,
+  );
+
+  /**
+   * Endpoint to download a single transaction invoice in HTML, PDF or JSON
+   */
+  server.get(
+    '/transactions/:transactionUuid/invoice.:format(pdf|html)',
+    (req, res, next) => {
+      req.app = app;
+      next();
+    },
+    controllers.transactions.transactionInvoice,
   );
 
   return router.getRequestHandler(server.next);

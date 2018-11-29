@@ -1,7 +1,7 @@
 {
   "type": "docker",
   "name": "opencollective-invoices",
-  "alias": "incoices.opencollective.com",
+  "alias": "invoices.opencollective.com",
   "env": {
     "API_KEY": "@opencollective_api_key",
     "API_URL": "https://api.opencollective.com"

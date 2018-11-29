@@ -51,8 +51,20 @@ class InvoicePage extends React.Component {
     this.transactionsPerPage = 20;
 
     this.columns = [
-      { title: 'date', dataIndex: 'date', className: 'date', key: 'date' },
-      { title: 'collective', dataIndex: 'collective', className: 'collective', key: 'collective' },
+      {
+        title: 'date',
+        dataIndex: 'date',
+        className: 'date',
+        key: 'date',
+        align: 'left',
+      },
+      {
+        title: 'collective',
+        dataIndex: 'collective',
+        className: 'collective',
+        key: 'collective',
+        align: 'left',
+      },
       {
         title: 'description',
         dataIndex: 'description',
@@ -163,7 +175,7 @@ class InvoicePage extends React.Component {
                   style={{
                     backgroundImage: `url('${imagePreview(invoice.host.image, null, { height: 200, baseUrl })}')`,
                   }}
-                  />
+                />
               </div>
             </a>
 
@@ -201,7 +213,7 @@ class InvoicePage extends React.Component {
               data={data}
               rowClassName={(row, index) => (index === this.data.length - 1 ? 'footer' : '')}
               rowKey="key"
-              />
+            />
           </div>
 
           <div className="footer">
@@ -211,7 +223,7 @@ class InvoicePage extends React.Component {
                   height: 200,
                   baseUrl,
                 })}
-                />
+              />
             </a>
             <br />
             <div className="hostBillingAddress">
