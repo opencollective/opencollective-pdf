@@ -40,11 +40,12 @@
     "winston": "~3.1.0"
   },
   "scripts": {
-    "start": "NODE_ENV=production node dist/server",
+    "start": "NODE_ENV=production node build/server",
     "dev": "nodemon --exec babel-node -- src/server/index.js",
-    "build": "npm run build:clean && npm run build:server",
-    "build:clean": "rm -rf dist",
-    "build:server": "babel --copy-files src --out-dir dist",
+    "build": "npm run build:clean && npm run build:server && npm run build:next",
+    "build:clean": "rm -rf build",
+    "build:server": "babel --copy-files ./src --out-dir ./build --ignore src/templates/widget.js,src/**/__tests__/*,src/.next/*",
+    "build:next": "next build build",
     "test": "npm run test:server",
     "test:circleci": "TZ=UTC ./scripts/run_circleci.sh",
     "test:server": "TZ=UTC jest test/server/*",
