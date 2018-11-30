@@ -13,14 +13,8 @@ If you see a step below that could be improved (or is outdated), please update t
 
 ### Prerequisite
 
-1. Make sure you have Node.js version >= 10.
-
-- We recommend using [nvm](https://github.com/creationix/nvm): `nvm use`.
-
-2. Make sure you have [GraphicsMagick](http://www.graphicsmagick.org) installed.
-
-- On Debian/Ubuntu: `sudo apt-get install graphicsmagick`
-- On MacOS (with [Homebrew](https://brew.sh/)): `brew install graphicsmagick`
+Make sure you have Node.js version >= 10.
+We recommend using [nvm](https://github.com/creationix/nvm): `nvm use`.
 
 ### Install
 
