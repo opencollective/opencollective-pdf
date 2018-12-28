@@ -56,7 +56,9 @@
     "pretest": "npm run lint:quiet",
     "commit": "git-cz",
     "cypress": "TZ=UTC cypress run",
-    "prettier": "prettier \"src/**/*.js\" \"test/**/*.js\" --write"
+    "prettier": "prettier \"src/**/*.js\" \"test/**/*.js\" --write",
+    "deploy:staging": "now -e API_KEY=09u624Pc9F47zoGLlkg1TBSbOl2ydSAq -e API_URL=https://api-staging.opencollective.com -e WEBSITE_URL=https://staging.opencollective.com && now alias invoices-staging.opencollective.com",
+    "deploy:production": "now -e API_KEY=@opencollective_api_key -e API_URL=https://api.opencollective.com -e WEBSITE_URL=https://opencollective.com && now alias invoices.opencollective.com"
   },
   "devDependencies": {
     "@babel/cli": "^7.1.2",

@@ -66,8 +66,7 @@ To deploy to staging or production, you need to be a core member of the Open Col
 ### Staging (now)
 
 ```
-now -e API_KEY=09u624Pc9F47zoGLlkg1TBSbOl2ydSAq -e API_URL=https://api-staging.opencollective.com -e WEBSITE_URL=https://staging.opencollective.com
-now alias invoices-staging.opencollective.com
+npm run deploy:staging
 ```
 
 - URL: https://invoices-staging.opencollective.com/
@@ -75,8 +74,7 @@ now alias invoices-staging.opencollective.com
 ### Production (now)
 
 ```
-now -e API_KEY=@opencollective_api_key -e API_URL=https://api.opencollective.com -e WEBSITE_URL=https://opencollective.com
-now alias invoices.opencollective.com
+npm run deploy:production
 ```
 
 - URL: https://invoices.opencollective.com/
