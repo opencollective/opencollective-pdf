@@ -17,7 +17,7 @@
     "crypto": "~1.0.1",
     "dotenv": "~6.2.0",
     "express": "~4.16.3",
-    "express-winston": "~3.0.0",
+    "express-winston": "~3.1.0",
     "fs-extra": "~7.0.0",
     "gm": "~1.23.1",
     "graphql-request": "~1.8.2",
