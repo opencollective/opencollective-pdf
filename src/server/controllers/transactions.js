@@ -13,10 +13,14 @@ const getPageFormat = (req, invoice) => {
   }
 };
 
-const getAccessToken = req => {
+const getAccessToken = (req, { throwException = true } = {}) => {
   const authorizationHeader = get(req, 'headers.authorization');
   if (!authorizationHeader) {
-    throw new Error('Not authorized. Please provide an accessToken.');
+    if (throwException) {
+      throw new Error('Not authorized. Please provide an accessToken.');
+    } else {
+      return;
+    }
   }
 
   const parts = authorizationHeader.split(' ');
@@ -79,24 +83,34 @@ export async function invoice(req, res, next) {
   res.setHeader('Cache-Control', `public, max-age=${60 * 10}`);
 
   const accessToken = getAccessToken(req);
-  let invoice;
 
   try {
-    invoice = await fetchInvoice(req.params.invoiceSlug, accessToken);
+    const invoice = await fetchInvoice(req.params.invoiceSlug, accessToken);
+    return downloadInvoice(req, res, next, invoice);
   } catch (e) {
-    logger.debug('>>> transactions.invoice error', e);
+    logger.error('>>> transactions.invoice error', e.message);
+    logger.debug(e);
     if (e.message.match(/No collective found/)) {
       return res.status(404).send('Not found');
+    } else {
+      return res.status(500).send(`Internal Server Error: ${e.message}`);
     }
-    return next(e);
   }
-
-  return downloadInvoice(req, res, next, invoice);
 }
 
 export async function transactionInvoice(req, res, next) {
   const { transactionUuid } = req.params;
-  const accessToken = getAccessToken(req);
-  const invoice = await fetchTransactionInvoice(transactionUuid, accessToken);
-  return downloadInvoice(req, res, next, invoice);
+  const accessToken = getAccessToken(req, { throwException: false });
+  try {
+    const invoice = await fetchTransactionInvoice(transactionUuid, accessToken);
+    return downloadInvoice(req, res, next, invoice);
+  } catch (e) {
+    logger.error('>>> transactions.transactionInvoice error', e.message);
+    logger.debug(e);
+    if (e.message.match(/No collective found/)) {
+      return res.status(404).send('Not found');
+    } else {
+      return res.status(500).send(`Internal Server Error: ${e.message}`);
+    }
+  }
 }
