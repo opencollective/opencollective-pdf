@@ -27,7 +27,7 @@
     "rc-table": "^6.4.3",
     "react": "^16.8.2",
     "react-dom": "^16.8.2",
-    "react-intl": "~2.7.2",
+    "react-intl": "~2.8.0",
     "sanitize-html": "~1.20.0",
     "winston": "~3.1.0"
   },
