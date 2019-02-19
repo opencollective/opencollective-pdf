@@ -47,7 +47,7 @@ export default (server, app) => {
    * Endpoint to download a single transaction invoice in HTML, PDF or JSON
    */
   server.get(
-    '/transactions/:transactionUuid/invoice.:format(pdf|html)',
+    '/:collectiveSlug?/transactions/:transactionUuid/invoice.:format(pdf|html)',
     (req, res, next) => {
       req.app = app;
       next();

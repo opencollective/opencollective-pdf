@@ -13,10 +13,14 @@ const getPageFormat = (req, invoice) => {
   }
 };
 
-const getAccessToken = req => {
+const getAccessToken = (req, { throwException = true } = {}) => {
   const authorizationHeader = get(req, 'headers.authorization');
   if (!authorizationHeader) {
-    throw new Error('Not authorized. Please provide an accessToken.');
+    if (throwException) {
+      throw new Error('Not authorized. Please provide an accessToken.');
+    } else {
+      return;
+    }
   }
 
   const parts = authorizationHeader.split(' ');
@@ -96,7 +100,7 @@ export async function invoice(req, res, next) {
 
 export async function transactionInvoice(req, res, next) {
   const { transactionUuid } = req.params;
-  const accessToken = getAccessToken(req);
+  const accessToken = getAccessToken(req, { throwException: false });
   try {
     const invoice = await fetchTransactionInvoice(transactionUuid, accessToken);
     return downloadInvoice(req, res, next, invoice);
