@@ -3,7 +3,10 @@
   "env": {
     "jest": true
   },
+  "plugins": ["react-hooks"],
   "rules": {
-    "no-console": "warn"
+    "no-console": "warn",
+    "react/jsx-closing-bracket-location": ["warn", "tag-aligned"],
+    "react-hooks/rules-of-hooks": ["error"]
   }
 }

@@ -1,6 +1,6 @@
+import nextRoutes from 'next-routes';
 import controllers from './controllers';
 import { maxAge } from './middlewares';
-import nextRoutes from 'next-routes';
 
 const router = nextRoutes();
 
@@ -20,7 +20,25 @@ export default (server, app) => {
    * Default index endpoint, useful to ensure the service runs properly
    */
   server.get('/', (req, res) => {
-    res.send('This is the Open Collective invoices server 📄');
+    res.send(`
+    This is the Open Collective invoices server 📄
+    <br/><br/>
+    <p>Test pages:</P>
+    <ul>
+      <li>
+        Simple transaction (
+          <a href="/__test__/simple-transaction.html">html</a>,
+          <a href="/__test__/simple-transaction.pdf">pdf</a>
+        )
+      </li>
+      <li>
+        Organization with gift cards (
+          <a href="/__test__/organization-gift-cards.html">html</a>,
+          <a href="/__test__/organization-gift-cards.pdf">pdf</a>
+        )
+      </li>
+    </ul>
+    `);
   });
 
   /**
@@ -53,6 +71,15 @@ export default (server, app) => {
       next();
     },
     controllers.transactions.transactionInvoice,
+  );
+
+  server.get(
+    '/__test__/:fixture.:format(pdf|html|json)',
+    (req, res, next) => {
+      req.app = app;
+      next();
+    },
+    controllers.transactions.testFixture,
   );
 
   return router.getRequestHandler(server.next);

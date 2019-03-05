@@ -1,110 +1,109 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FormattedDate } from 'react-intl';
-import moment from 'moment';
-import { get } from 'lodash';
-import Table from 'rc-table';
-import { Box } from '@rebass/grid';
+import { FormattedDate, FormattedMessage } from 'react-intl';
+import { get, chunk } from 'lodash';
+import { Box, Flex, Image } from 'rebass';
+
 import { countries as countriesEN } from 'i18n-iso-countries/langs/en.json';
 
-import { defaultBackgroundImage } from '../constants/collectives';
 import { formatCurrency, imagePreview } from '../lib/utils';
 import withIntl from '../lib/withIntl';
-import { P } from '../components/Text';
+import { H1, H2, P, Span } from '../components/Text';
+import { Tr, Td } from '../components/StyledTable';
+import StyledHr from '../components/StyledHr';
+import Container from '../components/Container';
+import StyledLink from '../components/StyledLink';
+import LinkToCollective from '../components/LinkToCollective';
+
+import GiftCardImgSrc from '../static/images/giftcard.png';
 
 const baseUrl = 'https://opencollective.com';
 
 class InvoicePage extends React.Component {
-  static getInitialProps({ query: { pageFormat, invoice } }) {
-    return { invoice, pageFormat };
+  static getInitialProps({ query: { pageFormat, invoice, debug } }) {
+    return { invoice, pageFormat, debug };
   }
 
   static propTypes = {
-    invoice: PropTypes.object,
-    pageFormat: PropTypes.string,
+    invoice: PropTypes.object.isRequired,
+    intl: PropTypes.object.isRequired, // from withIntl
+    pageFormat: PropTypes.oneOf(['A4', 'Letter']),
+    /**
+     * As we don't have access to the console for PDFs, debugging can sometimes
+     * be tricky. Set this flag to display useful information directly on the
+     * document.
+     */
+    debug: PropTypes.bool,
   };
 
-  constructor(props) {
-    super(props);
-    const { pageFormat, invoice } = props;
-    this.dimensions = {
-      A4: {
-        unit: 'mm',
-        page: {
-          width: 210,
-          height: 297,
-          footerTop: 245,
-        },
-      },
-      Letter: {
-        unit: 'in',
-        page: {
-          width: 8.5,
-          height: 11,
-          footerTop: 9,
-        },
-      },
-    };
+  static defaultProps = {
+    pageFormat: 'A4',
+    debug: false,
+  };
 
-    this.dimensions = this.dimensions[pageFormat];
-    this.page = this.dimensions.page;
-
-    this.transactionsPerPage = 20;
-
-    this.columns = [
-      {
-        title: 'date',
-        dataIndex: 'date',
-        className: 'date',
-        key: 'date',
-        align: 'left',
+  static dimensions = {
+    A4: {
+      unit: 'mm',
+      page: {
+        width: 210,
+        height: 297,
+        footerTop: 245,
       },
-      {
-        title: 'collective',
-        dataIndex: 'collective',
-        className: 'collective',
-        key: 'collective',
-        align: 'left',
+    },
+    Letter: {
+      unit: 'in',
+      page: {
+        width: 8.5,
+        height: 11,
+        footerTop: 9,
       },
-      {
-        title: 'description',
-        dataIndex: 'description',
-        key: 'description',
-        width: 400,
-        className: 'description',
-      },
-      {
-        title: 'amount',
-        dataIndex: 'amount',
-        key: 'amount',
-        className: 'amount',
-      },
-    ];
+    },
+  };
 
-    const localeDateFormat = pageFormat === 'A4' ? 'fr' : 'en';
-    moment.locale(localeDateFormat);
+  static transactionsOnFirstPage = 13;
 
-    this.data = [];
-    invoice.transactions.forEach(transaction => {
-      const createdAt = new Date(transaction.createdAt);
-      const collective = this.getTransactionEmitter(transaction);
-      this.data.push({
-        date: moment(createdAt).format('l'),
-        description: this.transactionDescription(transaction),
-        collective: <a href={`https://opencollective.com/${collective.slug}`}>{collective.name}</a>,
-        amount: this.renderTransactionAmountInHostCurrency(transaction),
-        key: transaction.id,
-      });
-    });
+  static transactionsPerPage = 20;
 
-    this.data.push({
-      description: 'Total',
-      amount: formatCurrency(invoice.totalAmount, invoice.currency),
-    });
+  // Helpers for page dimension
+
+  getPageWith() {
+    const dimensions = InvoicePage.dimensions[this.props.pageFormat];
+    return `${dimensions.page.width}${dimensions.unit}`;
   }
 
-  /** Given a transaction, return the collective that sent the money */
-  getTransactionEmitter(transaction) {
+  getPageHeight() {
+    const dimensions = InvoicePage.dimensions[this.props.pageFormat];
+    return `${dimensions.page.height}${dimensions.unit}`;
+  }
+
+  /**
+   * Chunk transactions, returning less transactions on the first page is we need
+   * to keep some space for the header.
+   */
+  chunkTransactions(transactions) {
+    return [
+      transactions.slice(0, InvoicePage.transactionsOnFirstPage),
+      ...chunk(
+        transactions.slice(InvoicePage.transactionsOnFirstPage, transactions.length),
+        InvoicePage.transactionsPerPage,
+      ),
+    ];
+  }
+
+  /** Generate a prettier reference for invoice by taking only the first part of the hash */
+  getInvoiceReference(invoice) {
+    if (!invoice.slug.startsWith('transaction-')) {
+      return invoice.slug;
+    }
+
+    return invoice.slug
+      .split('-')
+      .slice(0, 2)
+      .join('-');
+  }
+
+  /** Given a transaction, return the collective that receive the money */
+  getTransactionReceiver(transaction) {
     return transaction.type === 'CREDIT' ? transaction.collective : transaction.fromCollective;
   }
 
@@ -116,172 +115,90 @@ class InvoicePage extends React.Component {
 
   /** Get a description for transaction, with a mention to virtual card emitter if necessary */
   transactionDescription(transaction) {
-    if (!transaction.usingVirtualCardFromCollective) {
-      return transaction.description;
-    }
+    const targetCollective = this.getTransactionReceiver(transaction);
+    const transactionDescription = (
+      <LinkToCollective collective={targetCollective}>
+        {transaction.description || targetCollective.name || targetCollective.slug}
+      </LinkToCollective>
+    );
 
-    const userCollective = transaction.type === 'CREDIT' ? transaction.fromCollective : transaction.collective;
-    return (
-      <span>
-        {transaction.description} (gift card used by{' '}
-        <a href={`https://opencollective.com/${userCollective.slug}`}>{userCollective.name}</a>)
-      </span>
+    return !transaction.usingVirtualCardFromCollective ? (
+      transactionDescription
+    ) : (
+      <div>
+        <FormattedMessage
+          id="transaction.description.giftCard"
+          defaultMessage="{description} by {fromCollectiveLink}"
+          values={{
+            description: transactionDescription,
+            fromCollectiveLink: (
+              <LinkToCollective
+                collective={transaction.type === 'CREDIT' ? transaction.fromCollective : transaction.collective}
+              />
+            ),
+          }}
+        />
+        <Image src={GiftCardImgSrc} alt=" | " height="1em" mx={2} css={{ verticalAlign: 'middle' }} />
+      </div>
     );
   }
 
   /** Pretty render a location (multiline) */
   renderLocation(collective) {
     const address = get(collective, 'location.address');
+    const country = collective.countryISO && (countriesEN[collective.countryISO] || collective.countryISO);
     return (
-      <div>
-        {address && (
-          <div>
-            {address.split(',').map((addressPart, idx) => (
-              <div key={idx}>{addressPart}</div>
-            ))}
-          </div>
-        )}
-        {collective.countryISO && <div>{countriesEN[collective.countryISO] || collective.countryISO}</div>}
-      </div>
+      <React.Fragment>
+        {address &&
+          address.split(',').map((addressPart, idx) => (
+            <span key={idx}>
+              {addressPart.trim()}
+              <br />
+            </span>
+          ))}
+        {country}
+      </React.Fragment>
     );
   }
 
-  /** Render date for transaction */
-  renderDate({ year, month, day = null }) {
-    return !day ? (
-      <span>
-        {year}/{month}
-      </span>
-    ) : (
-      <span>
-        {year}/{month}/{day}
-      </span>
+  renderTransactionsTable(transactions) {
+    return (
+      <table style={{ borderCollapse: 'collapse', width: '100%' }}>
+        <thead>
+          <Tr background="#ebf4ff" borderRadius="4px">
+            <Td fontSize="LeadParagraph" fontWeight={500} borderRadius="4px 0 0 4px">
+              <FormattedMessage id="date" defaultMessage="Date" />
+            </Td>
+            <Td fontSize="LeadParagraph" fontWeight={500}>
+              <FormattedMessage id="description" defaultMessage="Description" />
+            </Td>
+            <Td fontSize="LeadParagraph" fontWeight={500} textAlign="center">
+              <FormattedMessage id="taxPercent" defaultMessage="Tax&nbsp;%" />
+            </Td>
+            <Td fontSize="LeadParagraph" fontWeight={500} textAlign="right" borderRadius="0 4px 4px 0">
+              <FormattedMessage id="total" defaultMessage="Total" />
+            </Td>
+          </Tr>
+        </thead>
+        <tbody>
+          {transactions.map(transaction => {
+            return (
+              <tr key={transaction.id}>
+                <Td fontSize="Caption">
+                  <FormattedDate value={new Date(transaction.createdAt)} day="2-digit" month="2-digit" year="numeric" />
+                </Td>
+                <Td fontSize="Caption">{this.transactionDescription(transaction)}</Td>
+                <Td fontSize="Caption" textAlign="center">
+                  0%
+                </Td>
+                <Td textAlign="right">{this.renderTransactionAmountInHostCurrency(transaction)}</Td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
     );
   }
-
-  renderPage = (pageNumber, data) => {
-    const { invoice } = this.props;
-
-    const coverStyle = { ...get(invoice.host, 'settings.style.hero.cover') };
-    const backgroundImage = imagePreview(
-      invoice.host.backgroundImage,
-      invoice.host.type === 'COLLECTIVE' && defaultBackgroundImage[invoice.host.type],
-      { width: 400, baseUrl },
-    );
-    if (!coverStyle.backgroundImage && backgroundImage) {
-      coverStyle.backgroundImage = `url('${backgroundImage}')`;
-      coverStyle.backgroundSize = 'cover';
-      coverStyle.backgroundPosition = 'center center';
-    }
-
-    return (
-      <div className="page" key={pageNumber}>
-        <style jsx>
-          {`
-            .page {
-              position: relative;
-            }
-
-            .footer {
-              position: inherit;
-              top: ${this.page.footerTop} ${this.dimensions.unit};
-              width: ${this.page.width} ${this.dimensions.unit};
-              margin: 0 -2rem;
-              text-align: center;
-              font-size: 10px;
-            }
-
-            .footer img {
-              max-height: 100px;
-              max-width: 200px;
-            }
-          `}
-        </style>
-        <div className="InvoicePage">
-          <div className="header">
-            <a href={`https://opencollective.com/${invoice.host.slug}`}>
-              <div className="hero">
-                <div className="cover" style={coverStyle} />
-                <div
-                  className="logo"
-                  style={{
-                    backgroundImage: `url('${imagePreview(invoice.host.image, null, { height: 200, baseUrl })}')`,
-                  }}
-                  />
-              </div>
-            </a>
-
-            <div className="collectiveInfo">
-              <h1>{invoice.host.name}</h1>
-              <a href={`https://opencollective.com/${invoice.host.slug}`} className="website">
-                https://opencollective.com/
-                {invoice.host.slug}
-              </a>
-            </div>
-          </div>
-
-          <div className="body">
-            <div className="row">
-              <div className="invoiceDetails">
-                <h2>{invoice.title || 'Donation Receipt'}</h2>
-                <div className="detail">
-                  <label>Date:</label>
-                  {this.renderDate(invoice)}
-                </div>
-                <div className="detail reference">
-                  <label>Reference:</label> {invoice.slug}
-                </div>
-              </div>
-              <div className="fromCollectiveBillingAddress">
-                <h2>Bill to:</h2>
-                {invoice.fromCollective.name}
-                <P mt={2}>{this.renderLocation(invoice.fromCollective)}</P>
-              </div>
-            </div>
-
-            <Table
-              columns={this.columns}
-              data={data}
-              rowClassName={(row, index) => (index === this.data.length - 1 ? 'footer' : '')}
-              rowKey="key"
-              />
-          </div>
-
-          <div className="footer">
-            <a href={invoice.host.website}>
-              <img
-                src={imagePreview(invoice.host.image, null, {
-                  height: 200,
-                  baseUrl,
-                })}
-                />
-            </a>
-            <br />
-            <Box mt={3} className="hostBillingAddress">
-              <P fontWeight="bold">{invoice.host.name}</P>
-              <P mt={2}>{this.renderLocation(invoice.host)}</P>
-            </Box>
-          </div>
-        </div>
-      </div>
-    );
-  };
-
-  renderTransaction = (transaction, index) => {
-    if (!transaction || !transaction.createdAt) {
-      console.error('>>> renderTransaction error: invalid transaction object', transaction);
-      return;
-    }
-    return (
-      <div className="transaction" key={index}>
-        <div className="createdAt">
-          <FormattedDate value={new Date(transaction.createdAt)} day="numeric" month="long" year="numeric" />
-        </div>
-        <div className="description">{transaction.description}</div>
-        <div className="amount">{formatCurrency(transaction.amount, transaction.currency)}</div>
-      </div>
-    );
-  };
 
   render() {
     const { invoice } = this.props;
@@ -292,246 +209,143 @@ class InvoicePage extends React.Component {
     if (!transactions || transactions.length === 0) {
       return <div>No transaction to render</div>;
     }
+
+    const chunkedTransactions = this.chunkTransactions(transactions);
+
     return (
       <div className={`InvoicePages ${invoice.fromCollective.slug}`}>
         <style jsx global>
           {`
-            @font-face {
-              font-family: 'Inter UI';
-              font-style: normal;
-              font-weight: 400;
-              src: url('/static/fonts/inter-ui/Inter-UI-Regular.woff2') format('woff2'),
-                url('/static/fonts/inter-ui/Inter-UI-Regular.woff') format('woff');
-            }
-
-            @font-face {
-              font-family: 'Inter UI';
-              font-style: italic;
-              font-weight: 400;
-              src: url('/static/fonts/inter-ui/Inter-UI-Italic.woff2') format('woff2'),
-                url('/static/fonts/inter-ui/Inter-UI-Italic.woff') format('woff');
-            }
-
-            @font-face {
-              font-family: 'Inter UI';
-              font-style: normal;
-              font-weight: 500;
-              src: url('/static/fonts/inter-ui/Inter-UI-Medium.woff2') format('woff2'),
-                url('/static/fonts/inter-ui/Inter-UI-Medium.woff') format('woff');
-            }
-
-            @font-face {
-              font-family: 'Inter UI';
-              font-style: italic;
-              font-weight: 500;
-              src: url('/static/fonts/inter-ui/Inter-UI-MediumItalic.woff2') format('woff2'),
-                url('/static/fonts/inter-ui/Inter-UI-MediumItalic.woff') format('woff');
-            }
-
-            @font-face {
-              font-family: 'Inter UI';
-              font-style: normal;
-              font-weight: 700;
-              src: url('/static/fonts/inter-ui/Inter-UI-Bold.woff2') format('woff2'),
-                url('/static/fonts/inter-ui/Inter-UI-Bold.woff') format('woff');
-            }
-
-            @font-face {
-              font-family: 'Inter UI';
-              font-style: italic;
-              font-weight: 700;
-              src: url('/static/fonts/inter-ui/Inter-UI-BoldItalic.woff2') format('woff2'),
-                url('/static/fonts/inter-ui/Inter-UI-BoldItalic.woff') format('woff');
-            }
-
-            @font-face {
-              font-family: 'Inter UI';
-              font-style: normal;
-              font-weight: 900;
-              src: url('/static/fonts/inter-ui/Inter-UI-Black.woff2') format('woff2'),
-                url('/static/fonts/inter-ui/Inter-UI-Black.woff') format('woff');
-            }
-
-            @font-face {
-              font-family: 'Inter UI';
-              font-style: italic;
-              font-weight: 900;
-              src: url('/static/fonts/inter-ui/Inter-UI-BlackItalic.woff2') format('woff2'),
-                url('/static/fonts/inter-ui/Inter-UI-BlackItalic.woff') format('woff');
-            }
-
             html {
-              font-size: 62.5%;
-              width: ${this.page.width} ${this.dimensions.unit};
+              /* See https://github.com/marcbachmann/node-html-pdf/issues/110 */
               zoom: 0.75;
             }
 
             body {
-              width: ${this.page.width} ${this.dimensions.unit};
+              width: ${this.getPageWith()};
               padding: 0;
               margin: 0;
-              font-family: 'Inter UI', sans-serif;
-              font-weight: 300;
-              font-size: 1.4rem;
-              line-height: 1.5;
-            }
-
-            .page {
-              width: ${this.page.width} ${this.dimensions.unit};
-              height: ${this.page.height} ${this.dimensions.unit};
-              overflow: hidden;
-              box-sizing: border-box;
-            }
-
-            .InvoicePage {
-              margin: 0 auto;
-              padding: 2rem 3rem;
-              width: 100%;
-            }
-
-            .Invoice {
-              padding: 3rem;
+              font-family: sans-serif;
+              font-weight: normal;
               font-size: 12px;
-              display: flex;
-              flex-direction: column;
-              justify-content: space-between;
-              -webkit-flex: 1;
-              -webkit-flex-direction: column;
-              -webkit-justify-content: space-between;
-              box-sizing: border-box;
-            }
-            .header {
-              margin: 10px 50px 0px 0px;
-              overflow: hidden;
-            }
-
-            a {
-              text-decoration: none;
-            }
-
-            h1 {
-              margin: 10px 0px 5px;
-              line-height: 50px;
-              font-size: 2rem;
-            }
-
-            h2 {
-              margin-bottom: 0;
-              font-size: 1.6rem;
-            }
-
-            .collectiveInfo {
-              margin: 0px 50px 0px 0px;
-            }
-
-            .row {
-              overflow: hidden;
-            }
-
-            .hero {
-              border-radius: 3px;
-              float: left;
-              overflow: hidden;
-              width: 120px;
-              height: 60px;
-              position: relative;
-              margin: 0px 20px 20px 0px;
-            }
-
-            .cover {
-              position: absolute;
-              background-size: cover;
-              width: 100%;
-              height: 100%;
-              top: 0;
-              left: 0;
-            }
-
-            .logo {
-              background-size: contain;
-              background-repeat: no-repeat;
-              background-position: center;
-              position: absolute;
-              left: 0;
-              right: 0;
-              top: 0;
-              bottom: 0;
-              max-width: 75%;
-              max-height: 75%;
-              margin: auto;
-            }
-
-            .invoiceDetails {
-              float: left;
-            }
-
-            .fromCollectiveBillingAddress {
-              float: right;
-              padding-right: 15rem;
-            }
-
-            label {
-              display: inline-block;
-              width: 8rem;
-            }
-
-            .rc-table {
-              clear: both;
-              margin: 100px 0px;
-            }
-
-            table {
-              margin: 8rem 0rem;
-              overflow: hidden;
-              width: 95%;
-            }
-
-            td,
-            th {
-              padding: 5px;
-              vertical-align: top;
-              font-size: 1.2rem;
-            }
-
-            .date {
-              width: 2rem;
-            }
-
-            .amount {
-              width: 3rem;
-              text-align: right;
-              padding-right: 2rem;
-            }
-
-            tr.footer {
-              border-top: 1px solid grey;
-              font-weight: bold;
-              text-align: left;
-            }
-
-            tr.footer td {
-              font-size: 1.4rem;
-            }
-
-            tr.footer img {
-              max-height: 100px;
-            }
-
-            tr.footer .description {
-              text-align: right;
+              line-height: 1.5;
             }
           `}
         </style>
-
         <div className="pages">
-          {transactions.map((transaction, index) => {
-            if (index % this.transactionsPerPage === 0) {
-              return this.renderPage(
-                index / this.transactionsPerPage + 1,
-                this.data.slice(index, index + this.transactionsPerPage),
-              );
-            }
-          })}
+          {this.props.debug && (
+            <div style={{ padding: 30, background: 'lightgrey', border: '1px solid grey' }}>
+              <strong>Dimensions</strong>
+              <pre>{JSON.stringify(InvoicePage.dimensions[this.props.pageFormat])}</pre>
+              <strong>Invoice</strong>
+              <pre style={{ whiteSpace: 'pre-wrap' }}>{JSON.stringify(this.props.invoice, null, 2)}</pre>
+            </div>
+          )}
+          {chunkedTransactions.map((transactionsChunk, pageNumber) => (
+            <Flex
+              flexDirection="column"
+              className="page"
+              key={pageNumber}
+              p={5}
+              css={{ minHeight: this.getPageHeight() }}
+            >
+              {pageNumber === 0 && (
+                <Box className="header" mb={4}>
+                  <Flex flexWrap="wrap" alignItems="flex-start">
+                    <Box mb={3} css={{ flexGrow: 1 }}>
+                      <StyledLink href={`https://opencollective.com/${invoice.host.slug}`}>
+                        <H1 m={0} color="black.900">
+                          {invoice.host.name}
+                        </H1>
+                      </StyledLink>
+                      <Box my={2}>{this.renderLocation(invoice.host)}</Box>
+                      <StyledLink href={`https://opencollective.com/${invoice.host.slug}`} className="website">
+                        https://opencollective.com/{invoice.host.slug}
+                      </StyledLink>
+                    </Box>
+                    <Box mt={80} css={{ textAlign: 'right', minHeight: 100 }}>
+                      <H2>
+                        <FormattedMessage id="billTo" defaultMessage="Bill to" />
+                      </H2>
+                      <Box my={2}>
+                        <P fontWeight={500} fontSize="LeadParagraph">
+                          {invoice.fromCollective.name}
+                        </P>
+                        {this.renderLocation(invoice.fromCollective)}
+                      </Box>
+                    </Box>
+                  </Flex>
+
+                  <Box>
+                    <H2>{invoice.title || 'Donation Receipt'}</H2>
+                    <div className="detail">
+                      <label>Date:</label>{' '}
+                      <FormattedDate
+                        value={new Date(invoice.year, invoice.month, invoice.day)}
+                        day="2-digit"
+                        month="2-digit"
+                        year="numeric"
+                      />
+                    </div>
+                    <div className="detail reference">
+                      <label>Reference:</label> {this.getInvoiceReference(invoice)}
+                    </div>
+                  </Box>
+                </Box>
+              )}
+              <Box width={1} css={{ flexGrow: 1 }}>
+                {this.renderTransactionsTable(transactionsChunk)}
+                {pageNumber === chunkedTransactions.length - 1 && (
+                  <Flex justifyContent="flex-end" mt={3}>
+                    <Container width={0.5} fontSize="Paragraph">
+                      <StyledHr borderColor="black.200" />
+                      <Box p={3}>
+                        <Flex justifyContent="space-between">
+                          <FormattedMessage id="subtotal" defaultMessage="Subtotal" />
+                          <Span fontWeight="bold">{formatCurrency(invoice.totalAmount, invoice.currency)}</Span>
+                        </Flex>
+                        <Flex justifyContent="space-between" mt={2}>
+                          <FormattedMessage id="taxes" defaultMessage="Taxes" />
+                          <Span fontWeight="bold">{formatCurrency(0, invoice.currency)}</Span>
+                        </Flex>
+                      </Box>
+                      <Container
+                        display="flex"
+                        justifyContent="space-between"
+                        px={3}
+                        py={2}
+                        background="#ebf4ff"
+                        fontWeight="bold"
+                      >
+                        <FormattedMessage id="total" defaultMessage="Total" />
+                        <Span>{formatCurrency(invoice.totalAmount, invoice.currency)}</Span>
+                      </Container>
+                    </Container>
+                  </Flex>
+                )}
+              </Box>
+              {pageNumber === chunkedTransactions.length - 1 && (
+                <Flex className="footer" justifyContent="center" alignItems="center">
+                  <Container borderRight="1px solid" borderColor="black.400" pr={4} mr={4}>
+                    <StyledLink href={invoice.host.website}>
+                      <Image
+                        css={{ maxWidth: 200, maxHeight: 100 }}
+                        src={imagePreview(invoice.host.image, null, { height: 200, baseUrl })}
+                      />
+                    </StyledLink>
+                  </Container>
+                  <Box>
+                    <P fontWeight="bold" textAlign="center">
+                      {invoice.host.name}
+                    </P>
+                    <P mt={2} textAlign="center" color="black.600">
+                      {this.renderLocation(invoice.host)}
+                    </P>
+                  </Box>
+                </Flex>
+              )}
+            </Flex>
+          ))}
         </div>
       </div>
     );
