@@ -31,6 +31,7 @@ const invoiceFields = `
       name
       address
     }
+    countryISO
   }
   fromCollective {
     id
@@ -41,6 +42,7 @@ const invoiceFields = `
       name
       address
     }
+    countryISO
   }
   transactions {
     id

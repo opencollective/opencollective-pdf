@@ -4,12 +4,13 @@ import { FormattedDate } from 'react-intl';
 import moment from 'moment';
 import { get } from 'lodash';
 import Table from 'rc-table';
+import { Box } from '@rebass/grid';
+import { countries as countriesEN } from 'i18n-iso-countries/langs/en.json';
 
 import { defaultBackgroundImage } from '../constants/collectives';
-
 import { formatCurrency, imagePreview } from '../lib/utils';
-
 import withIntl from '../lib/withIntl';
+import { P } from '../components/Text';
 
 const baseUrl = 'https://opencollective.com';
 
@@ -100,16 +101,6 @@ class InvoicePage extends React.Component {
       description: 'Total',
       amount: formatCurrency(invoice.totalAmount, invoice.currency),
     });
-
-    this.hostBillingAddress = {
-      __html: `${invoice.host.location.name || ''}\n${invoice.host.location.address || ''}`.replace(/\n/g, '<br />'),
-    };
-    this.fromCollectiveBillingAddress = {
-      __html: `${invoice.fromCollective.location.name || ''}\n${invoice.fromCollective.location.address || ''}`.replace(
-        /\n/g,
-        '<br />',
-      ),
-    };
   }
 
   /** Given a transaction, return the collective that sent the money */
@@ -135,6 +126,23 @@ class InvoicePage extends React.Component {
         {transaction.description} (gift card used by{' '}
         <a href={`https://opencollective.com/${userCollective.slug}`}>{userCollective.name}</a>)
       </span>
+    );
+  }
+
+  /** Pretty render a location (multiline) */
+  renderLocation(collective) {
+    const address = get(collective, 'location.address');
+    return (
+      <div>
+        {address && (
+          <div>
+            {address.split(',').map((addressPart, idx) => (
+              <div key={idx}>{addressPart}</div>
+            ))}
+          </div>
+        )}
+        {collective.countryISO && <div>{countriesEN[collective.countryISO] || collective.countryISO}</div>}
+      </div>
     );
   }
 
@@ -199,7 +207,7 @@ class InvoicePage extends React.Component {
                   style={{
                     backgroundImage: `url('${imagePreview(invoice.host.image, null, { height: 200, baseUrl })}')`,
                   }}
-                />
+                  />
               </div>
             </a>
 
@@ -227,8 +235,7 @@ class InvoicePage extends React.Component {
               <div className="fromCollectiveBillingAddress">
                 <h2>Bill to:</h2>
                 {invoice.fromCollective.name}
-                <br />
-                <div dangerouslySetInnerHTML={this.fromCollectiveBillingAddress} />
+                <P mt={2}>{this.renderLocation(invoice.fromCollective)}</P>
               </div>
             </div>
 
@@ -237,7 +244,7 @@ class InvoicePage extends React.Component {
               data={data}
               rowClassName={(row, index) => (index === this.data.length - 1 ? 'footer' : '')}
               rowKey="key"
-            />
+              />
           </div>
 
           <div className="footer">
@@ -247,14 +254,13 @@ class InvoicePage extends React.Component {
                   height: 200,
                   baseUrl,
                 })}
-              />
+                />
             </a>
             <br />
-            <div className="hostBillingAddress">
-              {invoice.host.name}
-              <br />
-              <div dangerouslySetInnerHTML={this.hostBillingAddress} />
-            </div>
+            <Box mt={3} className="hostBillingAddress">
+              <P fontWeight="bold">{invoice.host.name}</P>
+              <P mt={2}>{this.renderLocation(invoice.host)}</P>
+            </Box>
           </div>
         </div>
       </div>
