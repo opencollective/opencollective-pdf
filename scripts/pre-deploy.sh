@@ -78,7 +78,7 @@ fi
 read -d '' PAYLOAD << EOF
   {
     "channel": "${SLACK_CHANNEL}",
-    "text": "🧾 Deploying *INVOICES* to *${1}* ${CUSTOM_MESSAGE}",
+    "text": "📄 Deploying *INVOICES* to *${1}* ${CUSTOM_MESSAGE}",
     "as_user": true
   }
 EOF
