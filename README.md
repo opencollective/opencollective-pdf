@@ -43,11 +43,32 @@ To start the service:
 npm run dev
 ```
 
-If you use this service through frontend, you're ready to go - frontend will pass
-your authorization token directly to the app.
+#### Usage with fixture data
 
-However if you're using the service directly you'll need to set the `Authorization`
-header with your token to identify your requests.
+This is the easy way to start developing. Just go to the root URL http://localhost:3002/
+to see a list of test pages.
+
+**Tips**
+
+- Replace `.html` by `.pdf` to see the generated pdf.
+- Add `?pageFormat=A4` with `A4` or `Letter` to change page format
+- Add `?debug=true` to the URL to see verbose data on the document
+- Add `?raw=true` to disabled HTML sanitazing (useful to debug missing attributes)
+
+#### Usage with frontend
+
+If you use this service through local frontend, you're ready to go - frontend will pass your authorization token directly to the app.
+
+However this is not practical to develop, you should only use it to debug the
+bridge between the two services.
+
+#### Calling URLs directly
+
+This method can be usefull to debug staging or production invoices, or to work
+with you local development data.
+
+For this to work, you'll need to set the `Authorization` header with your token
+to identify your requests.
 
 ## Contributing
 

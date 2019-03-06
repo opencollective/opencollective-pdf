@@ -1,3 +1,5 @@
+import fs from 'fs-extra';
+import path from 'path';
 import { get } from 'lodash';
 import pdf from 'html-pdf';
 import sanitizeHtmlLib from 'sanitize-html';
@@ -17,7 +19,7 @@ const getAccessToken = (req, { throwException = true } = {}) => {
   const authorizationHeader = get(req, 'headers.authorization');
   if (!authorizationHeader) {
     if (throwException) {
-      throw new Error('Not authorized. Please provide an accessToken.');
+      throw new Error('Not authorized. Please provide an authorization header.');
     } else {
       return;
     }
@@ -37,7 +39,8 @@ const getAccessToken = (req, { throwException = true } = {}) => {
  */
 const sanitizeHtml = html => {
   return sanitizeHtmlLib(html, {
-    allowedTags: sanitizeHtmlLib.defaults.allowedTags.concat(['img', 'style', 'h1', 'h2']),
+    allowedTags: sanitizeHtmlLib.defaults.allowedTags.concat(['img', 'style', 'h1', 'h2', 'span']),
+    allowedSchemes: ['https', 'data'],
     allowedAttributes: Object.assign(sanitizeHtmlLib.defaults.allowedAttributes, {
       '*': ['style', 'class'],
     }),
@@ -49,14 +52,16 @@ const sanitizeHtml = html => {
  */
 const downloadInvoice = async (req, res, next, invoice) => {
   const pageFormat = getPageFormat(req, invoice);
-  const params = { invoice, pageFormat };
+  const debug = req.query.debug && ['1', 'true'].includes(req.query.debug.toLowerCase());
+  const params = { invoice, pageFormat, debug };
   const { format } = req.params;
 
   if (format === 'json') {
     res.send(invoice);
   } else if (format === 'html') {
     const html = await req.app.renderToHTML(req, res, '/invoice', params);
-    res.send(sanitizeHtml(html));
+    const sendRaw = ['1', 'true'].includes(req.query.raw);
+    res.send(sendRaw ? html : sanitizeHtml(html));
   } else if (format === 'pdf') {
     const rawHtml = await req.app.renderToHTML(req, res, '/invoice', params);
     const cleanHtml = sanitizeHtml(rawHtml);
@@ -103,6 +108,24 @@ export async function transactionInvoice(req, res, next) {
   const accessToken = getAccessToken(req, { throwException: false });
   try {
     const invoice = await fetchTransactionInvoice(transactionUuid, accessToken);
+    return downloadInvoice(req, res, next, invoice);
+  } catch (e) {
+    logger.error('>>> transactions.transactionInvoice error', e.message);
+    logger.debug(e);
+    if (e.message.match(/No collective found/)) {
+      return res.status(404).send('Not found');
+    } else {
+      return res.status(500).send(`Internal Server Error: ${e.message}`);
+    }
+  }
+}
+
+export async function testFixture(req, res, next) {
+  const { fixture } = req.params;
+  try {
+    const fixturesPath = '../../../test/__fixtures__/invoices/';
+    const filePath = path.join(__dirname, fixturesPath, `${path.basename(fixture)}.json`);
+    const invoice = await fs.readJson(filePath);
     return downloadInvoice(req, res, next, invoice);
   } catch (e) {
     logger.error('>>> transactions.transactionInvoice error', e.message);
