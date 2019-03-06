@@ -106,10 +106,6 @@
     ],
     "moduleNameMapper": {
       "\\.(jpg|ico|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2)$": "<rootDir>/test/__mocks__/fileMock.js"
-    },
-    "reporters": [
-      "default",
-      "jest-junit"
-    ]
+    }
   }
 }

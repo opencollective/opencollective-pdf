@@ -22,8 +22,8 @@ jobs:
             - ../.npm
       - run:
           name: Run Tests
-          command: npm run test -- --ci --runInBand --reporters=default --reporters=jest-junit
+          command: npm run test -- --ci --runInBand --coverage --reporters=default --reporters=jest-junit
           environment:
-            JEST_JUNIT_OUTPUT: 'reports/junit/js-test-results.xml'
+            JEST_JUNIT_OUTPUT: 'junit.xml'
       - store_test_results:
-          path: 'reports/junit/js-test-results.xml'
+          path: 'junit.xml'
