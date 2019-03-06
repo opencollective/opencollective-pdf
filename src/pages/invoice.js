@@ -107,6 +107,19 @@ class InvoicePage extends React.Component {
     return transaction.type === 'CREDIT' ? transaction.collective : transaction.fromCollective;
   }
 
+  getTaxTotal() {
+    return this.props.invoice.transactions.reduce((total, t) => total + (t.taxAmount || 0), 0);
+  }
+
+  getTaxPercent(transaction) {
+    if (!transaction.taxAmount) {
+      return 0;
+    }
+
+    const amount = transaction.type === 'CREDIT' ? transaction.amount : transaction.netAmountInCollectiveCurrency * -1;
+    return (transaction.taxAmount / (amount - transaction.taxAmount)) * 100;
+  }
+
   /** Get amount in host currency for transaction */
   renderTransactionAmountInHostCurrency(transaction) {
     const amount = transaction.type === 'CREDIT' ? transaction.amount : transaction.netAmountInCollectiveCurrency * -1;
@@ -189,7 +202,7 @@ class InvoicePage extends React.Component {
                 </Td>
                 <Td fontSize="Caption">{this.transactionDescription(transaction)}</Td>
                 <Td fontSize="Caption" textAlign="center">
-                  0%
+                  {this.getTaxPercent(transaction)}%
                 </Td>
                 <Td textAlign="right">{this.renderTransactionAmountInHostCurrency(transaction)}</Td>
               </tr>
@@ -211,6 +224,7 @@ class InvoicePage extends React.Component {
     }
 
     const chunkedTransactions = this.chunkTransactions(transactions);
+    const taxesTotal = this.getTaxTotal();
 
     return (
       <div className={`InvoicePages ${invoice.fromCollective.slug}`}>
@@ -302,11 +316,13 @@ class InvoicePage extends React.Component {
                       <Box p={3}>
                         <Flex justifyContent="space-between">
                           <FormattedMessage id="subtotal" defaultMessage="Subtotal" />
-                          <Span fontWeight="bold">{formatCurrency(invoice.totalAmount, invoice.currency)}</Span>
+                          <Span fontWeight="bold">
+                            {formatCurrency(invoice.totalAmount - taxesTotal, invoice.currency)}
+                          </Span>
                         </Flex>
                         <Flex justifyContent="space-between" mt={2}>
-                          <FormattedMessage id="taxes" defaultMessage="Taxes" />
-                          <Span fontWeight="bold">{formatCurrency(0, invoice.currency)}</Span>
+                          <FormattedMessage id="taxes" defaultMessage="VAT" />
+                          <Span fontWeight="bold">{formatCurrency(taxesTotal, invoice.currency)}</Span>
                         </Flex>
                       </Box>
                       <Container

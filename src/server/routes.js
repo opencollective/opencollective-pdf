@@ -37,6 +37,12 @@ export default (server, app) => {
           <a href="/__test__/organization-gift-cards.pdf">pdf</a>
         )
       </li>
+      <li>
+        With taxes (
+          <a href="/__test__/transactions_with_tax.html">html</a>,
+          <a href="/__test__/transactions_with_tax.pdf">pdf</a>
+        )
+      </li>
     </ul>
     `);
   });

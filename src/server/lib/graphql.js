@@ -53,6 +53,7 @@ const invoiceFields = `
     type
     hostCurrency
     netAmountInCollectiveCurrency
+    taxAmount
     fromCollective {
       id
       slug
