@@ -39,8 +39,8 @@ export default (server, app) => {
       </li>
       <li>
         With taxes (
-          <a href="/__test__/transactions_with_tax.html">html</a>,
-          <a href="/__test__/transactions_with_tax.pdf">pdf</a>
+          <a href="/__test__/transactions-with-tax.html">html</a>,
+          <a href="/__test__/transactions-with-tax.pdf">pdf</a>
         )
       </li>
     </ul>
