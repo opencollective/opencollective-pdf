@@ -21,9 +21,16 @@ jobs:
           paths:
             - ../.npm
       - run:
+          name: Create test results folders
+          command: |
+            mkdir /tmp/circleci-test-results
+            mkdir /tmp/circleci-test-results/jest
+      - run:
           name: Run Tests
-          command: npm run test -- --ci --runInBand --coverage --reporters=default --reporters=jest-junit
+          command: |
+            npm run test -- --ci --coverage --reporters=default --reporters=jest-junit
+            npx codecov
           environment:
-            JEST_JUNIT_OUTPUT: 'junit.xml'
+            JEST_JUNIT_OUTPUT: /tmp/circleci-test-results/jest/results.xml
       - store_test_results:
-          path: 'junit.xml'
+          path: /tmp/circleci-test-results
