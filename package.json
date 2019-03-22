@@ -11,7 +11,7 @@
     "npm": "6.5.0"
   },
   "dependencies": {
-    "clean-tag": "~2.0.3",
+    "clean-tag": "~3.0.0",
     "cors": "~2.8.5",
     "debug": "~4.1.1",
     "dotenv": "~7.0.0",
