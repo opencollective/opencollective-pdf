@@ -26,7 +26,7 @@
     "moment": "~2.24.0",
     "next": "~8.0.1",
     "next-routes": "~1.4.2",
-    "polished": "~3.0.3",
+    "polished": "~3.1.0",
     "prop-types": "~15.7.2",
     "react": "~16.8.2",
     "react-dom": "~16.8.2",
