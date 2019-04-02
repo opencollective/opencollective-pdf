@@ -3,7 +3,8 @@ import InvoicePage from '../../src/pages/invoice';
 
 import renderWithTheme from '../__helpers__/renderWithTheme';
 import simpleTransactionInvoice from '../__fixtures__/invoices/simple-transaction';
-import organizationWithGiftCardsInvoice from '../__fixtures__/invoices/organization-gift-cards';
+import organizationWithGiftCardsInvoiceMonthly from '../__fixtures__/invoices/organization-gift-cards-monthly';
+import organizationWithGiftCardsInvoiceYearly from '../__fixtures__/invoices/organization-gift-cards-yearly';
 import invoiceWithTaxes from '../__fixtures__/invoices/transactions-with-tax';
 
 describe('Single transaction invoice', () => {
@@ -20,7 +21,14 @@ describe('Single transaction invoice', () => {
 
 describe('Monthly invoice', () => {
   test('for organization with gift cards', () => {
-    const tree = renderWithTheme(<InvoicePage invoice={organizationWithGiftCardsInvoice} />).toJSON();
+    const tree = renderWithTheme(<InvoicePage invoice={organizationWithGiftCardsInvoiceMonthly} />).toJSON();
+    expect(tree).toMatchSnapshot();
+  });
+});
+
+describe('Yearly invoice', () => {
+  test('for organization with gift cards', () => {
+    const tree = renderWithTheme(<InvoicePage invoice={organizationWithGiftCardsInvoiceYearly} />).toJSON();
     expect(tree).toMatchSnapshot();
   });
 });

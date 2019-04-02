@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { FormattedDate, FormattedMessage } from 'react-intl';
 import { get, chunk } from 'lodash';
 import { Box, Flex, Image } from 'rebass';
+import moment from 'moment';
 
 import { countries as countriesEN } from 'i18n-iso-countries/langs/en.json';
 
@@ -92,8 +93,14 @@ class InvoicePage extends React.Component {
 
   /** Generate a prettier reference for invoice by taking only the first part of the hash */
   getInvoiceReference(invoice) {
-    if (!invoice.slug.startsWith('transaction-')) {
+    if (invoice.slug && !invoice.slug.startsWith('transaction-')) {
       return invoice.slug;
+    }
+
+    if (invoice.dateFrom && invoice.dateTo) {
+      const startString = moment(invoice.dateFrom).format('YYYYMMDD');
+      const endString = moment(invoice.dateTo).format('YYYYMMDD');
+      return `${invoice.host.slug}_${invoice.fromCollective.slug}_${startString}-${endString}`;
     }
 
     return invoice.slug
@@ -292,15 +299,11 @@ class InvoicePage extends React.Component {
 
                   <Box>
                     <H2>{invoice.title || 'Donation Receipt'}</H2>
-                    <div className="detail">
-                      <label>Date:</label>{' '}
-                      <FormattedDate
-                        value={new Date(invoice.year, invoice.month, invoice.day)}
-                        day="2-digit"
-                        month="2-digit"
-                        year="numeric"
-                      />
-                    </div>
+                    {invoice.dateFrom && invoice.dateTo ? (
+                      <RenderDateFromDateTo invoice={invoice} />
+                    ) : (
+                      <RenderSingleDate invoice={invoice} />
+                    )}
                     <div className="detail reference">
                       <label>Reference:</label> {this.getInvoiceReference(invoice)}
                     </div>
@@ -367,5 +370,43 @@ class InvoicePage extends React.Component {
     );
   }
 }
+
+function RenderDateFromDateTo(props) {
+  const { invoice } = props;
+  return (
+    <div>
+      <div className="detail">
+        <label>From:</label>{' '}
+        <FormattedDate value={new Date(invoice.dateFrom)} day="2-digit" month="2-digit" year="numeric" />
+      </div>
+      <div className="detail">
+        <label>To:</label>{' '}
+        <FormattedDate value={new Date(invoice.dateTo)} day="2-digit" month="2-digit" year="numeric" />
+      </div>
+    </div>
+  );
+}
+
+RenderDateFromDateTo.propTypes = {
+  invoice: PropTypes.object.isRequired,
+};
+
+function RenderSingleDate(props) {
+  const { invoice } = props;
+  return (
+    <div className="detail">
+      <label>Date:</label>{' '}
+      <FormattedDate
+        value={new Date(invoice.year, invoice.month, invoice.day)}
+        day="2-digit"
+        month="2-digit"
+        year="numeric"
+      />
+    </div>
+  );
+}
+RenderSingleDate.propTypes = {
+  invoice: PropTypes.object.isRequired,
+};
 
 export default withIntl(InvoicePage);

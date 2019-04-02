@@ -14,6 +14,8 @@ const getClient = accessToken => {
 
 const invoiceFields = `
   slug
+  dateFrom
+  dateTo
   totalAmount
   currency
   year
@@ -72,6 +74,18 @@ const invoiceFields = `
   }
 `;
 
+export async function fetchInvoiceByDateRange(invoiceInputType, accessToken) {
+  const query = `
+  query InvoiceByDateRange($invoiceInputType: InvoiceInputType!) {
+    InvoiceByDateRange(invoiceInputType:$invoiceInputType) {
+      ${invoiceFields}
+    }
+  }
+  `;
+  const client = getClient(accessToken);
+  const result = await client.request(query, { invoiceInputType });
+  return result.InvoiceByDateRange;
+}
 export async function fetchInvoice(invoiceSlug, accessToken) {
   const query = `
   query Invoice($invoiceSlug: String!) {

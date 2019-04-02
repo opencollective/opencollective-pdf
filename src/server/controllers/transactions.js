@@ -5,7 +5,7 @@ import pdf from 'html-pdf';
 import sanitizeHtmlLib from 'sanitize-html';
 
 import { logger } from '../logger';
-import { fetchInvoice, fetchTransactionInvoice } from '../lib/graphql';
+import { fetchInvoice, fetchInvoiceByDateRange, fetchTransactionInvoice } from '../lib/graphql';
 
 const getPageFormat = (req, invoice) => {
   if (req.query.pageFormat === 'A4' || invoice.fromCollective.currency === 'EUR') {
@@ -91,6 +91,7 @@ export async function invoice(req, res, next) {
 
   try {
     const invoice = await fetchInvoice(req.params.invoiceSlug, accessToken);
+
     return downloadInvoice(req, res, next, invoice);
   } catch (e) {
     logger.error('>>> transactions.invoice error', e.message);
@@ -103,6 +104,35 @@ export async function invoice(req, res, next) {
   }
 }
 
+export async function invoiceByDateRange(req, res, next) {
+  // Keeping the resulting info for 10mn in the CDN cache
+  res.setHeader('Cache-Control', `public, max-age=${60 * 10}`);
+
+  const accessToken = getAccessToken(req);
+
+  const {
+    fromCollectiveSlug,
+    toCollectiveSlug: collectiveSlug,
+    isoStartDate: dateFrom,
+    isoEndDate: dateTo,
+  } = req.params;
+
+  try {
+    const invoice = await fetchInvoiceByDateRange(
+      { fromCollectiveSlug, collectiveSlug, dateFrom, dateTo },
+      accessToken,
+    );
+    return downloadInvoice(req, res, next, invoice);
+  } catch (e) {
+    logger.error('>>> transactions.invoice error', e.message);
+    logger.debug(e);
+    if (e.message.match(/No collective found/)) {
+      return res.status(404).send('Not found');
+    } else {
+      return res.status(500).send(`Internal Server Error: ${e.message}`);
+    }
+  }
+}
 export async function transactionInvoice(req, res, next) {
   const { transactionUuid } = req.params;
   const accessToken = getAccessToken(req, { throwException: false });
