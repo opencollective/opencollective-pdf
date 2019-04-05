@@ -43,6 +43,12 @@ export default (server, app) => {
           <a href="/__test__/transactions-with-tax.pdf">pdf</a>
         )
       </li>
+      <li>
+        With date range (
+          <a href="/__test__/transactions-with-date-range.html">html</a>,
+          <a href="/__test__/transactions-with-date-range.pdf">pdf</a>
+        )
+      </li>
     </ul>
     `);
   });
