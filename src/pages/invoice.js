@@ -98,8 +98,8 @@ class InvoicePage extends React.Component {
     }
 
     if (invoice.dateFrom && invoice.dateTo) {
-      const startString = moment(invoice.dateFrom).format('YYYYMMDD');
-      const endString = moment(invoice.dateTo).format('YYYYMMDD');
+      const startString = moment.utc(invoice.dateFrom).format('YYYYMMDD');
+      const endString = moment.utc(invoice.dateTo).format('YYYYMMDD');
       return `${invoice.host.slug}_${invoice.fromCollective.slug}_${startString}-${endString}`;
     }
 
