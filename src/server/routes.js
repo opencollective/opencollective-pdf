@@ -43,6 +43,12 @@ export default (server, app) => {
           <a href="/__test__/transactions-with-tax.pdf">pdf</a>
         )
       </li>
+      <li>
+        With date range (
+          <a href="/__test__/transactions-with-date-range.html">html</a>,
+          <a href="/__test__/transactions-with-date-range.pdf">pdf</a>
+        )
+      </li>
     </ul>
     `);
   });
@@ -56,7 +62,7 @@ export default (server, app) => {
   });
 
   /**
-   * Endpoint to download invoice in HTML, PDF or JSON
+   * Deprecated Endpoint to download invoice in HTML, PDF or JSON
    */
   server.get(
     '/collectives/:collectiveSlug/:invoiceSlug.:format(html|pdf|json)',
@@ -65,6 +71,18 @@ export default (server, app) => {
       next();
     },
     controllers.transactions.invoice,
+  );
+
+  /**
+   * Endpoint to download invoice in HTML, PDF or JSON
+   */
+  server.get(
+    '/collectives/:fromCollectiveSlug/:toCollectiveSlug/:isoStartDate/:isoEndDate.:format(html|pdf|json)',
+    (req, res, next) => {
+      req.app = app;
+      next();
+    },
+    controllers.transactions.invoiceByDateRange,
   );
 
   /**
