@@ -350,10 +350,10 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
 }
 
 <div
-  className="jsx-1770593735 InvoicePages amazing-organization"
+  className="jsx-120598088 InvoicePages amazing-organization"
 >
   <div
-    className="jsx-1770593735 pages"
+    className="jsx-120598088 pages"
   >
     <div
       className="page c0"
@@ -454,10 +454,10 @@ USA
             </div>
           </div>
           <div
-            className="jsx-1770593735 detail reference"
+            className="jsx-120598088 detail reference"
           >
             <label
-              className="jsx-1770593735"
+              className="jsx-120598088"
             >
               Reference:
             </label>
@@ -3515,10 +3515,10 @@ exports[`Single transaction invoice simple transaction 1`] = `
 }
 
 <div
-  className="jsx-1770593735 InvoicePages betree"
+  className="jsx-120598088 InvoicePages betree"
 >
   <div
-    className="jsx-1770593735 pages"
+    className="jsx-120598088 pages"
   >
     <div
       className="page c0"
@@ -3615,10 +3615,10 @@ USA
             </span>
           </div>
           <div
-            className="jsx-1770593735 detail reference"
+            className="jsx-120598088 detail reference"
           >
             <label
-              className="jsx-1770593735"
+              className="jsx-120598088"
             >
               Reference:
             </label>
@@ -4155,10 +4155,10 @@ exports[`Single transaction invoice with taxes 1`] = `
 }
 
 <div
-  className="jsx-1770593735 InvoicePages betree"
+  className="jsx-120598088 InvoicePages betree"
 >
   <div
-    className="jsx-1770593735 pages"
+    className="jsx-120598088 pages"
   >
     <div
       className="page c0"
@@ -4255,10 +4255,10 @@ USA
             </span>
           </div>
           <div
-            className="jsx-1770593735 detail reference"
+            className="jsx-120598088 detail reference"
           >
             <label
-              className="jsx-1770593735"
+              className="jsx-120598088"
             >
               Reference:
             </label>
@@ -4874,10 +4874,10 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
 }
 
 <div
-  className="jsx-1770593735 InvoicePages amazing-organization"
+  className="jsx-120598088 InvoicePages amazing-organization"
 >
   <div
-    className="jsx-1770593735 pages"
+    className="jsx-120598088 pages"
   >
     <div
       className="page c0"
@@ -4978,10 +4978,10 @@ USA
             </div>
           </div>
           <div
-            className="jsx-1770593735 detail reference"
+            className="jsx-120598088 detail reference"
           >
             <label
-              className="jsx-1770593735"
+              className="jsx-120598088"
             >
               Reference:
             </label>

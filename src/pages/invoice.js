@@ -20,9 +20,9 @@ import GiftCardImgSrc from '../static/images/giftcard.png';
 
 const baseUrl = 'https://opencollective.com';
 
-class InvoicePage extends React.Component {
-  static getInitialProps({ query: { pageFormat, invoice, debug } }) {
-    return { invoice, pageFormat, debug };
+export class InvoicePage extends React.Component {
+  static getInitialProps({ query: { pageFormat, invoice, debug, zoom } }) {
+    return { invoice, pageFormat, debug, zoom };
   }
 
   static propTypes = {
@@ -35,11 +35,14 @@ class InvoicePage extends React.Component {
      * document.
      */
     debug: PropTypes.bool,
+    /** CSS zoom applied */
+    zoom: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   };
 
   static defaultProps = {
     pageFormat: 'A4',
     debug: false,
+    zoom: '1',
   };
 
   static dimensions = {
@@ -239,7 +242,7 @@ class InvoicePage extends React.Component {
           {`
             html {
               /* See https://github.com/marcbachmann/node-html-pdf/issues/110 */
-              zoom: 0.75;
+              zoom: ${this.props.zoom};
             }
 
             body {

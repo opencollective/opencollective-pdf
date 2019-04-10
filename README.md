@@ -47,14 +47,9 @@ npm run dev
 #### Usage with fixture data
 
 This is the easy way to start developing. Just go to the root URL http://localhost:3002/
-to see a list of test pages.
+to see a list of test pages and click on any of them to load it in the right pane.
 
-**Tips**
-
-- Replace `.html` by `.pdf` to see the generated pdf.
-- Add `?pageFormat=A4` with `A4` or `Letter` to change page format
-- Add `?debug=true` to the URL to see verbose data on the document
-- Add `?raw=true` to disabled HTML sanitazing (useful to debug missing attributes)
+The page will auto-refresh everytime a change is made.
 
 #### Usage with frontend
 
@@ -70,6 +65,13 @@ with you local development data.
 
 For this to work, you'll need to set the `Authorization` header with your token
 to identify your requests.
+
+**Tips**
+
+- Replace `.html` by `.pdf` to see the generated pdf.
+- Add `?pageFormat=A4` with `A4` or `Letter` to change page format
+- Add `?debug=true` to the URL to see verbose data on the document
+- Add `?raw=true` to disabled HTML sanitazing (useful to debug missing attributes)
 
 ## Contributing
 
