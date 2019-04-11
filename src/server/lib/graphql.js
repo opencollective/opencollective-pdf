@@ -74,6 +74,15 @@ const invoiceFields = gql`
         slug
         name
       }
+      ... on Order {
+        order {
+          id
+          tier {
+            id
+            type
+          }
+        }
+      }
     }
   }
 `;

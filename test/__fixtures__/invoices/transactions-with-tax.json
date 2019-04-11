@@ -36,28 +36,6 @@
   },
   "transactions": [
     {
-      "id": 154210,
-      "createdAt": "Tue Mar 05 2019 09:25:52 GMT+0000 (Coordinated Universal Time)",
-      "description": "Donation to Nerves Project (TShirt)",
-      "amount": 12100,
-      "currency": "USD",
-      "type": "CREDIT",
-      "hostCurrency": "USD",
-      "netAmountInCollectiveCurrency": 4325,
-      "taxAmount": 2100,
-      "fromCollective": {
-        "id": 4469,
-        "slug": "betree",
-        "name": "Benjamin Piouffle"
-      },
-      "usingVirtualCardFromCollective": null,
-      "collective": {
-        "id": 827,
-        "slug": "nerves-project",
-        "name": "Nerves Project"
-      }
-    },
-    {
       "id": 154214,
       "createdAt": "Tue Mar 05 2019 21:20:25 GMT+0000 (Coordinated Universal Time)",
       "description": "Donation to Boostnote",
@@ -77,12 +55,16 @@
         "id": 9449,
         "slug": "boostnoteio",
         "name": "Boostnote"
+      },
+      "order": {
+        "id": 4242,
+        "tier": null
       }
     },
     {
       "id": 154216,
       "createdAt": "Wed Mar 06 2019 17:44:07 GMT+0000 (Coordinated Universal Time)",
-      "description": "Donation to Nerves Project (TShirt)",
+      "description": "Order for a swag (TShirt)",
       "amount": 6050,
       "currency": "USD",
       "type": "CREDIT",
@@ -99,6 +81,13 @@
         "id": 827,
         "slug": "nerves-project",
         "name": "Nerves Project"
+      },
+      "order": {
+        "id": 5534,
+        "tier": {
+          "id": 555,
+          "type": "PRODUCT"
+        }
       }
     }
   ]

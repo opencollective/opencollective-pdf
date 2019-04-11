@@ -54,7 +54,8 @@
         "id": 4469,
         "slug": "betree",
         "name": "Benjamin Piouffle"
-      }
+      },
+      "order": { "id": 4000, "tier": null }
     }
   ]
 }

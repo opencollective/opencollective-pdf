@@ -26,8 +26,25 @@ export class InvoicePage extends React.Component {
   }
 
   static propTypes = {
-    invoice: PropTypes.object.isRequired,
-    intl: PropTypes.object.isRequired, // from withIntl
+    /** The invoice data */
+    invoice: PropTypes.shape({
+      title: PropTypes.string,
+      slug: PropTypes.string,
+      dateFrom: PropTypes.string,
+      dateTo: PropTypes.string,
+      fromCollective: PropTypes.shape({
+        slug: PropTypes.string.isRequired,
+      }).isRequired,
+      transactions: PropTypes.arrayOf(
+        PropTypes.shape({
+          id: PropTypes.number.isRequired,
+          order: PropTypes.shape({
+            id: PropTypes.number.isRequired,
+            type: PropTypes.string,
+          }).isRequired,
+        }),
+      ).isRequired,
+    }).isRequired,
     pageFormat: PropTypes.oneOf(['A4', 'Letter']),
     /**
      * As we don't have access to the console for PDFs, debugging can sometimes
@@ -37,6 +54,7 @@ export class InvoicePage extends React.Component {
     debug: PropTypes.bool,
     /** CSS zoom applied */
     zoom: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    intl: PropTypes.object.isRequired, // from withIntl
   };
 
   static defaultProps = {
@@ -223,6 +241,23 @@ export class InvoicePage extends React.Component {
     );
   }
 
+  renderInvoiceTitle() {
+    if (this.props.invoice.title) {
+      return this.props.invoice.title;
+    }
+
+    // If there's only donations (no ticket,product...) show "Donation Receipt", otherwise "Invoice"
+    const isDonationOnly = !this.props.invoice.transactions.find(t => {
+      return !['TIER', 'DONATION'].includes(get(t, 'order.tier.type', 'DONATION'));
+    });
+
+    if (isDonationOnly) {
+      return <FormattedMessage id="invoice.donationReceipt" defaultMessage="Donation Receipt" />;
+    } else {
+      return <FormattedMessage id="invoice" defaultMessage="Invoice" />;
+    }
+  }
+
   render() {
     const { invoice } = this.props;
     if (!invoice) {
@@ -301,7 +336,7 @@ export class InvoicePage extends React.Component {
                   </Flex>
 
                   <Box>
-                    <H2>{invoice.title || 'Donation Receipt'}</H2>
+                    <H2>{this.renderInvoiceTitle()}</H2>
                     {invoice.dateFrom && invoice.dateTo ? (
                       <RenderDateFromDateTo invoice={invoice} />
                     ) : (
