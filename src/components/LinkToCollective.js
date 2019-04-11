@@ -23,7 +23,7 @@ const LinkToCollective = ({ collective: { type, name, slug, parentCollective }, 
 LinkToCollective.propTypes = {
   collective: PropTypes.shape({
     slug: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired,
+    type: PropTypes.string,
     parentCollective: PropTypes.shape({
       slug: PropTypes.string,
     }),
