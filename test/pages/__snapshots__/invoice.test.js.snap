@@ -929,6 +929,68 @@ USA
                 $10.00
               </td>
             </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div
+      className="page c0"
+    >
+      <div
+        className="c11"
+        width={1}
+      >
+        <table
+          style={
+            Object {
+              "borderCollapse": "collapse",
+              "width": "100%",
+            }
+          }
+        >
+          <thead>
+            <tr
+              className="c12"
+            >
+              <td
+                className="c13"
+                fontSize="LeadParagraph"
+                fontWeight={500}
+              >
+                <span>
+                  Date
+                </span>
+              </td>
+              <td
+                className="c14"
+                fontSize="LeadParagraph"
+                fontWeight={500}
+              >
+                <span>
+                  Description
+                </span>
+              </td>
+              <td
+                className="c15"
+                fontSize="LeadParagraph"
+                fontWeight={500}
+              >
+                <span>
+                  Tax %
+                </span>
+              </td>
+              <td
+                className="c16"
+                fontSize="LeadParagraph"
+                fontWeight={500}
+              >
+                <span>
+                  Total
+                </span>
+              </td>
+            </tr>
+          </thead>
+          <tbody>
             <tr>
               <td
                 className="c17"
@@ -1184,68 +1246,6 @@ USA
                 $2.00
               </td>
             </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-    <div
-      className="page c0"
-    >
-      <div
-        className="c11"
-        width={1}
-      >
-        <table
-          style={
-            Object {
-              "borderCollapse": "collapse",
-              "width": "100%",
-            }
-          }
-        >
-          <thead>
-            <tr
-              className="c12"
-            >
-              <td
-                className="c13"
-                fontSize="LeadParagraph"
-                fontWeight={500}
-              >
-                <span>
-                  Date
-                </span>
-              </td>
-              <td
-                className="c14"
-                fontSize="LeadParagraph"
-                fontWeight={500}
-              >
-                <span>
-                  Description
-                </span>
-              </td>
-              <td
-                className="c15"
-                fontSize="LeadParagraph"
-                fontWeight={500}
-              >
-                <span>
-                  Tax %
-                </span>
-              </td>
-              <td
-                className="c16"
-                fontSize="LeadParagraph"
-                fontWeight={500}
-              >
-                <span>
-                  Total
-                </span>
-              </td>
-            </tr>
-          </thead>
-          <tbody>
             <tr>
               <td
                 className="c17"
@@ -2011,6 +2011,68 @@ USA
                 $2.00
               </td>
             </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div
+      className="page c0"
+    >
+      <div
+        className="c11"
+        width={1}
+      >
+        <table
+          style={
+            Object {
+              "borderCollapse": "collapse",
+              "width": "100%",
+            }
+          }
+        >
+          <thead>
+            <tr
+              className="c12"
+            >
+              <td
+                className="c13"
+                fontSize="LeadParagraph"
+                fontWeight={500}
+              >
+                <span>
+                  Date
+                </span>
+              </td>
+              <td
+                className="c14"
+                fontSize="LeadParagraph"
+                fontWeight={500}
+              >
+                <span>
+                  Description
+                </span>
+              </td>
+              <td
+                className="c15"
+                fontSize="LeadParagraph"
+                fontWeight={500}
+              >
+                <span>
+                  Tax %
+                </span>
+              </td>
+              <td
+                className="c16"
+                fontSize="LeadParagraph"
+                fontWeight={500}
+              >
+                <span>
+                  Total
+                </span>
+              </td>
+            </tr>
+          </thead>
+          <tbody>
             <tr>
               <td
                 className="c17"
@@ -2266,68 +2328,6 @@ USA
                 $25.00
               </td>
             </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-    <div
-      className="page c0"
-    >
-      <div
-        className="c11"
-        width={1}
-      >
-        <table
-          style={
-            Object {
-              "borderCollapse": "collapse",
-              "width": "100%",
-            }
-          }
-        >
-          <thead>
-            <tr
-              className="c12"
-            >
-              <td
-                className="c13"
-                fontSize="LeadParagraph"
-                fontWeight={500}
-              >
-                <span>
-                  Date
-                </span>
-              </td>
-              <td
-                className="c14"
-                fontSize="LeadParagraph"
-                fontWeight={500}
-              >
-                <span>
-                  Description
-                </span>
-              </td>
-              <td
-                className="c15"
-                fontSize="LeadParagraph"
-                fontWeight={500}
-              >
-                <span>
-                  Tax %
-                </span>
-              </td>
-              <td
-                className="c16"
-                fontSize="LeadParagraph"
-                fontWeight={500}
-              >
-                <span>
-                  Total
-                </span>
-              </td>
-            </tr>
-          </thead>
-          <tbody>
             <tr>
               <td
                 className="c17"
@@ -5453,6 +5453,68 @@ USA
                 $10.00
               </td>
             </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div
+      className="page c0"
+    >
+      <div
+        className="c11"
+        width={1}
+      >
+        <table
+          style={
+            Object {
+              "borderCollapse": "collapse",
+              "width": "100%",
+            }
+          }
+        >
+          <thead>
+            <tr
+              className="c12"
+            >
+              <td
+                className="c13"
+                fontSize="LeadParagraph"
+                fontWeight={500}
+              >
+                <span>
+                  Date
+                </span>
+              </td>
+              <td
+                className="c14"
+                fontSize="LeadParagraph"
+                fontWeight={500}
+              >
+                <span>
+                  Description
+                </span>
+              </td>
+              <td
+                className="c15"
+                fontSize="LeadParagraph"
+                fontWeight={500}
+              >
+                <span>
+                  Tax %
+                </span>
+              </td>
+              <td
+                className="c16"
+                fontSize="LeadParagraph"
+                fontWeight={500}
+              >
+                <span>
+                  Total
+                </span>
+              </td>
+            </tr>
+          </thead>
+          <tbody>
             <tr>
               <td
                 className="c17"
@@ -5708,68 +5770,6 @@ USA
                 $2.00
               </td>
             </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-    <div
-      className="page c0"
-    >
-      <div
-        className="c11"
-        width={1}
-      >
-        <table
-          style={
-            Object {
-              "borderCollapse": "collapse",
-              "width": "100%",
-            }
-          }
-        >
-          <thead>
-            <tr
-              className="c12"
-            >
-              <td
-                className="c13"
-                fontSize="LeadParagraph"
-                fontWeight={500}
-              >
-                <span>
-                  Date
-                </span>
-              </td>
-              <td
-                className="c14"
-                fontSize="LeadParagraph"
-                fontWeight={500}
-              >
-                <span>
-                  Description
-                </span>
-              </td>
-              <td
-                className="c15"
-                fontSize="LeadParagraph"
-                fontWeight={500}
-              >
-                <span>
-                  Tax %
-                </span>
-              </td>
-              <td
-                className="c16"
-                fontSize="LeadParagraph"
-                fontWeight={500}
-              >
-                <span>
-                  Total
-                </span>
-              </td>
-            </tr>
-          </thead>
-          <tbody>
             <tr>
               <td
                 className="c17"
@@ -6535,6 +6535,68 @@ USA
                 $2.00
               </td>
             </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div
+      className="page c0"
+    >
+      <div
+        className="c11"
+        width={1}
+      >
+        <table
+          style={
+            Object {
+              "borderCollapse": "collapse",
+              "width": "100%",
+            }
+          }
+        >
+          <thead>
+            <tr
+              className="c12"
+            >
+              <td
+                className="c13"
+                fontSize="LeadParagraph"
+                fontWeight={500}
+              >
+                <span>
+                  Date
+                </span>
+              </td>
+              <td
+                className="c14"
+                fontSize="LeadParagraph"
+                fontWeight={500}
+              >
+                <span>
+                  Description
+                </span>
+              </td>
+              <td
+                className="c15"
+                fontSize="LeadParagraph"
+                fontWeight={500}
+              >
+                <span>
+                  Tax %
+                </span>
+              </td>
+              <td
+                className="c16"
+                fontSize="LeadParagraph"
+                fontWeight={500}
+              >
+                <span>
+                  Total
+                </span>
+              </td>
+            </tr>
+          </thead>
+          <tbody>
             <tr>
               <td
                 className="c17"
@@ -6790,68 +6852,6 @@ USA
                 $25.00
               </td>
             </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-    <div
-      className="page c0"
-    >
-      <div
-        className="c11"
-        width={1}
-      >
-        <table
-          style={
-            Object {
-              "borderCollapse": "collapse",
-              "width": "100%",
-            }
-          }
-        >
-          <thead>
-            <tr
-              className="c12"
-            >
-              <td
-                className="c13"
-                fontSize="LeadParagraph"
-                fontWeight={500}
-              >
-                <span>
-                  Date
-                </span>
-              </td>
-              <td
-                className="c14"
-                fontSize="LeadParagraph"
-                fontWeight={500}
-              >
-                <span>
-                  Description
-                </span>
-              </td>
-              <td
-                className="c15"
-                fontSize="LeadParagraph"
-                fontWeight={500}
-              >
-                <span>
-                  Tax %
-                </span>
-              </td>
-              <td
-                className="c16"
-                fontSize="LeadParagraph"
-                fontWeight={500}
-              >
-                <span>
-                  Total
-                </span>
-              </td>
-            </tr>
-          </thead>
-          <tbody>
             <tr>
               <td
                 className="c17"
