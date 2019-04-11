@@ -1,4 +1,4 @@
-import { get } from 'lodash';
+import { get, pickBy, isEmpty } from 'lodash';
 
 export function formatCurrency(amount, currency = 'USD', options = {}) {
   amount = amount / 100;
@@ -72,3 +72,38 @@ export function imagePreview(src, defaultImage, options = { width: 640 }) {
   if (isValidImageUrl(defaultImage)) return defaultImage;
   return null;
 }
+
+/**
+ * Transorm an object into a query string. Strips undefined values.
+ *
+ * ## Example
+ *
+ *    > objectToQueryString({a: 42, b: "hello", c: undefined})
+ *    "?a=42&b=hello"
+ */
+export const objectToQueryString = options => {
+  const definedOptions = pickBy(options, value => value !== undefined);
+  if (isEmpty(definedOptions)) {
+    return '';
+  }
+
+  const encodeValue = value => {
+    if (Array.isArray(value)) {
+      return value.concat.map(encodeURIComponent).join(',');
+    }
+    return encodeURIComponent(value);
+  };
+
+  return `?${Object.entries(definedOptions)
+    .map(([key, value]) => `${key}=${encodeValue(value)}`)
+    .join('&')}`;
+};
+
+export const queryStringToObject = search => {
+  return JSON.parse(
+    `{"${decodeURI(search)
+      .replace(/"/g, '\\"')
+      .replace(/&/g, '","')
+      .replace(/=/g, '":"')}"}`,
+  );
+};

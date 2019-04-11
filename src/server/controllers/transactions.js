@@ -15,6 +15,11 @@ const getPageFormat = (req, invoice) => {
   }
 };
 
+const getDefaultZoom = fileFormat => {
+  // See https://github.com/marcbachmann/node-html-pdf/issues/110
+  return fileFormat === 'pdf' ? '0.75' : '1';
+};
+
 const getAccessToken = (req, { throwException = true } = {}) => {
   const authorizationHeader = get(req, 'headers.authorization');
   if (!authorizationHeader) {
@@ -51,10 +56,11 @@ const sanitizeHtml = html => {
  * Download the invoice in the format given by `req.params`
  */
 const downloadInvoice = async (req, res, next, invoice) => {
-  const pageFormat = getPageFormat(req, invoice);
-  const debug = req.query.debug && ['1', 'true'].includes(req.query.debug.toLowerCase());
-  const params = { invoice, pageFormat, debug };
   const { format } = req.params;
+  const pageFormat = getPageFormat(req, invoice);
+  const zoom = req.query.zoom || getDefaultZoom(format);
+  const debug = req.query.debug && ['1', 'true'].includes(req.query.debug.toLowerCase());
+  const params = { invoice, pageFormat, debug, zoom };
 
   if (format === 'json') {
     res.send(invoice);

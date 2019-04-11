@@ -17,43 +17,6 @@ export default (server, app) => {
   server.get('/static/*', maxAge(7200));
 
   /**
-   * Default index endpoint, useful to ensure the service runs properly
-   */
-  server.get('/', (req, res) => {
-    res.send(`
-    This is the Open Collective invoices server 📄
-    <br/><br/>
-    <p>Test pages:</P>
-    <ul>
-      <li>
-        Simple transaction (
-          <a href="/__test__/simple-transaction.html">html</a>,
-          <a href="/__test__/simple-transaction.pdf">pdf</a>
-        )
-      </li>
-      <li>
-        Organization with gift cards (
-          <a href="/__test__/organization-gift-cards.html">html</a>,
-          <a href="/__test__/organization-gift-cards.pdf">pdf</a>
-        )
-      </li>
-      <li>
-        With taxes (
-          <a href="/__test__/transactions-with-tax.html">html</a>,
-          <a href="/__test__/transactions-with-tax.pdf">pdf</a>
-        )
-      </li>
-      <li>
-        With date range (
-          <a href="/__test__/transactions-with-date-range.html">html</a>,
-          <a href="/__test__/transactions-with-date-range.pdf">pdf</a>
-        )
-      </li>
-    </ul>
-    `);
-  });
-
-  /**
    * Prevent all indexation from search engines (this is a private service)
    */
   server.get('/robots.txt', (req, res) => {
