@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedDate, FormattedMessage } from 'react-intl';
-import { get, chunk } from 'lodash';
+import { get, chunk, sumBy, max } from 'lodash';
 import { Box, Flex, Image } from 'rebass';
 import moment from 'moment';
 
@@ -64,10 +64,6 @@ export class InvoicePage extends React.Component {
     },
   };
 
-  static transactionsOnFirstPage = 13;
-
-  static transactionsPerPage = 20;
-
   // Helpers for page dimension
 
   getPageWith() {
@@ -82,15 +78,22 @@ export class InvoicePage extends React.Component {
 
   /**
    * Chunk transactions, returning less transactions on the first page is we need
-   * to keep some space for the header.
+   * to keep some space for the header. The number of transactions we show on it depends of
+   * the size of the header, that we estimate from the number of lines in the addresses.
    */
-  chunkTransactions(transactions) {
+  chunkTransactions(invoice, transactions) {
+    const baseNbOnFirstPage = 12;
+    const minNbOnFirstPage = 6;
+    const transactionsPerPage = 20;
+
+    const countLines = str => sumBy(str, c => c === '\n' || c === ',');
+    const billFromAddressSize = countLines(get(invoice.host, 'location.address', ''));
+    const billToAddressSize = countLines(get(invoice.fromCollective, 'location.address', ''));
+    const nbOnFirstPage = max([minNbOnFirstPage, baseNbOnFirstPage - (billFromAddressSize + billToAddressSize)]);
+
     return [
-      transactions.slice(0, InvoicePage.transactionsOnFirstPage),
-      ...chunk(
-        transactions.slice(InvoicePage.transactionsOnFirstPage, transactions.length),
-        InvoicePage.transactionsPerPage,
-      ),
+      transactions.slice(0, nbOnFirstPage),
+      ...chunk(transactions.slice(nbOnFirstPage, transactions.length), transactionsPerPage),
     ];
   }
 
@@ -233,7 +236,7 @@ export class InvoicePage extends React.Component {
       return <div>No transaction to render</div>;
     }
 
-    const chunkedTransactions = this.chunkTransactions(transactions);
+    const chunkedTransactions = this.chunkTransactions(invoice, transactions);
     const taxesTotal = this.getTaxTotal();
 
     return (
