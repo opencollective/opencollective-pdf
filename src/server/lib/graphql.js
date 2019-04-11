@@ -43,6 +43,7 @@ const invoiceFields = gql`
       slug
       name
       currency
+      type
       location {
         name
         address
@@ -63,16 +64,19 @@ const invoiceFields = gql`
         id
         slug
         name
+        type
       }
       usingVirtualCardFromCollective {
         id
         slug
         name
+        type
       }
       collective {
         id
         slug
         name
+        type
       }
       ... on Order {
         order {
