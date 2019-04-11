@@ -20,11 +20,11 @@ const getDefaultZoom = fileFormat => {
   return fileFormat === 'pdf' ? '0.75' : '1';
 };
 
-const getAccessToken = (req, { throwException = true } = {}) => {
+const getAccessToken = req => {
   const authorizationHeader = get(req, 'headers.authorization');
   if (!authorizationHeader) {
-    if (throwException) {
-      throw new Error('Not authorized. Please provide an authorization header.');
+    if (!req.query.app_key) {
+      throw new Error('Not authorized. Please provide an authorization header or an app_key.');
     } else {
       return;
     }
@@ -96,7 +96,7 @@ export async function invoice(req, res, next) {
   const accessToken = getAccessToken(req);
 
   try {
-    const invoice = await fetchInvoice(req.params.invoiceSlug, accessToken);
+    const invoice = await fetchInvoice(req.params.invoiceSlug, accessToken, req.query.app_key);
 
     return downloadInvoice(req, res, next, invoice);
   } catch (e) {
@@ -127,6 +127,7 @@ export async function invoiceByDateRange(req, res, next) {
     const invoice = await fetchInvoiceByDateRange(
       { fromCollectiveSlug, collectiveSlug, dateFrom, dateTo },
       accessToken,
+      req.query.app_key,
     );
     return downloadInvoice(req, res, next, invoice);
   } catch (e) {
@@ -141,9 +142,9 @@ export async function invoiceByDateRange(req, res, next) {
 }
 export async function transactionInvoice(req, res, next) {
   const { transactionUuid } = req.params;
-  const accessToken = getAccessToken(req, { throwException: false });
+  const accessToken = getAccessToken(req);
   try {
-    const invoice = await fetchTransactionInvoice(transactionUuid, accessToken);
+    const invoice = await fetchTransactionInvoice(transactionUuid, accessToken, req.query.app_key);
     return downloadInvoice(req, res, next, invoice);
   } catch (e) {
     logger.error('>>> transactions.transactionInvoice error', e.message);

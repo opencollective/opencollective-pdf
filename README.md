@@ -61,10 +61,11 @@ bridge between the two services.
 #### Calling URLs directly
 
 This method can be usefull to debug staging or production invoices, or to work
-with you local development data.
+with you local development data. It is also the best way if you need to make changes to
+the graphql queries.
 
-For this to work, you'll need to set the `Authorization` header with your token
-to identify your requests.
+The easier to make it work is to go to `/:your_profile/applications` on the frontend,
+generate an api key, and to add `?app_key=your_key_here` to all your requests.
 
 **Tips**
 

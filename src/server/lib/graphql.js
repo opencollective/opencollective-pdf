@@ -8,9 +8,9 @@ const getGraphqlUrl = () => {
   return `${baseApiUrl}/graphql${apiKey ? `?api_key=${apiKey}` : ''}`;
 };
 
-const getClient = accessToken => {
+const getClient = (accessToken, apiKey) => {
   return new GraphQLClient(getGraphqlUrl(), {
-    headers: { authorization: `Bearer ${accessToken}` },
+    headers: accessToken ? { authorization: `Bearer ${accessToken}` } : { 'Api-Key': apiKey },
   });
 };
 
@@ -78,7 +78,7 @@ const invoiceFields = gql`
   }
 `;
 
-export async function fetchInvoiceByDateRange(invoiceInputType, accessToken) {
+export async function fetchInvoiceByDateRange(invoiceInputType, accessToken, apiKey) {
   const query = gql`
     query InvoiceByDateRange($invoiceInputType: InvoiceInputType!) {
       InvoiceByDateRange(invoiceInputType: $invoiceInputType) {
@@ -88,11 +88,11 @@ export async function fetchInvoiceByDateRange(invoiceInputType, accessToken) {
 
     ${invoiceFields}
   `;
-  const client = getClient(accessToken);
+  const client = getClient(accessToken, apiKey);
   const result = await client.request(print(query), { invoiceInputType });
   return result.InvoiceByDateRange;
 }
-export async function fetchInvoice(invoiceSlug, accessToken) {
+export async function fetchInvoice(invoiceSlug, accessToken, apiKey) {
   const query = gql`
     query Invoice($invoiceSlug: String!) {
       Invoice(invoiceSlug: $invoiceSlug) {
@@ -102,12 +102,12 @@ export async function fetchInvoice(invoiceSlug, accessToken) {
 
     ${invoiceFields}
   `;
-  const client = getClient(accessToken);
+  const client = getClient(accessToken, apiKey);
   const result = await client.request(print(query), { invoiceSlug });
   return result.Invoice;
 }
 
-export async function fetchTransactionInvoice(transactionUuid, accessToken) {
+export async function fetchTransactionInvoice(transactionUuid, accessToken, apiKey) {
   const query = gql`
     query TransactionInvoice($transactionUuid: String!) {
       TransactionInvoice(transactionUuid: $transactionUuid) {
@@ -118,7 +118,7 @@ export async function fetchTransactionInvoice(transactionUuid, accessToken) {
     ${invoiceFields}
   `;
 
-  const client = getClient(accessToken);
+  const client = getClient(accessToken, apiKey);
   const result = await client.request(print(query), { transactionUuid });
   return result.TransactionInvoice;
 }
