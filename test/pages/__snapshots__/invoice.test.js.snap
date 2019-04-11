@@ -427,7 +427,9 @@ USA
           <h2
             className="-Clean-h2 c8"
           >
-            Donation Receipt
+            <span>
+              Donation Receipt
+            </span>
           </h2>
           <div>
             <div
@@ -3601,7 +3603,9 @@ USA
           <h2
             className="-Clean-h2 c8"
           >
-            Donation Receipt
+            <span>
+              Donation Receipt
+            </span>
           </h2>
           <div
             className="detail"
@@ -4241,7 +4245,9 @@ USA
           <h2
             className="-Clean-h2 c8"
           >
-            Donation Receipt
+            <span>
+              Invoice
+            </span>
           </h2>
           <div
             className="detail"
@@ -4337,40 +4343,6 @@ USA
               >
                 <a
                   className="c4"
-                  href="https://opencollective.com/nerves-project"
-                >
-                  Donation to Nerves Project (TShirt)
-                </a>
-              </td>
-              <td
-                className="c18"
-                fontSize="Caption"
-              >
-                21
-                %
-              </td>
-              <td
-                className="c19"
-                fontSize="Paragraph"
-              >
-                $121.00
-              </td>
-            </tr>
-            <tr>
-              <td
-                className="c17"
-                fontSize="Caption"
-              >
-                <span>
-                  03/05/2019
-                </span>
-              </td>
-              <td
-                className="c17"
-                fontSize="Caption"
-              >
-                <a
-                  className="c4"
                   href="https://opencollective.com/boostnoteio"
                 >
                   Donation to Boostnote
@@ -4407,7 +4379,7 @@ USA
                   className="c4"
                   href="https://opencollective.com/nerves-project"
                 >
-                  Donation to Nerves Project (TShirt)
+                  Order for a swag (TShirt)
                 </a>
               </td>
               <td
@@ -4447,7 +4419,7 @@ USA
                 <span
                   className="-Clean-span c25"
                 >
-                  $99.00
+                  $120.00
                 </span>
               </div>
               <div
@@ -4459,7 +4431,7 @@ USA
                 <span
                   className="-Clean-span c25"
                 >
-                  $31.50
+                  $10.50
                 </span>
               </div>
             </div>
@@ -4951,7 +4923,9 @@ USA
           <h2
             className="-Clean-h2 c8"
           >
-            Donation Receipt
+            <span>
+              Donation Receipt
+            </span>
           </h2>
           <div>
             <div
