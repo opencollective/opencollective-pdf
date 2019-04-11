@@ -63,6 +63,7 @@ const downloadInvoice = async (req, res, next, invoice) => {
   const params = { invoice, pageFormat, debug, zoom };
 
   if (format === 'json') {
+    res.setHeader('content-type', 'application/json');
     res.send(invoice);
   } else if (format === 'html') {
     const html = await req.app.renderToHTML(req, res, '/invoice', params);
