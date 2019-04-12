@@ -6,7 +6,8 @@
   "env": {
     "API_KEY": "@opencollective_api_key",
     "API_URL": "https://api.opencollective.com",
-    "WEBSITE_URL": "https://opencollective.com"
+    "WEBSITE_URL": "https://opencollective.com",
+    "INVOICES_URL": "https://invoices.opencollective.com"
   },
   "scale": {
     "sfo1": {

@@ -101,13 +101,17 @@ export class InvoicePage extends React.Component {
    */
   chunkTransactions(invoice, transactions) {
     const baseNbOnFirstPage = 12;
-    const minNbOnFirstPage = 6;
-    const transactionsPerPage = 20;
+    const minNbOnFirstPage = 8;
+    const transactionsPerPage = 22;
 
+    // Estimate the space available
     const countLines = str => sumBy(str, c => c === '\n' || c === ',');
     const billFromAddressSize = countLines(get(invoice.host, 'location.address', ''));
     const billToAddressSize = countLines(get(invoice.fromCollective, 'location.address', ''));
-    const nbOnFirstPage = max([minNbOnFirstPage, baseNbOnFirstPage - (billFromAddressSize + billToAddressSize)]);
+    const maxNbOnFirstPage = max([minNbOnFirstPage, baseNbOnFirstPage - (billFromAddressSize + billToAddressSize)]);
+
+    // If we don't need to put the logo on first page then let's use all the space available
+    const nbOnFirstPage = transactions.length > baseNbOnFirstPage ? baseNbOnFirstPage : maxNbOnFirstPage;
 
     return [
       transactions.slice(0, nbOnFirstPage),
@@ -287,7 +291,12 @@ export class InvoicePage extends React.Component {
               width: ${this.getPageWith()};
               padding: 0;
               margin: 0;
-              font-family: sans-serif;
+              /**
+               * The 'Inter UI' must be installed on the machine. We copy the files
+               * in Dockerfile to ensure that they are properly installed in production.
+               * See https://github.com/marcbachmann/node-html-pdf/issues/430
+               */
+              font-family: 'Inter UI', 'Inter-UI', DejaVuSans, sans-serif;
               font-weight: normal;
               font-size: 12px;
               line-height: 1.5;

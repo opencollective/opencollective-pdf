@@ -68,7 +68,7 @@ export default class Home extends Component {
   renderFormats(slug) {
     const queryString = objectToQueryString({
       pageFormat: this.props.pageFormat,
-      debug: this.props.debug ? 'true' : 'false',
+      debug: this.props.debug,
     });
 
     return (
