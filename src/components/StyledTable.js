@@ -11,8 +11,8 @@ export const Td = styled.td`
 
 Td.defaultProps = {
   fontSize: 'Paragraph',
-  px: 3,
-  py: 12,
+  px: '16px',
+  py: '10px',
 };
 
 export const Tr = styled.tr`
