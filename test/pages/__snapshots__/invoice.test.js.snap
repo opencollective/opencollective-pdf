@@ -327,7 +327,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
 .c7 {
   box-sizing: border-box;
   margin-top: 80px;
-  text-align: right;
+  padding-right: 16px;
   min-height: 100px;
 }
 
@@ -3494,7 +3494,7 @@ exports[`Single transaction invoice simple transaction 1`] = `
 .c7 {
   box-sizing: border-box;
   margin-top: 80px;
-  text-align: right;
+  padding-right: 16px;
   min-height: 100px;
 }
 
@@ -4136,7 +4136,7 @@ exports[`Single transaction invoice with taxes 1`] = `
 .c7 {
   box-sizing: border-box;
   margin-top: 80px;
-  text-align: right;
+  padding-right: 16px;
   min-height: 100px;
 }
 
@@ -4823,7 +4823,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
 .c7 {
   box-sizing: border-box;
   margin-top: 80px;
-  text-align: right;
+  padding-right: 16px;
   min-height: 100px;
 }
 

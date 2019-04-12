@@ -334,7 +334,7 @@ export class InvoicePage extends React.Component {
                         https://opencollective.com/{invoice.host.slug}
                       </StyledLink>
                     </Box>
-                    <Box mt={80} css={{ textAlign: 'right', minHeight: 100 }}>
+                    <Box mt={80} pr={3} css={{ minHeight: 100 }}>
                       <H2>
                         <FormattedMessage id="billTo" defaultMessage="Bill to" />
                       </H2>
