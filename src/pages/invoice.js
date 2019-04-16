@@ -105,7 +105,7 @@ export class InvoicePage extends React.Component {
     const transactionsPerPage = 22;
 
     // Estimate the space available
-    const countLines = str => sumBy(str, c => c === '\n' || c === ',');
+    const countLines = str => sumBy(str, c => c === '\n');
     const billFromAddressSize = countLines(get(invoice.host, 'location.address', ''));
     const billToAddressSize = countLines(get(invoice.fromCollective, 'location.address', ''));
     const maxNbOnFirstPage = max([minNbOnFirstPage, baseNbOnFirstPage - (billFromAddressSize + billToAddressSize)]);
@@ -202,7 +202,7 @@ export class InvoicePage extends React.Component {
     return (
       <React.Fragment>
         {address &&
-          address.split(/,|\n/).map((addressPart, idx) => (
+          address.split('\n').map((addressPart, idx) => (
             <span key={idx}>
               {addressPart.trim()}
               <br />
