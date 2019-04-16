@@ -174,18 +174,7 @@ export class InvoicePage extends React.Component {
       transactionDescription
     ) : (
       <div>
-        <FormattedMessage
-          id="transaction.description.giftCard"
-          defaultMessage="{description} by {fromCollectiveLink}"
-          values={{
-            description: transactionDescription,
-            fromCollectiveLink: (
-              <LinkToCollective
-                collective={transaction.type === 'CREDIT' ? transaction.fromCollective : transaction.collective}
-              />
-            ),
-          }}
-        />
+        <LinkToCollective collective={targetCollective}>{transactionDescription}</LinkToCollective>
         <Image src={GiftCardImgSrc} alt=" | " height="1em" mx={2} css={{ verticalAlign: 'middle' }} />
       </div>
     );
