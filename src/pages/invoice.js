@@ -5,8 +5,6 @@ import { get, chunk, sumBy, max, uniq, isNil, groupBy } from 'lodash';
 import { Box, Flex, Image } from 'rebass';
 import moment from 'moment';
 
-import { countries as countriesEN } from 'i18n-iso-countries/langs/en.json';
-
 import { formatCurrency, imagePreview } from '../lib/utils';
 import withIntl from '../lib/withIntl';
 import { H1, H2, P, Span } from '../components/Text';
@@ -17,6 +15,7 @@ import StyledLink from '../components/StyledLink';
 import LinkToCollective from '../components/LinkToCollective';
 
 import GiftCardImgSrc from '../static/images/giftcard.png';
+import CollectiveAddress from '../components/CollectiveAddress';
 
 const baseUrl = 'https://opencollective.com';
 
@@ -220,26 +219,6 @@ export class InvoicePage extends React.Component {
     );
   }
 
-  /** Pretty render a location (multiline) */
-  renderLocation(collective) {
-    const address = get(collective, 'location.address');
-    const countryISO = get(collective, 'location.country');
-    const country = countryISO && (countriesEN[countryISO] || countryISO);
-
-    return (
-      <React.Fragment>
-        {address &&
-          address.split('\n').map((addressPart, idx) => (
-            <span key={idx}>
-              {addressPart.trim()}
-              <br />
-            </span>
-          ))}
-        {country}
-      </React.Fragment>
-    );
-  }
-
   renderTransactionsTable(transactions) {
     return (
       <table style={{ borderCollapse: 'collapse', width: '100%' }}>
@@ -377,7 +356,9 @@ export class InvoicePage extends React.Component {
                           {invoice.host.name}
                         </H1>
                       </StyledLink>
-                      <Box my={2}>{this.renderLocation(invoice.host)}</Box>
+                      <Box my={2}>
+                        <CollectiveAddress collective={invoice.host} />
+                      </Box>
                       <StyledLink href={`https://opencollective.com/${invoice.host.slug}`} className="website">
                         https://opencollective.com/{invoice.host.slug}
                       </StyledLink>
@@ -390,7 +371,7 @@ export class InvoicePage extends React.Component {
                         <P fontWeight={500} fontSize="LeadParagraph">
                           {invoice.fromCollective.name}
                         </P>
-                        {this.renderLocation(invoice.fromCollective)}
+                        <CollectiveAddress collective={invoice.fromCollective} />
                         {this.renderTaxIdNumbers()}
                       </Box>
                     </Box>
@@ -471,7 +452,7 @@ export class InvoicePage extends React.Component {
                       {invoice.host.name}
                     </P>
                     <P mt={2} textAlign="center" color="black.600">
-                      {this.renderLocation(invoice.host)}
+                      <CollectiveAddress collective={invoice.host} />
                     </P>
                   </Box>
                 </Flex>
