@@ -35,8 +35,8 @@ const invoiceFields = gql`
       location {
         name
         address
+        country
       }
-      countryISO
     }
     fromCollective {
       id
@@ -47,8 +47,8 @@ const invoiceFields = gql`
       location {
         name
         address
+        country
       }
-      countryISO
     }
     transactions {
       id
@@ -81,6 +81,7 @@ const invoiceFields = gql`
       ... on Order {
         order {
           id
+          quantity
           tier {
             id
             type

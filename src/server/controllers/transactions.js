@@ -48,6 +48,7 @@ const sanitizeHtml = html => {
     allowedSchemes: ['https', 'data'],
     allowedAttributes: Object.assign(sanitizeHtmlLib.defaults.allowedAttributes, {
       '*': ['style', 'class'],
+      td: ['width'],
     }),
   });
 };
