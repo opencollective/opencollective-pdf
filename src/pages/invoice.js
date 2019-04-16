@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedDate, FormattedMessage } from 'react-intl';
-import { get, chunk, sumBy, max, uniq, isNil } from 'lodash';
+import { get, chunk, sumBy, max, uniq, isNil, groupBy } from 'lodash';
 import { Box, Flex, Image } from 'rebass';
 import moment from 'moment';
 
@@ -159,19 +159,46 @@ export class InvoicePage extends React.Component {
     return uniq(taxIdNumbers).map(number => <P key={number}>{number}</P>);
   }
 
+  getTransactionAmount(transaction) {
+    return transaction.type === 'CREDIT' ? transaction.amount : transaction.netAmountInCollectiveCurrency * -1;
+  }
+
   getTaxPercent(transaction) {
     if (!transaction.taxAmount) {
       return 0;
     }
 
-    const amount = transaction.type === 'CREDIT' ? transaction.amount : transaction.netAmountInCollectiveCurrency * -1;
+    // Try to get it from the order
+    const percent = get(transaction, 'order.data.tax.percentage');
+    if (percent) {
+      return percent;
+    }
+
+    // Calculate from amount
+    const amount = this.getTransactionAmount(transaction);
     return (transaction.taxAmount / (amount - transaction.taxAmount)) * 100;
   }
 
-  /** Get amount in host currency for transaction */
-  renderTransactionAmountInHostCurrency(transaction) {
-    const amount = transaction.type === 'CREDIT' ? transaction.amount : transaction.netAmountInCollectiveCurrency * -1;
-    return formatCurrency(amount, transaction.hostCurrency);
+  /**
+   * Get a list of taxes
+   * @returns {Array} like [{ key: 'VAT-21', id: 'VAT', percentage: 21, amount: 42 }]
+   */
+  getTaxesBreakdown() {
+    // Get all transactions that have at least a tax amount or a tax ID
+    const transactionsWithTax = this.props.invoice.transactions.filter(t => {
+      return t.taxAmount || get(t, 'order.data.tax.id');
+    });
+
+    const groupedTransactions = groupBy(transactionsWithTax, t => {
+      return `${get(t, 'order.data.tax.id', 'Tax')}-${this.getTaxPercent(t)}`;
+    });
+
+    return Object.keys(groupedTransactions).map(key => ({
+      id: get(groupedTransactions[key][0], 'order.data.tax.id', 'Tax'),
+      percentage: this.getTaxPercent(groupedTransactions[key][0]),
+      amount: groupedTransactions[key].reduce((total, t) => total + t.taxAmount, 0),
+      key,
+    }));
   }
 
   /** Get a description for transaction, with a mention to virtual card emitter if necessary */
@@ -187,8 +214,8 @@ export class InvoicePage extends React.Component {
       transactionDescription
     ) : (
       <div>
+        <Image src={GiftCardImgSrc} alt="" height="1em" mr={1} css={{ verticalAlign: 'middle' }} />
         <LinkToCollective collective={targetCollective}>{transactionDescription}</LinkToCollective>
-        <Image src={GiftCardImgSrc} alt=" | " height="1em" mx={2} css={{ verticalAlign: 'middle' }} />
       </div>
     );
   }
@@ -225,15 +252,26 @@ export class InvoicePage extends React.Component {
               <FormattedMessage id="description" defaultMessage="Description" />
             </Td>
             <Td fontSize="LeadParagraph" fontWeight={500} textAlign="center">
+              <FormattedMessage id="quantity" defaultMessage="QTY" />
+            </Td>
+            <Td fontSize="LeadParagraph" fontWeight={500} textAlign="center" width={80}>
+              <FormattedMessage id="unitNetPrice" defaultMessage="Unit Price" />
+            </Td>
+            <Td fontSize="LeadParagraph" fontWeight={500} textAlign="center">
               <FormattedMessage id="taxPercent" defaultMessage="Tax&nbsp;%" />
             </Td>
             <Td fontSize="LeadParagraph" fontWeight={500} textAlign="right" borderRadius="0 4px 4px 0">
-              <FormattedMessage id="total" defaultMessage="Total" />
+              <FormattedMessage id="netAmount" defaultMessage="Net Amount" />
             </Td>
           </Tr>
         </thead>
         <tbody>
           {transactions.map(transaction => {
+            const quantity = get(transaction, 'order.quantity') || 1;
+            const amount = this.getTransactionAmount(transaction);
+            const taxAmount = transaction.taxAmount || 0;
+            const unitGrossPrice = (amount - taxAmount) / quantity;
+
             return (
               <tr key={transaction.id}>
                 <Td fontSize="Caption">
@@ -241,9 +279,15 @@ export class InvoicePage extends React.Component {
                 </Td>
                 <Td fontSize="Caption">{this.transactionDescription(transaction)}</Td>
                 <Td fontSize="Caption" textAlign="center">
-                  {this.getTaxPercent(transaction)}%
+                  {quantity}
                 </Td>
-                <Td textAlign="right">{this.renderTransactionAmountInHostCurrency(transaction)}</Td>
+                <Td fontSize="Caption" textAlign="center">
+                  {formatCurrency(unitGrossPrice, transaction.currency)}
+                </Td>
+                <Td fontSize="Caption" textAlign="center">
+                  {isNil(transaction.taxAmount) ? '-' : `${this.getTaxPercent(transaction)}%`}
+                </Td>
+                <Td textAlign="right">{formatCurrency(amount, transaction.hostCurrency)}</Td>
               </tr>
             );
           })}
@@ -378,10 +422,24 @@ export class InvoicePage extends React.Component {
                             {formatCurrency(invoice.totalAmount - taxesTotal, invoice.currency)}
                           </Span>
                         </Flex>
-                        <Flex justifyContent="space-between" mt={2}>
-                          <FormattedMessage id="taxes" defaultMessage="VAT" />
-                          <Span fontWeight="bold">{formatCurrency(taxesTotal, invoice.currency)}</Span>
-                        </Flex>
+                        {this.getTaxesBreakdown().map(({ key, id, percentage, amount }) => (
+                          <Flex key={key} justifyContent="space-between" mt={2}>
+                            {id === 'VAT' ? (
+                              <FormattedMessage
+                                id="invoice.vatPercent"
+                                defaultMessage="VAT {percentage}%"
+                                values={{ percentage }}
+                              />
+                            ) : (
+                              <FormattedMessage
+                                id="invoice.taxPercent"
+                                defaultMessage="Tax {percentage}%"
+                                values={{ percentage }}
+                              />
+                            )}
+                            <Span fontWeight="bold">{formatCurrency(amount, invoice.currency)}</Span>
+                          </Flex>
+                        ))}
                       </Box>
                       <Container
                         display="flex"
@@ -391,7 +449,7 @@ export class InvoicePage extends React.Component {
                         background="#ebf4ff"
                         fontWeight="bold"
                       >
-                        <FormattedMessage id="total" defaultMessage="Total" />
+                        <FormattedMessage id="total" defaultMessage="TOTAL" />
                         <Span>{formatCurrency(invoice.totalAmount, invoice.currency)}</Span>
                       </Container>
                     </Container>

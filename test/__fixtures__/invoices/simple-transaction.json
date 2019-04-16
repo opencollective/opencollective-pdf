@@ -30,7 +30,7 @@
     "currency": "USD",
     "location": {
       "name": "France",
-      "address": "98 avenue Gabriel Péri, 92230 Gennevilliers"
+      "address": "98 avenue Gabriel Péri\n92230 Gennevilliers"
     },
     "countryISO": "FR"
   },

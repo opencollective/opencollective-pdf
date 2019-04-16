@@ -61,20 +61,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
   justify-content: space-between;
 }
 
-.c27 {
-  box-sizing: border-box;
-  margin-top: 8px;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-  -ms-flex-pack: justify;
-  justify-content: space-between;
-}
-
-.c30 {
+.c29 {
   box-sizing: border-box;
   display: -webkit-box;
   display: -webkit-flex;
@@ -101,7 +88,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
   margin: 0;
 }
 
-.c33 {
+.c32 {
   font-size: 12px;
   font-weight: bold;
   line-height: 16px;
@@ -113,7 +100,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
   text-align: center;
 }
 
-.c34 {
+.c33 {
   color: #76777A;
   font-size: 12px;
   line-height: 16px;
@@ -137,7 +124,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
   margin: 0;
 }
 
-.c29 {
+.c28 {
   font-size: inherit;
   line-height: inherit;
   -webkit-letter-spacing: 0.025em;
@@ -254,7 +241,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
   width: 50%;
 }
 
-.c28 {
+.c27 {
   background: #ebf4ff;
   display: -webkit-box;
   display: -webkit-flex;
@@ -271,7 +258,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
   padding-right: 16px;
 }
 
-.c31 {
+.c30 {
   border-color: #C4C7CC;
   border-right: 1px solid;
   border-color: #C4C7CC;
@@ -294,8 +281,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
 .c18 {
   box-sizing: border-box;
   margin: 0px;
-  margin-left: 8px;
-  margin-right: 8px;
+  margin-right: 4px;
   max-width: 100%;
   height: auto;
   height: 1em;
@@ -340,7 +326,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
   flex-grow: 1;
 }
 
-.c32 {
+.c31 {
   box-sizing: border-box;
   margin: 0px;
   max-width: 100%;
@@ -381,14 +367,19 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
               className="c6"
             >
               <span>
-                EIN 82-2037583 
-340 S LEMON AVE #3717
-Walnut
+                EIN 82-2037583
                 <br />
               </span>
               <span>
-                CA 91789
-USA
+                340 S LEMON AVE #3717
+                <br />
+              </span>
+              <span>
+                Walnut, CA 91789
+                <br />
+              </span>
+              <span>
+                USA
                 <br />
               </span>
             </div>
@@ -508,6 +499,25 @@ USA
                 fontWeight={500}
               >
                 <span>
+                  QTY
+                </span>
+              </td>
+              <td
+                className="c15"
+                fontSize="LeadParagraph"
+                fontWeight={500}
+                width={80}
+              >
+                <span>
+                  Unit Price
+                </span>
+              </td>
+              <td
+                className="c15"
+                fontSize="LeadParagraph"
+                fontWeight={500}
+              >
+                <span>
                   Tax %
                 </span>
               </td>
@@ -517,7 +527,7 @@ USA
                 fontWeight={500}
               >
                 <span>
-                  Total
+                  Net Amount
                 </span>
               </td>
             </tr>
@@ -537,6 +547,12 @@ USA
                 fontSize="Caption"
               >
                 <div>
+                  <img
+                    alt=""
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
                   <a
                     className="c4"
                     href="https://opencollective.com/babel"
@@ -548,20 +564,25 @@ USA
                       Monthly donation to Babel (Backers)
                     </a>
                   </a>
-                  <img
-                    alt=" | "
-                    className="c18"
-                    height="1em"
-                    src="[IMAGE_URL]"
-                  />
                 </div>
               </td>
               <td
                 className="c19"
                 fontSize="Caption"
               >
-                0
-                %
+                1
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                $25.00
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                -
               </td>
               <td
                 className="c20"
@@ -584,6 +605,12 @@ USA
                 fontSize="Caption"
               >
                 <div>
+                  <img
+                    alt=""
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
                   <a
                     className="c4"
                     href="https://opencollective.com/aureliaz"
@@ -595,20 +622,25 @@ USA
                       Monthly donation to Aurelia (Wood)
                     </a>
                   </a>
-                  <img
-                    alt=" | "
-                    className="c18"
-                    height="1em"
-                    src="[IMAGE_URL]"
-                  />
                 </div>
               </td>
               <td
                 className="c19"
                 fontSize="Caption"
               >
-                0
-                %
+                1
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                $5.00
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                -
               </td>
               <td
                 className="c20"
@@ -631,6 +663,12 @@ USA
                 fontSize="Caption"
               >
                 <div>
+                  <img
+                    alt=""
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
                   <a
                     className="c4"
                     href="https://opencollective.com/babel"
@@ -642,20 +680,25 @@ USA
                       Monthly donation to Babel (Backers)
                     </a>
                   </a>
-                  <img
-                    alt=" | "
-                    className="c18"
-                    height="1em"
-                    src="[IMAGE_URL]"
-                  />
                 </div>
               </td>
               <td
                 className="c19"
                 fontSize="Caption"
               >
-                0
-                %
+                1
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                $10.00
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                -
               </td>
               <td
                 className="c20"
@@ -678,6 +721,12 @@ USA
                 fontSize="Caption"
               >
                 <div>
+                  <img
+                    alt=""
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
                   <a
                     className="c4"
                     href="https://opencollective.com/beaker"
@@ -689,20 +738,25 @@ USA
                       Monthly donation to Beaker Browser (Backers)
                     </a>
                   </a>
-                  <img
-                    alt=" | "
-                    className="c18"
-                    height="1em"
-                    src="[IMAGE_URL]"
-                  />
                 </div>
               </td>
               <td
                 className="c19"
                 fontSize="Caption"
               >
-                0
-                %
+                1
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                $5.00
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                -
               </td>
               <td
                 className="c20"
@@ -725,6 +779,12 @@ USA
                 fontSize="Caption"
               >
                 <div>
+                  <img
+                    alt=""
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
                   <a
                     className="c4"
                     href="https://opencollective.com/babel"
@@ -736,20 +796,25 @@ USA
                       Monthly donation to Babel (Backers)
                     </a>
                   </a>
-                  <img
-                    alt=" | "
-                    className="c18"
-                    height="1em"
-                    src="[IMAGE_URL]"
-                  />
                 </div>
               </td>
               <td
                 className="c19"
                 fontSize="Caption"
               >
-                0
-                %
+                1
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                $2.00
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                -
               </td>
               <td
                 className="c20"
@@ -772,6 +837,12 @@ USA
                 fontSize="Caption"
               >
                 <div>
+                  <img
+                    alt=""
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
                   <a
                     className="c4"
                     href="https://opencollective.com/babel"
@@ -783,20 +854,25 @@ USA
                       Monthly donation to Babel (Backers)
                     </a>
                   </a>
-                  <img
-                    alt=" | "
-                    className="c18"
-                    height="1em"
-                    src="[IMAGE_URL]"
-                  />
                 </div>
               </td>
               <td
                 className="c19"
                 fontSize="Caption"
               >
-                0
-                %
+                1
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                $2.00
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                -
               </td>
               <td
                 className="c20"
@@ -819,6 +895,12 @@ USA
                 fontSize="Caption"
               >
                 <div>
+                  <img
+                    alt=""
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
                   <a
                     className="c4"
                     href="https://opencollective.com/react-native-camera"
@@ -830,20 +912,25 @@ USA
                       Monthly donation to react-native-camera (Backers)
                     </a>
                   </a>
-                  <img
-                    alt=" | "
-                    className="c18"
-                    height="1em"
-                    src="[IMAGE_URL]"
-                  />
                 </div>
               </td>
               <td
                 className="c19"
                 fontSize="Caption"
               >
-                0
-                %
+                1
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                $2.00
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                -
               </td>
               <td
                 className="c20"
@@ -866,6 +953,12 @@ USA
                 fontSize="Caption"
               >
                 <div>
+                  <img
+                    alt=""
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
                   <a
                     className="c4"
                     href="https://opencollective.com/babel"
@@ -877,20 +970,25 @@ USA
                       Monthly donation to Babel (Backers)
                     </a>
                   </a>
-                  <img
-                    alt=" | "
-                    className="c18"
-                    height="1em"
-                    src="[IMAGE_URL]"
-                  />
                 </div>
               </td>
               <td
                 className="c19"
                 fontSize="Caption"
               >
-                0
-                %
+                1
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                $10.00
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                -
               </td>
               <td
                 className="c20"
@@ -913,6 +1011,12 @@ USA
                 fontSize="Caption"
               >
                 <div>
+                  <img
+                    alt=""
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
                   <a
                     className="c4"
                     href="https://opencollective.com/curl"
@@ -924,20 +1028,25 @@ USA
                       Monthly donation to curl (backer)
                     </a>
                   </a>
-                  <img
-                    alt=" | "
-                    className="c18"
-                    height="1em"
-                    src="[IMAGE_URL]"
-                  />
                 </div>
               </td>
               <td
                 className="c19"
                 fontSize="Caption"
               >
-                0
-                %
+                1
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                $5.00
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                -
               </td>
               <td
                 className="c20"
@@ -960,6 +1069,12 @@ USA
                 fontSize="Caption"
               >
                 <div>
+                  <img
+                    alt=""
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
                   <a
                     className="c4"
                     href="https://opencollective.com/tessel"
@@ -971,20 +1086,25 @@ USA
                       Monthly donation to Tessel (Backers)
                     </a>
                   </a>
-                  <img
-                    alt=" | "
-                    className="c18"
-                    height="1em"
-                    src="[IMAGE_URL]"
-                  />
                 </div>
               </td>
               <td
                 className="c19"
                 fontSize="Caption"
               >
-                0
-                %
+                1
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                $10.00
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                -
               </td>
               <td
                 className="c20"
@@ -1007,6 +1127,12 @@ USA
                 fontSize="Caption"
               >
                 <div>
+                  <img
+                    alt=""
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
                   <a
                     className="c4"
                     href="https://opencollective.com/curl"
@@ -1018,20 +1144,25 @@ USA
                       Monthly donation to curl (backer)
                     </a>
                   </a>
-                  <img
-                    alt=" | "
-                    className="c18"
-                    height="1em"
-                    src="[IMAGE_URL]"
-                  />
                 </div>
               </td>
               <td
                 className="c19"
                 fontSize="Caption"
               >
-                0
-                %
+                1
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                $5.00
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                -
               </td>
               <td
                 className="c20"
@@ -1054,6 +1185,12 @@ USA
                 fontSize="Caption"
               >
                 <div>
+                  <img
+                    alt=""
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
                   <a
                     className="c4"
                     href="https://opencollective.com/nock"
@@ -1065,20 +1202,25 @@ USA
                       Monthly donation to nock (Backer)
                     </a>
                   </a>
-                  <img
-                    alt=" | "
-                    className="c18"
-                    height="1em"
-                    src="[IMAGE_URL]"
-                  />
                 </div>
               </td>
               <td
                 className="c19"
                 fontSize="Caption"
               >
-                0
-                %
+                1
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                $1.00
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                -
               </td>
               <td
                 className="c20"
@@ -1134,6 +1276,25 @@ USA
                 fontWeight={500}
               >
                 <span>
+                  QTY
+                </span>
+              </td>
+              <td
+                className="c15"
+                fontSize="LeadParagraph"
+                fontWeight={500}
+                width={80}
+              >
+                <span>
+                  Unit Price
+                </span>
+              </td>
+              <td
+                className="c15"
+                fontSize="LeadParagraph"
+                fontWeight={500}
+              >
+                <span>
                   Tax %
                 </span>
               </td>
@@ -1143,7 +1304,7 @@ USA
                 fontWeight={500}
               >
                 <span>
-                  Total
+                  Net Amount
                 </span>
               </td>
             </tr>
@@ -1163,6 +1324,12 @@ USA
                 fontSize="Caption"
               >
                 <div>
+                  <img
+                    alt=""
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
                   <a
                     className="c4"
                     href="https://opencollective.com/pug"
@@ -1174,20 +1341,25 @@ USA
                       Monthly donation to pug (Backers)
                     </a>
                   </a>
-                  <img
-                    alt=" | "
-                    className="c18"
-                    height="1em"
-                    src="[IMAGE_URL]"
-                  />
                 </div>
               </td>
               <td
                 className="c19"
                 fontSize="Caption"
               >
-                0
-                %
+                1
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                $2.00
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                -
               </td>
               <td
                 className="c20"
@@ -1210,6 +1382,12 @@ USA
                 fontSize="Caption"
               >
                 <div>
+                  <img
+                    alt=""
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
                   <a
                     className="c4"
                     href="https://opencollective.com/babel"
@@ -1221,20 +1399,25 @@ USA
                       Monthly donation to Babel (Backers)
                     </a>
                   </a>
-                  <img
-                    alt=" | "
-                    className="c18"
-                    height="1em"
-                    src="[IMAGE_URL]"
-                  />
                 </div>
               </td>
               <td
                 className="c19"
                 fontSize="Caption"
               >
-                0
-                %
+                1
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                $2.00
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                -
               </td>
               <td
                 className="c20"
@@ -1257,6 +1440,12 @@ USA
                 fontSize="Caption"
               >
                 <div>
+                  <img
+                    alt=""
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
                   <a
                     className="c4"
                     href="https://opencollective.com/mongoose"
@@ -1268,20 +1457,25 @@ USA
                       Monthly donation to Mongoose.js (backer)
                     </a>
                   </a>
-                  <img
-                    alt=" | "
-                    className="c18"
-                    height="1em"
-                    src="[IMAGE_URL]"
-                  />
                 </div>
               </td>
               <td
                 className="c19"
                 fontSize="Caption"
               >
-                0
-                %
+                1
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                $2.00
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                -
               </td>
               <td
                 className="c20"
@@ -1304,6 +1498,12 @@ USA
                 fontSize="Caption"
               >
                 <div>
+                  <img
+                    alt=""
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
                   <a
                     className="c4"
                     href="https://opencollective.com/mochajs"
@@ -1315,20 +1515,25 @@ USA
                       Monthly donation to MochaJS (Backers)
                     </a>
                   </a>
-                  <img
-                    alt=" | "
-                    className="c18"
-                    height="1em"
-                    src="[IMAGE_URL]"
-                  />
                 </div>
               </td>
               <td
                 className="c19"
                 fontSize="Caption"
               >
-                0
-                %
+                1
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                $2.00
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                -
               </td>
               <td
                 className="c20"
@@ -1351,6 +1556,12 @@ USA
                 fontSize="Caption"
               >
                 <div>
+                  <img
+                    alt=""
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
                   <a
                     className="c4"
                     href="https://opencollective.com/vuejs"
@@ -1362,20 +1573,25 @@ USA
                       Monthly donation to vue (Backers)
                     </a>
                   </a>
-                  <img
-                    alt=" | "
-                    className="c18"
-                    height="1em"
-                    src="[IMAGE_URL]"
-                  />
                 </div>
               </td>
               <td
                 className="c19"
                 fontSize="Caption"
               >
-                0
-                %
+                1
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                $25.00
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                -
               </td>
               <td
                 className="c20"
@@ -1398,6 +1614,12 @@ USA
                 fontSize="Caption"
               >
                 <div>
+                  <img
+                    alt=""
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
                   <a
                     className="c4"
                     href="https://opencollective.com/babel"
@@ -1409,20 +1631,25 @@ USA
                       Monthly donation to Babel (Backers)
                     </a>
                   </a>
-                  <img
-                    alt=" | "
-                    className="c18"
-                    height="1em"
-                    src="[IMAGE_URL]"
-                  />
                 </div>
               </td>
               <td
                 className="c19"
                 fontSize="Caption"
               >
-                0
-                %
+                1
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                $2.00
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                -
               </td>
               <td
                 className="c20"
@@ -1445,6 +1672,12 @@ USA
                 fontSize="Caption"
               >
                 <div>
+                  <img
+                    alt=""
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
                   <a
                     className="c4"
                     href="https://opencollective.com/curl"
@@ -1456,20 +1689,25 @@ USA
                       Monthly donation to curl (backer)
                     </a>
                   </a>
-                  <img
-                    alt=" | "
-                    className="c18"
-                    height="1em"
-                    src="[IMAGE_URL]"
-                  />
                 </div>
               </td>
               <td
                 className="c19"
                 fontSize="Caption"
               >
-                0
-                %
+                1
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                $5.00
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                -
               </td>
               <td
                 className="c20"
@@ -1492,6 +1730,12 @@ USA
                 fontSize="Caption"
               >
                 <div>
+                  <img
+                    alt=""
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
                   <a
                     className="c4"
                     href="https://opencollective.com/mochajs"
@@ -1503,20 +1747,25 @@ USA
                       Monthly donation to MochaJS (Backers)
                     </a>
                   </a>
-                  <img
-                    alt=" | "
-                    className="c18"
-                    height="1em"
-                    src="[IMAGE_URL]"
-                  />
                 </div>
               </td>
               <td
                 className="c19"
                 fontSize="Caption"
               >
-                0
-                %
+                1
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                $2.00
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                -
               </td>
               <td
                 className="c20"
@@ -1539,6 +1788,12 @@ USA
                 fontSize="Caption"
               >
                 <div>
+                  <img
+                    alt=""
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
                   <a
                     className="c4"
                     href="https://opencollective.com/parcel"
@@ -1550,20 +1805,25 @@ USA
                       Monthly donation to Parcel (Backer)
                     </a>
                   </a>
-                  <img
-                    alt=" | "
-                    className="c18"
-                    height="1em"
-                    src="[IMAGE_URL]"
-                  />
                 </div>
               </td>
               <td
                 className="c19"
                 fontSize="Caption"
               >
-                0
-                %
+                1
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                $2.00
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                -
               </td>
               <td
                 className="c20"
@@ -1586,6 +1846,12 @@ USA
                 fontSize="Caption"
               >
                 <div>
+                  <img
+                    alt=""
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
                   <a
                     className="c4"
                     href="https://opencollective.com/webpack"
@@ -1597,20 +1863,25 @@ USA
                       Monthly donation to webpack (Backer)
                     </a>
                   </a>
-                  <img
-                    alt=" | "
-                    className="c18"
-                    height="1em"
-                    src="[IMAGE_URL]"
-                  />
                 </div>
               </td>
               <td
                 className="c19"
                 fontSize="Caption"
               >
-                0
-                %
+                1
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                $10.00
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                -
               </td>
               <td
                 className="c20"
@@ -1633,6 +1904,12 @@ USA
                 fontSize="Caption"
               >
                 <div>
+                  <img
+                    alt=""
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
                   <a
                     className="c4"
                     href="https://opencollective.com/babel"
@@ -1644,20 +1921,25 @@ USA
                       Monthly donation to Babel (Backers)
                     </a>
                   </a>
-                  <img
-                    alt=" | "
-                    className="c18"
-                    height="1em"
-                    src="[IMAGE_URL]"
-                  />
                 </div>
               </td>
               <td
                 className="c19"
                 fontSize="Caption"
               >
-                0
-                %
+                1
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                $10.00
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                -
               </td>
               <td
                 className="c20"
@@ -1680,6 +1962,12 @@ USA
                 fontSize="Caption"
               >
                 <div>
+                  <img
+                    alt=""
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
                   <a
                     className="c4"
                     href="https://opencollective.com/babel"
@@ -1691,20 +1979,25 @@ USA
                       Monthly donation to Babel (Backers)
                     </a>
                   </a>
-                  <img
-                    alt=" | "
-                    className="c18"
-                    height="1em"
-                    src="[IMAGE_URL]"
-                  />
                 </div>
               </td>
               <td
                 className="c19"
                 fontSize="Caption"
               >
-                0
-                %
+                1
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                $2.00
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                -
               </td>
               <td
                 className="c20"
@@ -1727,6 +2020,12 @@ USA
                 fontSize="Caption"
               >
                 <div>
+                  <img
+                    alt=""
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
                   <a
                     className="c4"
                     href="https://opencollective.com/celery"
@@ -1738,20 +2037,25 @@ USA
                       Monthly donation to celery (backer)
                     </a>
                   </a>
-                  <img
-                    alt=" | "
-                    className="c18"
-                    height="1em"
-                    src="[IMAGE_URL]"
-                  />
                 </div>
               </td>
               <td
                 className="c19"
                 fontSize="Caption"
               >
-                0
-                %
+                1
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                $5.00
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                -
               </td>
               <td
                 className="c20"
@@ -1774,6 +2078,12 @@ USA
                 fontSize="Caption"
               >
                 <div>
+                  <img
+                    alt=""
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
                   <a
                     className="c4"
                     href="https://opencollective.com/webpack"
@@ -1785,20 +2095,25 @@ USA
                       Monthly donation to webpack (Backer)
                     </a>
                   </a>
-                  <img
-                    alt=" | "
-                    className="c18"
-                    height="1em"
-                    src="[IMAGE_URL]"
-                  />
                 </div>
               </td>
               <td
                 className="c19"
                 fontSize="Caption"
               >
-                0
-                %
+                1
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                $5.00
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                -
               </td>
               <td
                 className="c20"
@@ -1821,6 +2136,12 @@ USA
                 fontSize="Caption"
               >
                 <div>
+                  <img
+                    alt=""
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
                   <a
                     className="c4"
                     href="https://opencollective.com/vuejs"
@@ -1832,20 +2153,25 @@ USA
                       Monthly donation to vue (Backers)
                     </a>
                   </a>
-                  <img
-                    alt=" | "
-                    className="c18"
-                    height="1em"
-                    src="[IMAGE_URL]"
-                  />
                 </div>
               </td>
               <td
                 className="c19"
                 fontSize="Caption"
               >
-                0
-                %
+                1
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                $2.00
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                -
               </td>
               <td
                 className="c20"
@@ -1868,6 +2194,12 @@ USA
                 fontSize="Caption"
               >
                 <div>
+                  <img
+                    alt=""
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
                   <a
                     className="c4"
                     href="https://opencollective.com/vuejs"
@@ -1879,20 +2211,25 @@ USA
                       Monthly donation to vue (Backers)
                     </a>
                   </a>
-                  <img
-                    alt=" | "
-                    className="c18"
-                    height="1em"
-                    src="[IMAGE_URL]"
-                  />
                 </div>
               </td>
               <td
                 className="c19"
                 fontSize="Caption"
               >
-                0
-                %
+                1
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                $2.00
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                -
               </td>
               <td
                 className="c20"
@@ -1915,6 +2252,12 @@ USA
                 fontSize="Caption"
               >
                 <div>
+                  <img
+                    alt=""
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
                   <a
                     className="c4"
                     href="https://opencollective.com/babel"
@@ -1926,20 +2269,25 @@ USA
                       Monthly donation to Babel (Backers)
                     </a>
                   </a>
-                  <img
-                    alt=" | "
-                    className="c18"
-                    height="1em"
-                    src="[IMAGE_URL]"
-                  />
                 </div>
               </td>
               <td
                 className="c19"
                 fontSize="Caption"
               >
-                0
-                %
+                1
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                $8.00
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                -
               </td>
               <td
                 className="c20"
@@ -1962,6 +2310,12 @@ USA
                 fontSize="Caption"
               >
                 <div>
+                  <img
+                    alt=""
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
                   <a
                     className="c4"
                     href="https://opencollective.com/babel"
@@ -1973,20 +2327,25 @@ USA
                       Monthly donation to Babel (Backers)
                     </a>
                   </a>
-                  <img
-                    alt=" | "
-                    className="c18"
-                    height="1em"
-                    src="[IMAGE_URL]"
-                  />
                 </div>
               </td>
               <td
                 className="c19"
                 fontSize="Caption"
               >
-                0
-                %
+                1
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                $10.00
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                -
               </td>
               <td
                 className="c20"
@@ -2009,6 +2368,12 @@ USA
                 fontSize="Caption"
               >
                 <div>
+                  <img
+                    alt=""
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
                   <a
                     className="c4"
                     href="https://opencollective.com/styled-components"
@@ -2020,20 +2385,25 @@ USA
                       Monthly donation to styled-components (Backer)
                     </a>
                   </a>
-                  <img
-                    alt=" | "
-                    className="c18"
-                    height="1em"
-                    src="[IMAGE_URL]"
-                  />
                 </div>
               </td>
               <td
                 className="c19"
                 fontSize="Caption"
               >
-                0
-                %
+                1
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                $5.00
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                -
               </td>
               <td
                 className="c20"
@@ -2056,6 +2426,12 @@ USA
                 fontSize="Caption"
               >
                 <div>
+                  <img
+                    alt=""
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
                   <a
                     className="c4"
                     href="https://opencollective.com/babel"
@@ -2067,20 +2443,25 @@ USA
                       Monthly donation to Babel (Backers)
                     </a>
                   </a>
-                  <img
-                    alt=" | "
-                    className="c18"
-                    height="1em"
-                    src="[IMAGE_URL]"
-                  />
                 </div>
               </td>
               <td
                 className="c19"
                 fontSize="Caption"
               >
-                0
-                %
+                1
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                $25.00
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                -
               </td>
               <td
                 className="c20"
@@ -2103,6 +2484,12 @@ USA
                 fontSize="Caption"
               >
                 <div>
+                  <img
+                    alt=""
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
                   <a
                     className="c4"
                     href="https://opencollective.com/nuxtjs"
@@ -2114,20 +2501,25 @@ USA
                       Monthly donation to Nuxt.js (Backers)
                     </a>
                   </a>
-                  <img
-                    alt=" | "
-                    className="c18"
-                    height="1em"
-                    src="[IMAGE_URL]"
-                  />
                 </div>
               </td>
               <td
                 className="c19"
                 fontSize="Caption"
               >
-                0
-                %
+                1
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                $25.00
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                -
               </td>
               <td
                 className="c20"
@@ -2150,6 +2542,12 @@ USA
                 fontSize="Caption"
               >
                 <div>
+                  <img
+                    alt=""
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
                   <a
                     className="c4"
                     href="https://opencollective.com/nodemon"
@@ -2161,20 +2559,25 @@ USA
                       Monthly donation to nodemon (backer)
                     </a>
                   </a>
-                  <img
-                    alt=" | "
-                    className="c18"
-                    height="1em"
-                    src="[IMAGE_URL]"
-                  />
                 </div>
               </td>
               <td
                 className="c19"
                 fontSize="Caption"
               >
-                0
-                %
+                1
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                $50.00
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                -
               </td>
               <td
                 className="c20"
@@ -2230,6 +2633,25 @@ USA
                 fontWeight={500}
               >
                 <span>
+                  QTY
+                </span>
+              </td>
+              <td
+                className="c15"
+                fontSize="LeadParagraph"
+                fontWeight={500}
+                width={80}
+              >
+                <span>
+                  Unit Price
+                </span>
+              </td>
+              <td
+                className="c15"
+                fontSize="LeadParagraph"
+                fontWeight={500}
+              >
+                <span>
                   Tax %
                 </span>
               </td>
@@ -2239,7 +2661,7 @@ USA
                 fontWeight={500}
               >
                 <span>
-                  Total
+                  Net Amount
                 </span>
               </td>
             </tr>
@@ -2259,6 +2681,12 @@ USA
                 fontSize="Caption"
               >
                 <div>
+                  <img
+                    alt=""
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
                   <a
                     className="c4"
                     href="https://opencollective.com/typeorm"
@@ -2270,20 +2698,25 @@ USA
                       Monthly donation to TypeORM (Love)
                     </a>
                   </a>
-                  <img
-                    alt=" | "
-                    className="c18"
-                    height="1em"
-                    src="[IMAGE_URL]"
-                  />
                 </div>
               </td>
               <td
                 className="c19"
                 fontSize="Caption"
               >
-                0
-                %
+                1
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                $20.00
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                -
               </td>
               <td
                 className="c20"
@@ -2306,6 +2739,12 @@ USA
                 fontSize="Caption"
               >
                 <div>
+                  <img
+                    alt=""
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
                   <a
                     className="c4"
                     href="https://opencollective.com/vuejs"
@@ -2317,20 +2756,25 @@ USA
                       Monthly donation to vue (Backers)
                     </a>
                   </a>
-                  <img
-                    alt=" | "
-                    className="c18"
-                    height="1em"
-                    src="[IMAGE_URL]"
-                  />
                 </div>
               </td>
               <td
                 className="c19"
                 fontSize="Caption"
               >
-                0
-                %
+                1
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                $5.00
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                -
               </td>
               <td
                 className="c20"
@@ -2353,6 +2797,12 @@ USA
                 fontSize="Caption"
               >
                 <div>
+                  <img
+                    alt=""
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
                   <a
                     className="c4"
                     href="https://opencollective.com/qubes-os"
@@ -2364,20 +2814,25 @@ USA
                       Monthly donation to Qubes OS (Backers)
                     </a>
                   </a>
-                  <img
-                    alt=" | "
-                    className="c18"
-                    height="1em"
-                    src="[IMAGE_URL]"
-                  />
                 </div>
               </td>
               <td
                 className="c19"
                 fontSize="Caption"
               >
-                0
-                %
+                1
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                $20.00
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                -
               </td>
               <td
                 className="c20"
@@ -2400,6 +2855,12 @@ USA
                 fontSize="Caption"
               >
                 <div>
+                  <img
+                    alt=""
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
                   <a
                     className="c4"
                     href="https://opencollective.com/generator-jhipster"
@@ -2411,20 +2872,25 @@ USA
                       Donation to JHipster
                     </a>
                   </a>
-                  <img
-                    alt=" | "
-                    className="c18"
-                    height="1em"
-                    src="[IMAGE_URL]"
-                  />
                 </div>
               </td>
               <td
                 className="c19"
                 fontSize="Caption"
               >
-                0
-                %
+                1
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                $100.00
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                -
               </td>
               <td
                 className="c20"
@@ -2447,6 +2913,12 @@ USA
                 fontSize="Caption"
               >
                 <div>
+                  <img
+                    alt=""
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
                   <a
                     className="c4"
                     href="https://opencollective.com/brainjs"
@@ -2458,20 +2930,25 @@ USA
                       Donation to brain.js
                     </a>
                   </a>
-                  <img
-                    alt=" | "
-                    className="c18"
-                    height="1em"
-                    src="[IMAGE_URL]"
-                  />
                 </div>
               </td>
               <td
                 className="c19"
                 fontSize="Caption"
               >
-                0
-                %
+                1
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                $100.00
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                -
               </td>
               <td
                 className="c20"
@@ -2494,6 +2971,12 @@ USA
                 fontSize="Caption"
               >
                 <div>
+                  <img
+                    alt=""
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
                   <a
                     className="c4"
                     href="https://opencollective.com/qubes-os"
@@ -2505,20 +2988,25 @@ USA
                       Donation to Qubes OS
                     </a>
                   </a>
-                  <img
-                    alt=" | "
-                    className="c18"
-                    height="1em"
-                    src="[IMAGE_URL]"
-                  />
                 </div>
               </td>
               <td
                 className="c19"
                 fontSize="Caption"
               >
-                0
-                %
+                1
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                $100.00
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                -
               </td>
               <td
                 className="c20"
@@ -2541,6 +3029,12 @@ USA
                 fontSize="Caption"
               >
                 <div>
+                  <img
+                    alt=""
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
                   <a
                     className="c4"
                     href="https://opencollective.com/mochajs"
@@ -2552,20 +3046,25 @@ USA
                       Monthly donation to MochaJS (Backers)
                     </a>
                   </a>
-                  <img
-                    alt=" | "
-                    className="c18"
-                    height="1em"
-                    src="[IMAGE_URL]"
-                  />
                 </div>
               </td>
               <td
                 className="c19"
                 fontSize="Caption"
               >
-                0
-                %
+                1
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                $2.00
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                -
               </td>
               <td
                 className="c20"
@@ -2588,6 +3087,12 @@ USA
                 fontSize="Caption"
               >
                 <div>
+                  <img
+                    alt=""
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
                   <a
                     className="c4"
                     href="https://opencollective.com/vapor"
@@ -2599,20 +3104,25 @@ USA
                       Monthly donation to Vapor (Backers)
                     </a>
                   </a>
-                  <img
-                    alt=" | "
-                    className="c18"
-                    height="1em"
-                    src="[IMAGE_URL]"
-                  />
                 </div>
               </td>
               <td
                 className="c19"
                 fontSize="Caption"
               >
-                0
-                %
+                1
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                $5.00
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                -
               </td>
               <td
                 className="c20"
@@ -2635,6 +3145,12 @@ USA
                 fontSize="Caption"
               >
                 <div>
+                  <img
+                    alt=""
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
                   <a
                     className="c4"
                     href="https://opencollective.com/cider"
@@ -2646,20 +3162,25 @@ USA
                       Monthly donation to CIDER (Backers)
                     </a>
                   </a>
-                  <img
-                    alt=" | "
-                    className="c18"
-                    height="1em"
-                    src="[IMAGE_URL]"
-                  />
                 </div>
               </td>
               <td
                 className="c19"
                 fontSize="Caption"
               >
-                0
-                %
+                1
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                $2.00
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                -
               </td>
               <td
                 className="c20"
@@ -2682,6 +3203,12 @@ USA
                 fontSize="Caption"
               >
                 <div>
+                  <img
+                    alt=""
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
                   <a
                     className="c4"
                     href="https://opencollective.com/lumo"
@@ -2693,20 +3220,25 @@ USA
                       Monthly donation to lumo (Backers)
                     </a>
                   </a>
-                  <img
-                    alt=" | "
-                    className="c18"
-                    height="1em"
-                    src="[IMAGE_URL]"
-                  />
                 </div>
               </td>
               <td
                 className="c19"
                 fontSize="Caption"
               >
-                0
-                %
+                1
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                $2.00
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                -
               </td>
               <td
                 className="c20"
@@ -2729,6 +3261,12 @@ USA
                 fontSize="Caption"
               >
                 <div>
+                  <img
+                    alt=""
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
                   <a
                     className="c4"
                     href="https://opencollective.com/webpack"
@@ -2740,20 +3278,25 @@ USA
                       Monthly donation to webpack (Backer)
                     </a>
                   </a>
-                  <img
-                    alt=" | "
-                    className="c18"
-                    height="1em"
-                    src="[IMAGE_URL]"
-                  />
                 </div>
               </td>
               <td
                 className="c19"
                 fontSize="Caption"
               >
-                0
-                %
+                1
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                $10.00
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                -
               </td>
               <td
                 className="c20"
@@ -2786,8 +3329,19 @@ USA
                 className="c19"
                 fontSize="Caption"
               >
-                0
-                %
+                1
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                $200.00
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                -
               </td>
               <td
                 className="c20"
@@ -2810,6 +3364,12 @@ USA
                 fontSize="Caption"
               >
                 <div>
+                  <img
+                    alt=""
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
                   <a
                     className="c4"
                     href="https://opencollective.com/vuejs"
@@ -2821,20 +3381,25 @@ USA
                       Monthly donation to vue (Backers)
                     </a>
                   </a>
-                  <img
-                    alt=" | "
-                    className="c18"
-                    height="1em"
-                    src="[IMAGE_URL]"
-                  />
                 </div>
               </td>
               <td
                 className="c19"
                 fontSize="Caption"
               >
-                0
-                %
+                1
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                $2.00
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                -
               </td>
               <td
                 className="c20"
@@ -2857,6 +3422,12 @@ USA
                 fontSize="Caption"
               >
                 <div>
+                  <img
+                    alt=""
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
                   <a
                     className="c4"
                     href="https://opencollective.com/falcon"
@@ -2868,20 +3439,25 @@ USA
                       Monthly donation to falcon (backer)
                     </a>
                   </a>
-                  <img
-                    alt=" | "
-                    className="c18"
-                    height="1em"
-                    src="[IMAGE_URL]"
-                  />
                 </div>
               </td>
               <td
                 className="c19"
                 fontSize="Caption"
               >
-                0
-                %
+                1
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                $5.00
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                -
               </td>
               <td
                 className="c20"
@@ -2916,27 +3492,15 @@ USA
                   $858.00
                 </span>
               </div>
-              <div
-                className="c27"
-              >
-                <span>
-                  VAT
-                </span>
-                <span
-                  className="-Clean-span c26"
-                >
-                  $0.00
-                </span>
-              </div>
             </div>
             <div
-              className="c28"
+              className="c27"
             >
               <span>
-                Total
+                TOTAL
               </span>
               <span
-                className="-Clean-span c29"
+                className="-Clean-span c28"
               >
                 $858.00
               </span>
@@ -2945,17 +3509,17 @@ USA
         </div>
       </div>
       <div
-        className="footer c30"
+        className="footer c29"
       >
         <div
-          className="c31"
+          className="c30"
         >
           <a
             className="c4"
             href="https://opencollective.com/opensource"
           >
             <img
-              className="c32"
+              className="c31"
               src="https://opencollective.com/proxy/images?src=https%3A%2F%2Fopencollective-production.s3-us-west-1.amazonaws.com%2F5f4a3920-11b6-11e8-b28d-b359f3c5ca14.png&height=200"
             />
           </a>
@@ -2964,22 +3528,27 @@ USA
           className="c10"
         >
           <p
-            className="c33"
+            className="c32"
           >
             Open Source Collective 501c6 (Non Profit)
           </p>
           <p
-            className="c34"
+            className="c33"
           >
             <span>
-              EIN 82-2037583 
-340 S LEMON AVE #3717
-Walnut
+              EIN 82-2037583
               <br />
             </span>
             <span>
-              CA 91789
-USA
+              340 S LEMON AVE #3717
+              <br />
+            </span>
+            <span>
+              Walnut, CA 91789
+              <br />
+            </span>
+            <span>
+              USA
               <br />
             </span>
           </p>
@@ -3051,20 +3620,7 @@ exports[`Single transaction invoice simple transaction 1`] = `
   justify-content: space-between;
 }
 
-.c26 {
-  box-sizing: border-box;
-  margin-top: 8px;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-  -ms-flex-pack: justify;
-  justify-content: space-between;
-}
-
-.c29 {
+.c28 {
   box-sizing: border-box;
   display: -webkit-box;
   display: -webkit-flex;
@@ -3091,7 +3647,7 @@ exports[`Single transaction invoice simple transaction 1`] = `
   margin: 0;
 }
 
-.c32 {
+.c31 {
   font-size: 12px;
   font-weight: bold;
   line-height: 16px;
@@ -3103,7 +3659,7 @@ exports[`Single transaction invoice simple transaction 1`] = `
   text-align: center;
 }
 
-.c33 {
+.c32 {
   color: #76777A;
   font-size: 12px;
   line-height: 16px;
@@ -3127,7 +3683,7 @@ exports[`Single transaction invoice simple transaction 1`] = `
   margin: 0;
 }
 
-.c28 {
+.c27 {
   font-size: inherit;
   line-height: inherit;
   -webkit-letter-spacing: 0.025em;
@@ -3244,7 +3800,7 @@ exports[`Single transaction invoice simple transaction 1`] = `
   width: 50%;
 }
 
-.c27 {
+.c26 {
   background: #ebf4ff;
   display: -webkit-box;
   display: -webkit-flex;
@@ -3261,7 +3817,7 @@ exports[`Single transaction invoice simple transaction 1`] = `
   padding-right: 16px;
 }
 
-.c30 {
+.c29 {
   border-color: #C4C7CC;
   border-right: 1px solid;
   border-color: #C4C7CC;
@@ -3319,7 +3875,7 @@ exports[`Single transaction invoice simple transaction 1`] = `
   flex-grow: 1;
 }
 
-.c31 {
+.c30 {
   box-sizing: border-box;
   margin: 0px;
   max-width: 100%;
@@ -3360,14 +3916,19 @@ exports[`Single transaction invoice simple transaction 1`] = `
               className="c6"
             >
               <span>
-                EIN 82-2037583 
-340 S LEMON AVE #3717
-Walnut
+                EIN 82-2037583
                 <br />
               </span>
               <span>
-                CA 91789
-USA
+                340 S LEMON AVE #3717
+                <br />
+              </span>
+              <span>
+                Walnut, CA 91789
+                <br />
+              </span>
+              <span>
+                USA
                 <br />
               </span>
             </div>
@@ -3405,7 +3966,6 @@ USA
                 92230 Gennevilliers
                 <br />
               </span>
-              France
             </div>
           </div>
         </div>
@@ -3483,6 +4043,25 @@ USA
                 fontWeight={500}
               >
                 <span>
+                  QTY
+                </span>
+              </td>
+              <td
+                className="c15"
+                fontSize="LeadParagraph"
+                fontWeight={500}
+                width={80}
+              >
+                <span>
+                  Unit Price
+                </span>
+              </td>
+              <td
+                className="c15"
+                fontSize="LeadParagraph"
+                fontWeight={500}
+              >
+                <span>
                   Tax %
                 </span>
               </td>
@@ -3492,7 +4071,7 @@ USA
                 fontWeight={500}
               >
                 <span>
-                  Total
+                  Net Amount
                 </span>
               </td>
             </tr>
@@ -3522,8 +4101,19 @@ USA
                 className="c18"
                 fontSize="Caption"
               >
-                0
-                %
+                1
+              </td>
+              <td
+                className="c18"
+                fontSize="Caption"
+              >
+                $2.00
+              </td>
+              <td
+                className="c18"
+                fontSize="Caption"
+              >
+                -
               </td>
               <td
                 className="c19"
@@ -3558,27 +4148,15 @@ USA
                   $2.00
                 </span>
               </div>
-              <div
-                className="c26"
-              >
-                <span>
-                  VAT
-                </span>
-                <span
-                  className="-Clean-span c25"
-                >
-                  $0.00
-                </span>
-              </div>
             </div>
             <div
-              className="c27"
+              className="c26"
             >
               <span>
-                Total
+                TOTAL
               </span>
               <span
-                className="-Clean-span c28"
+                className="-Clean-span c27"
               >
                 $2.00
               </span>
@@ -3587,17 +4165,17 @@ USA
         </div>
       </div>
       <div
-        className="footer c29"
+        className="footer c28"
       >
         <div
-          className="c30"
+          className="c29"
         >
           <a
             className="c4"
             href="https://opencollective.com/opensource"
           >
             <img
-              className="c31"
+              className="c30"
               src="https://opencollective.com/proxy/images?src=https%3A%2F%2Fopencollective-production.s3-us-west-1.amazonaws.com%2F5f4a3920-11b6-11e8-b28d-b359f3c5ca14.png&height=200"
             />
           </a>
@@ -3606,22 +4184,27 @@ USA
           className="c10"
         >
           <p
-            className="c32"
+            className="c31"
           >
             Open Source Collective 501c6 (Non Profit)
           </p>
           <p
-            className="c33"
+            className="c32"
           >
             <span>
-              EIN 82-2037583 
-340 S LEMON AVE #3717
-Walnut
+              EIN 82-2037583
               <br />
             </span>
             <span>
-              CA 91789
-USA
+              340 S LEMON AVE #3717
+              <br />
+            </span>
+            <span>
+              Walnut, CA 91789
+              <br />
+            </span>
+            <span>
+              USA
               <br />
             </span>
           </p>
@@ -3644,11 +4227,11 @@ exports[`Single transaction invoice with taxes 1`] = `
   margin-bottom: 8px;
 }
 
-.c10 {
+.c11 {
   box-sizing: border-box;
 }
 
-.c23 {
+.c24 {
   box-sizing: border-box;
   padding: 16px;
 }
@@ -3668,7 +4251,7 @@ exports[`Single transaction invoice with taxes 1`] = `
   align-items: flex-start;
 }
 
-.c20 {
+.c21 {
   box-sizing: border-box;
   margin-top: 16px;
   display: -webkit-box;
@@ -3681,7 +4264,7 @@ exports[`Single transaction invoice with taxes 1`] = `
   justify-content: flex-end;
 }
 
-.c24 {
+.c25 {
   box-sizing: border-box;
   display: -webkit-box;
   display: -webkit-flex;
@@ -3693,20 +4276,7 @@ exports[`Single transaction invoice with taxes 1`] = `
   justify-content: space-between;
 }
 
-.c26 {
-  box-sizing: border-box;
-  margin-top: 8px;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-  -ms-flex-pack: justify;
-  justify-content: space-between;
-}
-
-.c29 {
+.c30 {
   box-sizing: border-box;
   display: -webkit-box;
   display: -webkit-flex;
@@ -3722,6 +4292,19 @@ exports[`Single transaction invoice with taxes 1`] = `
   justify-content: center;
 }
 
+.c27 {
+  box-sizing: border-box;
+  margin-top: 8px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+}
+
 .c9 {
   font-size: 13px;
   font-weight: 500;
@@ -3733,7 +4316,7 @@ exports[`Single transaction invoice with taxes 1`] = `
   margin: 0;
 }
 
-.c32 {
+.c33 {
   font-size: 12px;
   font-weight: bold;
   line-height: 16px;
@@ -3745,7 +4328,7 @@ exports[`Single transaction invoice with taxes 1`] = `
   text-align: center;
 }
 
-.c33 {
+.c34 {
   color: #76777A;
   font-size: 12px;
   line-height: 16px;
@@ -3758,7 +4341,17 @@ exports[`Single transaction invoice with taxes 1`] = `
   text-align: center;
 }
 
-.c25 {
+.c10 {
+  font-size: 12px;
+  line-height: 16px;
+  -webkit-letter-spacing: 0.025em;
+  -moz-letter-spacing: 0.025em;
+  -ms-letter-spacing: 0.025em;
+  letter-spacing: 0.025em;
+  margin: 0;
+}
+
+.c26 {
   font-size: inherit;
   font-weight: bold;
   line-height: inherit;
@@ -3769,7 +4362,7 @@ exports[`Single transaction invoice with taxes 1`] = `
   margin: 0;
 }
 
-.c28 {
+.c29 {
   font-size: inherit;
   line-height: inherit;
   -webkit-letter-spacing: 0.025em;
@@ -3802,7 +4395,7 @@ exports[`Single transaction invoice with taxes 1`] = `
   margin: 0;
 }
 
-.c13 {
+.c14 {
   padding-top: 10px;
   padding-bottom: 10px;
   padding-left: 16px;
@@ -3812,7 +4405,7 @@ exports[`Single transaction invoice with taxes 1`] = `
   border-radius: 4px 0 0 4px;
 }
 
-.c14 {
+.c15 {
   padding-top: 10px;
   padding-bottom: 10px;
   padding-left: 16px;
@@ -3821,7 +4414,7 @@ exports[`Single transaction invoice with taxes 1`] = `
   font-weight: 500;
 }
 
-.c15 {
+.c16 {
   padding-top: 10px;
   padding-bottom: 10px;
   padding-left: 16px;
@@ -3831,7 +4424,7 @@ exports[`Single transaction invoice with taxes 1`] = `
   text-align: center;
 }
 
-.c16 {
+.c17 {
   padding-top: 10px;
   padding-bottom: 10px;
   padding-left: 16px;
@@ -3842,7 +4435,7 @@ exports[`Single transaction invoice with taxes 1`] = `
   border-radius: 0 4px 4px 0;
 }
 
-.c17 {
+.c18 {
   padding-top: 10px;
   padding-bottom: 10px;
   padding-left: 16px;
@@ -3850,7 +4443,7 @@ exports[`Single transaction invoice with taxes 1`] = `
   font-size: 11px;
 }
 
-.c18 {
+.c19 {
   padding-top: 10px;
   padding-bottom: 10px;
   padding-left: 16px;
@@ -3859,7 +4452,7 @@ exports[`Single transaction invoice with taxes 1`] = `
   text-align: center;
 }
 
-.c19 {
+.c20 {
   padding-top: 10px;
   padding-bottom: 10px;
   padding-left: 16px;
@@ -3868,12 +4461,12 @@ exports[`Single transaction invoice with taxes 1`] = `
   text-align: right;
 }
 
-.c12 {
+.c13 {
   background: #ebf4ff;
   border-radius: 4px;
 }
 
-.c22 {
+.c23 {
   border: 0;
   border-top: 1px solid #C4C7CC;
   margin: 0;
@@ -3881,12 +4474,12 @@ exports[`Single transaction invoice with taxes 1`] = `
   border-color: #E8E9EB;
 }
 
-.c21 {
+.c22 {
   font-size: 12px;
   width: 50%;
 }
 
-.c27 {
+.c28 {
   background: #ebf4ff;
   display: -webkit-box;
   display: -webkit-flex;
@@ -3903,7 +4496,7 @@ exports[`Single transaction invoice with taxes 1`] = `
   padding-right: 16px;
 }
 
-.c30 {
+.c31 {
   border-color: #C4C7CC;
   border-right: 1px solid;
   border-color: #C4C7CC;
@@ -3952,7 +4545,7 @@ exports[`Single transaction invoice with taxes 1`] = `
   min-height: 100px;
 }
 
-.c11 {
+.c12 {
   box-sizing: border-box;
   width: 100%;
   -webkit-box-flex: 1;
@@ -3961,7 +4554,7 @@ exports[`Single transaction invoice with taxes 1`] = `
   flex-grow: 1;
 }
 
-.c31 {
+.c32 {
   box-sizing: border-box;
   margin: 0px;
   max-width: 100%;
@@ -3990,35 +4583,33 @@ exports[`Single transaction invoice with taxes 1`] = `
           >
             <a
               className="c4"
-              href="https://opencollective.com/opensourcecollective"
+              href="https://opencollective.com/europe"
             >
               <h1
                 className="-Clean-h1 c5"
               >
-                Open Source Collective 501c6 (Non Profit)
+                Open Collective Europe
               </h1>
             </a>
             <div
               className="c6"
             >
               <span>
-                EIN 82-2037583 
-340 S LEMON AVE #3717
-Walnut
+                852 avenue Gaston Lagaffe
                 <br />
               </span>
               <span>
-                CA 91789
-USA
+                1005 Brussels
                 <br />
               </span>
+              Belgium
             </div>
             <a
               className="website c4"
-              href="https://opencollective.com/opensourcecollective"
+              href="https://opencollective.com/europe"
             >
               https://opencollective.com/
-              opensourcecollective
+              europe
             </a>
           </div>
           <div
@@ -4048,11 +4639,16 @@ USA
                 <br />
               </span>
               France
+              <p
+                className="c10"
+              >
+                BE0414445663
+              </p>
             </div>
           </div>
         </div>
         <div
-          className="c10"
+          className="c11"
         >
           <h2
             className="-Clean-h2 c8"
@@ -4081,12 +4677,12 @@ USA
               Reference:
             </label>
              
-            201903.opensourcecollective.betree
+            201903.europecollective.betree
           </div>
         </div>
       </div>
       <div
-        className="c11"
+        className="c12"
         width={1}
       >
         <table
@@ -4099,10 +4695,10 @@ USA
         >
           <thead>
             <tr
-              className="c12"
+              className="c13"
             >
               <td
-                className="c13"
+                className="c14"
                 fontSize="LeadParagraph"
                 fontWeight={500}
               >
@@ -4111,7 +4707,7 @@ USA
                 </span>
               </td>
               <td
-                className="c14"
+                className="c15"
                 fontSize="LeadParagraph"
                 fontWeight={500}
               >
@@ -4120,12 +4716,22 @@ USA
                 </span>
               </td>
               <td
-                className="c15"
+                className="c16"
                 fontSize="LeadParagraph"
                 fontWeight={500}
               >
                 <span>
-                  Tax %
+                  QTY
+                </span>
+              </td>
+              <td
+                className="c16"
+                fontSize="LeadParagraph"
+                fontWeight={500}
+                width={80}
+              >
+                <span>
+                  Unit Price
                 </span>
               </td>
               <td
@@ -4134,7 +4740,16 @@ USA
                 fontWeight={500}
               >
                 <span>
-                  Total
+                  Tax %
+                </span>
+              </td>
+              <td
+                className="c17"
+                fontSize="LeadParagraph"
+                fontWeight={500}
+              >
+                <span>
+                  Net Amount
                 </span>
               </td>
             </tr>
@@ -4142,7 +4757,7 @@ USA
           <tbody>
             <tr>
               <td
-                className="c17"
+                className="c18"
                 fontSize="Caption"
               >
                 <span>
@@ -4150,33 +4765,44 @@ USA
                 </span>
               </td>
               <td
-                className="c17"
+                className="c18"
                 fontSize="Caption"
               >
                 <a
                   className="c4"
                   href="https://opencollective.com/boostnoteio"
                 >
-                  Donation to Boostnote
+                  Large Hamburger
                 </a>
               </td>
               <td
-                className="c18"
+                className="c19"
                 fontSize="Caption"
               >
-                0
-                %
+                1
               </td>
               <td
                 className="c19"
+                fontSize="Caption"
+              >
+                €10.00
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                5%
+              </td>
+              <td
+                className="c20"
                 fontSize="Paragraph"
               >
-                $20.00
+                €10.50
               </td>
             </tr>
             <tr>
               <td
-                className="c17"
+                className="c18"
                 fontSize="Caption"
               >
                 <span>
@@ -4184,7 +4810,7 @@ USA
                 </span>
               </td>
               <td
-                className="c17"
+                className="c18"
                 fontSize="Caption"
               >
                 <a
@@ -4195,111 +4821,132 @@ USA
                 </a>
               </td>
               <td
-                className="c18"
+                className="c19"
                 fontSize="Caption"
               >
-                21
-                %
+                2
               </td>
               <td
                 className="c19"
+                fontSize="Caption"
+              >
+                €25.00
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                21%
+              </td>
+              <td
+                className="c20"
                 fontSize="Paragraph"
               >
-                $60.50
+                €60.50
               </td>
             </tr>
           </tbody>
         </table>
         <div
-          className="c20"
+          className="c21"
         >
           <div
-            className="c21"
+            className="c22"
           >
             <hr
-              className="c22"
+              className="c23"
             />
             <div
-              className="c23"
+              className="c24"
             >
               <div
-                className="c24"
+                className="c25"
               >
                 <span>
                   Subtotal
                 </span>
                 <span
-                  className="-Clean-span c25"
+                  className="-Clean-span c26"
                 >
-                  $120.00
+                  €60.00
                 </span>
               </div>
               <div
-                className="c26"
+                className="c27"
               >
                 <span>
-                  VAT
+                  VAT 5%
                 </span>
                 <span
-                  className="-Clean-span c25"
+                  className="-Clean-span c26"
                 >
-                  $10.50
+                  €0.50
+                </span>
+              </div>
+              <div
+                className="c27"
+              >
+                <span>
+                  VAT 21%
+                </span>
+                <span
+                  className="-Clean-span c26"
+                >
+                  €10.50
                 </span>
               </div>
             </div>
             <div
-              className="c27"
+              className="c28"
             >
               <span>
-                Total
+                TOTAL
               </span>
               <span
-                className="-Clean-span c28"
+                className="-Clean-span c29"
               >
-                $130.50
+                €71.00
               </span>
             </div>
           </div>
         </div>
       </div>
       <div
-        className="footer c29"
+        className="footer c30"
       >
         <div
-          className="c30"
+          className="c31"
         >
           <a
             className="c4"
-            href="https://opencollective.com/opensource"
+            href="https://opencollective.com/europe"
           >
             <img
-              className="c31"
+              className="c32"
               src="https://opencollective.com/proxy/images?src=https%3A%2F%2Fopencollective-production.s3-us-west-1.amazonaws.com%2F5f4a3920-11b6-11e8-b28d-b359f3c5ca14.png&height=200"
             />
           </a>
         </div>
         <div
-          className="c10"
+          className="c11"
         >
-          <p
-            className="c32"
-          >
-            Open Source Collective 501c6 (Non Profit)
-          </p>
           <p
             className="c33"
           >
+            Open Collective Europe
+          </p>
+          <p
+            className="c34"
+          >
             <span>
-              EIN 82-2037583 
-340 S LEMON AVE #3717
-Walnut
+              852 avenue Gaston Lagaffe
               <br />
             </span>
             <span>
-              CA 91789
-USA
+              1005 Brussels
               <br />
             </span>
+            Belgium
           </p>
         </div>
       </div>
@@ -4369,20 +5016,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
   justify-content: space-between;
 }
 
-.c27 {
-  box-sizing: border-box;
-  margin-top: 8px;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-  -ms-flex-pack: justify;
-  justify-content: space-between;
-}
-
-.c30 {
+.c29 {
   box-sizing: border-box;
   display: -webkit-box;
   display: -webkit-flex;
@@ -4409,7 +5043,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
   margin: 0;
 }
 
-.c33 {
+.c32 {
   font-size: 12px;
   font-weight: bold;
   line-height: 16px;
@@ -4421,7 +5055,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
   text-align: center;
 }
 
-.c34 {
+.c33 {
   color: #76777A;
   font-size: 12px;
   line-height: 16px;
@@ -4445,7 +5079,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
   margin: 0;
 }
 
-.c29 {
+.c28 {
   font-size: inherit;
   line-height: inherit;
   -webkit-letter-spacing: 0.025em;
@@ -4562,7 +5196,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
   width: 50%;
 }
 
-.c28 {
+.c27 {
   background: #ebf4ff;
   display: -webkit-box;
   display: -webkit-flex;
@@ -4579,7 +5213,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
   padding-right: 16px;
 }
 
-.c31 {
+.c30 {
   border-color: #C4C7CC;
   border-right: 1px solid;
   border-color: #C4C7CC;
@@ -4602,8 +5236,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
 .c18 {
   box-sizing: border-box;
   margin: 0px;
-  margin-left: 8px;
-  margin-right: 8px;
+  margin-right: 4px;
   max-width: 100%;
   height: auto;
   height: 1em;
@@ -4648,7 +5281,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
   flex-grow: 1;
 }
 
-.c32 {
+.c31 {
   box-sizing: border-box;
   margin: 0px;
   max-width: 100%;
@@ -4689,14 +5322,19 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
               className="c6"
             >
               <span>
-                EIN 82-2037583 
-340 S LEMON AVE #3717
-Walnut
+                EIN 82-2037583
                 <br />
               </span>
               <span>
-                CA 91789
-USA
+                340 S LEMON AVE #3717
+                <br />
+              </span>
+              <span>
+                Walnut, CA 91789
+                <br />
+              </span>
+              <span>
+                USA
                 <br />
               </span>
             </div>
@@ -4816,6 +5454,25 @@ USA
                 fontWeight={500}
               >
                 <span>
+                  QTY
+                </span>
+              </td>
+              <td
+                className="c15"
+                fontSize="LeadParagraph"
+                fontWeight={500}
+                width={80}
+              >
+                <span>
+                  Unit Price
+                </span>
+              </td>
+              <td
+                className="c15"
+                fontSize="LeadParagraph"
+                fontWeight={500}
+              >
+                <span>
                   Tax %
                 </span>
               </td>
@@ -4825,7 +5482,7 @@ USA
                 fontWeight={500}
               >
                 <span>
-                  Total
+                  Net Amount
                 </span>
               </td>
             </tr>
@@ -4845,6 +5502,12 @@ USA
                 fontSize="Caption"
               >
                 <div>
+                  <img
+                    alt=""
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
                   <a
                     className="c4"
                     href="https://opencollective.com/babel"
@@ -4856,20 +5519,25 @@ USA
                       Monthly donation to Babel (Backers)
                     </a>
                   </a>
-                  <img
-                    alt=" | "
-                    className="c18"
-                    height="1em"
-                    src="[IMAGE_URL]"
-                  />
                 </div>
               </td>
               <td
                 className="c19"
                 fontSize="Caption"
               >
-                0
-                %
+                1
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                $25.00
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                -
               </td>
               <td
                 className="c20"
@@ -4892,6 +5560,12 @@ USA
                 fontSize="Caption"
               >
                 <div>
+                  <img
+                    alt=""
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
                   <a
                     className="c4"
                     href="https://opencollective.com/aureliaz"
@@ -4903,20 +5577,25 @@ USA
                       Monthly donation to Aurelia (Wood)
                     </a>
                   </a>
-                  <img
-                    alt=" | "
-                    className="c18"
-                    height="1em"
-                    src="[IMAGE_URL]"
-                  />
                 </div>
               </td>
               <td
                 className="c19"
                 fontSize="Caption"
               >
-                0
-                %
+                1
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                $5.00
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                -
               </td>
               <td
                 className="c20"
@@ -4939,6 +5618,12 @@ USA
                 fontSize="Caption"
               >
                 <div>
+                  <img
+                    alt=""
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
                   <a
                     className="c4"
                     href="https://opencollective.com/babel"
@@ -4950,20 +5635,25 @@ USA
                       Monthly donation to Babel (Backers)
                     </a>
                   </a>
-                  <img
-                    alt=" | "
-                    className="c18"
-                    height="1em"
-                    src="[IMAGE_URL]"
-                  />
                 </div>
               </td>
               <td
                 className="c19"
                 fontSize="Caption"
               >
-                0
-                %
+                1
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                $10.00
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                -
               </td>
               <td
                 className="c20"
@@ -4986,6 +5676,12 @@ USA
                 fontSize="Caption"
               >
                 <div>
+                  <img
+                    alt=""
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
                   <a
                     className="c4"
                     href="https://opencollective.com/beaker"
@@ -4997,20 +5693,25 @@ USA
                       Monthly donation to Beaker Browser (Backers)
                     </a>
                   </a>
-                  <img
-                    alt=" | "
-                    className="c18"
-                    height="1em"
-                    src="[IMAGE_URL]"
-                  />
                 </div>
               </td>
               <td
                 className="c19"
                 fontSize="Caption"
               >
-                0
-                %
+                1
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                $5.00
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                -
               </td>
               <td
                 className="c20"
@@ -5033,6 +5734,12 @@ USA
                 fontSize="Caption"
               >
                 <div>
+                  <img
+                    alt=""
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
                   <a
                     className="c4"
                     href="https://opencollective.com/babel"
@@ -5044,20 +5751,25 @@ USA
                       Monthly donation to Babel (Backers)
                     </a>
                   </a>
-                  <img
-                    alt=" | "
-                    className="c18"
-                    height="1em"
-                    src="[IMAGE_URL]"
-                  />
                 </div>
               </td>
               <td
                 className="c19"
                 fontSize="Caption"
               >
-                0
-                %
+                1
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                $2.00
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                -
               </td>
               <td
                 className="c20"
@@ -5080,6 +5792,12 @@ USA
                 fontSize="Caption"
               >
                 <div>
+                  <img
+                    alt=""
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
                   <a
                     className="c4"
                     href="https://opencollective.com/babel"
@@ -5091,20 +5809,25 @@ USA
                       Monthly donation to Babel (Backers)
                     </a>
                   </a>
-                  <img
-                    alt=" | "
-                    className="c18"
-                    height="1em"
-                    src="[IMAGE_URL]"
-                  />
                 </div>
               </td>
               <td
                 className="c19"
                 fontSize="Caption"
               >
-                0
-                %
+                1
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                $2.00
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                -
               </td>
               <td
                 className="c20"
@@ -5127,6 +5850,12 @@ USA
                 fontSize="Caption"
               >
                 <div>
+                  <img
+                    alt=""
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
                   <a
                     className="c4"
                     href="https://opencollective.com/react-native-camera"
@@ -5138,20 +5867,25 @@ USA
                       Monthly donation to react-native-camera (Backers)
                     </a>
                   </a>
-                  <img
-                    alt=" | "
-                    className="c18"
-                    height="1em"
-                    src="[IMAGE_URL]"
-                  />
                 </div>
               </td>
               <td
                 className="c19"
                 fontSize="Caption"
               >
-                0
-                %
+                1
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                $2.00
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                -
               </td>
               <td
                 className="c20"
@@ -5174,6 +5908,12 @@ USA
                 fontSize="Caption"
               >
                 <div>
+                  <img
+                    alt=""
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
                   <a
                     className="c4"
                     href="https://opencollective.com/babel"
@@ -5185,20 +5925,25 @@ USA
                       Monthly donation to Babel (Backers)
                     </a>
                   </a>
-                  <img
-                    alt=" | "
-                    className="c18"
-                    height="1em"
-                    src="[IMAGE_URL]"
-                  />
                 </div>
               </td>
               <td
                 className="c19"
                 fontSize="Caption"
               >
-                0
-                %
+                1
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                $10.00
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                -
               </td>
               <td
                 className="c20"
@@ -5221,6 +5966,12 @@ USA
                 fontSize="Caption"
               >
                 <div>
+                  <img
+                    alt=""
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
                   <a
                     className="c4"
                     href="https://opencollective.com/curl"
@@ -5232,20 +5983,25 @@ USA
                       Monthly donation to curl (backer)
                     </a>
                   </a>
-                  <img
-                    alt=" | "
-                    className="c18"
-                    height="1em"
-                    src="[IMAGE_URL]"
-                  />
                 </div>
               </td>
               <td
                 className="c19"
                 fontSize="Caption"
               >
-                0
-                %
+                1
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                $5.00
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                -
               </td>
               <td
                 className="c20"
@@ -5268,6 +6024,12 @@ USA
                 fontSize="Caption"
               >
                 <div>
+                  <img
+                    alt=""
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
                   <a
                     className="c4"
                     href="https://opencollective.com/tessel"
@@ -5279,20 +6041,25 @@ USA
                       Monthly donation to Tessel (Backers)
                     </a>
                   </a>
-                  <img
-                    alt=" | "
-                    className="c18"
-                    height="1em"
-                    src="[IMAGE_URL]"
-                  />
                 </div>
               </td>
               <td
                 className="c19"
                 fontSize="Caption"
               >
-                0
-                %
+                1
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                $10.00
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                -
               </td>
               <td
                 className="c20"
@@ -5315,6 +6082,12 @@ USA
                 fontSize="Caption"
               >
                 <div>
+                  <img
+                    alt=""
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
                   <a
                     className="c4"
                     href="https://opencollective.com/curl"
@@ -5326,20 +6099,25 @@ USA
                       Monthly donation to curl (backer)
                     </a>
                   </a>
-                  <img
-                    alt=" | "
-                    className="c18"
-                    height="1em"
-                    src="[IMAGE_URL]"
-                  />
                 </div>
               </td>
               <td
                 className="c19"
                 fontSize="Caption"
               >
-                0
-                %
+                1
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                $5.00
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                -
               </td>
               <td
                 className="c20"
@@ -5362,6 +6140,12 @@ USA
                 fontSize="Caption"
               >
                 <div>
+                  <img
+                    alt=""
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
                   <a
                     className="c4"
                     href="https://opencollective.com/nock"
@@ -5373,20 +6157,25 @@ USA
                       Monthly donation to nock (Backer)
                     </a>
                   </a>
-                  <img
-                    alt=" | "
-                    className="c18"
-                    height="1em"
-                    src="[IMAGE_URL]"
-                  />
                 </div>
               </td>
               <td
                 className="c19"
                 fontSize="Caption"
               >
-                0
-                %
+                1
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                $1.00
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                -
               </td>
               <td
                 className="c20"
@@ -5442,6 +6231,25 @@ USA
                 fontWeight={500}
               >
                 <span>
+                  QTY
+                </span>
+              </td>
+              <td
+                className="c15"
+                fontSize="LeadParagraph"
+                fontWeight={500}
+                width={80}
+              >
+                <span>
+                  Unit Price
+                </span>
+              </td>
+              <td
+                className="c15"
+                fontSize="LeadParagraph"
+                fontWeight={500}
+              >
+                <span>
                   Tax %
                 </span>
               </td>
@@ -5451,7 +6259,7 @@ USA
                 fontWeight={500}
               >
                 <span>
-                  Total
+                  Net Amount
                 </span>
               </td>
             </tr>
@@ -5471,6 +6279,12 @@ USA
                 fontSize="Caption"
               >
                 <div>
+                  <img
+                    alt=""
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
                   <a
                     className="c4"
                     href="https://opencollective.com/pug"
@@ -5482,20 +6296,25 @@ USA
                       Monthly donation to pug (Backers)
                     </a>
                   </a>
-                  <img
-                    alt=" | "
-                    className="c18"
-                    height="1em"
-                    src="[IMAGE_URL]"
-                  />
                 </div>
               </td>
               <td
                 className="c19"
                 fontSize="Caption"
               >
-                0
-                %
+                1
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                $2.00
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                -
               </td>
               <td
                 className="c20"
@@ -5518,6 +6337,12 @@ USA
                 fontSize="Caption"
               >
                 <div>
+                  <img
+                    alt=""
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
                   <a
                     className="c4"
                     href="https://opencollective.com/babel"
@@ -5529,20 +6354,25 @@ USA
                       Monthly donation to Babel (Backers)
                     </a>
                   </a>
-                  <img
-                    alt=" | "
-                    className="c18"
-                    height="1em"
-                    src="[IMAGE_URL]"
-                  />
                 </div>
               </td>
               <td
                 className="c19"
                 fontSize="Caption"
               >
-                0
-                %
+                1
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                $2.00
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                -
               </td>
               <td
                 className="c20"
@@ -5565,6 +6395,12 @@ USA
                 fontSize="Caption"
               >
                 <div>
+                  <img
+                    alt=""
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
                   <a
                     className="c4"
                     href="https://opencollective.com/mongoose"
@@ -5576,20 +6412,25 @@ USA
                       Monthly donation to Mongoose.js (backer)
                     </a>
                   </a>
-                  <img
-                    alt=" | "
-                    className="c18"
-                    height="1em"
-                    src="[IMAGE_URL]"
-                  />
                 </div>
               </td>
               <td
                 className="c19"
                 fontSize="Caption"
               >
-                0
-                %
+                1
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                $2.00
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                -
               </td>
               <td
                 className="c20"
@@ -5612,6 +6453,12 @@ USA
                 fontSize="Caption"
               >
                 <div>
+                  <img
+                    alt=""
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
                   <a
                     className="c4"
                     href="https://opencollective.com/mochajs"
@@ -5623,20 +6470,25 @@ USA
                       Monthly donation to MochaJS (Backers)
                     </a>
                   </a>
-                  <img
-                    alt=" | "
-                    className="c18"
-                    height="1em"
-                    src="[IMAGE_URL]"
-                  />
                 </div>
               </td>
               <td
                 className="c19"
                 fontSize="Caption"
               >
-                0
-                %
+                1
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                $2.00
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                -
               </td>
               <td
                 className="c20"
@@ -5659,6 +6511,12 @@ USA
                 fontSize="Caption"
               >
                 <div>
+                  <img
+                    alt=""
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
                   <a
                     className="c4"
                     href="https://opencollective.com/vuejs"
@@ -5670,20 +6528,25 @@ USA
                       Monthly donation to vue (Backers)
                     </a>
                   </a>
-                  <img
-                    alt=" | "
-                    className="c18"
-                    height="1em"
-                    src="[IMAGE_URL]"
-                  />
                 </div>
               </td>
               <td
                 className="c19"
                 fontSize="Caption"
               >
-                0
-                %
+                1
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                $25.00
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                -
               </td>
               <td
                 className="c20"
@@ -5706,6 +6569,12 @@ USA
                 fontSize="Caption"
               >
                 <div>
+                  <img
+                    alt=""
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
                   <a
                     className="c4"
                     href="https://opencollective.com/babel"
@@ -5717,20 +6586,25 @@ USA
                       Monthly donation to Babel (Backers)
                     </a>
                   </a>
-                  <img
-                    alt=" | "
-                    className="c18"
-                    height="1em"
-                    src="[IMAGE_URL]"
-                  />
                 </div>
               </td>
               <td
                 className="c19"
                 fontSize="Caption"
               >
-                0
-                %
+                1
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                $2.00
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                -
               </td>
               <td
                 className="c20"
@@ -5753,6 +6627,12 @@ USA
                 fontSize="Caption"
               >
                 <div>
+                  <img
+                    alt=""
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
                   <a
                     className="c4"
                     href="https://opencollective.com/curl"
@@ -5764,20 +6644,25 @@ USA
                       Monthly donation to curl (backer)
                     </a>
                   </a>
-                  <img
-                    alt=" | "
-                    className="c18"
-                    height="1em"
-                    src="[IMAGE_URL]"
-                  />
                 </div>
               </td>
               <td
                 className="c19"
                 fontSize="Caption"
               >
-                0
-                %
+                1
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                $5.00
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                -
               </td>
               <td
                 className="c20"
@@ -5800,6 +6685,12 @@ USA
                 fontSize="Caption"
               >
                 <div>
+                  <img
+                    alt=""
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
                   <a
                     className="c4"
                     href="https://opencollective.com/mochajs"
@@ -5811,20 +6702,25 @@ USA
                       Monthly donation to MochaJS (Backers)
                     </a>
                   </a>
-                  <img
-                    alt=" | "
-                    className="c18"
-                    height="1em"
-                    src="[IMAGE_URL]"
-                  />
                 </div>
               </td>
               <td
                 className="c19"
                 fontSize="Caption"
               >
-                0
-                %
+                1
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                $2.00
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                -
               </td>
               <td
                 className="c20"
@@ -5847,6 +6743,12 @@ USA
                 fontSize="Caption"
               >
                 <div>
+                  <img
+                    alt=""
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
                   <a
                     className="c4"
                     href="https://opencollective.com/parcel"
@@ -5858,20 +6760,25 @@ USA
                       Monthly donation to Parcel (Backer)
                     </a>
                   </a>
-                  <img
-                    alt=" | "
-                    className="c18"
-                    height="1em"
-                    src="[IMAGE_URL]"
-                  />
                 </div>
               </td>
               <td
                 className="c19"
                 fontSize="Caption"
               >
-                0
-                %
+                1
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                $2.00
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                -
               </td>
               <td
                 className="c20"
@@ -5894,6 +6801,12 @@ USA
                 fontSize="Caption"
               >
                 <div>
+                  <img
+                    alt=""
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
                   <a
                     className="c4"
                     href="https://opencollective.com/webpack"
@@ -5905,20 +6818,25 @@ USA
                       Monthly donation to webpack (Backer)
                     </a>
                   </a>
-                  <img
-                    alt=" | "
-                    className="c18"
-                    height="1em"
-                    src="[IMAGE_URL]"
-                  />
                 </div>
               </td>
               <td
                 className="c19"
                 fontSize="Caption"
               >
-                0
-                %
+                1
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                $10.00
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                -
               </td>
               <td
                 className="c20"
@@ -5941,6 +6859,12 @@ USA
                 fontSize="Caption"
               >
                 <div>
+                  <img
+                    alt=""
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
                   <a
                     className="c4"
                     href="https://opencollective.com/babel"
@@ -5952,20 +6876,25 @@ USA
                       Monthly donation to Babel (Backers)
                     </a>
                   </a>
-                  <img
-                    alt=" | "
-                    className="c18"
-                    height="1em"
-                    src="[IMAGE_URL]"
-                  />
                 </div>
               </td>
               <td
                 className="c19"
                 fontSize="Caption"
               >
-                0
-                %
+                1
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                $10.00
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                -
               </td>
               <td
                 className="c20"
@@ -5988,6 +6917,12 @@ USA
                 fontSize="Caption"
               >
                 <div>
+                  <img
+                    alt=""
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
                   <a
                     className="c4"
                     href="https://opencollective.com/babel"
@@ -5999,20 +6934,25 @@ USA
                       Monthly donation to Babel (Backers)
                     </a>
                   </a>
-                  <img
-                    alt=" | "
-                    className="c18"
-                    height="1em"
-                    src="[IMAGE_URL]"
-                  />
                 </div>
               </td>
               <td
                 className="c19"
                 fontSize="Caption"
               >
-                0
-                %
+                1
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                $2.00
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                -
               </td>
               <td
                 className="c20"
@@ -6035,6 +6975,12 @@ USA
                 fontSize="Caption"
               >
                 <div>
+                  <img
+                    alt=""
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
                   <a
                     className="c4"
                     href="https://opencollective.com/celery"
@@ -6046,20 +6992,25 @@ USA
                       Monthly donation to celery (backer)
                     </a>
                   </a>
-                  <img
-                    alt=" | "
-                    className="c18"
-                    height="1em"
-                    src="[IMAGE_URL]"
-                  />
                 </div>
               </td>
               <td
                 className="c19"
                 fontSize="Caption"
               >
-                0
-                %
+                1
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                $5.00
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                -
               </td>
               <td
                 className="c20"
@@ -6082,6 +7033,12 @@ USA
                 fontSize="Caption"
               >
                 <div>
+                  <img
+                    alt=""
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
                   <a
                     className="c4"
                     href="https://opencollective.com/webpack"
@@ -6093,20 +7050,25 @@ USA
                       Monthly donation to webpack (Backer)
                     </a>
                   </a>
-                  <img
-                    alt=" | "
-                    className="c18"
-                    height="1em"
-                    src="[IMAGE_URL]"
-                  />
                 </div>
               </td>
               <td
                 className="c19"
                 fontSize="Caption"
               >
-                0
-                %
+                1
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                $5.00
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                -
               </td>
               <td
                 className="c20"
@@ -6129,6 +7091,12 @@ USA
                 fontSize="Caption"
               >
                 <div>
+                  <img
+                    alt=""
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
                   <a
                     className="c4"
                     href="https://opencollective.com/vuejs"
@@ -6140,20 +7108,25 @@ USA
                       Monthly donation to vue (Backers)
                     </a>
                   </a>
-                  <img
-                    alt=" | "
-                    className="c18"
-                    height="1em"
-                    src="[IMAGE_URL]"
-                  />
                 </div>
               </td>
               <td
                 className="c19"
                 fontSize="Caption"
               >
-                0
-                %
+                1
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                $2.00
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                -
               </td>
               <td
                 className="c20"
@@ -6176,6 +7149,12 @@ USA
                 fontSize="Caption"
               >
                 <div>
+                  <img
+                    alt=""
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
                   <a
                     className="c4"
                     href="https://opencollective.com/vuejs"
@@ -6187,20 +7166,25 @@ USA
                       Monthly donation to vue (Backers)
                     </a>
                   </a>
-                  <img
-                    alt=" | "
-                    className="c18"
-                    height="1em"
-                    src="[IMAGE_URL]"
-                  />
                 </div>
               </td>
               <td
                 className="c19"
                 fontSize="Caption"
               >
-                0
-                %
+                1
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                $2.00
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                -
               </td>
               <td
                 className="c20"
@@ -6223,6 +7207,12 @@ USA
                 fontSize="Caption"
               >
                 <div>
+                  <img
+                    alt=""
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
                   <a
                     className="c4"
                     href="https://opencollective.com/babel"
@@ -6234,20 +7224,25 @@ USA
                       Monthly donation to Babel (Backers)
                     </a>
                   </a>
-                  <img
-                    alt=" | "
-                    className="c18"
-                    height="1em"
-                    src="[IMAGE_URL]"
-                  />
                 </div>
               </td>
               <td
                 className="c19"
                 fontSize="Caption"
               >
-                0
-                %
+                1
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                $8.00
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                -
               </td>
               <td
                 className="c20"
@@ -6270,6 +7265,12 @@ USA
                 fontSize="Caption"
               >
                 <div>
+                  <img
+                    alt=""
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
                   <a
                     className="c4"
                     href="https://opencollective.com/babel"
@@ -6281,20 +7282,25 @@ USA
                       Monthly donation to Babel (Backers)
                     </a>
                   </a>
-                  <img
-                    alt=" | "
-                    className="c18"
-                    height="1em"
-                    src="[IMAGE_URL]"
-                  />
                 </div>
               </td>
               <td
                 className="c19"
                 fontSize="Caption"
               >
-                0
-                %
+                1
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                $10.00
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                -
               </td>
               <td
                 className="c20"
@@ -6317,6 +7323,12 @@ USA
                 fontSize="Caption"
               >
                 <div>
+                  <img
+                    alt=""
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
                   <a
                     className="c4"
                     href="https://opencollective.com/styled-components"
@@ -6328,20 +7340,25 @@ USA
                       Monthly donation to styled-components (Backer)
                     </a>
                   </a>
-                  <img
-                    alt=" | "
-                    className="c18"
-                    height="1em"
-                    src="[IMAGE_URL]"
-                  />
                 </div>
               </td>
               <td
                 className="c19"
                 fontSize="Caption"
               >
-                0
-                %
+                1
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                $5.00
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                -
               </td>
               <td
                 className="c20"
@@ -6364,6 +7381,12 @@ USA
                 fontSize="Caption"
               >
                 <div>
+                  <img
+                    alt=""
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
                   <a
                     className="c4"
                     href="https://opencollective.com/babel"
@@ -6375,20 +7398,25 @@ USA
                       Monthly donation to Babel (Backers)
                     </a>
                   </a>
-                  <img
-                    alt=" | "
-                    className="c18"
-                    height="1em"
-                    src="[IMAGE_URL]"
-                  />
                 </div>
               </td>
               <td
                 className="c19"
                 fontSize="Caption"
               >
-                0
-                %
+                1
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                $25.00
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                -
               </td>
               <td
                 className="c20"
@@ -6411,6 +7439,12 @@ USA
                 fontSize="Caption"
               >
                 <div>
+                  <img
+                    alt=""
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
                   <a
                     className="c4"
                     href="https://opencollective.com/nuxtjs"
@@ -6422,20 +7456,25 @@ USA
                       Monthly donation to Nuxt.js (Backers)
                     </a>
                   </a>
-                  <img
-                    alt=" | "
-                    className="c18"
-                    height="1em"
-                    src="[IMAGE_URL]"
-                  />
                 </div>
               </td>
               <td
                 className="c19"
                 fontSize="Caption"
               >
-                0
-                %
+                1
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                $25.00
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                -
               </td>
               <td
                 className="c20"
@@ -6458,6 +7497,12 @@ USA
                 fontSize="Caption"
               >
                 <div>
+                  <img
+                    alt=""
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
                   <a
                     className="c4"
                     href="https://opencollective.com/nodemon"
@@ -6469,20 +7514,25 @@ USA
                       Monthly donation to nodemon (backer)
                     </a>
                   </a>
-                  <img
-                    alt=" | "
-                    className="c18"
-                    height="1em"
-                    src="[IMAGE_URL]"
-                  />
                 </div>
               </td>
               <td
                 className="c19"
                 fontSize="Caption"
               >
-                0
-                %
+                1
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                $50.00
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                -
               </td>
               <td
                 className="c20"
@@ -6538,6 +7588,25 @@ USA
                 fontWeight={500}
               >
                 <span>
+                  QTY
+                </span>
+              </td>
+              <td
+                className="c15"
+                fontSize="LeadParagraph"
+                fontWeight={500}
+                width={80}
+              >
+                <span>
+                  Unit Price
+                </span>
+              </td>
+              <td
+                className="c15"
+                fontSize="LeadParagraph"
+                fontWeight={500}
+              >
+                <span>
                   Tax %
                 </span>
               </td>
@@ -6547,7 +7616,7 @@ USA
                 fontWeight={500}
               >
                 <span>
-                  Total
+                  Net Amount
                 </span>
               </td>
             </tr>
@@ -6567,6 +7636,12 @@ USA
                 fontSize="Caption"
               >
                 <div>
+                  <img
+                    alt=""
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
                   <a
                     className="c4"
                     href="https://opencollective.com/typeorm"
@@ -6578,20 +7653,25 @@ USA
                       Monthly donation to TypeORM (Love)
                     </a>
                   </a>
-                  <img
-                    alt=" | "
-                    className="c18"
-                    height="1em"
-                    src="[IMAGE_URL]"
-                  />
                 </div>
               </td>
               <td
                 className="c19"
                 fontSize="Caption"
               >
-                0
-                %
+                1
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                $20.00
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                -
               </td>
               <td
                 className="c20"
@@ -6614,6 +7694,12 @@ USA
                 fontSize="Caption"
               >
                 <div>
+                  <img
+                    alt=""
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
                   <a
                     className="c4"
                     href="https://opencollective.com/vuejs"
@@ -6625,20 +7711,25 @@ USA
                       Monthly donation to vue (Backers)
                     </a>
                   </a>
-                  <img
-                    alt=" | "
-                    className="c18"
-                    height="1em"
-                    src="[IMAGE_URL]"
-                  />
                 </div>
               </td>
               <td
                 className="c19"
                 fontSize="Caption"
               >
-                0
-                %
+                1
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                $5.00
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                -
               </td>
               <td
                 className="c20"
@@ -6661,6 +7752,12 @@ USA
                 fontSize="Caption"
               >
                 <div>
+                  <img
+                    alt=""
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
                   <a
                     className="c4"
                     href="https://opencollective.com/qubes-os"
@@ -6672,20 +7769,25 @@ USA
                       Monthly donation to Qubes OS (Backers)
                     </a>
                   </a>
-                  <img
-                    alt=" | "
-                    className="c18"
-                    height="1em"
-                    src="[IMAGE_URL]"
-                  />
                 </div>
               </td>
               <td
                 className="c19"
                 fontSize="Caption"
               >
-                0
-                %
+                1
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                $20.00
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                -
               </td>
               <td
                 className="c20"
@@ -6708,6 +7810,12 @@ USA
                 fontSize="Caption"
               >
                 <div>
+                  <img
+                    alt=""
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
                   <a
                     className="c4"
                     href="https://opencollective.com/generator-jhipster"
@@ -6719,20 +7827,25 @@ USA
                       Donation to JHipster
                     </a>
                   </a>
-                  <img
-                    alt=" | "
-                    className="c18"
-                    height="1em"
-                    src="[IMAGE_URL]"
-                  />
                 </div>
               </td>
               <td
                 className="c19"
                 fontSize="Caption"
               >
-                0
-                %
+                1
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                $100.00
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                -
               </td>
               <td
                 className="c20"
@@ -6755,6 +7868,12 @@ USA
                 fontSize="Caption"
               >
                 <div>
+                  <img
+                    alt=""
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
                   <a
                     className="c4"
                     href="https://opencollective.com/brainjs"
@@ -6766,20 +7885,25 @@ USA
                       Donation to brain.js
                     </a>
                   </a>
-                  <img
-                    alt=" | "
-                    className="c18"
-                    height="1em"
-                    src="[IMAGE_URL]"
-                  />
                 </div>
               </td>
               <td
                 className="c19"
                 fontSize="Caption"
               >
-                0
-                %
+                1
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                $100.00
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                -
               </td>
               <td
                 className="c20"
@@ -6802,6 +7926,12 @@ USA
                 fontSize="Caption"
               >
                 <div>
+                  <img
+                    alt=""
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
                   <a
                     className="c4"
                     href="https://opencollective.com/qubes-os"
@@ -6813,20 +7943,25 @@ USA
                       Donation to Qubes OS
                     </a>
                   </a>
-                  <img
-                    alt=" | "
-                    className="c18"
-                    height="1em"
-                    src="[IMAGE_URL]"
-                  />
                 </div>
               </td>
               <td
                 className="c19"
                 fontSize="Caption"
               >
-                0
-                %
+                1
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                $100.00
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                -
               </td>
               <td
                 className="c20"
@@ -6849,6 +7984,12 @@ USA
                 fontSize="Caption"
               >
                 <div>
+                  <img
+                    alt=""
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
                   <a
                     className="c4"
                     href="https://opencollective.com/mochajs"
@@ -6860,20 +8001,25 @@ USA
                       Monthly donation to MochaJS (Backers)
                     </a>
                   </a>
-                  <img
-                    alt=" | "
-                    className="c18"
-                    height="1em"
-                    src="[IMAGE_URL]"
-                  />
                 </div>
               </td>
               <td
                 className="c19"
                 fontSize="Caption"
               >
-                0
-                %
+                1
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                $2.00
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                -
               </td>
               <td
                 className="c20"
@@ -6896,6 +8042,12 @@ USA
                 fontSize="Caption"
               >
                 <div>
+                  <img
+                    alt=""
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
                   <a
                     className="c4"
                     href="https://opencollective.com/vapor"
@@ -6907,20 +8059,25 @@ USA
                       Monthly donation to Vapor (Backers)
                     </a>
                   </a>
-                  <img
-                    alt=" | "
-                    className="c18"
-                    height="1em"
-                    src="[IMAGE_URL]"
-                  />
                 </div>
               </td>
               <td
                 className="c19"
                 fontSize="Caption"
               >
-                0
-                %
+                1
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                $5.00
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                -
               </td>
               <td
                 className="c20"
@@ -6943,6 +8100,12 @@ USA
                 fontSize="Caption"
               >
                 <div>
+                  <img
+                    alt=""
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
                   <a
                     className="c4"
                     href="https://opencollective.com/cider"
@@ -6954,20 +8117,25 @@ USA
                       Monthly donation to CIDER (Backers)
                     </a>
                   </a>
-                  <img
-                    alt=" | "
-                    className="c18"
-                    height="1em"
-                    src="[IMAGE_URL]"
-                  />
                 </div>
               </td>
               <td
                 className="c19"
                 fontSize="Caption"
               >
-                0
-                %
+                1
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                $2.00
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                -
               </td>
               <td
                 className="c20"
@@ -6990,6 +8158,12 @@ USA
                 fontSize="Caption"
               >
                 <div>
+                  <img
+                    alt=""
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
                   <a
                     className="c4"
                     href="https://opencollective.com/lumo"
@@ -7001,20 +8175,25 @@ USA
                       Monthly donation to lumo (Backers)
                     </a>
                   </a>
-                  <img
-                    alt=" | "
-                    className="c18"
-                    height="1em"
-                    src="[IMAGE_URL]"
-                  />
                 </div>
               </td>
               <td
                 className="c19"
                 fontSize="Caption"
               >
-                0
-                %
+                1
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                $2.00
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                -
               </td>
               <td
                 className="c20"
@@ -7037,6 +8216,12 @@ USA
                 fontSize="Caption"
               >
                 <div>
+                  <img
+                    alt=""
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
                   <a
                     className="c4"
                     href="https://opencollective.com/webpack"
@@ -7048,20 +8233,25 @@ USA
                       Monthly donation to webpack (Backer)
                     </a>
                   </a>
-                  <img
-                    alt=" | "
-                    className="c18"
-                    height="1em"
-                    src="[IMAGE_URL]"
-                  />
                 </div>
               </td>
               <td
                 className="c19"
                 fontSize="Caption"
               >
-                0
-                %
+                1
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                $10.00
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                -
               </td>
               <td
                 className="c20"
@@ -7094,8 +8284,19 @@ USA
                 className="c19"
                 fontSize="Caption"
               >
-                0
-                %
+                1
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                $200.00
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                -
               </td>
               <td
                 className="c20"
@@ -7118,6 +8319,12 @@ USA
                 fontSize="Caption"
               >
                 <div>
+                  <img
+                    alt=""
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
                   <a
                     className="c4"
                     href="https://opencollective.com/vuejs"
@@ -7129,20 +8336,25 @@ USA
                       Monthly donation to vue (Backers)
                     </a>
                   </a>
-                  <img
-                    alt=" | "
-                    className="c18"
-                    height="1em"
-                    src="[IMAGE_URL]"
-                  />
                 </div>
               </td>
               <td
                 className="c19"
                 fontSize="Caption"
               >
-                0
-                %
+                1
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                $2.00
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                -
               </td>
               <td
                 className="c20"
@@ -7165,6 +8377,12 @@ USA
                 fontSize="Caption"
               >
                 <div>
+                  <img
+                    alt=""
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
                   <a
                     className="c4"
                     href="https://opencollective.com/falcon"
@@ -7176,20 +8394,25 @@ USA
                       Monthly donation to falcon (backer)
                     </a>
                   </a>
-                  <img
-                    alt=" | "
-                    className="c18"
-                    height="1em"
-                    src="[IMAGE_URL]"
-                  />
                 </div>
               </td>
               <td
                 className="c19"
                 fontSize="Caption"
               >
-                0
-                %
+                1
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                $5.00
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                -
               </td>
               <td
                 className="c20"
@@ -7224,27 +8447,15 @@ USA
                   $858.00
                 </span>
               </div>
-              <div
-                className="c27"
-              >
-                <span>
-                  VAT
-                </span>
-                <span
-                  className="-Clean-span c26"
-                >
-                  $0.00
-                </span>
-              </div>
             </div>
             <div
-              className="c28"
+              className="c27"
             >
               <span>
-                Total
+                TOTAL
               </span>
               <span
-                className="-Clean-span c29"
+                className="-Clean-span c28"
               >
                 $858.00
               </span>
@@ -7253,17 +8464,17 @@ USA
         </div>
       </div>
       <div
-        className="footer c30"
+        className="footer c29"
       >
         <div
-          className="c31"
+          className="c30"
         >
           <a
             className="c4"
             href="https://opencollective.com/opensource"
           >
             <img
-              className="c32"
+              className="c31"
               src="https://opencollective.com/proxy/images?src=https%3A%2F%2Fopencollective-production.s3-us-west-1.amazonaws.com%2F5f4a3920-11b6-11e8-b28d-b359f3c5ca14.png&height=200"
             />
           </a>
@@ -7272,22 +8483,27 @@ USA
           className="c10"
         >
           <p
-            className="c33"
+            className="c32"
           >
             Open Source Collective 501c6 (Non Profit)
           </p>
           <p
-            className="c34"
+            className="c33"
           >
             <span>
-              EIN 82-2037583 
-340 S LEMON AVE #3717
-Walnut
+              EIN 82-2037583
               <br />
             </span>
             <span>
-              CA 91789
-USA
+              340 S LEMON AVE #3717
+              <br />
+            </span>
+            <span>
+              Walnut, CA 91789
+              <br />
+            </span>
+            <span>
+              USA
               <br />
             </span>
           </p>

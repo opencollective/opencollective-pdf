@@ -1,7 +1,7 @@
 {
   "slug": "201903.europecollective.betree",
-  "totalAmount": 13050,
-  "currency": "USD",
+  "totalAmount": 7100,
+  "currency": "EUR",
   "year": 2019,
   "month": 3,
   "day": null,
@@ -28,10 +28,10 @@
     "id": 4469,
     "slug": "betree",
     "name": "Benjamin Piouffle",
-    "currency": "USD",
+    "currency": "EUR",
     "location": {
       "name": "France",
-      "address": "98 avenue Gabriel Péri, 92230 Gennevilliers",
+      "address": "98 avenue Gabriel Péri\n92230 Gennevilliers",
       "country": "FR"
     }
   },
@@ -39,13 +39,13 @@
     {
       "id": 154214,
       "createdAt": "Tue Mar 05 2019 21:20:25 GMT+0000 (Coordinated Universal Time)",
-      "description": "Donation to Boostnote",
-      "amount": 2000,
-      "currency": "USD",
+      "description": "Large Hamburger",
+      "amount": 1050,
+      "currency": "EUR",
       "type": "CREDIT",
-      "hostCurrency": "USD",
-      "netAmountInCollectiveCurrency": 1712,
-      "taxAmount": 0,
+      "hostCurrency": "EUR",
+      "netAmountInCollectiveCurrency": 1050,
+      "taxAmount": 50,
       "fromCollective": {
         "id": 4469,
         "slug": "betree",
@@ -59,7 +59,17 @@
       },
       "order": {
         "id": 4242,
-        "tier": null
+        "tier": null,
+        "quantity": 1,
+        "data": {
+          "tax": {
+            "id": "VAT",
+            "taxerCountry": "BE",
+            "taxedCountry": "BE",
+            "percentage": 5,
+            "taxIDNumber": "BE0414445663"
+          }
+        }
       }
     },
     {
@@ -67,9 +77,9 @@
       "createdAt": "Wed Mar 06 2019 17:44:07 GMT+0000 (Coordinated Universal Time)",
       "description": "Order for a swag (TShirt)",
       "amount": 6050,
-      "currency": "USD",
+      "currency": "EUR",
       "type": "CREDIT",
-      "hostCurrency": "USD",
+      "hostCurrency": "EUR",
       "netAmountInCollectiveCurrency": 5240,
       "taxAmount": 1050,
       "fromCollective": {
@@ -85,6 +95,7 @@
       },
       "order": {
         "id": 5534,
+        "quantity": 2,
         "data": {
           "tax": {
             "id": "VAT",

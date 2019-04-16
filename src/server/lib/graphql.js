@@ -81,6 +81,7 @@ const invoiceFields = gql`
       ... on Order {
         order {
           id
+          quantity
           tier {
             id
             type
