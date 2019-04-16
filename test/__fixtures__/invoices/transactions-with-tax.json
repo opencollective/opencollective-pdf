@@ -1,5 +1,5 @@
 {
-  "slug": "201903.opensourcecollective.betree",
+  "slug": "201903.europecollective.betree",
   "totalAmount": 13050,
   "currency": "USD",
   "year": 2019,
@@ -7,10 +7,10 @@
   "day": null,
   "host": {
     "id": 11004,
-    "slug": "opensourcecollective",
-    "name": "Open Source Collective 501c6 (Non Profit)",
+    "slug": "europe",
+    "name": "Open Collective Europe",
     "image": "https://opencollective-production.s3-us-west-1.amazonaws.com/5f4a3920-11b6-11e8-b28d-b359f3c5ca14.png",
-    "website": "https://opencollective.com/opensource",
+    "website": "https://opencollective.com/europe",
     "settings": {
       "editor": "html",
       "apply": true,
@@ -85,6 +85,15 @@
       },
       "order": {
         "id": 5534,
+        "data": {
+          "tax": {
+            "id": "VAT",
+            "taxerCountry": "BE",
+            "taxedCountry": "BE",
+            "percentage": 21,
+            "taxIDNumber": "BE0414445663"
+          }
+        },
         "tier": {
           "id": 555,
           "type": "PRODUCT"

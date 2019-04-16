@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedDate, FormattedMessage } from 'react-intl';
-import { get, chunk, sumBy, max } from 'lodash';
+import { get, chunk, sumBy, max, uniq, isNil } from 'lodash';
 import { Box, Flex, Image } from 'rebass';
 import moment from 'moment';
 
@@ -144,6 +144,19 @@ export class InvoicePage extends React.Component {
 
   getTaxTotal() {
     return this.props.invoice.transactions.reduce((total, t) => total + (t.taxAmount || 0), 0);
+  }
+
+  /** Returns the VAT number of the collective */
+  renderTaxIdNumbers() {
+    const taxIdNumbers = this.props.invoice.transactions
+      .map(t => get(t, 'order.data.tax.taxIDNumber'))
+      .filter(taxIdNumber => !isNil(taxIdNumber));
+
+    if (taxIdNumbers.length === 0) {
+      return null;
+    }
+
+    return uniq(taxIdNumbers).map(number => <P key={number}>{number}</P>);
   }
 
   getTaxPercent(transaction) {
@@ -334,6 +347,7 @@ export class InvoicePage extends React.Component {
                           {invoice.fromCollective.name}
                         </P>
                         {this.renderLocation(invoice.fromCollective)}
+                        {this.renderTaxIdNumbers()}
                       </Box>
                     </Box>
                   </Flex>
