@@ -6,13 +6,13 @@ import { countries as countriesEN } from 'i18n-iso-countries/langs/en.json';
 /**
  * Pretty render a location (multiline)
  */
-const CollectiveAddress = collective => {
+const CollectiveAddress = ({ collective }) => {
   const address = get(collective, 'location.address');
   const countryISO = get(collective, 'location.country');
   const country = countryISO && (countriesEN[countryISO] || countryISO);
 
   return (
-    <div>
+    <React.Fragment>
       {address &&
         address.split('\n').map((addressPart, idx) => (
           <span key={idx}>
@@ -21,7 +21,7 @@ const CollectiveAddress = collective => {
           </span>
         ))}
       {country}
-    </div>
+    </React.Fragment>
   );
 };
 

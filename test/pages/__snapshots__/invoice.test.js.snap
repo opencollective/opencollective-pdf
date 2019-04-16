@@ -366,7 +366,22 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
             <div
               className="c6"
             >
-              <div />
+              <span>
+                EIN 82-2037583
+                <br />
+              </span>
+              <span>
+                340 S LEMON AVE #3717
+                <br />
+              </span>
+              <span>
+                Walnut, CA 91789
+                <br />
+              </span>
+              <span>
+                USA
+                <br />
+              </span>
             </div>
             <a
               className="website c4"
@@ -394,7 +409,6 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
               >
                 Amazing Organization
               </p>
-              <div />
             </div>
           </div>
         </div>
@@ -3521,7 +3535,22 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
           <p
             className="c33"
           >
-            <div />
+            <span>
+              EIN 82-2037583
+              <br />
+            </span>
+            <span>
+              340 S LEMON AVE #3717
+              <br />
+            </span>
+            <span>
+              Walnut, CA 91789
+              <br />
+            </span>
+            <span>
+              USA
+              <br />
+            </span>
           </p>
         </div>
       </div>
@@ -3886,7 +3915,22 @@ exports[`Single transaction invoice simple transaction 1`] = `
             <div
               className="c6"
             >
-              <div />
+              <span>
+                EIN 82-2037583
+                <br />
+              </span>
+              <span>
+                340 S LEMON AVE #3717
+                <br />
+              </span>
+              <span>
+                Walnut, CA 91789
+                <br />
+              </span>
+              <span>
+                USA
+                <br />
+              </span>
             </div>
             <a
               className="website c4"
@@ -3914,7 +3958,14 @@ exports[`Single transaction invoice simple transaction 1`] = `
               >
                 Benjamin Piouffle
               </p>
-              <div />
+              <span>
+                98 avenue Gabriel Péri
+                <br />
+              </span>
+              <span>
+                92230 Gennevilliers
+                <br />
+              </span>
             </div>
           </div>
         </div>
@@ -4140,7 +4191,22 @@ exports[`Single transaction invoice simple transaction 1`] = `
           <p
             className="c32"
           >
-            <div />
+            <span>
+              EIN 82-2037583
+              <br />
+            </span>
+            <span>
+              340 S LEMON AVE #3717
+              <br />
+            </span>
+            <span>
+              Walnut, CA 91789
+              <br />
+            </span>
+            <span>
+              USA
+              <br />
+            </span>
           </p>
         </div>
       </div>
@@ -4528,7 +4594,15 @@ exports[`Single transaction invoice with taxes 1`] = `
             <div
               className="c6"
             >
-              <div />
+              <span>
+                852 avenue Gaston Lagaffe
+                <br />
+              </span>
+              <span>
+                1005 Brussels
+                <br />
+              </span>
+              Belgium
             </div>
             <a
               className="website c4"
@@ -4556,7 +4630,15 @@ exports[`Single transaction invoice with taxes 1`] = `
               >
                 Benjamin Piouffle
               </p>
-              <div />
+              <span>
+                98 avenue Gabriel Péri
+                <br />
+              </span>
+              <span>
+                92230 Gennevilliers
+                <br />
+              </span>
+              France
               <p
                 className="c10"
               >
@@ -4856,7 +4938,15 @@ exports[`Single transaction invoice with taxes 1`] = `
           <p
             className="c34"
           >
-            <div />
+            <span>
+              852 avenue Gaston Lagaffe
+              <br />
+            </span>
+            <span>
+              1005 Brussels
+              <br />
+            </span>
+            Belgium
           </p>
         </div>
       </div>
@@ -5231,7 +5321,22 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
             <div
               className="c6"
             >
-              <div />
+              <span>
+                EIN 82-2037583
+                <br />
+              </span>
+              <span>
+                340 S LEMON AVE #3717
+                <br />
+              </span>
+              <span>
+                Walnut, CA 91789
+                <br />
+              </span>
+              <span>
+                USA
+                <br />
+              </span>
             </div>
             <a
               className="website c4"
@@ -5259,7 +5364,6 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
               >
                 Amazing Organization
               </p>
-              <div />
             </div>
           </div>
         </div>
@@ -8386,7 +8490,22 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
           <p
             className="c33"
           >
-            <div />
+            <span>
+              EIN 82-2037583
+              <br />
+            </span>
+            <span>
+              340 S LEMON AVE #3717
+              <br />
+            </span>
+            <span>
+              Walnut, CA 91789
+              <br />
+            </span>
+            <span>
+              USA
+              <br />
+            </span>
           </p>
         </div>
       </div>
