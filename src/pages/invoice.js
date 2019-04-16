@@ -183,11 +183,13 @@ export class InvoicePage extends React.Component {
   /** Pretty render a location (multiline) */
   renderLocation(collective) {
     const address = get(collective, 'location.address');
-    const country = collective.countryISO && (countriesEN[collective.countryISO] || collective.countryISO);
+    const countryISO = get(collective, 'location.country');
+    const country = countryISO && (countriesEN[countryISO] || countryISO);
+
     return (
       <React.Fragment>
         {address &&
-          address.split(',').map((addressPart, idx) => (
+          address.split(/,|\n/).map((addressPart, idx) => (
             <span key={idx}>
               {addressPart.trim()}
               <br />
