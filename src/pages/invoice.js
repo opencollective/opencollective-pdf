@@ -1,11 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedDate, FormattedMessage } from 'react-intl';
-import { get, chunk, sumBy, max, uniq, isNil, groupBy } from 'lodash';
+import { get, chunk, sumBy, max, uniq, isNil } from 'lodash';
 import { Box, Flex, Image } from 'rebass';
 import moment from 'moment';
-
-import { countries as countriesEN } from 'i18n-iso-countries/langs/en.json';
 
 import { formatCurrency, imagePreview } from '../lib/utils';
 import withIntl from '../lib/withIntl';
@@ -17,6 +15,13 @@ import StyledLink from '../components/StyledLink';
 import LinkToCollective from '../components/LinkToCollective';
 
 import GiftCardImgSrc from '../static/images/giftcard.png';
+import CollectiveAddress from '../components/CollectiveAddress';
+import {
+  getTaxesBreakdown,
+  getTransactionReceiver,
+  getTransactionAmount,
+  getTransactionTaxPercent,
+} from '../lib/transactions';
 
 const baseUrl = 'https://opencollective.com';
 
@@ -137,11 +142,6 @@ export class InvoicePage extends React.Component {
       .join('-');
   }
 
-  /** Given a transaction, return the collective that receive the money */
-  getTransactionReceiver(transaction) {
-    return transaction.type === 'CREDIT' ? transaction.collective : transaction.fromCollective;
-  }
-
   getTaxTotal() {
     return this.props.invoice.transactions.reduce((total, t) => total + (t.taxAmount || 0), 0);
   }
@@ -159,51 +159,9 @@ export class InvoicePage extends React.Component {
     return uniq(taxIdNumbers).map(number => <P key={number}>{number}</P>);
   }
 
-  getTransactionAmount(transaction) {
-    return transaction.type === 'CREDIT' ? transaction.amount : transaction.netAmountInCollectiveCurrency * -1;
-  }
-
-  getTaxPercent(transaction) {
-    if (!transaction.taxAmount) {
-      return 0;
-    }
-
-    // Try to get it from the order
-    const percent = get(transaction, 'order.data.tax.percentage');
-    if (percent) {
-      return percent;
-    }
-
-    // Calculate from amount
-    const amount = this.getTransactionAmount(transaction);
-    return (transaction.taxAmount / (amount - transaction.taxAmount)) * 100;
-  }
-
-  /**
-   * Get a list of taxes
-   * @returns {Array} like [{ key: 'VAT-21', id: 'VAT', percentage: 21, amount: 42 }]
-   */
-  getTaxesBreakdown() {
-    // Get all transactions that have at least a tax amount or a tax ID
-    const transactionsWithTax = this.props.invoice.transactions.filter(t => {
-      return t.taxAmount || get(t, 'order.data.tax.id');
-    });
-
-    const groupedTransactions = groupBy(transactionsWithTax, t => {
-      return `${get(t, 'order.data.tax.id', 'Tax')}-${this.getTaxPercent(t)}`;
-    });
-
-    return Object.keys(groupedTransactions).map(key => ({
-      id: get(groupedTransactions[key][0], 'order.data.tax.id', 'Tax'),
-      percentage: this.getTaxPercent(groupedTransactions[key][0]),
-      amount: groupedTransactions[key].reduce((total, t) => total + t.taxAmount, 0),
-      key,
-    }));
-  }
-
   /** Get a description for transaction, with a mention to virtual card emitter if necessary */
   transactionDescription(transaction) {
-    const targetCollective = this.getTransactionReceiver(transaction);
+    const targetCollective = getTransactionReceiver(transaction);
     const transactionDescription = (
       <LinkToCollective collective={targetCollective}>
         {transaction.description || targetCollective.name || targetCollective.slug}
@@ -217,26 +175,6 @@ export class InvoicePage extends React.Component {
         <Image src={GiftCardImgSrc} alt="" height="1em" mr={1} css={{ verticalAlign: 'middle' }} />
         <LinkToCollective collective={targetCollective}>{transactionDescription}</LinkToCollective>
       </div>
-    );
-  }
-
-  /** Pretty render a location (multiline) */
-  renderLocation(collective) {
-    const address = get(collective, 'location.address');
-    const countryISO = get(collective, 'location.country');
-    const country = countryISO && (countriesEN[countryISO] || countryISO);
-
-    return (
-      <React.Fragment>
-        {address &&
-          address.split('\n').map((addressPart, idx) => (
-            <span key={idx}>
-              {addressPart.trim()}
-              <br />
-            </span>
-          ))}
-        {country}
-      </React.Fragment>
     );
   }
 
@@ -268,7 +206,7 @@ export class InvoicePage extends React.Component {
         <tbody>
           {transactions.map(transaction => {
             const quantity = get(transaction, 'order.quantity') || 1;
-            const amount = this.getTransactionAmount(transaction);
+            const amount = getTransactionAmount(transaction);
             const taxAmount = transaction.taxAmount || 0;
             const unitGrossPrice = (amount - taxAmount) / quantity;
 
@@ -285,7 +223,7 @@ export class InvoicePage extends React.Component {
                   {formatCurrency(unitGrossPrice, transaction.currency)}
                 </Td>
                 <Td fontSize="Caption" textAlign="center">
-                  {isNil(transaction.taxAmount) ? '-' : `${this.getTaxPercent(transaction)}%`}
+                  {isNil(transaction.taxAmount) ? '-' : `${getTransactionTaxPercent(transaction)}%`}
                 </Td>
                 <Td textAlign="right">{formatCurrency(amount, transaction.hostCurrency)}</Td>
               </tr>
@@ -377,7 +315,9 @@ export class InvoicePage extends React.Component {
                           {invoice.host.name}
                         </H1>
                       </StyledLink>
-                      <Box my={2}>{this.renderLocation(invoice.host)}</Box>
+                      <Box my={2}>
+                        <CollectiveAddress collective={invoice.host} />
+                      </Box>
                       <StyledLink href={`https://opencollective.com/${invoice.host.slug}`} className="website">
                         https://opencollective.com/{invoice.host.slug}
                       </StyledLink>
@@ -390,7 +330,7 @@ export class InvoicePage extends React.Component {
                         <P fontWeight={500} fontSize="LeadParagraph">
                           {invoice.fromCollective.name}
                         </P>
-                        {this.renderLocation(invoice.fromCollective)}
+                        <CollectiveAddress collective={invoice.fromCollective} />
                         {this.renderTaxIdNumbers()}
                       </Box>
                     </Box>
@@ -422,22 +362,22 @@ export class InvoicePage extends React.Component {
                             {formatCurrency(invoice.totalAmount - taxesTotal, invoice.currency)}
                           </Span>
                         </Flex>
-                        {this.getTaxesBreakdown().map(({ key, id, percentage, amount }) => (
-                          <Flex key={key} justifyContent="space-between" mt={2}>
-                            {id === 'VAT' ? (
+                        {getTaxesBreakdown(this.props.invoice.transactions).map(tax => (
+                          <Flex key={tax.key} justifyContent="space-between" mt={2}>
+                            {tax.id === 'VAT' ? (
                               <FormattedMessage
                                 id="invoice.vatPercent"
                                 defaultMessage="VAT {percentage}%"
-                                values={{ percentage }}
+                                values={{ percentage: tax.percentage }}
                               />
                             ) : (
                               <FormattedMessage
                                 id="invoice.taxPercent"
                                 defaultMessage="Tax {percentage}%"
-                                values={{ percentage }}
+                                values={{ percentage: tax.percentage }}
                               />
                             )}
-                            <Span fontWeight="bold">{formatCurrency(amount, invoice.currency)}</Span>
+                            <Span fontWeight="bold">{formatCurrency(tax.amount, invoice.currency)}</Span>
                           </Flex>
                         ))}
                       </Box>
@@ -471,7 +411,7 @@ export class InvoicePage extends React.Component {
                       {invoice.host.name}
                     </P>
                     <P mt={2} textAlign="center" color="black.600">
-                      {this.renderLocation(invoice.host)}
+                      <CollectiveAddress collective={invoice.host} />
                     </P>
                   </Box>
                 </Flex>
