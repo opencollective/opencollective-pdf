@@ -21,10 +21,10 @@ const getDefaultZoom = fileFormat => {
 };
 
 const getAccessToken = req => {
-  const authorizationHeader = get(req, 'headers.authorization');
+  const authorizationHeader = get(req, 'headers.authorization') || get(req, 'headers.Authorization');
   if (!authorizationHeader) {
     if (!req.query.app_key) {
-      throw new Error('Not authorized. Please provide an authorization header or an app_key.');
+      throw new Error(`Not authorized to access ${req.url}. Please provide an authorization header or an app_key.`);
     } else {
       return;
     }
