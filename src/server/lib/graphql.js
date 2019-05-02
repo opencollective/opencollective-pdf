@@ -9,9 +9,15 @@ const getGraphqlUrl = () => {
 };
 
 const getClient = (accessToken, apiKey) => {
-  return new GraphQLClient(getGraphqlUrl(), {
-    headers: accessToken ? { authorization: `Bearer ${accessToken}` } : { 'Api-Key': apiKey },
-  });
+  const headers = {};
+
+  if (accessToken) {
+    headers['authorization'] = `Bearer ${accessToken}`;
+  } else if (apiKey) {
+    headers['Api-Key'] = apiKey;
+  }
+
+  return new GraphQLClient(getGraphqlUrl(), { headers });
 };
 
 const invoiceFields = gql`
@@ -106,6 +112,7 @@ export async function fetchInvoiceByDateRange(invoiceInputType, accessToken, api
   const result = await client.request(print(query), { invoiceInputType });
   return result.InvoiceByDateRange;
 }
+
 export async function fetchInvoice(invoiceSlug, accessToken, apiKey) {
   const query = gql`
     query Invoice($invoiceSlug: String!) {
@@ -121,7 +128,14 @@ export async function fetchInvoice(invoiceSlug, accessToken, apiKey) {
   return result.Invoice;
 }
 
-export async function fetchTransactionInvoice(transactionUuid, accessToken, apiKey) {
+/**
+ * Fetch invoice for a single transaction.
+ * This endpoint doesn't require authentication because we assume that the `uuid`
+ * is private to the user.
+ *
+ * @param {string} transactionUuid
+ */
+export async function fetchTransactionInvoice(transactionUuid) {
   const query = gql`
     query TransactionInvoice($transactionUuid: String!) {
       TransactionInvoice(transactionUuid: $transactionUuid) {
@@ -132,7 +146,7 @@ export async function fetchTransactionInvoice(transactionUuid, accessToken, apiK
     ${invoiceFields}
   `;
 
-  const client = getClient(accessToken, apiKey);
+  const client = getClient();
   const result = await client.request(print(query), { transactionUuid });
   return result.TransactionInvoice;
 }
