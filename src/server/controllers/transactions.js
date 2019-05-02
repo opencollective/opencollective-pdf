@@ -142,16 +142,22 @@ export async function invoiceByDateRange(req, res, next) {
     }
   }
 }
+
+/**
+ * Fetch invoice for transaction.
+ * This endpoint doesn't require authentication because we assume that the `uuid`
+ * is private to the user.
+ */
 export async function transactionInvoice(req, res, next) {
   const { transactionUuid } = req.params;
-  const accessToken = getAccessToken(req);
+
   try {
-    const invoice = await fetchTransactionInvoice(transactionUuid, accessToken, req.query.app_key);
+    const invoice = await fetchTransactionInvoice(transactionUuid);
     return downloadInvoice(req, res, next, invoice);
   } catch (e) {
     logger.error('>>> transactions.transactionInvoice error', e.message);
     logger.debug(e);
-    if (e.message.match(/No collective found/)) {
+    if (e.message.match(/doesn't exists/)) {
       return res.status(404).send('Not found');
     } else {
       return res.status(500).send(`Internal Server Error: ${e.message}`);
