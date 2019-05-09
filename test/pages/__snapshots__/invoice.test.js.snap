@@ -259,8 +259,8 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
 }
 
 .c30 {
-  border-color: #C4C7CC;
   border-right: 1px solid;
+  border-color: #C4C7CC;
   border-color: #C4C7CC;
   margin-right: 32px;
   padding-right: 32px;
@@ -3818,8 +3818,8 @@ exports[`Single transaction invoice simple transaction 1`] = `
 }
 
 .c29 {
-  border-color: #C4C7CC;
   border-right: 1px solid;
+  border-color: #C4C7CC;
   border-color: #C4C7CC;
   margin-right: 32px;
   padding-right: 32px;
@@ -4497,8 +4497,8 @@ exports[`Single transaction invoice with taxes 1`] = `
 }
 
 .c31 {
-  border-color: #C4C7CC;
   border-right: 1px solid;
+  border-color: #C4C7CC;
   border-color: #C4C7CC;
   margin-right: 32px;
   padding-right: 32px;
@@ -5214,8 +5214,8 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
 }
 
 .c30 {
-  border-color: #C4C7CC;
   border-right: 1px solid;
+  border-color: #C4C7CC;
   border-color: #C4C7CC;
   margin-right: 32px;
   padding-right: 32px;
