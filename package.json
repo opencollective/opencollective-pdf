@@ -18,7 +18,7 @@
     "express": "~4.16.3",
     "express-winston": "~3.1.0",
     "fs-extra": "^7.0.1",
-    "graphql": "14.2.1",
+    "graphql": "14.3.1",
     "graphql-request": "~1.8.2",
     "graphql-tag": "2.10.1",
     "html-pdf": "~2.2.0",
