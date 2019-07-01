@@ -17,7 +17,7 @@
     "dotenv": "~8.0.0",
     "express": "~4.16.3",
     "express-winston": "~3.1.0",
-    "fs-extra": "^8.0.1",
+    "fs-extra": "^8.1.0",
     "graphql": "14.3.1",
     "graphql-request": "~1.8.2",
     "graphql-tag": "2.10.1",
