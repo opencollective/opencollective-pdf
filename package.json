@@ -24,7 +24,7 @@
     "html-pdf": "~2.2.0",
     "i18n-iso-countries": "~4.1.1",
     "intl": "~1.2.5",
-    "lodash": "~4.17.11",
+    "lodash": "~4.17.13",
     "moment": "~2.24.0",
     "next": "~8.1.0",
     "next-routes": "~1.4.2",
