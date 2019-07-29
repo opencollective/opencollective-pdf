@@ -33,7 +33,7 @@
     "react": "~16.8.2",
     "react-dom": "~16.8.6",
     "react-intl": "~2.9.0",
-    "rebass": "~3.0.1",
+    "rebass": "~3.1.2",
     "sanitize-html": "~1.20.1",
     "styled-components": "~4.2.1",
     "styled-system": "~4.2.3",
