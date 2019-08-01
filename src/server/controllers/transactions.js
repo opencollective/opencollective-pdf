@@ -5,7 +5,7 @@ import pdf from 'html-pdf';
 import sanitizeHtmlLib from 'sanitize-html';
 
 import { logger } from '../logger';
-import { fetchInvoice, fetchInvoiceByDateRange, fetchTransactionInvoice } from '../lib/graphql';
+import { fetchInvoiceByDateRange, fetchTransactionInvoice } from '../lib/graphql';
 
 const getPageFormat = (req, invoice) => {
   if (req.query.pageFormat === 'A4' || invoice.fromCollective.currency === 'EUR') {
@@ -90,27 +90,6 @@ const downloadInvoice = async (req, res, next, invoice) => {
     throw new Error('Unknown format');
   }
 };
-
-export async function invoice(req, res, next) {
-  // Keeping the resulting info for 10mn in the CDN cache
-  res.setHeader('Cache-Control', `public, max-age=${60 * 10}`);
-
-  const accessToken = getAccessToken(req);
-
-  try {
-    const invoice = await fetchInvoice(req.params.invoiceSlug, accessToken, req.query.app_key);
-
-    return downloadInvoice(req, res, next, invoice);
-  } catch (e) {
-    logger.error('>>> transactions.invoice error', e.message);
-    logger.debug(e);
-    if (e.message.match(/No collective found/)) {
-      return res.status(404).send('Not found');
-    } else {
-      return res.status(500).send(`Internal Server Error: ${e.message}`);
-    }
-  }
-}
 
 export async function invoiceByDateRange(req, res, next) {
   // Keeping the resulting info for 10mn in the CDN cache

@@ -25,18 +25,6 @@ export default (server, app) => {
   });
 
   /**
-   * Deprecated Endpoint to download invoice in HTML, PDF or JSON
-   */
-  server.get(
-    '/collectives/:collectiveSlug/:invoiceSlug.:format(html|pdf|json)',
-    (req, res, next) => {
-      req.app = app;
-      next();
-    },
-    controllers.transactions.invoice,
-  );
-
-  /**
    * Endpoint to download invoice in HTML, PDF or JSON
    */
   server.get(
