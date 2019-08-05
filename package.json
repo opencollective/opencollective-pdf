@@ -70,7 +70,7 @@
     "babel-plugin-styled-components": "^1.10.6",
     "codecov": "^3.5.0",
     "commitizen": "^3.1.1",
-    "cz-conventional-changelog": "^2.1.0",
+    "cz-conventional-changelog": "^3.0.2",
     "eslint": "^5.16.0",
     "eslint-config-opencollective": "^2.0.0",
     "eslint-plugin-babel": "^5.2.1",
