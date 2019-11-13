@@ -450,7 +450,7 @@ function RenderSingleDate(props) {
     <div className="detail">
       <label>Date:</label>{' '}
       <FormattedDate
-        value={new Date(invoice.year, invoice.month, invoice.day)}
+        value={new Date(invoice.year, invoice.month-1, invoice.day)}
         day="2-digit"
         month="2-digit"
         year="numeric"
