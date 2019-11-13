@@ -342,10 +342,10 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
     className="jsx-1304922212 pages"
   >
     <div
-      className="page c0"
+      className="c0 page"
     >
       <div
-        className="header c1"
+        className="c1 header"
       >
         <div
           className="c2"
@@ -384,7 +384,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
               </span>
             </div>
             <a
-              className="website c4"
+              className="c4 website"
               href="https://opencollective.com/opensourcecollective"
             >
               https://opencollective.com/
@@ -1234,7 +1234,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
       </div>
     </div>
     <div
-      className="page c0"
+      className="c0 page"
     >
       <div
         className="c11"
@@ -2591,7 +2591,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
       </div>
     </div>
     <div
-      className="page c0"
+      className="c0 page"
     >
       <div
         className="c11"
@@ -3509,7 +3509,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
         </div>
       </div>
       <div
-        className="footer c29"
+        className="c29 footer"
       >
         <div
           className="c30"
@@ -3891,10 +3891,10 @@ exports[`Single transaction invoice simple transaction 1`] = `
     className="jsx-1304922212 pages"
   >
     <div
-      className="page c0"
+      className="c0 page"
     >
       <div
-        className="header c1"
+        className="c1 header"
       >
         <div
           className="c2"
@@ -3933,7 +3933,7 @@ exports[`Single transaction invoice simple transaction 1`] = `
               </span>
             </div>
             <a
-              className="website c4"
+              className="c4 website"
               href="https://opencollective.com/opensourcecollective"
             >
               https://opencollective.com/
@@ -3987,7 +3987,7 @@ exports[`Single transaction invoice simple transaction 1`] = `
             </label>
              
             <span>
-              01/02/2019
+              12/02/2018
             </span>
           </div>
           <div
@@ -4165,7 +4165,7 @@ exports[`Single transaction invoice simple transaction 1`] = `
         </div>
       </div>
       <div
-        className="footer c28"
+        className="c28 footer"
       >
         <div
           className="c29"
@@ -4570,10 +4570,10 @@ exports[`Single transaction invoice with taxes 1`] = `
     className="jsx-1304922212 pages"
   >
     <div
-      className="page c0"
+      className="c0 page"
     >
       <div
-        className="header c1"
+        className="c1 header"
       >
         <div
           className="c2"
@@ -4605,7 +4605,7 @@ exports[`Single transaction invoice with taxes 1`] = `
               Belgium
             </div>
             <a
-              className="website c4"
+              className="c4 website"
               href="https://opencollective.com/europe"
             >
               https://opencollective.com/
@@ -4665,7 +4665,7 @@ exports[`Single transaction invoice with taxes 1`] = `
             </label>
              
             <span>
-              03/31/2019
+              02/28/2019
             </span>
           </div>
           <div
@@ -4912,7 +4912,7 @@ exports[`Single transaction invoice with taxes 1`] = `
         </div>
       </div>
       <div
-        className="footer c30"
+        className="c30 footer"
       >
         <div
           className="c31"
@@ -5297,10 +5297,10 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
     className="jsx-1304922212 pages"
   >
     <div
-      className="page c0"
+      className="c0 page"
     >
       <div
-        className="header c1"
+        className="c1 header"
       >
         <div
           className="c2"
@@ -5339,7 +5339,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
               </span>
             </div>
             <a
-              className="website c4"
+              className="c4 website"
               href="https://opencollective.com/opensourcecollective"
             >
               https://opencollective.com/
@@ -6189,7 +6189,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
       </div>
     </div>
     <div
-      className="page c0"
+      className="c0 page"
     >
       <div
         className="c11"
@@ -7546,7 +7546,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
       </div>
     </div>
     <div
-      className="page c0"
+      className="c0 page"
     >
       <div
         className="c11"
@@ -8464,7 +8464,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
         </div>
       </div>
       <div
-        className="footer c29"
+        className="c29 footer"
       >
         <div
           className="c30"
