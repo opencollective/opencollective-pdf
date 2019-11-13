@@ -3,7 +3,6 @@
 [![Circle CI](https://circleci.com/gh/opencollective/opencollective-invoices/tree/master.svg?style=shield)](https://circleci.com/gh/opencollective/opencollective-invoices/tree/master)
 [![Slack Status](https://slack.opencollective.org/badge.svg)](https://slack.opencollective.org)
 [![Dependency Status](https://david-dm.org/opencollective/opencollective-invoices/status.svg)](https://david-dm.org/opencollective/opencollective-invoices)
-[![Greenkeeper badge](https://badges.greenkeeper.io/opencollective/opencollective-invoices.svg)](https://greenkeeper.io/)
 [![codecov](https://codecov.io/gh/opencollective/opencollective-invoices/branch/master/graph/badge.svg)](https://codecov.io/gh/opencollective/opencollective-invoices)
 
 ## Foreword
