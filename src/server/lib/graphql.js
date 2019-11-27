@@ -22,6 +22,7 @@ const getClient = (accessToken, apiKey) => {
 
 const invoiceFields = gql`
   fragment InvoiceFields on InvoiceType {
+    title
     slug
     dateFrom
     dateTo
