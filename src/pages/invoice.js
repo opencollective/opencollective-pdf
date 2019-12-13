@@ -234,23 +234,6 @@ export class InvoicePage extends React.Component {
     );
   }
 
-  renderInvoiceTitle() {
-    if (this.props.invoice.title) {
-      return this.props.invoice.title;
-    }
-
-    // If there's only donations (no ticket,product...) show "Donation Receipt", otherwise "Invoice"
-    const isDonationOnly = !this.props.invoice.transactions.find(t => {
-      return !['TIER', 'DONATION'].includes(get(t, 'order.tier.type', 'DONATION'));
-    });
-
-    if (isDonationOnly) {
-      return <FormattedMessage id="invoice.donationReceipt" defaultMessage="Donation Receipt" />;
-    } else {
-      return <FormattedMessage id="invoice" defaultMessage="Invoice" />;
-    }
-  }
-
   render() {
     const { invoice } = this.props;
     if (!invoice) {
@@ -337,7 +320,11 @@ export class InvoicePage extends React.Component {
                   </Flex>
 
                   <Box>
-                    <H2>{this.renderInvoiceTitle()}</H2>
+                    <H2>
+                      {invoice.title || (
+                        <FormattedMessage id="invoice.donationReceipt" defaultMessage="Payment Receipt" />
+                      )}
+                    </H2>
                     {invoice.dateFrom && invoice.dateTo ? (
                       <RenderDateFromDateTo invoice={invoice} />
                     ) : (
@@ -450,7 +437,7 @@ function RenderSingleDate(props) {
     <div className="detail">
       <label>Date:</label>{' '}
       <FormattedDate
-        value={new Date(invoice.year, invoice.month-1, invoice.day)}
+        value={new Date(invoice.year, invoice.month - 1, invoice.day)}
         day="2-digit"
         month="2-digit"
         year="numeric"

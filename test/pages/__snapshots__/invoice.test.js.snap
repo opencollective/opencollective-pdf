@@ -419,7 +419,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
             className="-Clean-h2 c8"
           >
             <span>
-              Donation Receipt
+              Payment Receipt
             </span>
           </h2>
           <div>
@@ -3976,7 +3976,7 @@ exports[`Single transaction invoice simple transaction 1`] = `
             className="-Clean-h2 c8"
           >
             <span>
-              Donation Receipt
+              Payment Receipt
             </span>
           </h2>
           <div
@@ -4654,7 +4654,7 @@ exports[`Single transaction invoice with taxes 1`] = `
             className="-Clean-h2 c8"
           >
             <span>
-              Invoice
+              Payment Receipt
             </span>
           </h2>
           <div
@@ -5374,7 +5374,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
             className="-Clean-h2 c8"
           >
             <span>
-              Donation Receipt
+              Payment Receipt
             </span>
           </h2>
           <div>
