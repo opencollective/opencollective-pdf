@@ -4,7 +4,8 @@
       "next/babel",
       {
         "preset-env": {
-          "modules": "auto"
+          "modules": "auto",
+          "targets": { "node": "current" }
         },
         "transform-runtime": {
           "useESModules": false
