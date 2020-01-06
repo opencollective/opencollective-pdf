@@ -131,7 +131,8 @@ export async function transactionInvoice(req, res, next) {
   const { transactionUuid } = req.params;
 
   try {
-    const invoice = await fetchTransactionInvoice(transactionUuid);
+    const accessToken = getAccessToken(req);
+    const invoice = await fetchTransactionInvoice(transactionUuid, accessToken, req.query.app_key);
     return downloadInvoice(req, res, next, invoice);
   } catch (e) {
     logger.error('>>> transactions.transactionInvoice error', e.message);
