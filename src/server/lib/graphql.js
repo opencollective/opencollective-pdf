@@ -136,7 +136,7 @@ export async function fetchInvoice(invoiceSlug, accessToken, apiKey) {
  *
  * @param {string} transactionUuid
  */
-export async function fetchTransactionInvoice(transactionUuid) {
+export async function fetchTransactionInvoice(transactionUuid, accessToken, apiKey) {
   const query = gql`
     query TransactionInvoice($transactionUuid: String!) {
       TransactionInvoice(transactionUuid: $transactionUuid) {
@@ -147,7 +147,7 @@ export async function fetchTransactionInvoice(transactionUuid) {
     ${invoiceFields}
   `;
 
-  const client = getClient();
+  const client = getClient(accessToken, apiKey);
   const result = await client.request(print(query), { transactionUuid });
   return result.TransactionInvoice;
 }
