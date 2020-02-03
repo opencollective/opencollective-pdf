@@ -20,11 +20,13 @@ const getDefaultZoom = fileFormat => {
   return fileFormat === 'pdf' ? '0.75' : '1';
 };
 
-const getAccessToken = req => {
+const getAccessToken = (req, errorMsg) => {
   const authorizationHeader = get(req, 'headers.authorization') || get(req, 'headers.Authorization');
   if (!authorizationHeader) {
     if (!req.query.app_key) {
-      throw new Error(`Not authorized to access ${req.url}. Please provide an authorization header or an app_key.`);
+      throw new Error(
+        errorMsg || `Not authorized to access ${req.url}. Please provide an authorization header or an app_key.`,
+      );
     } else {
       return;
     }
@@ -124,14 +126,13 @@ export async function invoiceByDateRange(req, res, next) {
 
 /**
  * Fetch invoice for transaction.
- * This endpoint doesn't require authentication because we assume that the `uuid`
- * is private to the user.
  */
 export async function transactionInvoice(req, res, next) {
-  const { transactionUuid } = req.params;
+  const { transactionUuid, collectiveSlug } = req.params;
 
   try {
-    const accessToken = getAccessToken(req);
+    const errorMsgIfForbidden = `This endpoint requires authentication. If you ended up on this link directly, please go to https://opencollective.com/${collectiveSlug}/transactions instead to download your receipt.`;
+    const accessToken = getAccessToken(req, errorMsgIfForbidden);
     const invoice = await fetchTransactionInvoice(transactionUuid, accessToken, req.query.app_key);
     return downloadInvoice(req, res, next, invoice);
   } catch (e) {
