@@ -35,7 +35,7 @@
     "react-intl": "~2.9.0",
     "rebass": "~3.0.1",
     "sanitize-html": "~1.21.1",
-    "styled-components": "~4.4.1",
+    "styled-components": "~5.0.0",
     "styled-system": "~4.2.3",
     "winston": "~3.2.1"
   },
@@ -82,7 +82,7 @@
     "file-loader": "^5.0.2",
     "jest": "^25.1.0",
     "jest-junit": "^10.0.0",
-    "jest-styled-components": "^6.3.4",
+    "jest-styled-components": "^7.0.0",
     "nodemon": "^2.0.2",
     "prettier": "^1.19.1",
     "react-test-renderer": "^16.12.0",
