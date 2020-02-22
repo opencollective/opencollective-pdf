@@ -31,6 +31,7 @@ const invoiceFields = gql`
     year
     month
     day
+    extraInfo
     host {
       id
       slug

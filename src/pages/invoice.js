@@ -1,3 +1,5 @@
+
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedDate, FormattedMessage } from 'react-intl';
@@ -255,7 +257,6 @@ export class InvoicePage extends React.Component {
               /* See https://github.com/marcbachmann/node-html-pdf/issues/110 */
               zoom: ${this.props.zoom};
             }
-
             body {
               width: ${this.getPageWith()};
               padding: 0;
@@ -380,8 +381,13 @@ export class InvoicePage extends React.Component {
                         <Span>{formatCurrency(invoice.totalAmount, invoice.currency)}</Span>
                       </Container>
                     </Container>
+
+                    
                   </Flex>
                 )}
+                <P mt={2} textAlign="left" color="black" padding="4rem 0">
+                  {this.props.invoice.totalAmount}
+                </P>
               </Box>
               {pageNumber === chunkedTransactions.length - 1 && (
                 <Flex className="footer" justifyContent="center" alignItems="center">
