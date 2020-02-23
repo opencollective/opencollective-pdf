@@ -39,6 +39,7 @@ export class InvoicePage extends React.Component {
       slug: PropTypes.string,
       dateFrom: PropTypes.string,
       dateTo: PropTypes.string,
+      extraInfo: PropTypes.string,
       fromCollective: PropTypes.shape({
         slug: PropTypes.string.isRequired,
       }).isRequired,
@@ -386,7 +387,7 @@ export class InvoicePage extends React.Component {
                   </Flex>
                 )}
                 <P mt={2} textAlign="left" color="black" padding="4rem 0">
-                  {this.props.invoice.totalAmount}
+                  { invoice.extraInfo }
                 </P>
               </Box>
               {pageNumber === chunkedTransactions.length - 1 && (
