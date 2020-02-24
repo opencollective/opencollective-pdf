@@ -16,7 +16,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
   box-sizing: border-box;
 }
 
-.c24 {
+.c25 {
   box-sizing: border-box;
   padding: 16px;
 }
@@ -36,7 +36,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
   align-items: flex-start;
 }
 
-.c21 {
+.c22 {
   box-sizing: border-box;
   margin-top: 16px;
   display: -webkit-box;
@@ -49,7 +49,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
   justify-content: flex-end;
 }
 
-.c25 {
+.c26 {
   box-sizing: border-box;
   display: -webkit-box;
   display: -webkit-flex;
@@ -61,7 +61,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
   justify-content: space-between;
 }
 
-.c29 {
+.c30 {
   box-sizing: border-box;
   display: -webkit-box;
   display: -webkit-flex;
@@ -88,7 +88,40 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
   margin: 0;
 }
 
-.c32 {
+.c21 {
+  font-size: 12px;
+  line-height: 16px;
+  -webkit-letter-spacing: 0.025em;
+  -moz-letter-spacing: 0.025em;
+  -ms-letter-spacing: 0.025em;
+  letter-spacing: 0.025em;
+  margin: 0;
+  margin-top: 8px;
+  padding: 4rem 0;
+  text-align: left;
+}
+
+.c21 color {
+  50: #F7F8FA;
+  100: #F2F3F5;
+  200: #E8E9EB;
+  300: #DCDEE0;
+  400: #C4C7CC;
+  500: #9D9FA3;
+  600: #76777A;
+  700: #4E5052;
+  800: #313233;
+  900: #141414;
+}
+
+.c21 color transparent {
+  8: rgba(19,20,20,0.08);
+  20: rgba(19,20,20,0.2);
+  40: rgba(19,20,20,0.4);
+  80: rgba(19,20,20,0.80);
+}
+
+.c33 {
   font-size: 12px;
   font-weight: bold;
   line-height: 16px;
@@ -100,7 +133,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
   text-align: center;
 }
 
-.c33 {
+.c34 {
   color: #76777A;
   font-size: 12px;
   line-height: 16px;
@@ -113,7 +146,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
   text-align: center;
 }
 
-.c26 {
+.c27 {
   font-size: inherit;
   font-weight: bold;
   line-height: inherit;
@@ -124,7 +157,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
   margin: 0;
 }
 
-.c28 {
+.c29 {
   font-size: inherit;
   line-height: inherit;
   -webkit-letter-spacing: 0.025em;
@@ -228,7 +261,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
   border-radius: 4px;
 }
 
-.c23 {
+.c24 {
   border: 0;
   border-top: 1px solid #C4C7CC;
   margin: 0;
@@ -236,12 +269,12 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
   border-color: #E8E9EB;
 }
 
-.c22 {
+.c23 {
   font-size: 12px;
   width: 50%;
 }
 
-.c27 {
+.c28 {
   background: #ebf4ff;
   display: -webkit-box;
   display: -webkit-flex;
@@ -258,7 +291,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
   padding-right: 16px;
 }
 
-.c30 {
+.c31 {
   border-right: 1px solid;
   border-color: #C4C7CC;
   border-color: #C4C7CC;
@@ -326,7 +359,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
   flex-grow: 1;
 }
 
-.c31 {
+.c32 {
   box-sizing: border-box;
   margin: 0px;
   max-width: 100%;
@@ -336,10 +369,10 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
 }
 
 <div
-  className="jsx-1304922212 InvoicePages amazing-organization"
+  className="jsx-3100363109 InvoicePages amazing-organization"
 >
   <div
-    className="jsx-1304922212 pages"
+    className="jsx-3100363109 pages"
   >
     <div
       className="c0 page"
@@ -447,10 +480,10 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
             </div>
           </div>
           <div
-            className="jsx-1304922212 detail reference"
+            className="jsx-3100363109 detail reference"
           >
             <label
-              className="jsx-1304922212"
+              className="jsx-3100363109"
             >
               Reference:
             </label>
@@ -1231,6 +1264,10 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
             </tr>
           </tbody>
         </table>
+        <p
+          className="c21"
+          padding="4rem 0"
+        />
       </div>
     </div>
     <div
@@ -2588,6 +2625,10 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
             </tr>
           </tbody>
         </table>
+        <p
+          className="c21"
+          padding="4rem 0"
+        />
       </div>
     </div>
     <div
@@ -3469,57 +3510,61 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
           </tbody>
         </table>
         <div
-          className="c21"
+          className="c22"
         >
           <div
-            className="c22"
+            className="c23"
           >
             <hr
-              className="c23"
+              className="c24"
             />
             <div
-              className="c24"
+              className="c25"
             >
               <div
-                className="c25"
+                className="c26"
               >
                 <span>
                   Subtotal
                 </span>
                 <span
-                  className="-Clean-span c26"
+                  className="-Clean-span c27"
                 >
                   $858.00
                 </span>
               </div>
             </div>
             <div
-              className="c27"
+              className="c28"
             >
               <span>
                 TOTAL
               </span>
               <span
-                className="-Clean-span c28"
+                className="-Clean-span c29"
               >
                 $858.00
               </span>
             </div>
           </div>
         </div>
+        <p
+          className="c21"
+          padding="4rem 0"
+        />
       </div>
       <div
-        className="c29 footer"
+        className="c30 footer"
       >
         <div
-          className="c30"
+          className="c31"
         >
           <a
             className="c4"
             href="https://opencollective.com/opensource"
           >
             <img
-              className="c31"
+              className="c32"
               src="https://opencollective.com/proxy/images?src=https%3A%2F%2Fopencollective-production.s3-us-west-1.amazonaws.com%2F5f4a3920-11b6-11e8-b28d-b359f3c5ca14.png&height=200"
             />
           </a>
@@ -3528,12 +3573,12 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
           className="c10"
         >
           <p
-            className="c32"
+            className="c33"
           >
             Open Source Collective 501c6 (Non Profit)
           </p>
           <p
-            className="c33"
+            className="c34"
           >
             <span>
               EIN 82-2037583
@@ -3620,7 +3665,7 @@ exports[`Single transaction invoice simple transaction 1`] = `
   justify-content: space-between;
 }
 
-.c28 {
+.c29 {
   box-sizing: border-box;
   display: -webkit-box;
   display: -webkit-flex;
@@ -3647,7 +3692,40 @@ exports[`Single transaction invoice simple transaction 1`] = `
   margin: 0;
 }
 
-.c31 {
+.c28 {
+  font-size: 12px;
+  line-height: 16px;
+  -webkit-letter-spacing: 0.025em;
+  -moz-letter-spacing: 0.025em;
+  -ms-letter-spacing: 0.025em;
+  letter-spacing: 0.025em;
+  margin: 0;
+  margin-top: 8px;
+  padding: 4rem 0;
+  text-align: left;
+}
+
+.c28 color {
+  50: #F7F8FA;
+  100: #F2F3F5;
+  200: #E8E9EB;
+  300: #DCDEE0;
+  400: #C4C7CC;
+  500: #9D9FA3;
+  600: #76777A;
+  700: #4E5052;
+  800: #313233;
+  900: #141414;
+}
+
+.c28 color transparent {
+  8: rgba(19,20,20,0.08);
+  20: rgba(19,20,20,0.2);
+  40: rgba(19,20,20,0.4);
+  80: rgba(19,20,20,0.80);
+}
+
+.c32 {
   font-size: 12px;
   font-weight: bold;
   line-height: 16px;
@@ -3659,7 +3737,7 @@ exports[`Single transaction invoice simple transaction 1`] = `
   text-align: center;
 }
 
-.c32 {
+.c33 {
   color: #76777A;
   font-size: 12px;
   line-height: 16px;
@@ -3817,7 +3895,7 @@ exports[`Single transaction invoice simple transaction 1`] = `
   padding-right: 16px;
 }
 
-.c29 {
+.c30 {
   border-right: 1px solid;
   border-color: #C4C7CC;
   border-color: #C4C7CC;
@@ -3875,7 +3953,7 @@ exports[`Single transaction invoice simple transaction 1`] = `
   flex-grow: 1;
 }
 
-.c30 {
+.c31 {
   box-sizing: border-box;
   margin: 0px;
   max-width: 100%;
@@ -3885,10 +3963,10 @@ exports[`Single transaction invoice simple transaction 1`] = `
 }
 
 <div
-  className="jsx-1304922212 InvoicePages betree"
+  className="jsx-3100363109 InvoicePages betree"
 >
   <div
-    className="jsx-1304922212 pages"
+    className="jsx-3100363109 pages"
   >
     <div
       className="c0 page"
@@ -3991,10 +4069,10 @@ exports[`Single transaction invoice simple transaction 1`] = `
             </span>
           </div>
           <div
-            className="jsx-1304922212 detail reference"
+            className="jsx-3100363109 detail reference"
           >
             <label
-              className="jsx-1304922212"
+              className="jsx-3100363109"
             >
               Reference:
             </label>
@@ -4163,19 +4241,23 @@ exports[`Single transaction invoice simple transaction 1`] = `
             </div>
           </div>
         </div>
+        <p
+          className="c28"
+          padding="4rem 0"
+        />
       </div>
       <div
-        className="c28 footer"
+        className="c29 footer"
       >
         <div
-          className="c29"
+          className="c30"
         >
           <a
             className="c4"
             href="https://opencollective.com/opensource"
           >
             <img
-              className="c30"
+              className="c31"
               src="https://opencollective.com/proxy/images?src=https%3A%2F%2Fopencollective-production.s3-us-west-1.amazonaws.com%2F5f4a3920-11b6-11e8-b28d-b359f3c5ca14.png&height=200"
             />
           </a>
@@ -4184,12 +4266,12 @@ exports[`Single transaction invoice simple transaction 1`] = `
           className="c10"
         >
           <p
-            className="c31"
+            className="c32"
           >
             Open Source Collective 501c6 (Non Profit)
           </p>
           <p
-            className="c32"
+            className="c33"
           >
             <span>
               EIN 82-2037583
@@ -4276,7 +4358,7 @@ exports[`Single transaction invoice with taxes 1`] = `
   justify-content: space-between;
 }
 
-.c30 {
+.c31 {
   box-sizing: border-box;
   display: -webkit-box;
   display: -webkit-flex;
@@ -4316,7 +4398,40 @@ exports[`Single transaction invoice with taxes 1`] = `
   margin: 0;
 }
 
-.c33 {
+.c30 {
+  font-size: 12px;
+  line-height: 16px;
+  -webkit-letter-spacing: 0.025em;
+  -moz-letter-spacing: 0.025em;
+  -ms-letter-spacing: 0.025em;
+  letter-spacing: 0.025em;
+  margin: 0;
+  margin-top: 8px;
+  padding: 4rem 0;
+  text-align: left;
+}
+
+.c30 color {
+  50: #F7F8FA;
+  100: #F2F3F5;
+  200: #E8E9EB;
+  300: #DCDEE0;
+  400: #C4C7CC;
+  500: #9D9FA3;
+  600: #76777A;
+  700: #4E5052;
+  800: #313233;
+  900: #141414;
+}
+
+.c30 color transparent {
+  8: rgba(19,20,20,0.08);
+  20: rgba(19,20,20,0.2);
+  40: rgba(19,20,20,0.4);
+  80: rgba(19,20,20,0.80);
+}
+
+.c34 {
   font-size: 12px;
   font-weight: bold;
   line-height: 16px;
@@ -4328,7 +4443,7 @@ exports[`Single transaction invoice with taxes 1`] = `
   text-align: center;
 }
 
-.c34 {
+.c35 {
   color: #76777A;
   font-size: 12px;
   line-height: 16px;
@@ -4496,7 +4611,7 @@ exports[`Single transaction invoice with taxes 1`] = `
   padding-right: 16px;
 }
 
-.c31 {
+.c32 {
   border-right: 1px solid;
   border-color: #C4C7CC;
   border-color: #C4C7CC;
@@ -4554,7 +4669,7 @@ exports[`Single transaction invoice with taxes 1`] = `
   flex-grow: 1;
 }
 
-.c32 {
+.c33 {
   box-sizing: border-box;
   margin: 0px;
   max-width: 100%;
@@ -4564,10 +4679,10 @@ exports[`Single transaction invoice with taxes 1`] = `
 }
 
 <div
-  className="jsx-1304922212 InvoicePages betree"
+  className="jsx-3100363109 InvoicePages betree"
 >
   <div
-    className="jsx-1304922212 pages"
+    className="jsx-3100363109 pages"
   >
     <div
       className="c0 page"
@@ -4669,10 +4784,10 @@ exports[`Single transaction invoice with taxes 1`] = `
             </span>
           </div>
           <div
-            className="jsx-1304922212 detail reference"
+            className="jsx-3100363109 detail reference"
           >
             <label
-              className="jsx-1304922212"
+              className="jsx-3100363109"
             >
               Reference:
             </label>
@@ -4910,19 +5025,23 @@ exports[`Single transaction invoice with taxes 1`] = `
             </div>
           </div>
         </div>
+        <p
+          className="c30"
+          padding="4rem 0"
+        />
       </div>
       <div
-        className="c30 footer"
+        className="c31 footer"
       >
         <div
-          className="c31"
+          className="c32"
         >
           <a
             className="c4"
             href="https://opencollective.com/europe"
           >
             <img
-              className="c32"
+              className="c33"
               src="https://opencollective.com/proxy/images?src=https%3A%2F%2Fopencollective-production.s3-us-west-1.amazonaws.com%2F5f4a3920-11b6-11e8-b28d-b359f3c5ca14.png&height=200"
             />
           </a>
@@ -4931,12 +5050,12 @@ exports[`Single transaction invoice with taxes 1`] = `
           className="c11"
         >
           <p
-            className="c33"
+            className="c34"
           >
             Open Collective Europe
           </p>
           <p
-            className="c34"
+            className="c35"
           >
             <span>
               852 avenue Gaston Lagaffe
@@ -4971,7 +5090,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
   box-sizing: border-box;
 }
 
-.c24 {
+.c25 {
   box-sizing: border-box;
   padding: 16px;
 }
@@ -4991,7 +5110,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
   align-items: flex-start;
 }
 
-.c21 {
+.c22 {
   box-sizing: border-box;
   margin-top: 16px;
   display: -webkit-box;
@@ -5004,7 +5123,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
   justify-content: flex-end;
 }
 
-.c25 {
+.c26 {
   box-sizing: border-box;
   display: -webkit-box;
   display: -webkit-flex;
@@ -5016,7 +5135,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
   justify-content: space-between;
 }
 
-.c29 {
+.c30 {
   box-sizing: border-box;
   display: -webkit-box;
   display: -webkit-flex;
@@ -5043,7 +5162,40 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
   margin: 0;
 }
 
-.c32 {
+.c21 {
+  font-size: 12px;
+  line-height: 16px;
+  -webkit-letter-spacing: 0.025em;
+  -moz-letter-spacing: 0.025em;
+  -ms-letter-spacing: 0.025em;
+  letter-spacing: 0.025em;
+  margin: 0;
+  margin-top: 8px;
+  padding: 4rem 0;
+  text-align: left;
+}
+
+.c21 color {
+  50: #F7F8FA;
+  100: #F2F3F5;
+  200: #E8E9EB;
+  300: #DCDEE0;
+  400: #C4C7CC;
+  500: #9D9FA3;
+  600: #76777A;
+  700: #4E5052;
+  800: #313233;
+  900: #141414;
+}
+
+.c21 color transparent {
+  8: rgba(19,20,20,0.08);
+  20: rgba(19,20,20,0.2);
+  40: rgba(19,20,20,0.4);
+  80: rgba(19,20,20,0.80);
+}
+
+.c33 {
   font-size: 12px;
   font-weight: bold;
   line-height: 16px;
@@ -5055,7 +5207,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
   text-align: center;
 }
 
-.c33 {
+.c34 {
   color: #76777A;
   font-size: 12px;
   line-height: 16px;
@@ -5068,7 +5220,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
   text-align: center;
 }
 
-.c26 {
+.c27 {
   font-size: inherit;
   font-weight: bold;
   line-height: inherit;
@@ -5079,7 +5231,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
   margin: 0;
 }
 
-.c28 {
+.c29 {
   font-size: inherit;
   line-height: inherit;
   -webkit-letter-spacing: 0.025em;
@@ -5183,7 +5335,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
   border-radius: 4px;
 }
 
-.c23 {
+.c24 {
   border: 0;
   border-top: 1px solid #C4C7CC;
   margin: 0;
@@ -5191,12 +5343,12 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
   border-color: #E8E9EB;
 }
 
-.c22 {
+.c23 {
   font-size: 12px;
   width: 50%;
 }
 
-.c27 {
+.c28 {
   background: #ebf4ff;
   display: -webkit-box;
   display: -webkit-flex;
@@ -5213,7 +5365,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
   padding-right: 16px;
 }
 
-.c30 {
+.c31 {
   border-right: 1px solid;
   border-color: #C4C7CC;
   border-color: #C4C7CC;
@@ -5281,7 +5433,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
   flex-grow: 1;
 }
 
-.c31 {
+.c32 {
   box-sizing: border-box;
   margin: 0px;
   max-width: 100%;
@@ -5291,10 +5443,10 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
 }
 
 <div
-  className="jsx-1304922212 InvoicePages amazing-organization"
+  className="jsx-3100363109 InvoicePages amazing-organization"
 >
   <div
-    className="jsx-1304922212 pages"
+    className="jsx-3100363109 pages"
   >
     <div
       className="c0 page"
@@ -5402,10 +5554,10 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
             </div>
           </div>
           <div
-            className="jsx-1304922212 detail reference"
+            className="jsx-3100363109 detail reference"
           >
             <label
-              className="jsx-1304922212"
+              className="jsx-3100363109"
             >
               Reference:
             </label>
@@ -6186,6 +6338,10 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
             </tr>
           </tbody>
         </table>
+        <p
+          className="c21"
+          padding="4rem 0"
+        />
       </div>
     </div>
     <div
@@ -7543,6 +7699,10 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
             </tr>
           </tbody>
         </table>
+        <p
+          className="c21"
+          padding="4rem 0"
+        />
       </div>
     </div>
     <div
@@ -8424,57 +8584,61 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
           </tbody>
         </table>
         <div
-          className="c21"
+          className="c22"
         >
           <div
-            className="c22"
+            className="c23"
           >
             <hr
-              className="c23"
+              className="c24"
             />
             <div
-              className="c24"
+              className="c25"
             >
               <div
-                className="c25"
+                className="c26"
               >
                 <span>
                   Subtotal
                 </span>
                 <span
-                  className="-Clean-span c26"
+                  className="-Clean-span c27"
                 >
                   $858.00
                 </span>
               </div>
             </div>
             <div
-              className="c27"
+              className="c28"
             >
               <span>
                 TOTAL
               </span>
               <span
-                className="-Clean-span c28"
+                className="-Clean-span c29"
               >
                 $858.00
               </span>
             </div>
           </div>
         </div>
+        <p
+          className="c21"
+          padding="4rem 0"
+        />
       </div>
       <div
-        className="c29 footer"
+        className="c30 footer"
       >
         <div
-          className="c30"
+          className="c31"
         >
           <a
             className="c4"
             href="https://opencollective.com/opensource"
           >
             <img
-              className="c31"
+              className="c32"
               src="https://opencollective.com/proxy/images?src=https%3A%2F%2Fopencollective-production.s3-us-west-1.amazonaws.com%2F5f4a3920-11b6-11e8-b28d-b359f3c5ca14.png&height=200"
             />
           </a>
@@ -8483,12 +8647,12 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
           className="c10"
         >
           <p
-            className="c32"
+            className="c33"
           >
             Open Source Collective 501c6 (Non Profit)
           </p>
           <p
-            className="c33"
+            className="c34"
           >
             <span>
               EIN 82-2037583
