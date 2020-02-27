@@ -1,5 +1,3 @@
-
-
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedDate, FormattedMessage } from 'react-intl';
@@ -323,7 +321,7 @@ export class InvoicePage extends React.Component {
 
                   <Box>
                     <H2>
-                      {invoice.title|| (
+                      {invoice.title || (
                         <FormattedMessage id="invoice.donationReceipt" defaultMessage="Payment Receipt" />
                       )}
                     </H2>
@@ -383,18 +381,12 @@ export class InvoicePage extends React.Component {
                         <Span>{formatCurrency(invoice.totalAmount, invoice.currency)}</Span>
                         
                       </Container>
-                      
                     </Container>
-
-                    
                   </Flex>
                 )}
-                
-               
               </Box>
               <P mt={2} textAlign="left" color="black" padding="4rem 0">
-                  {invoice.extraInfo || 
-                  <FormattedMessage id="invoice.donationAppreciation" defaultMessage="" />}
+                  {invoice.extraInfo}
                 </P>
               {pageNumber === chunkedTransactions.length - 1 && (
                 <Flex className="footer" justifyContent="center" alignItems="center">
