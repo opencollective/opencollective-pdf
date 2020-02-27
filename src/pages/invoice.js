@@ -323,7 +323,7 @@ export class InvoicePage extends React.Component {
 
                   <Box>
                     <H2>
-                      {invoice.title || (
+                      {invoice.title|| (
                         <FormattedMessage id="invoice.donationReceipt" defaultMessage="Payment Receipt" />
                       )}
                     </H2>
@@ -373,6 +373,7 @@ export class InvoicePage extends React.Component {
                       <Container
                         display="flex"
                         justifyContent="space-between"
+                        flexBasis="100%"
                         px={3}
                         py={2}
                         background="#ebf4ff"
@@ -380,16 +381,21 @@ export class InvoicePage extends React.Component {
                       >
                         <FormattedMessage id="total" defaultMessage="TOTAL" />
                         <Span>{formatCurrency(invoice.totalAmount, invoice.currency)}</Span>
+                        
                       </Container>
+                      
                     </Container>
 
                     
                   </Flex>
                 )}
-                <P mt={2} textAlign="left" color="black" padding="4rem 0">
-                  { invoice.extraInfo }
-                </P>
+                
+               
               </Box>
+              <P mt={2} textAlign="left" color="black" padding="4rem 0">
+                  {invoice.extraInfo || 
+                  <FormattedMessage id="invoice.donationAppreciation" defaultMessage="" />}
+                </P>
               {pageNumber === chunkedTransactions.length - 1 && (
                 <Flex className="footer" justifyContent="center" alignItems="center">
                   <Container borderRight="1px solid" borderColor="black.400" pr={4} mr={4}>
