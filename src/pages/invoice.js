@@ -379,15 +379,14 @@ export class InvoicePage extends React.Component {
                       >
                         <FormattedMessage id="total" defaultMessage="TOTAL" />
                         <Span>{formatCurrency(invoice.totalAmount, invoice.currency)}</Span>
-                        
                       </Container>
                     </Container>
                   </Flex>
                 )}
               </Box>
               <P mt={2} textAlign="left" color="black" padding="4rem 0">
-                  {invoice.extraInfo}
-                </P>
+                {invoice.extraInfo}
+              </P>
               {pageNumber === chunkedTransactions.length - 1 && (
                 <Flex className="footer" justifyContent="center" alignItems="center">
                   <Container borderRight="1px solid" borderColor="black.400" pr={4} mr={4}>
