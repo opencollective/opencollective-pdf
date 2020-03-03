@@ -3,30 +3,54 @@
 exports[`Monthly invoice for organization with gift cards 1`] = `
 .c1 {
   box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
   margin-bottom: 32px;
 }
 
 .c6 {
   box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
   margin-top: 8px;
   margin-bottom: 8px;
 }
 
 .c10 {
   box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
 }
 
-.c24 {
+.c25 {
   box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
   padding: 16px;
+}
+
+.c32 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  max-width: 100%;
+  height: auto;
+}
+
+.c18 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  max-width: 100%;
+  height: auto;
+  height: 1em;
+  margin-right: 4px;
 }
 
 .c2 {
   box-sizing: border-box;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
+  margin: 0;
+  min-width: 0;
   -webkit-flex-wrap: wrap;
   -ms-flex-wrap: wrap;
   flex-wrap: wrap;
@@ -34,47 +58,57 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
   -webkit-box-align: flex-start;
   -ms-flex-align: flex-start;
   align-items: flex-start;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
 }
 
-.c21 {
+.c22 {
   box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  -webkit-box-pack: end;
+  -webkit-justify-content: flex-end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
   margin-top: 16px;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: end;
-  -webkit-justify-content: flex-end;
-  -ms-flex-pack: end;
-  justify-content: flex-end;
 }
 
-.c25 {
+.c26 {
   box-sizing: border-box;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
+  margin: 0;
+  min-width: 0;
   -webkit-box-pack: justify;
   -webkit-justify-content: space-between;
   -ms-flex-pack: justify;
   justify-content: space-between;
-}
-
-.c29 {
-  box-sizing: border-box;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
+}
+
+.c30 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
   -webkit-box-pack: center;
   -webkit-justify-content: center;
   -ms-flex-pack: center;
   justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
 }
 
 .c9 {
@@ -88,7 +122,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
   margin: 0;
 }
 
-.c32 {
+.c34 {
   font-size: 12px;
   font-weight: bold;
   line-height: 16px;
@@ -100,7 +134,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
   text-align: center;
 }
 
-.c33 {
+.c35 {
   color: #76777A;
   font-size: 12px;
   line-height: 16px;
@@ -113,7 +147,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
   text-align: center;
 }
 
-.c26 {
+.c27 {
   font-size: inherit;
   font-weight: bold;
   line-height: inherit;
@@ -124,7 +158,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
   margin: 0;
 }
 
-.c28 {
+.c29 {
   font-size: inherit;
   line-height: inherit;
   -webkit-letter-spacing: 0.025em;
@@ -205,7 +239,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
   font-size: 11px;
 }
 
-.c19 {
+.c20 {
   padding-top: 10px;
   padding-bottom: 10px;
   padding-left: 16px;
@@ -214,7 +248,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
   text-align: center;
 }
 
-.c20 {
+.c21 {
   padding-top: 10px;
   padding-bottom: 10px;
   padding-left: 16px;
@@ -228,7 +262,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
   border-radius: 4px;
 }
 
-.c23 {
+.c24 {
   border: 0;
   border-top: 1px solid #C4C7CC;
   margin: 0;
@@ -236,12 +270,12 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
   border-color: #E8E9EB;
 }
 
-.c22 {
+.c23 {
   font-size: 12px;
   width: 50%;
 }
 
-.c27 {
+.c28 {
   background: #ebf4ff;
   display: -webkit-box;
   display: -webkit-flex;
@@ -258,7 +292,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
   padding-right: 16px;
 }
 
-.c30 {
+.c31 {
   border-right: 1px solid;
   border-color: #C4C7CC;
   border-color: #C4C7CC;
@@ -278,31 +312,29 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
   color: #DCDEE0;
 }
 
-.c18 {
-  box-sizing: border-box;
-  margin: 0px;
-  margin-right: 4px;
-  max-width: 100%;
-  height: auto;
-  height: 1em;
+.c19 {
   vertical-align: middle;
 }
 
 .c0 {
   box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
   padding: 64px;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
   min-height: 297mm;
 }
 
 .c3 {
   box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
   margin-bottom: 16px;
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
@@ -312,6 +344,8 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
 
 .c7 {
   box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
   margin-top: 80px;
   padding-right: 16px;
   min-height: 100px;
@@ -319,6 +353,8 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
 
 .c11 {
   box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
   width: 100%;
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
@@ -326,11 +362,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
   flex-grow: 1;
 }
 
-.c31 {
-  box-sizing: border-box;
-  margin: 0px;
-  max-width: 100%;
-  height: auto;
+.c33 {
   max-width: 200px;
   max-height: 100px;
 }
@@ -549,7 +581,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 <div>
                   <img
                     alt=""
-                    className="c18"
+                    className="c18 c19"
                     height="1em"
                     src="[IMAGE_URL]"
                   />
@@ -567,25 +599,25 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 </div>
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 1
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 $25.00
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 -
               </td>
               <td
-                className="c20"
+                className="c21"
                 fontSize="Paragraph"
               >
                 $25.00
@@ -607,7 +639,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 <div>
                   <img
                     alt=""
-                    className="c18"
+                    className="c18 c19"
                     height="1em"
                     src="[IMAGE_URL]"
                   />
@@ -625,25 +657,25 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 </div>
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 1
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 $5.00
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 -
               </td>
               <td
-                className="c20"
+                className="c21"
                 fontSize="Paragraph"
               >
                 $5.00
@@ -665,7 +697,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 <div>
                   <img
                     alt=""
-                    className="c18"
+                    className="c18 c19"
                     height="1em"
                     src="[IMAGE_URL]"
                   />
@@ -683,25 +715,25 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 </div>
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 1
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 $10.00
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 -
               </td>
               <td
-                className="c20"
+                className="c21"
                 fontSize="Paragraph"
               >
                 $10.00
@@ -723,7 +755,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 <div>
                   <img
                     alt=""
-                    className="c18"
+                    className="c18 c19"
                     height="1em"
                     src="[IMAGE_URL]"
                   />
@@ -741,25 +773,25 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 </div>
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 1
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 $5.00
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 -
               </td>
               <td
-                className="c20"
+                className="c21"
                 fontSize="Paragraph"
               >
                 $5.00
@@ -781,7 +813,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 <div>
                   <img
                     alt=""
-                    className="c18"
+                    className="c18 c19"
                     height="1em"
                     src="[IMAGE_URL]"
                   />
@@ -799,25 +831,25 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 </div>
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 1
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 $2.00
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 -
               </td>
               <td
-                className="c20"
+                className="c21"
                 fontSize="Paragraph"
               >
                 $2.00
@@ -839,7 +871,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 <div>
                   <img
                     alt=""
-                    className="c18"
+                    className="c18 c19"
                     height="1em"
                     src="[IMAGE_URL]"
                   />
@@ -857,25 +889,25 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 </div>
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 1
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 $2.00
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 -
               </td>
               <td
-                className="c20"
+                className="c21"
                 fontSize="Paragraph"
               >
                 $2.00
@@ -897,7 +929,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 <div>
                   <img
                     alt=""
-                    className="c18"
+                    className="c18 c19"
                     height="1em"
                     src="[IMAGE_URL]"
                   />
@@ -915,25 +947,25 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 </div>
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 1
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 $2.00
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 -
               </td>
               <td
-                className="c20"
+                className="c21"
                 fontSize="Paragraph"
               >
                 $2.00
@@ -955,7 +987,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 <div>
                   <img
                     alt=""
-                    className="c18"
+                    className="c18 c19"
                     height="1em"
                     src="[IMAGE_URL]"
                   />
@@ -973,25 +1005,25 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 </div>
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 1
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 $10.00
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 -
               </td>
               <td
-                className="c20"
+                className="c21"
                 fontSize="Paragraph"
               >
                 $10.00
@@ -1013,7 +1045,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 <div>
                   <img
                     alt=""
-                    className="c18"
+                    className="c18 c19"
                     height="1em"
                     src="[IMAGE_URL]"
                   />
@@ -1031,25 +1063,25 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 </div>
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 1
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 $5.00
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 -
               </td>
               <td
-                className="c20"
+                className="c21"
                 fontSize="Paragraph"
               >
                 $5.00
@@ -1071,7 +1103,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 <div>
                   <img
                     alt=""
-                    className="c18"
+                    className="c18 c19"
                     height="1em"
                     src="[IMAGE_URL]"
                   />
@@ -1089,25 +1121,25 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 </div>
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 1
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 $10.00
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 -
               </td>
               <td
-                className="c20"
+                className="c21"
                 fontSize="Paragraph"
               >
                 $10.00
@@ -1129,7 +1161,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 <div>
                   <img
                     alt=""
-                    className="c18"
+                    className="c18 c19"
                     height="1em"
                     src="[IMAGE_URL]"
                   />
@@ -1147,25 +1179,25 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 </div>
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 1
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 $5.00
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 -
               </td>
               <td
-                className="c20"
+                className="c21"
                 fontSize="Paragraph"
               >
                 $5.00
@@ -1187,7 +1219,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 <div>
                   <img
                     alt=""
-                    className="c18"
+                    className="c18 c19"
                     height="1em"
                     src="[IMAGE_URL]"
                   />
@@ -1205,25 +1237,25 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 </div>
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 1
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 $1.00
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 -
               </td>
               <td
-                className="c20"
+                className="c21"
                 fontSize="Paragraph"
               >
                 $1.00
@@ -1326,7 +1358,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 <div>
                   <img
                     alt=""
-                    className="c18"
+                    className="c18 c19"
                     height="1em"
                     src="[IMAGE_URL]"
                   />
@@ -1344,25 +1376,25 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 </div>
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 1
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 $2.00
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 -
               </td>
               <td
-                className="c20"
+                className="c21"
                 fontSize="Paragraph"
               >
                 $2.00
@@ -1384,7 +1416,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 <div>
                   <img
                     alt=""
-                    className="c18"
+                    className="c18 c19"
                     height="1em"
                     src="[IMAGE_URL]"
                   />
@@ -1402,25 +1434,25 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 </div>
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 1
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 $2.00
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 -
               </td>
               <td
-                className="c20"
+                className="c21"
                 fontSize="Paragraph"
               >
                 $2.00
@@ -1442,7 +1474,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 <div>
                   <img
                     alt=""
-                    className="c18"
+                    className="c18 c19"
                     height="1em"
                     src="[IMAGE_URL]"
                   />
@@ -1460,25 +1492,25 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 </div>
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 1
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 $2.00
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 -
               </td>
               <td
-                className="c20"
+                className="c21"
                 fontSize="Paragraph"
               >
                 $2.00
@@ -1500,7 +1532,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 <div>
                   <img
                     alt=""
-                    className="c18"
+                    className="c18 c19"
                     height="1em"
                     src="[IMAGE_URL]"
                   />
@@ -1518,25 +1550,25 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 </div>
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 1
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 $2.00
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 -
               </td>
               <td
-                className="c20"
+                className="c21"
                 fontSize="Paragraph"
               >
                 $2.00
@@ -1558,7 +1590,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 <div>
                   <img
                     alt=""
-                    className="c18"
+                    className="c18 c19"
                     height="1em"
                     src="[IMAGE_URL]"
                   />
@@ -1576,25 +1608,25 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 </div>
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 1
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 $25.00
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 -
               </td>
               <td
-                className="c20"
+                className="c21"
                 fontSize="Paragraph"
               >
                 $25.00
@@ -1616,7 +1648,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 <div>
                   <img
                     alt=""
-                    className="c18"
+                    className="c18 c19"
                     height="1em"
                     src="[IMAGE_URL]"
                   />
@@ -1634,25 +1666,25 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 </div>
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 1
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 $2.00
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 -
               </td>
               <td
-                className="c20"
+                className="c21"
                 fontSize="Paragraph"
               >
                 $2.00
@@ -1674,7 +1706,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 <div>
                   <img
                     alt=""
-                    className="c18"
+                    className="c18 c19"
                     height="1em"
                     src="[IMAGE_URL]"
                   />
@@ -1692,25 +1724,25 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 </div>
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 1
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 $5.00
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 -
               </td>
               <td
-                className="c20"
+                className="c21"
                 fontSize="Paragraph"
               >
                 $5.00
@@ -1732,7 +1764,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 <div>
                   <img
                     alt=""
-                    className="c18"
+                    className="c18 c19"
                     height="1em"
                     src="[IMAGE_URL]"
                   />
@@ -1750,25 +1782,25 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 </div>
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 1
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 $2.00
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 -
               </td>
               <td
-                className="c20"
+                className="c21"
                 fontSize="Paragraph"
               >
                 $2.00
@@ -1790,7 +1822,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 <div>
                   <img
                     alt=""
-                    className="c18"
+                    className="c18 c19"
                     height="1em"
                     src="[IMAGE_URL]"
                   />
@@ -1808,25 +1840,25 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 </div>
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 1
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 $2.00
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 -
               </td>
               <td
-                className="c20"
+                className="c21"
                 fontSize="Paragraph"
               >
                 $2.00
@@ -1848,7 +1880,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 <div>
                   <img
                     alt=""
-                    className="c18"
+                    className="c18 c19"
                     height="1em"
                     src="[IMAGE_URL]"
                   />
@@ -1866,25 +1898,25 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 </div>
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 1
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 $10.00
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 -
               </td>
               <td
-                className="c20"
+                className="c21"
                 fontSize="Paragraph"
               >
                 $10.00
@@ -1906,7 +1938,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 <div>
                   <img
                     alt=""
-                    className="c18"
+                    className="c18 c19"
                     height="1em"
                     src="[IMAGE_URL]"
                   />
@@ -1924,25 +1956,25 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 </div>
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 1
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 $10.00
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 -
               </td>
               <td
-                className="c20"
+                className="c21"
                 fontSize="Paragraph"
               >
                 $10.00
@@ -1964,7 +1996,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 <div>
                   <img
                     alt=""
-                    className="c18"
+                    className="c18 c19"
                     height="1em"
                     src="[IMAGE_URL]"
                   />
@@ -1982,25 +2014,25 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 </div>
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 1
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 $2.00
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 -
               </td>
               <td
-                className="c20"
+                className="c21"
                 fontSize="Paragraph"
               >
                 $2.00
@@ -2022,7 +2054,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 <div>
                   <img
                     alt=""
-                    className="c18"
+                    className="c18 c19"
                     height="1em"
                     src="[IMAGE_URL]"
                   />
@@ -2040,25 +2072,25 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 </div>
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 1
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 $5.00
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 -
               </td>
               <td
-                className="c20"
+                className="c21"
                 fontSize="Paragraph"
               >
                 $5.00
@@ -2080,7 +2112,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 <div>
                   <img
                     alt=""
-                    className="c18"
+                    className="c18 c19"
                     height="1em"
                     src="[IMAGE_URL]"
                   />
@@ -2098,25 +2130,25 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 </div>
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 1
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 $5.00
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 -
               </td>
               <td
-                className="c20"
+                className="c21"
                 fontSize="Paragraph"
               >
                 $5.00
@@ -2138,7 +2170,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 <div>
                   <img
                     alt=""
-                    className="c18"
+                    className="c18 c19"
                     height="1em"
                     src="[IMAGE_URL]"
                   />
@@ -2156,25 +2188,25 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 </div>
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 1
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 $2.00
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 -
               </td>
               <td
-                className="c20"
+                className="c21"
                 fontSize="Paragraph"
               >
                 $2.00
@@ -2196,7 +2228,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 <div>
                   <img
                     alt=""
-                    className="c18"
+                    className="c18 c19"
                     height="1em"
                     src="[IMAGE_URL]"
                   />
@@ -2214,25 +2246,25 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 </div>
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 1
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 $2.00
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 -
               </td>
               <td
-                className="c20"
+                className="c21"
                 fontSize="Paragraph"
               >
                 $2.00
@@ -2254,7 +2286,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 <div>
                   <img
                     alt=""
-                    className="c18"
+                    className="c18 c19"
                     height="1em"
                     src="[IMAGE_URL]"
                   />
@@ -2272,25 +2304,25 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 </div>
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 1
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 $8.00
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 -
               </td>
               <td
-                className="c20"
+                className="c21"
                 fontSize="Paragraph"
               >
                 $8.00
@@ -2312,7 +2344,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 <div>
                   <img
                     alt=""
-                    className="c18"
+                    className="c18 c19"
                     height="1em"
                     src="[IMAGE_URL]"
                   />
@@ -2330,25 +2362,25 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 </div>
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 1
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 $10.00
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 -
               </td>
               <td
-                className="c20"
+                className="c21"
                 fontSize="Paragraph"
               >
                 $10.00
@@ -2370,7 +2402,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 <div>
                   <img
                     alt=""
-                    className="c18"
+                    className="c18 c19"
                     height="1em"
                     src="[IMAGE_URL]"
                   />
@@ -2388,25 +2420,25 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 </div>
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 1
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 $5.00
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 -
               </td>
               <td
-                className="c20"
+                className="c21"
                 fontSize="Paragraph"
               >
                 $5.00
@@ -2428,7 +2460,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 <div>
                   <img
                     alt=""
-                    className="c18"
+                    className="c18 c19"
                     height="1em"
                     src="[IMAGE_URL]"
                   />
@@ -2446,25 +2478,25 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 </div>
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 1
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 $25.00
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 -
               </td>
               <td
-                className="c20"
+                className="c21"
                 fontSize="Paragraph"
               >
                 $25.00
@@ -2486,7 +2518,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 <div>
                   <img
                     alt=""
-                    className="c18"
+                    className="c18 c19"
                     height="1em"
                     src="[IMAGE_URL]"
                   />
@@ -2504,25 +2536,25 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 </div>
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 1
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 $25.00
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 -
               </td>
               <td
-                className="c20"
+                className="c21"
                 fontSize="Paragraph"
               >
                 $25.00
@@ -2544,7 +2576,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 <div>
                   <img
                     alt=""
-                    className="c18"
+                    className="c18 c19"
                     height="1em"
                     src="[IMAGE_URL]"
                   />
@@ -2562,25 +2594,25 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 </div>
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 1
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 $50.00
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 -
               </td>
               <td
-                className="c20"
+                className="c21"
                 fontSize="Paragraph"
               >
                 $50.00
@@ -2683,7 +2715,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 <div>
                   <img
                     alt=""
-                    className="c18"
+                    className="c18 c19"
                     height="1em"
                     src="[IMAGE_URL]"
                   />
@@ -2701,25 +2733,25 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 </div>
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 1
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 $20.00
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 -
               </td>
               <td
-                className="c20"
+                className="c21"
                 fontSize="Paragraph"
               >
                 $20.00
@@ -2741,7 +2773,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 <div>
                   <img
                     alt=""
-                    className="c18"
+                    className="c18 c19"
                     height="1em"
                     src="[IMAGE_URL]"
                   />
@@ -2759,25 +2791,25 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 </div>
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 1
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 $5.00
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 -
               </td>
               <td
-                className="c20"
+                className="c21"
                 fontSize="Paragraph"
               >
                 $5.00
@@ -2799,7 +2831,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 <div>
                   <img
                     alt=""
-                    className="c18"
+                    className="c18 c19"
                     height="1em"
                     src="[IMAGE_URL]"
                   />
@@ -2817,25 +2849,25 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 </div>
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 1
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 $20.00
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 -
               </td>
               <td
-                className="c20"
+                className="c21"
                 fontSize="Paragraph"
               >
                 $20.00
@@ -2857,7 +2889,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 <div>
                   <img
                     alt=""
-                    className="c18"
+                    className="c18 c19"
                     height="1em"
                     src="[IMAGE_URL]"
                   />
@@ -2875,25 +2907,25 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 </div>
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 1
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 $100.00
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 -
               </td>
               <td
-                className="c20"
+                className="c21"
                 fontSize="Paragraph"
               >
                 $100.00
@@ -2915,7 +2947,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 <div>
                   <img
                     alt=""
-                    className="c18"
+                    className="c18 c19"
                     height="1em"
                     src="[IMAGE_URL]"
                   />
@@ -2933,25 +2965,25 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 </div>
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 1
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 $100.00
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 -
               </td>
               <td
-                className="c20"
+                className="c21"
                 fontSize="Paragraph"
               >
                 $100.00
@@ -2973,7 +3005,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 <div>
                   <img
                     alt=""
-                    className="c18"
+                    className="c18 c19"
                     height="1em"
                     src="[IMAGE_URL]"
                   />
@@ -2991,25 +3023,25 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 </div>
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 1
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 $100.00
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 -
               </td>
               <td
-                className="c20"
+                className="c21"
                 fontSize="Paragraph"
               >
                 $100.00
@@ -3031,7 +3063,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 <div>
                   <img
                     alt=""
-                    className="c18"
+                    className="c18 c19"
                     height="1em"
                     src="[IMAGE_URL]"
                   />
@@ -3049,25 +3081,25 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 </div>
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 1
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 $2.00
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 -
               </td>
               <td
-                className="c20"
+                className="c21"
                 fontSize="Paragraph"
               >
                 $2.00
@@ -3089,7 +3121,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 <div>
                   <img
                     alt=""
-                    className="c18"
+                    className="c18 c19"
                     height="1em"
                     src="[IMAGE_URL]"
                   />
@@ -3107,25 +3139,25 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 </div>
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 1
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 $5.00
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 -
               </td>
               <td
-                className="c20"
+                className="c21"
                 fontSize="Paragraph"
               >
                 $5.00
@@ -3147,7 +3179,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 <div>
                   <img
                     alt=""
-                    className="c18"
+                    className="c18 c19"
                     height="1em"
                     src="[IMAGE_URL]"
                   />
@@ -3165,25 +3197,25 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 </div>
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 1
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 $2.00
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 -
               </td>
               <td
-                className="c20"
+                className="c21"
                 fontSize="Paragraph"
               >
                 $2.00
@@ -3205,7 +3237,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 <div>
                   <img
                     alt=""
-                    className="c18"
+                    className="c18 c19"
                     height="1em"
                     src="[IMAGE_URL]"
                   />
@@ -3223,25 +3255,25 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 </div>
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 1
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 $2.00
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 -
               </td>
               <td
-                className="c20"
+                className="c21"
                 fontSize="Paragraph"
               >
                 $2.00
@@ -3263,7 +3295,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 <div>
                   <img
                     alt=""
-                    className="c18"
+                    className="c18 c19"
                     height="1em"
                     src="[IMAGE_URL]"
                   />
@@ -3281,25 +3313,25 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 </div>
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 1
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 $10.00
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 -
               </td>
               <td
-                className="c20"
+                className="c21"
                 fontSize="Paragraph"
               >
                 $10.00
@@ -3326,25 +3358,25 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 </a>
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 1
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 $200.00
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 -
               </td>
               <td
-                className="c20"
+                className="c21"
                 fontSize="Paragraph"
               >
                 $200.00
@@ -3366,7 +3398,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 <div>
                   <img
                     alt=""
-                    className="c18"
+                    className="c18 c19"
                     height="1em"
                     src="[IMAGE_URL]"
                   />
@@ -3384,25 +3416,25 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 </div>
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 1
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 $2.00
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 -
               </td>
               <td
-                className="c20"
+                className="c21"
                 fontSize="Paragraph"
               >
                 $2.00
@@ -3424,7 +3456,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 <div>
                   <img
                     alt=""
-                    className="c18"
+                    className="c18 c19"
                     height="1em"
                     src="[IMAGE_URL]"
                   />
@@ -3442,25 +3474,25 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 </div>
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 1
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 $5.00
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 -
               </td>
               <td
-                className="c20"
+                className="c21"
                 fontSize="Paragraph"
               >
                 $5.00
@@ -3469,38 +3501,38 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
           </tbody>
         </table>
         <div
-          className="c21"
+          className="c22"
         >
           <div
-            className="c22"
+            className="c23"
           >
             <hr
-              className="c23"
+              className="c24"
             />
             <div
-              className="c24"
+              className="c25"
             >
               <div
-                className="c25"
+                className="c26"
               >
                 <span>
                   Subtotal
                 </span>
                 <span
-                  className="-Clean-span c26"
+                  className="-Clean-span c27"
                 >
                   $858.00
                 </span>
               </div>
             </div>
             <div
-              className="c27"
+              className="c28"
             >
               <span>
                 TOTAL
               </span>
               <span
-                className="-Clean-span c28"
+                className="-Clean-span c29"
               >
                 $858.00
               </span>
@@ -3509,17 +3541,17 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
         </div>
       </div>
       <div
-        className="c29 footer"
+        className="c30 footer"
       >
         <div
-          className="c30"
+          className="c31"
         >
           <a
             className="c4"
             href="https://opencollective.com/opensource"
           >
             <img
-              className="c31"
+              className="c32 c33"
               src="https://opencollective.com/proxy/images?src=https%3A%2F%2Fopencollective-production.s3-us-west-1.amazonaws.com%2F5f4a3920-11b6-11e8-b28d-b359f3c5ca14.png&height=200"
             />
           </a>
@@ -3528,12 +3560,12 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
           className="c10"
         >
           <p
-            className="c32"
+            className="c34"
           >
             Open Source Collective 501c6 (Non Profit)
           </p>
           <p
-            className="c33"
+            className="c35"
           >
             <span>
               EIN 82-2037583
@@ -3562,30 +3594,44 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
 exports[`Single transaction invoice simple transaction 1`] = `
 .c1 {
   box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
   margin-bottom: 32px;
 }
 
 .c6 {
   box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
   margin-top: 8px;
   margin-bottom: 8px;
 }
 
 .c10 {
   box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
 }
 
 .c23 {
   box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
   padding: 16px;
+}
+
+.c30 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  max-width: 100%;
+  height: auto;
 }
 
 .c2 {
   box-sizing: border-box;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
+  margin: 0;
+  min-width: 0;
   -webkit-flex-wrap: wrap;
   -ms-flex-wrap: wrap;
   flex-wrap: wrap;
@@ -3593,47 +3639,57 @@ exports[`Single transaction invoice simple transaction 1`] = `
   -webkit-box-align: flex-start;
   -ms-flex-align: flex-start;
   align-items: flex-start;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
 }
 
 .c20 {
   box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  -webkit-box-pack: end;
+  -webkit-justify-content: flex-end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
   margin-top: 16px;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: end;
-  -webkit-justify-content: flex-end;
-  -ms-flex-pack: end;
-  justify-content: flex-end;
 }
 
 .c24 {
   box-sizing: border-box;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
+  margin: 0;
+  min-width: 0;
   -webkit-box-pack: justify;
   -webkit-justify-content: space-between;
   -ms-flex-pack: justify;
   justify-content: space-between;
-}
-
-.c28 {
-  box-sizing: border-box;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
+}
+
+.c28 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
   -webkit-box-pack: center;
   -webkit-justify-content: center;
   -ms-flex-pack: center;
   justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
 }
 
 .c9 {
@@ -3647,7 +3703,7 @@ exports[`Single transaction invoice simple transaction 1`] = `
   margin: 0;
 }
 
-.c31 {
+.c32 {
   font-size: 12px;
   font-weight: bold;
   line-height: 16px;
@@ -3659,7 +3715,7 @@ exports[`Single transaction invoice simple transaction 1`] = `
   text-align: center;
 }
 
-.c32 {
+.c33 {
   color: #76777A;
   font-size: 12px;
   line-height: 16px;
@@ -3839,19 +3895,23 @@ exports[`Single transaction invoice simple transaction 1`] = `
 
 .c0 {
   box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
   padding: 64px;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
   min-height: 297mm;
 }
 
 .c3 {
   box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
   margin-bottom: 16px;
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
@@ -3861,6 +3921,8 @@ exports[`Single transaction invoice simple transaction 1`] = `
 
 .c7 {
   box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
   margin-top: 80px;
   padding-right: 16px;
   min-height: 100px;
@@ -3868,6 +3930,8 @@ exports[`Single transaction invoice simple transaction 1`] = `
 
 .c11 {
   box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
   width: 100%;
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
@@ -3875,11 +3939,7 @@ exports[`Single transaction invoice simple transaction 1`] = `
   flex-grow: 1;
 }
 
-.c30 {
-  box-sizing: border-box;
-  margin: 0px;
-  max-width: 100%;
-  height: auto;
+.c31 {
   max-width: 200px;
   max-height: 100px;
 }
@@ -4175,7 +4235,7 @@ exports[`Single transaction invoice simple transaction 1`] = `
             href="https://opencollective.com/opensource"
           >
             <img
-              className="c30"
+              className="c30 c31"
               src="https://opencollective.com/proxy/images?src=https%3A%2F%2Fopencollective-production.s3-us-west-1.amazonaws.com%2F5f4a3920-11b6-11e8-b28d-b359f3c5ca14.png&height=200"
             />
           </a>
@@ -4184,12 +4244,12 @@ exports[`Single transaction invoice simple transaction 1`] = `
           className="c10"
         >
           <p
-            className="c31"
+            className="c32"
           >
             Open Source Collective 501c6 (Non Profit)
           </p>
           <p
-            className="c32"
+            className="c33"
           >
             <span>
               EIN 82-2037583
@@ -4218,30 +4278,44 @@ exports[`Single transaction invoice simple transaction 1`] = `
 exports[`Single transaction invoice with taxes 1`] = `
 .c1 {
   box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
   margin-bottom: 32px;
 }
 
 .c6 {
   box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
   margin-top: 8px;
   margin-bottom: 8px;
 }
 
 .c11 {
   box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
 }
 
 .c24 {
   box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
   padding: 16px;
+}
+
+.c32 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  max-width: 100%;
+  height: auto;
 }
 
 .c2 {
   box-sizing: border-box;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
+  margin: 0;
+  min-width: 0;
   -webkit-flex-wrap: wrap;
   -ms-flex-wrap: wrap;
   flex-wrap: wrap;
@@ -4249,60 +4323,72 @@ exports[`Single transaction invoice with taxes 1`] = `
   -webkit-box-align: flex-start;
   -ms-flex-align: flex-start;
   align-items: flex-start;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
 }
 
 .c21 {
   box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  -webkit-box-pack: end;
+  -webkit-justify-content: flex-end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
   margin-top: 16px;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: end;
-  -webkit-justify-content: flex-end;
-  -ms-flex-pack: end;
-  justify-content: flex-end;
 }
 
 .c25 {
   box-sizing: border-box;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
+  margin: 0;
+  min-width: 0;
   -webkit-box-pack: justify;
   -webkit-justify-content: space-between;
   -ms-flex-pack: justify;
   justify-content: space-between;
-}
-
-.c30 {
-  box-sizing: border-box;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
+}
+
+.c30 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
   -webkit-box-pack: center;
   -webkit-justify-content: center;
   -ms-flex-pack: center;
   justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
 }
 
 .c27 {
   box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
   margin-top: 8px;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-  -ms-flex-pack: justify;
-  justify-content: space-between;
 }
 
 .c9 {
@@ -4316,7 +4402,7 @@ exports[`Single transaction invoice with taxes 1`] = `
   margin: 0;
 }
 
-.c33 {
+.c34 {
   font-size: 12px;
   font-weight: bold;
   line-height: 16px;
@@ -4328,7 +4414,7 @@ exports[`Single transaction invoice with taxes 1`] = `
   text-align: center;
 }
 
-.c34 {
+.c35 {
   color: #76777A;
   font-size: 12px;
   line-height: 16px;
@@ -4518,19 +4604,23 @@ exports[`Single transaction invoice with taxes 1`] = `
 
 .c0 {
   box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
   padding: 64px;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
   min-height: 297mm;
 }
 
 .c3 {
   box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
   margin-bottom: 16px;
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
@@ -4540,6 +4630,8 @@ exports[`Single transaction invoice with taxes 1`] = `
 
 .c7 {
   box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
   margin-top: 80px;
   padding-right: 16px;
   min-height: 100px;
@@ -4547,6 +4639,8 @@ exports[`Single transaction invoice with taxes 1`] = `
 
 .c12 {
   box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
   width: 100%;
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
@@ -4554,11 +4648,7 @@ exports[`Single transaction invoice with taxes 1`] = `
   flex-grow: 1;
 }
 
-.c32 {
-  box-sizing: border-box;
-  margin: 0px;
-  max-width: 100%;
-  height: auto;
+.c33 {
   max-width: 200px;
   max-height: 100px;
 }
@@ -4922,7 +5012,7 @@ exports[`Single transaction invoice with taxes 1`] = `
             href="https://opencollective.com/europe"
           >
             <img
-              className="c32"
+              className="c32 c33"
               src="https://opencollective.com/proxy/images?src=https%3A%2F%2Fopencollective-production.s3-us-west-1.amazonaws.com%2F5f4a3920-11b6-11e8-b28d-b359f3c5ca14.png&height=200"
             />
           </a>
@@ -4931,12 +5021,12 @@ exports[`Single transaction invoice with taxes 1`] = `
           className="c11"
         >
           <p
-            className="c33"
+            className="c34"
           >
             Open Collective Europe
           </p>
           <p
-            className="c34"
+            className="c35"
           >
             <span>
               852 avenue Gaston Lagaffe
@@ -4958,30 +5048,54 @@ exports[`Single transaction invoice with taxes 1`] = `
 exports[`Yearly invoice for organization with gift cards 1`] = `
 .c1 {
   box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
   margin-bottom: 32px;
 }
 
 .c6 {
   box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
   margin-top: 8px;
   margin-bottom: 8px;
 }
 
 .c10 {
   box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
 }
 
-.c24 {
+.c25 {
   box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
   padding: 16px;
+}
+
+.c32 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  max-width: 100%;
+  height: auto;
+}
+
+.c18 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  max-width: 100%;
+  height: auto;
+  height: 1em;
+  margin-right: 4px;
 }
 
 .c2 {
   box-sizing: border-box;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
+  margin: 0;
+  min-width: 0;
   -webkit-flex-wrap: wrap;
   -ms-flex-wrap: wrap;
   flex-wrap: wrap;
@@ -4989,47 +5103,57 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
   -webkit-box-align: flex-start;
   -ms-flex-align: flex-start;
   align-items: flex-start;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
 }
 
-.c21 {
+.c22 {
   box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  -webkit-box-pack: end;
+  -webkit-justify-content: flex-end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
   margin-top: 16px;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: end;
-  -webkit-justify-content: flex-end;
-  -ms-flex-pack: end;
-  justify-content: flex-end;
 }
 
-.c25 {
+.c26 {
   box-sizing: border-box;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
+  margin: 0;
+  min-width: 0;
   -webkit-box-pack: justify;
   -webkit-justify-content: space-between;
   -ms-flex-pack: justify;
   justify-content: space-between;
-}
-
-.c29 {
-  box-sizing: border-box;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
+}
+
+.c30 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
   -webkit-box-pack: center;
   -webkit-justify-content: center;
   -ms-flex-pack: center;
   justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
 }
 
 .c9 {
@@ -5043,7 +5167,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
   margin: 0;
 }
 
-.c32 {
+.c34 {
   font-size: 12px;
   font-weight: bold;
   line-height: 16px;
@@ -5055,7 +5179,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
   text-align: center;
 }
 
-.c33 {
+.c35 {
   color: #76777A;
   font-size: 12px;
   line-height: 16px;
@@ -5068,7 +5192,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
   text-align: center;
 }
 
-.c26 {
+.c27 {
   font-size: inherit;
   font-weight: bold;
   line-height: inherit;
@@ -5079,7 +5203,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
   margin: 0;
 }
 
-.c28 {
+.c29 {
   font-size: inherit;
   line-height: inherit;
   -webkit-letter-spacing: 0.025em;
@@ -5160,7 +5284,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
   font-size: 11px;
 }
 
-.c19 {
+.c20 {
   padding-top: 10px;
   padding-bottom: 10px;
   padding-left: 16px;
@@ -5169,7 +5293,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
   text-align: center;
 }
 
-.c20 {
+.c21 {
   padding-top: 10px;
   padding-bottom: 10px;
   padding-left: 16px;
@@ -5183,7 +5307,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
   border-radius: 4px;
 }
 
-.c23 {
+.c24 {
   border: 0;
   border-top: 1px solid #C4C7CC;
   margin: 0;
@@ -5191,12 +5315,12 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
   border-color: #E8E9EB;
 }
 
-.c22 {
+.c23 {
   font-size: 12px;
   width: 50%;
 }
 
-.c27 {
+.c28 {
   background: #ebf4ff;
   display: -webkit-box;
   display: -webkit-flex;
@@ -5213,7 +5337,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
   padding-right: 16px;
 }
 
-.c30 {
+.c31 {
   border-right: 1px solid;
   border-color: #C4C7CC;
   border-color: #C4C7CC;
@@ -5233,31 +5357,29 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
   color: #DCDEE0;
 }
 
-.c18 {
-  box-sizing: border-box;
-  margin: 0px;
-  margin-right: 4px;
-  max-width: 100%;
-  height: auto;
-  height: 1em;
+.c19 {
   vertical-align: middle;
 }
 
 .c0 {
   box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
   padding: 64px;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
   min-height: 297mm;
 }
 
 .c3 {
   box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
   margin-bottom: 16px;
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
@@ -5267,6 +5389,8 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
 
 .c7 {
   box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
   margin-top: 80px;
   padding-right: 16px;
   min-height: 100px;
@@ -5274,6 +5398,8 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
 
 .c11 {
   box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
   width: 100%;
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
@@ -5281,11 +5407,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
   flex-grow: 1;
 }
 
-.c31 {
-  box-sizing: border-box;
-  margin: 0px;
-  max-width: 100%;
-  height: auto;
+.c33 {
   max-width: 200px;
   max-height: 100px;
 }
@@ -5504,7 +5626,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 <div>
                   <img
                     alt=""
-                    className="c18"
+                    className="c18 c19"
                     height="1em"
                     src="[IMAGE_URL]"
                   />
@@ -5522,25 +5644,25 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 </div>
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 1
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 $25.00
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 -
               </td>
               <td
-                className="c20"
+                className="c21"
                 fontSize="Paragraph"
               >
                 $25.00
@@ -5562,7 +5684,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 <div>
                   <img
                     alt=""
-                    className="c18"
+                    className="c18 c19"
                     height="1em"
                     src="[IMAGE_URL]"
                   />
@@ -5580,25 +5702,25 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 </div>
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 1
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 $5.00
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 -
               </td>
               <td
-                className="c20"
+                className="c21"
                 fontSize="Paragraph"
               >
                 $5.00
@@ -5620,7 +5742,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 <div>
                   <img
                     alt=""
-                    className="c18"
+                    className="c18 c19"
                     height="1em"
                     src="[IMAGE_URL]"
                   />
@@ -5638,25 +5760,25 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 </div>
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 1
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 $10.00
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 -
               </td>
               <td
-                className="c20"
+                className="c21"
                 fontSize="Paragraph"
               >
                 $10.00
@@ -5678,7 +5800,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 <div>
                   <img
                     alt=""
-                    className="c18"
+                    className="c18 c19"
                     height="1em"
                     src="[IMAGE_URL]"
                   />
@@ -5696,25 +5818,25 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 </div>
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 1
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 $5.00
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 -
               </td>
               <td
-                className="c20"
+                className="c21"
                 fontSize="Paragraph"
               >
                 $5.00
@@ -5736,7 +5858,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 <div>
                   <img
                     alt=""
-                    className="c18"
+                    className="c18 c19"
                     height="1em"
                     src="[IMAGE_URL]"
                   />
@@ -5754,25 +5876,25 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 </div>
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 1
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 $2.00
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 -
               </td>
               <td
-                className="c20"
+                className="c21"
                 fontSize="Paragraph"
               >
                 $2.00
@@ -5794,7 +5916,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 <div>
                   <img
                     alt=""
-                    className="c18"
+                    className="c18 c19"
                     height="1em"
                     src="[IMAGE_URL]"
                   />
@@ -5812,25 +5934,25 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 </div>
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 1
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 $2.00
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 -
               </td>
               <td
-                className="c20"
+                className="c21"
                 fontSize="Paragraph"
               >
                 $2.00
@@ -5852,7 +5974,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 <div>
                   <img
                     alt=""
-                    className="c18"
+                    className="c18 c19"
                     height="1em"
                     src="[IMAGE_URL]"
                   />
@@ -5870,25 +5992,25 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 </div>
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 1
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 $2.00
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 -
               </td>
               <td
-                className="c20"
+                className="c21"
                 fontSize="Paragraph"
               >
                 $2.00
@@ -5910,7 +6032,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 <div>
                   <img
                     alt=""
-                    className="c18"
+                    className="c18 c19"
                     height="1em"
                     src="[IMAGE_URL]"
                   />
@@ -5928,25 +6050,25 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 </div>
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 1
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 $10.00
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 -
               </td>
               <td
-                className="c20"
+                className="c21"
                 fontSize="Paragraph"
               >
                 $10.00
@@ -5968,7 +6090,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 <div>
                   <img
                     alt=""
-                    className="c18"
+                    className="c18 c19"
                     height="1em"
                     src="[IMAGE_URL]"
                   />
@@ -5986,25 +6108,25 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 </div>
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 1
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 $5.00
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 -
               </td>
               <td
-                className="c20"
+                className="c21"
                 fontSize="Paragraph"
               >
                 $5.00
@@ -6026,7 +6148,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 <div>
                   <img
                     alt=""
-                    className="c18"
+                    className="c18 c19"
                     height="1em"
                     src="[IMAGE_URL]"
                   />
@@ -6044,25 +6166,25 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 </div>
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 1
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 $10.00
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 -
               </td>
               <td
-                className="c20"
+                className="c21"
                 fontSize="Paragraph"
               >
                 $10.00
@@ -6084,7 +6206,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 <div>
                   <img
                     alt=""
-                    className="c18"
+                    className="c18 c19"
                     height="1em"
                     src="[IMAGE_URL]"
                   />
@@ -6102,25 +6224,25 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 </div>
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 1
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 $5.00
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 -
               </td>
               <td
-                className="c20"
+                className="c21"
                 fontSize="Paragraph"
               >
                 $5.00
@@ -6142,7 +6264,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 <div>
                   <img
                     alt=""
-                    className="c18"
+                    className="c18 c19"
                     height="1em"
                     src="[IMAGE_URL]"
                   />
@@ -6160,25 +6282,25 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 </div>
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 1
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 $1.00
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 -
               </td>
               <td
-                className="c20"
+                className="c21"
                 fontSize="Paragraph"
               >
                 $1.00
@@ -6281,7 +6403,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 <div>
                   <img
                     alt=""
-                    className="c18"
+                    className="c18 c19"
                     height="1em"
                     src="[IMAGE_URL]"
                   />
@@ -6299,25 +6421,25 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 </div>
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 1
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 $2.00
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 -
               </td>
               <td
-                className="c20"
+                className="c21"
                 fontSize="Paragraph"
               >
                 $2.00
@@ -6339,7 +6461,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 <div>
                   <img
                     alt=""
-                    className="c18"
+                    className="c18 c19"
                     height="1em"
                     src="[IMAGE_URL]"
                   />
@@ -6357,25 +6479,25 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 </div>
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 1
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 $2.00
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 -
               </td>
               <td
-                className="c20"
+                className="c21"
                 fontSize="Paragraph"
               >
                 $2.00
@@ -6397,7 +6519,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 <div>
                   <img
                     alt=""
-                    className="c18"
+                    className="c18 c19"
                     height="1em"
                     src="[IMAGE_URL]"
                   />
@@ -6415,25 +6537,25 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 </div>
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 1
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 $2.00
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 -
               </td>
               <td
-                className="c20"
+                className="c21"
                 fontSize="Paragraph"
               >
                 $2.00
@@ -6455,7 +6577,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 <div>
                   <img
                     alt=""
-                    className="c18"
+                    className="c18 c19"
                     height="1em"
                     src="[IMAGE_URL]"
                   />
@@ -6473,25 +6595,25 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 </div>
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 1
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 $2.00
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 -
               </td>
               <td
-                className="c20"
+                className="c21"
                 fontSize="Paragraph"
               >
                 $2.00
@@ -6513,7 +6635,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 <div>
                   <img
                     alt=""
-                    className="c18"
+                    className="c18 c19"
                     height="1em"
                     src="[IMAGE_URL]"
                   />
@@ -6531,25 +6653,25 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 </div>
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 1
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 $25.00
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 -
               </td>
               <td
-                className="c20"
+                className="c21"
                 fontSize="Paragraph"
               >
                 $25.00
@@ -6571,7 +6693,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 <div>
                   <img
                     alt=""
-                    className="c18"
+                    className="c18 c19"
                     height="1em"
                     src="[IMAGE_URL]"
                   />
@@ -6589,25 +6711,25 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 </div>
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 1
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 $2.00
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 -
               </td>
               <td
-                className="c20"
+                className="c21"
                 fontSize="Paragraph"
               >
                 $2.00
@@ -6629,7 +6751,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 <div>
                   <img
                     alt=""
-                    className="c18"
+                    className="c18 c19"
                     height="1em"
                     src="[IMAGE_URL]"
                   />
@@ -6647,25 +6769,25 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 </div>
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 1
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 $5.00
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 -
               </td>
               <td
-                className="c20"
+                className="c21"
                 fontSize="Paragraph"
               >
                 $5.00
@@ -6687,7 +6809,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 <div>
                   <img
                     alt=""
-                    className="c18"
+                    className="c18 c19"
                     height="1em"
                     src="[IMAGE_URL]"
                   />
@@ -6705,25 +6827,25 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 </div>
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 1
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 $2.00
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 -
               </td>
               <td
-                className="c20"
+                className="c21"
                 fontSize="Paragraph"
               >
                 $2.00
@@ -6745,7 +6867,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 <div>
                   <img
                     alt=""
-                    className="c18"
+                    className="c18 c19"
                     height="1em"
                     src="[IMAGE_URL]"
                   />
@@ -6763,25 +6885,25 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 </div>
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 1
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 $2.00
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 -
               </td>
               <td
-                className="c20"
+                className="c21"
                 fontSize="Paragraph"
               >
                 $2.00
@@ -6803,7 +6925,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 <div>
                   <img
                     alt=""
-                    className="c18"
+                    className="c18 c19"
                     height="1em"
                     src="[IMAGE_URL]"
                   />
@@ -6821,25 +6943,25 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 </div>
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 1
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 $10.00
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 -
               </td>
               <td
-                className="c20"
+                className="c21"
                 fontSize="Paragraph"
               >
                 $10.00
@@ -6861,7 +6983,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 <div>
                   <img
                     alt=""
-                    className="c18"
+                    className="c18 c19"
                     height="1em"
                     src="[IMAGE_URL]"
                   />
@@ -6879,25 +7001,25 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 </div>
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 1
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 $10.00
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 -
               </td>
               <td
-                className="c20"
+                className="c21"
                 fontSize="Paragraph"
               >
                 $10.00
@@ -6919,7 +7041,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 <div>
                   <img
                     alt=""
-                    className="c18"
+                    className="c18 c19"
                     height="1em"
                     src="[IMAGE_URL]"
                   />
@@ -6937,25 +7059,25 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 </div>
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 1
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 $2.00
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 -
               </td>
               <td
-                className="c20"
+                className="c21"
                 fontSize="Paragraph"
               >
                 $2.00
@@ -6977,7 +7099,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 <div>
                   <img
                     alt=""
-                    className="c18"
+                    className="c18 c19"
                     height="1em"
                     src="[IMAGE_URL]"
                   />
@@ -6995,25 +7117,25 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 </div>
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 1
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 $5.00
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 -
               </td>
               <td
-                className="c20"
+                className="c21"
                 fontSize="Paragraph"
               >
                 $5.00
@@ -7035,7 +7157,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 <div>
                   <img
                     alt=""
-                    className="c18"
+                    className="c18 c19"
                     height="1em"
                     src="[IMAGE_URL]"
                   />
@@ -7053,25 +7175,25 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 </div>
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 1
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 $5.00
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 -
               </td>
               <td
-                className="c20"
+                className="c21"
                 fontSize="Paragraph"
               >
                 $5.00
@@ -7093,7 +7215,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 <div>
                   <img
                     alt=""
-                    className="c18"
+                    className="c18 c19"
                     height="1em"
                     src="[IMAGE_URL]"
                   />
@@ -7111,25 +7233,25 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 </div>
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 1
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 $2.00
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 -
               </td>
               <td
-                className="c20"
+                className="c21"
                 fontSize="Paragraph"
               >
                 $2.00
@@ -7151,7 +7273,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 <div>
                   <img
                     alt=""
-                    className="c18"
+                    className="c18 c19"
                     height="1em"
                     src="[IMAGE_URL]"
                   />
@@ -7169,25 +7291,25 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 </div>
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 1
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 $2.00
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 -
               </td>
               <td
-                className="c20"
+                className="c21"
                 fontSize="Paragraph"
               >
                 $2.00
@@ -7209,7 +7331,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 <div>
                   <img
                     alt=""
-                    className="c18"
+                    className="c18 c19"
                     height="1em"
                     src="[IMAGE_URL]"
                   />
@@ -7227,25 +7349,25 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 </div>
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 1
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 $8.00
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 -
               </td>
               <td
-                className="c20"
+                className="c21"
                 fontSize="Paragraph"
               >
                 $8.00
@@ -7267,7 +7389,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 <div>
                   <img
                     alt=""
-                    className="c18"
+                    className="c18 c19"
                     height="1em"
                     src="[IMAGE_URL]"
                   />
@@ -7285,25 +7407,25 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 </div>
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 1
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 $10.00
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 -
               </td>
               <td
-                className="c20"
+                className="c21"
                 fontSize="Paragraph"
               >
                 $10.00
@@ -7325,7 +7447,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 <div>
                   <img
                     alt=""
-                    className="c18"
+                    className="c18 c19"
                     height="1em"
                     src="[IMAGE_URL]"
                   />
@@ -7343,25 +7465,25 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 </div>
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 1
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 $5.00
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 -
               </td>
               <td
-                className="c20"
+                className="c21"
                 fontSize="Paragraph"
               >
                 $5.00
@@ -7383,7 +7505,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 <div>
                   <img
                     alt=""
-                    className="c18"
+                    className="c18 c19"
                     height="1em"
                     src="[IMAGE_URL]"
                   />
@@ -7401,25 +7523,25 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 </div>
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 1
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 $25.00
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 -
               </td>
               <td
-                className="c20"
+                className="c21"
                 fontSize="Paragraph"
               >
                 $25.00
@@ -7441,7 +7563,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 <div>
                   <img
                     alt=""
-                    className="c18"
+                    className="c18 c19"
                     height="1em"
                     src="[IMAGE_URL]"
                   />
@@ -7459,25 +7581,25 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 </div>
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 1
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 $25.00
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 -
               </td>
               <td
-                className="c20"
+                className="c21"
                 fontSize="Paragraph"
               >
                 $25.00
@@ -7499,7 +7621,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 <div>
                   <img
                     alt=""
-                    className="c18"
+                    className="c18 c19"
                     height="1em"
                     src="[IMAGE_URL]"
                   />
@@ -7517,25 +7639,25 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 </div>
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 1
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 $50.00
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 -
               </td>
               <td
-                className="c20"
+                className="c21"
                 fontSize="Paragraph"
               >
                 $50.00
@@ -7638,7 +7760,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 <div>
                   <img
                     alt=""
-                    className="c18"
+                    className="c18 c19"
                     height="1em"
                     src="[IMAGE_URL]"
                   />
@@ -7656,25 +7778,25 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 </div>
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 1
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 $20.00
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 -
               </td>
               <td
-                className="c20"
+                className="c21"
                 fontSize="Paragraph"
               >
                 $20.00
@@ -7696,7 +7818,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 <div>
                   <img
                     alt=""
-                    className="c18"
+                    className="c18 c19"
                     height="1em"
                     src="[IMAGE_URL]"
                   />
@@ -7714,25 +7836,25 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 </div>
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 1
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 $5.00
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 -
               </td>
               <td
-                className="c20"
+                className="c21"
                 fontSize="Paragraph"
               >
                 $5.00
@@ -7754,7 +7876,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 <div>
                   <img
                     alt=""
-                    className="c18"
+                    className="c18 c19"
                     height="1em"
                     src="[IMAGE_URL]"
                   />
@@ -7772,25 +7894,25 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 </div>
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 1
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 $20.00
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 -
               </td>
               <td
-                className="c20"
+                className="c21"
                 fontSize="Paragraph"
               >
                 $20.00
@@ -7812,7 +7934,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 <div>
                   <img
                     alt=""
-                    className="c18"
+                    className="c18 c19"
                     height="1em"
                     src="[IMAGE_URL]"
                   />
@@ -7830,25 +7952,25 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 </div>
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 1
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 $100.00
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 -
               </td>
               <td
-                className="c20"
+                className="c21"
                 fontSize="Paragraph"
               >
                 $100.00
@@ -7870,7 +7992,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 <div>
                   <img
                     alt=""
-                    className="c18"
+                    className="c18 c19"
                     height="1em"
                     src="[IMAGE_URL]"
                   />
@@ -7888,25 +8010,25 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 </div>
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 1
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 $100.00
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 -
               </td>
               <td
-                className="c20"
+                className="c21"
                 fontSize="Paragraph"
               >
                 $100.00
@@ -7928,7 +8050,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 <div>
                   <img
                     alt=""
-                    className="c18"
+                    className="c18 c19"
                     height="1em"
                     src="[IMAGE_URL]"
                   />
@@ -7946,25 +8068,25 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 </div>
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 1
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 $100.00
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 -
               </td>
               <td
-                className="c20"
+                className="c21"
                 fontSize="Paragraph"
               >
                 $100.00
@@ -7986,7 +8108,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 <div>
                   <img
                     alt=""
-                    className="c18"
+                    className="c18 c19"
                     height="1em"
                     src="[IMAGE_URL]"
                   />
@@ -8004,25 +8126,25 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 </div>
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 1
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 $2.00
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 -
               </td>
               <td
-                className="c20"
+                className="c21"
                 fontSize="Paragraph"
               >
                 $2.00
@@ -8044,7 +8166,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 <div>
                   <img
                     alt=""
-                    className="c18"
+                    className="c18 c19"
                     height="1em"
                     src="[IMAGE_URL]"
                   />
@@ -8062,25 +8184,25 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 </div>
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 1
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 $5.00
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 -
               </td>
               <td
-                className="c20"
+                className="c21"
                 fontSize="Paragraph"
               >
                 $5.00
@@ -8102,7 +8224,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 <div>
                   <img
                     alt=""
-                    className="c18"
+                    className="c18 c19"
                     height="1em"
                     src="[IMAGE_URL]"
                   />
@@ -8120,25 +8242,25 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 </div>
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 1
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 $2.00
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 -
               </td>
               <td
-                className="c20"
+                className="c21"
                 fontSize="Paragraph"
               >
                 $2.00
@@ -8160,7 +8282,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 <div>
                   <img
                     alt=""
-                    className="c18"
+                    className="c18 c19"
                     height="1em"
                     src="[IMAGE_URL]"
                   />
@@ -8178,25 +8300,25 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 </div>
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 1
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 $2.00
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 -
               </td>
               <td
-                className="c20"
+                className="c21"
                 fontSize="Paragraph"
               >
                 $2.00
@@ -8218,7 +8340,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 <div>
                   <img
                     alt=""
-                    className="c18"
+                    className="c18 c19"
                     height="1em"
                     src="[IMAGE_URL]"
                   />
@@ -8236,25 +8358,25 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 </div>
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 1
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 $10.00
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 -
               </td>
               <td
-                className="c20"
+                className="c21"
                 fontSize="Paragraph"
               >
                 $10.00
@@ -8281,25 +8403,25 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 </a>
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 1
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 $200.00
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 -
               </td>
               <td
-                className="c20"
+                className="c21"
                 fontSize="Paragraph"
               >
                 $200.00
@@ -8321,7 +8443,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 <div>
                   <img
                     alt=""
-                    className="c18"
+                    className="c18 c19"
                     height="1em"
                     src="[IMAGE_URL]"
                   />
@@ -8339,25 +8461,25 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 </div>
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 1
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 $2.00
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 -
               </td>
               <td
-                className="c20"
+                className="c21"
                 fontSize="Paragraph"
               >
                 $2.00
@@ -8379,7 +8501,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 <div>
                   <img
                     alt=""
-                    className="c18"
+                    className="c18 c19"
                     height="1em"
                     src="[IMAGE_URL]"
                   />
@@ -8397,25 +8519,25 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 </div>
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 1
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 $5.00
               </td>
               <td
-                className="c19"
+                className="c20"
                 fontSize="Caption"
               >
                 -
               </td>
               <td
-                className="c20"
+                className="c21"
                 fontSize="Paragraph"
               >
                 $5.00
@@ -8424,38 +8546,38 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
           </tbody>
         </table>
         <div
-          className="c21"
+          className="c22"
         >
           <div
-            className="c22"
+            className="c23"
           >
             <hr
-              className="c23"
+              className="c24"
             />
             <div
-              className="c24"
+              className="c25"
             >
               <div
-                className="c25"
+                className="c26"
               >
                 <span>
                   Subtotal
                 </span>
                 <span
-                  className="-Clean-span c26"
+                  className="-Clean-span c27"
                 >
                   $858.00
                 </span>
               </div>
             </div>
             <div
-              className="c27"
+              className="c28"
             >
               <span>
                 TOTAL
               </span>
               <span
-                className="-Clean-span c28"
+                className="-Clean-span c29"
               >
                 $858.00
               </span>
@@ -8464,17 +8586,17 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
         </div>
       </div>
       <div
-        className="c29 footer"
+        className="c30 footer"
       >
         <div
-          className="c30"
+          className="c31"
         >
           <a
             className="c4"
             href="https://opencollective.com/opensource"
           >
             <img
-              className="c31"
+              className="c32 c33"
               src="https://opencollective.com/proxy/images?src=https%3A%2F%2Fopencollective-production.s3-us-west-1.amazonaws.com%2F5f4a3920-11b6-11e8-b28d-b359f3c5ca14.png&height=200"
             />
           </a>
@@ -8483,12 +8605,12 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
           className="c10"
         >
           <p
-            className="c32"
+            className="c34"
           >
             Open Source Collective 501c6 (Non Profit)
           </p>
           <p
-            className="c33"
+            className="c35"
           >
             <span>
               EIN 82-2037583

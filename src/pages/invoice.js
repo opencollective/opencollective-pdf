@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedDate, FormattedMessage } from 'react-intl';
 import { get, chunk, sumBy, max, uniq, isNil } from 'lodash';
-import { Box, Flex, Image } from 'rebass';
+import { Box, Flex, Image } from 'rebass/styled-components';
 import moment from 'moment';
 
 import { formatCurrency, imagePreview } from '../lib/utils';
