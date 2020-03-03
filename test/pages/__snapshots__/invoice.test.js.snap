@@ -142,8 +142,8 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
   -moz-letter-spacing: 0.025em;
   -ms-letter-spacing: 0.025em;
   letter-spacing: 0.025em;
-  margin: 0;
   margin-top: 8px;
+  margin: 0;
   text-align: center;
 }
 
@@ -192,39 +192,39 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
 }
 
 .c13 {
-  padding-top: 10px;
-  padding-bottom: 10px;
   padding-left: 16px;
   padding-right: 16px;
+  padding-top: 10px;
+  padding-bottom: 10px;
   font-size: 13px;
   font-weight: 500;
   border-radius: 4px 0 0 4px;
 }
 
 .c14 {
-  padding-top: 10px;
-  padding-bottom: 10px;
   padding-left: 16px;
   padding-right: 16px;
+  padding-top: 10px;
+  padding-bottom: 10px;
   font-size: 13px;
   font-weight: 500;
 }
 
 .c15 {
-  padding-top: 10px;
-  padding-bottom: 10px;
   padding-left: 16px;
   padding-right: 16px;
+  padding-top: 10px;
+  padding-bottom: 10px;
   font-size: 13px;
   font-weight: 500;
   text-align: center;
 }
 
 .c16 {
-  padding-top: 10px;
-  padding-bottom: 10px;
   padding-left: 16px;
   padding-right: 16px;
+  padding-top: 10px;
+  padding-bottom: 10px;
   font-size: 13px;
   font-weight: 500;
   text-align: right;
@@ -232,27 +232,27 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
 }
 
 .c17 {
-  padding-top: 10px;
-  padding-bottom: 10px;
   padding-left: 16px;
   padding-right: 16px;
+  padding-top: 10px;
+  padding-bottom: 10px;
   font-size: 11px;
 }
 
 .c20 {
-  padding-top: 10px;
-  padding-bottom: 10px;
   padding-left: 16px;
   padding-right: 16px;
+  padding-top: 10px;
+  padding-bottom: 10px;
   font-size: 11px;
   text-align: center;
 }
 
 .c21 {
-  padding-top: 10px;
-  padding-bottom: 10px;
   padding-left: 16px;
   padding-right: 16px;
+  padding-top: 10px;
+  padding-bottom: 10px;
   font-size: 12px;
   text-align: right;
 }
@@ -286,18 +286,18 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
   -webkit-justify-content: space-between;
   -ms-flex-pack: justify;
   justify-content: space-between;
-  padding-top: 8px;
-  padding-bottom: 8px;
   padding-left: 16px;
   padding-right: 16px;
+  padding-top: 8px;
+  padding-bottom: 8px;
 }
 
 .c31 {
   border-right: 1px solid;
   border-color: #C4C7CC;
   border-color: #C4C7CC;
-  margin-right: 32px;
   padding-right: 32px;
+  margin-right: 32px;
 }
 
 .c4 {
@@ -3723,8 +3723,8 @@ exports[`Single transaction invoice simple transaction 1`] = `
   -moz-letter-spacing: 0.025em;
   -ms-letter-spacing: 0.025em;
   letter-spacing: 0.025em;
-  margin: 0;
   margin-top: 8px;
+  margin: 0;
   text-align: center;
 }
 
@@ -3773,39 +3773,39 @@ exports[`Single transaction invoice simple transaction 1`] = `
 }
 
 .c13 {
-  padding-top: 10px;
-  padding-bottom: 10px;
   padding-left: 16px;
   padding-right: 16px;
+  padding-top: 10px;
+  padding-bottom: 10px;
   font-size: 13px;
   font-weight: 500;
   border-radius: 4px 0 0 4px;
 }
 
 .c14 {
-  padding-top: 10px;
-  padding-bottom: 10px;
   padding-left: 16px;
   padding-right: 16px;
+  padding-top: 10px;
+  padding-bottom: 10px;
   font-size: 13px;
   font-weight: 500;
 }
 
 .c15 {
-  padding-top: 10px;
-  padding-bottom: 10px;
   padding-left: 16px;
   padding-right: 16px;
+  padding-top: 10px;
+  padding-bottom: 10px;
   font-size: 13px;
   font-weight: 500;
   text-align: center;
 }
 
 .c16 {
-  padding-top: 10px;
-  padding-bottom: 10px;
   padding-left: 16px;
   padding-right: 16px;
+  padding-top: 10px;
+  padding-bottom: 10px;
   font-size: 13px;
   font-weight: 500;
   text-align: right;
@@ -3813,27 +3813,27 @@ exports[`Single transaction invoice simple transaction 1`] = `
 }
 
 .c17 {
-  padding-top: 10px;
-  padding-bottom: 10px;
   padding-left: 16px;
   padding-right: 16px;
+  padding-top: 10px;
+  padding-bottom: 10px;
   font-size: 11px;
 }
 
 .c18 {
-  padding-top: 10px;
-  padding-bottom: 10px;
   padding-left: 16px;
   padding-right: 16px;
+  padding-top: 10px;
+  padding-bottom: 10px;
   font-size: 11px;
   text-align: center;
 }
 
 .c19 {
-  padding-top: 10px;
-  padding-bottom: 10px;
   padding-left: 16px;
   padding-right: 16px;
+  padding-top: 10px;
+  padding-bottom: 10px;
   font-size: 12px;
   text-align: right;
 }
@@ -3867,18 +3867,18 @@ exports[`Single transaction invoice simple transaction 1`] = `
   -webkit-justify-content: space-between;
   -ms-flex-pack: justify;
   justify-content: space-between;
-  padding-top: 8px;
-  padding-bottom: 8px;
   padding-left: 16px;
   padding-right: 16px;
+  padding-top: 8px;
+  padding-bottom: 8px;
 }
 
 .c29 {
   border-right: 1px solid;
   border-color: #C4C7CC;
   border-color: #C4C7CC;
-  margin-right: 32px;
   padding-right: 32px;
+  margin-right: 32px;
 }
 
 .c4 {
@@ -4432,8 +4432,8 @@ exports[`Single transaction invoice with taxes 1`] = `
   -moz-letter-spacing: 0.025em;
   -ms-letter-spacing: 0.025em;
   letter-spacing: 0.025em;
-  margin: 0;
   margin-top: 8px;
+  margin: 0;
   text-align: center;
 }
 
@@ -4482,39 +4482,39 @@ exports[`Single transaction invoice with taxes 1`] = `
 }
 
 .c14 {
-  padding-top: 10px;
-  padding-bottom: 10px;
   padding-left: 16px;
   padding-right: 16px;
+  padding-top: 10px;
+  padding-bottom: 10px;
   font-size: 13px;
   font-weight: 500;
   border-radius: 4px 0 0 4px;
 }
 
 .c15 {
-  padding-top: 10px;
-  padding-bottom: 10px;
   padding-left: 16px;
   padding-right: 16px;
+  padding-top: 10px;
+  padding-bottom: 10px;
   font-size: 13px;
   font-weight: 500;
 }
 
 .c16 {
-  padding-top: 10px;
-  padding-bottom: 10px;
   padding-left: 16px;
   padding-right: 16px;
+  padding-top: 10px;
+  padding-bottom: 10px;
   font-size: 13px;
   font-weight: 500;
   text-align: center;
 }
 
 .c17 {
-  padding-top: 10px;
-  padding-bottom: 10px;
   padding-left: 16px;
   padding-right: 16px;
+  padding-top: 10px;
+  padding-bottom: 10px;
   font-size: 13px;
   font-weight: 500;
   text-align: right;
@@ -4522,27 +4522,27 @@ exports[`Single transaction invoice with taxes 1`] = `
 }
 
 .c18 {
-  padding-top: 10px;
-  padding-bottom: 10px;
   padding-left: 16px;
   padding-right: 16px;
+  padding-top: 10px;
+  padding-bottom: 10px;
   font-size: 11px;
 }
 
 .c19 {
-  padding-top: 10px;
-  padding-bottom: 10px;
   padding-left: 16px;
   padding-right: 16px;
+  padding-top: 10px;
+  padding-bottom: 10px;
   font-size: 11px;
   text-align: center;
 }
 
 .c20 {
-  padding-top: 10px;
-  padding-bottom: 10px;
   padding-left: 16px;
   padding-right: 16px;
+  padding-top: 10px;
+  padding-bottom: 10px;
   font-size: 12px;
   text-align: right;
 }
@@ -4576,18 +4576,18 @@ exports[`Single transaction invoice with taxes 1`] = `
   -webkit-justify-content: space-between;
   -ms-flex-pack: justify;
   justify-content: space-between;
-  padding-top: 8px;
-  padding-bottom: 8px;
   padding-left: 16px;
   padding-right: 16px;
+  padding-top: 8px;
+  padding-bottom: 8px;
 }
 
 .c31 {
   border-right: 1px solid;
   border-color: #C4C7CC;
   border-color: #C4C7CC;
-  margin-right: 32px;
   padding-right: 32px;
+  margin-right: 32px;
 }
 
 .c4 {
@@ -5187,8 +5187,8 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
   -moz-letter-spacing: 0.025em;
   -ms-letter-spacing: 0.025em;
   letter-spacing: 0.025em;
-  margin: 0;
   margin-top: 8px;
+  margin: 0;
   text-align: center;
 }
 
@@ -5237,39 +5237,39 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
 }
 
 .c13 {
-  padding-top: 10px;
-  padding-bottom: 10px;
   padding-left: 16px;
   padding-right: 16px;
+  padding-top: 10px;
+  padding-bottom: 10px;
   font-size: 13px;
   font-weight: 500;
   border-radius: 4px 0 0 4px;
 }
 
 .c14 {
-  padding-top: 10px;
-  padding-bottom: 10px;
   padding-left: 16px;
   padding-right: 16px;
+  padding-top: 10px;
+  padding-bottom: 10px;
   font-size: 13px;
   font-weight: 500;
 }
 
 .c15 {
-  padding-top: 10px;
-  padding-bottom: 10px;
   padding-left: 16px;
   padding-right: 16px;
+  padding-top: 10px;
+  padding-bottom: 10px;
   font-size: 13px;
   font-weight: 500;
   text-align: center;
 }
 
 .c16 {
-  padding-top: 10px;
-  padding-bottom: 10px;
   padding-left: 16px;
   padding-right: 16px;
+  padding-top: 10px;
+  padding-bottom: 10px;
   font-size: 13px;
   font-weight: 500;
   text-align: right;
@@ -5277,27 +5277,27 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
 }
 
 .c17 {
-  padding-top: 10px;
-  padding-bottom: 10px;
   padding-left: 16px;
   padding-right: 16px;
+  padding-top: 10px;
+  padding-bottom: 10px;
   font-size: 11px;
 }
 
 .c20 {
-  padding-top: 10px;
-  padding-bottom: 10px;
   padding-left: 16px;
   padding-right: 16px;
+  padding-top: 10px;
+  padding-bottom: 10px;
   font-size: 11px;
   text-align: center;
 }
 
 .c21 {
-  padding-top: 10px;
-  padding-bottom: 10px;
   padding-left: 16px;
   padding-right: 16px;
+  padding-top: 10px;
+  padding-bottom: 10px;
   font-size: 12px;
   text-align: right;
 }
@@ -5331,18 +5331,18 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
   -webkit-justify-content: space-between;
   -ms-flex-pack: justify;
   justify-content: space-between;
-  padding-top: 8px;
-  padding-bottom: 8px;
   padding-left: 16px;
   padding-right: 16px;
+  padding-top: 8px;
+  padding-bottom: 8px;
 }
 
 .c31 {
   border-right: 1px solid;
   border-color: #C4C7CC;
   border-color: #C4C7CC;
-  margin-right: 32px;
   padding-right: 32px;
+  margin-right: 32px;
 }
 
 .c4 {
