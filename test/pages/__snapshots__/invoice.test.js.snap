@@ -22,6 +22,16 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
   min-width: 0;
 }
 
+.c18 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  max-width: 100%;
+  height: auto;
+  height: 1em;
+  margin-right: 4px;
+}
+
 .c25 {
   box-sizing: border-box;
   margin: 0;
@@ -35,16 +45,6 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
   min-width: 0;
   max-width: 100%;
   height: auto;
-}
-
-.c18 {
-  box-sizing: border-box;
-  margin: 0;
-  min-width: 0;
-  max-width: 100%;
-  height: auto;
-  height: 1em;
-  margin-right: 4px;
 }
 
 .c2 {
@@ -390,7 +390,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
               href="https://opencollective.com/opensourcecollective"
             >
               <h1
-                className="-Clean-h1 c5"
+                className="c5"
               >
                 Open Source Collective 501c6 (Non Profit)
               </h1>
@@ -427,7 +427,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
             className="c7"
           >
             <h2
-              className="-Clean-h2 c8"
+              className="c8"
             >
               <span>
                 Bill to
@@ -448,7 +448,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
           className="c10"
         >
           <h2
-            className="-Clean-h2 c8"
+            className="c8"
           >
             <span>
               Payment Receipt
@@ -3967,7 +3967,7 @@ exports[`Single transaction invoice simple transaction 1`] = `
               href="https://opencollective.com/opensourcecollective"
             >
               <h1
-                className="-Clean-h1 c5"
+                className="c5"
               >
                 Open Source Collective 501c6 (Non Profit)
               </h1>
@@ -4004,7 +4004,7 @@ exports[`Single transaction invoice simple transaction 1`] = `
             className="c7"
           >
             <h2
-              className="-Clean-h2 c8"
+              className="c8"
             >
               <span>
                 Bill to
@@ -4033,7 +4033,7 @@ exports[`Single transaction invoice simple transaction 1`] = `
           className="c10"
         >
           <h2
-            className="-Clean-h2 c8"
+            className="c8"
           >
             <span>
               Payment Receipt
@@ -4358,6 +4358,21 @@ exports[`Single transaction invoice with taxes 1`] = `
   display: flex;
 }
 
+.c27 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  margin-top: 8px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
 .c30 {
   box-sizing: border-box;
   margin: 0;
@@ -4376,24 +4391,19 @@ exports[`Single transaction invoice with taxes 1`] = `
   display: flex;
 }
 
-.c27 {
-  box-sizing: border-box;
-  margin: 0;
-  min-width: 0;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-  -ms-flex-pack: justify;
-  justify-content: space-between;
-  margin-top: 8px;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-}
-
 .c9 {
   font-size: 13px;
   font-weight: 500;
+  line-height: 16px;
+  -webkit-letter-spacing: 0.025em;
+  -moz-letter-spacing: 0.025em;
+  -ms-letter-spacing: 0.025em;
+  letter-spacing: 0.025em;
+  margin: 0;
+}
+
+.c10 {
+  font-size: 12px;
   line-height: 16px;
   -webkit-letter-spacing: 0.025em;
   -moz-letter-spacing: 0.025em;
@@ -4425,16 +4435,6 @@ exports[`Single transaction invoice with taxes 1`] = `
   margin: 0;
   margin-top: 8px;
   text-align: center;
-}
-
-.c10 {
-  font-size: 12px;
-  line-height: 16px;
-  -webkit-letter-spacing: 0.025em;
-  -moz-letter-spacing: 0.025em;
-  -ms-letter-spacing: 0.025em;
-  letter-spacing: 0.025em;
-  margin: 0;
 }
 
 .c26 {
@@ -4676,7 +4676,7 @@ exports[`Single transaction invoice with taxes 1`] = `
               href="https://opencollective.com/europe"
             >
               <h1
-                className="-Clean-h1 c5"
+                className="c5"
               >
                 Open Collective Europe
               </h1>
@@ -4706,7 +4706,7 @@ exports[`Single transaction invoice with taxes 1`] = `
             className="c7"
           >
             <h2
-              className="-Clean-h2 c8"
+              className="c8"
             >
               <span>
                 Bill to
@@ -4741,7 +4741,7 @@ exports[`Single transaction invoice with taxes 1`] = `
           className="c11"
         >
           <h2
-            className="-Clean-h2 c8"
+            className="c8"
           >
             <span>
               Payment Receipt
@@ -5067,6 +5067,16 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
   min-width: 0;
 }
 
+.c18 {
+  box-sizing: border-box;
+  margin: 0;
+  min-width: 0;
+  max-width: 100%;
+  height: auto;
+  height: 1em;
+  margin-right: 4px;
+}
+
 .c25 {
   box-sizing: border-box;
   margin: 0;
@@ -5080,16 +5090,6 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
   min-width: 0;
   max-width: 100%;
   height: auto;
-}
-
-.c18 {
-  box-sizing: border-box;
-  margin: 0;
-  min-width: 0;
-  max-width: 100%;
-  height: auto;
-  height: 1em;
-  margin-right: 4px;
 }
 
 .c2 {
@@ -5435,7 +5435,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
               href="https://opencollective.com/opensourcecollective"
             >
               <h1
-                className="-Clean-h1 c5"
+                className="c5"
               >
                 Open Source Collective 501c6 (Non Profit)
               </h1>
@@ -5472,7 +5472,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
             className="c7"
           >
             <h2
-              className="-Clean-h2 c8"
+              className="c8"
             >
               <span>
                 Bill to
@@ -5493,7 +5493,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
           className="c10"
         >
           <h2
-            className="-Clean-h2 c8"
+            className="c8"
           >
             <span>
               Payment Receipt
