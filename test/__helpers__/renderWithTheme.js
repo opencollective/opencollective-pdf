@@ -1,5 +1,5 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
+import renderer from 'react-test-renderer'; // eslint-disable-line node/no-unpublished-import
 import { ThemeProvider } from 'styled-components';
 import theme from '../../src/constants/theme';
 
