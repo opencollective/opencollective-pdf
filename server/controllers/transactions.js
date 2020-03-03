@@ -149,7 +149,7 @@ export async function transactionInvoice(req, res, next) {
 export async function testFixture(req, res, next) {
   const { fixture } = req.params;
   try {
-    const fixturesPath = '../../../test/__fixtures__/invoices/';
+    const fixturesPath = '../../test/__fixtures__/invoices/';
     const filePath = path.join(__dirname, fixturesPath, `${path.basename(fixture)}.json`);
     const invoice = await fs.readJson(filePath);
     return downloadInvoice(req, res, next, invoice);

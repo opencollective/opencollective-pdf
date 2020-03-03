@@ -16,7 +16,7 @@ import {
 } from 'styled-system';
 import { themeGet } from '@styled-system/theme-get';
 import tag from 'clean-tag';
-import { buttonSize, buttonStyle } from '../constants/theme';
+import { buttonSize, buttonStyle } from '../lib/constants/theme';
 
 /**
  * styled-component anchor tag using styled-system

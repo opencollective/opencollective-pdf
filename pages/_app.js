@@ -2,7 +2,7 @@ import React from 'react';
 import App from 'next/app';
 import { ThemeProvider } from 'styled-components';
 
-import theme from '../constants/theme';
+import theme from '../lib/constants/theme';
 
 class OpenCollectiveFrontendApp extends App {
   render() {

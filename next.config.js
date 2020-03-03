@@ -3,7 +3,7 @@
 const nextConfig = {
   webpack: config => {
     config.module.rules.push({
-      test: /static\/.*\.(jpg|gif|png|svg|)$/,
+      test: /public\/.*\.(jpg|gif|png|svg|)$/,
       use: {
         loader: 'url-loader',
         options: {
