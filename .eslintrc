@@ -7,6 +7,7 @@
   "rules": {
     "no-console": "warn",
     "react/jsx-closing-bracket-location": ["warn", "tag-aligned"],
-    "react-hooks/rules-of-hooks": ["error"]
+    "react-hooks/rules-of-hooks": ["error"],
+    "react/no-array-index-key": ["warn"]
   }
 }

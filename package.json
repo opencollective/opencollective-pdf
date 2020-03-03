@@ -47,6 +47,7 @@
     "build:server": "babel --copy-files ./src --out-dir ./dist --ignore src/templates/widget.js,src/**/__tests__/*,src/.next/*",
     "build:next": "next build dist",
     "test": "TZ=UTC jest",
+    "test:coverage": "codecov",
     "test:update": "TZ=UTC jest -u",
     "postinstall": "if test \"$NODE_ENV\" = \"\" || test \"$NODE_ENV\" = \"development\" ; then echo \"Skipping postinstall build because NODE_ENV is '${NODE_ENV}'\" ; else npm run build ; fi",
     "lint": "eslint \"src/**/*.js\" \"test/**/*.js\"",
@@ -54,7 +55,7 @@
     "lint:quiet": "npm run lint -- --quiet",
     "commit": "git-cz",
     "cypress": "TZ=UTC cypress run",
-    "prettier": "prettier \"src/**/*.js\" \"test/**/*.js\" --write",
+    "prettier:check": "prettier \"src/**/*.js\" \"test/**/*.js\" --write",
     "deploy:staging": "./scripts/pre-deploy.sh staging && now -e API_KEY=09u624Pc9F47zoGLlkg1TBSbOl2ydSAq -e API_URL=https://api-staging.opencollective.com -e WEBSITE_URL=https://staging.opencollective.com && now alias invoices-staging.opencollective.com",
     "deploy:production": "./scripts/pre-deploy.sh production && now -e API_KEY=@opencollective_api_key -e API_URL=https://api.opencollective.com -e WEBSITE_URL=https://opencollective.com && now alias invoices.opencollective.com"
   },
