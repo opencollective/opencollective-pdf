@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import {
-  backgroundColor,
   border,
   borderColor,
   borderRadius,
@@ -14,8 +13,8 @@ import {
   space,
   textAlign,
   width,
-  themeGet,
 } from 'styled-system';
+import { themeGet } from '@styled-system/theme-get';
 import tag from 'clean-tag';
 import { buttonSize, buttonStyle } from '../constants/theme';
 
@@ -27,7 +26,6 @@ import { buttonSize, buttonStyle } from '../constants/theme';
 const StyledLink = styled(tag.a)`
   text-decoration: none;
 
-  ${backgroundColor}
   ${border}
   ${borderColor}
   ${borderRadius}
