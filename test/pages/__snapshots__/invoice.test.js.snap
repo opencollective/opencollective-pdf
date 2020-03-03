@@ -429,9 +429,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
             <h2
               className="c8"
             >
-              <span>
-                Bill to
-              </span>
+              Bill to
             </h2>
             <div
               className="c6"
@@ -450,9 +448,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
           <h2
             className="c8"
           >
-            <span>
-              Payment Receipt
-            </span>
+            Payment Receipt
           </h2>
           <div>
             <div
@@ -462,9 +458,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 From:
               </label>
                
-              <span>
-                12/31/2018
-              </span>
+              12/31/2018
             </div>
             <div
               className="detail"
@@ -473,9 +467,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 To:
               </label>
                
-              <span>
-                12/31/2019
-              </span>
+              12/31/2019
             </div>
           </div>
           <div
@@ -512,27 +504,21 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 fontSize="LeadParagraph"
                 fontWeight={500}
               >
-                <span>
-                  Date
-                </span>
+                Date
               </td>
               <td
                 className="c14"
                 fontSize="LeadParagraph"
                 fontWeight={500}
               >
-                <span>
-                  Description
-                </span>
+                Description
               </td>
               <td
                 className="c15"
                 fontSize="LeadParagraph"
                 fontWeight={500}
               >
-                <span>
-                  QTY
-                </span>
+                QTY
               </td>
               <td
                 className="c15"
@@ -540,27 +526,21 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 fontWeight={500}
                 width={80}
               >
-                <span>
-                  Unit Price
-                </span>
+                Unit Price
               </td>
               <td
                 className="c15"
                 fontSize="LeadParagraph"
                 fontWeight={500}
               >
-                <span>
-                  Tax %
-                </span>
+                Tax %
               </td>
               <td
                 className="c16"
                 fontSize="LeadParagraph"
                 fontWeight={500}
               >
-                <span>
-                  Net Amount
-                </span>
+                Net Amount
               </td>
             </tr>
           </thead>
@@ -570,9 +550,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 className="c17"
                 fontSize="Caption"
               >
-                <span>
-                  01/01/2019
-                </span>
+                01/01/2019
               </td>
               <td
                 className="c17"
@@ -628,9 +606,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 className="c17"
                 fontSize="Caption"
               >
-                <span>
-                  01/01/2019
-                </span>
+                01/01/2019
               </td>
               <td
                 className="c17"
@@ -686,9 +662,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 className="c17"
                 fontSize="Caption"
               >
-                <span>
-                  01/01/2019
-                </span>
+                01/01/2019
               </td>
               <td
                 className="c17"
@@ -744,9 +718,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 className="c17"
                 fontSize="Caption"
               >
-                <span>
-                  01/01/2019
-                </span>
+                01/01/2019
               </td>
               <td
                 className="c17"
@@ -802,9 +774,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 className="c17"
                 fontSize="Caption"
               >
-                <span>
-                  01/01/2019
-                </span>
+                01/01/2019
               </td>
               <td
                 className="c17"
@@ -860,9 +830,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 className="c17"
                 fontSize="Caption"
               >
-                <span>
-                  01/01/2019
-                </span>
+                01/01/2019
               </td>
               <td
                 className="c17"
@@ -918,9 +886,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 className="c17"
                 fontSize="Caption"
               >
-                <span>
-                  01/01/2019
-                </span>
+                01/01/2019
               </td>
               <td
                 className="c17"
@@ -976,9 +942,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 className="c17"
                 fontSize="Caption"
               >
-                <span>
-                  01/01/2019
-                </span>
+                01/01/2019
               </td>
               <td
                 className="c17"
@@ -1034,9 +998,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 className="c17"
                 fontSize="Caption"
               >
-                <span>
-                  01/01/2019
-                </span>
+                01/01/2019
               </td>
               <td
                 className="c17"
@@ -1092,9 +1054,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 className="c17"
                 fontSize="Caption"
               >
-                <span>
-                  01/01/2019
-                </span>
+                01/01/2019
               </td>
               <td
                 className="c17"
@@ -1150,9 +1110,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 className="c17"
                 fontSize="Caption"
               >
-                <span>
-                  01/01/2019
-                </span>
+                01/01/2019
               </td>
               <td
                 className="c17"
@@ -1208,9 +1166,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 className="c17"
                 fontSize="Caption"
               >
-                <span>
-                  01/01/2019
-                </span>
+                01/01/2019
               </td>
               <td
                 className="c17"
@@ -1289,27 +1245,21 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 fontSize="LeadParagraph"
                 fontWeight={500}
               >
-                <span>
-                  Date
-                </span>
+                Date
               </td>
               <td
                 className="c14"
                 fontSize="LeadParagraph"
                 fontWeight={500}
               >
-                <span>
-                  Description
-                </span>
+                Description
               </td>
               <td
                 className="c15"
                 fontSize="LeadParagraph"
                 fontWeight={500}
               >
-                <span>
-                  QTY
-                </span>
+                QTY
               </td>
               <td
                 className="c15"
@@ -1317,27 +1267,21 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 fontWeight={500}
                 width={80}
               >
-                <span>
-                  Unit Price
-                </span>
+                Unit Price
               </td>
               <td
                 className="c15"
                 fontSize="LeadParagraph"
                 fontWeight={500}
               >
-                <span>
-                  Tax %
-                </span>
+                Tax %
               </td>
               <td
                 className="c16"
                 fontSize="LeadParagraph"
                 fontWeight={500}
               >
-                <span>
-                  Net Amount
-                </span>
+                Net Amount
               </td>
             </tr>
           </thead>
@@ -1347,9 +1291,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 className="c17"
                 fontSize="Caption"
               >
-                <span>
-                  01/01/2019
-                </span>
+                01/01/2019
               </td>
               <td
                 className="c17"
@@ -1405,9 +1347,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 className="c17"
                 fontSize="Caption"
               >
-                <span>
-                  01/01/2019
-                </span>
+                01/01/2019
               </td>
               <td
                 className="c17"
@@ -1463,9 +1403,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 className="c17"
                 fontSize="Caption"
               >
-                <span>
-                  01/01/2019
-                </span>
+                01/01/2019
               </td>
               <td
                 className="c17"
@@ -1521,9 +1459,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 className="c17"
                 fontSize="Caption"
               >
-                <span>
-                  01/01/2019
-                </span>
+                01/01/2019
               </td>
               <td
                 className="c17"
@@ -1579,9 +1515,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 className="c17"
                 fontSize="Caption"
               >
-                <span>
-                  01/01/2019
-                </span>
+                01/01/2019
               </td>
               <td
                 className="c17"
@@ -1637,9 +1571,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 className="c17"
                 fontSize="Caption"
               >
-                <span>
-                  01/01/2019
-                </span>
+                01/01/2019
               </td>
               <td
                 className="c17"
@@ -1695,9 +1627,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 className="c17"
                 fontSize="Caption"
               >
-                <span>
-                  01/01/2019
-                </span>
+                01/01/2019
               </td>
               <td
                 className="c17"
@@ -1753,9 +1683,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 className="c17"
                 fontSize="Caption"
               >
-                <span>
-                  01/01/2019
-                </span>
+                01/01/2019
               </td>
               <td
                 className="c17"
@@ -1811,9 +1739,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 className="c17"
                 fontSize="Caption"
               >
-                <span>
-                  01/01/2019
-                </span>
+                01/01/2019
               </td>
               <td
                 className="c17"
@@ -1869,9 +1795,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 className="c17"
                 fontSize="Caption"
               >
-                <span>
-                  01/01/2019
-                </span>
+                01/01/2019
               </td>
               <td
                 className="c17"
@@ -1927,9 +1851,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 className="c17"
                 fontSize="Caption"
               >
-                <span>
-                  01/01/2019
-                </span>
+                01/01/2019
               </td>
               <td
                 className="c17"
@@ -1985,9 +1907,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 className="c17"
                 fontSize="Caption"
               >
-                <span>
-                  01/01/2019
-                </span>
+                01/01/2019
               </td>
               <td
                 className="c17"
@@ -2043,9 +1963,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 className="c17"
                 fontSize="Caption"
               >
-                <span>
-                  01/01/2019
-                </span>
+                01/01/2019
               </td>
               <td
                 className="c17"
@@ -2101,9 +2019,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 className="c17"
                 fontSize="Caption"
               >
-                <span>
-                  01/01/2019
-                </span>
+                01/01/2019
               </td>
               <td
                 className="c17"
@@ -2159,9 +2075,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 className="c17"
                 fontSize="Caption"
               >
-                <span>
-                  01/01/2019
-                </span>
+                01/01/2019
               </td>
               <td
                 className="c17"
@@ -2217,9 +2131,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 className="c17"
                 fontSize="Caption"
               >
-                <span>
-                  01/01/2019
-                </span>
+                01/01/2019
               </td>
               <td
                 className="c17"
@@ -2275,9 +2187,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 className="c17"
                 fontSize="Caption"
               >
-                <span>
-                  01/01/2019
-                </span>
+                01/01/2019
               </td>
               <td
                 className="c17"
@@ -2333,9 +2243,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 className="c17"
                 fontSize="Caption"
               >
-                <span>
-                  01/01/2019
-                </span>
+                01/01/2019
               </td>
               <td
                 className="c17"
@@ -2391,9 +2299,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 className="c17"
                 fontSize="Caption"
               >
-                <span>
-                  01/01/2019
-                </span>
+                01/01/2019
               </td>
               <td
                 className="c17"
@@ -2449,9 +2355,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 className="c17"
                 fontSize="Caption"
               >
-                <span>
-                  01/01/2019
-                </span>
+                01/01/2019
               </td>
               <td
                 className="c17"
@@ -2507,9 +2411,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 className="c17"
                 fontSize="Caption"
               >
-                <span>
-                  01/01/2019
-                </span>
+                01/01/2019
               </td>
               <td
                 className="c17"
@@ -2565,9 +2467,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 className="c17"
                 fontSize="Caption"
               >
-                <span>
-                  01/01/2019
-                </span>
+                01/01/2019
               </td>
               <td
                 className="c17"
@@ -2646,27 +2546,21 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 fontSize="LeadParagraph"
                 fontWeight={500}
               >
-                <span>
-                  Date
-                </span>
+                Date
               </td>
               <td
                 className="c14"
                 fontSize="LeadParagraph"
                 fontWeight={500}
               >
-                <span>
-                  Description
-                </span>
+                Description
               </td>
               <td
                 className="c15"
                 fontSize="LeadParagraph"
                 fontWeight={500}
               >
-                <span>
-                  QTY
-                </span>
+                QTY
               </td>
               <td
                 className="c15"
@@ -2674,27 +2568,21 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 fontWeight={500}
                 width={80}
               >
-                <span>
-                  Unit Price
-                </span>
+                Unit Price
               </td>
               <td
                 className="c15"
                 fontSize="LeadParagraph"
                 fontWeight={500}
               >
-                <span>
-                  Tax %
-                </span>
+                Tax %
               </td>
               <td
                 className="c16"
                 fontSize="LeadParagraph"
                 fontWeight={500}
               >
-                <span>
-                  Net Amount
-                </span>
+                Net Amount
               </td>
             </tr>
           </thead>
@@ -2704,9 +2592,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 className="c17"
                 fontSize="Caption"
               >
-                <span>
-                  01/01/2019
-                </span>
+                01/01/2019
               </td>
               <td
                 className="c17"
@@ -2762,9 +2648,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 className="c17"
                 fontSize="Caption"
               >
-                <span>
-                  01/01/2019
-                </span>
+                01/01/2019
               </td>
               <td
                 className="c17"
@@ -2820,9 +2704,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 className="c17"
                 fontSize="Caption"
               >
-                <span>
-                  01/01/2019
-                </span>
+                01/01/2019
               </td>
               <td
                 className="c17"
@@ -2878,9 +2760,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 className="c17"
                 fontSize="Caption"
               >
-                <span>
-                  01/01/2019
-                </span>
+                01/01/2019
               </td>
               <td
                 className="c17"
@@ -2936,9 +2816,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 className="c17"
                 fontSize="Caption"
               >
-                <span>
-                  01/01/2019
-                </span>
+                01/01/2019
               </td>
               <td
                 className="c17"
@@ -2994,9 +2872,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 className="c17"
                 fontSize="Caption"
               >
-                <span>
-                  01/01/2019
-                </span>
+                01/01/2019
               </td>
               <td
                 className="c17"
@@ -3052,9 +2928,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 className="c17"
                 fontSize="Caption"
               >
-                <span>
-                  01/01/2019
-                </span>
+                01/01/2019
               </td>
               <td
                 className="c17"
@@ -3110,9 +2984,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 className="c17"
                 fontSize="Caption"
               >
-                <span>
-                  01/01/2019
-                </span>
+                01/01/2019
               </td>
               <td
                 className="c17"
@@ -3168,9 +3040,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 className="c17"
                 fontSize="Caption"
               >
-                <span>
-                  01/01/2019
-                </span>
+                01/01/2019
               </td>
               <td
                 className="c17"
@@ -3226,9 +3096,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 className="c17"
                 fontSize="Caption"
               >
-                <span>
-                  01/01/2019
-                </span>
+                01/01/2019
               </td>
               <td
                 className="c17"
@@ -3284,9 +3152,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 className="c17"
                 fontSize="Caption"
               >
-                <span>
-                  01/01/2019
-                </span>
+                01/01/2019
               </td>
               <td
                 className="c17"
@@ -3342,9 +3208,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 className="c17"
                 fontSize="Caption"
               >
-                <span>
-                  01/01/2019
-                </span>
+                01/01/2019
               </td>
               <td
                 className="c17"
@@ -3387,9 +3251,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 className="c17"
                 fontSize="Caption"
               >
-                <span>
-                  01/01/2019
-                </span>
+                01/01/2019
               </td>
               <td
                 className="c17"
@@ -3445,9 +3307,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
                 className="c17"
                 fontSize="Caption"
               >
-                <span>
-                  01/01/2019
-                </span>
+                01/01/2019
               </td>
               <td
                 className="c17"
@@ -3515,9 +3375,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
               <div
                 className="c26"
               >
-                <span>
-                  Subtotal
-                </span>
+                Subtotal
                 <span
                   className="-Clean-span c27"
                 >
@@ -3528,9 +3386,7 @@ exports[`Monthly invoice for organization with gift cards 1`] = `
             <div
               className="c28"
             >
-              <span>
-                TOTAL
-              </span>
+              TOTAL
               <span
                 className="-Clean-span c29"
               >
@@ -4006,9 +3862,7 @@ exports[`Single transaction invoice simple transaction 1`] = `
             <h2
               className="c8"
             >
-              <span>
-                Bill to
-              </span>
+              Bill to
             </h2>
             <div
               className="c6"
@@ -4035,9 +3889,7 @@ exports[`Single transaction invoice simple transaction 1`] = `
           <h2
             className="c8"
           >
-            <span>
-              Payment Receipt
-            </span>
+            Payment Receipt
           </h2>
           <div
             className="detail"
@@ -4046,9 +3898,7 @@ exports[`Single transaction invoice simple transaction 1`] = `
               Date:
             </label>
              
-            <span>
-              12/02/2018
-            </span>
+            12/02/2018
           </div>
           <div
             className="jsx-1304922212 detail reference"
@@ -4084,27 +3934,21 @@ exports[`Single transaction invoice simple transaction 1`] = `
                 fontSize="LeadParagraph"
                 fontWeight={500}
               >
-                <span>
-                  Date
-                </span>
+                Date
               </td>
               <td
                 className="c14"
                 fontSize="LeadParagraph"
                 fontWeight={500}
               >
-                <span>
-                  Description
-                </span>
+                Description
               </td>
               <td
                 className="c15"
                 fontSize="LeadParagraph"
                 fontWeight={500}
               >
-                <span>
-                  QTY
-                </span>
+                QTY
               </td>
               <td
                 className="c15"
@@ -4112,27 +3956,21 @@ exports[`Single transaction invoice simple transaction 1`] = `
                 fontWeight={500}
                 width={80}
               >
-                <span>
-                  Unit Price
-                </span>
+                Unit Price
               </td>
               <td
                 className="c15"
                 fontSize="LeadParagraph"
                 fontWeight={500}
               >
-                <span>
-                  Tax %
-                </span>
+                Tax %
               </td>
               <td
                 className="c16"
                 fontSize="LeadParagraph"
                 fontWeight={500}
               >
-                <span>
-                  Net Amount
-                </span>
+                Net Amount
               </td>
             </tr>
           </thead>
@@ -4142,9 +3980,7 @@ exports[`Single transaction invoice simple transaction 1`] = `
                 className="c17"
                 fontSize="Caption"
               >
-                <span>
-                  12/02/2018
-                </span>
+                12/02/2018
               </td>
               <td
                 className="c17"
@@ -4199,9 +4035,7 @@ exports[`Single transaction invoice simple transaction 1`] = `
               <div
                 className="c24"
               >
-                <span>
-                  Subtotal
-                </span>
+                Subtotal
                 <span
                   className="-Clean-span c25"
                 >
@@ -4212,9 +4046,7 @@ exports[`Single transaction invoice simple transaction 1`] = `
             <div
               className="c26"
             >
-              <span>
-                TOTAL
-              </span>
+              TOTAL
               <span
                 className="-Clean-span c27"
               >
@@ -4708,9 +4540,7 @@ exports[`Single transaction invoice with taxes 1`] = `
             <h2
               className="c8"
             >
-              <span>
-                Bill to
-              </span>
+              Bill to
             </h2>
             <div
               className="c6"
@@ -4743,9 +4573,7 @@ exports[`Single transaction invoice with taxes 1`] = `
           <h2
             className="c8"
           >
-            <span>
-              Payment Receipt
-            </span>
+            Payment Receipt
           </h2>
           <div
             className="detail"
@@ -4754,9 +4582,7 @@ exports[`Single transaction invoice with taxes 1`] = `
               Date:
             </label>
              
-            <span>
-              02/28/2019
-            </span>
+            02/28/2019
           </div>
           <div
             className="jsx-1304922212 detail reference"
@@ -4792,27 +4618,21 @@ exports[`Single transaction invoice with taxes 1`] = `
                 fontSize="LeadParagraph"
                 fontWeight={500}
               >
-                <span>
-                  Date
-                </span>
+                Date
               </td>
               <td
                 className="c15"
                 fontSize="LeadParagraph"
                 fontWeight={500}
               >
-                <span>
-                  Description
-                </span>
+                Description
               </td>
               <td
                 className="c16"
                 fontSize="LeadParagraph"
                 fontWeight={500}
               >
-                <span>
-                  QTY
-                </span>
+                QTY
               </td>
               <td
                 className="c16"
@@ -4820,27 +4640,21 @@ exports[`Single transaction invoice with taxes 1`] = `
                 fontWeight={500}
                 width={80}
               >
-                <span>
-                  Unit Price
-                </span>
+                Unit Price
               </td>
               <td
                 className="c16"
                 fontSize="LeadParagraph"
                 fontWeight={500}
               >
-                <span>
-                  Tax %
-                </span>
+                Tax %
               </td>
               <td
                 className="c17"
                 fontSize="LeadParagraph"
                 fontWeight={500}
               >
-                <span>
-                  Net Amount
-                </span>
+                Net Amount
               </td>
             </tr>
           </thead>
@@ -4850,9 +4664,7 @@ exports[`Single transaction invoice with taxes 1`] = `
                 className="c18"
                 fontSize="Caption"
               >
-                <span>
-                  03/05/2019
-                </span>
+                03/05/2019
               </td>
               <td
                 className="c18"
@@ -4895,9 +4707,7 @@ exports[`Single transaction invoice with taxes 1`] = `
                 className="c18"
                 fontSize="Caption"
               >
-                <span>
-                  03/06/2019
-                </span>
+                03/06/2019
               </td>
               <td
                 className="c18"
@@ -4952,9 +4762,7 @@ exports[`Single transaction invoice with taxes 1`] = `
               <div
                 className="c25"
               >
-                <span>
-                  Subtotal
-                </span>
+                Subtotal
                 <span
                   className="-Clean-span c26"
                 >
@@ -4964,9 +4772,7 @@ exports[`Single transaction invoice with taxes 1`] = `
               <div
                 className="c27"
               >
-                <span>
-                  VAT 5%
-                </span>
+                VAT 5%
                 <span
                   className="-Clean-span c26"
                 >
@@ -4976,9 +4782,7 @@ exports[`Single transaction invoice with taxes 1`] = `
               <div
                 className="c27"
               >
-                <span>
-                  VAT 21%
-                </span>
+                VAT 21%
                 <span
                   className="-Clean-span c26"
                 >
@@ -4989,9 +4793,7 @@ exports[`Single transaction invoice with taxes 1`] = `
             <div
               className="c28"
             >
-              <span>
-                TOTAL
-              </span>
+              TOTAL
               <span
                 className="-Clean-span c29"
               >
@@ -5474,9 +5276,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
             <h2
               className="c8"
             >
-              <span>
-                Bill to
-              </span>
+              Bill to
             </h2>
             <div
               className="c6"
@@ -5495,9 +5295,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
           <h2
             className="c8"
           >
-            <span>
-              Payment Receipt
-            </span>
+            Payment Receipt
           </h2>
           <div>
             <div
@@ -5507,9 +5305,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 From:
               </label>
                
-              <span>
-                12/31/2018
-              </span>
+              12/31/2018
             </div>
             <div
               className="detail"
@@ -5518,9 +5314,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 To:
               </label>
                
-              <span>
-                01/31/2019
-              </span>
+              01/31/2019
             </div>
           </div>
           <div
@@ -5557,27 +5351,21 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 fontSize="LeadParagraph"
                 fontWeight={500}
               >
-                <span>
-                  Date
-                </span>
+                Date
               </td>
               <td
                 className="c14"
                 fontSize="LeadParagraph"
                 fontWeight={500}
               >
-                <span>
-                  Description
-                </span>
+                Description
               </td>
               <td
                 className="c15"
                 fontSize="LeadParagraph"
                 fontWeight={500}
               >
-                <span>
-                  QTY
-                </span>
+                QTY
               </td>
               <td
                 className="c15"
@@ -5585,27 +5373,21 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 fontWeight={500}
                 width={80}
               >
-                <span>
-                  Unit Price
-                </span>
+                Unit Price
               </td>
               <td
                 className="c15"
                 fontSize="LeadParagraph"
                 fontWeight={500}
               >
-                <span>
-                  Tax %
-                </span>
+                Tax %
               </td>
               <td
                 className="c16"
                 fontSize="LeadParagraph"
                 fontWeight={500}
               >
-                <span>
-                  Net Amount
-                </span>
+                Net Amount
               </td>
             </tr>
           </thead>
@@ -5615,9 +5397,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 className="c17"
                 fontSize="Caption"
               >
-                <span>
-                  01/01/2019
-                </span>
+                01/01/2019
               </td>
               <td
                 className="c17"
@@ -5673,9 +5453,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 className="c17"
                 fontSize="Caption"
               >
-                <span>
-                  01/01/2019
-                </span>
+                01/01/2019
               </td>
               <td
                 className="c17"
@@ -5731,9 +5509,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 className="c17"
                 fontSize="Caption"
               >
-                <span>
-                  01/01/2019
-                </span>
+                01/01/2019
               </td>
               <td
                 className="c17"
@@ -5789,9 +5565,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 className="c17"
                 fontSize="Caption"
               >
-                <span>
-                  01/01/2019
-                </span>
+                01/01/2019
               </td>
               <td
                 className="c17"
@@ -5847,9 +5621,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 className="c17"
                 fontSize="Caption"
               >
-                <span>
-                  01/01/2019
-                </span>
+                01/01/2019
               </td>
               <td
                 className="c17"
@@ -5905,9 +5677,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 className="c17"
                 fontSize="Caption"
               >
-                <span>
-                  01/01/2019
-                </span>
+                01/01/2019
               </td>
               <td
                 className="c17"
@@ -5963,9 +5733,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 className="c17"
                 fontSize="Caption"
               >
-                <span>
-                  01/01/2019
-                </span>
+                01/01/2019
               </td>
               <td
                 className="c17"
@@ -6021,9 +5789,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 className="c17"
                 fontSize="Caption"
               >
-                <span>
-                  01/01/2019
-                </span>
+                01/01/2019
               </td>
               <td
                 className="c17"
@@ -6079,9 +5845,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 className="c17"
                 fontSize="Caption"
               >
-                <span>
-                  01/01/2019
-                </span>
+                01/01/2019
               </td>
               <td
                 className="c17"
@@ -6137,9 +5901,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 className="c17"
                 fontSize="Caption"
               >
-                <span>
-                  01/01/2019
-                </span>
+                01/01/2019
               </td>
               <td
                 className="c17"
@@ -6195,9 +5957,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 className="c17"
                 fontSize="Caption"
               >
-                <span>
-                  01/01/2019
-                </span>
+                01/01/2019
               </td>
               <td
                 className="c17"
@@ -6253,9 +6013,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 className="c17"
                 fontSize="Caption"
               >
-                <span>
-                  01/01/2019
-                </span>
+                01/01/2019
               </td>
               <td
                 className="c17"
@@ -6334,27 +6092,21 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 fontSize="LeadParagraph"
                 fontWeight={500}
               >
-                <span>
-                  Date
-                </span>
+                Date
               </td>
               <td
                 className="c14"
                 fontSize="LeadParagraph"
                 fontWeight={500}
               >
-                <span>
-                  Description
-                </span>
+                Description
               </td>
               <td
                 className="c15"
                 fontSize="LeadParagraph"
                 fontWeight={500}
               >
-                <span>
-                  QTY
-                </span>
+                QTY
               </td>
               <td
                 className="c15"
@@ -6362,27 +6114,21 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 fontWeight={500}
                 width={80}
               >
-                <span>
-                  Unit Price
-                </span>
+                Unit Price
               </td>
               <td
                 className="c15"
                 fontSize="LeadParagraph"
                 fontWeight={500}
               >
-                <span>
-                  Tax %
-                </span>
+                Tax %
               </td>
               <td
                 className="c16"
                 fontSize="LeadParagraph"
                 fontWeight={500}
               >
-                <span>
-                  Net Amount
-                </span>
+                Net Amount
               </td>
             </tr>
           </thead>
@@ -6392,9 +6138,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 className="c17"
                 fontSize="Caption"
               >
-                <span>
-                  01/01/2019
-                </span>
+                01/01/2019
               </td>
               <td
                 className="c17"
@@ -6450,9 +6194,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 className="c17"
                 fontSize="Caption"
               >
-                <span>
-                  01/01/2019
-                </span>
+                01/01/2019
               </td>
               <td
                 className="c17"
@@ -6508,9 +6250,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 className="c17"
                 fontSize="Caption"
               >
-                <span>
-                  01/01/2019
-                </span>
+                01/01/2019
               </td>
               <td
                 className="c17"
@@ -6566,9 +6306,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 className="c17"
                 fontSize="Caption"
               >
-                <span>
-                  01/01/2019
-                </span>
+                01/01/2019
               </td>
               <td
                 className="c17"
@@ -6624,9 +6362,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 className="c17"
                 fontSize="Caption"
               >
-                <span>
-                  01/01/2019
-                </span>
+                01/01/2019
               </td>
               <td
                 className="c17"
@@ -6682,9 +6418,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 className="c17"
                 fontSize="Caption"
               >
-                <span>
-                  01/01/2019
-                </span>
+                01/01/2019
               </td>
               <td
                 className="c17"
@@ -6740,9 +6474,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 className="c17"
                 fontSize="Caption"
               >
-                <span>
-                  01/01/2019
-                </span>
+                01/01/2019
               </td>
               <td
                 className="c17"
@@ -6798,9 +6530,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 className="c17"
                 fontSize="Caption"
               >
-                <span>
-                  01/01/2019
-                </span>
+                01/01/2019
               </td>
               <td
                 className="c17"
@@ -6856,9 +6586,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 className="c17"
                 fontSize="Caption"
               >
-                <span>
-                  01/01/2019
-                </span>
+                01/01/2019
               </td>
               <td
                 className="c17"
@@ -6914,9 +6642,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 className="c17"
                 fontSize="Caption"
               >
-                <span>
-                  01/01/2019
-                </span>
+                01/01/2019
               </td>
               <td
                 className="c17"
@@ -6972,9 +6698,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 className="c17"
                 fontSize="Caption"
               >
-                <span>
-                  01/01/2019
-                </span>
+                01/01/2019
               </td>
               <td
                 className="c17"
@@ -7030,9 +6754,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 className="c17"
                 fontSize="Caption"
               >
-                <span>
-                  01/01/2019
-                </span>
+                01/01/2019
               </td>
               <td
                 className="c17"
@@ -7088,9 +6810,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 className="c17"
                 fontSize="Caption"
               >
-                <span>
-                  01/01/2019
-                </span>
+                01/01/2019
               </td>
               <td
                 className="c17"
@@ -7146,9 +6866,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 className="c17"
                 fontSize="Caption"
               >
-                <span>
-                  01/01/2019
-                </span>
+                01/01/2019
               </td>
               <td
                 className="c17"
@@ -7204,9 +6922,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 className="c17"
                 fontSize="Caption"
               >
-                <span>
-                  01/01/2019
-                </span>
+                01/01/2019
               </td>
               <td
                 className="c17"
@@ -7262,9 +6978,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 className="c17"
                 fontSize="Caption"
               >
-                <span>
-                  01/01/2019
-                </span>
+                01/01/2019
               </td>
               <td
                 className="c17"
@@ -7320,9 +7034,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 className="c17"
                 fontSize="Caption"
               >
-                <span>
-                  01/01/2019
-                </span>
+                01/01/2019
               </td>
               <td
                 className="c17"
@@ -7378,9 +7090,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 className="c17"
                 fontSize="Caption"
               >
-                <span>
-                  01/01/2019
-                </span>
+                01/01/2019
               </td>
               <td
                 className="c17"
@@ -7436,9 +7146,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 className="c17"
                 fontSize="Caption"
               >
-                <span>
-                  01/01/2019
-                </span>
+                01/01/2019
               </td>
               <td
                 className="c17"
@@ -7494,9 +7202,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 className="c17"
                 fontSize="Caption"
               >
-                <span>
-                  01/01/2019
-                </span>
+                01/01/2019
               </td>
               <td
                 className="c17"
@@ -7552,9 +7258,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 className="c17"
                 fontSize="Caption"
               >
-                <span>
-                  01/01/2019
-                </span>
+                01/01/2019
               </td>
               <td
                 className="c17"
@@ -7610,9 +7314,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 className="c17"
                 fontSize="Caption"
               >
-                <span>
-                  01/01/2019
-                </span>
+                01/01/2019
               </td>
               <td
                 className="c17"
@@ -7691,27 +7393,21 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 fontSize="LeadParagraph"
                 fontWeight={500}
               >
-                <span>
-                  Date
-                </span>
+                Date
               </td>
               <td
                 className="c14"
                 fontSize="LeadParagraph"
                 fontWeight={500}
               >
-                <span>
-                  Description
-                </span>
+                Description
               </td>
               <td
                 className="c15"
                 fontSize="LeadParagraph"
                 fontWeight={500}
               >
-                <span>
-                  QTY
-                </span>
+                QTY
               </td>
               <td
                 className="c15"
@@ -7719,27 +7415,21 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 fontWeight={500}
                 width={80}
               >
-                <span>
-                  Unit Price
-                </span>
+                Unit Price
               </td>
               <td
                 className="c15"
                 fontSize="LeadParagraph"
                 fontWeight={500}
               >
-                <span>
-                  Tax %
-                </span>
+                Tax %
               </td>
               <td
                 className="c16"
                 fontSize="LeadParagraph"
                 fontWeight={500}
               >
-                <span>
-                  Net Amount
-                </span>
+                Net Amount
               </td>
             </tr>
           </thead>
@@ -7749,9 +7439,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 className="c17"
                 fontSize="Caption"
               >
-                <span>
-                  01/01/2019
-                </span>
+                01/01/2019
               </td>
               <td
                 className="c17"
@@ -7807,9 +7495,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 className="c17"
                 fontSize="Caption"
               >
-                <span>
-                  01/01/2019
-                </span>
+                01/01/2019
               </td>
               <td
                 className="c17"
@@ -7865,9 +7551,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 className="c17"
                 fontSize="Caption"
               >
-                <span>
-                  01/01/2019
-                </span>
+                01/01/2019
               </td>
               <td
                 className="c17"
@@ -7923,9 +7607,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 className="c17"
                 fontSize="Caption"
               >
-                <span>
-                  01/01/2019
-                </span>
+                01/01/2019
               </td>
               <td
                 className="c17"
@@ -7981,9 +7663,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 className="c17"
                 fontSize="Caption"
               >
-                <span>
-                  01/01/2019
-                </span>
+                01/01/2019
               </td>
               <td
                 className="c17"
@@ -8039,9 +7719,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 className="c17"
                 fontSize="Caption"
               >
-                <span>
-                  01/01/2019
-                </span>
+                01/01/2019
               </td>
               <td
                 className="c17"
@@ -8097,9 +7775,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 className="c17"
                 fontSize="Caption"
               >
-                <span>
-                  01/01/2019
-                </span>
+                01/01/2019
               </td>
               <td
                 className="c17"
@@ -8155,9 +7831,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 className="c17"
                 fontSize="Caption"
               >
-                <span>
-                  01/01/2019
-                </span>
+                01/01/2019
               </td>
               <td
                 className="c17"
@@ -8213,9 +7887,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 className="c17"
                 fontSize="Caption"
               >
-                <span>
-                  01/01/2019
-                </span>
+                01/01/2019
               </td>
               <td
                 className="c17"
@@ -8271,9 +7943,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 className="c17"
                 fontSize="Caption"
               >
-                <span>
-                  01/01/2019
-                </span>
+                01/01/2019
               </td>
               <td
                 className="c17"
@@ -8329,9 +7999,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 className="c17"
                 fontSize="Caption"
               >
-                <span>
-                  01/01/2019
-                </span>
+                01/01/2019
               </td>
               <td
                 className="c17"
@@ -8387,9 +8055,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 className="c17"
                 fontSize="Caption"
               >
-                <span>
-                  01/01/2019
-                </span>
+                01/01/2019
               </td>
               <td
                 className="c17"
@@ -8432,9 +8098,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 className="c17"
                 fontSize="Caption"
               >
-                <span>
-                  01/01/2019
-                </span>
+                01/01/2019
               </td>
               <td
                 className="c17"
@@ -8490,9 +8154,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
                 className="c17"
                 fontSize="Caption"
               >
-                <span>
-                  01/01/2019
-                </span>
+                01/01/2019
               </td>
               <td
                 className="c17"
@@ -8560,9 +8222,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
               <div
                 className="c26"
               >
-                <span>
-                  Subtotal
-                </span>
+                Subtotal
                 <span
                   className="-Clean-span c27"
                 >
@@ -8573,9 +8233,7 @@ exports[`Yearly invoice for organization with gift cards 1`] = `
             <div
               className="c28"
             >
-              <span>
-                TOTAL
-              </span>
+              TOTAL
               <span
                 className="-Clean-span c29"
               >
