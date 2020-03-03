@@ -1,18 +1,9 @@
 import React from 'react';
-import { IntlProvider, addLocaleData, injectIntl } from 'react-intl';
+import { IntlProvider, injectIntl } from 'react-intl';
 import PropTypes from 'prop-types';
 
 import 'intl';
 import 'intl/locale-data/jsonp/en.js'; // for old browsers without window.Intl
-
-// Register React Intl's locale data for the user's locale in the browser. This
-// locale data was added to the page by `pages/_document.js`. This only happens
-// once, on initial page load in the browser.
-if (typeof window !== 'undefined' && window.ReactIntlLocaleData) {
-  Object.keys(window.ReactIntlLocaleData).forEach(lang => {
-    addLocaleData(window.ReactIntlLocaleData[lang]);
-  });
-}
 
 export default Page => {
   const IntlPage = injectIntl(Page);
