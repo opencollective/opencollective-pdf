@@ -14,7 +14,7 @@ import Container from '../components/Container';
 import StyledLink from '../components/StyledLink';
 import LinkToCollective from '../components/LinkToCollective';
 
-import GiftCardImgSrc from '../static/images/giftcard.png';
+import GiftCardImgSrc from '../public/images/giftcard.png';
 import CollectiveAddress from '../components/CollectiveAddress';
 import {
   getTaxesBreakdown,

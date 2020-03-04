@@ -12,19 +12,6 @@ export default (server, app) => {
   server.get('*', maxAge(30));
 
   /**
-   * Cache static assets for a longer time
-   */
-  server.get('/static/*', maxAge(7200));
-
-  /**
-   * Prevent all indexation from search engines (this is a private service)
-   */
-  server.get('/robots.txt', (req, res) => {
-    res.setHeader('Content-Type', 'text/plain');
-    res.send('User-agent: *\nDisallow: /');
-  });
-
-  /**
    * Endpoint to download invoice in HTML, PDF or JSON
    */
   server.get(

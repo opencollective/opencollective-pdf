@@ -27,7 +27,7 @@ ARG API_KEY=09u624Pc9F47zoGLlkg1TBSbOl2ydSAq
 ENV API_KEY $API_KEY
 
 # Copy fonts and update fonts cache
-RUN cp src/static/fonts/* /usr/share/fonts/
+RUN cp public/fonts/* /usr/share/fonts/
 RUN fc-cache -f -v
 RUN fc-list
 

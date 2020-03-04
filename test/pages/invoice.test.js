@@ -1,5 +1,5 @@
 import React from 'react';
-import InvoicePage from '../../src/pages/invoice';
+import InvoicePage from '../../pages/invoice';
 
 import renderWithTheme from '../__helpers__/renderWithTheme';
 import simpleTransactionInvoice from '../__fixtures__/invoices/simple-transaction';
