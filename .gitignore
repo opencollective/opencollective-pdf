@@ -9,6 +9,7 @@ build
 cypress/screenshots
 *.swp
 dist
+out
 
 # VSCode
 .vscode/*
