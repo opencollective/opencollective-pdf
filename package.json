@@ -7,8 +7,8 @@
   },
   "private": true,
   "engines": {
-    "node": "11.8.0",
-    "npm": "6.5.0"
+    "node": "12.3.1",
+    "npm": "6.9.0"
   },
   "dependencies": {
     "@styled-system/theme-get": "5.1.2",
@@ -41,14 +41,11 @@
     "winston": "~3.2.1"
   },
   "scripts": {
-    "start": "node dist/server",
-    "dev": "nodemon --inspect --exec babel-node -- ./server/index.js",
-    "build": "npm-run-all build:clean build:copy-static-assets build:server build:next",
-    "build:clean": "rm -rf dist",
-    "build:copy-static-assets": "cp -r public dist && mkdir -p dist/test && cp -r test/__fixtures__ dist/test",
-    "build:next": "cp -r public dist && next build dist",
-    "build:server": "babel . --only pages,components,lib,server --out-dir dist",
+    "start": "next start",
+    "dev": "next dev -p 3002",
+    "build": "next build",
     "test": "TZ=UTC jest",
+    "test:watch": "npm run test -- --watch",
     "test:coverage": "codecov",
     "test:update": "TZ=UTC jest -u",
     "postinstall": "if test \"$NODE_ENV\" = \"\" || test \"$NODE_ENV\" = \"development\" ; then echo \"Skipping postinstall build because NODE_ENV is '${NODE_ENV}'\" ; else npm run build ; fi",
@@ -57,7 +54,7 @@
     "lint:quiet": "npm run lint -- --quiet",
     "commit": "git-cz",
     "cypress": "TZ=UTC cypress run",
-    "prettier": "prettier \"*.@(js|json|md)\" \"@(components|lib|pages|scripts|server|test)/**/*.@(js|json|md)\"",
+    "prettier": "prettier \"*.@(js|json|md)\" \"@(components|lib|pages|scripts|test)/**/*.@(js|json|md)\"",
     "prettier:check": "npm run prettier -- --check",
     "prettier:write": "npm run prettier -- --write",
     "deploy:staging": "./scripts/pre-deploy.sh staging && now -e API_KEY=09u624Pc9F47zoGLlkg1TBSbOl2ydSAq -e API_URL=https://api-staging.opencollective.com -e WEBSITE_URL=https://staging.opencollective.com && now alias invoices-staging.opencollective.com",
@@ -89,22 +86,19 @@
     "jest": "^25.1.0",
     "jest-junit": "^10.0.0",
     "jest-styled-components": "^7.0.0",
-    "nodemon": "^2.0.2",
-    "npm-run-all": "^4.1.5",
     "prettier": "^1.19.1",
     "react-test-renderer": "^16.12.0",
     "shx": "^0.3.2",
     "url-loader": "^3.0.0"
   },
+  "browser": {
+    "html-pdf": false,
+    "fs-extra": false
+  },
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
-  },
-  "nodemonConfig": {
-    "watch": [
-      "src/server"
-    ]
   },
   "jest": {
     "setupTestFrameworkScriptFile": "./test/setup.js",
