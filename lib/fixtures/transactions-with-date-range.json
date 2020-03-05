@@ -23,6 +23,7 @@
     "slug": "test43wow",
     "name": "Zappa",
     "currency": "USD",
+    "settings": {},
     "location": {
       "name": "France",
       "address": "75 avenue des bacs de fleurs\n83000, Toulon"
