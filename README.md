@@ -23,6 +23,7 @@ We recommend cloning the repository in a folder dedicated to `opencollective` pr
 ```
 git clone git@github.com:opencollective/opencollective-invoices.git opencollective/invoices
 cd opencollective/invoices
+npm config set @bit:registry https://node.bit.dev
 npm install
 ```
 
