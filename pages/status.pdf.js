@@ -1,5 +1,6 @@
 import React from 'react';
-import StatusPage from './status';
+import PropTypes from 'prop-types';
+import PageFormat from '../lib/constants/page-format';
 import PDFLayout from '../components/PDFLayout';
 
 /**
@@ -14,10 +15,14 @@ class PdfStatusPage extends React.Component {
   render() {
     return (
       <PDFLayout pageFormat={this.props.pageFormat}>
-        <StatusPage />
+        <div style={{ padding: 32, fontSize: 26 }}>All Systems Operational ✔️</div>
       </PDFLayout>
     );
   }
 }
+
+PdfStatusPage.propTypes = {
+  pageFormat: PropTypes.oneOf(Object.keys(PageFormat)),
+};
 
 export default PdfStatusPage;
