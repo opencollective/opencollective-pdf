@@ -4,8 +4,8 @@ import { pick } from 'lodash';
 import { Box, Flex } from 'rebass/styled-components';
 import styled from 'styled-components';
 import { objectToQueryString } from '../lib/utils';
-import { InvoicePage } from './invoice';
 import Container from '../components/Container';
+import PageFormat from '../lib/constants/page-format';
 
 const ResponsiveIframe = styled.iframe`
   position: absolute;
@@ -47,7 +47,7 @@ export default class Home extends Component {
   };
 
   renderLink(slug, format, queryString = '') {
-    const testPath = `/__test__/${slug}.${format}`;
+    const testPath = `/fixtures/${slug}.${format}`;
     const link = `${testPath}${queryString}`;
     return (
       <a
@@ -83,7 +83,7 @@ export default class Home extends Component {
   }
 
   getDimensions() {
-    const { unit, page } = InvoicePage.dimensions[this.props.pageFormat];
+    const { unit, page } = PageFormat[this.props.pageFormat];
     return { width: `${page.width}${unit}`, height: `${page.height}${unit}` };
   }
 
