@@ -4,7 +4,7 @@ import PDFLayout from '../../../../../components/PDFLayout';
 import { Receipt } from '../../../../../components/Receipt';
 import PageFormat from '../../../../../lib/constants/page-format';
 import { getAccessTokenFromReq } from '../../../../../lib/req-utils';
-import { fetchInvoiceByDateRange } from '../../../../../lib/graphql';
+import { fetchInvoiceByDateRange } from '../../../../../lib/graphql/queries';
 
 class TransactionReceipt extends React.Component {
   static async getInitialProps(ctx) {
