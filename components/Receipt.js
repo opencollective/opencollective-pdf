@@ -33,9 +33,18 @@ export class Receipt extends React.Component {
       slug: PropTypes.string,
       dateFrom: PropTypes.string,
       dateTo: PropTypes.string,
+      currency: PropTypes.string,
+      totalAmount: PropTypes.number,
       fromCollective: PropTypes.shape({
         slug: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired,
       }).isRequired,
+      host: PropTypes.shape({
+        slug: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired,
+        website: PropTypes.string.isRequired,
+        image: PropTypes.string.isRequired,
+      }),
       transactions: PropTypes.arrayOf(
         PropTypes.shape({
           id: PropTypes.number.isRequired,

@@ -24,6 +24,7 @@ LinkToCollective.propTypes = {
   collective: PropTypes.shape({
     slug: PropTypes.string.isRequired,
     type: PropTypes.string,
+    name: PropTypes.string,
     parentCollective: PropTypes.shape({
       slug: PropTypes.string,
     }),

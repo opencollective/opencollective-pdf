@@ -1,6 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import PDFLayout from '../../../../../components/PDFLayout';
 import { Receipt } from '../../../../../components/Receipt';
+import PageFormat from '../../../../../lib/constants/page-format';
 import { getAccessTokenFromReq } from '../../../../../lib/req-utils';
 import { fetchInvoiceByDateRange } from '../../../../../lib/graphql';
 
@@ -28,5 +30,10 @@ class TransactionReceipt extends React.Component {
     );
   }
 }
+
+TransactionReceipt.propTypes = {
+  pageFormat: PropTypes.oneOf(Object.keys(PageFormat)),
+  receipt: PropTypes.object,
+};
 
 export default TransactionReceipt;

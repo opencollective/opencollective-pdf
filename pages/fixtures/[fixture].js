@@ -1,6 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import path from 'path';
 import fs from 'fs-extra';
+import PageFormat from '../../lib/constants/page-format';
 import { Receipt } from '../../components/Receipt';
 import PDFLayout from '../../components/PDFLayout';
 
@@ -43,5 +45,10 @@ class FixturePage extends React.Component {
     );
   }
 }
+
+FixturePage.propTypes = {
+  pageFormat: PropTypes.oneOf(Object.keys(PageFormat)),
+  receipt: PropTypes.object,
+};
 
 export default FixturePage;

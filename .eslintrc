@@ -8,6 +8,11 @@
     "no-console": "warn",
     "react/jsx-closing-bracket-location": ["warn", "tag-aligned"],
     "react-hooks/rules-of-hooks": ["error"],
-    "react/no-array-index-key": ["warn"]
+    "react/no-array-index-key": 0, // most pages are static
+    // We can be stricter with these rules
+    // because we don't have any occurences anymore
+    "react/react-in-jsx-scope": ["error"],
+    "react/prop-types": ["error"],
+    "react/sort-comp": ["error"]
   }
 }

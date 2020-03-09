@@ -1,8 +1,10 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import PDFLayout from '../../../../components/PDFLayout';
 import { Receipt } from '../../../../components/Receipt';
-import { getAccessTokenFromReq } from '../../../../lib/req-utils';
+import PageFormat from '../../../../lib/constants/page-format';
 import { fetchTransactionInvoice } from '../../../../lib/graphql';
+import { getAccessTokenFromReq } from '../../../../lib/req-utils';
 
 class TransactionReceipt extends React.Component {
   static async getInitialProps(ctx) {
@@ -26,5 +28,10 @@ class TransactionReceipt extends React.Component {
     );
   }
 }
+
+TransactionReceipt.propTypes = {
+  pageFormat: PropTypes.oneOf(Object.keys(PageFormat)),
+  receipt: PropTypes.object,
+};
 
 export default TransactionReceipt;
