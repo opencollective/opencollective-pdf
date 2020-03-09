@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import StyledLink from './StyledLink';
+import StyledLink from '@bit/opencollective.design-system.components.styled-link';
 
 /**
  * Returns event's parent collective slug. If the parent is not available,

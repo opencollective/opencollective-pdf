@@ -4,13 +4,13 @@ import { FormattedDate, FormattedMessage, injectIntl } from 'react-intl';
 import { get, chunk, sumBy, max, uniq, isNil } from 'lodash';
 import { Box, Flex, Image } from 'rebass/styled-components';
 import moment from 'moment';
+import { H1, H2, P, Span } from '@bit/opencollective.design-system.components.styled-text';
+import StyledHr from '@bit/opencollective.design-system.components.styled-hr';
+import Container from '@bit/opencollective.design-system.components.styled-container';
+import StyledLink from '@bit/opencollective.design-system.components.styled-link';
 
 import { formatCurrency, imagePreview } from '../lib/utils';
-import { H1, H2, P, Span } from '../components/Text';
 import { Tr, Td } from '../components/StyledTable';
-import StyledHr from '../components/StyledHr';
-import Container from '../components/Container';
-import StyledLink from '../components/StyledLink';
 import LinkToCollective from '../components/LinkToCollective';
 
 import GiftCardImgSrc from '../public/static/images/giftcard.png';

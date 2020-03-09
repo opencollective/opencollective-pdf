@@ -43,6 +43,8 @@ jobs:
             ${{ runner.os }}-npm-cache-${{ hashFiles('package-lock.json') }}
             ${{ runner.os }}-npm-cache-
 
+      - run: npm config set @bit:registry https://node.bit.dev
+
       - name: Install dependencies
         if: steps.node-modules.outputs.cache-hit != 'true'
         run: CYPRESS_INSTALL_BINARY=0 npm ci --prefer-offline --no-audit
@@ -78,6 +80,8 @@ jobs:
             ${{ runner.os }}-npm-cache-${{ hashFiles('package-lock.json') }}
             ${{ runner.os }}-npm-cache-
 
+      - run: npm config set @bit:registry https://node.bit.dev
+
       - name: Install dependencies
         if: steps.node-modules.outputs.cache-hit != 'true'
         run: CYPRESS_INSTALL_BINARY=0 npm ci --prefer-offline --no-audit
@@ -112,6 +116,8 @@ jobs:
           restore-keys: |
             - ${{ runner.os }}-npm-cache-${{ hashFiles('package-lock.json') }}
             - ${{ runner.os }}-npm-cache-
+
+      - run: npm config set @bit:registry https://node.bit.dev
 
       - name: Install dependencies
         if: steps.node-modules.outputs.cache-hit != 'true'

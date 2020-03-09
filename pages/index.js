@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { pick } from 'lodash';
 import { Box, Flex } from 'rebass/styled-components';
 import styled from 'styled-components';
+import Container from '@bit/opencollective.design-system.components.styled-container';
 import { objectToQueryString } from '../lib/utils';
-import Container from '../components/Container';
 import PageFormat from '../lib/constants/page-format';
 
 const ResponsiveIframe = styled.iframe`
