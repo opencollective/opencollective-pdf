@@ -3,7 +3,7 @@ import React from 'react';
 import PDFLayout from '../../../../components/PDFLayout';
 import { Receipt } from '../../../../components/Receipt';
 import PageFormat from '../../../../lib/constants/page-format';
-import { fetchTransactionInvoice } from '../../../../lib/graphql';
+import { fetchTransactionInvoice } from '../../../../lib/graphql/queries';
 import { getAccessTokenFromReq } from '../../../../lib/req-utils';
 
 class TransactionReceipt extends React.Component {
