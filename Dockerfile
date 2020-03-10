@@ -4,6 +4,7 @@ WORKDIR /usr/src/frontend
 
 COPY package*.json ./
 
+RUN npm config set @bit:registry https://node.bit.dev
 RUN npm ci
 
 COPY . .
