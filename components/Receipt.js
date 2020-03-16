@@ -9,7 +9,7 @@ import StyledHr from '@bit/opencollective.design-system.components.styled-hr';
 import Container from '@bit/opencollective.design-system.components.styled-container';
 import StyledLink from '@bit/opencollective.design-system.components.styled-link';
 
-import { formatCurrency, imagePreview } from '../lib/utils';
+import { formatCurrency } from '../lib/utils';
 import { Tr, Td } from '../components/StyledTable';
 import LinkToCollective from '../components/LinkToCollective';
 
@@ -22,8 +22,7 @@ import {
   getTransactionTaxPercent,
 } from '../lib/transactions';
 import PageFormat from '../lib/constants/page-format';
-
-const baseUrl = 'https://opencollective.com';
+import CollectiveFooter from './CollectiveFooter';
 
 export class Receipt extends React.Component {
   static propTypes = {
@@ -34,6 +33,9 @@ export class Receipt extends React.Component {
       dateFrom: PropTypes.string,
       dateTo: PropTypes.string,
       currency: PropTypes.string,
+      year: PropTypes.number,
+      month: PropTypes.number,
+      day: PropTypes.number,
       totalAmount: PropTypes.number,
       fromCollective: PropTypes.shape({
         slug: PropTypes.string.isRequired,
@@ -288,9 +290,35 @@ export class Receipt extends React.Component {
                       )}
                     </H2>
                     {invoice.dateFrom && invoice.dateTo ? (
-                      <RenderDateFromDateTo invoice={invoice} />
+                      <div>
+                        <div>
+                          <FormattedDate
+                            value={new Date(invoice.dateFrom)}
+                            day="2-digit"
+                            month="2-digit"
+                            year="numeric"
+                          />
+                        </div>
+                        <div>
+                          <label>To:</label>{' '}
+                          <FormattedDate
+                            value={new Date(invoice.dateTo)}
+                            day="2-digit"
+                            month="2-digit"
+                            year="numeric"
+                          />
+                        </div>
+                      </div>
                     ) : (
-                      <RenderSingleDate invoice={invoice} />
+                      <div>
+                        <label>Date:</label>{' '}
+                        <FormattedDate
+                          value={new Date(invoice.year, invoice.month - 1, invoice.day)}
+                          day="2-digit"
+                          month="2-digit"
+                          year="numeric"
+                        />
+                      </div>
                     )}
                     <div className="detail reference">
                       <label>Reference:</label> {this.getInvoiceReference(invoice)}
@@ -345,26 +373,7 @@ export class Receipt extends React.Component {
                   </Flex>
                 )}
               </Box>
-              {pageNumber === chunkedTransactions.length - 1 && (
-                <Flex className="footer" justifyContent="center" alignItems="center">
-                  <Container borderRight="1px solid" borderColor="black.400" pr={4} mr={4}>
-                    <StyledLink href={invoice.host.website}>
-                      <Image
-                        css={{ maxWidth: 200, maxHeight: 100 }}
-                        src={imagePreview(invoice.host.image, null, { height: 200, baseUrl })}
-                      />
-                    </StyledLink>
-                  </Container>
-                  <Box>
-                    <P fontWeight="bold" textAlign="center">
-                      {invoice.host.name}
-                    </P>
-                    <P mt={2} textAlign="center" color="black.600">
-                      <CollectiveAddress collective={invoice.host} />
-                    </P>
-                  </Box>
-                </Flex>
-              )}
+              {pageNumber === chunkedTransactions.length - 1 && <CollectiveFooter collective={invoice.host} />}
             </Flex>
           ))}
         </div>
@@ -372,44 +381,5 @@ export class Receipt extends React.Component {
     );
   }
 }
-
-function RenderDateFromDateTo(props) {
-  const { invoice } = props;
-  return (
-    <div>
-      <div className="detail">
-        <label>From:</label>{' '}
-        <FormattedDate value={new Date(invoice.dateFrom)} day="2-digit" month="2-digit" year="numeric" />
-      </div>
-      <div className="detail">
-        <label>To:</label>{' '}
-        <FormattedDate value={new Date(invoice.dateTo)} day="2-digit" month="2-digit" year="numeric" />
-      </div>
-    </div>
-  );
-}
-
-RenderDateFromDateTo.propTypes = {
-  invoice: PropTypes.object.isRequired,
-};
-
-function RenderSingleDate(props) {
-  const { invoice } = props;
-  return (
-    <div className="detail">
-      <label>Date:</label>{' '}
-      <FormattedDate
-        value={new Date(invoice.year, invoice.month - 1, invoice.day)}
-        day="2-digit"
-        month="2-digit"
-        year="numeric"
-      />
-    </div>
-  );
-}
-
-RenderSingleDate.propTypes = {
-  invoice: PropTypes.object.isRequired,
-};
 
 export default injectIntl(Receipt);
