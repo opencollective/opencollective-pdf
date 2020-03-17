@@ -77,14 +77,21 @@ export default class Document extends NextJSDocument {
       const initialProps = await NextJSDocument.getInitialProps(ctx);
       const isPdf = ctx.pathname !== '/' && fileFormat === 'pdf';
       if (isServer && isPdf) {
-        const htmlContent = ctx.renderPage().html;
-        const buffer = await componentToPDFBuffer(
-          <PDFDocument html={htmlContent} styles={getRawCssFromSheet(sheet)} />,
-          { pageFormat: query.pageFormat || 'A4' },
-        );
-        res.setHeader('Content-disposition', `inline; filename="test.pdf`);
-        res.setHeader('Content-Type', 'application/pdf');
-        res.end(buffer);
+        if (ctx.err) {
+          res.statusCode = 400;
+          res.setHeader('Content-Type', 'application/json');
+          res.end(JSON.stringify(ctx.err));
+        } else {
+          const renderedPage = ctx.renderPage();
+          const htmlContent = renderedPage.html;
+          const buffer = await componentToPDFBuffer(
+            <PDFDocument html={htmlContent} styles={getRawCssFromSheet(sheet)} />,
+            { pageFormat: query.pageFormat || 'A4' },
+          );
+          res.setHeader('Content-disposition', `inline; filename="result.pdf`);
+          res.setHeader('Content-Type', 'application/pdf');
+          res.end(buffer);
+        }
       }
 
       return {
