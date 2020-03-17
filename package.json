@@ -55,7 +55,6 @@
     "test:watch": "npm run test -- --watch",
     "test:coverage": "codecov",
     "test:update": "TZ=UTC jest -u",
-    "postinstall": "if test \"$NODE_ENV\" = \"\" || test \"$NODE_ENV\" = \"development\" ; then echo \"Skipping postinstall build because NODE_ENV is '${NODE_ENV}'\" ; else npm run build ; fi",
     "lint": "eslint . --ignore-path .gitignore",
     "lint:fix": "npm run lint -- --fix",
     "lint:quiet": "npm run lint -- --quiet",
