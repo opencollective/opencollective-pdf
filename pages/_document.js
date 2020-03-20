@@ -67,6 +67,13 @@ export default class Document extends NextJSDocument {
     const isServer = Boolean(req);
     const sheet = new ServerStyleSheet();
 
+    if (req?.method === 'OPTIONS') {
+      // Frontend sends an OPTIONS request to check CORS, we should just return OK when that happens
+      res.statusCode = 204;
+      res.end();
+      return;
+    }
+
     try {
       ctx.renderPage = () =>
         originalRenderPage({
