@@ -12,8 +12,7 @@ class TransactionReceipt extends React.Component {
     if (isServer) {
       const { fromCollectiveSlug, toCollectiveSlug: collectiveSlug, isoStartDate: dateFrom, isoEndDate } = ctx.query;
       const dateTo = isoEndDate.split('.')[0]; // isoEndDate can include file extension
-      const errorMsgIfForbidden = `This endpoint requires authentication. If you ended up on this link directly, please go to https://opencollective.com/${collectiveSlug}/transactions instead to download your receipt.`;
-      const accessToken = getAccessTokenFromReq(ctx, errorMsgIfForbidden);
+      const accessToken = getAccessTokenFromReq(ctx);
       const queryParams = { fromCollectiveSlug, collectiveSlug, dateFrom, dateTo };
       const receipt = await fetchInvoiceByDateRange(queryParams, accessToken, ctx.query.app_key);
       return { receipt, pageFormat: ctx.query.pageFormat };
