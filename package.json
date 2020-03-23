@@ -39,7 +39,7 @@
     "polished": "~3.4.4",
     "prop-types": "~15.7.2",
     "react": "~16.13.0",
-    "react-dom": "~16.13.0",
+    "react-dom": "~16.13.1",
     "react-intl": "~4.1.1",
     "rebass": "~4.0.7",
     "sanitize-html": "~1.22.1",
