@@ -53,7 +53,7 @@ export class Receipt extends React.Component {
           order: PropTypes.shape({
             id: PropTypes.number.isRequired,
             type: PropTypes.string,
-          }).isRequired,
+          }),
         }),
       ).isRequired,
     }).isRequired,
