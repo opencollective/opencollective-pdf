@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import NextJSDocument from 'next/document';
 import { ServerStyleSheet } from 'styled-components';
 import { componentToPDFBuffer } from '../lib/pdf-utils';
+import { setCORSHeaders } from '../lib/req-utils';
 
 /**
  * A wrapper for PDF documents that injects the styles in the page and add some global
@@ -67,8 +68,13 @@ export default class Document extends NextJSDocument {
     const isServer = Boolean(req);
     const sheet = new ServerStyleSheet();
 
+    // Set CORS headers
+    if (ctx.res) {
+      setCORSHeaders(ctx);
+    }
+
+    // Frontend sends an OPTIONS request to check CORS, we should just return OK when that happens
     if (req?.method === 'OPTIONS') {
-      // Frontend sends an OPTIONS request to check CORS, we should just return OK when that happens
       res.statusCode = 204;
       res.end();
       return;
