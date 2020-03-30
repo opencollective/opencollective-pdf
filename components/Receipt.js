@@ -40,6 +40,10 @@ export class Receipt extends React.Component {
       fromCollective: PropTypes.shape({
         slug: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired,
+        isIncognito: PropTypes.bool.isRequired,
+        createdByUser: PropTypes.shape({
+          name: PropTypes.string.isRequired,
+        }).isRequired,
       }).isRequired,
       host: PropTypes.shape({
         slug: PropTypes.string.isRequired,
@@ -228,6 +232,7 @@ export class Receipt extends React.Component {
       return <div>No transaction to render</div>;
     }
 
+    const { isIncognito, createdByUser } = invoice.fromCollective;
     const chunkedTransactions = this.chunkTransactions(invoice, transactions);
     const taxesTotal = this.getTaxTotal();
 
@@ -272,7 +277,7 @@ export class Receipt extends React.Component {
                       </H2>
                       <Box my={2}>
                         <P fontWeight={500} fontSize="LeadParagraph">
-                          {invoice.fromCollective.name}
+                          {isIncognito ? createdByUser.name : invoice.fromCollective.name}
                         </P>
                         <CollectiveAddress collective={invoice.fromCollective} />
                         {this.renderTaxIdNumbers()}
