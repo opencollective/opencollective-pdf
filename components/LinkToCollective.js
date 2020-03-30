@@ -8,7 +8,7 @@ import { FormattedMessage } from 'react-intl';
  * fallback on `collective` slug which will result in a valid URL: parent
  * collective slug is only used to generate pretty URLs.
  */
-const getEventParentCollectiveSlug = parentCollective => {
+const getEventParentCollectiveSlug = (parentCollective) => {
   return parentCollective && parentCollective.slug ? parentCollective.slug : 'collective';
 };
 

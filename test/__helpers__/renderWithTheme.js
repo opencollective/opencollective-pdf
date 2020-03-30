@@ -3,7 +3,7 @@ import renderer from 'react-test-renderer'; // eslint-disable-line node/no-unpub
 import { ThemeProvider } from 'styled-components';
 import theme from '../../lib/theme';
 
-const renderWithTheme = component => {
+const renderWithTheme = (component) => {
   return renderer.create(<ThemeProvider theme={theme}>{component}</ThemeProvider>);
 };
 

@@ -39,7 +39,7 @@ export default class Home extends Component {
     'transactions-with-date-range': 'With date range',
   };
 
-  updateSearch = changes => {
+  updateSearch = (changes) => {
     document.location.search = objectToQueryString({
       ...pick(this.props, ['selectedTestUrl', 'pageFormat', 'debug']),
       ...changes,
@@ -52,7 +52,7 @@ export default class Home extends Component {
     return (
       <a
         href={link}
-        onClick={e => {
+        onClick={(e) => {
           this.updateSearch({ selectedTestUrl: encodeURIComponent(testPath) });
           // Only prevent if left click
           if (e.button === 0) {
@@ -121,7 +121,7 @@ export default class Home extends Component {
                 <select
                   id="pageFormat"
                   value={this.props.pageFormat}
-                  onChange={e => this.updateSearch({ pageFormat: e.target.value })}
+                  onChange={(e) => this.updateSearch({ pageFormat: e.target.value })}
                 >
                   <option>A4</option>
                   <option>Letter</option>
@@ -143,7 +143,7 @@ export default class Home extends Component {
             </div>
             <h2>Test pages</h2>
             <ul>
-              {Object.keys(Home.Menu).map(slug => (
+              {Object.keys(Home.Menu).map((slug) => (
                 <li key={slug}>
                   {Home.Menu[slug]} ({this.renderFormats(slug)})
                 </li>
