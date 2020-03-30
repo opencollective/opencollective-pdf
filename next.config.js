@@ -8,7 +8,7 @@ const nextConfig = {
     API_KEY: process.env.API_KEY,
     LOG_LEVEL: process.env.LOG_LEVEL,
   },
-  webpack: config => {
+  webpack: (config) => {
     config.module.rules.push({
       test: /public\/.*\.(jpg|gif|png|svg|)$/,
       use: {

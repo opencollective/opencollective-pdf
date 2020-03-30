@@ -8,7 +8,7 @@ import PDFLayout from '../../components/PDFLayout';
 
 const FIXTURES_PATHS = ['./public/static/fixtures', './static/fixtures'];
 
-const loadFixture = async fixtureName => {
+const loadFixture = async (fixtureName) => {
   for (const fixturesPath of FIXTURES_PATHS) {
     const filePath = path.join(fixturesPath, `${path.basename(fixtureName)}.json`);
     try {

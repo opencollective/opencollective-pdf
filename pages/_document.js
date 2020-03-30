@@ -36,14 +36,14 @@ PDFDocument.propTypes = {
   zoom: PropTypes.number.isRequired,
 };
 
-const getRawCssFromSheet = sheet => {
+const getRawCssFromSheet = (sheet) => {
   return sheet
     .getStyleElement()
-    .map(e => e.props.dangerouslySetInnerHTML.__html)
+    .map((e) => e.props.dangerouslySetInnerHTML.__html)
     .join();
 };
 
-const getFileFormatFromCtx = ctx => {
+const getFileFormatFromCtx = (ctx) => {
   if (ctx.format) {
     return ctx.format;
   } else if (ctx.req) {
@@ -83,7 +83,7 @@ export default class Document extends NextJSDocument {
     try {
       ctx.renderPage = () =>
         originalRenderPage({
-          enhanceApp: App => props => sheet.collectStyles(<App {...props} />),
+          enhanceApp: (App) => (props) => sheet.collectStyles(<App {...props} />),
         });
 
       const fileFormat = getFileFormatFromCtx(ctx);

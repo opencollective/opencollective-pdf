@@ -22,7 +22,7 @@ const ExpenseAttachmentsTable = ({ attachments, expense }) => {
         </Tr>
       </thead>
       <tbody>
-        {attachments.map(attachment => {
+        {attachments.map((attachment) => {
           return (
             <tr key={attachment.id}>
               <Td fontSize="Caption">

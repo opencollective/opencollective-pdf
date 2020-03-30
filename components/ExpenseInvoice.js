@@ -12,7 +12,7 @@ import { formatCurrency } from '../lib/utils';
 import CollectiveAddress from './CollectiveAddress';
 import ExpenseAttachmentsTable from './ExpenseAttachmentsTable';
 
-const getPageHeight = pageFormat => {
+const getPageHeight = (pageFormat) => {
   const dimensions = PageFormat[pageFormat];
   return `${dimensions.page.height}${dimensions.unit}`;
 };
@@ -22,13 +22,13 @@ const getPageHeight = pageFormat => {
  * to keep some space for the header. The number of attachments we show on it depends of
  * the size of the header, that we estimate from the number of lines in the addresses.
  */
-const chunkAttachments = expense => {
+const chunkAttachments = (expense) => {
   const baseNbOnFirstPage = 12;
   const minNbOnFirstPage = 8;
   const attachmentsPerPage = 22;
 
   // Estimate the space available
-  const countLines = str => sumBy(str, c => c === '\n');
+  const countLines = (str) => sumBy(str, (c) => c === '\n');
   const billFromAddressSize = countLines(get(expense.account, 'location.address', ''));
   const billToAddressSize = countLines(get(expense.payee, 'location.address', ''));
   const maxNbOnFirstPage = max([minNbOnFirstPage, baseNbOnFirstPage - (billFromAddressSize + billToAddressSize)]);

@@ -97,7 +97,7 @@ export class Receipt extends React.Component {
     const transactionsPerPage = 22;
 
     // Estimate the space available
-    const countLines = str => sumBy(str, c => c === '\n');
+    const countLines = (str) => sumBy(str, (c) => c === '\n');
     const billFromAddressSize = countLines(get(invoice.host, 'location.address', ''));
     const billToAddressSize = countLines(get(invoice.fromCollective, 'location.address', ''));
     const maxNbOnFirstPage = max([minNbOnFirstPage, baseNbOnFirstPage - (billFromAddressSize + billToAddressSize)]);
@@ -123,10 +123,7 @@ export class Receipt extends React.Component {
       return `${invoice.host.slug}_${invoice.fromCollective.slug}_${startString}-${endString}`;
     }
 
-    return invoice.slug
-      .split('-')
-      .slice(0, 2)
-      .join('-');
+    return invoice.slug.split('-').slice(0, 2).join('-');
   }
 
   getTaxTotal() {
@@ -136,14 +133,14 @@ export class Receipt extends React.Component {
   /** Returns the VAT number of the collective */
   renderTaxIdNumbers() {
     const taxIdNumbers = this.props.invoice.transactions
-      .map(t => get(t, 'order.data.tax.taxIDNumber'))
-      .filter(taxIdNumber => !isNil(taxIdNumber));
+      .map((t) => get(t, 'order.data.tax.taxIDNumber'))
+      .filter((taxIdNumber) => !isNil(taxIdNumber));
 
     if (taxIdNumbers.length === 0) {
       return null;
     }
 
-    return uniq(taxIdNumbers).map(number => <P key={number}>{number}</P>);
+    return uniq(taxIdNumbers).map((number) => <P key={number}>{number}</P>);
   }
 
   /** Get a description for transaction, with a mention to virtual card emitter if necessary */
@@ -191,7 +188,7 @@ export class Receipt extends React.Component {
           </Tr>
         </thead>
         <tbody>
-          {transactions.map(transaction => {
+          {transactions.map((transaction) => {
             const quantity = get(transaction, 'order.quantity') || 1;
             const amount = getTransactionAmount(transaction);
             const taxAmount = transaction.taxAmount || 0;
@@ -339,7 +336,7 @@ export class Receipt extends React.Component {
                             {formatCurrency(invoice.totalAmount - taxesTotal, invoice.currency)}
                           </Span>
                         </Flex>
-                        {getTaxesBreakdown(this.props.invoice.transactions).map(tax => (
+                        {getTaxesBreakdown(this.props.invoice.transactions).map((tax) => (
                           <Flex key={tax.key} justifyContent="space-between" mt={2}>
                             {tax.id === 'VAT' ? (
                               <FormattedMessage
