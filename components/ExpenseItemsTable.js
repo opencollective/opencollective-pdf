@@ -5,7 +5,7 @@ import { FormattedMessage, FormattedDate } from 'react-intl';
 import { Span } from '@bit/opencollective.design-system.components.styled-text';
 import { formatCurrency } from '../lib/utils';
 
-const ExpenseAttachmentsTable = ({ attachments, expense }) => {
+const ExpenseItemsTable = ({ items, expense }) => {
   return (
     <table style={{ borderCollapse: 'collapse', width: '100%' }}>
       <thead>
@@ -22,20 +22,20 @@ const ExpenseAttachmentsTable = ({ attachments, expense }) => {
         </Tr>
       </thead>
       <tbody>
-        {attachments.map((attachment) => {
+        {items.map((item) => {
           return (
-            <tr key={attachment.id}>
+            <tr key={item.id}>
               <Td fontSize="Caption">
-                <FormattedDate value={new Date(attachment.incurredAt)} day="2-digit" month="2-digit" year="numeric" />
+                <FormattedDate value={new Date(item.incurredAt)} day="2-digit" month="2-digit" year="numeric" />
               </Td>
               <Td fontSize="Caption">
-                {attachment.description || (
+                {item.description || (
                   <Span color="black.500" fontStyle="italic">
                     <FormattedMessage id="NoDescription" defaultMessage="No description provided" />
                   </Span>
                 )}
               </Td>
-              <Td textAlign="right">{formatCurrency(attachment.amount, expense.currency)}</Td>
+              <Td textAlign="right">{formatCurrency(item.amount, expense.currency)}</Td>
             </tr>
           );
         })}
@@ -44,11 +44,11 @@ const ExpenseAttachmentsTable = ({ attachments, expense }) => {
   );
 };
 
-ExpenseAttachmentsTable.propTypes = {
+ExpenseItemsTable.propTypes = {
   expense: PropTypes.shape({
     currency: PropTypes.string,
   }),
-  attachments: PropTypes.arrayOf(
+  items: PropTypes.arrayOf(
     PropTypes.shape({
       amount: PropTypes.number,
       description: PropTypes.string,
@@ -57,4 +57,4 @@ ExpenseAttachmentsTable.propTypes = {
   ),
 };
 
-export default ExpenseAttachmentsTable;
+export default ExpenseItemsTable;

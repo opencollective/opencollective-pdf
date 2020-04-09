@@ -10,7 +10,7 @@ import { Box, Flex } from 'rebass/styled-components';
 import PageFormat from '../lib/constants/page-format';
 import { formatCurrency } from '../lib/utils';
 import CollectiveAddress from './CollectiveAddress';
-import ExpenseAttachmentsTable from './ExpenseAttachmentsTable';
+import ExpenseItemsTable from './ExpenseItemsTable';
 
 const getPageHeight = (pageFormat) => {
   const dimensions = PageFormat[pageFormat];
@@ -18,14 +18,14 @@ const getPageHeight = (pageFormat) => {
 };
 
 /**
- * Chunk attachments, returning less attachments on the first page is we need
- * to keep some space for the header. The number of attachments we show on it depends of
+ * Chunk expense items, returning less items on the first page is we need
+ * to keep some space for the header. The number of items we show on it depends of
  * the size of the header, that we estimate from the number of lines in the addresses.
  */
-const chunkAttachments = (expense) => {
+const chunkItems = (expense) => {
   const baseNbOnFirstPage = 12;
   const minNbOnFirstPage = 8;
-  const attachmentsPerPage = 22;
+  const itemsPerPage = 22;
 
   // Estimate the space available
   const countLines = (str) => sumBy(str, (c) => c === '\n');
@@ -34,13 +34,10 @@ const chunkAttachments = (expense) => {
   const maxNbOnFirstPage = max([minNbOnFirstPage, baseNbOnFirstPage - (billFromAddressSize + billToAddressSize)]);
 
   // If we don't need to put the logo on first page then let's use all the space available
-  const attachments = expense.attachments;
-  const nbOnFirstPage = attachments.length > baseNbOnFirstPage ? baseNbOnFirstPage : maxNbOnFirstPage;
+  const items = expense.items;
+  const nbOnFirstPage = items.length > baseNbOnFirstPage ? baseNbOnFirstPage : maxNbOnFirstPage;
 
-  return [
-    attachments.slice(0, nbOnFirstPage),
-    ...chunk(attachments.slice(nbOnFirstPage, attachments.length), attachmentsPerPage),
-  ];
+  return [items.slice(0, nbOnFirstPage), ...chunk(items.slice(nbOnFirstPage, items.length), itemsPerPage)];
 };
 
 const ExpenseInvoice = ({ expense, pageFormat }) => {
@@ -49,13 +46,13 @@ const ExpenseInvoice = ({ expense, pageFormat }) => {
   }
 
   const { account, payee } = expense;
-  const chunkedAttachments = chunkAttachments(expense);
-  const dateFrom = new Date(minBy(expense.attachments, 'incurredAt').incurredAt);
-  const dateTo = new Date(maxBy(expense.attachments, 'incurredAt').incurredAt);
+  const chunkedItems = chunkItems(expense);
+  const dateFrom = new Date(minBy(expense.items, 'incurredAt').incurredAt);
+  const dateTo = new Date(maxBy(expense.items, 'incurredAt').incurredAt);
   const isSameDay = moment(dateFrom).isSame(dateTo, 'day');
   return (
     <div>
-      {chunkedAttachments.map((attachmentsChunk, pageNumber) => (
+      {chunkedItems.map((itemsChunk, pageNumber) => (
         <Flex flexDirection="column" key={pageNumber} p={5} css={{ minHeight: getPageHeight(pageFormat) }}>
           {pageNumber === 0 && (
             <Box mb={4}>
@@ -118,8 +115,8 @@ const ExpenseInvoice = ({ expense, pageFormat }) => {
             </Box>
           )}
           <Box width={1} css={{ flexGrow: 1 }}>
-            <ExpenseAttachmentsTable expense={expense} attachments={attachmentsChunk} />
-            {pageNumber === chunkedAttachments.length - 1 && (
+            <ExpenseItemsTable expense={expense} items={itemsChunk} />
+            {pageNumber === chunkedItems.length - 1 && (
               <Box>
                 <Flex justifyContent="flex-end" mt={3}>
                   <Container width={0.5} fontSize="Paragraph">
@@ -195,7 +192,7 @@ ExpenseInvoice.propTypes = {
         country: PropTypes.string,
       }),
     }),
-    attachments: PropTypes.arrayOf(
+    items: PropTypes.arrayOf(
       PropTypes.shape({
         id: PropTypes.string,
         amount: PropTypes.number,
