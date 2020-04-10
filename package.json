@@ -47,7 +47,7 @@
     "winston": "~3.2.1"
   },
   "scripts": {
-    "start": "next start",
+    "start": "next start -p ${PORT:-3333}",
     "dev": "next dev -p 3002",
     "build": "next build",
     "test": "TZ=UTC jest",
