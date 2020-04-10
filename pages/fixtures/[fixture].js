@@ -1,25 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import path from 'path';
-import fs from 'fs-extra';
 import PageFormat from '../../lib/constants/page-format';
 import { Receipt } from '../../components/Receipt';
 import PDFLayout from '../../components/PDFLayout';
 
-const FIXTURES_PATHS = ['./public/static/fixtures', './static/fixtures'];
-
-const loadFixture = async (fixtureName) => {
-  for (const fixturesPath of FIXTURES_PATHS) {
-    const filePath = path.join(fixturesPath, `${path.basename(fixtureName)}.json`);
-    try {
-      const receipt = await fs.readJson(filePath);
-      if (receipt) {
-        return receipt;
-      }
-    } catch {
-      // ignore missing
-    }
-  }
+const FIXTURES = {
+  'donation-receipt': require('../../lib/fixtures/donation-receipt.json'),
+  'organization-gift-cards-monthly': require('../../lib/fixtures/organization-gift-cards-monthly.json'),
+  'organization-gift-cards-yearly': require('../../lib/fixtures/organization-gift-cards-yearly.json'),
+  'simple-transaction': require('../../lib/fixtures/simple-transaction.json'),
+  'transactions-with-date-range': require('../../lib/fixtures/transactions-with-date-range.json'),
+  'transactions-with-tax': require('../../lib/fixtures/transactions-with-tax.json'),
 };
 
 class FixturePage extends React.Component {
@@ -27,7 +19,7 @@ class FixturePage extends React.Component {
     const isServer = Boolean(req);
     if (isServer) {
       const { name } = path.parse(query.fixture);
-      const receipt = await loadFixture(name);
+      const receipt = FIXTURES[name];
       if (!receipt) {
         throw new Error("This fixture doesn't exist");
       }
