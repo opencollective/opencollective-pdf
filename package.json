@@ -94,7 +94,7 @@
     "prettier": "^2.0.2",
     "react-test-renderer": "^16.13.1",
     "shx": "^0.3.2",
-    "url-loader": "^4.0.0"
+    "url-loader": "^4.1.0"
   },
   "browser": {
     "html-pdf": false,
