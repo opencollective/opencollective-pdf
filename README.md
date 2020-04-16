@@ -1,8 +1,7 @@
-# Open Collective Invoices
+# Open Collective PDF service
 
 [![Circle CI](https://circleci.com/gh/opencollective/opencollective-invoices/tree/master.svg?style=shield)](https://circleci.com/gh/opencollective/opencollective-invoices/tree/master)
 [![Slack Status](https://slack.opencollective.org/badge.svg)](https://slack.opencollective.org)
-[![Dependency Status](https://david-dm.org/opencollective/opencollective-invoices/status.svg)](https://david-dm.org/opencollective/opencollective-invoices)
 [![codecov](https://codecov.io/gh/opencollective/opencollective-invoices/branch/master/graph/badge.svg)](https://codecov.io/gh/opencollective/opencollective-invoices)
 
 ## Foreword
@@ -63,7 +62,7 @@ This method can be usefull to debug staging or production invoices, or to work
 with you local development data. It is also the best way if you need to make changes to
 the graphql queries.
 
-The easier to make it work is to go to `/:your_profile/applications` on the frontend,
+The easier to make it work is to go to `/applications` on the frontend,
 generate an api key, and to add `?app_key=your_key_here` to all your requests.
 
 **Tips**
@@ -82,36 +81,3 @@ TL;DR: we use [Prettier](https://prettier.io/) and [ESLint](https://eslint.org/)
 ## Tests
 
 You can run the tests using `npm test`.
-
-## Deployment
-
-To deploy to staging or production, you need to be a core member of the Open Collective team.
-
-### (Optional) Configure Slack token
-
-Setting a Slack token will post a message on `#engineering` with the changes you're
-about to deploy. It is not required, but you can activate it like this:
-
-1. Go to https://api.slack.com/custom-integrations/legacy-tokens
-2. Generate a token for the OpenCollective workspace
-3. Add this token to your `.env` file:
-
-```bash
-OC_SLACK_USER_TOKEN=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-```
-
-### Staging (now)
-
-```
-npm run deploy:staging
-```
-
-- URL: https://invoices-staging.opencollective.com/
-
-### Production (now)
-
-```
-npm run deploy:production
-```
-
-- URL: https://invoices.opencollective.com/

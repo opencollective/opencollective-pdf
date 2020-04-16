@@ -1,9 +1,9 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
+import renderer from 'react-test-renderer'; // eslint-disable-line node/no-unpublished-import
 import { ThemeProvider } from 'styled-components';
-import theme from '../../src/constants/theme';
+import theme from '../../lib/theme';
 
-const renderWithTheme = component => {
+const renderWithTheme = (component) => {
   return renderer.create(<ThemeProvider theme={theme}>{component}</ThemeProvider>);
 };
 
