@@ -19,7 +19,7 @@
     "@styled-system/theme-get": "5.1.2",
     "apollo-boost": "0.4.7",
     "apollo-link-context": "1.0.20",
-    "clean-tag": "~2.0.3",
+    "clean-tag": "~3.1.1",
     "cors": "~2.8.5",
     "cross-fetch": "3.0.4",
     "debug": "~4.1.1",
