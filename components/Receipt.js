@@ -382,7 +382,7 @@ export class Receipt extends React.Component {
                   {invoice.extraInfo}
                 </P>
               )}
-              
+
               {pageNumber === chunkedTransactions.length - 1 && <CollectiveFooter collective={invoice.host} />}
             </Flex>
           ))}
