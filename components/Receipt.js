@@ -377,12 +377,12 @@ export class Receipt extends React.Component {
                   </Flex>
                 )}
               </Box>
-              
+
               <P mt={2} textAlign="left" color="black" padding="4rem 0">
                 hi
-              {invoice.extraInfo}
+                {invoice.extraInfo}
               </P>
-              
+
               {pageNumber === chunkedTransactions.length - 1 && <CollectiveFooter collective={invoice.host} />}
             </Flex>
           ))}
