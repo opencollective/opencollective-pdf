@@ -379,7 +379,6 @@ export class Receipt extends React.Component {
               </Box>
 
               <P mt={2} textAlign="left" color="black" padding="4rem 0">
-                hi
                 {invoice.extraInfo}
               </P>
 
