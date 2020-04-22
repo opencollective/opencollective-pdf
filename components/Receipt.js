@@ -102,10 +102,11 @@ export class Receipt extends React.Component {
     const transactionsPerPage = 22;
 
     // Estimate the space available
-    const countLines = (str) => sumBy(str, (c) => c === '\n');
-    const billFromAddressSize = countLines(get(invoice.host, 'location.address', ''));
-    const billToAddressSize = countLines(get(invoice.fromCollective, 'location.address', ''));
-    const maxNbOnFirstPage = max([minNbOnFirstPage, baseNbOnFirstPage - (billFromAddressSize + billToAddressSize)]);
+    const countLines = (str) => sumBy(str, (c) => c === '\n') + (str.length > 0 ? 1 : 0);
+    const billFromAddressSize = countLines(get(invoice.host, 'location.address') || '');
+    const billToAddressSize = countLines(get(invoice.fromCollective, 'location.address') || '');
+    const totalTextSize = billFromAddressSize + billToAddressSize;
+    const maxNbOnFirstPage = max([minNbOnFirstPage, baseNbOnFirstPage - totalTextSize]);
 
     // If we don't need to put the logo on first page then let's use all the space available
     const nbOnFirstPage = transactions.length > baseNbOnFirstPage ? baseNbOnFirstPage : maxNbOnFirstPage;
@@ -378,11 +379,16 @@ export class Receipt extends React.Component {
                 )}
               </Box>
 
-              <P mt={2} textAlign="left" color="black" padding="4rem 0">
-                {invoice.extraInfo}
-              </P>
-
-              {pageNumber === chunkedTransactions.length - 1 && <CollectiveFooter collective={invoice.host} />}
+              {pageNumber === chunkedTransactions.length - 1 && (
+                <Flex flex="3" flexDirection="column" justifyContent="space-between">
+                  <Box>
+                    <P fontSize="Caption" textAlign="left" whiteSpace="pre-wrap">
+                      {invoice.extraInfo}
+                    </P>
+                  </Box>
+                  <CollectiveFooter collective={invoice.host} />
+                </Flex>
+              )}
             </Flex>
           ))}
         </div>
