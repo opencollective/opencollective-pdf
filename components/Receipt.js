@@ -32,6 +32,7 @@ export class Receipt extends React.Component {
       slug: PropTypes.string,
       dateFrom: PropTypes.string,
       dateTo: PropTypes.string,
+      extraInfo: PropTypes.string,
       currency: PropTypes.string,
       year: PropTypes.number,
       month: PropTypes.number,
@@ -363,6 +364,7 @@ export class Receipt extends React.Component {
                       <Container
                         display="flex"
                         justifyContent="space-between"
+                        flexBasis="100%"
                         px={3}
                         py={2}
                         background="#ebf4ff"
@@ -375,6 +377,11 @@ export class Receipt extends React.Component {
                   </Flex>
                 )}
               </Box>
+
+              <P mt={2} textAlign="left" color="black" padding="4rem 0">
+                {invoice.extraInfo}
+              </P>
+
               {pageNumber === chunkedTransactions.length - 1 && <CollectiveFooter collective={invoice.host} />}
             </Flex>
           ))}
