@@ -91,7 +91,7 @@
     "jest": "^25.4.0",
     "jest-junit": "^10.0.0",
     "jest-styled-components": "^7.0.2",
-    "prettier": "^2.0.4",
+    "prettier": "^2.0.5",
     "react-test-renderer": "^16.13.1",
     "shx": "^0.3.2",
     "url-loader": "^4.1.0"
