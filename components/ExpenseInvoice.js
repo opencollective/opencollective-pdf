@@ -30,7 +30,7 @@ const chunkItems = (expense) => {
   // Estimate the space available
   const countLines = (str) => sumBy(str, (c) => c === '\n');
   const billFromAddressSize = countLines(get(expense.account, 'location.address', ''));
-  const billToAddressSize = countLines(get(expense.payee, 'location.address', ''));
+  const billToAddressSize = countLines(get(expense.payeeLocation, 'address', ''));
   const maxNbOnFirstPage = max([minNbOnFirstPage, baseNbOnFirstPage - (billFromAddressSize + billToAddressSize)]);
 
   // If we don't need to put the logo on first page then let's use all the space available
@@ -45,7 +45,7 @@ const ExpenseInvoice = ({ expense, pageFormat }) => {
     return <div>Could not retrieve the information for this expense.</div>;
   }
 
-  const { account, payee } = expense;
+  const { account, payee, payeeLocation } = expense;
   const chunkedItems = chunkItems(expense);
   const dateFrom = new Date(minBy(expense.items, 'incurredAt').incurredAt);
   const dateTo = new Date(maxBy(expense.items, 'incurredAt').incurredAt);
@@ -67,7 +67,7 @@ const ExpenseInvoice = ({ expense, pageFormat }) => {
                         {payee.name}
                       </P>
                     </StyledLink>
-                    <CollectiveAddress collective={payee} />
+                    <CollectiveAddress collective={{ location: payeeLocation }} />
                   </Box>
                 </Box>
                 <Box mt={80} pr={3} css={{ minHeight: 100 }}>
@@ -187,10 +187,10 @@ ExpenseInvoice.propTypes = {
       name: PropTypes.string,
       slug: PropTypes.string,
       imageUrl: PropTypes.string,
-      location: PropTypes.shape({
-        address: PropTypes.string,
-        country: PropTypes.string,
-      }),
+    }),
+    payeeLocation: PropTypes.shape({
+      address: PropTypes.string,
+      country: PropTypes.string,
     }),
     items: PropTypes.arrayOf(
       PropTypes.shape({
