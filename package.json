@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@bit/opencollective.design-system.components.currency": "1.3.0",
-    "@bit/opencollective.design-system.components.styled-container": "1.0.0",
+    "@bit/opencollective.design-system.components.styled-container": "1.2.0",
     "@bit/opencollective.design-system.components.styled-hr": "1.0.0",
     "@bit/opencollective.design-system.components.styled-link": "1.2.0",
     "@bit/opencollective.design-system.components.styled-text": "1.0.0",
