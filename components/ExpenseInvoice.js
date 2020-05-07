@@ -50,6 +50,7 @@ const ExpenseInvoice = ({ expense, pageFormat }) => {
   const dateFrom = new Date(minBy(expense.items, 'incurredAt').incurredAt);
   const dateTo = new Date(maxBy(expense.items, 'incurredAt').incurredAt);
   const isSameDay = moment(dateFrom).isSame(dateTo, 'day');
+  const billToAccount = account.host || account;
   return (
     <div>
       {chunkedItems.map((itemsChunk, pageNumber) => (
@@ -74,17 +75,14 @@ const ExpenseInvoice = ({ expense, pageFormat }) => {
                   <H2 mb={1}>
                     <FormattedMessage id="billTo" defaultMessage="Bill to" />
                   </H2>
-                  <StyledLink href={`https://opencollective.com/${account.slug}`}>
+                  <StyledLink href={`https://opencollective.com/${billToAccount.slug}`}>
                     <P fontWeight="bold" fontSize="LeadParagraph" color="black.800">
-                      {account.name}
+                      {billToAccount.name}
                     </P>
                   </StyledLink>
                   <Box mb={2}>
-                    <CollectiveAddress collective={account} />
+                    <CollectiveAddress collective={billToAccount} />
                   </Box>
-                  <StyledLink href={`https://opencollective.com/${account.slug}`}>
-                    https://opencollective.com/{account.slug}
-                  </StyledLink>
                 </Box>
               </Flex>
 
@@ -98,6 +96,12 @@ const ExpenseInvoice = ({ expense, pageFormat }) => {
                     />
                   </H2>
                 </StyledLink>
+                <FormattedMessage
+                  id="CollectiveColumn"
+                  defaultMessage="Collective: {collectiveName}"
+                  values={{ collectiveName: account.name }}
+                />
+                <br />
                 {!isSameDay ? (
                   <FormattedMessage
                     id="dateFromTo"
