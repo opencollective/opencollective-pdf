@@ -336,7 +336,7 @@ export class Receipt extends React.Component {
                   <Flex justifyContent="flex-end" mt={3}>
                     <Container width={0.5} fontSize="Paragraph">
                       <StyledHr borderColor="black.200" />
-                      <Box p={3}>
+                      <Box p={3} minWidth={225}>
                         <Flex justifyContent="space-between">
                           <FormattedMessage id="subtotal" defaultMessage="Subtotal" />
                           <Span fontWeight="bold">
@@ -362,18 +362,15 @@ export class Receipt extends React.Component {
                           </Flex>
                         ))}
                       </Box>
-                      <Container
+                      <Flex
                         display="flex"
                         justifyContent="space-between"
                         flexBasis="100%"
-                        px={3}
-                        py={2}
-                        background="#ebf4ff"
-                        fontWeight="bold"
+                        style={{ background: '#ebf4ff', padding: '8px 16px', fontWeight: 'bold' }}
                       >
                         <FormattedMessage id="total" defaultMessage="TOTAL" />
                         <Span>{formatCurrency(invoice.totalAmount, invoice.currency)}</Span>
-                      </Container>
+                      </Flex>
                     </Container>
                   </Flex>
                 )}
