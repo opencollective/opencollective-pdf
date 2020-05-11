@@ -37,7 +37,7 @@
     "moment": "~2.25.3",
     "next": "~9.3.4",
     "next-routes": "~1.4.2",
-    "polished": "~3.5.2",
+    "polished": "~3.6.3",
     "prop-types": "~15.7.2",
     "qrcode.react": "1.0.0",
     "react": "~16.13.1",
