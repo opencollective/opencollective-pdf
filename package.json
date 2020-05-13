@@ -16,7 +16,7 @@
     "@bit/opencollective.design-system.components.styled-hr": "1.2.0",
     "@bit/opencollective.design-system.components.styled-link": "1.2.0",
     "@bit/opencollective.design-system.components.styled-text": "1.2.0",
-    "@bit/opencollective.design-system.theme": "1.0.0",
+    "@bit/opencollective.design-system.theme": "1.4.0",
     "@styled-icons/feather": "10.0.0",
     "@styled-system/theme-get": "5.1.2",
     "apollo-boost": "0.4.7",
