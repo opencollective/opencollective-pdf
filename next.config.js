@@ -1,4 +1,5 @@
 require('dotenv').config();
+const path = require('path');
 
 const nextConfig = {
   env: {
@@ -8,6 +9,9 @@ const nextConfig = {
     LOG_LEVEL: process.env.LOG_LEVEL,
   },
   webpack: (config) => {
+    // See https://styled-components.com/docs/faqs#how-can-i-fix-issues-when-using-npm-link-or-yarn-link
+    config.resolve.alias['styled-components'] = path.join(__dirname, 'node_modules/styled-components');
+
     // Inline images
     config.module.rules.push({
       test: /public\/.*\.(jpg|gif|png|svg|)$/,
@@ -22,7 +26,7 @@ const nextConfig = {
 
     // Inline fonts
     config.module.rules.push({
-      test: /\.(ttf|eot|svg|woff|woff2)$/,
+      test: /\.(ttf|eot|woff|woff2)$/,
       use: {
         loader: 'url-loader',
         options: {
