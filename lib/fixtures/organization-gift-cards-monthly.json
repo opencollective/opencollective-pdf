@@ -30,6 +30,7 @@
     "slug": "amazing-organization",
     "name": "Amazing Organization",
     "currency": "USD",
+    "settings": {},
     "location": {
       "name": null,
       "address": null

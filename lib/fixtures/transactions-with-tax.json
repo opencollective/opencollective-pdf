@@ -29,6 +29,11 @@
     "slug": "betree",
     "name": "Benjamin Piouffle",
     "currency": "EUR",
+    "settings": {
+      "VAT": {
+        "number": "BE0414445663"
+      }
+    },
     "location": {
       "name": "France",
       "address": "98 avenue Gabriel Péri\n92230 Gennevilliers",

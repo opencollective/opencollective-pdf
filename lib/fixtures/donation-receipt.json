@@ -24,6 +24,7 @@
     "slug": "frank-zappa",
     "name": "Zappa",
     "currency": "USD",
+    "settings": {},
     "location": { "name": "France", "address": "7503 Rockwell Street\nPeabody, MA 01960" },
     "countryISO": "US"
   },

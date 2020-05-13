@@ -45,6 +45,11 @@ export class Receipt extends React.Component {
         createdByUser: PropTypes.shape({
           name: PropTypes.string.isRequired,
         }).isRequired,
+        settings: PropTypes.shape({
+          VAT: PropTypes.shape({
+            number: PropTypes.string,
+          }),
+        }),
       }).isRequired,
       host: PropTypes.shape({
         slug: PropTypes.string.isRequired,
@@ -143,6 +148,14 @@ export class Receipt extends React.Component {
       .filter((taxIdNumber) => !isNil(taxIdNumber));
 
     if (taxIdNumbers.length === 0) {
+      const {
+        fromCollective: { settings },
+      } = this.props.invoice;
+
+      if (settings?.VAT?.number) {
+        const vatNumber = settings.VAT.number;
+        return [<P key={vatNumber}>{vatNumber}</P>];
+      }
       return null;
     }
 
