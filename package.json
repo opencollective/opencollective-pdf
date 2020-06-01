@@ -34,7 +34,7 @@
     "i18n-iso-countries": "~5.2.0",
     "intl": "~1.2.5",
     "lodash": "~4.17.15",
-    "moment": "~2.25.3",
+    "moment": "~2.26.0",
     "next": "~9.3.4",
     "next-routes": "~1.4.2",
     "polished": "~3.6.3",
