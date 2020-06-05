@@ -1,8 +1,7 @@
 import Container from '@bit/opencollective.design-system.components.styled-container';
 import StyledLink from '@bit/opencollective.design-system.components.styled-link';
 import { H2, P, Span } from '@bit/opencollective.design-system.components.styled-text';
-import { chunk, get, max, maxBy, minBy, sumBy } from 'lodash';
-import moment from 'moment';
+import { chunk, get, max, sumBy } from 'lodash';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
@@ -47,9 +46,6 @@ const ExpenseInvoice = ({ expense, pageFormat }) => {
 
   const { account, payee, payeeLocation } = expense;
   const chunkedItems = chunkItems(expense);
-  const dateFrom = new Date(minBy(expense.items, 'incurredAt').incurredAt);
-  const dateTo = new Date(maxBy(expense.items, 'incurredAt').incurredAt);
-  const isSameDay = moment(dateFrom).isSame(dateTo, 'day');
   const billToAccount = account.host || account;
   return (
     <div>
@@ -102,19 +98,11 @@ const ExpenseInvoice = ({ expense, pageFormat }) => {
                   values={{ collectiveName: account.name }}
                 />
                 <br />
-                {!isSameDay ? (
-                  <FormattedMessage
-                    id="dateFromTo"
-                    defaultMessage="From {dateFrom, date, long} to {dateTo, date, long}"
-                    values={{ dateFrom, dateTo }}
-                  />
-                ) : (
-                  <FormattedMessage
-                    id="DateLabel"
-                    defaultMessage="Date: {date, date, full}"
-                    values={{ date: dateFrom }}
-                  />
-                )}
+                <FormattedMessage
+                  id="DateLabel"
+                  defaultMessage="Date: {date, date, full}"
+                  values={{ date: new Date(expense.createdAt) }}
+                />
               </Box>
             </Box>
           )}
@@ -163,6 +151,7 @@ ExpenseInvoice.propTypes = {
     type: PropTypes.oneOf(['INVOICE', 'RECEIPT']),
     invoiceInfo: PropTypes.string,
     amount: PropTypes.number,
+    createdAt: PropTypes.string,
     account: PropTypes.shape({
       id: PropTypes.string,
       type: PropTypes.string,
