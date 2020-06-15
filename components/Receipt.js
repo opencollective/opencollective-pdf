@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FormattedDate, FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl';
 import { get, chunk, sumBy, max, uniq, isNil } from 'lodash';
 import { Box, Flex, Image } from 'rebass/styled-components';
 import moment from 'moment';
@@ -23,6 +23,7 @@ import {
 } from '../lib/transactions';
 import PageFormat from '../lib/constants/page-format';
 import CollectiveFooter from './CollectiveFooter';
+import CustomIntlDate from './CustomIntlDate';
 
 export class Receipt extends React.Component {
   static propTypes = {
@@ -216,7 +217,7 @@ export class Receipt extends React.Component {
             return (
               <tr key={transaction.id}>
                 <Td fontSize="Caption">
-                  <FormattedDate value={new Date(transaction.createdAt)} day="2-digit" month="2-digit" year="numeric" />
+                  <CustomIntlDate date={new Date(transaction.createdAt)} />
                 </Td>
                 <Td fontSize="Caption">{this.transactionDescription(transaction)}</Td>
                 <Td fontSize="Caption" textAlign="center">
@@ -309,32 +310,16 @@ export class Receipt extends React.Component {
                     {invoice.dateFrom && invoice.dateTo ? (
                       <div>
                         <div>
-                          <FormattedDate
-                            value={new Date(invoice.dateFrom)}
-                            day="2-digit"
-                            month="2-digit"
-                            year="numeric"
-                          />
+                          <CustomIntlDate date={new Date(invoice.dateFrom)} />
                         </div>
                         <div>
-                          <label>To:</label>{' '}
-                          <FormattedDate
-                            value={new Date(invoice.dateTo)}
-                            day="2-digit"
-                            month="2-digit"
-                            year="numeric"
-                          />
+                          <label>To:</label> <CustomIntlDate date={new Date(invoice.dateTo)} />
                         </div>
                       </div>
                     ) : (
                       <div>
                         <label>Date:</label>{' '}
-                        <FormattedDate
-                          value={new Date(invoice.year, invoice.month - 1, invoice.day)}
-                          day="2-digit"
-                          month="2-digit"
-                          year="numeric"
-                        />
+                        <CustomIntlDate date={new Date(invoice.year, invoice.month - 1, invoice.day)} />
                       </div>
                     )}
                     <div className="detail reference">
