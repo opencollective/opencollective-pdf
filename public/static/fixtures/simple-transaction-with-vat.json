@@ -1,0 +1,66 @@
+{
+  "slug": "transaction-b7a55751-bc03-40e7-8fb0-df9a075931bf",
+  "totalAmount": 200,
+  "currency": "USD",
+  "year": 2018,
+  "month": 12,
+  "day": 2,
+  "host": {
+    "id": 11004,
+    "slug": "opensourcecollective",
+    "name": "Open Source Collective 501c6 (Non Profit)",
+    "image": "https://opencollective-production.s3-us-west-1.amazonaws.com/5f4a3920-11b6-11e8-b28d-b359f3c5ca14.png",
+    "website": "https://opencollective.com/opensource",
+    "settings": {
+      "editor": "html",
+      "apply": true,
+      "invoiceTitle": "Invoice"
+    },
+    "type": "ORGANIZATION",
+    "location": {
+      "name": null,
+      "address": "EIN 82-2037583 \n340 S LEMON AVE #3717\nWalnut, CA 91789\nUSA"
+    },
+    "countryISO": null
+  },
+  "fromCollective": {
+    "id": 4469,
+    "slug": "betree",
+    "name": "Benjamin Piouffle",
+    "currency": "USD",
+    "settings": {
+      "VAT": {
+        "number": "BE0414445663"
+      }
+    },
+    "location": {
+      "name": "France",
+      "address": "98 avenue Gabriel Péri\n92230 Gennevilliers"
+    },
+    "countryISO": "FR"
+  },
+  "transactions": [
+    {
+      "id": 143765,
+      "createdAt": "Sun Dec 02 2018 05:13:51 GMT+0000 (Coordinated Universal Time)",
+      "description": "Monthly donation to duplicati (Backers)",
+      "amount": -142,
+      "currency": "USD",
+      "type": "DEBIT",
+      "hostCurrency": "USD",
+      "netAmountInCollectiveCurrency": -200,
+      "fromCollective": {
+        "id": 914,
+        "slug": "duplicati",
+        "name": "duplicati"
+      },
+      "usingVirtualCardFromCollective": null,
+      "collective": {
+        "id": 4469,
+        "slug": "betree",
+        "name": "Benjamin Piouffle"
+      },
+      "order": { "id": 4000, "tier": null }
+    }
+  ]
+}

@@ -9,7 +9,9 @@ build
 cypress/screenshots
 *.swp
 dist
+out
+coverage
 
 # VSCode
-.vscode/*
+.vscode
 .history
