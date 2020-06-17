@@ -1,8 +1,7 @@
 import Container from '@bit/opencollective.design-system.components.styled-container';
 import StyledLink from '@bit/opencollective.design-system.components.styled-link';
 import { H2, P, Span } from '@bit/opencollective.design-system.components.styled-text';
-import { chunk, get, max, maxBy, minBy, sumBy } from 'lodash';
-import moment from 'moment';
+import { chunk, get, max, sumBy } from 'lodash';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
@@ -10,37 +9,34 @@ import { Box, Flex } from 'rebass/styled-components';
 import PageFormat from '../lib/constants/page-format';
 import { formatCurrency } from '../lib/utils';
 import CollectiveAddress from './CollectiveAddress';
-import ExpenseAttachmentsTable from './ExpenseAttachmentsTable';
+import ExpenseItemsTable from './ExpenseItemsTable';
 
-const getPageHeight = pageFormat => {
+const getPageHeight = (pageFormat) => {
   const dimensions = PageFormat[pageFormat];
   return `${dimensions.page.height}${dimensions.unit}`;
 };
 
 /**
- * Chunk attachments, returning less attachments on the first page is we need
- * to keep some space for the header. The number of attachments we show on it depends of
+ * Chunk expense items, returning less items on the first page is we need
+ * to keep some space for the header. The number of items we show on it depends of
  * the size of the header, that we estimate from the number of lines in the addresses.
  */
-const chunkAttachments = expense => {
+const chunkItems = (expense) => {
   const baseNbOnFirstPage = 12;
   const minNbOnFirstPage = 8;
-  const attachmentsPerPage = 22;
+  const itemsPerPage = 22;
 
   // Estimate the space available
-  const countLines = str => sumBy(str, c => c === '\n');
+  const countLines = (str) => sumBy(str, (c) => c === '\n');
   const billFromAddressSize = countLines(get(expense.account, 'location.address', ''));
-  const billToAddressSize = countLines(get(expense.payee, 'location.address', ''));
+  const billToAddressSize = countLines(get(expense.payeeLocation, 'address', ''));
   const maxNbOnFirstPage = max([minNbOnFirstPage, baseNbOnFirstPage - (billFromAddressSize + billToAddressSize)]);
 
   // If we don't need to put the logo on first page then let's use all the space available
-  const attachments = expense.attachments;
-  const nbOnFirstPage = attachments.length > baseNbOnFirstPage ? baseNbOnFirstPage : maxNbOnFirstPage;
+  const items = expense.items;
+  const nbOnFirstPage = items.length > baseNbOnFirstPage ? baseNbOnFirstPage : maxNbOnFirstPage;
 
-  return [
-    attachments.slice(0, nbOnFirstPage),
-    ...chunk(attachments.slice(nbOnFirstPage, attachments.length), attachmentsPerPage),
-  ];
+  return [items.slice(0, nbOnFirstPage), ...chunk(items.slice(nbOnFirstPage, items.length), itemsPerPage)];
 };
 
 const ExpenseInvoice = ({ expense, pageFormat }) => {
@@ -48,14 +44,12 @@ const ExpenseInvoice = ({ expense, pageFormat }) => {
     return <div>Could not retrieve the information for this expense.</div>;
   }
 
-  const { account, payee } = expense;
-  const chunkedAttachments = chunkAttachments(expense);
-  const dateFrom = new Date(minBy(expense.attachments, 'incurredAt').incurredAt);
-  const dateTo = new Date(maxBy(expense.attachments, 'incurredAt').incurredAt);
-  const isSameDay = moment(dateFrom).isSame(dateTo, 'day');
+  const { account, payee, payeeLocation } = expense;
+  const chunkedItems = chunkItems(expense);
+  const billToAccount = account.host || account;
   return (
     <div>
-      {chunkedAttachments.map((attachmentsChunk, pageNumber) => (
+      {chunkedItems.map((itemsChunk, pageNumber) => (
         <Flex flexDirection="column" key={pageNumber} p={5} css={{ minHeight: getPageHeight(pageFormat) }}>
           {pageNumber === 0 && (
             <Box mb={4}>
@@ -70,24 +64,21 @@ const ExpenseInvoice = ({ expense, pageFormat }) => {
                         {payee.name}
                       </P>
                     </StyledLink>
-                    <CollectiveAddress collective={payee} />
+                    <CollectiveAddress collective={{ location: payeeLocation }} />
                   </Box>
                 </Box>
                 <Box mt={80} pr={3} css={{ minHeight: 100 }}>
                   <H2 mb={1}>
                     <FormattedMessage id="billTo" defaultMessage="Bill to" />
                   </H2>
-                  <StyledLink href={`https://opencollective.com/${account.slug}`}>
+                  <StyledLink href={`https://opencollective.com/${billToAccount.slug}`}>
                     <P fontWeight="bold" fontSize="LeadParagraph" color="black.800">
-                      {account.name}
+                      {billToAccount.name}
                     </P>
                   </StyledLink>
                   <Box mb={2}>
-                    <CollectiveAddress collective={account} />
+                    <CollectiveAddress collective={billToAccount} />
                   </Box>
-                  <StyledLink href={`https://opencollective.com/${account.slug}`}>
-                    https://opencollective.com/{account.slug}
-                  </StyledLink>
                 </Box>
               </Flex>
 
@@ -101,25 +92,23 @@ const ExpenseInvoice = ({ expense, pageFormat }) => {
                     />
                   </H2>
                 </StyledLink>
-                {!isSameDay ? (
-                  <FormattedMessage
-                    id="dateFromTo"
-                    defaultMessage="From {dateFrom, date, long} to {dateTo, date, long}"
-                    values={{ dateFrom, dateTo }}
-                  />
-                ) : (
-                  <FormattedMessage
-                    id="DateLabel"
-                    defaultMessage="Date: {date, date, full}"
-                    values={{ date: dateFrom }}
-                  />
-                )}
+                <FormattedMessage
+                  id="CollectiveColumn"
+                  defaultMessage="Collective: {collectiveName}"
+                  values={{ collectiveName: account.name }}
+                />
+                <br />
+                <FormattedMessage
+                  id="DateLabel"
+                  defaultMessage="Date: {date, date, full}"
+                  values={{ date: new Date(expense.createdAt) }}
+                />
               </Box>
             </Box>
           )}
           <Box width={1} css={{ flexGrow: 1 }}>
-            <ExpenseAttachmentsTable expense={expense} attachments={attachmentsChunk} />
-            {pageNumber === chunkedAttachments.length - 1 && (
+            <ExpenseItemsTable expense={expense} items={itemsChunk} />
+            {pageNumber === chunkedItems.length - 1 && (
               <Box>
                 <Flex justifyContent="flex-end" mt={3}>
                   <Container width={0.5} fontSize="Paragraph">
@@ -162,6 +151,7 @@ ExpenseInvoice.propTypes = {
     type: PropTypes.oneOf(['INVOICE', 'RECEIPT']),
     invoiceInfo: PropTypes.string,
     amount: PropTypes.number,
+    createdAt: PropTypes.string,
     account: PropTypes.shape({
       id: PropTypes.string,
       type: PropTypes.string,
@@ -190,12 +180,12 @@ ExpenseInvoice.propTypes = {
       name: PropTypes.string,
       slug: PropTypes.string,
       imageUrl: PropTypes.string,
-      location: PropTypes.shape({
-        address: PropTypes.string,
-        country: PropTypes.string,
-      }),
     }),
-    attachments: PropTypes.arrayOf(
+    payeeLocation: PropTypes.shape({
+      address: PropTypes.string,
+      country: PropTypes.string,
+    }),
+    items: PropTypes.arrayOf(
       PropTypes.shape({
         id: PropTypes.string,
         amount: PropTypes.number,

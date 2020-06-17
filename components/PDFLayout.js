@@ -3,14 +3,14 @@ import PropTypes from 'prop-types';
 import { createGlobalStyle } from 'styled-components';
 import PageFormat from '../lib/constants/page-format';
 
-const getPageWidth = pageFormat => {
+const getPageWidth = (pageFormat) => {
   const dimensions = PageFormat[pageFormat] || PageFormat.A4;
   return `${dimensions.page.width}${dimensions.unit}`;
 };
 
 const GlobalPDFStyles = createGlobalStyle`
   body {
-    width: ${props => getPageWidth(props.pageFormat)};
+    width: ${(props) => getPageWidth(props.pageFormat)};
     padding: 0;
     margin: 0;
   }

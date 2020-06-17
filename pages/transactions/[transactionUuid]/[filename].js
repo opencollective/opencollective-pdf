@@ -10,9 +10,8 @@ class TransactionReceipt extends React.Component {
   static async getInitialProps(ctx) {
     const isServer = Boolean(ctx.req);
     if (isServer) {
-      const { collectiveSlug, transactionUuid } = ctx.query;
-      const errorMsgIfForbidden = `This endpoint requires authentication. If you ended up on this link directly, please go to https://opencollective.com/${collectiveSlug}/transactions instead to download your receipt.`;
-      const accessToken = getAccessTokenFromReq(ctx, errorMsgIfForbidden);
+      const { transactionUuid } = ctx.query;
+      const accessToken = getAccessTokenFromReq(ctx);
       const receipt = await fetchTransactionInvoice(transactionUuid, accessToken, ctx.query.app_key);
       return { receipt, pageFormat: ctx.query.pageFormat };
     }

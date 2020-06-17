@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FormattedDate, FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl';
 import { get, chunk, sumBy, max, uniq, isNil } from 'lodash';
 import { Box, Flex, Image } from 'rebass/styled-components';
 import moment from 'moment';
@@ -23,6 +23,7 @@ import {
 } from '../lib/transactions';
 import PageFormat from '../lib/constants/page-format';
 import CollectiveFooter from './CollectiveFooter';
+import CustomIntlDate from './CustomIntlDate';
 
 export class Receipt extends React.Component {
   static propTypes = {
@@ -32,6 +33,7 @@ export class Receipt extends React.Component {
       slug: PropTypes.string,
       dateFrom: PropTypes.string,
       dateTo: PropTypes.string,
+      extraInfo: PropTypes.string,
       currency: PropTypes.string,
       year: PropTypes.number,
       month: PropTypes.number,
@@ -40,6 +42,15 @@ export class Receipt extends React.Component {
       fromCollective: PropTypes.shape({
         slug: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired,
+        isIncognito: PropTypes.bool.isRequired,
+        createdByUser: PropTypes.shape({
+          name: PropTypes.string.isRequired,
+        }).isRequired,
+        settings: PropTypes.shape({
+          VAT: PropTypes.shape({
+            number: PropTypes.string,
+          }),
+        }),
       }).isRequired,
       host: PropTypes.shape({
         slug: PropTypes.string.isRequired,
@@ -53,7 +64,7 @@ export class Receipt extends React.Component {
           order: PropTypes.shape({
             id: PropTypes.number.isRequired,
             type: PropTypes.string,
-          }).isRequired,
+          }),
         }),
       ).isRequired,
     }).isRequired,
@@ -97,10 +108,11 @@ export class Receipt extends React.Component {
     const transactionsPerPage = 22;
 
     // Estimate the space available
-    const countLines = str => sumBy(str, c => c === '\n');
-    const billFromAddressSize = countLines(get(invoice.host, 'location.address', ''));
-    const billToAddressSize = countLines(get(invoice.fromCollective, 'location.address', ''));
-    const maxNbOnFirstPage = max([minNbOnFirstPage, baseNbOnFirstPage - (billFromAddressSize + billToAddressSize)]);
+    const countLines = (str) => sumBy(str, (c) => c === '\n') + (str.length > 0 ? 1 : 0);
+    const billFromAddressSize = countLines(get(invoice.host, 'location.address') || '');
+    const billToAddressSize = countLines(get(invoice.fromCollective, 'location.address') || '');
+    const totalTextSize = billFromAddressSize + billToAddressSize;
+    const maxNbOnFirstPage = max([minNbOnFirstPage, baseNbOnFirstPage - totalTextSize]);
 
     // If we don't need to put the logo on first page then let's use all the space available
     const nbOnFirstPage = transactions.length > baseNbOnFirstPage ? baseNbOnFirstPage : maxNbOnFirstPage;
@@ -123,10 +135,7 @@ export class Receipt extends React.Component {
       return `${invoice.host.slug}_${invoice.fromCollective.slug}_${startString}-${endString}`;
     }
 
-    return invoice.slug
-      .split('-')
-      .slice(0, 2)
-      .join('-');
+    return invoice.slug.split('-').slice(0, 2).join('-');
   }
 
   getTaxTotal() {
@@ -136,14 +145,22 @@ export class Receipt extends React.Component {
   /** Returns the VAT number of the collective */
   renderTaxIdNumbers() {
     const taxIdNumbers = this.props.invoice.transactions
-      .map(t => get(t, 'order.data.tax.taxIDNumber'))
-      .filter(taxIdNumber => !isNil(taxIdNumber));
+      .map((t) => get(t, 'order.data.tax.taxIDNumber'))
+      .filter((taxIdNumber) => !isNil(taxIdNumber));
 
     if (taxIdNumbers.length === 0) {
+      const {
+        fromCollective: { settings },
+      } = this.props.invoice;
+
+      if (settings?.VAT?.number) {
+        const vatNumber = settings.VAT.number;
+        return [<P key={vatNumber}>{vatNumber}</P>];
+      }
       return null;
     }
 
-    return uniq(taxIdNumbers).map(number => <P key={number}>{number}</P>);
+    return uniq(taxIdNumbers).map((number) => <P key={number}>{number}</P>);
   }
 
   /** Get a description for transaction, with a mention to virtual card emitter if necessary */
@@ -191,7 +208,7 @@ export class Receipt extends React.Component {
           </Tr>
         </thead>
         <tbody>
-          {transactions.map(transaction => {
+          {transactions.map((transaction) => {
             const quantity = get(transaction, 'order.quantity') || 1;
             const amount = getTransactionAmount(transaction);
             const taxAmount = transaction.taxAmount || 0;
@@ -200,7 +217,7 @@ export class Receipt extends React.Component {
             return (
               <tr key={transaction.id}>
                 <Td fontSize="Caption">
-                  <FormattedDate value={new Date(transaction.createdAt)} day="2-digit" month="2-digit" year="numeric" />
+                  <CustomIntlDate date={new Date(transaction.createdAt)} />
                 </Td>
                 <Td fontSize="Caption">{this.transactionDescription(transaction)}</Td>
                 <Td fontSize="Caption" textAlign="center">
@@ -231,6 +248,7 @@ export class Receipt extends React.Component {
       return <div>No transaction to render</div>;
     }
 
+    const { isIncognito, createdByUser } = invoice.fromCollective;
     const chunkedTransactions = this.chunkTransactions(invoice, transactions);
     const taxesTotal = this.getTaxTotal();
 
@@ -275,7 +293,7 @@ export class Receipt extends React.Component {
                       </H2>
                       <Box my={2}>
                         <P fontWeight={500} fontSize="LeadParagraph">
-                          {invoice.fromCollective.name}
+                          {isIncognito ? createdByUser.name : invoice.fromCollective.name}
                         </P>
                         <CollectiveAddress collective={invoice.fromCollective} />
                         {this.renderTaxIdNumbers()}
@@ -292,32 +310,16 @@ export class Receipt extends React.Component {
                     {invoice.dateFrom && invoice.dateTo ? (
                       <div>
                         <div>
-                          <FormattedDate
-                            value={new Date(invoice.dateFrom)}
-                            day="2-digit"
-                            month="2-digit"
-                            year="numeric"
-                          />
+                          <CustomIntlDate date={new Date(invoice.dateFrom)} />
                         </div>
                         <div>
-                          <label>To:</label>{' '}
-                          <FormattedDate
-                            value={new Date(invoice.dateTo)}
-                            day="2-digit"
-                            month="2-digit"
-                            year="numeric"
-                          />
+                          <label>To:</label> <CustomIntlDate date={new Date(invoice.dateTo)} />
                         </div>
                       </div>
                     ) : (
                       <div>
                         <label>Date:</label>{' '}
-                        <FormattedDate
-                          value={new Date(invoice.year, invoice.month - 1, invoice.day)}
-                          day="2-digit"
-                          month="2-digit"
-                          year="numeric"
-                        />
+                        <CustomIntlDate date={new Date(invoice.year, invoice.month - 1, invoice.day)} />
                       </div>
                     )}
                     <div className="detail reference">
@@ -332,14 +334,14 @@ export class Receipt extends React.Component {
                   <Flex justifyContent="flex-end" mt={3}>
                     <Container width={0.5} fontSize="Paragraph">
                       <StyledHr borderColor="black.200" />
-                      <Box p={3}>
+                      <Box p={3} minWidth={225}>
                         <Flex justifyContent="space-between">
                           <FormattedMessage id="subtotal" defaultMessage="Subtotal" />
                           <Span fontWeight="bold">
                             {formatCurrency(invoice.totalAmount - taxesTotal, invoice.currency)}
                           </Span>
                         </Flex>
-                        {getTaxesBreakdown(this.props.invoice.transactions).map(tax => (
+                        {getTaxesBreakdown(this.props.invoice.transactions).map((tax) => (
                           <Flex key={tax.key} justifyContent="space-between" mt={2}>
                             {tax.id === 'VAT' ? (
                               <FormattedMessage
@@ -358,22 +360,30 @@ export class Receipt extends React.Component {
                           </Flex>
                         ))}
                       </Box>
-                      <Container
+                      <Flex
                         display="flex"
                         justifyContent="space-between"
-                        px={3}
-                        py={2}
-                        background="#ebf4ff"
-                        fontWeight="bold"
+                        flexBasis="100%"
+                        style={{ background: '#ebf4ff', padding: '8px 16px', fontWeight: 'bold' }}
                       >
                         <FormattedMessage id="total" defaultMessage="TOTAL" />
                         <Span>{formatCurrency(invoice.totalAmount, invoice.currency)}</Span>
-                      </Container>
+                      </Flex>
                     </Container>
                   </Flex>
                 )}
               </Box>
-              {pageNumber === chunkedTransactions.length - 1 && <CollectiveFooter collective={invoice.host} />}
+
+              {pageNumber === chunkedTransactions.length - 1 && (
+                <Flex flex="3" flexDirection="column" justifyContent="space-between">
+                  <Box>
+                    <P fontSize="Caption" textAlign="left" whiteSpace="pre-wrap">
+                      {invoice.extraInfo}
+                    </P>
+                  </Box>
+                  <CollectiveFooter collective={invoice.host} />
+                </Flex>
+              )}
             </Flex>
           ))}
         </div>

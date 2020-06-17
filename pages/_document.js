@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import NextJSDocument from 'next/document';
 import { ServerStyleSheet } from 'styled-components';
 import { componentToPDFBuffer } from '../lib/pdf-utils';
+import { setCORSHeaders } from '../lib/req-utils';
 
 /**
  * A wrapper for PDF documents that injects the styles in the page and add some global
@@ -35,14 +36,14 @@ PDFDocument.propTypes = {
   zoom: PropTypes.number.isRequired,
 };
 
-const getRawCssFromSheet = sheet => {
+const getRawCssFromSheet = (sheet) => {
   return sheet
     .getStyleElement()
-    .map(e => e.props.dangerouslySetInnerHTML.__html)
+    .map((e) => e.props.dangerouslySetInnerHTML.__html)
     .join();
 };
 
-const getFileFormatFromCtx = ctx => {
+const getFileFormatFromCtx = (ctx) => {
   if (ctx.format) {
     return ctx.format;
   } else if (ctx.req) {
@@ -67,10 +68,22 @@ export default class Document extends NextJSDocument {
     const isServer = Boolean(req);
     const sheet = new ServerStyleSheet();
 
+    // Set CORS headers
+    if (ctx.res) {
+      setCORSHeaders(ctx);
+    }
+
+    // Frontend sends an OPTIONS request to check CORS, we should just return OK when that happens
+    if (req?.method === 'OPTIONS') {
+      res.statusCode = 204;
+      res.end();
+      return;
+    }
+
     try {
       ctx.renderPage = () =>
         originalRenderPage({
-          enhanceApp: App => props => sheet.collectStyles(<App {...props} />),
+          enhanceApp: (App) => (props) => sheet.collectStyles(<App {...props} />),
         });
 
       const fileFormat = getFileFormatFromCtx(ctx);
