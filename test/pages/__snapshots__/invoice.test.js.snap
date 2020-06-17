@@ -1,0 +1,4518 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Monthly invoice for organization with gift cards 1`] = `
+.c1 {
+  box-sizing: border-box;
+  margin-bottom: 32px;
+}
+
+.c6 {
+  box-sizing: border-box;
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
+.c10 {
+  box-sizing: border-box;
+}
+
+.c24 {
+  box-sizing: border-box;
+  padding: 16px;
+}
+
+.c2 {
+  box-sizing: border-box;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-align-items: flex-start;
+  -webkit-box-align: flex-start;
+  -ms-flex-align: flex-start;
+  align-items: flex-start;
+}
+
+.c21 {
+  box-sizing: border-box;
+  margin-top: 16px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+  -webkit-justify-content: flex-end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
+}
+
+.c25 {
+  box-sizing: border-box;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+}
+
+.c27 {
+  box-sizing: border-box;
+  margin-top: 8px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+}
+
+.c30 {
+  box-sizing: border-box;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+.c9 {
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 16px;
+  -webkit-letter-spacing: -0.2px;
+  -moz-letter-spacing: -0.2px;
+  -ms-letter-spacing: -0.2px;
+  letter-spacing: -0.2px;
+  margin: 0;
+}
+
+.c33 {
+  font-size: 12px;
+  font-weight: bold;
+  line-height: 16px;
+  -webkit-letter-spacing: -0.2px;
+  -moz-letter-spacing: -0.2px;
+  -ms-letter-spacing: -0.2px;
+  letter-spacing: -0.2px;
+  margin: 0;
+  text-align: center;
+}
+
+.c34 {
+  color: #76777A;
+  font-size: 12px;
+  line-height: 16px;
+  -webkit-letter-spacing: -0.2px;
+  -moz-letter-spacing: -0.2px;
+  -ms-letter-spacing: -0.2px;
+  letter-spacing: -0.2px;
+  margin: 0;
+  margin-top: 8px;
+  text-align: center;
+}
+
+.c26 {
+  font-size: inherit;
+  font-weight: bold;
+  line-height: inherit;
+  -webkit-letter-spacing: -0.2px;
+  -moz-letter-spacing: -0.2px;
+  -ms-letter-spacing: -0.2px;
+  letter-spacing: -0.2px;
+  margin: 0;
+}
+
+.c29 {
+  font-size: inherit;
+  line-height: inherit;
+  -webkit-letter-spacing: -0.2px;
+  -moz-letter-spacing: -0.2px;
+  -ms-letter-spacing: -0.2px;
+  letter-spacing: -0.2px;
+  margin: 0;
+}
+
+.c5 {
+  color: #141414;
+  font-size: 18px;
+  font-weight: bold;
+  line-height: 20px;
+  -webkit-letter-spacing: -1.2px;
+  -moz-letter-spacing: -1.2px;
+  -ms-letter-spacing: -1.2px;
+  letter-spacing: -1.2px;
+  margin: 0;
+}
+
+.c8 {
+  font-size: 16px;
+  font-weight: bold;
+  line-height: 18px;
+  -webkit-letter-spacing: -0.4px;
+  -moz-letter-spacing: -0.4px;
+  -ms-letter-spacing: -0.4px;
+  letter-spacing: -0.4px;
+  margin: 0;
+}
+
+.c13 {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  padding-left: 16px;
+  padding-right: 16px;
+  font-size: 13px;
+  font-weight: 500;
+  border-radius: 4px 0 0 4px;
+}
+
+.c14 {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  padding-left: 16px;
+  padding-right: 16px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.c15 {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  padding-left: 16px;
+  padding-right: 16px;
+  font-size: 13px;
+  font-weight: 500;
+  text-align: center;
+}
+
+.c16 {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  padding-left: 16px;
+  padding-right: 16px;
+  font-size: 13px;
+  font-weight: 500;
+  text-align: right;
+  border-radius: 0 4px 4px 0;
+}
+
+.c17 {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  padding-left: 16px;
+  padding-right: 16px;
+  font-size: 11px;
+}
+
+.c19 {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  padding-left: 16px;
+  padding-right: 16px;
+  font-size: 11px;
+  text-align: center;
+}
+
+.c20 {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  padding-left: 16px;
+  padding-right: 16px;
+  font-size: 12px;
+  text-align: right;
+}
+
+.c12 {
+  background: #ebf4ff;
+  border-radius: 4px;
+}
+
+.c23 {
+  border: 0;
+  border-top: 1px solid #C4C7CC;
+  margin: 0;
+  height: 1px;
+  border-color: #E8E9EB;
+}
+
+.c22 {
+  font-size: 12px;
+  width: 50%;
+}
+
+.c28 {
+  background: #ebf4ff;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  font-weight: bold;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+.c31 {
+  border-color: #C4C7CC;
+  border-right: 1px solid;
+  border-color: #C4C7CC;
+  margin-right: 32px;
+  padding-right: 32px;
+}
+
+.c4 {
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  color: #145ECC;
+}
+
+.c4[disabled] {
+  pointer-events: none;
+  cursor: default;
+  color: #DCDEE0;
+}
+
+.c18 {
+  box-sizing: border-box;
+  margin: 0px;
+  margin-left: 8px;
+  margin-right: 8px;
+  max-width: 100%;
+  height: auto;
+  height: 1em;
+  vertical-align: middle;
+}
+
+.c0 {
+  box-sizing: border-box;
+  padding: 64px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  min-height: 297mm;
+}
+
+.c3 {
+  box-sizing: border-box;
+  margin-bottom: 16px;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+}
+
+.c7 {
+  box-sizing: border-box;
+  margin-top: 80px;
+  text-align: right;
+  min-height: 100px;
+}
+
+.c11 {
+  box-sizing: border-box;
+  width: 100%;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+}
+
+.c32 {
+  box-sizing: border-box;
+  margin: 0px;
+  max-width: 100%;
+  height: auto;
+  max-width: 200px;
+  max-height: 100px;
+}
+
+<div
+  className="jsx-1770593735 InvoicePages amazing-organization"
+>
+  <div
+    className="jsx-1770593735 pages"
+  >
+    <div
+      className="page c0"
+    >
+      <div
+        className="header c1"
+      >
+        <div
+          className="c2"
+        >
+          <div
+            className="c3"
+          >
+            <a
+              className="c4"
+              href="https://opencollective.com/opensourcecollective"
+            >
+              <h1
+                className="-Clean-h1 c5"
+              >
+                Open Source Collective 501c6 (Non Profit)
+              </h1>
+            </a>
+            <div
+              className="c6"
+            >
+              <span>
+                EIN 82-2037583 
+340 S LEMON AVE #3717
+Walnut
+                <br />
+              </span>
+              <span>
+                CA 91789
+USA
+                <br />
+              </span>
+            </div>
+            <a
+              className="website c4"
+              href="https://opencollective.com/opensourcecollective"
+            >
+              https://opencollective.com/
+              opensourcecollective
+            </a>
+          </div>
+          <div
+            className="c7"
+          >
+            <h2
+              className="-Clean-h2 c8"
+            >
+              <span>
+                Bill to
+              </span>
+            </h2>
+            <div
+              className="c6"
+            >
+              <p
+                className="c9"
+              >
+                Amazing Organization
+              </p>
+            </div>
+          </div>
+        </div>
+        <div
+          className="c10"
+        >
+          <h2
+            className="-Clean-h2 c8"
+          >
+            Donation Receipt
+          </h2>
+          <div
+            className="jsx-1770593735 detail"
+          >
+            <label
+              className="jsx-1770593735"
+            >
+              Date:
+            </label>
+             
+            <span>
+              01/31/2019
+            </span>
+          </div>
+          <div
+            className="jsx-1770593735 detail reference"
+          >
+            <label
+              className="jsx-1770593735"
+            >
+              Reference:
+            </label>
+             
+            201901.opensourcecollective.amazing-organization
+          </div>
+        </div>
+      </div>
+      <div
+        className="c11"
+        width={1}
+      >
+        <table
+          style={
+            Object {
+              "borderCollapse": "collapse",
+              "width": "100%",
+            }
+          }
+        >
+          <thead>
+            <tr
+              className="c12"
+            >
+              <td
+                className="c13"
+                fontSize="LeadParagraph"
+                fontWeight={500}
+              >
+                <span>
+                  Date
+                </span>
+              </td>
+              <td
+                className="c14"
+                fontSize="LeadParagraph"
+                fontWeight={500}
+              >
+                <span>
+                  Description
+                </span>
+              </td>
+              <td
+                className="c15"
+                fontSize="LeadParagraph"
+                fontWeight={500}
+              >
+                <span>
+                  Tax %
+                </span>
+              </td>
+              <td
+                className="c16"
+                fontSize="LeadParagraph"
+                fontWeight={500}
+              >
+                <span>
+                  Total
+                </span>
+              </td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td
+                className="c17"
+                fontSize="Caption"
+              >
+                <span>
+                  01/01/2019
+                </span>
+              </td>
+              <td
+                className="c17"
+                fontSize="Caption"
+              >
+                <div>
+                  <span>
+                    <a
+                      className="c4"
+                      href="https://opencollective.com/babel"
+                    >
+                      Monthly donation to Babel (Backers)
+                    </a>
+                     by 
+                    <a
+                      className="c4"
+                      href="https://opencollective.com/anonymized"
+                    >
+                      Random User
+                    </a>
+                  </span>
+                  <img
+                    alt=" | "
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
+                </div>
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                0
+                %
+              </td>
+              <td
+                className="c20"
+                fontSize="Paragraph"
+              >
+                $25.00
+              </td>
+            </tr>
+            <tr>
+              <td
+                className="c17"
+                fontSize="Caption"
+              >
+                <span>
+                  01/01/2019
+                </span>
+              </td>
+              <td
+                className="c17"
+                fontSize="Caption"
+              >
+                <div>
+                  <span>
+                    <a
+                      className="c4"
+                      href="https://opencollective.com/aureliaz"
+                    >
+                      Monthly donation to Aurelia (Wood)
+                    </a>
+                     by 
+                    <a
+                      className="c4"
+                      href="https://opencollective.com/anonymized"
+                    >
+                      Random User
+                    </a>
+                  </span>
+                  <img
+                    alt=" | "
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
+                </div>
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                0
+                %
+              </td>
+              <td
+                className="c20"
+                fontSize="Paragraph"
+              >
+                $5.00
+              </td>
+            </tr>
+            <tr>
+              <td
+                className="c17"
+                fontSize="Caption"
+              >
+                <span>
+                  01/01/2019
+                </span>
+              </td>
+              <td
+                className="c17"
+                fontSize="Caption"
+              >
+                <div>
+                  <span>
+                    <a
+                      className="c4"
+                      href="https://opencollective.com/babel"
+                    >
+                      Monthly donation to Babel (Backers)
+                    </a>
+                     by 
+                    <a
+                      className="c4"
+                      href="https://opencollective.com/anonymized"
+                    >
+                      Random User
+                    </a>
+                  </span>
+                  <img
+                    alt=" | "
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
+                </div>
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                0
+                %
+              </td>
+              <td
+                className="c20"
+                fontSize="Paragraph"
+              >
+                $10.00
+              </td>
+            </tr>
+            <tr>
+              <td
+                className="c17"
+                fontSize="Caption"
+              >
+                <span>
+                  01/01/2019
+                </span>
+              </td>
+              <td
+                className="c17"
+                fontSize="Caption"
+              >
+                <div>
+                  <span>
+                    <a
+                      className="c4"
+                      href="https://opencollective.com/beaker"
+                    >
+                      Monthly donation to Beaker Browser (Backers)
+                    </a>
+                     by 
+                    <a
+                      className="c4"
+                      href="https://opencollective.com/anonymized"
+                    >
+                      Random User
+                    </a>
+                  </span>
+                  <img
+                    alt=" | "
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
+                </div>
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                0
+                %
+              </td>
+              <td
+                className="c20"
+                fontSize="Paragraph"
+              >
+                $5.00
+              </td>
+            </tr>
+            <tr>
+              <td
+                className="c17"
+                fontSize="Caption"
+              >
+                <span>
+                  01/01/2019
+                </span>
+              </td>
+              <td
+                className="c17"
+                fontSize="Caption"
+              >
+                <div>
+                  <span>
+                    <a
+                      className="c4"
+                      href="https://opencollective.com/babel"
+                    >
+                      Monthly donation to Babel (Backers)
+                    </a>
+                     by 
+                    <a
+                      className="c4"
+                      href="https://opencollective.com/anonymized"
+                    >
+                      Random User
+                    </a>
+                  </span>
+                  <img
+                    alt=" | "
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
+                </div>
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                0
+                %
+              </td>
+              <td
+                className="c20"
+                fontSize="Paragraph"
+              >
+                $2.00
+              </td>
+            </tr>
+            <tr>
+              <td
+                className="c17"
+                fontSize="Caption"
+              >
+                <span>
+                  01/01/2019
+                </span>
+              </td>
+              <td
+                className="c17"
+                fontSize="Caption"
+              >
+                <div>
+                  <span>
+                    <a
+                      className="c4"
+                      href="https://opencollective.com/babel"
+                    >
+                      Monthly donation to Babel (Backers)
+                    </a>
+                     by 
+                    <a
+                      className="c4"
+                      href="https://opencollective.com/anonymized"
+                    >
+                      Random User
+                    </a>
+                  </span>
+                  <img
+                    alt=" | "
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
+                </div>
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                0
+                %
+              </td>
+              <td
+                className="c20"
+                fontSize="Paragraph"
+              >
+                $2.00
+              </td>
+            </tr>
+            <tr>
+              <td
+                className="c17"
+                fontSize="Caption"
+              >
+                <span>
+                  01/01/2019
+                </span>
+              </td>
+              <td
+                className="c17"
+                fontSize="Caption"
+              >
+                <div>
+                  <span>
+                    <a
+                      className="c4"
+                      href="https://opencollective.com/react-native-camera"
+                    >
+                      Monthly donation to react-native-camera (Backers)
+                    </a>
+                     by 
+                    <a
+                      className="c4"
+                      href="https://opencollective.com/anonymized"
+                    >
+                      Random User
+                    </a>
+                  </span>
+                  <img
+                    alt=" | "
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
+                </div>
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                0
+                %
+              </td>
+              <td
+                className="c20"
+                fontSize="Paragraph"
+              >
+                $2.00
+              </td>
+            </tr>
+            <tr>
+              <td
+                className="c17"
+                fontSize="Caption"
+              >
+                <span>
+                  01/01/2019
+                </span>
+              </td>
+              <td
+                className="c17"
+                fontSize="Caption"
+              >
+                <div>
+                  <span>
+                    <a
+                      className="c4"
+                      href="https://opencollective.com/babel"
+                    >
+                      Monthly donation to Babel (Backers)
+                    </a>
+                     by 
+                    <a
+                      className="c4"
+                      href="https://opencollective.com/anonymized"
+                    >
+                      Random User
+                    </a>
+                  </span>
+                  <img
+                    alt=" | "
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
+                </div>
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                0
+                %
+              </td>
+              <td
+                className="c20"
+                fontSize="Paragraph"
+              >
+                $10.00
+              </td>
+            </tr>
+            <tr>
+              <td
+                className="c17"
+                fontSize="Caption"
+              >
+                <span>
+                  01/01/2019
+                </span>
+              </td>
+              <td
+                className="c17"
+                fontSize="Caption"
+              >
+                <div>
+                  <span>
+                    <a
+                      className="c4"
+                      href="https://opencollective.com/curl"
+                    >
+                      Monthly donation to curl (backer)
+                    </a>
+                     by 
+                    <a
+                      className="c4"
+                      href="https://opencollective.com/anonymized"
+                    >
+                      Random User
+                    </a>
+                  </span>
+                  <img
+                    alt=" | "
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
+                </div>
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                0
+                %
+              </td>
+              <td
+                className="c20"
+                fontSize="Paragraph"
+              >
+                $5.00
+              </td>
+            </tr>
+            <tr>
+              <td
+                className="c17"
+                fontSize="Caption"
+              >
+                <span>
+                  01/01/2019
+                </span>
+              </td>
+              <td
+                className="c17"
+                fontSize="Caption"
+              >
+                <div>
+                  <span>
+                    <a
+                      className="c4"
+                      href="https://opencollective.com/tessel"
+                    >
+                      Monthly donation to Tessel (Backers)
+                    </a>
+                     by 
+                    <a
+                      className="c4"
+                      href="https://opencollective.com/anonymized"
+                    >
+                      Random User
+                    </a>
+                  </span>
+                  <img
+                    alt=" | "
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
+                </div>
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                0
+                %
+              </td>
+              <td
+                className="c20"
+                fontSize="Paragraph"
+              >
+                $10.00
+              </td>
+            </tr>
+            <tr>
+              <td
+                className="c17"
+                fontSize="Caption"
+              >
+                <span>
+                  01/01/2019
+                </span>
+              </td>
+              <td
+                className="c17"
+                fontSize="Caption"
+              >
+                <div>
+                  <span>
+                    <a
+                      className="c4"
+                      href="https://opencollective.com/curl"
+                    >
+                      Monthly donation to curl (backer)
+                    </a>
+                     by 
+                    <a
+                      className="c4"
+                      href="https://opencollective.com/anonymized"
+                    >
+                      Random User
+                    </a>
+                  </span>
+                  <img
+                    alt=" | "
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
+                </div>
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                0
+                %
+              </td>
+              <td
+                className="c20"
+                fontSize="Paragraph"
+              >
+                $5.00
+              </td>
+            </tr>
+            <tr>
+              <td
+                className="c17"
+                fontSize="Caption"
+              >
+                <span>
+                  01/01/2019
+                </span>
+              </td>
+              <td
+                className="c17"
+                fontSize="Caption"
+              >
+                <div>
+                  <span>
+                    <a
+                      className="c4"
+                      href="https://opencollective.com/nock"
+                    >
+                      Monthly donation to nock (Backer)
+                    </a>
+                     by 
+                    <a
+                      className="c4"
+                      href="https://opencollective.com/anonymized"
+                    >
+                      Random User
+                    </a>
+                  </span>
+                  <img
+                    alt=" | "
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
+                </div>
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                0
+                %
+              </td>
+              <td
+                className="c20"
+                fontSize="Paragraph"
+              >
+                $1.00
+              </td>
+            </tr>
+            <tr>
+              <td
+                className="c17"
+                fontSize="Caption"
+              >
+                <span>
+                  01/01/2019
+                </span>
+              </td>
+              <td
+                className="c17"
+                fontSize="Caption"
+              >
+                <div>
+                  <span>
+                    <a
+                      className="c4"
+                      href="https://opencollective.com/pug"
+                    >
+                      Monthly donation to pug (Backers)
+                    </a>
+                     by 
+                    <a
+                      className="c4"
+                      href="https://opencollective.com/anonymized"
+                    >
+                      Random User
+                    </a>
+                  </span>
+                  <img
+                    alt=" | "
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
+                </div>
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                0
+                %
+              </td>
+              <td
+                className="c20"
+                fontSize="Paragraph"
+              >
+                $2.00
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div
+      className="page c0"
+    >
+      <div
+        className="c11"
+        width={1}
+      >
+        <table
+          style={
+            Object {
+              "borderCollapse": "collapse",
+              "width": "100%",
+            }
+          }
+        >
+          <thead>
+            <tr
+              className="c12"
+            >
+              <td
+                className="c13"
+                fontSize="LeadParagraph"
+                fontWeight={500}
+              >
+                <span>
+                  Date
+                </span>
+              </td>
+              <td
+                className="c14"
+                fontSize="LeadParagraph"
+                fontWeight={500}
+              >
+                <span>
+                  Description
+                </span>
+              </td>
+              <td
+                className="c15"
+                fontSize="LeadParagraph"
+                fontWeight={500}
+              >
+                <span>
+                  Tax %
+                </span>
+              </td>
+              <td
+                className="c16"
+                fontSize="LeadParagraph"
+                fontWeight={500}
+              >
+                <span>
+                  Total
+                </span>
+              </td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td
+                className="c17"
+                fontSize="Caption"
+              >
+                <span>
+                  01/01/2019
+                </span>
+              </td>
+              <td
+                className="c17"
+                fontSize="Caption"
+              >
+                <div>
+                  <span>
+                    <a
+                      className="c4"
+                      href="https://opencollective.com/babel"
+                    >
+                      Monthly donation to Babel (Backers)
+                    </a>
+                     by 
+                    <a
+                      className="c4"
+                      href="https://opencollective.com/anonymized"
+                    >
+                      Random User
+                    </a>
+                  </span>
+                  <img
+                    alt=" | "
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
+                </div>
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                0
+                %
+              </td>
+              <td
+                className="c20"
+                fontSize="Paragraph"
+              >
+                $2.00
+              </td>
+            </tr>
+            <tr>
+              <td
+                className="c17"
+                fontSize="Caption"
+              >
+                <span>
+                  01/01/2019
+                </span>
+              </td>
+              <td
+                className="c17"
+                fontSize="Caption"
+              >
+                <div>
+                  <span>
+                    <a
+                      className="c4"
+                      href="https://opencollective.com/mongoose"
+                    >
+                      Monthly donation to Mongoose.js (backer)
+                    </a>
+                     by 
+                    <a
+                      className="c4"
+                      href="https://opencollective.com/anonymized"
+                    >
+                      Random User
+                    </a>
+                  </span>
+                  <img
+                    alt=" | "
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
+                </div>
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                0
+                %
+              </td>
+              <td
+                className="c20"
+                fontSize="Paragraph"
+              >
+                $2.00
+              </td>
+            </tr>
+            <tr>
+              <td
+                className="c17"
+                fontSize="Caption"
+              >
+                <span>
+                  01/01/2019
+                </span>
+              </td>
+              <td
+                className="c17"
+                fontSize="Caption"
+              >
+                <div>
+                  <span>
+                    <a
+                      className="c4"
+                      href="https://opencollective.com/mochajs"
+                    >
+                      Monthly donation to MochaJS (Backers)
+                    </a>
+                     by 
+                    <a
+                      className="c4"
+                      href="https://opencollective.com/anonymized"
+                    >
+                      Random User
+                    </a>
+                  </span>
+                  <img
+                    alt=" | "
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
+                </div>
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                0
+                %
+              </td>
+              <td
+                className="c20"
+                fontSize="Paragraph"
+              >
+                $2.00
+              </td>
+            </tr>
+            <tr>
+              <td
+                className="c17"
+                fontSize="Caption"
+              >
+                <span>
+                  01/01/2019
+                </span>
+              </td>
+              <td
+                className="c17"
+                fontSize="Caption"
+              >
+                <div>
+                  <span>
+                    <a
+                      className="c4"
+                      href="https://opencollective.com/vuejs"
+                    >
+                      Monthly donation to vue (Backers)
+                    </a>
+                     by 
+                    <a
+                      className="c4"
+                      href="https://opencollective.com/anonymized"
+                    >
+                      Random User
+                    </a>
+                  </span>
+                  <img
+                    alt=" | "
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
+                </div>
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                0
+                %
+              </td>
+              <td
+                className="c20"
+                fontSize="Paragraph"
+              >
+                $25.00
+              </td>
+            </tr>
+            <tr>
+              <td
+                className="c17"
+                fontSize="Caption"
+              >
+                <span>
+                  01/01/2019
+                </span>
+              </td>
+              <td
+                className="c17"
+                fontSize="Caption"
+              >
+                <div>
+                  <span>
+                    <a
+                      className="c4"
+                      href="https://opencollective.com/babel"
+                    >
+                      Monthly donation to Babel (Backers)
+                    </a>
+                     by 
+                    <a
+                      className="c4"
+                      href="https://opencollective.com/anonymized"
+                    >
+                      Random User
+                    </a>
+                  </span>
+                  <img
+                    alt=" | "
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
+                </div>
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                0
+                %
+              </td>
+              <td
+                className="c20"
+                fontSize="Paragraph"
+              >
+                $2.00
+              </td>
+            </tr>
+            <tr>
+              <td
+                className="c17"
+                fontSize="Caption"
+              >
+                <span>
+                  01/01/2019
+                </span>
+              </td>
+              <td
+                className="c17"
+                fontSize="Caption"
+              >
+                <div>
+                  <span>
+                    <a
+                      className="c4"
+                      href="https://opencollective.com/curl"
+                    >
+                      Monthly donation to curl (backer)
+                    </a>
+                     by 
+                    <a
+                      className="c4"
+                      href="https://opencollective.com/anonymized"
+                    >
+                      Random User
+                    </a>
+                  </span>
+                  <img
+                    alt=" | "
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
+                </div>
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                0
+                %
+              </td>
+              <td
+                className="c20"
+                fontSize="Paragraph"
+              >
+                $5.00
+              </td>
+            </tr>
+            <tr>
+              <td
+                className="c17"
+                fontSize="Caption"
+              >
+                <span>
+                  01/01/2019
+                </span>
+              </td>
+              <td
+                className="c17"
+                fontSize="Caption"
+              >
+                <div>
+                  <span>
+                    <a
+                      className="c4"
+                      href="https://opencollective.com/mochajs"
+                    >
+                      Monthly donation to MochaJS (Backers)
+                    </a>
+                     by 
+                    <a
+                      className="c4"
+                      href="https://opencollective.com/anonymized"
+                    >
+                      Random User
+                    </a>
+                  </span>
+                  <img
+                    alt=" | "
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
+                </div>
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                0
+                %
+              </td>
+              <td
+                className="c20"
+                fontSize="Paragraph"
+              >
+                $2.00
+              </td>
+            </tr>
+            <tr>
+              <td
+                className="c17"
+                fontSize="Caption"
+              >
+                <span>
+                  01/01/2019
+                </span>
+              </td>
+              <td
+                className="c17"
+                fontSize="Caption"
+              >
+                <div>
+                  <span>
+                    <a
+                      className="c4"
+                      href="https://opencollective.com/parcel"
+                    >
+                      Monthly donation to Parcel (Backer)
+                    </a>
+                     by 
+                    <a
+                      className="c4"
+                      href="https://opencollective.com/anonymized"
+                    >
+                      Random User
+                    </a>
+                  </span>
+                  <img
+                    alt=" | "
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
+                </div>
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                0
+                %
+              </td>
+              <td
+                className="c20"
+                fontSize="Paragraph"
+              >
+                $2.00
+              </td>
+            </tr>
+            <tr>
+              <td
+                className="c17"
+                fontSize="Caption"
+              >
+                <span>
+                  01/01/2019
+                </span>
+              </td>
+              <td
+                className="c17"
+                fontSize="Caption"
+              >
+                <div>
+                  <span>
+                    <a
+                      className="c4"
+                      href="https://opencollective.com/webpack"
+                    >
+                      Monthly donation to webpack (Backer)
+                    </a>
+                     by 
+                    <a
+                      className="c4"
+                      href="https://opencollective.com/anonymized"
+                    >
+                      Random User
+                    </a>
+                  </span>
+                  <img
+                    alt=" | "
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
+                </div>
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                0
+                %
+              </td>
+              <td
+                className="c20"
+                fontSize="Paragraph"
+              >
+                $10.00
+              </td>
+            </tr>
+            <tr>
+              <td
+                className="c17"
+                fontSize="Caption"
+              >
+                <span>
+                  01/01/2019
+                </span>
+              </td>
+              <td
+                className="c17"
+                fontSize="Caption"
+              >
+                <div>
+                  <span>
+                    <a
+                      className="c4"
+                      href="https://opencollective.com/babel"
+                    >
+                      Monthly donation to Babel (Backers)
+                    </a>
+                     by 
+                    <a
+                      className="c4"
+                      href="https://opencollective.com/anonymized"
+                    >
+                      Random User
+                    </a>
+                  </span>
+                  <img
+                    alt=" | "
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
+                </div>
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                0
+                %
+              </td>
+              <td
+                className="c20"
+                fontSize="Paragraph"
+              >
+                $10.00
+              </td>
+            </tr>
+            <tr>
+              <td
+                className="c17"
+                fontSize="Caption"
+              >
+                <span>
+                  01/01/2019
+                </span>
+              </td>
+              <td
+                className="c17"
+                fontSize="Caption"
+              >
+                <div>
+                  <span>
+                    <a
+                      className="c4"
+                      href="https://opencollective.com/babel"
+                    >
+                      Monthly donation to Babel (Backers)
+                    </a>
+                     by 
+                    <a
+                      className="c4"
+                      href="https://opencollective.com/anonymized"
+                    >
+                      Random User
+                    </a>
+                  </span>
+                  <img
+                    alt=" | "
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
+                </div>
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                0
+                %
+              </td>
+              <td
+                className="c20"
+                fontSize="Paragraph"
+              >
+                $2.00
+              </td>
+            </tr>
+            <tr>
+              <td
+                className="c17"
+                fontSize="Caption"
+              >
+                <span>
+                  01/01/2019
+                </span>
+              </td>
+              <td
+                className="c17"
+                fontSize="Caption"
+              >
+                <div>
+                  <span>
+                    <a
+                      className="c4"
+                      href="https://opencollective.com/celery"
+                    >
+                      Monthly donation to celery (backer)
+                    </a>
+                     by 
+                    <a
+                      className="c4"
+                      href="https://opencollective.com/anonymized"
+                    >
+                      Random User
+                    </a>
+                  </span>
+                  <img
+                    alt=" | "
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
+                </div>
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                0
+                %
+              </td>
+              <td
+                className="c20"
+                fontSize="Paragraph"
+              >
+                $5.00
+              </td>
+            </tr>
+            <tr>
+              <td
+                className="c17"
+                fontSize="Caption"
+              >
+                <span>
+                  01/01/2019
+                </span>
+              </td>
+              <td
+                className="c17"
+                fontSize="Caption"
+              >
+                <div>
+                  <span>
+                    <a
+                      className="c4"
+                      href="https://opencollective.com/webpack"
+                    >
+                      Monthly donation to webpack (Backer)
+                    </a>
+                     by 
+                    <a
+                      className="c4"
+                      href="https://opencollective.com/anonymized"
+                    >
+                      Random User
+                    </a>
+                  </span>
+                  <img
+                    alt=" | "
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
+                </div>
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                0
+                %
+              </td>
+              <td
+                className="c20"
+                fontSize="Paragraph"
+              >
+                $5.00
+              </td>
+            </tr>
+            <tr>
+              <td
+                className="c17"
+                fontSize="Caption"
+              >
+                <span>
+                  01/01/2019
+                </span>
+              </td>
+              <td
+                className="c17"
+                fontSize="Caption"
+              >
+                <div>
+                  <span>
+                    <a
+                      className="c4"
+                      href="https://opencollective.com/vuejs"
+                    >
+                      Monthly donation to vue (Backers)
+                    </a>
+                     by 
+                    <a
+                      className="c4"
+                      href="https://opencollective.com/anonymized"
+                    >
+                      Random User
+                    </a>
+                  </span>
+                  <img
+                    alt=" | "
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
+                </div>
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                0
+                %
+              </td>
+              <td
+                className="c20"
+                fontSize="Paragraph"
+              >
+                $2.00
+              </td>
+            </tr>
+            <tr>
+              <td
+                className="c17"
+                fontSize="Caption"
+              >
+                <span>
+                  01/01/2019
+                </span>
+              </td>
+              <td
+                className="c17"
+                fontSize="Caption"
+              >
+                <div>
+                  <span>
+                    <a
+                      className="c4"
+                      href="https://opencollective.com/vuejs"
+                    >
+                      Monthly donation to vue (Backers)
+                    </a>
+                     by 
+                    <a
+                      className="c4"
+                      href="https://opencollective.com/anonymized"
+                    >
+                      Random User
+                    </a>
+                  </span>
+                  <img
+                    alt=" | "
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
+                </div>
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                0
+                %
+              </td>
+              <td
+                className="c20"
+                fontSize="Paragraph"
+              >
+                $2.00
+              </td>
+            </tr>
+            <tr>
+              <td
+                className="c17"
+                fontSize="Caption"
+              >
+                <span>
+                  01/01/2019
+                </span>
+              </td>
+              <td
+                className="c17"
+                fontSize="Caption"
+              >
+                <div>
+                  <span>
+                    <a
+                      className="c4"
+                      href="https://opencollective.com/babel"
+                    >
+                      Monthly donation to Babel (Backers)
+                    </a>
+                     by 
+                    <a
+                      className="c4"
+                      href="https://opencollective.com/anonymized"
+                    >
+                      Random User
+                    </a>
+                  </span>
+                  <img
+                    alt=" | "
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
+                </div>
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                0
+                %
+              </td>
+              <td
+                className="c20"
+                fontSize="Paragraph"
+              >
+                $8.00
+              </td>
+            </tr>
+            <tr>
+              <td
+                className="c17"
+                fontSize="Caption"
+              >
+                <span>
+                  01/01/2019
+                </span>
+              </td>
+              <td
+                className="c17"
+                fontSize="Caption"
+              >
+                <div>
+                  <span>
+                    <a
+                      className="c4"
+                      href="https://opencollective.com/babel"
+                    >
+                      Monthly donation to Babel (Backers)
+                    </a>
+                     by 
+                    <a
+                      className="c4"
+                      href="https://opencollective.com/anonymized"
+                    >
+                      Random User
+                    </a>
+                  </span>
+                  <img
+                    alt=" | "
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
+                </div>
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                0
+                %
+              </td>
+              <td
+                className="c20"
+                fontSize="Paragraph"
+              >
+                $10.00
+              </td>
+            </tr>
+            <tr>
+              <td
+                className="c17"
+                fontSize="Caption"
+              >
+                <span>
+                  01/01/2019
+                </span>
+              </td>
+              <td
+                className="c17"
+                fontSize="Caption"
+              >
+                <div>
+                  <span>
+                    <a
+                      className="c4"
+                      href="https://opencollective.com/styled-components"
+                    >
+                      Monthly donation to styled-components (Backer)
+                    </a>
+                     by 
+                    <a
+                      className="c4"
+                      href="https://opencollective.com/anonymized"
+                    >
+                      Random User
+                    </a>
+                  </span>
+                  <img
+                    alt=" | "
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
+                </div>
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                0
+                %
+              </td>
+              <td
+                className="c20"
+                fontSize="Paragraph"
+              >
+                $5.00
+              </td>
+            </tr>
+            <tr>
+              <td
+                className="c17"
+                fontSize="Caption"
+              >
+                <span>
+                  01/01/2019
+                </span>
+              </td>
+              <td
+                className="c17"
+                fontSize="Caption"
+              >
+                <div>
+                  <span>
+                    <a
+                      className="c4"
+                      href="https://opencollective.com/babel"
+                    >
+                      Monthly donation to Babel (Backers)
+                    </a>
+                     by 
+                    <a
+                      className="c4"
+                      href="https://opencollective.com/anonymized"
+                    >
+                      Random User
+                    </a>
+                  </span>
+                  <img
+                    alt=" | "
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
+                </div>
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                0
+                %
+              </td>
+              <td
+                className="c20"
+                fontSize="Paragraph"
+              >
+                $25.00
+              </td>
+            </tr>
+            <tr>
+              <td
+                className="c17"
+                fontSize="Caption"
+              >
+                <span>
+                  01/01/2019
+                </span>
+              </td>
+              <td
+                className="c17"
+                fontSize="Caption"
+              >
+                <div>
+                  <span>
+                    <a
+                      className="c4"
+                      href="https://opencollective.com/nuxtjs"
+                    >
+                      Monthly donation to Nuxt.js (Backers)
+                    </a>
+                     by 
+                    <a
+                      className="c4"
+                      href="https://opencollective.com/anonymized"
+                    >
+                      Random User
+                    </a>
+                  </span>
+                  <img
+                    alt=" | "
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
+                </div>
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                0
+                %
+              </td>
+              <td
+                className="c20"
+                fontSize="Paragraph"
+              >
+                $25.00
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div
+      className="page c0"
+    >
+      <div
+        className="c11"
+        width={1}
+      >
+        <table
+          style={
+            Object {
+              "borderCollapse": "collapse",
+              "width": "100%",
+            }
+          }
+        >
+          <thead>
+            <tr
+              className="c12"
+            >
+              <td
+                className="c13"
+                fontSize="LeadParagraph"
+                fontWeight={500}
+              >
+                <span>
+                  Date
+                </span>
+              </td>
+              <td
+                className="c14"
+                fontSize="LeadParagraph"
+                fontWeight={500}
+              >
+                <span>
+                  Description
+                </span>
+              </td>
+              <td
+                className="c15"
+                fontSize="LeadParagraph"
+                fontWeight={500}
+              >
+                <span>
+                  Tax %
+                </span>
+              </td>
+              <td
+                className="c16"
+                fontSize="LeadParagraph"
+                fontWeight={500}
+              >
+                <span>
+                  Total
+                </span>
+              </td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td
+                className="c17"
+                fontSize="Caption"
+              >
+                <span>
+                  01/01/2019
+                </span>
+              </td>
+              <td
+                className="c17"
+                fontSize="Caption"
+              >
+                <div>
+                  <span>
+                    <a
+                      className="c4"
+                      href="https://opencollective.com/nodemon"
+                    >
+                      Monthly donation to nodemon (backer)
+                    </a>
+                     by 
+                    <a
+                      className="c4"
+                      href="https://opencollective.com/anonymized"
+                    >
+                      Random User
+                    </a>
+                  </span>
+                  <img
+                    alt=" | "
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
+                </div>
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                0
+                %
+              </td>
+              <td
+                className="c20"
+                fontSize="Paragraph"
+              >
+                $50.00
+              </td>
+            </tr>
+            <tr>
+              <td
+                className="c17"
+                fontSize="Caption"
+              >
+                <span>
+                  01/01/2019
+                </span>
+              </td>
+              <td
+                className="c17"
+                fontSize="Caption"
+              >
+                <div>
+                  <span>
+                    <a
+                      className="c4"
+                      href="https://opencollective.com/typeorm"
+                    >
+                      Monthly donation to TypeORM (Love)
+                    </a>
+                     by 
+                    <a
+                      className="c4"
+                      href="https://opencollective.com/anonymized"
+                    >
+                      Random User
+                    </a>
+                  </span>
+                  <img
+                    alt=" | "
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
+                </div>
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                0
+                %
+              </td>
+              <td
+                className="c20"
+                fontSize="Paragraph"
+              >
+                $20.00
+              </td>
+            </tr>
+            <tr>
+              <td
+                className="c17"
+                fontSize="Caption"
+              >
+                <span>
+                  01/01/2019
+                </span>
+              </td>
+              <td
+                className="c17"
+                fontSize="Caption"
+              >
+                <div>
+                  <span>
+                    <a
+                      className="c4"
+                      href="https://opencollective.com/vuejs"
+                    >
+                      Monthly donation to vue (Backers)
+                    </a>
+                     by 
+                    <a
+                      className="c4"
+                      href="https://opencollective.com/anonymized"
+                    >
+                      Random User
+                    </a>
+                  </span>
+                  <img
+                    alt=" | "
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
+                </div>
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                0
+                %
+              </td>
+              <td
+                className="c20"
+                fontSize="Paragraph"
+              >
+                $5.00
+              </td>
+            </tr>
+            <tr>
+              <td
+                className="c17"
+                fontSize="Caption"
+              >
+                <span>
+                  01/01/2019
+                </span>
+              </td>
+              <td
+                className="c17"
+                fontSize="Caption"
+              >
+                <div>
+                  <span>
+                    <a
+                      className="c4"
+                      href="https://opencollective.com/qubes-os"
+                    >
+                      Monthly donation to Qubes OS (Backers)
+                    </a>
+                     by 
+                    <a
+                      className="c4"
+                      href="https://opencollective.com/anonymized"
+                    >
+                      Random User
+                    </a>
+                  </span>
+                  <img
+                    alt=" | "
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
+                </div>
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                0
+                %
+              </td>
+              <td
+                className="c20"
+                fontSize="Paragraph"
+              >
+                $20.00
+              </td>
+            </tr>
+            <tr>
+              <td
+                className="c17"
+                fontSize="Caption"
+              >
+                <span>
+                  01/01/2019
+                </span>
+              </td>
+              <td
+                className="c17"
+                fontSize="Caption"
+              >
+                <div>
+                  <span>
+                    <a
+                      className="c4"
+                      href="https://opencollective.com/generator-jhipster"
+                    >
+                      Donation to JHipster
+                    </a>
+                     by 
+                    <a
+                      className="c4"
+                      href="https://opencollective.com/anonymized"
+                    >
+                      Random User
+                    </a>
+                  </span>
+                  <img
+                    alt=" | "
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
+                </div>
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                0
+                %
+              </td>
+              <td
+                className="c20"
+                fontSize="Paragraph"
+              >
+                $100.00
+              </td>
+            </tr>
+            <tr>
+              <td
+                className="c17"
+                fontSize="Caption"
+              >
+                <span>
+                  01/01/2019
+                </span>
+              </td>
+              <td
+                className="c17"
+                fontSize="Caption"
+              >
+                <div>
+                  <span>
+                    <a
+                      className="c4"
+                      href="https://opencollective.com/brainjs"
+                    >
+                      Donation to brain.js
+                    </a>
+                     by 
+                    <a
+                      className="c4"
+                      href="https://opencollective.com/anonymized"
+                    >
+                      Random User
+                    </a>
+                  </span>
+                  <img
+                    alt=" | "
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
+                </div>
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                0
+                %
+              </td>
+              <td
+                className="c20"
+                fontSize="Paragraph"
+              >
+                $100.00
+              </td>
+            </tr>
+            <tr>
+              <td
+                className="c17"
+                fontSize="Caption"
+              >
+                <span>
+                  01/01/2019
+                </span>
+              </td>
+              <td
+                className="c17"
+                fontSize="Caption"
+              >
+                <div>
+                  <span>
+                    <a
+                      className="c4"
+                      href="https://opencollective.com/qubes-os"
+                    >
+                      Donation to Qubes OS
+                    </a>
+                     by 
+                    <a
+                      className="c4"
+                      href="https://opencollective.com/anonymized"
+                    >
+                      Random User
+                    </a>
+                  </span>
+                  <img
+                    alt=" | "
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
+                </div>
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                0
+                %
+              </td>
+              <td
+                className="c20"
+                fontSize="Paragraph"
+              >
+                $100.00
+              </td>
+            </tr>
+            <tr>
+              <td
+                className="c17"
+                fontSize="Caption"
+              >
+                <span>
+                  01/01/2019
+                </span>
+              </td>
+              <td
+                className="c17"
+                fontSize="Caption"
+              >
+                <div>
+                  <span>
+                    <a
+                      className="c4"
+                      href="https://opencollective.com/mochajs"
+                    >
+                      Monthly donation to MochaJS (Backers)
+                    </a>
+                     by 
+                    <a
+                      className="c4"
+                      href="https://opencollective.com/anonymized"
+                    >
+                      Random User
+                    </a>
+                  </span>
+                  <img
+                    alt=" | "
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
+                </div>
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                0
+                %
+              </td>
+              <td
+                className="c20"
+                fontSize="Paragraph"
+              >
+                $2.00
+              </td>
+            </tr>
+            <tr>
+              <td
+                className="c17"
+                fontSize="Caption"
+              >
+                <span>
+                  01/01/2019
+                </span>
+              </td>
+              <td
+                className="c17"
+                fontSize="Caption"
+              >
+                <div>
+                  <span>
+                    <a
+                      className="c4"
+                      href="https://opencollective.com/vapor"
+                    >
+                      Monthly donation to Vapor (Backers)
+                    </a>
+                     by 
+                    <a
+                      className="c4"
+                      href="https://opencollective.com/anonymized"
+                    >
+                      Random User
+                    </a>
+                  </span>
+                  <img
+                    alt=" | "
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
+                </div>
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                0
+                %
+              </td>
+              <td
+                className="c20"
+                fontSize="Paragraph"
+              >
+                $5.00
+              </td>
+            </tr>
+            <tr>
+              <td
+                className="c17"
+                fontSize="Caption"
+              >
+                <span>
+                  01/01/2019
+                </span>
+              </td>
+              <td
+                className="c17"
+                fontSize="Caption"
+              >
+                <div>
+                  <span>
+                    <a
+                      className="c4"
+                      href="https://opencollective.com/cider"
+                    >
+                      Monthly donation to CIDER (Backers)
+                    </a>
+                     by 
+                    <a
+                      className="c4"
+                      href="https://opencollective.com/anonymized"
+                    >
+                      Random User
+                    </a>
+                  </span>
+                  <img
+                    alt=" | "
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
+                </div>
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                0
+                %
+              </td>
+              <td
+                className="c20"
+                fontSize="Paragraph"
+              >
+                $2.00
+              </td>
+            </tr>
+            <tr>
+              <td
+                className="c17"
+                fontSize="Caption"
+              >
+                <span>
+                  01/01/2019
+                </span>
+              </td>
+              <td
+                className="c17"
+                fontSize="Caption"
+              >
+                <div>
+                  <span>
+                    <a
+                      className="c4"
+                      href="https://opencollective.com/lumo"
+                    >
+                      Monthly donation to lumo (Backers)
+                    </a>
+                     by 
+                    <a
+                      className="c4"
+                      href="https://opencollective.com/anonymized"
+                    >
+                      Random User
+                    </a>
+                  </span>
+                  <img
+                    alt=" | "
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
+                </div>
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                0
+                %
+              </td>
+              <td
+                className="c20"
+                fontSize="Paragraph"
+              >
+                $2.00
+              </td>
+            </tr>
+            <tr>
+              <td
+                className="c17"
+                fontSize="Caption"
+              >
+                <span>
+                  01/01/2019
+                </span>
+              </td>
+              <td
+                className="c17"
+                fontSize="Caption"
+              >
+                <div>
+                  <span>
+                    <a
+                      className="c4"
+                      href="https://opencollective.com/webpack"
+                    >
+                      Monthly donation to webpack (Backer)
+                    </a>
+                     by 
+                    <a
+                      className="c4"
+                      href="https://opencollective.com/anonymized"
+                    >
+                      Random User
+                    </a>
+                  </span>
+                  <img
+                    alt=" | "
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
+                </div>
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                0
+                %
+              </td>
+              <td
+                className="c20"
+                fontSize="Paragraph"
+              >
+                $10.00
+              </td>
+            </tr>
+            <tr>
+              <td
+                className="c17"
+                fontSize="Caption"
+              >
+                <span>
+                  01/01/2019
+                </span>
+              </td>
+              <td
+                className="c17"
+                fontSize="Caption"
+              >
+                <a
+                  className="c4"
+                  href="https://opencollective.com/rubocop"
+                >
+                  Monthly donation to RuboCop (Sponsors)
+                </a>
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                0
+                %
+              </td>
+              <td
+                className="c20"
+                fontSize="Paragraph"
+              >
+                $200.00
+              </td>
+            </tr>
+            <tr>
+              <td
+                className="c17"
+                fontSize="Caption"
+              >
+                <span>
+                  01/01/2019
+                </span>
+              </td>
+              <td
+                className="c17"
+                fontSize="Caption"
+              >
+                <div>
+                  <span>
+                    <a
+                      className="c4"
+                      href="https://opencollective.com/vuejs"
+                    >
+                      Monthly donation to vue (Backers)
+                    </a>
+                     by 
+                    <a
+                      className="c4"
+                      href="https://opencollective.com/anonymized"
+                    >
+                      Random User
+                    </a>
+                  </span>
+                  <img
+                    alt=" | "
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
+                </div>
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                0
+                %
+              </td>
+              <td
+                className="c20"
+                fontSize="Paragraph"
+              >
+                $2.00
+              </td>
+            </tr>
+            <tr>
+              <td
+                className="c17"
+                fontSize="Caption"
+              >
+                <span>
+                  01/01/2019
+                </span>
+              </td>
+              <td
+                className="c17"
+                fontSize="Caption"
+              >
+                <div>
+                  <span>
+                    <a
+                      className="c4"
+                      href="https://opencollective.com/falcon"
+                    >
+                      Monthly donation to falcon (backer)
+                    </a>
+                     by 
+                    <a
+                      className="c4"
+                      href="https://opencollective.com/anonymized"
+                    >
+                      Random User
+                    </a>
+                  </span>
+                  <img
+                    alt=" | "
+                    className="c18"
+                    height="1em"
+                    src="[IMAGE_URL]"
+                  />
+                </div>
+              </td>
+              <td
+                className="c19"
+                fontSize="Caption"
+              >
+                0
+                %
+              </td>
+              <td
+                className="c20"
+                fontSize="Paragraph"
+              >
+                $5.00
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div
+          className="c21"
+        >
+          <div
+            className="c22"
+          >
+            <hr
+              className="c23"
+            />
+            <div
+              className="c24"
+            >
+              <div
+                className="c25"
+              >
+                <span>
+                  Subtotal
+                </span>
+                <span
+                  className="-Clean-span c26"
+                >
+                  $858.00
+                </span>
+              </div>
+              <div
+                className="c27"
+              >
+                <span>
+                  VAT
+                </span>
+                <span
+                  className="-Clean-span c26"
+                >
+                  $0.00
+                </span>
+              </div>
+            </div>
+            <div
+              className="c28"
+            >
+              <span>
+                Total
+              </span>
+              <span
+                className="-Clean-span c29"
+              >
+                $858.00
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        className="footer c30"
+      >
+        <div
+          className="c31"
+        >
+          <a
+            className="c4"
+            href="https://opencollective.com/opensource"
+          >
+            <img
+              className="c32"
+              src="https://opencollective.com/proxy/images?src=https%3A%2F%2Fopencollective-production.s3-us-west-1.amazonaws.com%2F5f4a3920-11b6-11e8-b28d-b359f3c5ca14.png&height=200"
+            />
+          </a>
+        </div>
+        <div
+          className="c10"
+        >
+          <p
+            className="c33"
+          >
+            Open Source Collective 501c6 (Non Profit)
+          </p>
+          <p
+            className="c34"
+          >
+            <span>
+              EIN 82-2037583 
+340 S LEMON AVE #3717
+Walnut
+              <br />
+            </span>
+            <span>
+              CA 91789
+USA
+              <br />
+            </span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Single transaction invoice simple transaction 1`] = `
+.c1 {
+  box-sizing: border-box;
+  margin-bottom: 32px;
+}
+
+.c6 {
+  box-sizing: border-box;
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
+.c10 {
+  box-sizing: border-box;
+}
+
+.c23 {
+  box-sizing: border-box;
+  padding: 16px;
+}
+
+.c2 {
+  box-sizing: border-box;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-align-items: flex-start;
+  -webkit-box-align: flex-start;
+  -ms-flex-align: flex-start;
+  align-items: flex-start;
+}
+
+.c20 {
+  box-sizing: border-box;
+  margin-top: 16px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+  -webkit-justify-content: flex-end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
+}
+
+.c24 {
+  box-sizing: border-box;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+}
+
+.c26 {
+  box-sizing: border-box;
+  margin-top: 8px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+}
+
+.c29 {
+  box-sizing: border-box;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+.c9 {
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 16px;
+  -webkit-letter-spacing: -0.2px;
+  -moz-letter-spacing: -0.2px;
+  -ms-letter-spacing: -0.2px;
+  letter-spacing: -0.2px;
+  margin: 0;
+}
+
+.c32 {
+  font-size: 12px;
+  font-weight: bold;
+  line-height: 16px;
+  -webkit-letter-spacing: -0.2px;
+  -moz-letter-spacing: -0.2px;
+  -ms-letter-spacing: -0.2px;
+  letter-spacing: -0.2px;
+  margin: 0;
+  text-align: center;
+}
+
+.c33 {
+  color: #76777A;
+  font-size: 12px;
+  line-height: 16px;
+  -webkit-letter-spacing: -0.2px;
+  -moz-letter-spacing: -0.2px;
+  -ms-letter-spacing: -0.2px;
+  letter-spacing: -0.2px;
+  margin: 0;
+  margin-top: 8px;
+  text-align: center;
+}
+
+.c25 {
+  font-size: inherit;
+  font-weight: bold;
+  line-height: inherit;
+  -webkit-letter-spacing: -0.2px;
+  -moz-letter-spacing: -0.2px;
+  -ms-letter-spacing: -0.2px;
+  letter-spacing: -0.2px;
+  margin: 0;
+}
+
+.c28 {
+  font-size: inherit;
+  line-height: inherit;
+  -webkit-letter-spacing: -0.2px;
+  -moz-letter-spacing: -0.2px;
+  -ms-letter-spacing: -0.2px;
+  letter-spacing: -0.2px;
+  margin: 0;
+}
+
+.c5 {
+  color: #141414;
+  font-size: 18px;
+  font-weight: bold;
+  line-height: 20px;
+  -webkit-letter-spacing: -1.2px;
+  -moz-letter-spacing: -1.2px;
+  -ms-letter-spacing: -1.2px;
+  letter-spacing: -1.2px;
+  margin: 0;
+}
+
+.c8 {
+  font-size: 16px;
+  font-weight: bold;
+  line-height: 18px;
+  -webkit-letter-spacing: -0.4px;
+  -moz-letter-spacing: -0.4px;
+  -ms-letter-spacing: -0.4px;
+  letter-spacing: -0.4px;
+  margin: 0;
+}
+
+.c13 {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  padding-left: 16px;
+  padding-right: 16px;
+  font-size: 13px;
+  font-weight: 500;
+  border-radius: 4px 0 0 4px;
+}
+
+.c14 {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  padding-left: 16px;
+  padding-right: 16px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.c15 {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  padding-left: 16px;
+  padding-right: 16px;
+  font-size: 13px;
+  font-weight: 500;
+  text-align: center;
+}
+
+.c16 {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  padding-left: 16px;
+  padding-right: 16px;
+  font-size: 13px;
+  font-weight: 500;
+  text-align: right;
+  border-radius: 0 4px 4px 0;
+}
+
+.c17 {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  padding-left: 16px;
+  padding-right: 16px;
+  font-size: 11px;
+}
+
+.c18 {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  padding-left: 16px;
+  padding-right: 16px;
+  font-size: 11px;
+  text-align: center;
+}
+
+.c19 {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  padding-left: 16px;
+  padding-right: 16px;
+  font-size: 12px;
+  text-align: right;
+}
+
+.c12 {
+  background: #ebf4ff;
+  border-radius: 4px;
+}
+
+.c22 {
+  border: 0;
+  border-top: 1px solid #C4C7CC;
+  margin: 0;
+  height: 1px;
+  border-color: #E8E9EB;
+}
+
+.c21 {
+  font-size: 12px;
+  width: 50%;
+}
+
+.c27 {
+  background: #ebf4ff;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  font-weight: bold;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+.c30 {
+  border-color: #C4C7CC;
+  border-right: 1px solid;
+  border-color: #C4C7CC;
+  margin-right: 32px;
+  padding-right: 32px;
+}
+
+.c4 {
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  color: #145ECC;
+}
+
+.c4[disabled] {
+  pointer-events: none;
+  cursor: default;
+  color: #DCDEE0;
+}
+
+.c0 {
+  box-sizing: border-box;
+  padding: 64px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  min-height: 297mm;
+}
+
+.c3 {
+  box-sizing: border-box;
+  margin-bottom: 16px;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+}
+
+.c7 {
+  box-sizing: border-box;
+  margin-top: 80px;
+  text-align: right;
+  min-height: 100px;
+}
+
+.c11 {
+  box-sizing: border-box;
+  width: 100%;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+}
+
+.c31 {
+  box-sizing: border-box;
+  margin: 0px;
+  max-width: 100%;
+  height: auto;
+  max-width: 200px;
+  max-height: 100px;
+}
+
+<div
+  className="jsx-1770593735 InvoicePages betree"
+>
+  <div
+    className="jsx-1770593735 pages"
+  >
+    <div
+      className="page c0"
+    >
+      <div
+        className="header c1"
+      >
+        <div
+          className="c2"
+        >
+          <div
+            className="c3"
+          >
+            <a
+              className="c4"
+              href="https://opencollective.com/opensourcecollective"
+            >
+              <h1
+                className="-Clean-h1 c5"
+              >
+                Open Source Collective 501c6 (Non Profit)
+              </h1>
+            </a>
+            <div
+              className="c6"
+            >
+              <span>
+                EIN 82-2037583 
+340 S LEMON AVE #3717
+Walnut
+                <br />
+              </span>
+              <span>
+                CA 91789
+USA
+                <br />
+              </span>
+            </div>
+            <a
+              className="website c4"
+              href="https://opencollective.com/opensourcecollective"
+            >
+              https://opencollective.com/
+              opensourcecollective
+            </a>
+          </div>
+          <div
+            className="c7"
+          >
+            <h2
+              className="-Clean-h2 c8"
+            >
+              <span>
+                Bill to
+              </span>
+            </h2>
+            <div
+              className="c6"
+            >
+              <p
+                className="c9"
+              >
+                Benjamin Piouffle
+              </p>
+              <span>
+                98 avenue Gabriel Péri
+                <br />
+              </span>
+              <span>
+                92230 Gennevilliers
+                <br />
+              </span>
+              France
+            </div>
+          </div>
+        </div>
+        <div
+          className="c10"
+        >
+          <h2
+            className="-Clean-h2 c8"
+          >
+            Donation Receipt
+          </h2>
+          <div
+            className="jsx-1770593735 detail"
+          >
+            <label
+              className="jsx-1770593735"
+            >
+              Date:
+            </label>
+             
+            <span>
+              01/02/2019
+            </span>
+          </div>
+          <div
+            className="jsx-1770593735 detail reference"
+          >
+            <label
+              className="jsx-1770593735"
+            >
+              Reference:
+            </label>
+             
+            transaction-b7a55751
+          </div>
+        </div>
+      </div>
+      <div
+        className="c11"
+        width={1}
+      >
+        <table
+          style={
+            Object {
+              "borderCollapse": "collapse",
+              "width": "100%",
+            }
+          }
+        >
+          <thead>
+            <tr
+              className="c12"
+            >
+              <td
+                className="c13"
+                fontSize="LeadParagraph"
+                fontWeight={500}
+              >
+                <span>
+                  Date
+                </span>
+              </td>
+              <td
+                className="c14"
+                fontSize="LeadParagraph"
+                fontWeight={500}
+              >
+                <span>
+                  Description
+                </span>
+              </td>
+              <td
+                className="c15"
+                fontSize="LeadParagraph"
+                fontWeight={500}
+              >
+                <span>
+                  Tax %
+                </span>
+              </td>
+              <td
+                className="c16"
+                fontSize="LeadParagraph"
+                fontWeight={500}
+              >
+                <span>
+                  Total
+                </span>
+              </td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td
+                className="c17"
+                fontSize="Caption"
+              >
+                <span>
+                  12/02/2018
+                </span>
+              </td>
+              <td
+                className="c17"
+                fontSize="Caption"
+              >
+                <a
+                  className="c4"
+                  href="https://opencollective.com/duplicati"
+                >
+                  Monthly donation to duplicati (Backers)
+                </a>
+              </td>
+              <td
+                className="c18"
+                fontSize="Caption"
+              >
+                0
+                %
+              </td>
+              <td
+                className="c19"
+                fontSize="Paragraph"
+              >
+                $2.00
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div
+          className="c20"
+        >
+          <div
+            className="c21"
+          >
+            <hr
+              className="c22"
+            />
+            <div
+              className="c23"
+            >
+              <div
+                className="c24"
+              >
+                <span>
+                  Subtotal
+                </span>
+                <span
+                  className="-Clean-span c25"
+                >
+                  $2.00
+                </span>
+              </div>
+              <div
+                className="c26"
+              >
+                <span>
+                  VAT
+                </span>
+                <span
+                  className="-Clean-span c25"
+                >
+                  $0.00
+                </span>
+              </div>
+            </div>
+            <div
+              className="c27"
+            >
+              <span>
+                Total
+              </span>
+              <span
+                className="-Clean-span c28"
+              >
+                $2.00
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        className="footer c29"
+      >
+        <div
+          className="c30"
+        >
+          <a
+            className="c4"
+            href="https://opencollective.com/opensource"
+          >
+            <img
+              className="c31"
+              src="https://opencollective.com/proxy/images?src=https%3A%2F%2Fopencollective-production.s3-us-west-1.amazonaws.com%2F5f4a3920-11b6-11e8-b28d-b359f3c5ca14.png&height=200"
+            />
+          </a>
+        </div>
+        <div
+          className="c10"
+        >
+          <p
+            className="c32"
+          >
+            Open Source Collective 501c6 (Non Profit)
+          </p>
+          <p
+            className="c33"
+          >
+            <span>
+              EIN 82-2037583 
+340 S LEMON AVE #3717
+Walnut
+              <br />
+            </span>
+            <span>
+              CA 91789
+USA
+              <br />
+            </span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Single transaction invoice with taxes 1`] = `
+.c1 {
+  box-sizing: border-box;
+  margin-bottom: 32px;
+}
+
+.c6 {
+  box-sizing: border-box;
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
+.c10 {
+  box-sizing: border-box;
+}
+
+.c23 {
+  box-sizing: border-box;
+  padding: 16px;
+}
+
+.c2 {
+  box-sizing: border-box;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-align-items: flex-start;
+  -webkit-box-align: flex-start;
+  -ms-flex-align: flex-start;
+  align-items: flex-start;
+}
+
+.c20 {
+  box-sizing: border-box;
+  margin-top: 16px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+  -webkit-justify-content: flex-end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
+}
+
+.c24 {
+  box-sizing: border-box;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+}
+
+.c26 {
+  box-sizing: border-box;
+  margin-top: 8px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+}
+
+.c29 {
+  box-sizing: border-box;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+.c9 {
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 16px;
+  -webkit-letter-spacing: -0.2px;
+  -moz-letter-spacing: -0.2px;
+  -ms-letter-spacing: -0.2px;
+  letter-spacing: -0.2px;
+  margin: 0;
+}
+
+.c32 {
+  font-size: 12px;
+  font-weight: bold;
+  line-height: 16px;
+  -webkit-letter-spacing: -0.2px;
+  -moz-letter-spacing: -0.2px;
+  -ms-letter-spacing: -0.2px;
+  letter-spacing: -0.2px;
+  margin: 0;
+  text-align: center;
+}
+
+.c33 {
+  color: #76777A;
+  font-size: 12px;
+  line-height: 16px;
+  -webkit-letter-spacing: -0.2px;
+  -moz-letter-spacing: -0.2px;
+  -ms-letter-spacing: -0.2px;
+  letter-spacing: -0.2px;
+  margin: 0;
+  margin-top: 8px;
+  text-align: center;
+}
+
+.c25 {
+  font-size: inherit;
+  font-weight: bold;
+  line-height: inherit;
+  -webkit-letter-spacing: -0.2px;
+  -moz-letter-spacing: -0.2px;
+  -ms-letter-spacing: -0.2px;
+  letter-spacing: -0.2px;
+  margin: 0;
+}
+
+.c28 {
+  font-size: inherit;
+  line-height: inherit;
+  -webkit-letter-spacing: -0.2px;
+  -moz-letter-spacing: -0.2px;
+  -ms-letter-spacing: -0.2px;
+  letter-spacing: -0.2px;
+  margin: 0;
+}
+
+.c5 {
+  color: #141414;
+  font-size: 18px;
+  font-weight: bold;
+  line-height: 20px;
+  -webkit-letter-spacing: -1.2px;
+  -moz-letter-spacing: -1.2px;
+  -ms-letter-spacing: -1.2px;
+  letter-spacing: -1.2px;
+  margin: 0;
+}
+
+.c8 {
+  font-size: 16px;
+  font-weight: bold;
+  line-height: 18px;
+  -webkit-letter-spacing: -0.4px;
+  -moz-letter-spacing: -0.4px;
+  -ms-letter-spacing: -0.4px;
+  letter-spacing: -0.4px;
+  margin: 0;
+}
+
+.c13 {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  padding-left: 16px;
+  padding-right: 16px;
+  font-size: 13px;
+  font-weight: 500;
+  border-radius: 4px 0 0 4px;
+}
+
+.c14 {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  padding-left: 16px;
+  padding-right: 16px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.c15 {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  padding-left: 16px;
+  padding-right: 16px;
+  font-size: 13px;
+  font-weight: 500;
+  text-align: center;
+}
+
+.c16 {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  padding-left: 16px;
+  padding-right: 16px;
+  font-size: 13px;
+  font-weight: 500;
+  text-align: right;
+  border-radius: 0 4px 4px 0;
+}
+
+.c17 {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  padding-left: 16px;
+  padding-right: 16px;
+  font-size: 11px;
+}
+
+.c18 {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  padding-left: 16px;
+  padding-right: 16px;
+  font-size: 11px;
+  text-align: center;
+}
+
+.c19 {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  padding-left: 16px;
+  padding-right: 16px;
+  font-size: 12px;
+  text-align: right;
+}
+
+.c12 {
+  background: #ebf4ff;
+  border-radius: 4px;
+}
+
+.c22 {
+  border: 0;
+  border-top: 1px solid #C4C7CC;
+  margin: 0;
+  height: 1px;
+  border-color: #E8E9EB;
+}
+
+.c21 {
+  font-size: 12px;
+  width: 50%;
+}
+
+.c27 {
+  background: #ebf4ff;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  font-weight: bold;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+.c30 {
+  border-color: #C4C7CC;
+  border-right: 1px solid;
+  border-color: #C4C7CC;
+  margin-right: 32px;
+  padding-right: 32px;
+}
+
+.c4 {
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  color: #145ECC;
+}
+
+.c4[disabled] {
+  pointer-events: none;
+  cursor: default;
+  color: #DCDEE0;
+}
+
+.c0 {
+  box-sizing: border-box;
+  padding: 64px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  min-height: 297mm;
+}
+
+.c3 {
+  box-sizing: border-box;
+  margin-bottom: 16px;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+}
+
+.c7 {
+  box-sizing: border-box;
+  margin-top: 80px;
+  text-align: right;
+  min-height: 100px;
+}
+
+.c11 {
+  box-sizing: border-box;
+  width: 100%;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+}
+
+.c31 {
+  box-sizing: border-box;
+  margin: 0px;
+  max-width: 100%;
+  height: auto;
+  max-width: 200px;
+  max-height: 100px;
+}
+
+<div
+  className="jsx-1770593735 InvoicePages betree"
+>
+  <div
+    className="jsx-1770593735 pages"
+  >
+    <div
+      className="page c0"
+    >
+      <div
+        className="header c1"
+      >
+        <div
+          className="c2"
+        >
+          <div
+            className="c3"
+          >
+            <a
+              className="c4"
+              href="https://opencollective.com/opensourcecollective"
+            >
+              <h1
+                className="-Clean-h1 c5"
+              >
+                Open Source Collective 501c6 (Non Profit)
+              </h1>
+            </a>
+            <div
+              className="c6"
+            >
+              <span>
+                EIN 82-2037583 
+340 S LEMON AVE #3717
+Walnut
+                <br />
+              </span>
+              <span>
+                CA 91789
+USA
+                <br />
+              </span>
+            </div>
+            <a
+              className="website c4"
+              href="https://opencollective.com/opensourcecollective"
+            >
+              https://opencollective.com/
+              opensourcecollective
+            </a>
+          </div>
+          <div
+            className="c7"
+          >
+            <h2
+              className="-Clean-h2 c8"
+            >
+              <span>
+                Bill to
+              </span>
+            </h2>
+            <div
+              className="c6"
+            >
+              <p
+                className="c9"
+              >
+                Benjamin Piouffle
+              </p>
+              <span>
+                98 avenue Gabriel Péri
+                <br />
+              </span>
+              <span>
+                92230 Gennevilliers
+                <br />
+              </span>
+              France
+            </div>
+          </div>
+        </div>
+        <div
+          className="c10"
+        >
+          <h2
+            className="-Clean-h2 c8"
+          >
+            Donation Receipt
+          </h2>
+          <div
+            className="jsx-1770593735 detail"
+          >
+            <label
+              className="jsx-1770593735"
+            >
+              Date:
+            </label>
+             
+            <span>
+              03/31/2019
+            </span>
+          </div>
+          <div
+            className="jsx-1770593735 detail reference"
+          >
+            <label
+              className="jsx-1770593735"
+            >
+              Reference:
+            </label>
+             
+            201903.opensourcecollective.betree
+          </div>
+        </div>
+      </div>
+      <div
+        className="c11"
+        width={1}
+      >
+        <table
+          style={
+            Object {
+              "borderCollapse": "collapse",
+              "width": "100%",
+            }
+          }
+        >
+          <thead>
+            <tr
+              className="c12"
+            >
+              <td
+                className="c13"
+                fontSize="LeadParagraph"
+                fontWeight={500}
+              >
+                <span>
+                  Date
+                </span>
+              </td>
+              <td
+                className="c14"
+                fontSize="LeadParagraph"
+                fontWeight={500}
+              >
+                <span>
+                  Description
+                </span>
+              </td>
+              <td
+                className="c15"
+                fontSize="LeadParagraph"
+                fontWeight={500}
+              >
+                <span>
+                  Tax %
+                </span>
+              </td>
+              <td
+                className="c16"
+                fontSize="LeadParagraph"
+                fontWeight={500}
+              >
+                <span>
+                  Total
+                </span>
+              </td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td
+                className="c17"
+                fontSize="Caption"
+              >
+                <span>
+                  03/05/2019
+                </span>
+              </td>
+              <td
+                className="c17"
+                fontSize="Caption"
+              >
+                <a
+                  className="c4"
+                  href="https://opencollective.com/nerves-project"
+                >
+                  Donation to Nerves Project (TShirt)
+                </a>
+              </td>
+              <td
+                className="c18"
+                fontSize="Caption"
+              >
+                21
+                %
+              </td>
+              <td
+                className="c19"
+                fontSize="Paragraph"
+              >
+                $121.00
+              </td>
+            </tr>
+            <tr>
+              <td
+                className="c17"
+                fontSize="Caption"
+              >
+                <span>
+                  03/05/2019
+                </span>
+              </td>
+              <td
+                className="c17"
+                fontSize="Caption"
+              >
+                <a
+                  className="c4"
+                  href="https://opencollective.com/boostnoteio"
+                >
+                  Donation to Boostnote
+                </a>
+              </td>
+              <td
+                className="c18"
+                fontSize="Caption"
+              >
+                0
+                %
+              </td>
+              <td
+                className="c19"
+                fontSize="Paragraph"
+              >
+                $20.00
+              </td>
+            </tr>
+            <tr>
+              <td
+                className="c17"
+                fontSize="Caption"
+              >
+                <span>
+                  03/06/2019
+                </span>
+              </td>
+              <td
+                className="c17"
+                fontSize="Caption"
+              >
+                <a
+                  className="c4"
+                  href="https://opencollective.com/nerves-project"
+                >
+                  Donation to Nerves Project (TShirt)
+                </a>
+              </td>
+              <td
+                className="c18"
+                fontSize="Caption"
+              >
+                21
+                %
+              </td>
+              <td
+                className="c19"
+                fontSize="Paragraph"
+              >
+                $60.50
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div
+          className="c20"
+        >
+          <div
+            className="c21"
+          >
+            <hr
+              className="c22"
+            />
+            <div
+              className="c23"
+            >
+              <div
+                className="c24"
+              >
+                <span>
+                  Subtotal
+                </span>
+                <span
+                  className="-Clean-span c25"
+                >
+                  $99.00
+                </span>
+              </div>
+              <div
+                className="c26"
+              >
+                <span>
+                  VAT
+                </span>
+                <span
+                  className="-Clean-span c25"
+                >
+                  $31.50
+                </span>
+              </div>
+            </div>
+            <div
+              className="c27"
+            >
+              <span>
+                Total
+              </span>
+              <span
+                className="-Clean-span c28"
+              >
+                $130.50
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        className="footer c29"
+      >
+        <div
+          className="c30"
+        >
+          <a
+            className="c4"
+            href="https://opencollective.com/opensource"
+          >
+            <img
+              className="c31"
+              src="https://opencollective.com/proxy/images?src=https%3A%2F%2Fopencollective-production.s3-us-west-1.amazonaws.com%2F5f4a3920-11b6-11e8-b28d-b359f3c5ca14.png&height=200"
+            />
+          </a>
+        </div>
+        <div
+          className="c10"
+        >
+          <p
+            className="c32"
+          >
+            Open Source Collective 501c6 (Non Profit)
+          </p>
+          <p
+            className="c33"
+          >
+            <span>
+              EIN 82-2037583 
+340 S LEMON AVE #3717
+Walnut
+              <br />
+            </span>
+            <span>
+              CA 91789
+USA
+              <br />
+            </span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
