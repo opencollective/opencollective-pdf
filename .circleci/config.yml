@@ -1,0 +1,29 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/node:11.8.0
+    environment:
+      NODE_ENV: circleci
+    steps:
+      - checkout
+      - restore_cache:
+          name: Restore NPM cache
+          keys:
+            - npm-cache-{{ checksum "package.json" }}
+            - npm-cache-
+      - run:
+          name: Install dependencies
+          command: npm ci
+      - save_cache:
+          name: Persist NPM cache
+          key: npm-cache-{{ checksum "package.json" }}
+          paths:
+            - ../.npm
+      - run:
+          name: Run Tests
+          command: npm run test -- --ci --runInBand --coverage --reporters=default --reporters=jest-junit
+          environment:
+            JEST_JUNIT_OUTPUT: 'junit.xml'
+      - store_test_results:
+          path: 'junit.xml'
