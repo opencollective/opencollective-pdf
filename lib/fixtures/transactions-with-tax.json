@@ -1,0 +1,120 @@
+{
+  "slug": "201903.europecollective.betree",
+  "totalAmount": 7100,
+  "currency": "EUR",
+  "year": 2019,
+  "month": 3,
+  "day": null,
+  "host": {
+    "id": 11004,
+    "slug": "europe",
+    "name": "Open Collective Europe",
+    "image": "https://opencollective-production.s3-us-west-1.amazonaws.com/5f4a3920-11b6-11e8-b28d-b359f3c5ca14.png",
+    "website": "https://opencollective.com/europe",
+    "settings": {
+      "editor": "html",
+      "apply": true,
+      "invoiceTitle": "Invoice"
+    },
+    "type": "ORGANIZATION",
+    "location": {
+      "name": null,
+      "address": "852 avenue Gaston Lagaffe\n1005 Brussels",
+      "country": "BE"
+    },
+    "countryISO": null
+  },
+  "fromCollective": {
+    "id": 4469,
+    "slug": "betree",
+    "name": "Benjamin Piouffle",
+    "currency": "EUR",
+    "settings": {
+      "VAT": {
+        "number": "BE0414445663"
+      }
+    },
+    "location": {
+      "name": "France",
+      "address": "98 avenue Gabriel Péri\n92230 Gennevilliers",
+      "country": "FR"
+    }
+  },
+  "transactions": [
+    {
+      "id": 154214,
+      "createdAt": "Tue Mar 05 2019 21:20:25 GMT+0000 (Coordinated Universal Time)",
+      "description": "Large Hamburger",
+      "amount": 1050,
+      "currency": "EUR",
+      "type": "CREDIT",
+      "hostCurrency": "EUR",
+      "netAmountInCollectiveCurrency": 1050,
+      "taxAmount": 50,
+      "fromCollective": {
+        "id": 4469,
+        "slug": "betree",
+        "name": "Benjamin Piouffle"
+      },
+      "usingVirtualCardFromCollective": null,
+      "collective": {
+        "id": 9449,
+        "slug": "boostnoteio",
+        "name": "Boostnote"
+      },
+      "order": {
+        "id": 4242,
+        "tier": null,
+        "quantity": 1,
+        "data": {
+          "tax": {
+            "id": "VAT",
+            "taxerCountry": "BE",
+            "taxedCountry": "BE",
+            "percentage": 5,
+            "taxIDNumber": "BE0414445663"
+          }
+        }
+      }
+    },
+    {
+      "id": 154216,
+      "createdAt": "Wed Mar 06 2019 17:44:07 GMT+0000 (Coordinated Universal Time)",
+      "description": "Order for a swag (TShirt)",
+      "amount": 6050,
+      "currency": "EUR",
+      "type": "CREDIT",
+      "hostCurrency": "EUR",
+      "netAmountInCollectiveCurrency": 5240,
+      "taxAmount": 1050,
+      "fromCollective": {
+        "id": 4469,
+        "slug": "betree",
+        "name": "Benjamin Piouffle"
+      },
+      "usingVirtualCardFromCollective": null,
+      "collective": {
+        "id": 827,
+        "slug": "nerves-project",
+        "name": "Nerves Project"
+      },
+      "order": {
+        "id": 5534,
+        "quantity": 2,
+        "data": {
+          "tax": {
+            "id": "VAT",
+            "taxerCountry": "BE",
+            "taxedCountry": "BE",
+            "percentage": 21,
+            "taxIDNumber": "BE0414445663"
+          }
+        },
+        "tier": {
+          "id": 555,
+          "type": "PRODUCT"
+        }
+      }
+    }
+  ]
+}

@@ -5,7 +5,13 @@ npm-debug.log.*
 *.log
 yarn.lock
 .DS_Store
-.vscode/*
 build
 cypress/screenshots
 *.swp
+dist
+out
+coverage
+
+# VSCode
+.vscode
+.history

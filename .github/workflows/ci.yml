@@ -1,0 +1,128 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+
+env:
+  CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2-beta
+
+      - name: Setup node
+        uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+
+      - name: Restore node_modules
+        uses: actions/cache@v1
+        id: node-modules
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-modules-${{ hashFiles('package-lock.json') }}
+
+      - name: Restore .npm cache
+        if: steps.node-modules.outputs.cache-hit != 'true'
+        uses: actions/cache@v1
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-npm-cache-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-npm-cache-${{ hashFiles('package-lock.json') }}
+            ${{ runner.os }}-npm-cache-
+
+      - run: npm config set @bit:registry https://node.bit.dev
+
+      - name: Install dependencies
+        if: steps.node-modules.outputs.cache-hit != 'true'
+        run: CYPRESS_INSTALL_BINARY=0 npm ci --prefer-offline --no-audit
+
+      - run: npm run lint:quiet
+
+  prettier:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2-beta
+
+      - name: Setup node
+        uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+
+      - name: Restore node_modules
+        uses: actions/cache@v1
+        id: node-modules
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-modules-${{ hashFiles('package-lock.json') }}
+
+      - name: Restore .npm cache
+        if: steps.node-modules.outputs.cache-hit != 'true'
+        uses: actions/cache@v1
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-npm-cache-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-npm-cache-${{ hashFiles('package-lock.json') }}
+            ${{ runner.os }}-npm-cache-
+
+      - run: npm config set @bit:registry https://node.bit.dev
+
+      - name: Install dependencies
+        if: steps.node-modules.outputs.cache-hit != 'true'
+        run: CYPRESS_INSTALL_BINARY=0 npm ci --prefer-offline --no-audit
+
+      - run: npm run prettier:check
+
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2-beta
+
+      - name: Setup node
+        uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+
+      - name: Restore node_modules
+        uses: actions/cache@v1
+        id: node-modules
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-modules-${{ hashFiles('package-lock.json') }}
+
+      - name: Restore .npm cache
+        if: steps.node-modules.outputs.cache-hit != 'true'
+        uses: actions/cache@v1
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-npm-cache-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            - ${{ runner.os }}-npm-cache-${{ hashFiles('package-lock.json') }}
+            - ${{ runner.os }}-npm-cache-
+
+      - run: npm config set @bit:registry https://node.bit.dev
+
+      - name: Install dependencies
+        if: steps.node-modules.outputs.cache-hit != 'true'
+        run: CYPRESS_INSTALL_BINARY=0 npm ci --prefer-offline --no-audit
+
+      - run: |
+          npm run test -- --ci --coverage --reporters=default --reporters=jest-junit
+          npm run test:coverage

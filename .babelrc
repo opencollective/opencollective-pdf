@@ -4,17 +4,22 @@
       "next/babel",
       {
         "preset-env": {
-          "modules": "auto"
+          "modules": "auto",
+          "targets": { "node": "current" }
+        },
+        "transform-runtime": {
+          "useESModules": false
         }
       }
     ]
   ],
   "plugins": [
     "lodash",
+    "babel-plugin-styled-components",
     [
       "react-intl",
       {
-        "messagesDir": "./build/messages/"
+        "messagesDir": "./dist/messages/"
       }
     ]
   ],

@@ -1,0 +1,65 @@
+{
+  "slug": null,
+  "dateFrom": "2018-12-31T23:00:00.000Z",
+  "dateTo": "2019-12-31T23:00:00.000Z",
+  "totalAmount": 4000,
+  "currency": "USD",
+  "year": null,
+  "month": null,
+  "day": null,
+  "host": {
+    "id": 9805,
+    "slug": "opensourceorg",
+    "name": "Open Source Collective",
+    "image": "http://res.cloudinary.com/opencollective/image/upload/v1512157538/osc-transparent_phrlrh.png",
+    "website": null,
+    "settings": {},
+    "type": "ORGANIZATION",
+    "location": { "name": null, "address": "1 HackerWay, San Francisco" },
+    "countryISO": "US"
+  },
+  "fromCollective": {
+    "id": 10884,
+    "slug": "test43wow",
+    "name": "Zappa",
+    "currency": "USD",
+    "settings": {},
+    "location": {
+      "name": "France",
+      "address": "75 avenue des bacs de fleurs\n83000, Toulon"
+    },
+    "countryISO": "FR"
+  },
+  "transactions": [
+    {
+      "id": 52924,
+      "createdAt": "Tue Feb 12 2019 14:35:00 GMT+0100 (GMT+01:00)",
+      "description": "Donation to APEX",
+      "amount": 2000,
+      "currency": "USD",
+      "type": "CREDIT",
+      "hostCurrency": "USD",
+      "netAmountInCollectiveCurrency": 1712,
+      "taxAmount": null,
+      "fromCollective": { "id": 10884, "slug": "test43wow", "name": "Zappa" },
+      "usingVirtualCardFromCollective": null,
+      "collective": { "id": 43, "slug": "apex", "name": "APEX" },
+      "order": { "id": 1000, "tier": null }
+    },
+    {
+      "id": 53096,
+      "createdAt": "Mon Mar 04 2019 09:23:46 GMT+0100 (GMT+01:00)",
+      "description": "Donation to APEX",
+      "amount": 2000,
+      "currency": "USD",
+      "type": "CREDIT",
+      "hostCurrency": "USD",
+      "netAmountInCollectiveCurrency": 1712,
+      "taxAmount": null,
+      "fromCollective": { "id": 10884, "slug": "test43wow", "name": "Zappa" },
+      "usingVirtualCardFromCollective": null,
+      "collective": { "id": 43, "slug": "apex", "name": "APEX" },
+      "order": { "id": 1001, "tier": null }
+    }
+  ]
+}

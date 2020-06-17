@@ -1,9 +1,8 @@
-# Open Collective Invoices
+# Open Collective PDF service
 
 [![Circle CI](https://circleci.com/gh/opencollective/opencollective-invoices/tree/master.svg?style=shield)](https://circleci.com/gh/opencollective/opencollective-invoices/tree/master)
 [![Slack Status](https://slack.opencollective.org/badge.svg)](https://slack.opencollective.org)
-[![Dependency Status](https://david-dm.org/opencollective/opencollective-invoices/status.svg)](https://david-dm.org/opencollective/opencollective-invoices)
-[![Greenkeeper badge](https://badges.greenkeeper.io/opencollective/opencollective-invoices.svg)](https://greenkeeper.io/)
+[![codecov](https://codecov.io/gh/opencollective/opencollective-invoices/branch/master/graph/badge.svg)](https://codecov.io/gh/opencollective/opencollective-invoices)
 
 ## Foreword
 
@@ -13,14 +12,8 @@ If you see a step below that could be improved (or is outdated), please update t
 
 ### Prerequisite
 
-1. Make sure you have Node.js version >= 10.
-
-- We recommend using [nvm](https://github.com/creationix/nvm): `nvm use`.
-
-2. Make sure you have [GraphicsMagick](http://www.graphicsmagick.org) installed.
-
-- On Debian/Ubuntu: `sudo apt-get install graphicsmagick`
-- On MacOS (with [Homebrew](https://brew.sh/)): `brew install graphicsmagick`
+Make sure you have Node.js version >= 10.
+We recommend using [nvm](https://github.com/creationix/nvm): `nvm use`.
 
 ### Install
 
@@ -36,8 +29,8 @@ npm install
 
 This project requires an access to the Open Collective API. You have two options:
 
-- `cp .env-staging .env` to connect to the Open Collective staging API
-- `cp .env-local .env` to connect to the API running locally
+- `cp .env.staging .env` to connect to the Open Collective staging API
+- `cp .env.local .env` to connect to the API running locally
 
 If you decide to pick the local strategy, make sure you install and run the [opencollective-api](https://github.com/opencollective/opencollective-api) project.
 
@@ -49,11 +42,35 @@ To start the service:
 npm run dev
 ```
 
-If you use this service through frontend, you're ready to go - frontend will pass
-your authorization token directly to the app.
+#### Usage with fixture data
 
-However if you're using the service directly you'll need to set an `Authorization`
-header to identify your requests.
+This is the easy way to start developing. Just go to the root URL http://localhost:3002/
+to see a list of test pages and click on any of them to load it in the right pane.
+
+The page will auto-refresh everytime a change is made.
+
+#### Usage with frontend
+
+If you use this service through local frontend, you're ready to go - frontend will pass your authorization token directly to the app.
+
+However this is not practical to develop, you should only use it to debug the
+bridge between the two services.
+
+#### Calling URLs directly
+
+This method can be usefull to debug staging or production invoices, or to work
+with you local development data. It is also the best way if you need to make changes to
+the graphql queries.
+
+The easier to make it work is to go to `/applications` on the frontend,
+generate an api key, and to add `?app_key=your_key_here` to all your requests.
+
+**Tips**
+
+- Replace `.html` by `.pdf` to see the generated pdf.
+- Add `?pageFormat=A4` with `A4` or `Letter` to change page format
+- Add `?debug=true` to the URL to see verbose data on the document
+- Add `?raw=true` to disabled HTML sanitazing (useful to debug missing attributes)
 
 ## Contributing
 
@@ -64,25 +81,3 @@ TL;DR: we use [Prettier](https://prettier.io/) and [ESLint](https://eslint.org/)
 ## Tests
 
 You can run the tests using `npm test`.
-
-## Deployment
-
-To deploy to staging or production, you need to be a core member of the Open Collective team.
-
-### Staging (now)
-
-```
-now -e API_KEY=09u624Pc9F47zoGLlkg1TBSbOl2ydSAq -e API_URL=https://api-staging.opencollective.com
-now alias invoices-staging.opencollective.com
-```
-
-- URL: https://invoices-staging.opencollective.com/
-
-### Production (now)
-
-```
-now -e API_KEY=@opencollective_api_key -e API_URL=https://api.opencollective.com
-now alias invoices.opencollective.com
-```
-
-- URL: https://invoices.opencollective.com/
