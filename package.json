@@ -42,7 +42,7 @@
     "qrcode.react": "1.0.0",
     "react": "~16.13.1",
     "react-dom": "~16.13.1",
-    "react-intl": "~4.5.3",
+    "react-intl": "~4.7.5",
     "rebass": "~4.0.7",
     "sanitize-html": "~1.23.0",
     "styled-components": "5.0.1",
