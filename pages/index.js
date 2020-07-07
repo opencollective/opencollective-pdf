@@ -37,6 +37,7 @@ export default class Home extends Component {
     'organization-gift-cards-monthly': 'Organization with gift cards',
     'transactions-with-tax': 'With taxes',
     'transactions-with-date-range': 'With date range',
+    'gift-cards': 'Gift cards',
   };
 
   updateSearch = (changes) => {
