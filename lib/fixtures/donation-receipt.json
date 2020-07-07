@@ -16,8 +16,7 @@
     "website": null,
     "settings": {},
     "type": "ORGANIZATION",
-    "location": { "name": null, "address": "1 HackerWay, San Francisco" },
-    "countryISO": "US"
+    "location": { "country": "US", "address": "1 HackerWay, San Francisco" }
   },
   "fromCollective": {
     "id": 10884,
@@ -25,8 +24,7 @@
     "name": "Zappa",
     "currency": "USD",
     "settings": {},
-    "location": { "name": "France", "address": "7503 Rockwell Street\nPeabody, MA 01960" },
-    "countryISO": "US"
+    "location": { "country": "US", "address": "7503 Rockwell Street\nPeabody, MA 01960" }
   },
   "transactions": [
     {

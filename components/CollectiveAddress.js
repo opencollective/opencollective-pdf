@@ -1,7 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { get } from 'lodash';
-import { countries as countriesEN } from 'i18n-iso-countries/langs/en.json';
+import countries from 'i18n-iso-countries';
+import countriesEN from 'i18n-iso-countries/langs/en.json';
+
+countries.registerLocale(countriesEN);
 
 /**
  * Pretty render a location (multiline)
@@ -9,7 +12,7 @@ import { countries as countriesEN } from 'i18n-iso-countries/langs/en.json';
 const CollectiveAddress = ({ collective }) => {
   const address = get(collective, 'location.address');
   const countryISO = get(collective, 'location.country');
-  const country = countryISO && (countriesEN[countryISO] || countryISO);
+  const country = countryISO && (countries.getName(countryISO, 'fr') || countryISO);
 
   return (
     <React.Fragment>
