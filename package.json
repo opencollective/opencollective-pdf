@@ -16,7 +16,7 @@
     "@bit/opencollective.design-system.components.styled-container": "1.0.0",
     "@bit/opencollective.design-system.components.styled-hr": "1.0.0",
     "@bit/opencollective.design-system.components.styled-link": "1.1.0",
-    "@bit/opencollective.design-system.components.styled-text": "1.0.0",
+    "@bit/opencollective.design-system.components.styled-text": "2.0.0",
     "@bit/opencollective.design-system.theme": "2.0.0",
     "@styled-icons/feather": "10.6.0",
     "@styled-system/theme-get": "5.1.2",
