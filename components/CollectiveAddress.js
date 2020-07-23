@@ -12,7 +12,7 @@ countries.registerLocale(countriesEN);
 const CollectiveAddress = ({ collective }) => {
   const address = get(collective, 'location.address');
   const countryISO = get(collective, 'location.country');
-  const country = countryISO && (countries.getName(countryISO, 'fr') || countryISO);
+  const country = countryISO && (countries.getName(countryISO, 'en') || countryISO);
 
   return (
     <React.Fragment>
