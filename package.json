@@ -64,9 +64,7 @@
     "cypress": "TZ=UTC cypress run",
     "prettier": "prettier \"*.@(js|json|md)\" \"@(components|lib|pages|scripts|test)/**/*.@(js|json|md)\"",
     "prettier:check": "npm run prettier -- --check",
-    "prettier:write": "npm run prettier -- --write",
-    "deploy:staging": "./scripts/pre-deploy.sh staging && now -e API_KEY=09u624Pc9F47zoGLlkg1TBSbOl2ydSAq -e API_URL=https://api-staging.opencollective.com -e WEBSITE_URL=https://staging.opencollective.com && now alias invoices-staging.opencollective.com",
-    "deploy:production": "./scripts/pre-deploy.sh production && now -e API_KEY=@opencollective_api_key -e API_URL=https://api.opencollective.com -e WEBSITE_URL=https://opencollective.com && now alias invoices.opencollective.com"
+    "prettier:write": "npm run prettier -- --write"
   },
   "devDependencies": {
     "@babel/cli": "^7.10.1",
