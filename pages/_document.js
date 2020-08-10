@@ -1,6 +1,7 @@
 import React from 'react';
 import path from 'path';
 import PropTypes from 'prop-types';
+import { get } from 'lodash';
 import NextJSDocument from 'next/document';
 import { ServerStyleSheet } from 'styled-components';
 import { componentToPDFBuffer } from '../lib/pdf-utils';
@@ -101,7 +102,8 @@ export default class Document extends NextJSDocument {
             <PDFDocument html={htmlContent} styles={getRawCssFromSheet(sheet)} />,
             { pageFormat: query.pageFormat || 'A4' },
           );
-          res.setHeader('Content-disposition', `inline; filename="result.pdf`);
+
+          res.setHeader('Content-disposition', `inline; filename="${get(ctx, 'query.filename', 'result.pdf')}"`);
           res.setHeader('Content-Type', 'application/pdf');
           res.end(buffer);
         }
