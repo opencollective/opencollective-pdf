@@ -1,7 +1,6 @@
 # Open Collective PDF service
 
 ![Build and Push](https://github.com/wei/pull/workflows/Build%20and%20Push/badge.svg)
-[![Slack Status](https://slack.opencollective.org/badge.svg)](https://slack.opencollective.org)
 [![codecov](https://codecov.io/gh/opencollective/opencollective-invoices/branch/master/graph/badge.svg)](https://codecov.io/gh/opencollective/opencollective-invoices)
 
 ## Foreword
