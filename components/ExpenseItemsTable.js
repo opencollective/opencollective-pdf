@@ -10,13 +10,13 @@ const ExpenseItemsTable = ({ items, expense }) => {
     <table style={{ borderCollapse: 'collapse', width: '100%' }}>
       <thead>
         <Tr background="#ebf4ff" borderRadius="4px">
-          <Td fontSize="LeadParagraph" fontWeight={500} borderRadius="4px 0 0 4px" width={50}>
+          <Td fontSize="13px" fontWeight={500} borderRadius="4px 0 0 4px" width={50}>
             <FormattedMessage id="date" defaultMessage="Date" />
           </Td>
-          <Td fontSize="LeadParagraph" fontWeight={500}>
+          <Td fontSize="13px" fontWeight={500}>
             <FormattedMessage id="description" defaultMessage="Description" />
           </Td>
-          <Td fontSize="LeadParagraph" fontWeight={500} textAlign="right">
+          <Td fontSize="13px" fontWeight={500} textAlign="right">
             <FormattedMessage id="amount" defaultMessage="Amount" />
           </Td>
         </Tr>
@@ -25,10 +25,10 @@ const ExpenseItemsTable = ({ items, expense }) => {
         {items.map((item) => {
           return (
             <tr key={item.id}>
-              <Td fontSize="Caption">
+              <Td fontSize="11px">
                 <FormattedDate value={new Date(item.incurredAt)} day="2-digit" month="2-digit" year="numeric" />
               </Td>
-              <Td fontSize="Caption">
+              <Td fontSize="11px">
                 {item.description || (
                   <Span color="black.500" fontStyle="italic">
                     <FormattedMessage id="NoDescription" defaultMessage="No description provided" />
