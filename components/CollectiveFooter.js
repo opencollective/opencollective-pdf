@@ -19,7 +19,7 @@ const CollectiveFooter = ({ collective }) => {
         <P fontWeight="bold" textAlign="center">
           {collective.name}
         </P>
-        <P mt={2} textAlign="center" color="black.600">
+        <P mt={2} fontSize="12px" textAlign="center" color="black.600">
           <CollectiveAddress collective={collective} />
         </P>
       </Box>

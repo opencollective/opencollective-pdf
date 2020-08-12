@@ -10,7 +10,7 @@ export const Td = styled.td`
 `;
 
 Td.defaultProps = {
-  fontSize: 'Paragraph',
+  fontSize: '12px',
   px: '16px',
   py: '10px',
 };

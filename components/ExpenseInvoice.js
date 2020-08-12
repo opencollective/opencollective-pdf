@@ -56,11 +56,11 @@ const ExpenseInvoice = ({ expense, pageFormat }) => {
               <Flex flexWrap="wrap" alignItems="flex-start">
                 <Box mb={3} css={{ flexGrow: 1 }}>
                   <Box my={2}>
-                    <H2 mb={1}>
+                    <H2 fontSize="16px" lineHeight="18px" mb={1}>
                       <FormattedMessage id="billFrom" defaultMessage="From" />
                     </H2>
                     <StyledLink href={`https://opencollective.com/${payee.slug}`}>
-                      <P fontWeight="bold" fontSize="LeadParagraph" color="black.800">
+                      <P fontWeight="bold" fontSize="13px" color="black.800">
                         {payee.name}
                       </P>
                     </StyledLink>
@@ -68,11 +68,11 @@ const ExpenseInvoice = ({ expense, pageFormat }) => {
                   </Box>
                 </Box>
                 <Box mt={80} pr={3} css={{ minHeight: 100 }}>
-                  <H2 mb={1}>
+                  <H2 fontSize="16px" lineHeight="18px" mb={1}>
                     <FormattedMessage id="billTo" defaultMessage="Bill to" />
                   </H2>
                   <StyledLink href={`https://opencollective.com/${billToAccount.slug}`}>
-                    <P fontWeight="bold" fontSize="LeadParagraph" color="black.800">
+                    <P fontWeight="bold" fontSize="13px" color="black.800">
                       {billToAccount.name}
                     </P>
                   </StyledLink>
@@ -84,7 +84,7 @@ const ExpenseInvoice = ({ expense, pageFormat }) => {
 
               <Box mt={4}>
                 <StyledLink href={`https://opencollective.com/${account.slug}/expenses/${expense.legacyId}`}>
-                  <H2 mb={1} color="black.900" css={{ textDecoration: 'underline' }}>
+                  <H2 fontSize="16px" lineHeight="18px" mb={1} color="black.900" css={{ textDecoration: 'underline' }}>
                     <FormattedMessage
                       id="Expense.Description"
                       defaultMessage="Expense #{id}: {description}"
@@ -111,7 +111,7 @@ const ExpenseInvoice = ({ expense, pageFormat }) => {
             {pageNumber === chunkedItems.length - 1 && (
               <Box>
                 <Flex justifyContent="flex-end" mt={3}>
-                  <Container width={0.5} fontSize="Paragraph">
+                  <Container width={0.5} fontSize="12px">
                     <Container
                       display="flex"
                       justifyContent="space-between"

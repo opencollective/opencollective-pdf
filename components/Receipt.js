@@ -187,22 +187,22 @@ export class Receipt extends React.Component {
       <table style={{ borderCollapse: 'collapse', width: '100%' }}>
         <thead>
           <Tr background="#ebf4ff" borderRadius="4px">
-            <Td fontSize="LeadParagraph" fontWeight={500} borderRadius="4px 0 0 4px">
+            <Td fontSize="13px" fontWeight={500} borderRadius="4px 0 0 4px">
               <FormattedMessage id="date" defaultMessage="Date" />
             </Td>
-            <Td fontSize="LeadParagraph" fontWeight={500}>
+            <Td fontSize="13px" fontWeight={500}>
               <FormattedMessage id="description" defaultMessage="Description" />
             </Td>
-            <Td fontSize="LeadParagraph" fontWeight={500} textAlign="center">
+            <Td fontSize="13px" fontWeight={500} textAlign="center">
               <FormattedMessage id="quantity" defaultMessage="QTY" />
             </Td>
-            <Td fontSize="LeadParagraph" fontWeight={500} textAlign="center" width={80}>
+            <Td fontSize="13px" fontWeight={500} textAlign="center" width={80}>
               <FormattedMessage id="unitNetPrice" defaultMessage="Unit Price" />
             </Td>
-            <Td fontSize="LeadParagraph" fontWeight={500} textAlign="center">
+            <Td fontSize="13px" fontWeight={500} textAlign="center">
               <FormattedMessage id="taxPercent" defaultMessage="Tax&nbsp;%" />
             </Td>
-            <Td fontSize="LeadParagraph" fontWeight={500} textAlign="right" borderRadius="0 4px 4px 0">
+            <Td fontSize="13px" fontWeight={500} textAlign="right" borderRadius="0 4px 4px 0">
               <FormattedMessage id="netAmount" defaultMessage="Net Amount" />
             </Td>
           </Tr>
@@ -216,17 +216,17 @@ export class Receipt extends React.Component {
 
             return (
               <tr key={transaction.id}>
-                <Td fontSize="Caption">
+                <Td fontSize="11px">
                   <CustomIntlDate date={new Date(transaction.createdAt)} />
                 </Td>
-                <Td fontSize="Caption">{this.transactionDescription(transaction)}</Td>
-                <Td fontSize="Caption" textAlign="center">
+                <Td fontSize="11px">{this.transactionDescription(transaction)}</Td>
+                <Td fontSize="11px" textAlign="center">
                   {quantity}
                 </Td>
-                <Td fontSize="Caption" textAlign="center">
+                <Td fontSize="11px" textAlign="center">
                   {formatCurrency(unitGrossPrice, transaction.currency)}
                 </Td>
-                <Td fontSize="Caption" textAlign="center">
+                <Td fontSize="11px" textAlign="center">
                   {isNil(transaction.taxAmount) ? '-' : `${getTransactionTaxPercent(transaction)}%`}
                 </Td>
                 <Td textAlign="right">{formatCurrency(amount, transaction.hostCurrency)}</Td>
@@ -276,7 +276,7 @@ export class Receipt extends React.Component {
                   <Flex flexWrap="wrap" alignItems="flex-start">
                     <Box mb={3} css={{ flexGrow: 1 }}>
                       <StyledLink href={`https://opencollective.com/${invoice.host.slug}`}>
-                        <H1 m={0} color="black.900">
+                        <H1 fontSize="18px" lineHeight="20px" m={0} color="black.900">
                           {invoice.host.name}
                         </H1>
                       </StyledLink>
@@ -288,11 +288,11 @@ export class Receipt extends React.Component {
                       </StyledLink>
                     </Box>
                     <Box mt={80} pr={3} css={{ minHeight: 100 }}>
-                      <H2>
+                      <H2 fontSize="16px" lineHeight="18px">
                         <FormattedMessage id="billTo" defaultMessage="Bill to" />
                       </H2>
                       <Box my={2}>
-                        <P fontWeight={500} fontSize="LeadParagraph">
+                        <P fontWeight={500} fontSize="13px">
                           {isIncognito ? createdByUser.name : invoice.fromCollective.name}
                         </P>
                         <CollectiveAddress collective={invoice.fromCollective} />
@@ -302,7 +302,7 @@ export class Receipt extends React.Component {
                   </Flex>
 
                   <Box>
-                    <H2>
+                    <H2 fontSize="16px" lineHeight="18px">
                       {invoice.title || (
                         <FormattedMessage id="invoice.donationReceipt" defaultMessage="Payment Receipt" />
                       )}
@@ -332,7 +332,7 @@ export class Receipt extends React.Component {
                 {this.renderTransactionsTable(transactionsChunk)}
                 {pageNumber === chunkedTransactions.length - 1 && (
                   <Flex justifyContent="flex-end" mt={3}>
-                    <Container width={0.5} fontSize="Paragraph">
+                    <Container width={0.5} fontSize="12px">
                       <StyledHr borderColor="black.200" />
                       <Box p={3} minWidth={225}>
                         <Flex justifyContent="space-between">
@@ -377,7 +377,7 @@ export class Receipt extends React.Component {
               {pageNumber === chunkedTransactions.length - 1 && (
                 <Flex flex="3" flexDirection="column" justifyContent="space-between">
                   <Box>
-                    <P fontSize="Caption" textAlign="left" whiteSpace="pre-wrap">
+                    <P fontSize="11px" textAlign="left" whiteSpace="pre-wrap">
                       {invoice.extraInfo}
                     </P>
                   </Box>
