@@ -86,7 +86,7 @@
     "eslint-plugin-graphql": "^4.0.0",
     "eslint-plugin-import": "^2.22.0",
     "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-react": "^7.20.0",
+    "eslint-plugin-react": "^7.20.6",
     "eslint-plugin-react-hooks": "^3.0.0",
     "file-loader": "^6.0.0",
     "jest": "^26.4.2",
