@@ -12,7 +12,10 @@ const CollectiveFooter = ({ collective }) => {
     <Flex justifyContent="center" alignItems="center">
       <Container borderRight="1px solid" borderColor="black.400" pr={4} mr={4}>
         <StyledLink href={collective.website}>
-          <Image css={{ maxWidth: 200, maxHeight: 100 }} src={imagePreview(collective.image, null, { height: 200 })} />
+          <Image
+            css={{ maxWidth: 200, maxHeight: 100 }}
+            src={imagePreview(collective.imageUrl ?? collective.image, null, { height: 200 })}
+          />
         </StyledLink>
       </Container>
       <Box>
@@ -31,6 +34,7 @@ CollectiveFooter.propTypes = {
   collective: PropTypes.shape({
     slug: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
+    imageUrl: PropTypes.string,
     image: PropTypes.string,
     website: PropTypes.string,
   }).isRequired,
