@@ -84,7 +84,7 @@
     "eslint-config-opencollective": "^2.2.0",
     "eslint-plugin-babel": "^5.2.1",
     "eslint-plugin-graphql": "^4.0.0",
-    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-react": "^7.20.6",
     "eslint-plugin-react-hooks": "^4.1.0",
