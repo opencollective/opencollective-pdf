@@ -1,7 +1,6 @@
 # Open Collective PDF service
 
 ![Build and Push](https://github.com/wei/pull/workflows/Build%20and%20Push/badge.svg)
-[![codecov](https://codecov.io/gh/opencollective/opencollective-invoices/branch/master/graph/badge.svg)](https://codecov.io/gh/opencollective/opencollective-invoices)
 
 ## Foreword
 
