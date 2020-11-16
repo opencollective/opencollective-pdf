@@ -5,6 +5,7 @@ import { Receipt } from '../../../components/Receipt';
 import PageFormat from '../../../lib/constants/page-format';
 import { fetchTransactionInvoice } from '../../../lib/graphql/queries';
 import { getAccessTokenFromReq } from '../../../lib/req-utils';
+import { getTransactionAmount } from '../../../lib/transactions';
 
 class TransactionReceipt extends React.Component {
   static async getInitialProps(ctx) {
@@ -13,7 +14,13 @@ class TransactionReceipt extends React.Component {
       const { transactionUuid } = ctx.query;
       const accessToken = getAccessTokenFromReq(ctx);
       const receipt = await fetchTransactionInvoice(transactionUuid, accessToken, ctx.query.app_key);
-      return { receipt, pageFormat: ctx.query.pageFormat };
+      return {
+        pageFormat: ctx.query.pageFormat,
+        receipt: {
+          ...receipt,
+          totalAmount: getTransactionAmount(receipt.transactions[0]),
+        },
+      };
     }
 
     return { pageFormat: ctx.query.pageFormat };

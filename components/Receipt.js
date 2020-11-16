@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import { get, chunk, sumBy, max, uniq, isNil } from 'lodash';
 import { Box, Flex, Image } from 'rebass/styled-components';
 import moment from 'moment';
@@ -55,8 +55,8 @@ export class Receipt extends React.Component {
       host: PropTypes.shape({
         slug: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired,
-        website: PropTypes.string.isRequired,
-        image: PropTypes.string.isRequired,
+        website: PropTypes.string,
+        image: PropTypes.string,
       }),
       transactions: PropTypes.arrayOf(
         PropTypes.shape({
@@ -77,7 +77,6 @@ export class Receipt extends React.Component {
     debug: PropTypes.bool,
     /** CSS zoom applied */
     zoom: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    intl: PropTypes.object.isRequired, // from withIntl
   };
 
   static defaultProps = {
@@ -392,4 +391,4 @@ export class Receipt extends React.Component {
   }
 }
 
-export default injectIntl(Receipt);
+export default Receipt;
