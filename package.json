@@ -40,7 +40,7 @@
     "polished": "~4.0.4",
     "prop-types": "~15.7.2",
     "qrcode.react": "1.0.0",
-    "react": "~16.13.1",
+    "react": "~17.0.1",
     "react-dom": "~16.13.1",
     "react-intl": "~5.9.3",
     "rebass": "~4.0.7",
