@@ -78,7 +78,7 @@
     "babel-plugin-styled-components": "^1.11.1",
     "codecov": "^3.8.1",
     "commitizen": "^4.2.2",
-    "cross-env": "^7.0.2",
+    "cross-env": "^7.0.3",
     "cz-conventional-changelog": "^3.3.0",
     "eslint": "^7.14.0",
     "eslint-config-opencollective": "^2.2.0",
