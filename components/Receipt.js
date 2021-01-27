@@ -215,7 +215,7 @@ export class Receipt extends React.Component {
 
             return (
               <tr key={transaction.id}>
-                <Td fontSize="11px">
+                <Td fontSize="11px" css={{ whiteSpace: 'nowrap' }}>
                   <CustomIntlDate date={new Date(transaction.createdAt)} />
                 </Td>
                 <Td fontSize="11px">{this.transactionDescription(transaction)}</Td>
