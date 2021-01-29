@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import PDFLayout from '../../../../../components/PDFLayout';
 import PageFormat from '../../../../../lib/constants/page-format';
+import AccountType from '../../../../../lib/constants/account-type';
 import { getAccessTokenFromReq } from '../../../../../lib/req-utils';
 import { fetchInvoiceByDateRange } from '../../../../../lib/graphql/queries';
 import { ReceiptV2 } from '../../../../../components/ReceiptV2';
@@ -20,14 +21,25 @@ class TransactionReceipt extends React.Component {
         throw new Error('Too many transactions. Please contact support');
       }
 
+      let transactions = response.transactions.nodes
+      const fromAccount = response.fromAccount;
+
+      if (fromAccount.type === AccountType.ORGANIZATION) {
+        transactions = transactions.filter(transaction => transaction.fromAccount.id !== transaction.toAccount.id)
+      }
+      
+      if (fromAccount.type === AccountType.INDIVIDUAL) {
+        transactions = transactions.filter(transaction => transaction.type !== 'DEBIT')
+      }
+      
       return {
         pageFormat: ctx.query.pageFormat,
         receipt: {
           title: response.host.settings?.invoiceTitle,
           extraInfo: response.host.settings?.invoice?.extraInfo,
           currency: response.host.currency,
-          totalAmount: response.transactions.nodes.reduce((total, t) => total + t.amountInHostCurrency.valueInCents, 0),
-          transactions: response.transactions.nodes,
+          totalAmount: transactions.reduce((total, t) => total + t.amountInHostCurrency.valueInCents, 0),
+          transactions: transactions,
           host: response.host,
           fromAccount: response.fromAccount,
           dateFrom,
