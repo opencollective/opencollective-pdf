@@ -21,17 +21,18 @@ class TransactionReceipt extends React.Component {
         throw new Error('Too many transactions. Please contact support');
       }
 
-      let transactions = response.transactions.nodes
+      let transactions = response.transactions.nodes;
       const fromAccount = response.fromAccount;
 
       if (fromAccount.type === AccountType.ORGANIZATION) {
-        transactions = transactions.filter(transaction => transaction.fromAccount.id !== transaction.toAccount.id)
+        transactions = transactions.filter((transaction) => transaction.fromAccount.id !== transaction.toAccount.id);
       }
-      
+
       if (fromAccount.type === AccountType.INDIVIDUAL) {
-        transactions = transactions.filter(transaction => transaction.type !== 'DEBIT')
+        // Filter out transactions relating to expense but not refund
+        transactions = transactions.filter((transaction) => !(transaction.type === 'DEBIT' && !transaction.isRefund));
       }
-      
+
       return {
         pageFormat: ctx.query.pageFormat,
         receipt: {
