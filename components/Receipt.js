@@ -162,7 +162,7 @@ export class Receipt extends React.Component {
     return uniq(taxIdNumbers).map((number) => <P key={number}>{number}</P>);
   }
 
-  /** Get a description for transaction, with a mention to virtual card emitter if necessary */
+  /** Get a description for transaction, with a mention to gift card emitter if necessary */
   transactionDescription(transaction) {
     const targetCollective = getTransactionReceiver(transaction);
     const transactionDescription = (
@@ -171,7 +171,7 @@ export class Receipt extends React.Component {
       </LinkToCollective>
     );
 
-    return !transaction.usingVirtualCardFromCollective ? (
+    return !transaction.usingGiftCardFromCollective ? (
       transactionDescription
     ) : (
       <div>

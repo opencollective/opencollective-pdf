@@ -56,7 +56,7 @@
         "slug": "betree",
         "name": "Benjamin Piouffle"
       },
-      "usingVirtualCardFromCollective": null,
+      "usingGiftCardFromCollective": null,
       "collective": {
         "id": 9449,
         "slug": "boostnoteio",
@@ -92,7 +92,7 @@
         "slug": "betree",
         "name": "Benjamin Piouffle"
       },
-      "usingVirtualCardFromCollective": null,
+      "usingGiftCardFromCollective": null,
       "collective": {
         "id": 827,
         "slug": "nerves-project",
