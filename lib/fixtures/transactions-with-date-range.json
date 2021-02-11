@@ -42,7 +42,7 @@
       "netAmountInCollectiveCurrency": 1712,
       "taxAmount": null,
       "fromCollective": { "id": 10884, "slug": "test43wow", "name": "Zappa" },
-      "usingVirtualCardFromCollective": null,
+      "usingGiftCardFromCollective": null,
       "collective": { "id": 43, "slug": "apex", "name": "APEX" },
       "order": { "id": 1000, "tier": null }
     },
@@ -57,7 +57,7 @@
       "netAmountInCollectiveCurrency": 1712,
       "taxAmount": null,
       "fromCollective": { "id": 10884, "slug": "test43wow", "name": "Zappa" },
-      "usingVirtualCardFromCollective": null,
+      "usingGiftCardFromCollective": null,
       "collective": { "id": 43, "slug": "apex", "name": "APEX" },
       "order": { "id": 1001, "tier": null }
     }

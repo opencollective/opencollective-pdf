@@ -50,7 +50,7 @@
         "slug": "duplicati",
         "name": "duplicati"
       },
-      "usingVirtualCardFromCollective": null,
+      "usingGiftCardFromCollective": null,
       "collective": {
         "id": 4469,
         "slug": "betree",
