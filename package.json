@@ -33,7 +33,7 @@
     "html-pdf": "~2.2.0",
     "i18n-iso-countries": "~6.5.0",
     "intl": "~1.2.5",
-    "lodash": "~4.17.20",
+    "lodash": "~4.17.21",
     "moment": "~2.29.1",
     "next": "~9.3.4",
     "next-routes": "~1.4.2",
