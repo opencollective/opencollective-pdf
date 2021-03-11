@@ -67,7 +67,7 @@
     "prettier:write": "npm run prettier -- --write"
   },
   "devDependencies": {
-    "@babel/cli": "^7.12.13",
+    "@babel/cli": "^7.13.0",
     "@babel/core": "^7.13.8",
     "@babel/node": "^7.13.0",
     "@babel/preset-env": "^7.13.9",
