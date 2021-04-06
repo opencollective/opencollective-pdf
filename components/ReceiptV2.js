@@ -41,7 +41,7 @@ export class ReceiptV2 extends React.Component {
       fromAccount: PropTypes.shape({
         slug: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired,
-        isIncognito: PropTypes.bool.isRequired,
+        isIncognito: PropTypes.bool,
         createdByUser: PropTypes.shape({
           name: PropTypes.string.isRequired,
         }).isRequired,
@@ -209,6 +209,11 @@ export class ReceiptV2 extends React.Component {
             const amount = getTransactionAmount(transaction);
             const taxAmount = transaction.taxAmount.valueInCents || 0;
             const unitGrossPrice = (amount - taxAmount) / quantity;
+            const transactionCurrency =
+              transaction.currency ||
+              transaction.amount?.currency ||
+              transaction.hostCurrency ||
+              this.props.receipt.currency;
 
             return (
               <tr key={transaction.id}>
@@ -225,7 +230,7 @@ export class ReceiptV2 extends React.Component {
                 <Td fontSize="11px" textAlign="center">
                   {isNil(transaction.taxAmount) ? '-' : `${getTransactionTaxPercent(transaction)}%`}
                 </Td>
-                <Td textAlign="right">{formatCurrency(amount, transaction.hostCurrency)}</Td>
+                <Td textAlign="right">{formatCurrency(amount, transactionCurrency)}</Td>
               </tr>
             );
           })}
