@@ -5,6 +5,5 @@ updates:
   schedule:
     interval: weekly
     timezone: Europe/Berlin
-  open-pull-requests-limit: 10
   reviewers:
   - Betree
