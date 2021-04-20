@@ -19,7 +19,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2-beta
+        uses: actions/checkout@v2.3.4
 
       - name: Setup node
         uses: actions/setup-node@v2.1.5
@@ -56,7 +56,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2-beta
+        uses: actions/checkout@v2.3.4
 
       - name: Setup node
         uses: actions/setup-node@v2.1.5
@@ -93,7 +93,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2-beta
+        uses: actions/checkout@v2.3.4
 
       - name: Setup node
         uses: actions/setup-node@v2.1.5
