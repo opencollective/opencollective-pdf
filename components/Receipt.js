@@ -210,7 +210,7 @@ export class Receipt extends React.Component {
           {transactions.map((transaction) => {
             const quantity = get(transaction, 'order.quantity') || 1;
             const amount = getTransactionAmount(transaction);
-            const taxAmount = transaction.taxAmount || 0;
+            const taxAmount = Math.abs(transaction.taxAmount) || 0;
             const unitGrossPrice = (amount - taxAmount) / quantity;
 
             return (
