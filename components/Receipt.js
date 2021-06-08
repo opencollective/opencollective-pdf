@@ -138,7 +138,7 @@ export class Receipt extends React.Component {
   }
 
   getTaxTotal() {
-    return this.props.invoice.transactions.reduce((total, t) => total + (t.taxAmount || 0), 0);
+    return this.props.invoice.transactions.reduce((total, t) => total + Math.abs(t.taxAmount || 0), 0);
   }
 
   /** Returns the VAT number of the collective */
