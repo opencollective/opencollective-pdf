@@ -18,7 +18,7 @@
     "@bit/opencollective.design-system.components.styled-link": "3.0.0",
     "@bit/opencollective.design-system.components.styled-text": "3.0.0",
     "@bit/opencollective.design-system.theme": "3.0.0",
-    "@styled-icons/feather": "10.18.0",
+    "@styled-icons/feather": "10.34.0",
     "@styled-system/theme-get": "5.1.2",
     "apollo-boost": "0.4.7",
     "apollo-link-context": "1.0.20",
