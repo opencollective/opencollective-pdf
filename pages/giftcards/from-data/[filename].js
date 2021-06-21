@@ -7,7 +7,7 @@ import PDFLayout from '../../../components/PDFLayout';
 import PrintableGiftCard from '../../../components/PrintableGiftCard';
 
 const getDataFromBody = async (req) => {
-  if (req.method == 'POST') {
+  if (req.method === 'POST') {
     return new Promise((resolve, reject) => {
       let body = '';
       req.on('data', (data) => {
