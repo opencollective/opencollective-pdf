@@ -138,7 +138,7 @@ export class ReceiptV2 extends React.Component {
   }
 
   getTaxTotal() {
-    return this.props.receipt.transactions.reduce((total, t) => total + (t.taxAmount.valueInCents || 0), 0);
+    return this.props.receipt.transactions.reduce((total, t) => total + Math.abs(t.taxAmount.valueInCents || 0), 0);
   }
 
   /** Returns the VAT number of the collective */
@@ -207,7 +207,7 @@ export class ReceiptV2 extends React.Component {
           {transactions.map((transaction) => {
             const quantity = get(transaction, 'order.quantity') || 1;
             const amount = getTransactionAmount(transaction);
-            const taxAmount = transaction.taxAmount.valueInCents || 0;
+            const taxAmount = Math.abs(transaction.taxAmount.valueInCents || 0);
             const unitGrossPrice = (amount - taxAmount) / quantity;
             const transactionCurrency =
               transaction.currency ||
