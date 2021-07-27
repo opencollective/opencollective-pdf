@@ -8,7 +8,7 @@
   "private": true,
   "engines": {
     "node": "12.22.3",
-    "npm": "7.20.0"
+    "npm": "7.20.1"
   },
   "dependencies": {
     "@babel/runtime": "7.14.8",
