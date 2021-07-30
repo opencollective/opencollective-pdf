@@ -10,8 +10,7 @@ class TransactionReceipt extends React.Component {
   static async getInitialProps(ctx) {
     const isServer = Boolean(ctx.req);
     if (isServer) {
-      const { fromCollectiveSlug, toCollectiveSlug: hostSlug, isoStartDate: dateFrom, isoEndDate } = ctx.query;
-      const dateTo = isoEndDate.split('.')[0]; // isoEndDate can include file extension
+      const { fromCollectiveSlug, toCollectiveSlug: hostSlug, isoStartDate: dateFrom, isoEndDate: dateTo } = ctx.query;
       const accessToken = getAccessTokenFromReq(ctx);
       const queryParams = { fromCollectiveSlug, hostSlug, dateFrom, dateTo };
       const response = await fetchInvoiceByDateRange(queryParams, accessToken, ctx.query.app_key);
