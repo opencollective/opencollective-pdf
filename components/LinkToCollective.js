@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import StyledLink from '@bit/opencollective.design-system.components.styled-link';
 import { FormattedMessage } from 'react-intl';
+import AccountName from './AccountName';
 
 /**
  * Returns event's parent collective slug. If the parent is not available,
@@ -13,17 +14,19 @@ const getEventParentCollectiveSlug = (parentCollective) => {
 };
 
 const LinkToCollective = ({ collective, children }) => {
-  const { type, name, slug, parentCollective } = collective;
+  const { type, slug, parentCollective } = collective;
 
   if (!collective) {
     return children || <FormattedMessage id="profile.incognito" defaultMessage="Incognito" />;
   }
 
   return type !== 'EVENT' ? (
-    <StyledLink href={`https://opencollective.com/${slug}`}>{children || name || slug}</StyledLink>
+    <StyledLink href={`https://opencollective.com/${slug}`}>
+      {children || <AccountName account={collective} />}
+    </StyledLink>
   ) : (
     <StyledLink href={`https://opencollective.com/${getEventParentCollectiveSlug(parentCollective)}/events/${slug}`}>
-      {children || name || slug}
+      {children || <AccountName account={collective} />}
     </StyledLink>
   );
 };

@@ -24,6 +24,7 @@ import {
 import PageFormat from '../lib/constants/page-format';
 import CollectiveFooter from './CollectiveFooter';
 import CustomIntlDate from './CustomIntlDate';
+import AccountName from './AccountName';
 
 export class Receipt extends React.Component {
   static propTypes = {
@@ -41,7 +42,6 @@ export class Receipt extends React.Component {
       totalAmount: PropTypes.number,
       fromCollective: PropTypes.shape({
         slug: PropTypes.string.isRequired,
-        name: PropTypes.string.isRequired,
         isIncognito: PropTypes.bool.isRequired,
         createdByUser: PropTypes.shape({
           name: PropTypes.string.isRequired,
@@ -54,7 +54,6 @@ export class Receipt extends React.Component {
       }).isRequired,
       host: PropTypes.shape({
         slug: PropTypes.string.isRequired,
-        name: PropTypes.string.isRequired,
         website: PropTypes.string,
         image: PropTypes.string,
       }),
@@ -276,7 +275,7 @@ export class Receipt extends React.Component {
                     <Box mb={3} css={{ flexGrow: 1 }}>
                       <StyledLink href={`https://opencollective.com/${invoice.host.slug}`}>
                         <H1 fontSize="18px" lineHeight="20px" m={0} color="black.900">
-                          {invoice.host.name}
+                          <AccountName account={invoice.host} />
                         </H1>
                       </StyledLink>
                       <Box my={2}>
@@ -292,7 +291,7 @@ export class Receipt extends React.Component {
                       </H2>
                       <Box my={2}>
                         <P fontWeight={500} fontSize="13px">
-                          {isIncognito ? createdByUser.name : invoice.fromCollective.name}
+                          {isIncognito ? createdByUser.name : <AccountName account={invoice.fromCollective} />}
                         </P>
                         <CollectiveAddress collective={invoice.fromCollective} />
                         {this.renderTaxIdNumbers()}

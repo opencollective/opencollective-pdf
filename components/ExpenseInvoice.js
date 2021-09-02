@@ -8,6 +8,7 @@ import { FormattedMessage } from 'react-intl';
 import { Box, Flex } from 'rebass/styled-components';
 import PageFormat from '../lib/constants/page-format';
 import { formatCurrency } from '../lib/utils';
+import AccountName from './AccountName';
 import CollectiveAddress from './CollectiveAddress';
 import ExpenseItemsTable from './ExpenseItemsTable';
 
@@ -61,7 +62,7 @@ const ExpenseInvoice = ({ expense, pageFormat }) => {
                     </H2>
                     <StyledLink href={`https://opencollective.com/${payee.slug}`}>
                       <P fontWeight="bold" fontSize="13px" color="black.800">
-                        {payee.name}
+                        <AccountName account={payee} />
                       </P>
                     </StyledLink>
                     <CollectiveAddress collective={{ location: payeeLocation }} />
@@ -73,7 +74,7 @@ const ExpenseInvoice = ({ expense, pageFormat }) => {
                   </H2>
                   <StyledLink href={`https://opencollective.com/${billToAccount.slug}`}>
                     <P fontWeight="bold" fontSize="13px" color="black.800">
-                      {billToAccount.name}
+                      <AccountName account={billToAccount} />
                     </P>
                   </StyledLink>
                   <Box mb={2}>
@@ -95,7 +96,7 @@ const ExpenseInvoice = ({ expense, pageFormat }) => {
                 <FormattedMessage
                   id="CollectiveColumn"
                   defaultMessage="Collective: {collectiveName}"
-                  values={{ collectiveName: account.name }}
+                  values={{ collectiveName: <AccountName account={account} /> }}
                 />
                 <br />
                 <FormattedMessage
@@ -155,7 +156,6 @@ ExpenseInvoice.propTypes = {
     account: PropTypes.shape({
       id: PropTypes.string,
       type: PropTypes.string,
-      name: PropTypes.string,
       slug: PropTypes.string,
       imageUrl: PropTypes.string,
       location: PropTypes.shape({
@@ -165,7 +165,6 @@ ExpenseInvoice.propTypes = {
       host: PropTypes.shape({
         id: PropTypes.string,
         type: PropTypes.string,
-        name: PropTypes.string,
         slug: PropTypes.string,
         imageUrl: PropTypes.string,
         location: PropTypes.shape({
@@ -177,7 +176,6 @@ ExpenseInvoice.propTypes = {
     payee: PropTypes.shape({
       id: PropTypes.string,
       type: PropTypes.string,
-      name: PropTypes.string,
       slug: PropTypes.string,
       imageUrl: PropTypes.string,
     }),
