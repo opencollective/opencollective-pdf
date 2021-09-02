@@ -11,7 +11,7 @@
     "npm": "7.20.1"
   },
   "dependencies": {
-    "@babel/runtime": "7.14.8",
+    "@babel/runtime": "7.15.3",
     "@bit/opencollective.design-system.components.currency": "3.0.0",
     "@bit/opencollective.design-system.components.styled-container": "2.1.0",
     "@bit/opencollective.design-system.components.styled-hr": "2.1.0",
