@@ -44,7 +44,7 @@
     "react-intl": "5.20.6",
     "rebass": "4.0.7",
     "sanitize-html": "2.4.0",
-    "styled-components": "5.3.0",
+    "styled-components": "5.3.1",
     "styled-system": "5.1.5",
     "winston": "3.3.3"
   },
