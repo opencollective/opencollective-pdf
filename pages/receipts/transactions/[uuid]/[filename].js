@@ -19,6 +19,7 @@ class TransactionReceipt extends React.Component {
         receipt: {
           ...receipt,
           totalAmount: getTransactionAmount(receipt.transactions[0]),
+          currency: receipt.transactions[0].hostCurrency,
         },
       };
     }
