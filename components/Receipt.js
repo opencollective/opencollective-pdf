@@ -336,7 +336,9 @@ export class Receipt extends React.Component {
                         <Flex justifyContent="space-between">
                           <FormattedMessage id="subtotal" defaultMessage="Subtotal" />
                           <Span fontWeight="bold">
-                            {formatCurrency(invoice.totalAmount - taxesTotal, invoice.currency)}
+                            {formatCurrency(invoice.totalAmount - taxesTotal, invoice.currency, {
+                              showCurrencySymbol: true,
+                            })}
                           </Span>
                         </Flex>
                         {getTaxesBreakdown(this.props.invoice.transactions).map((tax) => (
@@ -354,7 +356,9 @@ export class Receipt extends React.Component {
                                 values={{ percentage: tax.percentage }}
                               />
                             )}
-                            <Span fontWeight="bold">{formatCurrency(tax.amount, invoice.currency)}</Span>
+                            <Span fontWeight="bold">
+                              {formatCurrency(tax.amount, invoice.currency, { showCurrencySymbol: true })}
+                            </Span>
                           </Flex>
                         ))}
                       </Box>
@@ -365,7 +369,9 @@ export class Receipt extends React.Component {
                         style={{ background: '#ebf4ff', padding: '8px 16px', fontWeight: 'bold' }}
                       >
                         <FormattedMessage id="total" defaultMessage="TOTAL" />
-                        <Span>{formatCurrency(invoice.totalAmount, invoice.currency)}</Span>
+                        <Span>
+                          {formatCurrency(invoice.totalAmount, invoice.currency, { showCurrencySymbol: true })}
+                        </Span>
                       </Flex>
                     </Container>
                   </Flex>
