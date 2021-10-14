@@ -122,7 +122,7 @@ const ExpenseInvoice = ({ expense, pageFormat }) => {
                       fontWeight="bold"
                     >
                       <FormattedMessage id="total" defaultMessage="TOTAL" />
-                      <Span>{formatCurrency(expense.amount, expense.currency)}</Span>
+                      <Span>{formatCurrency(expense.amount, expense.currency, { showCurrencySymbol: true })}</Span>
                     </Container>
                   </Container>
                 </Flex>
