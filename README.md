@@ -40,6 +40,25 @@ To start the service:
 npm run dev
 ```
 
+### Troubleshooting
+
+- SSL errors
+
+If you get an error like this while trying to generate a PDF:
+
+> Error: html-pdf: Unknown Error
+> Auto configuration failed
+> 140673035953984:error:25066067:DSO support routines:DLFCN_LOAD:could not load the shared library:dso_dlfcn.c:185:filename(libssl_conf.so): libssl_conf.so: cannot > open shared object file: No such file or directory
+> 140673035953984:error:25070067:DSO support routines:DSO_load:could not load the shared library:dso_lib.c:244:
+> 140673035953984:error:0E07506E:configuration file routines:MODULE_LOAD_DSO:error loading dso:conf_mod.c:285:module=ssl_conf, path=ssl_conf
+> 140673035953984:error:0E076071:configuration file routines:MODULE_RUN:unknown module name:conf_mod.c:222:module=ssl_conf
+
+Try adding this line to your `.env` ([source](https://github.com/bazelbuild/rules_closure/issues/351#issuecomment-854628326)):
+
+```
+OPENSSL_CONF=/dev/null
+```
+
 #### Usage with fixture data
 
 This is the easy way to start developing. Just go to the root URL http://localhost:3002/
