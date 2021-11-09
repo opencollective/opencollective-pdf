@@ -89,7 +89,7 @@ export default class Home extends Component {
   }
 
   getIframeUrl = () => {
-    if (!this.props.selectedTestUrl) {
+    if (!this.props.selectedTestUrl || this.props.selectedTestUrl[0] !== '/') {
       return false;
     }
 
