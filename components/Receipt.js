@@ -222,7 +222,13 @@ export class Receipt extends React.Component {
                   {quantity}
                 </Td>
                 <Td fontSize="11px" textAlign="center">
-                  {formatCurrency(unitGrossPrice, transaction.currency)}
+                  {formatCurrency(unitGrossPrice, transaction.hostCurrency)}
+                  {transaction.hostCurrency !== transaction.currency && (
+                    <P fontSize="8px" color="black.600" mt={1}>
+                      ({formatCurrency(transaction.amount, transaction.currency)}&nbsp;x&nbsp;
+                      {transaction.hostCurrencyFxRate}%)
+                    </P>
+                  )}
                 </Td>
                 <Td fontSize="11px" textAlign="center">
                   {isNil(transaction.taxAmount) ? '-' : `${getTransactionTaxPercent(transaction)}%`}

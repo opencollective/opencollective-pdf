@@ -208,12 +208,7 @@ export class ReceiptV2 extends React.Component {
             const amount = getTransactionAmount(transaction);
             const taxAmount = Math.abs(transaction.taxAmount.valueInCents || 0);
             const unitGrossPrice = (amount - taxAmount) / quantity;
-            const transactionCurrency =
-              transaction.currency ||
-              transaction.amount?.currency ||
-              transaction.hostCurrency ||
-              this.props.receipt.currency;
-
+            const transactionCurrency = transaction.hostCurrency || this.props.receipt.currency;
             return (
               <tr key={transaction.id}>
                 <Td fontSize="11px">
@@ -225,6 +220,12 @@ export class ReceiptV2 extends React.Component {
                 </Td>
                 <Td fontSize="11px" textAlign="center">
                   {formatCurrency(unitGrossPrice, transaction.currency)}
+                  {transaction.amountInHostCurrency.currency !== transaction.amount.currency && (
+                    <P fontSize="8px" color="black.600" mt={1}>
+                      ({formatCurrency(transaction.amount.valueInCents, transaction.amount.currency)}&nbsp;x&nbsp;
+                      {transaction.hostCurrencyFxRate}%)
+                    </P>
+                  )}
                 </Td>
                 <Td fontSize="11px" textAlign="center">
                   {isNil(transaction.taxAmount) ? '-' : `${getTransactionTaxPercent(transaction)}%`}
