@@ -12,6 +12,10 @@ class TransactionReceipt extends React.Component {
     if (isServer) {
       const { fromCollectiveSlug, toCollectiveSlug: hostSlug, isoStartDate: dateFrom, isoEndDate: dateTo } = ctx.query;
       const accessToken = getAccessTokenFromReq(ctx);
+      if (!accessToken && !ctx.query.app_key) {
+        throw new Error('Please provide an access token or an APP key');
+      }
+
       const queryParams = { fromCollectiveSlug, hostSlug, dateFrom, dateTo };
       const response = await fetchInvoiceByDateRange(queryParams, accessToken, ctx.query.app_key);
 

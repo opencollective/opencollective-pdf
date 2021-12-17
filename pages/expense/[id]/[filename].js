@@ -12,6 +12,10 @@ class TransactionReceipt extends React.Component {
     if (isServer) {
       const { id } = ctx.query;
       const accessToken = getAccessTokenFromReq(ctx);
+      if (!accessToken && !ctx.query.app_key) {
+        throw new Error('Please provide an access token or an APP key');
+      }
+
       const expense = await fetchExpenseInvoiceData(id, accessToken, ctx.query.app_key);
       return { expense, pageFormat: ctx.query.pageFormat };
     }
