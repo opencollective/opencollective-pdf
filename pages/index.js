@@ -89,7 +89,9 @@ export default class Home extends Component {
   }
 
   getIframeUrl = () => {
-    if (!this.props.selectedTestUrl || this.props.selectedTestUrl[0] !== '/') {
+    // URL must start with `/`, but not `//`
+    const testUrl = this.props.selectedTestUrl?.trim();
+    if (!new RegExp('^/[^/]+').test(testUrl)) {
       return false;
     }
 
@@ -100,7 +102,7 @@ export default class Home extends Component {
       __cache: Date.now(),
     });
 
-    return `${this.props.selectedTestUrl}${queryString}`;
+    return `${testUrl}${queryString}`;
   };
 
   render() {
