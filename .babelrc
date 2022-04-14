@@ -17,11 +17,12 @@
     "lodash",
     "babel-plugin-styled-components",
     [
-      "react-intl",
+      "formatjs",
       {
-        "messagesDir": "./dist/messages/"
+        "idInterpolationPattern": "[sha512:contenthash:base64:6]",
+        "ast": true
       }
-    ]
+    ],
   ],
   "env": {
     "development": {

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import { get, chunk, sumBy, max, uniq, isNil } from 'lodash';
+import { get, chunk, sumBy, max, isNil, uniqBy, round } from 'lodash';
 import { Box, Flex, Image } from 'rebass/styled-components';
 import moment from 'moment';
 import { H1, H2, P, Span } from '@bit/opencollective.design-system.components.styled-text';
@@ -20,6 +20,8 @@ import {
   getTransactionReceiver,
   getTransactionAmount,
   getTransactionTaxPercent,
+  getTaxInfoFromTransaction,
+  getTaxIdNumbersFromTransactions,
 } from '../lib/transactions';
 import PageFormat from '../lib/constants/page-format';
 import CollectiveFooter from './CollectiveFooter';
@@ -137,28 +139,33 @@ export class Receipt extends React.Component {
   }
 
   getTaxTotal() {
-    return this.props.invoice.transactions.reduce((total, t) => total + Math.abs(t.taxAmount || 0), 0);
+    const getTaxAmountInHostCurrency = (t) => Math.abs(t.taxAmount) * (t.hostCurrencyFxRate || 1);
+    return Math.round(sumBy(this.props.invoice.transactions, (t) => getTaxAmountInHostCurrency(t) || 0));
   }
 
   /** Returns the VAT number of the collective */
   renderTaxIdNumbers() {
-    const taxIdNumbers = this.props.invoice.transactions
-      .map((t) => get(t, 'order.data.tax.taxIDNumber'))
-      .filter((taxIdNumber) => !isNil(taxIdNumber));
+    const { transactions, fromCollective } = this.props.invoice;
+    const taxesSummary = getTaxIdNumbersFromTransactions(transactions);
 
-    if (taxIdNumbers.length === 0) {
-      const {
-        fromCollective: { settings },
-      } = this.props.invoice;
-
-      if (settings?.VAT?.number) {
-        const vatNumber = settings.VAT.number;
-        return [<P key={vatNumber}>{vatNumber}</P>];
+    // Expenses rely solely on the tax info stored in transactions. For orders, we look in the fromCollective
+    if (!transactions.every((t) => t.kind === 'EXPENSE')) {
+      const fromCollectiveVATNumber = fromCollective.settings?.VAT?.number;
+      if (fromCollectiveVATNumber) {
+        taxesSummary.push({ idNumber: fromCollectiveVATNumber, type: 'VAT' });
       }
-      return null;
     }
 
-    return uniq(taxIdNumbers).map((number) => <P key={number}>{number}</P>);
+    const uniqTaxInfo = uniqBy(taxesSummary, (s) => `${s.type}-${s.idNumber}`);
+    if (uniqTaxInfo.length) {
+      return uniqTaxInfo.map(({ idNumber, type }) => (
+        <P fontSize="12px" mt={1} fontWeight="normal" key={`${type}-${idNumber}`}>
+          {type}: {idNumber}
+        </P>
+      ));
+    }
+
+    return null;
   }
 
   /** Get a description for transaction, with a mention to gift card emitter if necessary */
@@ -180,6 +187,12 @@ export class Receipt extends React.Component {
     );
   }
 
+  getTaxColumnHeader(transactions) {
+    const taxInfoList = transactions.map(getTaxInfoFromTransaction).filter(Boolean);
+    const taxTypes = uniqBy(taxInfoList, (t) => t.type);
+    return taxTypes.length !== 1 ? <FormattedMessage defaultMessage="Tax" /> : taxTypes[0].type;
+  }
+
   renderTransactionsTable(transactions) {
     return (
       <table style={{ borderCollapse: 'collapse', width: '100%' }}>
@@ -198,7 +211,7 @@ export class Receipt extends React.Component {
               <FormattedMessage id="unitNetPrice" defaultMessage="Unit Price" />
             </Td>
             <Td fontSize="13px" fontWeight={500} textAlign="center">
-              <FormattedMessage id="taxPercent" defaultMessage="Tax&nbsp;%" />
+              {this.getTaxColumnHeader(transactions)}
             </Td>
             <Td fontSize="13px" fontWeight={500} textAlign="right" borderRadius="0 4px 4px 0">
               <FormattedMessage id="netAmount" defaultMessage="Net Amount" />
@@ -208,10 +221,11 @@ export class Receipt extends React.Component {
         <tbody>
           {transactions.map((transaction) => {
             const quantity = get(transaction, 'order.quantity') || 1;
-            const amount = getTransactionAmount(transaction);
+            const amountInHostCurrency = getTransactionAmount(transaction);
             const taxAmount = Math.abs(transaction.taxAmount || 0);
-            const unitGrossPrice = (amount - taxAmount) / quantity;
-
+            const hostCurrencyFxRate = transaction.hostCurrencyFxRate || 1;
+            const taxAmountInHostCurrency = taxAmount * hostCurrencyFxRate;
+            const unitGrossPrice = Math.abs((amountInHostCurrency - taxAmountInHostCurrency) / quantity);
             return (
               <tr key={transaction.id}>
                 <Td fontSize="11px" css={{ whiteSpace: 'nowrap' }}>
@@ -225,15 +239,16 @@ export class Receipt extends React.Component {
                   {formatCurrency(unitGrossPrice, transaction.hostCurrency)}
                   {transaction.hostCurrency !== transaction.currency && (
                     <P fontSize="8px" color="black.600" mt={1}>
-                      ({formatCurrency(transaction.amount, transaction.currency)}&nbsp;x&nbsp;
-                      {transaction.hostCurrencyFxRate}%)
+                      ({formatCurrency((transaction.amount - taxAmount) / quantity, transaction.currency)}
+                      &nbsp;x&nbsp;
+                      {round(transaction.hostCurrencyFxRate, 4)}%)
                     </P>
                   )}
                 </Td>
                 <Td fontSize="11px" textAlign="center">
                   {isNil(transaction.taxAmount) ? '-' : `${getTransactionTaxPercent(transaction)}%`}
                 </Td>
-                <Td textAlign="right">{formatCurrency(amount, transaction.hostCurrency)}</Td>
+                <Td textAlign="right">{formatCurrency(amountInHostCurrency, transaction.hostCurrency)}</Td>
               </tr>
             );
           })}
@@ -348,22 +363,10 @@ export class Receipt extends React.Component {
                           </Span>
                         </Flex>
                         {getTaxesBreakdown(this.props.invoice.transactions).map((tax) => (
-                          <Flex key={tax.key} justifyContent="space-between" mt={2}>
-                            {tax.id === 'VAT' ? (
-                              <FormattedMessage
-                                id="invoice.vatPercent"
-                                defaultMessage="VAT {percentage}%"
-                                values={{ percentage: tax.percentage }}
-                              />
-                            ) : (
-                              <FormattedMessage
-                                id="invoice.taxPercent"
-                                defaultMessage="Tax {percentage}%"
-                                values={{ percentage: tax.percentage }}
-                              />
-                            )}
+                          <Flex key={tax.id} justifyContent="space-between" mt={2}>
+                            {tax.info.type} ({round(tax.info.rate * 100, 2)}%)
                             <Span fontWeight="bold">
-                              {formatCurrency(tax.amount, invoice.currency, { showCurrencySymbol: true })}
+                              {formatCurrency(tax.amountInHostCurrency, invoice.currency, { showCurrencySymbol: true })}
                             </Span>
                           </Flex>
                         ))}
