@@ -41,6 +41,7 @@
       "createdAt": "Sun Dec 02 2018 05:13:51 GMT+0000 (Coordinated Universal Time)",
       "description": "Monthly donation to duplicati (Backers)",
       "amount": -142,
+      "amountInHostCurrency": -142,
       "currency": "USD",
       "type": "DEBIT",
       "hostCurrency": "USD",

@@ -11,6 +11,7 @@
     "npm": "7.20.1"
   },
   "dependencies": {
+    "@apollo/client": "3.3.21",
     "@babel/runtime": "7.15.3",
     "@bit/opencollective.design-system.components.currency": "3.0.0",
     "@bit/opencollective.design-system.components.styled-container": "2.1.0",
@@ -20,7 +21,7 @@
     "@bit/opencollective.design-system.theme": "3.0.0",
     "@styled-icons/feather": "10.34.0",
     "@styled-system/theme-get": "5.1.2",
-    "@apollo/client": "3.3.21",
+    "babel-plugin-formatjs": "10.3.19",
     "cors": "2.8.5",
     "cross-fetch": "3.0.6",
     "debug": "4.3.2",

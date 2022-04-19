@@ -1,7 +1,8 @@
 import Container from '@bit/opencollective.design-system.components.styled-container';
+import StyledHr from '@bit/opencollective.design-system.components.styled-hr';
 import StyledLink from '@bit/opencollective.design-system.components.styled-link';
 import { H2, P, Span } from '@bit/opencollective.design-system.components.styled-text';
-import { chunk, get, max, sumBy } from 'lodash';
+import { chunk, get, max, round, sumBy } from 'lodash';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
@@ -48,6 +49,7 @@ const ExpenseInvoice = ({ expense, pageFormat }) => {
   const { account, payee, payeeLocation } = expense;
   const chunkedItems = chunkItems(expense);
   const billToAccount = account.host || account;
+  const grossAmount = sumBy(expense.items, 'amount');
   return (
     <div>
       {chunkedItems.map((itemsChunk, pageNumber) => (
@@ -113,6 +115,21 @@ const ExpenseInvoice = ({ expense, pageFormat }) => {
               <Box>
                 <Flex justifyContent="flex-end" mt={3}>
                   <Container width={0.5} fontSize="12px">
+                    <StyledHr borderColor="black.200" />
+                    <Flex justifyContent="space-between" px={3} py={2}>
+                      <FormattedMessage id="subtotal" defaultMessage="Subtotal" />
+                      <Span fontWeight="bold">
+                        {formatCurrency(grossAmount, expense.currency, { showCurrencySymbol: true })}
+                      </Span>
+                    </Flex>
+                    {expense.taxes?.map((tax) => (
+                      <Flex key={tax.id} justifyContent="space-between" px={3} py={2}>
+                        {tax.type} ({round(tax.rate * 100, 2)}%)
+                        <Span fontWeight="bold">
+                          {formatCurrency(tax.rate * grossAmount, expense.currency, { showCurrencySymbol: true })}
+                        </Span>
+                      </Flex>
+                    ))}
                     <Container
                       display="flex"
                       justifyContent="space-between"
@@ -190,6 +207,13 @@ ExpenseInvoice.propTypes = {
         description: PropTypes.string,
         incurredAt: PropTypes.string,
         url: PropTypes.string,
+      }),
+    ),
+    taxes: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.string,
+        rate: PropTypes.number,
+        type: PropTypes.string,
       }),
     ),
   }),

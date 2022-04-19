@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { space, fontSize, fontWeight, textAlign, background, borderRadius } from 'styled-system';
+import { space, fontSize, fontWeight, textAlign, background, borderRadius, layout } from 'styled-system';
 
 export const Td = styled.td`
   ${space}
@@ -7,6 +7,7 @@ export const Td = styled.td`
   ${fontWeight}
   ${textAlign}
   ${borderRadius}
+  ${layout}
 `;
 
 Td.defaultProps = {
