@@ -53,6 +53,11 @@ export class Receipt extends React.Component {
             number: PropTypes.string,
           }),
         }),
+        host: PropTypes.shape({
+          slug: PropTypes.string.isRequired,
+          website: PropTypes.string,
+          image: PropTypes.string,
+        }),
       }).isRequired,
       host: PropTypes.shape({
         slug: PropTypes.string.isRequired,
@@ -110,7 +115,7 @@ export class Receipt extends React.Component {
     // Estimate the space available
     const countLines = (str) => sumBy(str, (c) => c === '\n') + (str.length > 0 ? 1 : 0);
     const billFromAddressSize = countLines(get(invoice.host, 'location.address') || '');
-    const billToAddressSize = countLines(get(invoice.fromCollective, 'location.address') || '');
+    const billToAddressSize = countLines(get(this.getBillTo(), 'location.address') || '');
     const totalTextSize = billFromAddressSize + billToAddressSize;
     const maxNbOnFirstPage = max([minNbOnFirstPage, baseNbOnFirstPage - totalTextSize]);
 
@@ -123,8 +128,14 @@ export class Receipt extends React.Component {
     ];
   }
 
+  getBillTo() {
+    const { fromCollective } = this.props.invoice;
+    return fromCollective.host || fromCollective;
+  }
+
   /** Generate a prettier reference for invoice by taking only the first part of the hash */
-  getInvoiceReference(invoice) {
+  getInvoiceReference() {
+    const { invoice } = this.props;
     if (invoice.slug && !invoice.slug.startsWith('transaction-')) {
       return invoice.slug;
     }
@@ -132,7 +143,8 @@ export class Receipt extends React.Component {
     if (invoice.dateFrom && invoice.dateTo) {
       const startString = moment.utc(invoice.dateFrom).format('YYYYMMDD');
       const endString = moment.utc(invoice.dateTo).format('YYYYMMDD');
-      return `${invoice.host.slug}_${invoice.fromCollective.slug}_${startString}-${endString}`;
+      const billTo = this.getBillTo();
+      return `${invoice.host.slug}_${billTo.slug}_${startString}-${endString}`;
     }
 
     return invoice.slug.split('-').slice(0, 2).join('-');
@@ -145,14 +157,16 @@ export class Receipt extends React.Component {
 
   /** Returns the VAT number of the collective */
   renderTaxIdNumbers() {
-    const { transactions, fromCollective } = this.props.invoice;
+    const { fromCollective, transactions } = this.props.invoice;
     const taxesSummary = getTaxIdNumbersFromTransactions(transactions);
 
     // Expenses rely solely on the tax info stored in transactions. For orders, we look in the fromCollective
     if (!transactions.every((t) => t.kind === 'EXPENSE')) {
-      const fromCollectiveVATNumber = fromCollective.settings?.VAT?.number;
-      if (fromCollectiveVATNumber) {
-        taxesSummary.push({ idNumber: fromCollectiveVATNumber, type: 'VAT' });
+      const getVatNumberFromCollective = (c) => c?.settings?.VAT?.number;
+      if (getVatNumberFromCollective(fromCollective)) {
+        taxesSummary.push({ type: 'VAT', idNumber: getVatNumberFromCollective(fromCollective) });
+      } else if (getVatNumberFromCollective(fromCollective.host)) {
+        taxesSummary.push({ type: 'VAT', idNumber: getVatNumberFromCollective(fromCollective.host) });
       }
     }
 
@@ -270,7 +284,7 @@ export class Receipt extends React.Component {
     const { isIncognito, createdByUser } = invoice.fromCollective;
     const chunkedTransactions = this.chunkTransactions(invoice, transactions);
     const taxesTotal = this.getTaxTotal();
-
+    const billTo = this.getBillTo();
     return (
       <div className={`Receipts ${invoice.fromCollective.slug}`}>
         <div className="pages">
@@ -312,9 +326,9 @@ export class Receipt extends React.Component {
                       </H2>
                       <Box my={2}>
                         <P fontWeight={500} fontSize="13px">
-                          {isIncognito ? createdByUser.name : <AccountName account={invoice.fromCollective} />}
+                          {isIncognito ? createdByUser.name : <AccountName account={billTo} />}
                         </P>
-                        <CollectiveAddress collective={invoice.fromCollective} />
+                        <CollectiveAddress collective={billTo} />
                         {this.renderTaxIdNumbers()}
                       </Box>
                     </Box>
@@ -342,7 +356,7 @@ export class Receipt extends React.Component {
                       </div>
                     )}
                     <div className="detail reference">
-                      <label>Reference:</label> {this.getInvoiceReference(invoice)}
+                      <label>Reference:</label> {this.getInvoiceReference()}
                     </div>
                   </Box>
                 </Box>
