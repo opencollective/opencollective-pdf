@@ -36,8 +36,8 @@ export class ReceiptV2 extends React.Component {
     /** The receipt data */
     receipt: PropTypes.shape({
       title: PropTypes.string,
-      dateFrom: PropTypes.string,
-      dateTo: PropTypes.string,
+      dateFrom: PropTypes.string.isRequired,
+      dateTo: PropTypes.string.isRequired,
       extraInfo: PropTypes.string,
       currency: PropTypes.string.isRequired,
       totalAmount: PropTypes.number,
@@ -51,6 +51,11 @@ export class ReceiptV2 extends React.Component {
           VAT: PropTypes.shape({
             number: PropTypes.string,
           }),
+        }),
+        host: PropTypes.shape({
+          slug: PropTypes.string.isRequired,
+          website: PropTypes.string.isRequired,
+          image: PropTypes.string.isRequired,
         }),
       }).isRequired,
       host: PropTypes.shape({
@@ -110,7 +115,7 @@ export class ReceiptV2 extends React.Component {
     // Estimate the space available
     const countLines = (str) => sumBy(str, (c) => c === '\n') + (str.length > 0 ? 1 : 0);
     const billFromAddressSize = countLines(get(receipt.host, 'location.address') || '');
-    const billToAddressSize = countLines(get(receipt.fromAccount, 'location.address') || '');
+    const billToAddressSize = countLines(get(this.getBillTo(), 'location.address') || '');
     const totalTextSize = billFromAddressSize + billToAddressSize;
     const maxNbOnFirstPage = max([minNbOnFirstPage, baseNbOnFirstPage - totalTextSize]);
 
@@ -123,19 +128,18 @@ export class ReceiptV2 extends React.Component {
     ];
   }
 
+  getBillTo() {
+    const { fromAccount } = this.props.receipt;
+    return fromAccount.host || fromAccount;
+  }
+
   /** Generate a prettier reference for receipt by taking only the first part of the hash */
-  getReceiptReference(receipt) {
-    if (receipt.slug && !receipt.slug.startsWith('transaction-')) {
-      return receipt.slug;
-    }
-
-    if (receipt.dateFrom && receipt.dateTo) {
-      const startString = moment.utc(receipt.dateFrom).format('YYYYMMDD');
-      const endString = moment.utc(receipt.dateTo).format('YYYYMMDD');
-      return `${receipt.host.slug}_${receipt.fromAccount.slug}_${startString}-${endString}`;
-    }
-
-    return receipt.slug.split('-').slice(0, 2).join('-');
+  getReceiptReference() {
+    const { receipt } = this.props;
+    const startString = moment.utc(receipt.dateFrom).format('YYYYMMDD');
+    const endString = moment.utc(receipt.dateTo).format('YYYYMMDD');
+    const billTo = this.getBillTo();
+    return `${receipt.host.slug}_${billTo.slug}_${startString}-${endString}`;
   }
 
   getTaxTotal() {
@@ -150,9 +154,11 @@ export class ReceiptV2 extends React.Component {
 
     // Expenses rely solely on the tax info stored in transactions. For orders, we look in the fromCollective
     if (!transactions.every((t) => t.kind === 'EXPENSE')) {
-      const fromCollectiveVATNumber = fromAccount.settings?.VAT?.number;
-      if (fromCollectiveVATNumber) {
-        taxesSummary.push({ idNumber: fromCollectiveVATNumber, type: 'VAT' });
+      const getVatNumberFromAccount = (a) => a?.settings?.VAT?.number;
+      if (getVatNumberFromAccount(fromAccount)) {
+        taxesSummary.push({ type: 'VAT', idNumber: getVatNumberFromAccount(fromAccount) });
+      } else if (getVatNumberFromAccount(fromAccount.host)) {
+        taxesSummary.push({ type: 'VAT', idNumber: getVatNumberFromAccount(fromAccount.host) });
       }
     }
 
@@ -275,7 +281,7 @@ export class ReceiptV2 extends React.Component {
     const { isIncognito, createdByUser } = receipt.fromAccount;
     const chunkedTransactions = this.chunkTransactions(receipt, transactions);
     const taxesTotal = this.getTaxTotal();
-
+    const billTo = this.getBillTo();
     return (
       <div className={`Receipts ${receipt.fromAccount.slug}`}>
         <div className="pages">
@@ -317,9 +323,9 @@ export class ReceiptV2 extends React.Component {
                       </H2>
                       <Box my={2}>
                         <P fontWeight={500} fontSize="13px">
-                          {isIncognito ? createdByUser.name : <AccountName account={receipt.fromAccount} />}
+                          {isIncognito ? createdByUser.name : <AccountName account={billTo} />}
                         </P>
-                        <CollectiveAddress collective={receipt.fromAccount} />
+                        <CollectiveAddress collective={billTo} />
                         {this.renderTaxIdNumbers()}
                       </Box>
                     </Box>
@@ -340,7 +346,7 @@ export class ReceiptV2 extends React.Component {
                       </div>
                     </div>
                     <div className="detail reference">
-                      <label>Reference:</label> {this.getReceiptReference(receipt)}
+                      <label>Reference:</label> {this.getReceiptReference()}
                     </div>
                   </Box>
                 </Box>
