@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@apollo/client": "3.3.21",
-    "@babel/runtime": "7.15.3",
+    "@babel/runtime": "7.18.3",
     "@bit/opencollective.design-system.components.currency": "3.0.0",
     "@bit/opencollective.design-system.components.styled-container": "2.1.0",
     "@bit/opencollective.design-system.components.styled-hr": "2.1.0",
