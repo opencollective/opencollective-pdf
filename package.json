@@ -11,7 +11,7 @@
     "npm": "7.20.1"
   },
   "dependencies": {
-    "@apollo/client": "3.3.21",
+    "@apollo/client": "3.6.6",
     "@babel/runtime": "7.15.3",
     "@bit/opencollective.design-system.components.currency": "3.0.0",
     "@bit/opencollective.design-system.components.styled-container": "2.1.0",
