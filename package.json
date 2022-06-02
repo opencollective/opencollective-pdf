@@ -8,7 +8,7 @@
   "private": true,
   "engines": {
     "node": "12.22.7",
-    "npm": "7.20.1"
+    "npm": "8.12.1"
   },
   "dependencies": {
     "@apollo/client": "3.3.21",
