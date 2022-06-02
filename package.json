@@ -7,7 +7,7 @@
   },
   "private": true,
   "engines": {
-    "node": "12.22.7",
+    "node": "16.15.1",
     "npm": "7.20.1"
   },
   "dependencies": {
