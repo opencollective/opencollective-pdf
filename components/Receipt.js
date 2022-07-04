@@ -71,6 +71,11 @@ export class Receipt extends React.Component {
           }),
         }),
       ).isRequired,
+      /** The receipt template that should be used **/
+      template: PropTypes.shape({
+        title: PropTypes.string,
+        info: PropTypes.string,
+      }),
     }).isRequired,
     pageFormat: PropTypes.oneOf(['A4', 'Letter']),
     /**
@@ -333,7 +338,7 @@ export class Receipt extends React.Component {
 
                   <Box>
                     <H2 fontSize="16px" lineHeight="18px">
-                      {invoice.title || (
+                      {invoice.title || this.props.invoice.template?.title || (
                         <FormattedMessage id="invoice.donationReceipt" defaultMessage="Payment Receipt" />
                       )}
                     </H2>
@@ -402,7 +407,7 @@ export class Receipt extends React.Component {
                 <Flex flex="3" flexDirection="column" justifyContent="space-between">
                   <Box>
                     <P fontSize="11px" textAlign="left" whiteSpace="pre-wrap">
-                      {invoice.extraInfo}
+                      {invoice.extraInfo || this.props.invoice?.template?.info}
                     </P>
                   </Box>
                   <CollectiveFooter collective={invoice.host} />

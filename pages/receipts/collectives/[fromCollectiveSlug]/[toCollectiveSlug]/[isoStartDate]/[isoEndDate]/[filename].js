@@ -40,6 +40,10 @@ class TransactionReceipt extends React.Component {
           fromAccount: response.fromAccount,
           dateFrom,
           dateTo,
+          template:
+            response.transactions[0]?.invoiceTemplate ||
+            response.transactions[0]?.order?.tier?.data?.invoiceTemplate ||
+            response?.host?.settings?.invoice?.templates?.default,
         },
       };
     }
