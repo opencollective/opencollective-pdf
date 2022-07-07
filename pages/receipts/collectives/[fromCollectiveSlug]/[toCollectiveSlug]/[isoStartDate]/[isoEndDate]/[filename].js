@@ -27,6 +27,9 @@ class TransactionReceipt extends React.Component {
       if (response.transactions.totalCount > response.transactions.nodes.length) {
         throw new Error('Too many transactions. Please contact support');
       }
+      const invoiceTemplateObj = await response?.host?.settings?.invoice?.templates?.[
+        response.transactions[0]?.invoiceTemplate || response.transactions[0]?.order?.tier?.data?.invoiceTemplate
+      ];
 
       return {
         pageFormat: ctx.query.pageFormat,
@@ -40,10 +43,7 @@ class TransactionReceipt extends React.Component {
           fromAccount: response.fromAccount,
           dateFrom,
           dateTo,
-          template:
-            response.transactions[0]?.invoiceTemplate ||
-            response.transactions[0]?.order?.tier?.data?.invoiceTemplate ||
-            response?.host?.settings?.invoice?.templates?.default,
+          template: invoiceTemplateObj || response?.host?.settings?.invoice?.templates?.default,
         },
       };
     }
