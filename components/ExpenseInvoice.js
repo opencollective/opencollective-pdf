@@ -1,7 +1,7 @@
-import Container from '@bit/opencollective.design-system.components.styled-container';
-import StyledHr from '@bit/opencollective.design-system.components.styled-hr';
-import StyledLink from '@bit/opencollective.design-system.components.styled-link';
-import { H2, P, Span } from '@bit/opencollective.design-system.components.styled-text';
+import Container from './Container';
+import StyledHr from './StyledHr';
+import StyledLink from './StyledLink';
+import { H2, P, Span } from './Text';
 import { chunk, get, max, round, sumBy } from 'lodash';
 import PropTypes from 'prop-types';
 import React from 'react';

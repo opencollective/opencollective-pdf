@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import StyledLink from '@bit/opencollective.design-system.components.styled-link';
+import StyledLink from './StyledLink';
 import { FormattedMessage } from 'react-intl';
 import AccountName from './AccountName';
 

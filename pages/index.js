@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { pick } from 'lodash';
 import { Box, Flex } from 'rebass/styled-components';
 import styled from 'styled-components';
-import Container from '@bit/opencollective.design-system.components.styled-container';
+import Container from '../components/Container';
 import { objectToQueryString } from '../lib/utils';
 import PageFormat from '../lib/constants/page-format';
 
