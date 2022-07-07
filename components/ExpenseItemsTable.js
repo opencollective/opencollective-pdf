@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Tr, Td } from './StyledTable';
 import { FormattedMessage, FormattedDate } from 'react-intl';
-import { Span } from '@bit/opencollective.design-system.components.styled-text';
+import { Span } from './Text';
 import { formatCurrency } from '../lib/utils';
 import { round, sumBy, uniq } from 'lodash';
 

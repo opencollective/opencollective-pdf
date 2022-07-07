@@ -4,10 +4,10 @@ import { FormattedMessage } from 'react-intl';
 import { get, chunk, sumBy, max, isNil, uniqBy, round } from 'lodash';
 import { Box, Flex, Image } from 'rebass/styled-components';
 import moment from 'moment';
-import { H1, H2, P, Span } from '@bit/opencollective.design-system.components.styled-text';
-import StyledHr from '@bit/opencollective.design-system.components.styled-hr';
-import Container from '@bit/opencollective.design-system.components.styled-container';
-import StyledLink from '@bit/opencollective.design-system.components.styled-link';
+import { H1, H2, P, Span } from './Text';
+import StyledHr from './StyledHr';
+import Container from './Container';
+import StyledLink from './StyledLink';
 
 import { formatCurrency } from '../lib/utils';
 import { Tr, Td } from '../components/StyledTable';

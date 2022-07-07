@@ -7,16 +7,16 @@ import { borderRadius, fontSize } from 'styled-system';
 
 import { ExternalLink } from '@styled-icons/feather/ExternalLink';
 
-import Container from '@bit/opencollective.design-system.components.styled-container';
-import Currency from '@bit/opencollective.design-system.components.currency';
-import StyledHr from '@bit/opencollective.design-system.components.styled-hr';
-import { P, Span } from '@bit/opencollective.design-system.components.styled-text';
-import StyledLink from '@bit/opencollective.design-system.components.styled-link';
+import Container from './Container';
+import StyledHr from './StyledHr';
+import { P, Span } from './Text';
+import StyledLink from './StyledLink';
 
 import { Box, Flex } from 'rebass';
 
 import opencollectiveLogoUrl from '../public/static/images/opencollective-icon.svg';
 import opencollectiveBackground from '../public/static/images/oc-gift-card-front-straightened.png';
+import { formatCurrency } from '../lib/utils';
 
 const Card = styled(Box)`
   font-family: Helvetica, sans-serif;
@@ -144,7 +144,7 @@ const PrintableGiftCard = ({ amount, currency, code, description, expiryDate, ta
             )}
             <Flex mt="1em" mb="0.4em" mr={1}>
               <Span fontWeight="bold" fontSize="1.9em" lineHeight="1em" color="#313233">
-                <Currency value={amount} currency={currency} precision={0} />
+                {formatCurrency(amount, currency, { precision: 0 })}
               </Span>
               <Box ml="0.25em">
                 <Span color="black.700" fontSize="0.7em" className="currency">
