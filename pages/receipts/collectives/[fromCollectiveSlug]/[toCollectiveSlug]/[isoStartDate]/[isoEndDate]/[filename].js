@@ -30,6 +30,7 @@ class TransactionReceipt extends React.Component {
       const invoiceTemplateObj = await response?.host?.settings?.invoice?.templates?.[
         response.transactions[0]?.invoiceTemplate || response.transactions[0]?.order?.tier?.data?.invoiceTemplate
       ];
+      const template = invoiceTemplateObj || response.host?.settings?.invoice?.templates?.default;
 
       return {
         pageFormat: ctx.query.pageFormat,
@@ -43,7 +44,7 @@ class TransactionReceipt extends React.Component {
           fromAccount: response.fromAccount,
           dateFrom,
           dateTo,
-          template: invoiceTemplateObj || response?.host?.settings?.invoice?.templates?.default,
+          template,
         },
       };
     }
