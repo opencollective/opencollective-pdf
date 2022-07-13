@@ -98,3 +98,7 @@ TL;DR: we use [Prettier](https://prettier.io/) and [ESLint](https://eslint.org/)
 ## Tests
 
 You can run the tests using `npm test`.
+
+## Deployment
+
+Merging to `main` branch will auto-deploy the pdf service to Heroku.
