@@ -19,15 +19,15 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2.4.0
+        uses: actions/checkout@v2.4.2
 
       - name: Setup node
-        uses: actions/setup-node@v2.4.1
+        uses: actions/setup-node@v2.5.1
         with:
           node-version: '12.x'
 
       - name: Restore node_modules
-        uses: actions/cache@v2.1.6
+        uses: actions/cache@v2.1.7
         id: node-modules
         with:
           path: node_modules
@@ -35,15 +35,13 @@ jobs:
 
       - name: Restore .npm cache
         if: steps.node-modules.outputs.cache-hit != 'true'
-        uses: actions/cache@v2.1.6
+        uses: actions/cache@v2.1.7
         with:
           path: ~/.npm
           key: ${{ runner.os }}-npm-cache-${{ hashFiles('package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-npm-cache-${{ hashFiles('package-lock.json') }}
             ${{ runner.os }}-npm-cache-
-
-      - run: npm config set @bit:registry https://node.bit.dev
 
       - name: Install dependencies
         if: steps.node-modules.outputs.cache-hit != 'true'
@@ -56,15 +54,15 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2.4.0
+        uses: actions/checkout@v2.4.2
 
       - name: Setup node
-        uses: actions/setup-node@v2.4.1
+        uses: actions/setup-node@v2.5.1
         with:
           node-version: '12.x'
 
       - name: Restore node_modules
-        uses: actions/cache@v2.1.6
+        uses: actions/cache@v2.1.7
         id: node-modules
         with:
           path: node_modules
@@ -72,15 +70,13 @@ jobs:
 
       - name: Restore .npm cache
         if: steps.node-modules.outputs.cache-hit != 'true'
-        uses: actions/cache@v2.1.6
+        uses: actions/cache@v2.1.7
         with:
           path: ~/.npm
           key: ${{ runner.os }}-npm-cache-${{ hashFiles('package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-npm-cache-${{ hashFiles('package-lock.json') }}
             ${{ runner.os }}-npm-cache-
-
-      - run: npm config set @bit:registry https://node.bit.dev
 
       - name: Install dependencies
         if: steps.node-modules.outputs.cache-hit != 'true'
@@ -93,15 +89,15 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2.4.0
+        uses: actions/checkout@v2.4.2
 
       - name: Setup node
-        uses: actions/setup-node@v2.4.1
+        uses: actions/setup-node@v2.5.1
         with:
           node-version: '12.x'
 
       - name: Restore node_modules
-        uses: actions/cache@v2.1.6
+        uses: actions/cache@v2.1.7
         id: node-modules
         with:
           path: node_modules
@@ -109,15 +105,13 @@ jobs:
 
       - name: Restore .npm cache
         if: steps.node-modules.outputs.cache-hit != 'true'
-        uses: actions/cache@v2.1.6
+        uses: actions/cache@v2.1.7
         with:
           path: ~/.npm
           key: ${{ runner.os }}-npm-cache-${{ hashFiles('package-lock.json') }}
           restore-keys: |
             - ${{ runner.os }}-npm-cache-${{ hashFiles('package-lock.json') }}
             - ${{ runner.os }}-npm-cache-
-
-      - run: npm config set @bit:registry https://node.bit.dev
 
       - name: Install dependencies
         if: steps.node-modules.outputs.cache-hit != 'true'

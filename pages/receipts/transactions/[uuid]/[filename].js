@@ -23,16 +23,18 @@ class TransactionReceipt extends React.Component {
       }
 
       const receipt = await fetchTransactionInvoice(uuid, accessToken, ctx.query.app_key);
+      const invoiceName =
+        receipt.transactions[0].invoiceTemplate || receipt.transactions[0].order?.tier?.data?.invoiceTemplate;
+      const template =
+        receipt.host?.settings?.invoice?.templates?.[invoiceName] ||
+        receipt.host?.settings?.invoice?.templates?.default;
       return {
         pageFormat: ctx.query.pageFormat,
         receipt: {
           ...receipt,
           totalAmount: getTransactionAmount(receipt.transactions[0]),
           currency: receipt.transactions[0].hostCurrency,
-          template:
-            receipt.transactions[0]?.invoiceTemplate ||
-            receipt.transactions[0]?.order?.tier?.data?.invoiceTemplate ||
-            receipt?.host?.settings?.invoice?.templates?.default,
+          template,
         },
       };
     }

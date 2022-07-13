@@ -4,10 +4,10 @@ import { FormattedMessage, injectIntl } from 'react-intl';
 import { get, chunk, sumBy, max, isNil, round, uniqBy } from 'lodash';
 import { Box, Flex, Image } from 'rebass/styled-components';
 import moment from 'moment';
-import { H1, H2, P, Span } from '@bit/opencollective.design-system.components.styled-text';
-import StyledHr from '@bit/opencollective.design-system.components.styled-hr';
-import Container from '@bit/opencollective.design-system.components.styled-container';
-import StyledLink from '@bit/opencollective.design-system.components.styled-link';
+import { H1, H2, P, Span } from './Text';
+import StyledHr from './StyledHr';
+import Container from './Container';
+import StyledLink from './StyledLink';
 
 import { formatCurrency } from '../lib/utils';
 import { Tr, Td } from './StyledTable';
@@ -333,7 +333,7 @@ export class ReceiptV2 extends React.Component {
 
                   <Box>
                     <H2 fontSize="16px" lineHeight="18px">
-                      {this.props.receipt.template?.title || (
+                      {receipt.template?.title || (
                         <FormattedMessage id="invoice.donationReceipt" defaultMessage="Payment Receipt" />
                       )}
                     </H2>
@@ -395,7 +395,7 @@ export class ReceiptV2 extends React.Component {
                 <Flex flex="3" flexDirection="column" justifyContent="space-between">
                   <Box>
                     <P fontSize="11px" textAlign="left" whiteSpace="pre-wrap">
-                      {this.props.receipt?.template?.info}
+                      {receipt?.template?.info}
                     </P>
                   </Box>
                   <CollectiveFooter collective={receipt.host} />
