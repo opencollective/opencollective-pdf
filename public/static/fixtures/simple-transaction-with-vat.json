@@ -14,7 +14,14 @@
     "settings": {
       "editor": "html",
       "apply": true,
-      "invoiceTitle": "Invoice"
+      "invoiceTitle": "Invoice",
+      "invoice": {
+        "templates": {
+          "default":  {
+            "title": "Invoice", "info": "Just another invoice"
+          }
+        }
+      }
     },
     "type": "ORGANIZATION",
     "location": {
