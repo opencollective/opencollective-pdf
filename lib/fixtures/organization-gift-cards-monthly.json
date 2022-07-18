@@ -16,7 +16,6 @@
     "settings": {
       "editor": "html",
       "apply": true,
-      "invoiceTitle": "Invoice",
       "invoice": {
         "templates": {
           "default": {

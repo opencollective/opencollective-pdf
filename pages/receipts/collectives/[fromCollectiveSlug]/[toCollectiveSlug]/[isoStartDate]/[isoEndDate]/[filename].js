@@ -35,8 +35,6 @@ class TransactionReceipt extends React.Component {
       return {
         pageFormat: ctx.query.pageFormat,
         receipt: {
-          title: response.host.settings?.invoiceTitle,
-          extraInfo: response.host.settings?.invoice?.extraInfo,
           currency: response.host.currency,
           totalAmount: response.transactions.nodes.reduce((total, t) => total + t.amountInHostCurrency.valueInCents, 0),
           transactions: response.transactions.nodes,

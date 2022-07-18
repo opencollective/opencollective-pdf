@@ -32,11 +32,9 @@ export class Receipt extends React.Component {
   static propTypes = {
     /** The invoice data */
     invoice: PropTypes.shape({
-      title: PropTypes.string,
       slug: PropTypes.string,
       dateFrom: PropTypes.string,
       dateTo: PropTypes.string,
-      extraInfo: PropTypes.string,
       currency: PropTypes.string,
       year: PropTypes.number,
       month: PropTypes.number,
@@ -338,7 +336,7 @@ export class Receipt extends React.Component {
 
                   <Box>
                     <H2 fontSize="16px" lineHeight="18px">
-                      {invoice.title || invoice.template?.title || (
+                      {invoice.template?.title || (
                         <FormattedMessage id="invoice.donationReceipt" defaultMessage="Payment Receipt" />
                       )}
                     </H2>
@@ -407,7 +405,7 @@ export class Receipt extends React.Component {
                 <Flex flex="3" flexDirection="column" justifyContent="space-between">
                   <Box>
                     <P fontSize="11px" textAlign="left" whiteSpace="pre-wrap">
-                      {invoice.extraInfo || invoice?.template?.info}
+                      {invoice?.template?.info}
                     </P>
                   </Box>
                   <CollectiveFooter collective={invoice.host} />
