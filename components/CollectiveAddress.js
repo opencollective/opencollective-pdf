@@ -9,10 +9,13 @@ countries.registerLocale(countriesEN);
 /**
  * Pretty render a location (multiline)
  */
-const CollectiveAddress = ({ collective }) => {
-  const address = get(collective, 'location.address');
+const CollectiveAddress = ({ collective, fallBackOnHostAddress }) => {
   const countryISO = get(collective, 'location.country');
   const country = countryISO && (countries.getName(countryISO, 'en') || countryISO);
+  let address = get(collective, 'location.address');
+  if (!address && fallBackOnHostAddress) {
+    address = get(collective, 'host.location.address');
+  }
 
   return (
     <React.Fragment>
@@ -29,7 +32,9 @@ const CollectiveAddress = ({ collective }) => {
 };
 
 CollectiveAddress.propTypes = {
+  fallBackOnHostAddress: PropTypes.bool,
   collective: PropTypes.shape({
+    host: PropTypes.object,
     location: PropTypes.shape({
       address: PropTypes.string,
       country: PropTypes.string,
