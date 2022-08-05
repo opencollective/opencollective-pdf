@@ -23,15 +23,17 @@ const getPageHeight = (pageFormat) => {
  * to keep some space for the header. The number of items we show on it depends of
  * the size of the header, that we estimate from the number of lines in the addresses.
  */
-const chunkItems = (expense) => {
+const chunkItems = (expense, billToAccount) => {
   const baseNbOnFirstPage = 12;
   const minNbOnFirstPage = 8;
   const itemsPerPage = 22;
 
   // Estimate the space available
   const countLines = (str) => sumBy(str, (c) => c === '\n');
-  const billFromAddressSize = countLines(get(expense.account, 'location.address', ''));
-  const billToAddressSize = countLines(get(expense.payeeLocation, 'address', ''));
+  const billFromAddressSize = countLines(get(expense.payeeLocation, 'address', ''));
+  const billToAddressSize = countLines(
+    get(billToAccount, 'location.address', '') || get(billToAccount, 'host.location.address', ''),
+  );
   const maxNbOnFirstPage = max([minNbOnFirstPage, baseNbOnFirstPage - (billFromAddressSize + billToAddressSize)]);
 
   // If we don't need to put the logo on first page then let's use all the space available
@@ -41,14 +43,23 @@ const chunkItems = (expense) => {
   return [items.slice(0, nbOnFirstPage), ...chunk(items.slice(nbOnFirstPage, items.length), itemsPerPage)];
 };
 
+const getBillTo = (expense) => {
+  const billToType = get(expense, 'account.host.settings.invoice.expenseTemplates.default.billTo', 'host');
+  if (billToType === 'collective') {
+    return expense.account;
+  } else {
+    return expense.account.host || expense.account;
+  }
+};
+
 const ExpenseInvoice = ({ expense, pageFormat }) => {
   if (!expense) {
     return <div>Could not retrieve the information for this expense.</div>;
   }
 
   const { account, payee, payeeLocation } = expense;
-  const chunkedItems = chunkItems(expense);
-  const billToAccount = account.host || account;
+  const billToAccount = getBillTo(expense);
+  const chunkedItems = chunkItems(expense, billToAccount);
   const grossAmount = sumBy(expense.items, 'amount');
   return (
     <div>
@@ -80,7 +91,7 @@ const ExpenseInvoice = ({ expense, pageFormat }) => {
                     </P>
                   </StyledLink>
                   <Box mb={2}>
-                    <CollectiveAddress collective={billToAccount} />
+                    <CollectiveAddress collective={billToAccount} fallBackOnHostAddress />
                   </Box>
                 </Box>
               </Flex>
