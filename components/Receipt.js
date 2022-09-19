@@ -401,7 +401,7 @@ export class Receipt extends React.Component {
                         flexBasis="100%"
                         style={{ background: '#ebf4ff', padding: '8px 16px', fontWeight: 'bold' }}
                       >
-                        <FormattedMessage id="total" defaultMessage="TOTAL" />
+                        <FormattedMessage id="totalPaid" defaultMessage="TOTAL PAID" />
                         <Span>
                           {formatCurrency(invoice.totalAmount, invoice.currency, { showCurrencySymbol: true })}
                         </Span>
