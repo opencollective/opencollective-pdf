@@ -67,6 +67,10 @@ export class Receipt extends React.Component {
             id: PropTypes.number.isRequired,
             type: PropTypes.string,
           }),
+          paymentMethod: PropTypes.shape({
+            type: PropTypes.string,
+            name: PropTypes.string,
+          }),
         }),
       ).isRequired,
       /** The receipt template that should be used **/
@@ -358,6 +362,12 @@ export class Receipt extends React.Component {
                     <div className="detail reference">
                       <label>Reference:</label> {this.getInvoiceReference()}
                     </div>
+                    {transactions.length === 1 && (
+                      <div>
+                        <label>Payment Method:</label>{' '}
+                        {`${transactions[0].paymentMethod.type} ${transactions[0].paymentMethod.name}`}
+                      </div>
+                    )}
                   </Box>
                 </Box>
               )}
