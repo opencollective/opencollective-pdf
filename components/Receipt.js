@@ -362,7 +362,7 @@ export class Receipt extends React.Component {
                     <div className="detail reference">
                       <label>Reference:</label> {this.getInvoiceReference()}
                     </div>
-                    {transactions.length === 1 && (
+                    {transactions.length === 1 && transactions[0].paymentMethod && (
                       <div>
                         <label>Payment Method:</label>{' '}
                         {`${transactions[0].paymentMethod.type} ${transactions[0].paymentMethod.name}`}
