@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Flex, Image, Box } from 'rebass/styled-components';
-import Container from './Container';
-import StyledLink from './StyledLink';
 import CollectiveAddress from './CollectiveAddress';
-import { P } from './Text';
 import { imagePreview } from '../lib/utils';
+import Container from '@opencollective/frontend-components/components/Container';
+import StyledLink from '@opencollective/frontend-components/components/StyledLink';
+import { P } from '@opencollective/frontend-components/components/Text';
 
 const CollectiveFooter = ({ collective }) => {
   return (

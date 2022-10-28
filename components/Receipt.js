@@ -4,13 +4,9 @@ import { FormattedMessage } from 'react-intl';
 import { get, chunk, sumBy, max, isNil, uniqBy, round } from 'lodash';
 import { Box, Flex, Image } from 'rebass/styled-components';
 import moment from 'moment';
-import { H1, H2, P, Span } from './Text';
-import StyledHr from './StyledHr';
-import Container from './Container';
-import StyledLink from './StyledLink';
 
 import { formatCurrency } from '../lib/utils';
-import { Tr, Td } from '../components/StyledTable';
+import { Tr, Td } from './StyledTable';
 import LinkToCollective from '../components/LinkToCollective';
 
 import GiftCardImgSrc from '../public/static/images/giftcard.png';
@@ -27,6 +23,10 @@ import PageFormat from '../lib/constants/page-format';
 import CollectiveFooter from './CollectiveFooter';
 import CustomIntlDate from './CustomIntlDate';
 import AccountName from './AccountName';
+import { H1, H2, P, Span } from '@opencollective/frontend-components/components/Text';
+import StyledLink from '@opencollective/frontend-components/components/StyledLink';
+import StyledHr from '@opencollective/frontend-components/components/StyledHr';
+import Container from '@opencollective/frontend-components/components/Container';
 
 export class Receipt extends React.Component {
   static propTypes = {

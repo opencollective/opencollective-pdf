@@ -1,7 +1,3 @@
-import Container from './Container';
-import StyledHr from './StyledHr';
-import StyledLink from './StyledLink';
-import { H2, P, Span } from './Text';
 import { chunk, get, max, round, sumBy } from 'lodash';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -12,6 +8,10 @@ import { formatCurrency } from '../lib/utils';
 import AccountName from './AccountName';
 import CollectiveAddress from './CollectiveAddress';
 import ExpenseItemsTable from './ExpenseItemsTable';
+import StyledLink from '@opencollective/frontend-components/components/StyledLink';
+import { H2, P, Span } from '@opencollective/frontend-components/components/Text';
+import Container from '@opencollective/frontend-components/components/Container';
+import StyledHr from '@opencollective/frontend-components/components/StyledHr';
 
 const getPageHeight = (pageFormat) => {
   const dimensions = PageFormat[pageFormat];
