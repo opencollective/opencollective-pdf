@@ -13,6 +13,7 @@
   "dependencies": {
     "@apollo/client": "3.6.9",
     "@babel/runtime": "7.18.9",
+    "@opencollective/frontend-components": "0.3.8",
     "@styled-icons/feather": "10.34.0",
     "@styled-system/theme-get": "5.1.2",
     "babel-plugin-formatjs": "10.3.25",
@@ -30,6 +31,7 @@
     "lodash": "4.17.21",
     "moment": "2.29.4",
     "next": "10.2.3",
+    "next-transpile-modules": "7.3.0",
     "polished": "4.2.2",
     "prop-types": "15.8.1",
     "qrcode.react": "1.0.1",
@@ -38,7 +40,7 @@
     "react-intl": "5.25.1",
     "rebass": "4.0.7",
     "sanitize-html": "2.7.1",
-    "styled-components": "5.3.1",
+    "styled-components": "5.3.6",
     "styled-system": "5.1.5",
     "winston": "3.8.1"
   },

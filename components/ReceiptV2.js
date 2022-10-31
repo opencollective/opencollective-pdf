@@ -4,10 +4,6 @@ import { FormattedMessage, injectIntl } from 'react-intl';
 import { get, chunk, sumBy, max, isNil, round, uniqBy } from 'lodash';
 import { Box, Flex, Image } from 'rebass/styled-components';
 import moment from 'moment';
-import { H1, H2, P, Span } from './Text';
-import StyledHr from './StyledHr';
-import Container from './Container';
-import StyledLink from './StyledLink';
 
 import { formatCurrency } from '../lib/utils';
 import { Tr, Td } from './StyledTable';
@@ -27,6 +23,10 @@ import PageFormat from '../lib/constants/page-format';
 import CollectiveFooter from './CollectiveFooter';
 import CustomIntlDate from './CustomIntlDate';
 import AccountName from './AccountName';
+import StyledLink from '@opencollective/frontend-components/components/StyledLink';
+import { H1, H2, P, Span } from '@opencollective/frontend-components/components/Text';
+import Container from '@opencollective/frontend-components/components/Container';
+import StyledHr from '@opencollective/frontend-components/components/StyledHr';
 
 /**
  * Similar to `Receipt`, but for API V2

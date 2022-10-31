@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Tr, Td } from './StyledTable';
 import { FormattedMessage, FormattedDate } from 'react-intl';
-import { Span } from './Text';
 import { formatCurrency } from '../lib/utils';
 import { round, sumBy, uniq } from 'lodash';
+import { Span } from '@opencollective/frontend-components/components/Text';
 
 const ExpenseItemsTable = ({ items, expense }) => {
   const allTaxTypes = uniq(expense.taxes.map((tax) => tax.type));

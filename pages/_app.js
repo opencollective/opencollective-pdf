@@ -2,7 +2,7 @@ import React from 'react';
 import App from 'next/app';
 import { ThemeProvider, createGlobalStyle } from 'styled-components';
 import { IntlProvider } from 'react-intl';
-import theme from '../lib/theme';
+import theme from '@opencollective/frontend-components/lib/theme';
 
 const GlobalStyles = createGlobalStyle`
   body {

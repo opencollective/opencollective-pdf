@@ -1,6 +1,8 @@
 require('dotenv').config();
 const path = require('path');
 
+const withTM = require('next-transpile-modules')(['@opencollective/frontend-components']);
+
 const nextConfig = {
   env: {
     WEBSITE_URL: process.env.WEBSITE_URL,
@@ -39,4 +41,4 @@ const nextConfig = {
   },
 };
 
-module.exports = nextConfig;
+module.exports = withTM(nextConfig);
