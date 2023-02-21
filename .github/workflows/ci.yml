@@ -27,7 +27,7 @@ jobs:
           node-version: '12.x'
 
       - name: Restore node_modules
-        uses: actions/cache@v3.2.2
+        uses: actions/cache@v3.2.6
         id: node-modules
         with:
           path: node_modules
@@ -35,7 +35,7 @@ jobs:
 
       - name: Restore .npm cache
         if: steps.node-modules.outputs.cache-hit != 'true'
-        uses: actions/cache@v3.2.2
+        uses: actions/cache@v3.2.6
         with:
           path: ~/.npm
           key: ${{ runner.os }}-npm-cache-${{ hashFiles('package-lock.json') }}
@@ -62,7 +62,7 @@ jobs:
           node-version: '12.x'
 
       - name: Restore node_modules
-        uses: actions/cache@v3.2.2
+        uses: actions/cache@v3.2.6
         id: node-modules
         with:
           path: node_modules
@@ -70,7 +70,7 @@ jobs:
 
       - name: Restore .npm cache
         if: steps.node-modules.outputs.cache-hit != 'true'
-        uses: actions/cache@v3.2.2
+        uses: actions/cache@v3.2.6
         with:
           path: ~/.npm
           key: ${{ runner.os }}-npm-cache-${{ hashFiles('package-lock.json') }}
@@ -97,7 +97,7 @@ jobs:
           node-version: '12.x'
 
       - name: Restore node_modules
-        uses: actions/cache@v3.2.2
+        uses: actions/cache@v3.2.6
         id: node-modules
         with:
           path: node_modules
@@ -105,7 +105,7 @@ jobs:
 
       - name: Restore .npm cache
         if: steps.node-modules.outputs.cache-hit != 'true'
-        uses: actions/cache@v3.2.2
+        uses: actions/cache@v3.2.6
         with:
           path: ~/.npm
           key: ${{ runner.os }}-npm-cache-${{ hashFiles('package-lock.json') }}
