@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { pick } from 'lodash';
-import { Box, Flex } from 'rebass/styled-components';
+import { Box, Flex } from '@opencollective/frontend-components/components/Grid';
 import styled from 'styled-components';
 import { objectToQueryString } from '../lib/utils';
 import PageFormat from '../lib/constants/page-format';

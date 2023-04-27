@@ -7,7 +7,7 @@ import { borderRadius, fontSize } from 'styled-system';
 
 import { ExternalLink } from '@styled-icons/feather/ExternalLink';
 
-import { Box, Flex } from 'rebass';
+import { Box, Flex } from '@opencollective/frontend-components/components/Grid';
 
 import opencollectiveLogoUrl from '../public/static/images/opencollective-icon.svg';
 import opencollectiveBackground from '../public/static/images/oc-gift-card-front-straightened.png';
@@ -28,7 +28,6 @@ const Card = styled(Box)`
   flex-direction: column;
   justify-content: space-between;
   outline: 0.1em dashed rgba(62, 130, 230, 0.15);
-  margin: 2em;
 
   @media print {
     break-inside: avoid;
@@ -38,17 +37,19 @@ const Card = styled(Box)`
   ${fontSize};
 `;
 
-const OpenCollectiveLogo = styled.img`
-  width: 3em;
-  height: 3em;
-`;
-
-const CardBackground = styled.img.attrs({ src: opencollectiveBackground })`
+const CardBackground = styled.img.attrs({
+  src: opencollectiveBackground,
+})`
   position: absolute;
   width: 100%;
   height: 100%;
   z-index: -1;
   margin-top: -10px;
+`;
+
+const OpenCollectiveLogo = styled.img.attrs({ src: opencollectiveLogoUrl })`
+  width: 3em;
+  height: 3em;
 `;
 
 /**
@@ -69,7 +70,7 @@ const PrintableGiftCard = ({ amount, currency, code, description, expiryDate, ta
       <Box px={basePaddingX} pt={paddingTop}>
         <Flex justifyContent="space-between" alignItems="center">
           <Flex alignItems="center">
-            <OpenCollectiveLogo src={opencollectiveLogoUrl} alt="" />
+            <OpenCollectiveLogo alt="" />
             <Flex flexDirection="column" ml="0.8em">
               <P fontWeight="bold" fontSize="1.1em" lineHeight="1.5em">
                 Open Collective
@@ -96,16 +97,19 @@ const PrintableGiftCard = ({ amount, currency, code, description, expiryDate, ta
         </Flex>
         <Box>
           <StyledHr mt="0.75em" mb="0.5em" borderColor="rgb(73, 139, 237)" borderRadius={8} />
-          <P fontSize="0.55em" lineHeight="1.75em" color="black.300">
+          <P fontSize="0.7em" lineHeight="1.75em" color="black.200">
             {description}
             {expiryDate && (
-              <FormattedMessage
-                id="ContributePayment.expiresOn"
-                defaultMessage="Expires on {expiryDate}"
-                values={{
-                  expiryDate: <FormattedDate value={expiryDate} day="numeric" year="numeric" month="long" />,
-                }}
-              />
+              <React.Fragment>
+                <br />
+                <FormattedMessage
+                  id="ContributePayment.expiresOn"
+                  defaultMessage="Expires on {expiryDate}"
+                  values={{
+                    expiryDate: <FormattedDate value={expiryDate} day="numeric" year="numeric" month="long" />,
+                  }}
+                />
+              </React.Fragment>
             )}
           </P>
         </Box>

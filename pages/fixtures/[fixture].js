@@ -5,7 +5,7 @@ import { chunk } from 'lodash';
 import PageFormat from '../../lib/constants/page-format';
 import { Receipt } from '../../components/Receipt';
 import PDFLayout from '../../components/PDFLayout';
-import { Box, Flex } from 'rebass/styled-components';
+import { Box, Flex } from '@opencollective/frontend-components/components/Grid';
 import PrintableGiftCard from '../../components/PrintableGiftCard';
 
 const FIXTURES = {
@@ -43,7 +43,7 @@ class FixturePage extends React.Component {
               <Box key={idx} py={5}>
                 <Flex flexWrap="wrap" justifyContent="center">
                   {paginatedCards.map((c) => (
-                    <Box key={c.uuid} m={3}>
+                    <Box key={c.uuid} m="22.25px">
                       <PrintableGiftCard
                         amount={c.initialBalance}
                         currency={c.currency}

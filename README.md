@@ -18,8 +18,8 @@ We recommend using [nvm](https://github.com/creationix/nvm): `nvm use`.
 We recommend cloning the repository in a folder dedicated to `opencollective` projects.
 
 ```
-git clone git@github.com:opencollective/opencollective-invoices.git opencollective/invoices
-cd opencollective/invoices
+git clone git@github.com:opencollective/opencollective-pdf.git opencollective/pdf
+cd opencollective/pdf
 npm install
 ```
 

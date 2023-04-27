@@ -4,6 +4,9 @@ const path = require('path');
 const withTM = require('next-transpile-modules')(['@opencollective/frontend-components']);
 
 const nextConfig = {
+  images: {
+    disableStaticImages: true, // We inline images ourselves for PDF compatibility
+  },
   env: {
     WEBSITE_URL: process.env.WEBSITE_URL,
     API_URL: process.env.API_URL,
