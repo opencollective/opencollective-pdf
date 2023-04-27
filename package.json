@@ -72,7 +72,7 @@
     "babel-plugin-react-intl": "^7.9.2",
     "babel-plugin-styled-components": "^1.13.2",
     "codecov": "^3.8.2",
-    "commitizen": "^4.2.4",
+    "commitizen": "^4.3.0",
     "cross-env": "^7.0.3",
     "cz-conventional-changelog": "^3.3.0",
     "eslint": "^7.31.0",
