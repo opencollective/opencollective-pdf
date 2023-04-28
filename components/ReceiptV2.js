@@ -24,7 +24,7 @@ import CollectiveFooter from './CollectiveFooter';
 import CustomIntlDate from './CustomIntlDate';
 import AccountName from './AccountName';
 import StyledLink from '@opencollective/frontend-components/components/StyledLink';
-import { H1, H2, P, Span } from '@opencollective/frontend-components/components/Text';
+import { H1, H2, P, Span, Strong } from '@opencollective/frontend-components/components/Text';
 import Container from '@opencollective/frontend-components/components/Container';
 import StyledHr from '@opencollective/frontend-components/components/StyledHr';
 
@@ -177,9 +177,15 @@ export class ReceiptV2 extends React.Component {
 
   /** Get a description for transaction, with a mention to gift card emitter if necessary */
   transactionDescription(transaction) {
+    const isRefunded = !transaction.isRefund && transaction.refundTransaction;
     const targetCollective = getTransactionReceiver(transaction);
     const transactionDescription = (
       <LinkToCollective collective={targetCollective}>
+        {isRefunded && (
+          <Strong fontWeight="700">
+            <FormattedMessage defaultMessage="[REFUNDED]" />{' '}
+          </Strong>
+        )}
         {transaction.description || targetCollective.name || targetCollective.slug}
       </LinkToCollective>
     );
