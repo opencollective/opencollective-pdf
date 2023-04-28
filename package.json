@@ -14,7 +14,7 @@
     "@apollo/client": "3.3.21",
     "@babel/runtime": "7.18.9",
     "@opencollective/frontend-components": "0.4.0",
-    "@styled-icons/feather": "10.34.0",
+    "@styled-icons/feather": "10.47.0",
     "@styled-system/theme-get": "5.1.2",
     "babel-plugin-formatjs": "10.3.25",
     "cors": "2.8.5",
