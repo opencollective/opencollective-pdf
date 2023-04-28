@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Flex, Box } from 'rebass';
+import { Box, Flex } from '@opencollective/frontend-components/components/Grid';
 import { chunk } from 'lodash';
 import PageFormat from '../../../lib/constants/page-format';
 import PDFLayout from '../../../components/PDFLayout';
@@ -70,7 +70,7 @@ class GiftCardsByIds extends React.Component {
             <Box key={idx} py={5} css={this.getPageStyle(cardsPerPage, paginatedCards)}>
               <Flex flexWrap="wrap" justifyContent="center">
                 {paginatedCards.map((c) => (
-                  <Box key={c.uuid} m={3}>
+                  <Box key={c.uuid} m="22.25px">
                     <PrintableGiftCard
                       amount={c.initialBalance}
                       currency={c.currency}

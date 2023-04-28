@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Flex, Image, Box } from 'rebass/styled-components';
+import { Box, Flex } from '@opencollective/frontend-components/components/Grid';
 import CollectiveAddress from './CollectiveAddress';
 import { imagePreview } from '../lib/utils';
 import Container from '@opencollective/frontend-components/components/Container';
@@ -12,8 +12,8 @@ const CollectiveFooter = ({ collective }) => {
     <Flex justifyContent="center" alignItems="center">
       <Container borderRight="1px solid" borderColor="black.400" pr={4} mr={4}>
         <StyledLink href={collective.website}>
-          <Image
-            css={{ maxWidth: 200, maxHeight: 100 }}
+          <img
+            style={{ maxWidth: 200, maxHeight: 100 }}
             src={imagePreview(collective.imageUrl ?? collective.image, null, { height: 200 })}
           />
         </StyledLink>

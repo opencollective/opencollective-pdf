@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { get, chunk, sumBy, max, isNil, round, uniqBy } from 'lodash';
-import { Box, Flex, Image } from 'rebass/styled-components';
+import { Box, Flex } from '@opencollective/frontend-components/components/Grid';
 import moment from 'moment';
 
 import { formatCurrency } from '../lib/utils';
@@ -188,7 +188,7 @@ export class ReceiptV2 extends React.Component {
       transactionDescription
     ) : (
       <div>
-        <Image src={GiftCardImgSrc} alt="" height="1em" mr={1} css={{ verticalAlign: 'middle' }} />
+        <img src={GiftCardImgSrc} alt="" style={{ verticalAlign: 'middle', height: '1em', marginRight: '4px' }} />
         <LinkToCollective collective={targetCollective}>{transactionDescription}</LinkToCollective>
       </div>
     );

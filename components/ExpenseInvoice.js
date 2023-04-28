@@ -2,7 +2,7 @@ import { chunk, get, max, round, sumBy } from 'lodash';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Box, Flex } from 'rebass/styled-components';
+import { Box, Flex } from '@opencollective/frontend-components/components/Grid';
 import PageFormat from '../lib/constants/page-format';
 import { formatCurrency } from '../lib/utils';
 import AccountName from './AccountName';
