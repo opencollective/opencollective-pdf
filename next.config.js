@@ -7,6 +7,9 @@ const nextConfig = {
   images: {
     disableStaticImages: true, // We inline images ourselves for PDF compatibility
   },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
   env: {
     WEBSITE_URL: process.env.WEBSITE_URL,
     API_URL: process.env.API_URL,

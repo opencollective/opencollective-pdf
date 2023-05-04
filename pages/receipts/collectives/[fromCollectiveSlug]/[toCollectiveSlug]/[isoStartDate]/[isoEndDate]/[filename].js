@@ -15,7 +15,7 @@ class TransactionReceipt extends React.Component {
       if (!accessToken && !ctx.query.app_key) {
         // Frontend sends an OPTIONS request to check CORS, we should just return OK when that happens
         if (ctx.req.method === 'OPTIONS') {
-          return;
+          return {};
         }
 
         throw new Error('Please provide an access token or an APP key');
