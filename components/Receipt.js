@@ -246,7 +246,7 @@ export class Receipt extends React.Component {
                   <CustomIntlDate date={new Date(transaction.createdAt)} />
                 </Td>
                 <Td fontSize="11px">
-                  {!isRefunded && (
+                  {isRefunded && (
                     <StyledTag
                       fontWeight="500"
                       fontSize="10px"
