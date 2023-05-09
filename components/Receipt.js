@@ -23,8 +23,9 @@ import CollectiveFooter from './CollectiveFooter';
 import CustomIntlDate from './CustomIntlDate';
 import AccountName from './AccountName';
 import StyledLink from '@opencollective/frontend-components/components/StyledLink';
-import { H1, H2, P, Span, Strong } from '@opencollective/frontend-components/components/Text';
+import { H1, H2, P, Span } from '@opencollective/frontend-components/components/Text';
 import Container from '@opencollective/frontend-components/components/Container';
+import StyledTag from '@opencollective/frontend-components/components/StyledTag';
 import StyledHr from '@opencollective/frontend-components/components/StyledHr';
 
 export class Receipt extends React.Component {
@@ -46,14 +47,14 @@ export class Receipt extends React.Component {
         }),
         host: PropTypes.shape({
           slug: PropTypes.string.isRequired,
-          website: PropTypes.string.isRequired,
-          image: PropTypes.string.isRequired,
+          website: PropTypes.string,
+          imageUrl: PropTypes.string,
         }),
       }).isRequired,
       host: PropTypes.shape({
         slug: PropTypes.string.isRequired,
         website: PropTypes.string.isRequired,
-        image: PropTypes.string.isRequired,
+        imageUrl: PropTypes.string.isRequired,
       }),
       transactions: PropTypes.arrayOf(
         PropTypes.shape({
@@ -179,15 +180,9 @@ export class Receipt extends React.Component {
 
   /** Get a description for transaction, with a mention to gift card emitter if necessary */
   transactionDescription(transaction) {
-    const isRefunded = !transaction.isRefund && transaction.refundTransaction;
     const targetCollective = getTransactionReceiver(transaction);
     const transactionDescription = (
       <LinkToCollective collective={targetCollective}>
-        {isRefunded && (
-          <Strong fontWeight="700">
-            <FormattedMessage defaultMessage="[REFUNDED]" />{' '}
-          </Strong>
-        )}
         {transaction.description || targetCollective.name || targetCollective.slug}
       </LinkToCollective>
     );
@@ -213,7 +208,7 @@ export class Receipt extends React.Component {
       <table style={{ borderCollapse: 'collapse', width: '100%' }}>
         <thead>
           <Tr background="#ebf4ff" borderRadius="4px">
-            <Td fontSize="13px" fontWeight={500} borderRadius="4px 0 0 4px">
+            <Td fontSize="13px" fontWeight={500} borderRadius="4px 0 0 4px" width="60px">
               <FormattedMessage id="date" defaultMessage="Date" />
             </Td>
             <Td fontSize="13px" fontWeight={500}>
@@ -240,14 +235,33 @@ export class Receipt extends React.Component {
             const taxAmount = Math.abs(transaction.taxAmount.valueInCents || 0);
             const hostCurrencyFxRate = transaction.hostCurrencyFxRate || 1;
             const taxAmountInHostCurrency = taxAmount * hostCurrencyFxRate;
-            const unitGrossPrice = Math.abs((amountInHostCurrency - taxAmountInHostCurrency) / quantity);
+            const grossPrice =
+              amountInHostCurrency - (transaction.isRefund ? -taxAmountInHostCurrency : taxAmountInHostCurrency);
+            const unitGrossPrice = Math.abs(grossPrice / quantity);
             const transactionCurrency = transaction.hostCurrency || this.props.receipt.currency;
+            const isRefunded = !transaction.isRefund && transaction.refundTransaction;
             return (
               <tr key={transaction.id}>
                 <Td fontSize="11px">
                   <CustomIntlDate date={new Date(transaction.createdAt)} />
                 </Td>
-                <Td fontSize="11px">{this.transactionDescription(transaction)}</Td>
+                <Td fontSize="11px">
+                  {!isRefunded && (
+                    <StyledTag
+                      fontWeight="500"
+                      fontSize="10px"
+                      px="4px"
+                      py="2px"
+                      color="black.900"
+                      display="inline"
+                      mr={1}
+                      letterSpacing="0"
+                    >
+                      <FormattedMessage defaultMessage="REFUNDED" />
+                    </StyledTag>
+                  )}
+                  {this.transactionDescription(transaction)}
+                </Td>
                 <Td fontSize="11px" textAlign="center">
                   {quantity}
                 </Td>
