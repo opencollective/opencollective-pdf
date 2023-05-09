@@ -32,11 +32,7 @@ export default class Home extends Component {
 
   /** All pages as [testFilename]: Title */
   static Menu = {
-    'donation-receipt': 'Donation receipt',
-    'simple-transaction': 'Simple transaction',
-    'organization-gift-cards-monthly': 'Organization with gift cards',
-    'transactions-with-tax': 'With taxes',
-    'transactions-with-date-range': 'With date range',
+    'contribution-receipt': 'Contribution receipt',
     'gift-cards': 'Gift cards',
   };
 

@@ -88,7 +88,14 @@ export default class Document extends NextJSDocument {
         });
 
       const fileFormat = getFileFormatFromCtx(ctx);
-      const initialProps = await NextJSDocument.getInitialProps(ctx);
+      let initialProps;
+      try {
+        initialProps = await NextJSDocument.getInitialProps(ctx);
+      } catch (e) {
+        console.error('Error while getting initial props', JSON.stringify(e, null, 2));
+        throw e;
+      }
+
       const isPdf = ctx.pathname !== '/' && fileFormat === 'pdf';
       if (isServer && isPdf) {
         if (ctx.err) {

@@ -1,46 +1,41 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
-import { get, chunk, sumBy, max, isNil, uniqBy, round } from 'lodash';
+import { FormattedMessage, injectIntl } from 'react-intl';
+import { get, chunk, sumBy, max, isNil, round, uniqBy } from 'lodash';
 import { Box, Flex } from '@opencollective/frontend-components/components/Grid';
 import moment from 'moment';
 
 import { formatCurrency } from '../lib/utils';
 import { Tr, Td } from './StyledTable';
-import LinkToCollective from '../components/LinkToCollective';
+import LinkToCollective from './LinkToCollective';
 
 import GiftCardImgSrc from '../public/static/images/giftcard.png';
-import CollectiveAddress from '../components/CollectiveAddress';
+import CollectiveAddress from './CollectiveAddress';
 import {
-  getTaxesBreakdown,
   getTransactionReceiver,
-  getTransactionAmount,
   getTransactionTaxPercent,
-  getTaxInfoFromTransaction,
   getTaxIdNumbersFromTransactions,
+  getTaxesBreakdown,
+  getTaxInfoFromTransaction,
 } from '../lib/transactions';
 import PageFormat from '../lib/constants/page-format';
 import CollectiveFooter from './CollectiveFooter';
 import CustomIntlDate from './CustomIntlDate';
 import AccountName from './AccountName';
-import { H1, H2, P, Span, Strong } from '@opencollective/frontend-components/components/Text';
 import StyledLink from '@opencollective/frontend-components/components/StyledLink';
-import StyledHr from '@opencollective/frontend-components/components/StyledHr';
+import { H1, H2, P, Span, Strong } from '@opencollective/frontend-components/components/Text';
 import Container from '@opencollective/frontend-components/components/Container';
+import StyledHr from '@opencollective/frontend-components/components/StyledHr';
 
 export class Receipt extends React.Component {
   static propTypes = {
-    /** The invoice data */
-    invoice: PropTypes.shape({
-      slug: PropTypes.string,
+    /** The receipt data */
+    receipt: PropTypes.shape({
       dateFrom: PropTypes.string,
       dateTo: PropTypes.string,
-      currency: PropTypes.string,
-      year: PropTypes.number,
-      month: PropTypes.number,
-      day: PropTypes.number,
+      currency: PropTypes.string.isRequired,
       totalAmount: PropTypes.number,
-      fromCollective: PropTypes.shape({
+      fromAccount: PropTypes.shape({
         slug: PropTypes.string.isRequired,
         name: PropTypes.string,
         legalName: PropTypes.string,
@@ -51,14 +46,14 @@ export class Receipt extends React.Component {
         }),
         host: PropTypes.shape({
           slug: PropTypes.string.isRequired,
-          website: PropTypes.string,
-          image: PropTypes.string,
+          website: PropTypes.string.isRequired,
+          image: PropTypes.string.isRequired,
         }),
       }).isRequired,
       host: PropTypes.shape({
         slug: PropTypes.string.isRequired,
-        website: PropTypes.string,
-        image: PropTypes.string,
+        website: PropTypes.string.isRequired,
+        image: PropTypes.string.isRequired,
       }),
       transactions: PropTypes.arrayOf(
         PropTypes.shape({
@@ -66,10 +61,6 @@ export class Receipt extends React.Component {
           order: PropTypes.shape({
             id: PropTypes.number.isRequired,
             type: PropTypes.string,
-          }),
-          paymentMethod: PropTypes.shape({
-            type: PropTypes.string,
-            name: PropTypes.string,
           }),
         }),
       ).isRequired,
@@ -88,6 +79,7 @@ export class Receipt extends React.Component {
     debug: PropTypes.bool,
     /** CSS zoom applied */
     zoom: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    intl: PropTypes.object.isRequired, // from withIntl
   };
 
   static defaultProps = {
@@ -112,14 +104,14 @@ export class Receipt extends React.Component {
    * to keep some space for the header. The number of transactions we show on it depends of
    * the size of the header, that we estimate from the number of lines in the addresses.
    */
-  chunkTransactions(invoice, transactions) {
+  chunkTransactions(receipt, transactions) {
     const baseNbOnFirstPage = 12;
     const minNbOnFirstPage = 8;
     const transactionsPerPage = 22;
 
     // Estimate the space available
     const countLines = (str) => sumBy(str, (c) => c === '\n') + (str.length > 0 ? 1 : 0);
-    const billFromAddressSize = countLines(get(invoice.host, 'location.address') || '');
+    const billFromAddressSize = countLines(get(receipt.host, 'location.address') || '');
     const billToAddressSize = countLines(get(this.getBillTo(), 'location.address') || '');
     const totalTextSize = billFromAddressSize + billToAddressSize;
     const maxNbOnFirstPage = max([minNbOnFirstPage, baseNbOnFirstPage - totalTextSize]);
@@ -134,44 +126,42 @@ export class Receipt extends React.Component {
   }
 
   getBillTo() {
-    const { fromCollective } = this.props.invoice;
-    return fromCollective.host || fromCollective;
+    const { fromAccount } = this.props.receipt;
+    return fromAccount.host || fromAccount;
   }
 
-  /** Generate a prettier reference for invoice by taking only the first part of the hash */
-  getInvoiceReference() {
-    const { invoice } = this.props;
-    if (invoice.slug && !invoice.slug.startsWith('transaction-')) {
-      return invoice.slug;
+  /** Generate a prettier reference for receipt by taking only the first part of the hash */
+  getReceiptReference() {
+    const { receipt } = this.props;
+    const billTo = this.getBillTo();
+    if (receipt.dateFrom && receipt.dateTo) {
+      const startString = moment.utc(receipt.dateFrom).format('YYYYMMDD');
+      const endString = moment.utc(receipt.dateTo).format('YYYYMMDD');
+      return `${receipt.host.slug}_${billTo.slug}_${startString}-${endString}`;
+    } else if (receipt.transactions.length === 1) {
+      return `${receipt.host.slug}_${receipt.transactions[0].id}`;
+    } else {
+      return `${receipt.host.slug}_${billTo.slug}`;
     }
-
-    if (invoice.dateFrom && invoice.dateTo) {
-      const startString = moment.utc(invoice.dateFrom).format('YYYYMMDD');
-      const endString = moment.utc(invoice.dateTo).format('YYYYMMDD');
-      const billTo = this.getBillTo();
-      return `${invoice.host.slug}_${billTo.slug}_${startString}-${endString}`;
-    }
-
-    return invoice.slug.split('-').slice(0, 2).join('-');
   }
 
   getTaxTotal() {
-    const getTaxAmountInHostCurrency = (t) => Math.abs(t.taxAmount) * (t.hostCurrencyFxRate || 1);
-    return Math.round(sumBy(this.props.invoice.transactions, (t) => getTaxAmountInHostCurrency(t) || 0));
+    const getTaxAmountInHostCurrency = (t) => Math.abs(t.taxAmount.valueInCents) * (t.hostCurrencyFxRate || 1);
+    return Math.round(sumBy(this.props.receipt.transactions, (t) => getTaxAmountInHostCurrency(t) || 0));
   }
 
   /** Returns the VAT number of the collective */
   renderTaxIdNumbers() {
-    const { fromCollective, transactions } = this.props.invoice;
+    const { fromAccount, transactions } = this.props.receipt;
     const taxesSummary = getTaxIdNumbersFromTransactions(transactions);
 
     // Expenses rely solely on the tax info stored in transactions. For orders, we look in the fromCollective
     if (!transactions.every((t) => t.kind === 'EXPENSE')) {
-      const getVatNumberFromCollective = (c) => c?.settings?.VAT?.number;
-      if (getVatNumberFromCollective(fromCollective)) {
-        taxesSummary.push({ type: 'VAT', idNumber: getVatNumberFromCollective(fromCollective) });
-      } else if (getVatNumberFromCollective(fromCollective.host)) {
-        taxesSummary.push({ type: 'VAT', idNumber: getVatNumberFromCollective(fromCollective.host) });
+      const getVatNumberFromAccount = (a) => a?.settings?.VAT?.number;
+      if (getVatNumberFromAccount(fromAccount)) {
+        taxesSummary.push({ type: 'VAT', idNumber: getVatNumberFromAccount(fromAccount) });
+      } else if (getVatNumberFromAccount(fromAccount.host)) {
+        taxesSummary.push({ type: 'VAT', idNumber: getVatNumberFromAccount(fromAccount.host) });
       }
     }
 
@@ -202,7 +192,7 @@ export class Receipt extends React.Component {
       </LinkToCollective>
     );
 
-    return !transaction.usingGiftCardFromCollective ? (
+    return !transaction.giftCardEmitterAccount ? (
       transactionDescription
     ) : (
       <div>
@@ -246,14 +236,15 @@ export class Receipt extends React.Component {
         <tbody>
           {transactions.map((transaction) => {
             const quantity = get(transaction, 'order.quantity') || 1;
-            const amountInHostCurrency = getTransactionAmount(transaction);
-            const taxAmount = Math.abs(transaction.taxAmount || 0);
+            const amountInHostCurrency = transaction.amountInHostCurrency.valueInCents;
+            const taxAmount = Math.abs(transaction.taxAmount.valueInCents || 0);
             const hostCurrencyFxRate = transaction.hostCurrencyFxRate || 1;
             const taxAmountInHostCurrency = taxAmount * hostCurrencyFxRate;
             const unitGrossPrice = Math.abs((amountInHostCurrency - taxAmountInHostCurrency) / quantity);
+            const transactionCurrency = transaction.hostCurrency || this.props.receipt.currency;
             return (
               <tr key={transaction.id}>
-                <Td fontSize="11px" css={{ whiteSpace: 'nowrap' }}>
+                <Td fontSize="11px">
                   <CustomIntlDate date={new Date(transaction.createdAt)} />
                 </Td>
                 <Td fontSize="11px">{this.transactionDescription(transaction)}</Td>
@@ -261,10 +252,14 @@ export class Receipt extends React.Component {
                   {quantity}
                 </Td>
                 <Td fontSize="11px" textAlign="center">
-                  {formatCurrency(unitGrossPrice, transaction.hostCurrency)}
-                  {transaction.hostCurrency !== transaction.currency && (
+                  {formatCurrency(unitGrossPrice, transaction.currency)}
+                  {transaction.amountInHostCurrency.currency !== transaction.amount.currency && (
                     <P fontSize="8px" color="black.600" mt={1}>
-                      ({formatCurrency((transaction.amount - taxAmount) / quantity, transaction.currency)}
+                      (
+                      {formatCurrency(
+                        (transaction.amount.valueInCents - taxAmount) / quantity,
+                        transaction.amount.currency,
+                      )}
                       &nbsp;x&nbsp;
                       {round(transaction.hostCurrencyFxRate, 4)}%)
                     </P>
@@ -273,7 +268,7 @@ export class Receipt extends React.Component {
                 <Td fontSize="11px" textAlign="center">
                   {isNil(transaction.taxAmount) ? '-' : `${getTransactionTaxPercent(transaction)}%`}
                 </Td>
-                <Td textAlign="right">{formatCurrency(amountInHostCurrency, transaction.hostCurrency)}</Td>
+                <Td textAlign="right">{formatCurrency(amountInHostCurrency, transactionCurrency)}</Td>
               </tr>
             );
           })}
@@ -283,27 +278,27 @@ export class Receipt extends React.Component {
   }
 
   render() {
-    const { invoice } = this.props;
-    if (!invoice) {
-      return <div>No invoice to render</div>;
+    const { receipt } = this.props;
+    if (!receipt) {
+      return <div>No receipt to render</div>;
     }
-    const { transactions } = invoice;
+    const { transactions } = receipt;
     if (!transactions || transactions.length === 0) {
       return <div>No transaction to render</div>;
     }
 
-    const chunkedTransactions = this.chunkTransactions(invoice, transactions);
+    const chunkedTransactions = this.chunkTransactions(receipt, transactions);
     const taxesTotal = this.getTaxTotal();
     const billTo = this.getBillTo();
     return (
-      <div className={`Receipts ${invoice.fromCollective.slug}`}>
+      <div className={`Receipts ${receipt.fromAccount.slug}`}>
         <div className="pages">
           {this.props.debug && (
             <div style={{ padding: 30, background: 'lightgrey', border: '1px solid grey' }}>
               <strong>Dimensions</strong>
               <pre>{JSON.stringify(PageFormat[this.props.pageFormat])}</pre>
-              <strong>Invoice</strong>
-              <pre style={{ whiteSpace: 'pre-wrap' }}>{JSON.stringify(this.props.invoice, null, 2)}</pre>
+              <strong>Receipt</strong>
+              <pre style={{ whiteSpace: 'pre-wrap' }}>{JSON.stringify(this.props.receipt, null, 2)}</pre>
             </div>
           )}
           {chunkedTransactions.map((transactionsChunk, pageNumber) => (
@@ -318,16 +313,16 @@ export class Receipt extends React.Component {
                 <Box className="header" mb={4}>
                   <Flex flexWrap="wrap" alignItems="flex-start">
                     <Box mb={3} css={{ flexGrow: 1 }}>
-                      <StyledLink href={`https://opencollective.com/${invoice.host.slug}`}>
+                      <StyledLink href={`https://opencollective.com/${receipt.host.slug}`}>
                         <H1 fontSize="18px" lineHeight="20px" m={0} color="black.900">
-                          <AccountName account={invoice.host} />
+                          <AccountName account={receipt.host} />
                         </H1>
                       </StyledLink>
                       <Box my={2}>
-                        <CollectiveAddress collective={invoice.host} />
+                        <CollectiveAddress collective={receipt.host} />
                       </Box>
-                      <StyledLink href={`https://opencollective.com/${invoice.host.slug}`} className="website">
-                        https://opencollective.com/{invoice.host.slug}
+                      <StyledLink href={`https://opencollective.com/${receipt.host.slug}`} className="website">
+                        https://opencollective.com/{receipt.host.slug}
                       </StyledLink>
                     </Box>
                     <Box mt={80} pr={3} css={{ minHeight: 100 }}>
@@ -346,36 +341,25 @@ export class Receipt extends React.Component {
 
                   <Box>
                     <H2 fontSize="16px" lineHeight="18px">
-                      {invoice.template?.title || (
+                      {receipt.template?.title || (
                         <FormattedMessage id="invoice.donationReceipt" defaultMessage="Payment Receipt" />
                       )}
                     </H2>
-                    {invoice.dateFrom && invoice.dateTo ? (
-                      <div>
+                    <div>
+                      {receipt.dateFrom && (
                         <div>
-                          <CustomIntlDate date={new Date(invoice.dateFrom)} />
+                          <CustomIntlDate date={new Date(receipt.dateFrom)} />
                         </div>
+                      )}
+                      {receipt.dateTo && (
                         <div>
-                          <label>To:</label> <CustomIntlDate date={new Date(invoice.dateTo)} />
+                          <label>To:</label> <CustomIntlDate date={new Date(receipt.dateTo)} />
                         </div>
-                      </div>
-                    ) : (
-                      <div>
-                        <label>Date:</label>{' '}
-                        <CustomIntlDate date={new Date(invoice.year, invoice.month - 1, invoice.day)} />
-                      </div>
-                    )}
-                    <div className="detail reference">
-                      <label>Reference:</label> {this.getInvoiceReference()}
+                      )}
                     </div>
-                    {transactions.length === 1 && transactions[0].paymentMethod && (
-                      <div>
-                        <label>
-                          <FormattedMessage defaultMessage="Payment Method" />:
-                        </label>{' '}
-                        {`${transactions[0].paymentMethod.type} ${transactions[0].paymentMethod.name}`}
-                      </div>
-                    )}
+                    <div className="detail reference">
+                      <label>Reference:</label> {this.getReceiptReference()}
+                    </div>
                   </Box>
                 </Box>
               )}
@@ -389,16 +373,16 @@ export class Receipt extends React.Component {
                         <Flex justifyContent="space-between">
                           <FormattedMessage id="subtotal" defaultMessage="Subtotal" />
                           <Span fontWeight="bold">
-                            {formatCurrency(invoice.totalAmount - taxesTotal, invoice.currency, {
+                            {formatCurrency(receipt.totalAmount - taxesTotal, receipt.currency, {
                               showCurrencySymbol: true,
                             })}
                           </Span>
                         </Flex>
-                        {getTaxesBreakdown(this.props.invoice.transactions).map((tax) => (
+                        {getTaxesBreakdown(this.props.receipt.transactions).map((tax) => (
                           <Flex key={tax.id} justifyContent="space-between" mt={2}>
                             {tax.info.type} ({round(tax.info.rate * 100, 2)}%)
                             <Span fontWeight="bold">
-                              {formatCurrency(tax.amountInHostCurrency, invoice.currency, { showCurrencySymbol: true })}
+                              {formatCurrency(tax.amountInHostCurrency, receipt.currency, { showCurrencySymbol: true })}
                             </Span>
                           </Flex>
                         ))}
@@ -409,9 +393,9 @@ export class Receipt extends React.Component {
                         flexBasis="100%"
                         style={{ background: '#ebf4ff', padding: '8px 16px', fontWeight: 'bold' }}
                       >
-                        <FormattedMessage id="totalPaid" defaultMessage="TOTAL PAID" />
+                        <FormattedMessage id="total" defaultMessage="TOTAL" />
                         <Span>
-                          {formatCurrency(invoice.totalAmount, invoice.currency, { showCurrencySymbol: true })}
+                          {formatCurrency(receipt.totalAmount, receipt.currency, { showCurrencySymbol: true })}
                         </Span>
                       </Flex>
                     </Container>
@@ -423,10 +407,10 @@ export class Receipt extends React.Component {
                 <Flex flex="3" flexDirection="column" justifyContent="space-between">
                   <Box>
                     <P fontSize="11px" textAlign="left" whiteSpace="pre-wrap">
-                      {invoice?.template?.info}
+                      {receipt?.template?.info}
                     </P>
                   </Box>
-                  <CollectiveFooter collective={invoice.host} />
+                  <CollectiveFooter collective={receipt.host} />
                 </Flex>
               )}
             </Flex>
@@ -437,4 +421,4 @@ export class Receipt extends React.Component {
   }
 }
 
-export default Receipt;
+export default injectIntl(Receipt);

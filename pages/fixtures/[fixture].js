@@ -9,12 +9,7 @@ import { Box, Flex } from '@opencollective/frontend-components/components/Grid';
 import PrintableGiftCard from '../../components/PrintableGiftCard';
 
 const FIXTURES = {
-  'donation-receipt': require('../../lib/fixtures/donation-receipt.json'),
-  'organization-gift-cards-monthly': require('../../lib/fixtures/organization-gift-cards-monthly.json'),
-  'organization-gift-cards-yearly': require('../../lib/fixtures/organization-gift-cards-yearly.json'),
-  'simple-transaction': require('../../lib/fixtures/simple-transaction.json'),
-  'transactions-with-date-range': require('../../lib/fixtures/transactions-with-date-range.json'),
-  'transactions-with-tax': require('../../lib/fixtures/transactions-with-tax.json'),
+  'contribution-receipt': require('../../lib/fixtures/contribution-receipt.json'),
   'gift-cards': require('../../lib/fixtures/gift-cards.json'),
 };
 
@@ -59,7 +54,15 @@ class FixturePage extends React.Component {
             ))}
           </Box>
         ) : (
-          <Receipt invoice={data} />
+          <Receipt
+            receipt={{
+              currency: data.host.currency,
+              totalAmount: data.amountInHostCurrency.valueInCents,
+              transactions: [data],
+              host: data.host,
+              fromAccount: data.fromAccount,
+            }}
+          />
         )}
       </PDFLayout>
     );
