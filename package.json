@@ -75,7 +75,7 @@
     "commitizen": "^4.3.0",
     "cross-env": "^7.0.3",
     "cz-conventional-changelog": "^3.3.0",
-    "eslint": "8.40.0",
+    "eslint": "8.41.0",
     "eslint-config-opencollective": "^3.0.0",
     "eslint-plugin-babel": "^5.3.1",
     "eslint-plugin-graphql": "^4.0.0",
