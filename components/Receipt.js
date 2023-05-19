@@ -60,7 +60,8 @@ export class Receipt extends React.Component {
         PropTypes.shape({
           id: PropTypes.number.isRequired,
           order: PropTypes.shape({
-            id: PropTypes.number.isRequired,
+            id: PropTypes.string,
+            legacyId: PropTypes.number,
             type: PropTypes.string,
           }),
         }),
@@ -135,15 +136,32 @@ export class Receipt extends React.Component {
   getReceiptReference() {
     const { receipt } = this.props;
     const billTo = this.getBillTo();
+    const hostSlug = receipt.host.slug;
+    let reference, contributionId;
     if (receipt.dateFrom && receipt.dateTo) {
       const startString = moment.utc(receipt.dateFrom).format('YYYYMMDD');
       const endString = moment.utc(receipt.dateTo).format('YYYYMMDD');
-      return `${receipt.host.slug}_${billTo.slug}_${startString}-${endString}`;
+      reference = `${hostSlug}_${billTo.slug}_${startString}-${endString}`;
     } else if (receipt.transactions.length === 1) {
-      return `${receipt.host.slug}_${receipt.transactions[0].id}`;
+      const transactionId = receipt.transactions[0].id;
+      contributionId = receipt.transactions[0].order?.legacyId;
+      reference = `${hostSlug}_${transactionId}`;
     } else {
-      return `${receipt.host.slug}_${billTo.slug}`;
+      reference = `${hostSlug}_${billTo.slug}`;
     }
+
+    return (
+      <Container fontSize="12px">
+        <div>
+          <FormattedMessage defaultMessage="Reference: {reference}" values={{ reference }} />
+        </div>
+        {contributionId && (
+          <div>
+            <FormattedMessage defaultMessage="Contribution #{id}" values={{ id: contributionId }} />
+          </div>
+        )}
+      </Container>
+    );
   }
 
   getTaxTotal() {
@@ -371,9 +389,7 @@ export class Receipt extends React.Component {
                         </div>
                       )}
                     </div>
-                    <div className="detail reference">
-                      <label>Reference:</label> {this.getReceiptReference()}
-                    </div>
+                    <Box mt={2}>{this.getReceiptReference()}</Box>
                   </Box>
                 </Box>
               )}
