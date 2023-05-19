@@ -84,6 +84,7 @@
   "refundTransaction": null,
   "order": {
     "id": "7ywz9j4a-vgod8pg5-w56mr35n-xklb0e7a",
+    "legacyId": "12345",
     "data": {},
     "taxes": [{ "type": "VAT", "percentage": 21, "__typename": "OrderTax" }],
     "quantity": 1,

@@ -4,8 +4,9 @@ import { FormattedMessage, injectIntl } from 'react-intl';
 import { get, chunk, sumBy, max, isNil, round, uniqBy } from 'lodash';
 import { Box, Flex } from '@opencollective/frontend-components/components/Grid';
 import moment from 'moment';
+import QRCode from 'qrcode.react';
 
-import { formatCurrency } from '../lib/utils';
+import { formatCurrency, getTransactionUrl } from '../lib/utils';
 import { Tr, Td } from './StyledTable';
 import LinkToCollective from './LinkToCollective';
 
@@ -27,6 +28,7 @@ import { H1, H2, P, Span } from '@opencollective/frontend-components/components/
 import Container from '@opencollective/frontend-components/components/Container';
 import StyledTag from '@opencollective/frontend-components/components/StyledTag';
 import StyledHr from '@opencollective/frontend-components/components/StyledHr';
+import { EventDescription } from './EventDescription';
 
 export class Receipt extends React.Component {
   static propTypes = {
@@ -59,10 +61,18 @@ export class Receipt extends React.Component {
       transactions: PropTypes.arrayOf(
         PropTypes.shape({
           id: PropTypes.number.isRequired,
+          toAccount: PropTypes.shape({
+            type: PropTypes.string,
+            startsAt: PropTypes.string,
+            endsAt: PropTypes.string,
+          }),
           order: PropTypes.shape({
             id: PropTypes.string,
             legacyId: PropTypes.number,
             type: PropTypes.string,
+            tier: PropTypes.shape({
+              type: PropTypes.string,
+            }),
           }),
         }),
       ).isRequired,
@@ -322,6 +332,8 @@ export class Receipt extends React.Component {
     const chunkedTransactions = this.chunkTransactions(receipt, transactions);
     const taxesTotal = this.getTaxTotal();
     const billTo = this.getBillTo();
+    const isSingleTransaction = transactions.length === 1;
+    const isTicketOrder = isSingleTransaction && get(transactions[0], 'order.tier.type') === 'TICKET';
     return (
       <div className={`Receipts ${receipt.fromAccount.slug}`}>
         <div className="pages">
@@ -371,27 +383,45 @@ export class Receipt extends React.Component {
                     </Box>
                   </Flex>
 
-                  <Box>
-                    <H2 fontSize="16px" lineHeight="18px">
-                      {receipt.template?.title || (
-                        <FormattedMessage id="invoice.donationReceipt" defaultMessage="Payment Receipt" />
-                      )}
-                    </H2>
-                    <div>
-                      {receipt.dateFrom && (
-                        <div>
-                          <CustomIntlDate date={new Date(receipt.dateFrom)} />
-                        </div>
-                      )}
-                      {receipt.dateTo && (
-                        <div>
-                          <label>To:</label> <CustomIntlDate date={new Date(receipt.dateTo)} />
-                        </div>
-                      )}
-                    </div>
-                    <Box mt={2}>{this.getReceiptReference()}</Box>
-                  </Box>
+                  <Flex justifyContent="space-between">
+                    <Box>
+                      <H2 fontSize="16px" lineHeight="18px">
+                        {receipt.template?.title || (
+                          <FormattedMessage id="invoice.donationReceipt" defaultMessage="Payment Receipt" />
+                        )}
+                      </H2>
+                      <div>
+                        {receipt.dateFrom && (
+                          <div>
+                            <CustomIntlDate date={new Date(receipt.dateFrom)} />
+                          </div>
+                        )}
+                        {receipt.dateTo && (
+                          <div>
+                            <label>To:</label> <CustomIntlDate date={new Date(receipt.dateTo)} />
+                          </div>
+                        )}
+                      </div>
+                      <Box mt={2}>{this.getReceiptReference()}</Box>
+                    </Box>
+                    {isTicketOrder && (
+                      <Box>
+                        <QRCode
+                          renderAs="svg"
+                          value={getTransactionUrl(receipt.transactions[0])}
+                          size={256}
+                          fgColor="#313233"
+                          style={{ width: '72px', height: '72px' }}
+                        />
+                      </Box>
+                    )}
+                  </Flex>
                 </Box>
+              )}
+              {Boolean(isTicketOrder && receipt.transactions[0].toAccount.type === 'EVENT') && (
+                <P fontSize="12px" mb={3}>
+                  <EventDescription event={receipt.transactions[0].toAccount} />
+                </P>
               )}
               <Box width={1} css={{ flexGrow: 1 }}>
                 {this.renderTransactionsTable(transactionsChunk)}
