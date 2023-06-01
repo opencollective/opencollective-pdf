@@ -85,9 +85,9 @@ export default class Home extends Component {
   }
 
   getIframeUrl = () => {
-    // URL must start with `/`, but not `//`
+    // URL must look like `/fixtures/*`
     const testUrl = this.props.selectedTestUrl?.trim();
-    if (!new RegExp('^/[^/\\\\]+').test(testUrl)) {
+    if (!new RegExp('^/fixtures/').test(testUrl)) {
       return false;
     }
 
