@@ -61,6 +61,7 @@ export class Receipt extends React.Component {
       transactions: PropTypes.arrayOf(
         PropTypes.shape({
           id: PropTypes.number.isRequired,
+          paymentMethod: PropTypes.object,
           toAccount: PropTypes.shape({
             type: PropTypes.string,
             startsAt: PropTypes.string,
@@ -403,6 +404,14 @@ export class Receipt extends React.Component {
                         )}
                       </div>
                       <Box mt={2}>{this.getReceiptReference()}</Box>
+                      {transactions.length === 1 && transactions[0].paymentMethod && (
+                        <div>
+                          <label>
+                            <FormattedMessage defaultMessage="Payment Method:" />
+                          </label>{' '}
+                          {`${transactions[0].paymentMethod.type} ${transactions[0].paymentMethod.name}`}
+                        </div>
+                      )}
                     </Box>
                     {isTicketOrder && (
                       <Box>
