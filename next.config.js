@@ -22,7 +22,7 @@ const nextConfig = {
 
     // Inline images
     config.module.rules.push({
-      test: /public\/.*\.(jpg|gif|png|svg|)$/,
+      test: /\.(jpg|gif|png|svg|)$/,
       use: {
         loader: 'url-loader',
         options: {
@@ -30,6 +30,7 @@ const nextConfig = {
           fallback: 'file-loader',
         },
       },
+      include: [path.resolve(__dirname, 'public')],
     });
 
     // Inline fonts
