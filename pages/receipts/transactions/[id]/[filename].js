@@ -27,7 +27,7 @@ class TransactionReceipt extends React.Component {
         transaction = transaction.oppositeTransaction;
       }
 
-      const invoiceName = transaction.invoiceTemplate || transaction.order?.tier?.data?.invoiceTemplate;
+      const invoiceName = transaction.invoiceTemplate || transaction.order?.tier?.invoiceTemplate;
       const host = getHostFromTransaction(transaction);
       if (!host) {
         throw new Error('Could not find host for this transaction');

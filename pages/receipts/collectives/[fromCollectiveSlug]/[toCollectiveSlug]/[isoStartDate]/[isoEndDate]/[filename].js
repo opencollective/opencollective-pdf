@@ -28,7 +28,7 @@ class TransactionReceipt extends React.Component {
         throw new Error('Too many transactions. Please contact support');
       }
       const invoiceTemplateObj = await response?.host?.settings?.invoice?.templates?.[
-        response.transactions[0]?.invoiceTemplate || response.transactions[0]?.order?.tier?.data?.invoiceTemplate
+        response.transactions[0]?.invoiceTemplate || response.transactions[0]?.order?.tier?.invoiceTemplate
       ];
       const template = invoiceTemplateObj || response.host?.settings?.invoice?.templates?.default;
 
