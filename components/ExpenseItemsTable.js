@@ -9,7 +9,7 @@ import { Span } from '@opencollective/frontend-components/components/Text';
 const ExpenseItemsTable = ({ items, expense }) => {
   const allTaxTypes = uniq(expense.taxes.map((tax) => tax.type));
   const taxType = allTaxTypes.length === 1 ? allTaxTypes[0] : 'Tax';
-  const taxRate = sumBy(expense.taxes, 'rate');
+  const taxRate = sumBy(expense.taxes, 'rate') || 0;
   return (
     <table style={{ borderCollapse: 'collapse', width: '100%' }}>
       <thead>
@@ -46,7 +46,7 @@ const ExpenseItemsTable = ({ items, expense }) => {
                 )}
               </Td>
               <Td textAlign="right">{formatCurrency(item.amount, expense.currency)}</Td>
-              <Td textAlign="right">{formatCurrency(item.amount * (taxRate || 1), expense.currency)}</Td>
+              <Td textAlign="right">{formatCurrency(item.amount * taxRate, expense.currency)}</Td>
               <Td textAlign="right">{formatCurrency(item.amount * (1 + taxRate), expense.currency)}</Td>
             </tr>
           );
