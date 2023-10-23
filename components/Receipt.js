@@ -29,6 +29,7 @@ import Container from '@opencollective/frontend-components/components/Container'
 import StyledTag from '@opencollective/frontend-components/components/StyledTag';
 import StyledHr from '@opencollective/frontend-components/components/StyledHr';
 import { EventDescription } from './EventDescription';
+import { formatPaymentMethodName } from '../lib/payment-methods';
 
 export class Receipt extends React.Component {
   static propTypes = {
@@ -409,7 +410,7 @@ export class Receipt extends React.Component {
                           <label>
                             <FormattedMessage defaultMessage="Payment Method:" />
                           </label>{' '}
-                          {`${transactions[0].paymentMethod.type} ${transactions[0].paymentMethod.name}`}
+                          {formatPaymentMethodName(transactions[0].paymentMethod)}
                         </div>
                       )}
                     </Box>
