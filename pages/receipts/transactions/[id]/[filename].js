@@ -5,7 +5,6 @@ import PageFormat from '../../../../lib/constants/page-format';
 import { fetchTransactionInvoice } from '../../../../lib/graphql/queries';
 import { getAccessTokenFromReq } from '../../../../lib/req-utils';
 import { Receipt } from '../../../../components/Receipt';
-import { getHostFromTransaction } from '../../../../lib/transactions';
 
 class TransactionReceipt extends React.Component {
   static async getInitialProps(ctx) {
@@ -22,32 +21,37 @@ class TransactionReceipt extends React.Component {
         throw new Error('Please provide an access token or an APP key');
       }
 
-      let transaction = await fetchTransactionInvoice(id, accessToken, ctx.query.app_key);
-      if (transaction.type === 'DEBIT' && transaction.oppositeTransaction) {
-        transaction = transaction.oppositeTransaction;
-      }
-
-      const invoiceName = transaction.invoiceTemplate || transaction.order?.tier?.invoiceTemplate;
-      const host = getHostFromTransaction(transaction);
-      if (!host) {
-        throw new Error('Could not find host for this transaction');
-      }
-
-      const template = host.settings?.invoice?.templates?.[invoiceName] || host?.settings?.invoice?.templates?.default;
+      const transaction = await fetchTransactionInvoice(id, accessToken, ctx.query.app_key);
       return {
         pageFormat: ctx.query.pageFormat,
-        receipt: {
-          currency: host.currency,
-          totalAmount: transaction.amountInHostCurrency.valueInCents,
-          transactions: [transaction],
-          host,
-          fromAccount: transaction.fromAccount,
-          template,
-        },
+        receipt: TransactionReceipt.getReceiptFromData(transaction),
       };
     }
 
     return { pageFormat: ctx.query.pageFormat };
+  }
+
+  static getReceiptFromData(transaction) {
+    if (transaction.type === 'DEBIT' && transaction.oppositeTransaction) {
+      transaction = transaction.oppositeTransaction;
+    }
+
+    const host = transaction.host;
+    if (!host) {
+      throw new Error('Could not find host for this transaction');
+    }
+
+    const invoiceName = transaction.invoiceTemplate || transaction.order?.tier?.invoiceTemplate;
+    const template = host.settings?.invoice?.templates?.[invoiceName] || host?.settings?.invoice?.templates?.default;
+    return {
+      currency: host.currency,
+      totalAmount: transaction.amountInHostCurrency.valueInCents,
+      transactions: [transaction],
+      host,
+      fromAccount: transaction.fromAccount,
+      fromAccountHost: transaction.oppositeTransaction?.host,
+      template,
+    };
   }
 
   render() {

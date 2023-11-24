@@ -48,20 +48,20 @@ export class Receipt extends React.Component {
             number: PropTypes.string,
           }),
         }),
-        host: PropTypes.shape({
-          slug: PropTypes.string.isRequired,
-          website: PropTypes.string,
-          imageUrl: PropTypes.string,
-        }),
       }).isRequired,
-      host: PropTypes.shape({
+      fromAccountHost: PropTypes.shape({
         slug: PropTypes.string.isRequired,
         website: PropTypes.string.isRequired,
         imageUrl: PropTypes.string.isRequired,
       }),
+      host: PropTypes.shape({
+        slug: PropTypes.string.isRequired,
+        website: PropTypes.string,
+        imageUrl: PropTypes.string,
+      }),
       transactions: PropTypes.arrayOf(
         PropTypes.shape({
-          id: PropTypes.number.isRequired,
+          id: PropTypes.string.isRequired,
           paymentMethod: PropTypes.object,
           toAccount: PropTypes.shape({
             type: PropTypes.string,
@@ -140,8 +140,8 @@ export class Receipt extends React.Component {
   }
 
   getBillTo() {
-    const { fromAccount } = this.props.receipt;
-    return fromAccount.host || fromAccount;
+    const { fromAccount, fromAccountHost } = this.props.receipt;
+    return fromAccountHost || fromAccount;
   }
 
   /** Generate a prettier reference for receipt by taking only the first part of the hash */
@@ -177,13 +177,13 @@ export class Receipt extends React.Component {
   }
 
   getTaxTotal() {
-    const getTaxAmountInHostCurrency = (t) => Math.abs(t.taxAmount.valueInCents) * (t.hostCurrencyFxRate || 1);
+    const getTaxAmountInHostCurrency = (t) => Math.abs(t.taxAmount?.valueInCents) * (t.hostCurrencyFxRate || 1);
     return Math.round(sumBy(this.props.receipt.transactions, (t) => getTaxAmountInHostCurrency(t) || 0));
   }
 
   /** Returns the VAT number of the collective */
-  renderTaxIdNumbers() {
-    const { fromAccount, transactions } = this.props.receipt;
+  renderBillToTaxIdNumbers() {
+    const { fromAccount, fromAccountHost, transactions } = this.props.receipt;
     const taxesSummary = getTaxIdNumbersFromTransactions(transactions);
 
     // Expenses rely solely on the tax info stored in transactions. For orders, we look in the fromCollective
@@ -191,8 +191,8 @@ export class Receipt extends React.Component {
       const getVatNumberFromAccount = (a) => a?.settings?.VAT?.number;
       if (getVatNumberFromAccount(fromAccount)) {
         taxesSummary.push({ type: 'VAT', idNumber: getVatNumberFromAccount(fromAccount) });
-      } else if (getVatNumberFromAccount(fromAccount.host)) {
-        taxesSummary.push({ type: 'VAT', idNumber: getVatNumberFromAccount(fromAccount.host) });
+      } else if (getVatNumberFromAccount(fromAccountHost)) {
+        taxesSummary.push({ type: 'VAT', idNumber: getVatNumberFromAccount(fromAccountHost) });
       }
     }
 
@@ -262,12 +262,12 @@ export class Receipt extends React.Component {
           {transactions.map((transaction) => {
             const quantity = get(transaction, 'order.quantity') || 1;
             const amountInHostCurrency = transaction.amountInHostCurrency.valueInCents;
-            const taxAmount = Math.abs(transaction.taxAmount.valueInCents || 0);
+            const taxAmount = Math.abs(transaction.taxAmount?.valueInCents || 0);
             const hostCurrencyFxRate = transaction.hostCurrencyFxRate || 1;
             const taxAmountInHostCurrency = taxAmount * hostCurrencyFxRate;
-            const grossPrice =
+            const grossPriceInHostCurrency =
               amountInHostCurrency - (transaction.isRefund ? -taxAmountInHostCurrency : taxAmountInHostCurrency);
-            const unitGrossPrice = Math.abs(grossPrice / quantity);
+            const unitGrossPriceInHostCurrency = Math.abs(grossPriceInHostCurrency / quantity);
             const transactionCurrency = transaction.hostCurrency || this.props.receipt.currency;
             const isRefunded = !transaction.isRefund && transaction.refundTransaction;
             return (
@@ -296,7 +296,7 @@ export class Receipt extends React.Component {
                   {quantity}
                 </Td>
                 <Td fontSize="11px" textAlign="center">
-                  {formatCurrency(unitGrossPrice, transaction.currency)}
+                  {formatCurrency(unitGrossPriceInHostCurrency, transaction.amountInHostCurrency.currency)}
                   {transaction.amountInHostCurrency.currency !== transaction.amount.currency && (
                     <P fontSize="8px" color="black.600" mt={1}>
                       (
@@ -380,7 +380,7 @@ export class Receipt extends React.Component {
                           <AccountName account={billTo} />
                         </P>
                         <CollectiveAddress collective={billTo} />
-                        {this.renderTaxIdNumbers()}
+                        {this.renderBillToTaxIdNumbers()}
                       </Box>
                     </Box>
                   </Flex>
@@ -433,7 +433,7 @@ export class Receipt extends React.Component {
                   <EventDescription event={receipt.transactions[0].toAccount} />
                 </P>
               )}
-              <Box width={1} css={{ flexGrow: 1 }}>
+              <Box id="invoice-content" width={1} css={{ flexGrow: 1 }}>
                 {this.renderTransactionsTable(transactionsChunk)}
                 {pageNumber === chunkedTransactions.length - 1 && (
                   <Flex justifyContent="flex-end" mt={3}>
