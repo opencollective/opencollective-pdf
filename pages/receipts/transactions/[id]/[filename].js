@@ -4,7 +4,7 @@ import PDFLayout from '../../../../components/PDFLayout';
 import PageFormat from '../../../../lib/constants/page-format';
 import { fetchTransactionInvoice } from '../../../../lib/graphql/queries';
 import { getAccessTokenFromReq } from '../../../../lib/req-utils';
-import { Receipt } from '../../../../components/Receipt';
+import Receipt from '../../../../components/Receipt';
 
 class TransactionReceipt extends React.Component {
   static async getInitialProps(ctx) {
@@ -44,7 +44,7 @@ class TransactionReceipt extends React.Component {
     const invoiceName = transaction.invoiceTemplate || transaction.order?.tier?.invoiceTemplate;
     const template = host.settings?.invoice?.templates?.[invoiceName] || host?.settings?.invoice?.templates?.default;
     return {
-      currency: host.currency,
+      currency: transaction.amountInHostCurrency.currency,
       totalAmount: transaction.amountInHostCurrency.valueInCents,
       transactions: [transaction],
       host,

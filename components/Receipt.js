@@ -296,7 +296,7 @@ export class Receipt extends React.Component {
                   {quantity}
                 </Td>
                 <Td fontSize="11px" textAlign="center">
-                  {formatCurrency(unitGrossPriceInHostCurrency, transaction.amountInHostCurrency.currency)}
+                  {formatCurrency(unitGrossPriceInHostCurrency, transactionCurrency)}
                   {transaction.amountInHostCurrency.currency !== transaction.amount.currency && (
                     <P fontSize="8px" color="black.600" mt={1}>
                       (
