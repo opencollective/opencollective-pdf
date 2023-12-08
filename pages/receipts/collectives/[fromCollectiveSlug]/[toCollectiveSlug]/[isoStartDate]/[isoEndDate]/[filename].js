@@ -40,6 +40,7 @@ class TransactionReceipt extends React.Component {
           transactions: response.transactions.nodes,
           host: response.host,
           fromAccount: response.fromAccount,
+          fromAccountHost: response.fromAccount.host,
           dateFrom,
           dateTo,
           template,
