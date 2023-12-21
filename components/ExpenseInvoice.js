@@ -12,6 +12,7 @@ import StyledLink from '@opencollective/frontend-components/components/StyledLin
 import { H2, P, Span } from '@opencollective/frontend-components/components/Text';
 import Container from '@opencollective/frontend-components/components/Container';
 import StyledHr from '@opencollective/frontend-components/components/StyledHr';
+import { sumItemsInExpenseCurrency } from '../lib/expenses';
 
 const getPageHeight = (pageFormat) => {
   const dimensions = PageFormat[pageFormat];
@@ -60,7 +61,7 @@ const ExpenseInvoice = ({ expense, pageFormat }) => {
   const { account, payee, payeeLocation } = expense;
   const billToAccount = getBillTo(expense);
   const chunkedItems = chunkItems(expense, billToAccount);
-  const grossAmount = sumBy(expense.items, 'amount');
+  const grossAmount = sumItemsInExpenseCurrency(expense.items);
   return (
     <div>
       {chunkedItems.map((itemsChunk, pageNumber) => (

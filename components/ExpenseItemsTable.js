@@ -2,9 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Tr, Td } from './StyledTable';
 import { FormattedMessage, FormattedDate } from 'react-intl';
-import { formatCurrency } from '../lib/utils';
+import { formatAmount, formatCurrency } from '../lib/utils';
 import { round, sumBy, uniq } from 'lodash';
 import { Span } from '@opencollective/frontend-components/components/Text';
+import { getItemAmounts } from '../lib/expenses';
 
 const ExpenseItemsTable = ({ items, expense }) => {
   const allTaxTypes = uniq(expense.taxes.map((tax) => tax.type));
@@ -33,6 +34,7 @@ const ExpenseItemsTable = ({ items, expense }) => {
       </thead>
       <tbody>
         {items.map((item) => {
+          const amounts = getItemAmounts(item);
           return (
             <tr key={item.id}>
               <Td fontSize="11px" width={50}>
@@ -45,9 +47,31 @@ const ExpenseItemsTable = ({ items, expense }) => {
                   </Span>
                 )}
               </Td>
-              <Td textAlign="right">{formatCurrency(item.amount, expense.currency)}</Td>
-              <Td textAlign="right">{formatCurrency(item.amount * taxRate, expense.currency)}</Td>
-              <Td textAlign="right">{formatCurrency(item.amount * (1 + taxRate), expense.currency)}</Td>
+              <Td textAlign="right">
+                {!amounts.inItemCurrency.exchangeRate ? (
+                  formatAmount(amounts.inItemCurrency, { showCurrencySymbol: true })
+                ) : (
+                  <div>
+                    {formatAmount(amounts.inExpenseCurrency, { showCurrencySymbol: true })}
+                    <small>
+                      {' ('}
+                      {formatAmount(amounts.inItemCurrency, { showCurrencySymbol: true })}
+                      {' * '}
+                      {amounts.inItemCurrency.exchangeRate.value}
+                      {')'}
+                    </small>
+                  </div>
+                )}
+              </Td>
+              <Td textAlign="right">
+                {formatCurrency(amounts.inExpenseCurrency.valueInCents * taxRate, amounts.inExpenseCurrency.currency)}
+              </Td>
+              <Td textAlign="right">
+                {formatCurrency(
+                  amounts.inExpenseCurrency.valueInCents * (1 + taxRate),
+                  amounts.inExpenseCurrency.currency,
+                )}
+              </Td>
             </tr>
           );
         })}
@@ -63,7 +87,7 @@ ExpenseItemsTable.propTypes = {
   }),
   items: PropTypes.arrayOf(
     PropTypes.shape({
-      amount: PropTypes.number,
+      amountV2: PropTypes.object,
       description: PropTypes.string,
       incurredAt: PropTypes.string,
     }),
