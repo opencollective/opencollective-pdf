@@ -34,6 +34,7 @@ export default class Home extends Component {
   static Menu = {
     'contribution-receipt': 'Contribution receipt',
     'gift-cards': 'Gift cards',
+    '/api/gift-cards/from-data/result.pdf': 'Gift cards (New)',
   };
 
   updateSearch = (changes) => {
@@ -62,11 +63,34 @@ export default class Home extends Component {
     );
   }
 
+  renderNewLink(slug, format, queryString = '') {
+    const link = `${slug}${queryString}`;
+    return (
+      <a
+        href={`/?selectedTestUrl=${encodeURIComponent(link)}`}
+        onClick={(e) => {
+          this.updateSearch({ selectedTestUrl: encodeURIComponent(link) });
+          // Only prevent if left click
+          if (e.button === 0) {
+            e.preventDefault();
+          }
+        }}
+      >
+        {format}
+      </a>
+    );
+  }
+
   renderFormats(slug) {
     const queryString = objectToQueryString({
       pageFormat: this.props.pageFormat,
       debug: this.props.debug,
     });
+
+    // New endpoints only support PDF output
+    if (slug.startsWith('/api/')) {
+      return this.renderNewLink(slug, 'pdf');
+    }
 
     return (
       <React.Fragment>
@@ -85,9 +109,11 @@ export default class Home extends Component {
   }
 
   getIframeUrl = () => {
-    // URL must look like `/fixtures/*`
     const testUrl = this.props.selectedTestUrl?.trim();
-    if (!new RegExp('^/fixtures/').test(testUrl)) {
+    if (testUrl === '/api/gift-cards/from-data/result.pdf') {
+      const fixtureCards = require('../lib/fixtures/gift-cards.json');
+      return testUrl + objectToQueryString({ cards: JSON.stringify(fixtureCards.cards) });
+    } else if (!new RegExp('^/fixtures/').test(testUrl)) {
       return false;
     }
 
@@ -156,7 +182,15 @@ export default class Home extends Component {
             height={dimensions.height}
             width={dimensions.width}
           >
-            {iframeURL && <ResponsiveIframe name="test-preview" src={iframeURL} />}
+            {iframeURL && (
+              <ResponsiveIframe
+                name="test-preview"
+                src={iframeURL}
+                data={iframeURL}
+                as={this.props.selectedTestUrl.startsWith('/api/') ? 'object' : undefined}
+                type={this.props.selectedTestUrl.startsWith('/api/') ? 'application/pdf' : undefined}
+              />
+            )}
           </Container>
         </Flex>
       </div>
