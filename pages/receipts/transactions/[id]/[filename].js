@@ -49,7 +49,7 @@ class TransactionReceipt extends React.Component {
       transactions: [transaction],
       host,
       fromAccount: transaction.fromAccount,
-      fromAccountHost: transaction.oppositeTransaction?.host,
+      fromAccountHost: transaction.fromAccount.host,
       template,
     };
   }
