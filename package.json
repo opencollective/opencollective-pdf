@@ -35,6 +35,7 @@
     "next-transpile-modules": "9.1.0",
     "node-fetch": "2.6.12",
     "pdfkit": "0.14.0",
+    "pdfkit-table": "0.1.99",
     "polished": "4.2.2",
     "prop-types": "15.8.1",
     "qr-image": "3.2.0",

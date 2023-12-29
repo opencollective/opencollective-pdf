@@ -4,6 +4,7 @@ import SVGtoPDF from 'svg-to-pdfkit';
 import moment from 'moment';
 import QRCode from 'qr-image';
 import { formatCurrency } from '../../../../lib/utils';
+import path from 'path';
 
 // Unit: 1pt = 1/72 inch = 0.352777239 mm
 const MARGIN_IN_PTS = 40; // The margin between the edge of the page and cards
@@ -12,11 +13,15 @@ const CARD_WIDTH_IN_PTS = 243;
 const CARD_HEIGHT_IN_PTS = 153;
 const CARD_PADDING = 10;
 const NB_CARDS_PER_PAGE = 8;
-const FONT_NORMAL = '.fonts/Inter-Regular.otf';
-const FONT_BOLD = '.fonts/Inter-Bold.otf';
+const FONT_NORMAL = path.join(process.cwd(), '.fonts/Inter-Regular.otf');
+const FONT_BOLD = path.join(process.cwd(), '.fonts/Inter-Bold.otf');
 
-const OC_SVG_LOGO = fs.readFileSync('public/static/images/opencollective-icon.svg', 'utf8');
-const LINK_SVG = fs.readFileSync('public/static/images/external-link.svg', 'utf8');
+const loadFile = (filePath, ...args) => {
+  return fs.readFileSync(path.join(process.cwd(), filePath), ...args);
+};
+
+const OC_SVG_LOGO = loadFile('public/static/images/opencollective-icon.svg', 'utf8');
+const LINK_SVG = loadFile('public/static/images/external-link.svg', 'utf8');
 
 /**
  * Generate a PDF using PDFKit and return it as a buffer.
@@ -59,7 +64,7 @@ export default async function handler(req, res) {
     doc.undash();
 
     // Background
-    doc.image('public/static/images/oc-gift-card-front-straightened.png', x, y, {
+    doc.image(path.join(process.cwd(), 'public/static/images/oc-gift-card-front-straightened.png'), x, y, {
       width: CARD_WIDTH_IN_PTS,
       height: CARD_HEIGHT_IN_PTS,
     });
