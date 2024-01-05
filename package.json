@@ -32,7 +32,7 @@
     "lodash": "4.17.21",
     "moment": "2.29.4",
     "next": "^12.3.4",
-    "next-transpile-modules": "9.1.0",
+    "next-transpile-modules": "10.0.1",
     "node-fetch": "2.7.0",
     "polished": "4.2.2",
     "prop-types": "15.8.1",
