@@ -18,6 +18,14 @@ const nextConfig = {
     API_KEY: process.env.API_KEY,
     LOG_LEVEL: process.env.LOG_LEVEL,
   },
+  rewrites: async () => {
+    return [
+      {
+        source: '/tax-form/:filename',
+        destination: '/api/tax-form/:filename',
+      },
+    ];
+  },
   webpack: (config) => {
     // See https://styled-components.com/docs/faqs#how-can-i-fix-issues-when-using-npm-link-or-yarn-link
     config.resolve.alias['styled-components'] = path.join(__dirname, 'node_modules/styled-components');
