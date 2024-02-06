@@ -27,7 +27,7 @@
     "graphql": "14.7.0",
     "graphql-request": "2.0.0",
     "html-pdf": "^3.0.1",
-    "i18n-iso-countries": "7.8.0",
+    "i18n-iso-countries": "7.10.0",
     "intl": "1.2.5",
     "lodash": "4.17.21",
     "moment": "2.30.1",
