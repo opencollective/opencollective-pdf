@@ -1,8 +1,6 @@
 require('dotenv').config();
 const path = require('path');
 
-const withTM = require('next-transpile-modules')(['@opencollective/frontend-components']);
-
 const nextConfig = {
   images: {
     disableStaticImages: true, // We inline images ourselves for PDF compatibility
@@ -16,6 +14,7 @@ const nextConfig = {
     API_KEY: process.env.API_KEY,
     LOG_LEVEL: process.env.LOG_LEVEL,
   },
+  transpilePackages: ['@opencollective/frontend-components'],
   webpack: (config) => {
     // See https://styled-components.com/docs/faqs#how-can-i-fix-issues-when-using-npm-link-or-yarn-link
     config.resolve.alias['styled-components'] = path.join(__dirname, 'node_modules/styled-components');
@@ -48,4 +47,4 @@ const nextConfig = {
   },
 };
 
-module.exports = withTM(nextConfig);
+module.exports = nextConfig;
