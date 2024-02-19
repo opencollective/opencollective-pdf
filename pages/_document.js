@@ -103,7 +103,7 @@ export default class Document extends NextJSDocument {
           res.setHeader('Content-Type', 'application/json');
           res.end(JSON.stringify(ctx.err));
         } else {
-          const renderedPage = ctx.renderPage();
+          const renderedPage = await ctx.renderPage();
           const htmlContent = renderedPage.html;
           const buffer = await componentToPDFBuffer(
             <PDFDocument html={htmlContent} styles={getRawCssFromSheet(sheet)} />,
