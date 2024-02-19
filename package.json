@@ -16,7 +16,7 @@
     "@styled-icons/feather": "10.47.0",
     "babel-plugin-formatjs": "10.5.13",
     "dayjs": "1.11.10",
-    "dotenv": "16.4.1",
+    "dotenv": "16.4.4",
     "graphql": "14.7.0",
     "html-pdf": "^3.0.1",
     "i18n-iso-countries": "7.10.0",
