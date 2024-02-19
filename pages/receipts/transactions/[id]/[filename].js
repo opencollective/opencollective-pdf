@@ -8,7 +8,7 @@ import Receipt from '../../../../components/Receipt';
 
 class TransactionReceipt extends React.Component {
   static async getInitialProps(ctx) {
-    const isServer = Boolean(ctx);
+    const isServer = Boolean(ctx.req);
     if (isServer) {
       const { id, pageFormat } = ctx.query;
       const authorizationHeaders = authenticateRequest(ctx.req);
@@ -19,7 +19,7 @@ class TransactionReceipt extends React.Component {
       };
     }
 
-    return { pageFormat: ctx?.query?.pageFormat };
+    return { pageFormat: ctx.query?.pageFormat };
   }
 
   static getReceiptFromData(transaction) {
