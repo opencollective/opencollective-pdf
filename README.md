@@ -80,7 +80,7 @@ with you local development data. It is also the best way if you need to make cha
 the graphql queries.
 
 The easier to make it work is to go to `/:userSlug/admin/for-developers` on the frontend,
-generate a personal token, and to add `?app_key=your_key_here` to all your requests.
+generate a personal token, and to add `?personalToken=your_key_here` to all your requests.
 
 **Tips**
 

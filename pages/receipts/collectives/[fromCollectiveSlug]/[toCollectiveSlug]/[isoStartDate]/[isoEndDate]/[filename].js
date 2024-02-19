@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import PDFLayout from '../../../../../../../components/PDFLayout';
 import PageFormat from '../../../../../../../lib/constants/page-format';
-import { getAccessTokenFromReq } from '../../../../../../../lib/req-utils';
+import { authenticateRequest } from '../../../../../../../lib/req-utils';
 import { fetchInvoiceByDateRange } from '../../../../../../../lib/graphql/queries';
 import { Receipt } from '../../../../../../../components/Receipt';
 
@@ -11,27 +11,18 @@ class TransactionReceipt extends React.Component {
     const isServer = Boolean(ctx.req);
     if (isServer) {
       const { fromCollectiveSlug, toCollectiveSlug: hostSlug, isoStartDate: dateFrom, isoEndDate: dateTo } = ctx.query;
-      const accessToken = getAccessTokenFromReq(ctx);
-      if (!accessToken && !ctx.query.app_key) {
-        // Frontend sends an OPTIONS request to check CORS, we should just return OK when that happens
-        if (ctx.req.method === 'OPTIONS') {
-          return {};
-        }
-
-        throw new Error('Please provide an access token or an APP key');
-      }
-
+      const authorizationHeaders = authenticateRequest(ctx.req);
       const queryParams = { fromCollectiveSlug, hostSlug, dateFrom, dateTo };
-      const response = await fetchInvoiceByDateRange(queryParams, accessToken, ctx.query.app_key);
+      const response = await fetchInvoiceByDateRange(queryParams, authorizationHeaders);
 
       if (response.transactions.totalCount > response.transactions.nodes.length) {
         throw new Error('Too many transactions. Please contact support');
       }
       const invoiceTemplateObj =
-        await response?.host?.settings?.invoice?.templates?.[
+        await response.host?.settings?.invoice?.templates?.[
           response.transactions[0]?.invoiceTemplate || response.transactions[0]?.order?.tier?.invoiceTemplate
         ];
-      const template = invoiceTemplateObj || response.host?.settings?.invoice?.templates?.default;
+      const template = invoiceTemplateObj || response.host.settings?.invoice?.templates?.default;
 
       return {
         pageFormat: ctx.query.pageFormat,
