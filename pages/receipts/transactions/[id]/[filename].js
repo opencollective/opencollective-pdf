@@ -3,32 +3,23 @@ import React from 'react';
 import PDFLayout from '../../../../components/PDFLayout';
 import PageFormat from '../../../../lib/constants/page-format';
 import { fetchTransactionInvoice } from '../../../../lib/graphql/queries';
-import { getAccessTokenFromReq } from '../../../../lib/req-utils';
+import { authenticateRequest } from '../../../../lib/req-utils';
 import Receipt from '../../../../components/Receipt';
 
 class TransactionReceipt extends React.Component {
   static async getInitialProps(ctx) {
-    const isServer = Boolean(ctx.req);
+    const isServer = Boolean(ctx);
     if (isServer) {
-      const { id } = ctx.query;
-      const accessToken = getAccessTokenFromReq(ctx);
-      if (!accessToken && !ctx.query.app_key) {
-        // Frontend sends an OPTIONS request to check CORS, we should just return OK when that happens
-        if (ctx.req.method === 'OPTIONS') {
-          return {};
-        }
-
-        throw new Error('Please provide an access token or an APP key');
-      }
-
-      const transaction = await fetchTransactionInvoice(id, accessToken, ctx.query.app_key);
+      const { id, pageFormat } = ctx.query;
+      const authorizationHeaders = authenticateRequest(ctx.req);
+      const transaction = await fetchTransactionInvoice(id, authorizationHeaders);
       return {
-        pageFormat: ctx.query.pageFormat,
+        pageFormat: pageFormat,
         receipt: TransactionReceipt.getReceiptFromData(transaction),
       };
     }
 
-    return { pageFormat: ctx.query.pageFormat };
+    return { pageFormat: ctx?.query?.pageFormat };
   }
 
   static getReceiptFromData(transaction) {
