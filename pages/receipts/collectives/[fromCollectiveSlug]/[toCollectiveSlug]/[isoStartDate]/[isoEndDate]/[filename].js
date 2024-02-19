@@ -12,6 +12,10 @@ class TransactionReceipt extends React.Component {
     if (isServer) {
       const { fromCollectiveSlug, toCollectiveSlug: hostSlug, isoStartDate: dateFrom, isoEndDate: dateTo } = ctx.query;
       const authorizationHeaders = authenticateRequest(ctx.req);
+      if (!authorizationHeaders) {
+        return {};
+      }
+
       const queryParams = { fromCollectiveSlug, hostSlug, dateFrom, dateTo };
       const response = await fetchInvoiceByDateRange(queryParams, authorizationHeaders);
 
