@@ -59,3 +59,17 @@ jobs:
       - run: |
           npm run test -- --ci --coverage --reporters=default --reporters=jest-junit
           npm run test:coverage
+
+  depcheck:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: 'package.json'
+          cache: 'npm'
+      - name: Install dependencies
+        run: npm ci --prefer-offline --no-audit
+      - run: npm run depcheck

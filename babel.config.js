@@ -14,7 +14,6 @@ module.exports = {
     ],
   ],
   plugins: [
-    'lodash',
     'babel-plugin-styled-components',
     [
       'formatjs',
