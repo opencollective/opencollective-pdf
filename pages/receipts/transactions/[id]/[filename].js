@@ -12,6 +12,10 @@ class TransactionReceipt extends React.Component {
     if (isServer) {
       const { id, pageFormat } = ctx.query;
       const authorizationHeaders = authenticateRequest(ctx.req);
+      if (!authorizationHeaders) {
+        return {};
+      }
+
       const transaction = await fetchTransactionInvoice(id, authorizationHeaders);
       return {
         pageFormat: pageFormat,
