@@ -11,7 +11,7 @@ class TransactionReceipt extends React.Component {
     const isServer = Boolean(ctx.req);
     if (isServer) {
       const { fromCollectiveSlug, toCollectiveSlug: hostSlug, isoStartDate: dateFrom, isoEndDate: dateTo } = ctx.query;
-      const authorizationHeaders = authenticateRequest(ctx.req);
+      const authorizationHeaders = authenticateRequest(ctx);
       if (!authorizationHeaders) {
         return {};
       }

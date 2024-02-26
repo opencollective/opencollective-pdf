@@ -99,7 +99,7 @@ export default class Document extends NextJSDocument {
       const isPdf = ctx.pathname !== '/' && fileFormat === 'pdf';
       if (isServer && isPdf) {
         if (ctx.err) {
-          res.statusCode = 400;
+          res.statusCode = ctx.err.status ?? 400;
           res.setHeader('Content-Type', 'application/json');
           res.end(JSON.stringify(ctx.err));
         } else {
