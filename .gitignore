@@ -16,3 +16,6 @@ coverage
 # VSCode
 .vscode
 .history
+
+# Typescript
+*.tsbuildinfo

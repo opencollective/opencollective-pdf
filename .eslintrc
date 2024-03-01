@@ -1,9 +1,17 @@
 {
-  "extends": ["opencollective"],
+  "extends": [
+    "opencollective",
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:react/recommended",
+    "plugin:react-hooks/recommended",
+    "plugin:import/typescript"
+  ],
+  "parser": "@typescript-eslint/parser",
   "env": {
     "jest": true
   },
-  "plugins": ["react-hooks"],
+  "plugins": ["react-hooks", "@typescript-eslint"],
   "rules": {
     "no-console": "warn",
     "react/jsx-closing-bracket-location": ["warn", "tag-aligned"],
@@ -13,6 +21,7 @@
     // because we don't have any occurences anymore
     "react/react-in-jsx-scope": ["error"],
     "react/prop-types": ["error"],
-    "react/sort-comp": ["error"]
+    "react/sort-comp": ["error"],
+    "node/no-missing-import": ["error", { "tryExtensions": [".js", ".ts", ".tsx"] }]
   }
 }

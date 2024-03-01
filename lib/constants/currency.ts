@@ -15,4 +15,4 @@ export const ZERO_DECIMAL_CURRENCIES = [
   'XAF',
   'XOF',
   'XPF',
-];
+] as const;
