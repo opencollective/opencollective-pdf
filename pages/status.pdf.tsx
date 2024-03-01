@@ -1,13 +1,12 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import PageFormat from '../lib/constants/page-format';
 import PDFLayout from '../components/PDFLayout';
+import type { PageFormatKey } from '../lib/constants/page-format';
 
 /**
  * Return the status of the invoice server
  */
 
-class PdfStatusPage extends React.Component {
+class PdfStatusPage extends React.Component<{ pageFormat: PageFormatKey }> {
   static async getInitialProps({ query }) {
     return { pageFormat: query.pageFormat };
   }
@@ -20,9 +19,5 @@ class PdfStatusPage extends React.Component {
     );
   }
 }
-
-PdfStatusPage.propTypes = {
-  pageFormat: PropTypes.oneOf(Object.keys(PageFormat)),
-};
 
 export default PdfStatusPage;

@@ -1,6 +1,8 @@
 import { get } from 'lodash';
 
 class CustomError extends Error {
+  status: number;
+
   constructor(message, status = 400, name = undefined) {
     super(message);
     this.name = name || this.constructor.name.replace(/Error$/, '');

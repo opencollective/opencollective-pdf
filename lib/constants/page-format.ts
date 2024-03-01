@@ -15,6 +15,8 @@ const PageFormat = {
       footerTop: 9,
     },
   },
-};
+} as const;
+
+export type PageFormatKey = keyof typeof PageFormat;
 
 export default PageFormat;

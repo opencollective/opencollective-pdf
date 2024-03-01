@@ -42,25 +42,32 @@
     "test:watch": "npm run test -- --watch",
     "test:coverage": "codecov",
     "test:update": "TZ=UTC jest -u",
-    "lint": "eslint . --ignore-path .gitignore",
+    "lint": "eslint . --ignore-path .gitignore --ext .js,.ts,.tsx",
     "lint:fix": "npm run lint -- --fix",
     "lint:quiet": "npm run lint -- --quiet",
     "commit": "git-cz",
     "cypress": "TZ=UTC cypress run",
-    "prettier": "prettier \"*.@(js|json|md)\" \"@(components|lib|pages|scripts|test)/**/*.@(js|json|md)\"",
+    "prettier": "prettier \"*.@(js|json|md|ts|tsx)\" \"@(components|lib|pages|scripts|test)/**/*.@(js|json|md|ts|tsx)\"",
     "prettier:check": "npm run prettier -- --check",
     "prettier:write": "npm run prettier -- --write",
-    "depcheck": "npx depcheck"
+    "depcheck": "npx depcheck",
+    "type:check": "tsc"
   },
   "devDependencies": {
     "@babel/core": "^7.14.8",
     "@babel/eslint-parser": "^7.11.0",
+    "@babel/preset-typescript": "^7.23.3",
+    "@types/node": "^20.11.24",
+    "@types/react": "^18.2.61",
+    "@typescript-eslint/eslint-plugin": "^7.1.0",
+    "@typescript-eslint/parser": "^7.1.0",
     "babel-plugin-styled-components": "^2.0.0",
     "codecov": "^3.8.2",
     "commitizen": "^4.3.0",
     "cz-conventional-changelog": "^3.3.0",
     "eslint": "8.57.0",
     "eslint-config-opencollective": "^3.0.0",
+    "eslint-import-resolver-typescript": "^3.6.1",
     "eslint-plugin-babel": "^5.3.1",
     "eslint-plugin-import": "^2.23.4",
     "eslint-plugin-node": "^11.1.0",
@@ -72,6 +79,7 @@
     "jest-styled-components": "^7.0.5",
     "prettier": "^3.0.0",
     "react-test-renderer": "^18.2.0",
+    "typescript": "^5.3.3",
     "url-loader": "^4.1.1"
   },
   "browser": {
@@ -85,7 +93,10 @@
   },
   "depcheck": {
     "ignores": [
-      "jest-junit"
+      "jest-junit",
+      "@babel/preset-typescript",
+      "@types/node",
+      "eslint-import-resolver-typescript"
     ]
   }
 }
