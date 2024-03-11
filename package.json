@@ -31,7 +31,7 @@
     "react-dom": "18.2.0",
     "react-intl": "6.6.2",
     "sanitize-html": "2.12.1",
-    "styled-components": "5.3.11",
+    "styled-components": "6.1.8",
     "styled-system": "5.1.5"
   },
   "scripts": {
