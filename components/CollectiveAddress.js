@@ -1,17 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { get } from 'lodash';
-import countries from 'i18n-iso-countries';
-import countriesEN from 'i18n-iso-countries/langs/en.json';
 
-countries.registerLocale(countriesEN);
+import { getCountryName } from '../lib/i18n';
 
 /**
  * Pretty render a location (multiline)
  */
 const CollectiveAddress = ({ collective, fallBackOnHostAddress }) => {
   const countryISO = get(collective, 'location.country');
-  const country = countryISO && (countries.getName(countryISO, 'en') || countryISO);
+  const country = countryISO && (getCountryName(countryISO) || countryISO);
   let address = get(collective, 'location.address');
   if (!address && fallBackOnHostAddress) {
     address = get(collective, 'host.location.address');
