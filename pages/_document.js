@@ -110,6 +110,7 @@ export default class Document extends NextJSDocument {
             { pageFormat: query.pageFormat || 'A4' },
           );
 
+          res.setHeader('cache-control', 'no-cache');
           res.setHeader('Content-disposition', `inline; filename="${get(ctx, 'query.filename', 'result.pdf')}"`);
           res.setHeader('Content-Type', 'application/pdf');
           res.end(buffer);

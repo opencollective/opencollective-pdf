@@ -25,6 +25,8 @@
     "next": "^12.3.4",
     "next-transpile-modules": "9.1.0",
     "node-fetch": "2.7.0",
+    "pdf-fontkit": "1.8.9",
+    "pdf-lib": "1.17.1",
     "prop-types": "15.8.1",
     "qrcode.react": "3.1.0",
     "react": "18.2.0",
@@ -51,11 +53,13 @@
     "prettier:check": "npm run prettier -- --check",
     "prettier:write": "npm run prettier -- --write",
     "depcheck": "npx depcheck",
-    "type:check": "tsc"
+    "type:check": "tsc",
+    "script": "babel-node --extensions .js,.ts,.tsx -- $@"
   },
   "devDependencies": {
-    "@babel/core": "^7.14.8",
+    "@babel/core": "^7.24.0",
     "@babel/eslint-parser": "^7.11.0",
+    "@babel/node": "^7.23.9",
     "@babel/preset-typescript": "^7.23.3",
     "@types/node": "^20.11.24",
     "@types/react": "^18.2.61",
