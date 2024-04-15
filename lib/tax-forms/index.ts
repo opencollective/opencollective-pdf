@@ -1,8 +1,8 @@
-import fs from 'fs';
 import { fillW9TaxForm } from './w9';
 import { fillW8BenTaxForm } from './w8-ben';
 import { PDFDocument, PDFFont } from 'pdf-lib';
 import { fillW8BenETaxForm } from './w8-ben-e';
+import { readFileSyncFromPublicStaticFolder } from '../file-utils';
 
 type TaxFormType = 'W9' | 'W8_BEN' | 'W8_BEN_E';
 
@@ -17,15 +17,15 @@ export const TAX_FORMS: Record<
   }
 > = {
   W9: {
-    bytes: fs.readFileSync('resources/tax-forms/fw9.pdf'),
+    bytes: readFileSyncFromPublicStaticFolder('tax-forms/fw9.pdf'),
     fillPDF: fillW9TaxForm,
   },
   W8_BEN: {
-    bytes: fs.readFileSync('resources/tax-forms/fw8ben.pdf'),
+    bytes: readFileSyncFromPublicStaticFolder('tax-forms/fw8ben.pdf'),
     fillPDF: fillW8BenTaxForm,
   },
   W8_BEN_E: {
-    bytes: fs.readFileSync('resources/tax-forms/fw8bene.pdf'),
+    bytes: readFileSyncFromPublicStaticFolder('tax-forms/fw8bene.pdf'),
     fillPDF: fillW8BenETaxForm,
   },
 } as const;

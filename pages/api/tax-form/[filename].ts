@@ -1,12 +1,12 @@
 import { PDFDocument, StandardFonts } from 'pdf-lib';
-import fs from 'fs';
 import fontkit from 'pdf-fontkit';
 import { TAX_FORMS, isValidTaxFormType } from '../../../lib/tax-forms';
 import { getFullName } from '../../../lib/tax-forms/utils';
 import { flattenForm } from '../../../lib/pdf-lib-utils';
 import { allCharsValid } from '../../../lib/string-utils';
+import { readFileSyncFromPublicStaticFolder } from '../../../lib/file-utils';
 
-const MAIN_FONT_BYTES = fs.readFileSync('resources/fonts/NanumGothic-Regular.ttf');
+const MAIN_FONT_BYTES = readFileSyncFromPublicStaticFolder('fonts/NanumGothic-Regular.ttf');
 
 export default async function handler(req, res) {
   // Get values from query
@@ -76,5 +76,6 @@ export default async function handler(req, res) {
   const pdfBytes = await pdfDoc.save();
   res.setHeader('Content-Type', 'application/pdf');
   res.setHeader('Access-Control-Allow-Origin', '*'); // TODO
+  res.setHeader('cache-control', 'no-cache');
   res.send(Buffer.from(pdfBytes));
 }

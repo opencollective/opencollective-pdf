@@ -1,11 +1,11 @@
-import fs from 'fs';
 import { get, isNil } from 'lodash';
 import { scaleValue } from './math';
 import fontkit from 'pdf-fontkit';
 import { PDFDocument, PDFField, PDFFont, PDFForm, PDFHexString, PDFTextField, TextAlignment } from 'pdf-lib';
 import { allCharsValid } from './string-utils';
+import { readFileSyncFromPublicStaticFolder } from './file-utils';
 
-const SIGNATURE_FONT_BYTES = fs.readFileSync('resources/fonts/JustMeAgainDownHere-Regular.ttf');
+const SIGNATURE_FONT_BYTES = readFileSyncFromPublicStaticFolder('fonts/JustMeAgainDownHere-Regular.ttf');
 
 export const logAllFieldsFromPDFForm = (pdfForm) => {
   for (const field of pdfForm.getFields()) {
