@@ -1,7 +1,7 @@
 import { get, isNil } from 'lodash';
 import { scaleValue } from './math';
 import fontkit from 'pdf-fontkit';
-import { PDFDocument, PDFField, PDFFont, PDFForm, PDFHexString, PDFTextField, TextAlignment } from 'pdf-lib';
+import { PDFDocument, PDFField, PDFFont, PDFForm, PDFHexString, PDFTextField, rgb, TextAlignment } from 'pdf-lib';
 import { allCharsValid } from './string-utils';
 import { readFileSyncFromPublicStaticFolder } from './file-utils';
 
@@ -257,5 +257,51 @@ export function flattenForm(form: PDFForm, { useFallbackReadonly = false } = {})
     for (const field of form.getFields()) {
       field.enableReadOnly();
     }
+  }
+}
+
+/**
+ * Add a watermark on each page as a fixed banner at the top of the page
+ */
+export function addNonFinalWaterMark(
+  pdfDoc: PDFDocument,
+  font: PDFFont,
+  watermarkText = 'This is a test document for preview purposes. It is not legally binding.',
+): void {
+  const pages = pdfDoc.getPages();
+  const bannerHeight = 18;
+  const fontSize = 8;
+  const backgroundColor = rgb(0.9, 0.9, 0.9);
+  const textColor = rgb(0.3, 0.3, 0.3);
+  const borderColor = rgb(0.85, 0.85, 0.85);
+  for (const page of pages) {
+    const { width, height } = page.getSize();
+    const textWidth = font.widthOfTextAtSize(watermarkText, fontSize);
+    const textHeight = font.heightAtSize(fontSize);
+    const textX = width / 2 - textWidth / 2;
+    const textY = height - textHeight - 5;
+
+    page.drawRectangle({
+      x: 0,
+      y: height - bannerHeight,
+      width,
+      height: bannerHeight,
+      color: backgroundColor,
+    });
+
+    page.drawLine({
+      start: { x: 0, y: height - bannerHeight },
+      end: { x: width, y: height - bannerHeight },
+      thickness: 1,
+      color: borderColor,
+    });
+
+    page.drawText(watermarkText, {
+      x: textX,
+      y: textY,
+      size: fontSize,
+      font,
+      color: textColor,
+    });
   }
 }
