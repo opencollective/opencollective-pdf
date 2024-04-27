@@ -2,7 +2,7 @@ import { PDFDocument, StandardFonts } from 'pdf-lib';
 import fontkit from 'pdf-fontkit';
 import { TAX_FORMS, isValidTaxFormType } from '../../../lib/tax-forms';
 import { getFullName } from '../../../lib/tax-forms/utils';
-import { flattenForm } from '../../../lib/pdf-lib-utils';
+import { addNonFinalWaterMark, flattenForm } from '../../../lib/pdf-lib-utils';
 import { allCharsValid } from '../../../lib/string-utils';
 import { readFileSyncFromPublicStaticFolder } from '../../../lib/file-utils';
 
@@ -70,6 +70,8 @@ export default async function handler(req, res) {
       mimeType: 'application/json',
       description: 'Raw form data',
     });
+  } else {
+    addNonFinalWaterMark(pdfDoc, defaultFont);
   }
 
   // Return file
