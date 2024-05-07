@@ -12,6 +12,7 @@ import LinkToCollective from './LinkToCollective';
 
 import GiftCardImgSrc from '../public/static/images/giftcard.png';
 import CollectiveAddress from './CollectiveAddress';
+import { isMemberOfTheEuropeanUnion } from '@opencollective/taxes';
 import {
   getTransactionReceiver,
   getTransactionTaxPercent,
@@ -43,6 +44,7 @@ export class Receipt extends React.Component {
         slug: PropTypes.string.isRequired,
         name: PropTypes.string,
         legalName: PropTypes.string,
+        location: PropTypes.object,
         settings: PropTypes.shape({
           VAT: PropTypes.shape({
             number: PropTypes.string,
@@ -58,6 +60,7 @@ export class Receipt extends React.Component {
         slug: PropTypes.string.isRequired,
         website: PropTypes.string,
         imageUrl: PropTypes.string,
+        location: PropTypes.object,
       }),
       transactions: PropTypes.arrayOf(
         PropTypes.shape({
@@ -321,6 +324,18 @@ export class Receipt extends React.Component {
     );
   }
 
+  shouldDisplayReverseVATWarning() {
+    const { host, fromAccount, transactions } = this.props.receipt;
+    const hostCountry = host.location?.country;
+    const fromAccountCountry = fromAccount.location?.country;
+    if (hostCountry !== 'US' || !isMemberOfTheEuropeanUnion(fromAccountCountry)) {
+      return false;
+    }
+
+    console.log(JSON.stringify(transactions, null, 2));
+    return transactions.some((t) => ['PRODUCT', 'SERVICE'].includes(get(t, 'order.tier.type')));
+  }
+
   render() {
     const { receipt } = this.props;
     if (!receipt) {
@@ -468,6 +483,14 @@ export class Receipt extends React.Component {
                           {formatCurrency(receipt.totalAmount, receipt.currency, { showCurrencySymbol: true })}
                         </Span>
                       </Flex>
+                      {this.shouldDisplayReverseVATWarning() && (
+                        <P mt={4} fontSize="11px" textAlign="right" whiteSpace="pre-wrap">
+                          <FormattedMessage
+                            id="reverseVATWarning"
+                            defaultMessage="0% tax applied. The recipient is responsible for the VAT."
+                          />
+                        </P>
+                      )}
                     </Container>
                   </Flex>
                 )}
