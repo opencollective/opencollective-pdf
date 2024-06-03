@@ -487,7 +487,7 @@ export class Receipt extends React.Component {
                         <P mt={4} fontSize="11px" textAlign="right" whiteSpace="pre-wrap">
                           <FormattedMessage
                             id="reverseVATWarning"
-                            defaultMessage="0% tax applied. The recipient is responsible for the VAT."
+                            defaultMessage="0% VAT. Reverse charge to be applied by recipient."
                           />
                         </P>
                       )}
