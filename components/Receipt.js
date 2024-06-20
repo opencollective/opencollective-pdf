@@ -332,7 +332,6 @@ export class Receipt extends React.Component {
       return false;
     }
 
-    console.log(JSON.stringify(transactions, null, 2));
     return transactions.some((t) => ['PRODUCT', 'SERVICE'].includes(get(t, 'order.tier.type')));
   }
 
