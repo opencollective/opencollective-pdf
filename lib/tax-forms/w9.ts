@@ -3,6 +3,7 @@ import { PDFDocument, PDFFont } from 'pdf-lib';
 import { addSignature, fillPDFFormFromValues, PDFFieldDefinition } from '../pdf-lib-utils';
 import { getFullName } from './utils';
 import { W9TaxFormValues } from './frontend-types';
+import { getCountryName } from '../i18n';
 
 const W9FieldsDefinition: Partial<Record<keyof W9TaxFormValues, PDFFieldDefinition>> = {
   signer: { formPath: 'topmostSubform[0].Page1[0].f1_1[0]', transform: getFullName },
@@ -61,7 +62,14 @@ const W9FieldsDefinition: Partial<Record<keyof W9TaxFormValues, PDFFieldDefiniti
       {
         formPath: 'topmostSubform[0].Page1[0].Address[0].f1_8[0]',
         transform: (value: W9TaxFormValues['location']) =>
-          [value?.structured?.city, value?.structured?.zone, value?.structured?.postalCode].filter(Boolean).join(', '),
+          [
+            value?.structured?.city,
+            value?.structured?.zone,
+            value?.structured?.postalCode,
+            value?.country !== 'US' && getCountryName(value?.country),
+          ]
+            .filter(Boolean)
+            .join(', '),
       },
     ],
   },
