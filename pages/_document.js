@@ -71,7 +71,7 @@ export default class Document extends NextJSDocument {
 
     // Set CORS headers
     if (ctx.res) {
-      setCORSHeaders(ctx);
+      setCORSHeaders(ctx.res);
     }
 
     // Frontend sends an OPTIONS request to check CORS, we should just return OK when that happens
