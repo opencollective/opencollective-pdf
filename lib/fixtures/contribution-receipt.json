@@ -12,7 +12,7 @@
     "name": "OC Europe",
     "legalName": null,
     "currency": "EUR",
-    "imageUrl": "http://localhost:3001/oc-europe/logo/200.png",
+    "imageUrl": "https://images.opencollective.com/opensource/426badd/logo/200.png",
     "website": null,
     "settings": {
       "VAT": { "type": "HOST", "number": "FRXX999999999" },
@@ -57,7 +57,7 @@
       "name": "OC Europe",
       "legalName": null,
       "currency": "EUR",
-      "imageUrl": "http://localhost:3001/oc-europe/logo/200.png",
+      "imageUrl": "https://images.opencollective.com/opensource/426badd/logo/200.png",
       "website": null,
       "settings": {
         "VAT": { "type": "HOST", "number": "FRXX999999999" },
