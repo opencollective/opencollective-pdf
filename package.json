@@ -13,7 +13,7 @@
   "dependencies": {
     "@apollo/client": "3.10.8",
     "@opencollective/frontend-components": "0.5.0",
-    "@opencollective/taxes": "4.1.1",
+    "@opencollective/taxes": "4.3.0",
     "@styled-icons/feather": "10.47.0",
     "babel-plugin-formatjs": "10.5.16",
     "dayjs": "1.11.11",
