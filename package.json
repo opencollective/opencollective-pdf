@@ -16,7 +16,7 @@
     "@opencollective/taxes": "4.3.0",
     "@styled-icons/feather": "10.47.0",
     "babel-plugin-formatjs": "10.5.16",
-    "dayjs": "1.11.12",
+    "dayjs": "1.11.13",
     "dotenv": "16.4.5",
     "graphql": "16.9.0",
     "html-pdf": "^3.0.1",
