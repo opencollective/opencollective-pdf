@@ -1,6 +1,7 @@
 {
   "name": "opencollective-pdf",
   "version": "1.0.0",
+  "type": "module",
   "repository": {
     "type": "git",
     "url": "https://github.com/opencollective/opencollective-pdf.git"
@@ -16,10 +17,13 @@
     "@styled-icons/feather": "10.47.0",
     "@styled-system/prop-types": "^5.1.5",
     "@styled-system/theme-get": "^5.1.2",
+    "@types/react-dom": "^18.3.0",
     "babel-plugin-formatjs": "10.5.16",
     "dayjs": "1.11.13",
     "dotenv": "16.4.5",
+    "express": "4.19.2",
     "graphql": "16.9.0",
+    "helmet": "7.1.0",
     "html-pdf": "^3.0.1",
     "i18n-iso-countries": "7.11.3",
     "lodash": "4.17.21",
@@ -41,7 +45,9 @@
   "scripts": {
     "start": "next start -p ${PORT:-3333}",
     "dev": "next dev -p 3002",
+    "dev-node": "nodemon --exec node --no-warnings=ExperimentalWarning --loader ts-node/esm server.ts",
     "build": "next build",
+    "build-node": "tsc",
     "test": "TZ=UTC jest",
     "test:watch": "npm run test -- --watch",
     "test:coverage": "codecov",
@@ -63,8 +69,8 @@
     "@babel/eslint-parser": "^7.11.0",
     "@babel/node": "^7.23.9",
     "@babel/preset-typescript": "^7.23.3",
-    "@types/node": "^20.11.24",
-    "@types/react": "^18.2.61",
+    "@types/node": "^20.16.4",
+    "@types/react": "^18.3.5",
     "@typescript-eslint/eslint-plugin": "^7.1.0",
     "@typescript-eslint/parser": "^7.1.0",
     "babel-plugin-styled-components": "^2.0.0",
@@ -83,9 +89,11 @@
     "jest": "^29.7.0",
     "jest-junit": "^16.0.0",
     "jest-styled-components": "^7.0.5",
+    "nodemon": "^3.1.4",
     "prettier": "^3.0.0",
     "react-test-renderer": "^18.2.0",
-    "typescript": "^5.3.3",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.5.4",
     "url-loader": "^4.1.1"
   },
   "browser": {
