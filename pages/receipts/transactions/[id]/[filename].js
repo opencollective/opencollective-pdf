@@ -26,8 +26,9 @@ class TransactionReceipt extends React.Component {
     return { pageFormat: ctx.query?.pageFormat };
   }
 
-  static getReceiptFromData(transaction) {
-    if (transaction.type === 'DEBIT' && transaction.oppositeTransaction) {
+  static getReceiptFromData(originalTransaction) {
+    let transaction = originalTransaction;
+    if (transaction.type === 'DEBIT' && transaction.oppositeTransaction && !transaction.isRefund) {
       transaction = transaction.oppositeTransaction;
     }
 
@@ -38,13 +39,15 @@ class TransactionReceipt extends React.Component {
 
     const invoiceName = transaction.invoiceTemplate || transaction.order?.tier?.invoiceTemplate;
     const template = host.settings?.invoice?.templates?.[invoiceName] || host?.settings?.invoice?.templates?.default;
+    const fromAccount = transaction.isRefund ? transaction.toAccount : transaction.fromAccount;
     return {
+      isRefundOnly: transaction.isRefund,
       currency: transaction.amountInHostCurrency.currency,
       totalAmount: transaction.amountInHostCurrency.valueInCents,
       transactions: [transaction],
       host,
-      fromAccount: transaction.fromAccount,
-      fromAccountHost: transaction.fromAccount.host,
+      fromAccount: fromAccount,
+      fromAccountHost: fromAccount.host,
       template,
     };
   }
