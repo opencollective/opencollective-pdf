@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import { get, chunk, sumBy, max, isNil, round, uniqBy } from 'lodash';
 import { Box, Flex } from './styled-components/Grid';
 import moment from 'moment';
@@ -36,6 +36,7 @@ export class Receipt extends React.Component {
   static propTypes = {
     /** The receipt data */
     receipt: PropTypes.shape({
+      isRefundOnly: PropTypes.bool,
       dateFrom: PropTypes.string,
       dateTo: PropTypes.string,
       currency: PropTypes.string.isRequired,
@@ -94,9 +95,6 @@ export class Receipt extends React.Component {
      * document.
      */
     debug: PropTypes.bool,
-    /** CSS zoom applied */
-    zoom: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    intl: PropTypes.object.isRequired, // from withIntl
   };
 
   static defaultProps = {
@@ -387,7 +385,11 @@ export class Receipt extends React.Component {
                     </Box>
                     <Box mt={80} pr={3} css={{ minHeight: 100 }}>
                       <H2 fontSize="16px" lineHeight="18px">
-                        <FormattedMessage id="billTo" defaultMessage="Bill to" />
+                        {receipt.isRefundOnly ? (
+                          <FormattedMessage id="refundTo" defaultMessage="Refund to" />
+                        ) : (
+                          <FormattedMessage id="billTo" defaultMessage="Bill to" />
+                        )}
                       </H2>
                       <Box my={2}>
                         <P fontWeight={500} fontSize="13px">
@@ -402,7 +404,9 @@ export class Receipt extends React.Component {
                   <Flex justifyContent="space-between">
                     <Box>
                       <H2 fontSize="16px" lineHeight="18px">
-                        {receipt.template?.title || (
+                        {receipt.template?.title || receipt.isRefundOnly ? (
+                          <FormattedMessage defaultMessage="Payment refund" />
+                        ) : (
                           <FormattedMessage id="invoice.donationReceipt" defaultMessage="Payment Receipt" />
                         )}
                       </H2>
@@ -499,7 +503,7 @@ export class Receipt extends React.Component {
                 <Flex flex="3" flexDirection="column" justifyContent="space-between">
                   <Box>
                     <P fontSize="11px" textAlign="left" whiteSpace="pre-wrap">
-                      {receipt?.template?.info}
+                      {receipt.template?.info}
                     </P>
                   </Box>
                   <CollectiveFooter collective={receipt.host} />
@@ -513,4 +517,4 @@ export class Receipt extends React.Component {
   }
 }
 
-export default injectIntl(Receipt);
+export default Receipt;
