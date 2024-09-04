@@ -4,7 +4,7 @@ import { Tr, Td } from './StyledTable';
 import { FormattedMessage, FormattedDate } from 'react-intl';
 import { formatAmount, formatCurrency } from '../lib/utils';
 import { round, sumBy, uniq } from 'lodash';
-import { Span } from '@opencollective/frontend-components/components/Text';
+import { Span } from './styled-components/Text';
 import { getItemAmounts } from '../lib/expenses';
 
 const ExpenseItemsTable = ({ items, expense }) => {

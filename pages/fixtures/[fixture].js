@@ -5,7 +5,7 @@ import { chunk } from 'lodash';
 import PageFormat from '../../lib/constants/page-format';
 import { Receipt } from '../../components/Receipt';
 import PDFLayout from '../../components/PDFLayout';
-import { Box, Flex } from '@opencollective/frontend-components/components/Grid';
+import { Box, Flex } from '../../components/styled-components/Grid';
 import PrintableGiftCard from '../../components/PrintableGiftCard';
 
 const FIXTURES = {

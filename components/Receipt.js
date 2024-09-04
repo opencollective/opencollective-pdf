@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { get, chunk, sumBy, max, isNil, round, uniqBy } from 'lodash';
-import { Box, Flex } from '@opencollective/frontend-components/components/Grid';
+import { Box, Flex } from './styled-components/Grid';
 import moment from 'moment';
 import QRCode from 'qrcode.react';
 
@@ -24,11 +24,11 @@ import PageFormat from '../lib/constants/page-format';
 import CollectiveFooter from './CollectiveFooter';
 import CustomIntlDate from './CustomIntlDate';
 import AccountName from './AccountName';
-import StyledLink from '@opencollective/frontend-components/components/StyledLink';
-import { H1, H2, P, Span } from '@opencollective/frontend-components/components/Text';
-import Container from '@opencollective/frontend-components/components/Container';
-import StyledTag from '@opencollective/frontend-components/components/StyledTag';
-import StyledHr from '@opencollective/frontend-components/components/StyledHr';
+import StyledLink from './styled-components/StyledLink';
+import { H1, H2, P, Span } from './styled-components/Text';
+import Container from './styled-components/Container';
+import StyledTag from './styled-components/StyledTag';
+import StyledHr from './styled-components/StyledHr';
 import { EventDescription } from './EventDescription';
 import { formatPaymentMethodName } from '../lib/payment-methods';
 

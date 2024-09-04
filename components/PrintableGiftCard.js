@@ -7,15 +7,15 @@ import { borderRadius, fontSize } from 'styled-system';
 
 import { ExternalLink } from '@styled-icons/feather/ExternalLink';
 
-import { Box, Flex } from '@opencollective/frontend-components/components/Grid';
+import { Box, Flex } from './styled-components/Grid';
 
 import opencollectiveLogoUrl from '../public/static/images/opencollective-icon.svg';
 import opencollectiveBackground from '../public/static/images/oc-gift-card-front-straightened.png';
 import { formatCurrency } from '../lib/utils';
-import { P, Span } from '@opencollective/frontend-components/components/Text';
-import Container from '@opencollective/frontend-components/components/Container';
-import StyledLink from '@opencollective/frontend-components/components/StyledLink';
-import StyledHr from '@opencollective/frontend-components/components/StyledHr';
+import { P, Span } from './styled-components/Text';
+import Container from './styled-components/Container';
+import StyledLink from './styled-components/StyledLink';
+import StyledHr from './styled-components/StyledHr';
 
 const Card = styled(Box)`
   font-family: Helvetica, sans-serif;

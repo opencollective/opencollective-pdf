@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Box, Flex } from '@opencollective/frontend-components/components/Grid';
+import { Box, Flex } from '../../../components/styled-components/Grid';
 import { chunk } from 'lodash';
 import PageFormat from '../../../lib/constants/page-format';
 import PDFLayout from '../../../components/PDFLayout';

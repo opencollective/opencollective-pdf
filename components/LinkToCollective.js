@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import AccountName from './AccountName';
-import StyledLink from '@opencollective/frontend-components/components/StyledLink';
+import StyledLink from './styled-components/StyledLink';
 
 /**
  * Returns event's parent collective slug. If the parent is not available,

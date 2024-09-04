@@ -3,8 +3,6 @@
 require('dotenv').config();
 const path = require('path');
 
-const withTM = require('next-transpile-modules')(['@opencollective/frontend-components']);
-
 const nextConfig = {
   images: {
     disableStaticImages: true, // We inline images ourselves for PDF compatibility
@@ -58,4 +56,4 @@ const nextConfig = {
   },
 };
 
-module.exports = withTM(nextConfig);
+module.exports = nextConfig;

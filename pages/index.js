@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { pick } from 'lodash';
-import { Box, Flex } from '@opencollective/frontend-components/components/Grid';
+import { Box, Flex } from '../components/styled-components/Grid';
 import styled from 'styled-components';
 import { objectToQueryString } from '../lib/utils';
 import PageFormat from '../lib/constants/page-format';
-import Container from '@opencollective/frontend-components/components/Container';
+import Container from '../components/styled-components/Container';
 
 const ResponsiveIframe = styled.iframe`
   position: absolute;
