@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Box, Flex } from '@opencollective/frontend-components/components/Grid';
+import { Box, Flex } from './styled-components/Grid';
 import CollectiveAddress from './CollectiveAddress';
 import { imagePreview } from '../lib/utils';
-import Container from '@opencollective/frontend-components/components/Container';
-import StyledLink from '@opencollective/frontend-components/components/StyledLink';
-import { P } from '@opencollective/frontend-components/components/Text';
+import Container from './styled-components/Container';
+import StyledLink from './styled-components/StyledLink';
+import { P } from './styled-components/Text';
 
 const CollectiveFooter = ({ collective }) => {
   return (

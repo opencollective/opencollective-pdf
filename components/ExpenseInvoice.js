@@ -2,16 +2,16 @@ import { chunk, get, max, round, sumBy } from 'lodash';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Box, Flex } from '@opencollective/frontend-components/components/Grid';
+import { Box, Flex } from './styled-components/Grid';
 import PageFormat from '../lib/constants/page-format';
 import { formatCurrency } from '../lib/utils';
 import AccountName from './AccountName';
 import CollectiveAddress from './CollectiveAddress';
 import ExpenseItemsTable from './ExpenseItemsTable';
-import StyledLink from '@opencollective/frontend-components/components/StyledLink';
-import { H2, P, Span } from '@opencollective/frontend-components/components/Text';
-import Container from '@opencollective/frontend-components/components/Container';
-import StyledHr from '@opencollective/frontend-components/components/StyledHr';
+import StyledLink from './styled-components/StyledLink';
+import { H2, P, Span } from './styled-components/Text';
+import Container from './styled-components/Container';
+import StyledHr from './styled-components/StyledHr';
 import { sumItemsInExpenseCurrency } from '../lib/expenses';
 
 const getPageHeight = (pageFormat) => {

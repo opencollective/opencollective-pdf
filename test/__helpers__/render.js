@@ -2,7 +2,7 @@ import React from 'react';
 import renderer from 'react-test-renderer'; // eslint-disable-line node/no-unpublished-import
 import { ThemeProvider } from 'styled-components';
 import { IntlProvider } from 'react-intl';
-import theme from '@opencollective/frontend-components/lib/theme';
+import theme from '../../lib/theme';
 import { pick } from 'lodash';
 
 export const renderWithContext = (component) => {
