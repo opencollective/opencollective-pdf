@@ -107,6 +107,15 @@ const ExpenseInvoice = ({ expense, pageFormat }) => {
                     />
                   </H2>
                 </StyledLink>
+                {expense.reference && (
+                  <P fontSize="13px" color="black.900">
+                    <FormattedMessage
+                      id="Expense.Reference"
+                      defaultMessage="Reference: {reference}"
+                      values={{ reference: expense.reference }}
+                    />
+                  </P>
+                )}
                 <FormattedMessage
                   id="CollectiveColumn"
                   defaultMessage="Collective: {collectiveName}"
@@ -176,6 +185,7 @@ ExpenseInvoice.propTypes = {
   expense: PropTypes.shape({
     id: PropTypes.string,
     legacyId: PropTypes.number,
+    reference: PropTypes.string,
     description: PropTypes.string,
     currency: PropTypes.string,
     type: PropTypes.oneOf(['INVOICE', 'RECEIPT']),
