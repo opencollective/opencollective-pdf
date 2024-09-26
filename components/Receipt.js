@@ -404,11 +404,12 @@ export class Receipt extends React.Component {
                   <Flex justifyContent="space-between">
                     <Box>
                       <H2 fontSize="16px" lineHeight="18px">
-                        {receipt.template?.title || receipt.isRefundOnly ? (
-                          <FormattedMessage defaultMessage="Payment refund" />
-                        ) : (
-                          <FormattedMessage id="invoice.donationReceipt" defaultMessage="Payment Receipt" />
-                        )}
+                        {receipt.template?.title ||
+                          (receipt.isRefundOnly ? (
+                            <FormattedMessage defaultMessage="Payment refund" />
+                          ) : (
+                            <FormattedMessage id="invoice.donationReceipt" defaultMessage="Payment Receipt" />
+                          ))}
                       </H2>
                       <div>
                         {receipt.dateFrom && (
