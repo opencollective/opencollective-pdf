@@ -1,6 +1,5 @@
 import React from 'react';
 import path from 'path';
-import PropTypes from 'prop-types';
 import { get } from 'lodash';
 import NextJSDocument from 'next/document';
 import { ServerStyleSheet } from 'styled-components';
@@ -13,7 +12,7 @@ import { setCORSHeaders } from '../lib/req-utils';
  *
  * To understand why we reset the zoom here, see https://github.com/marcbachmann/node-html-pdf/issues/110
  */
-const PDFDocument = ({ html, styles, zoom }) => {
+const PDFDocument = ({ html, styles, zoom = 0.75 }: { html: string; styles: string; zoom?: number }) => {
   return (
     <html style={{ zoom }}>
       <head>
@@ -25,16 +24,6 @@ const PDFDocument = ({ html, styles, zoom }) => {
       </body>
     </html>
   );
-};
-
-PDFDocument.defaultProps = {
-  zoom: 0.75,
-};
-
-PDFDocument.propTypes = {
-  html: PropTypes.string,
-  styles: PropTypes.string,
-  zoom: PropTypes.number.isRequired,
 };
 
 const getRawCssFromSheet = (sheet) => {
