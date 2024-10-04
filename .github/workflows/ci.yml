@@ -10,9 +10,6 @@ on:
       - synchronize
       - reopened
 
-env:
-  CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-
 jobs:
   lint:
     runs-on: ubuntu-latest
@@ -72,9 +69,11 @@ jobs:
           cache: 'npm'
       - name: Install dependencies
         run: npm ci --prefer-offline --no-audit
-      - run: |
-          npm run test -- --ci --coverage --reporters=default --reporters=jest-junit
-          npm run test:coverage
+      - run: npm run test -- --ci --coverage --reporters=default --reporters=jest-junit
+      - uses: codecov/codecov-action@v4
+        with:
+          fail_ci_if_error: true
+          token: ${{ secrets.CODECOV_TOKEN }}
 
   depcheck:
     runs-on: ubuntu-latest
