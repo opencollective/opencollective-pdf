@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@apollo/client": "3.11.8",
-    "@opencollective/taxes": "4.3.0",
+    "@opencollective/taxes": "4.4.0",
     "@styled-icons/feather": "10.47.0",
     "@styled-system/prop-types": "^5.1.5",
     "@styled-system/theme-get": "^5.1.2",
