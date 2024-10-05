@@ -19,7 +19,7 @@
     "babel-plugin-formatjs": "10.5.16",
     "dayjs": "1.11.13",
     "dotenv": "16.4.5",
-    "eslint-config-next": "^13.5.7",
+    "eslint-config-next": "^14.0.0",
     "graphql": "16.9.0",
     "html-pdf": "^3.0.1",
     "i18n-iso-countries": "7.12.0",
