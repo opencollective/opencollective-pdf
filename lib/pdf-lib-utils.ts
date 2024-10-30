@@ -39,6 +39,8 @@ export const fillAllFieldsFromPDFFormWithPath = (pdfForm) => {
     if (field.constructor.name === 'PDFTextField') {
       const maxLength = field.getMaxLength();
       field.setText(truncateMiddle(field.getName(), maxLength));
+    } else if (field.constructor.name === 'PDFCheckBox') {
+      console.debug(`Found checkbox: ${field.getName()}`);
     }
   }
 };
