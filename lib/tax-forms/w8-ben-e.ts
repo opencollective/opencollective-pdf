@@ -13,6 +13,14 @@ const W8BenEFieldsDefinition: Partial<Record<keyof W8BenETaxFormValues, PDFField
     formPath: 'topmostSubform[0].Page1[0].f1_2[0]',
     transform: getCountryName,
   },
+  nffeStatus: {
+    type: 'combo',
+    values: {
+      ActiveNFFE: 'topmostSubform[0].Page1[0].Col2[0].c1_3[13]',
+      PassiveNFFE: 'topmostSubform[0].Page1[0].Col2[0].c1_3[14]',
+      NonProfitOrganization: 'topmostSubform[0].Page1[0].Col2[0].c1_3[10]',
+    },
+  },
   chapter3Status: {
     type: 'combo',
     values: {
