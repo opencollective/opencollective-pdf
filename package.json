@@ -18,7 +18,7 @@
     "@styled-system/theme-get": "^5.1.2",
     "babel-plugin-formatjs": "10.5.22",
     "dayjs": "1.11.13",
-    "dotenv": "16.4.5",
+    "dotenv": "16.4.7",
     "eslint-config-next": "^14.0.0",
     "graphql": "16.9.0",
     "html-pdf": "^3.0.1",
