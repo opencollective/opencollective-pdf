@@ -7,7 +7,7 @@
   },
   "private": true,
   "engines": {
-    "node": "20.x",
+    "node": "22.x",
     "npm": "10.x"
   },
   "dependencies": {
@@ -63,7 +63,7 @@
     "@babel/eslint-parser": "^7.11.0",
     "@babel/node": "^7.23.9",
     "@babel/preset-typescript": "^7.23.3",
-    "@types/node": "^20.11.24",
+    "@types/node": "^22.0.0",
     "@types/react": "^18.2.61",
     "@typescript-eslint/eslint-plugin": "^7.1.0",
     "@typescript-eslint/parser": "^7.1.0",
