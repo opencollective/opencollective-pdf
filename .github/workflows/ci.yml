@@ -70,7 +70,7 @@ jobs:
       - name: Install dependencies
         run: npm ci --prefer-offline --no-audit
       - run: npm run test -- --ci --coverage --reporters=default --reporters=jest-junit
-      - uses: codecov/codecov-action@v4
+      - uses: codecov/codecov-action@v5
         with:
           fail_ci_if_error: true
           token: ${{ secrets.CODECOV_TOKEN }}
