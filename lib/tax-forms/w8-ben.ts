@@ -7,17 +7,7 @@ import { getCountryName } from '../i18n';
 
 const W8BenFieldsDefinition: Partial<Record<keyof W8BenTaxFormValues, PDFFieldDefinition>> = {
   beneficialOwner: { formPath: 'topmostSubform[0].Page1[0].f_1[0]', transform: getFullName },
-  countryOfCitizenship: {
-    type: 'multi',
-    fields: [
-      { formPath: 'topmostSubform[0].Page1[0].f_2[0]', transform: getCountryName },
-      {
-        formPath: 'topmostSubform[0].Page1[0].f_13[0]',
-        transform: getCountryName,
-        if: (value, values) => values.claimsSpecialRatesAndConditions && values.certifiesResidentCountry,
-      },
-    ],
-  },
+  countryOfCitizenship: { formPath: 'topmostSubform[0].Page1[0].f_2[0]', transform: getCountryName },
   residenceAddress: {
     type: 'multi',
     fields: [
@@ -34,6 +24,11 @@ const W8BenFieldsDefinition: Partial<Record<keyof W8BenTaxFormValues, PDFFieldDe
         formPath: 'topmostSubform[0].Page1[0].f_4[0]',
         transform: (value: W8BenTaxFormValues['residenceAddress']) =>
           [value?.structured?.city, value?.structured?.zone, value?.structured?.postalCode].filter(Boolean).join(', '),
+      },
+      {
+        formPath: 'topmostSubform[0].Page1[0].f_13[0]',
+        transform: (value) => getCountryName(value?.country),
+        if: (value, values) => values.claimsSpecialRatesAndConditions && values.certifiesResidentCountry,
       },
     ],
   },
