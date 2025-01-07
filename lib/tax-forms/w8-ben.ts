@@ -5,7 +5,7 @@ import { getFullName } from './utils';
 import { W8BenTaxFormValues } from './frontend-types';
 import { getCountryName } from '../i18n';
 
-const W8BenFieldsDefinition: Partial<Record<keyof W8BenTaxFormValues, PDFFieldDefinition>> = {
+export const W8BenFieldsDefinition: Partial<Record<keyof W8BenTaxFormValues, PDFFieldDefinition>> = {
   beneficialOwner: { formPath: 'topmostSubform[0].Page1[0].f_1[0]', transform: getFullName },
   countryOfCitizenship: { formPath: 'topmostSubform[0].Page1[0].f_2[0]', transform: getCountryName },
   residenceAddress: {

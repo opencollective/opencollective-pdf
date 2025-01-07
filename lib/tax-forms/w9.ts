@@ -5,26 +5,26 @@ import { getFullName } from './utils';
 import { W9TaxFormValues } from './frontend-types';
 import { getCountryName } from '../i18n';
 
-const W9FieldsDefinition: Partial<Record<keyof W9TaxFormValues, PDFFieldDefinition>> = {
-  signer: { formPath: 'topmostSubform[0].Page1[0].f1_1[0]', transform: getFullName },
-  businessName: 'topmostSubform[0].Page1[0].f1_2[0]',
+export const W9FieldsDefinition: Partial<Record<keyof W9TaxFormValues, PDFFieldDefinition>> = {
+  signer: { formPath: 'topmostSubform[0].Page1[0].f1_01[0]', transform: getFullName },
+  businessName: 'topmostSubform[0].Page1[0].f1_02[0]',
   accountNumbers: 'topmostSubform[0].Page1[0].f1_10[0]',
-  exemptPayeeCode: 'topmostSubform[0].Page1[0].Exemptions[0].f1_5[0]',
-  fatcaExemptionCode: 'topmostSubform[0].Page1[0].Exemptions[0].f1_6[0]',
+  exemptPayeeCode: 'topmostSubform[0].Page1[0].f1_05[0]',
+  fatcaExemptionCode: 'topmostSubform[0].Page1[0].f1_06[0]',
   federalTaxClassification: {
     type: 'combo',
     values: {
-      Individual: 'topmostSubform[0].Page1[0].FederalClassification[0].c1_1[0]',
-      C_Corporation: 'topmostSubform[0].Page1[0].FederalClassification[0].c1_1[1]',
-      S_Corporation: 'topmostSubform[0].Page1[0].FederalClassification[0].c1_1[2]',
-      Partnership: 'topmostSubform[0].Page1[0].FederalClassification[0].c1_1[3]',
-      TrustEstate: 'topmostSubform[0].Page1[0].FederalClassification[0].c1_1[4]',
-      LimitedLiabilityCompany: 'topmostSubform[0].Page1[0].FederalClassification[0].c1_1[5]',
-      Other: 'topmostSubform[0].Page1[0].FederalClassification[0].c1_1[6]',
+      Individual: 'topmostSubform[0].Page1[0].Boxes3a-b_ReadOrder[0].c1_1[0]',
+      C_Corporation: 'topmostSubform[0].Page1[0].Boxes3a-b_ReadOrder[0].c1_1[1]',
+      S_Corporation: 'topmostSubform[0].Page1[0].Boxes3a-b_ReadOrder[0].c1_1[2]',
+      Partnership: 'topmostSubform[0].Page1[0].Boxes3a-b_ReadOrder[0].c1_1[3]',
+      TrustEstate: 'topmostSubform[0].Page1[0].Boxes3a-b_ReadOrder[0].c1_1[4]',
+      LimitedLiabilityCompany: 'topmostSubform[0].Page1[0].Boxes3a-b_ReadOrder[0].c1_1[5]',
+      Other: 'topmostSubform[0].Page1[0].Boxes3a-b_ReadOrder[0].c1_1[6]',
     },
   },
   federalTaxClassificationDetails: {
-    formPath: 'topmostSubform[0].Page1[0].FederalClassification[0].f1_4[0]',
+    formPath: 'topmostSubform[0].Page1[0].Boxes3a-b_ReadOrder[0].f1_04[0]',
     if: (value, values) => values.federalTaxClassification === 'Other',
   },
   taxIdNumber: {
@@ -35,9 +35,9 @@ const W9FieldsDefinition: Partial<Record<keyof W9TaxFormValues, PDFFieldDefiniti
         if: (value, values) => values.taxIdNumberType === 'SSN',
         transform: (value) => value && value.replace(/-/g, '').trim(),
         fields: [
-          { formPath: 'topmostSubform[0].Page1[0].SSN[0].f1_11[0]', maxLength: 3 },
-          { formPath: 'topmostSubform[0].Page1[0].SSN[0].f1_12[0]', maxLength: 2 },
-          { formPath: 'topmostSubform[0].Page1[0].SSN[0].f1_13[0]', maxLength: 4 },
+          { formPath: 'topmostSubform[0].Page1[0].f1_11[0]', maxLength: 3 },
+          { formPath: 'topmostSubform[0].Page1[0].f1_12[0]', maxLength: 2 },
+          { formPath: 'topmostSubform[0].Page1[0].f1_13[0]', maxLength: 4 },
         ],
       },
       {
@@ -45,8 +45,8 @@ const W9FieldsDefinition: Partial<Record<keyof W9TaxFormValues, PDFFieldDefiniti
         if: (value, values) => values.taxIdNumberType === 'EIN',
         transform: (value) => value && value.replace(/-/g, '').trim(),
         fields: [
-          { formPath: 'topmostSubform[0].Page1[0].EmployerID[0].f1_14[0]', maxLength: 2 },
-          { formPath: 'topmostSubform[0].Page1[0].EmployerID[0].f1_15[0]', maxLength: 7 },
+          { formPath: 'topmostSubform[0].Page1[0].f1_14[0]', maxLength: 2 },
+          { formPath: 'topmostSubform[0].Page1[0].f1_15[0]', maxLength: 7 },
         ],
       },
     ],
@@ -55,12 +55,12 @@ const W9FieldsDefinition: Partial<Record<keyof W9TaxFormValues, PDFFieldDefiniti
     type: 'multi',
     fields: [
       {
-        formPath: 'topmostSubform[0].Page1[0].Address[0].f1_7[0]',
+        formPath: 'topmostSubform[0].Page1[0].Address_ReadOrder[0].f1_07[0]',
         transform: (value: W9TaxFormValues['location']) =>
           [value?.structured?.address1, value?.structured?.address2].filter(Boolean).join(', '),
       },
       {
-        formPath: 'topmostSubform[0].Page1[0].Address[0].f1_8[0]',
+        formPath: 'topmostSubform[0].Page1[0].Address_ReadOrder[0].f1_08[0]',
         transform: (value: W9TaxFormValues['location']) =>
           [
             value?.structured?.city,

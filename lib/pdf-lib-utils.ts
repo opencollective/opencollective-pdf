@@ -1,4 +1,4 @@
-import { get, isNil } from 'lodash';
+import { isNil } from 'lodash';
 import { scaleValue } from './math';
 import fontkit from 'pdf-fontkit';
 import { PDFDocument, PDFField, PDFFont, PDFForm, PDFHexString, PDFTextField, rgb, TextAlignment } from 'pdf-lib';
@@ -104,35 +104,25 @@ type FieldTypeSplitText = {
   }>;
 };
 
-type FieldTypeNested = {
-  type: 'nested';
-  if?: (value, allValues) => boolean;
-  fields: Record<string, PDFFieldDefinition>;
-};
-
 type FieldTypeMulti = {
   type: 'multi';
   if?: (value, allValues) => boolean;
   fields: PDFFieldDefinition[];
 };
 
-function isFieldTypeCombo(field: PDFFieldDefinition): field is FieldTypeCombo {
+export function isFieldTypeCombo(field: PDFFieldDefinition): field is FieldTypeCombo {
   return (field as FieldTypeCombo).type === 'combo';
 }
 
-function isFieldTypeSplitText(field: PDFFieldDefinition): field is FieldTypeSplitText {
+export function isFieldTypeSplitText(field: PDFFieldDefinition): field is FieldTypeSplitText {
   return (field as FieldTypeSplitText).type === 'split-text';
 }
 
-function isFieldTypeNested(field: PDFFieldDefinition): field is FieldTypeNested {
-  return (field as FieldTypeNested).type === 'nested';
-}
-
-function isFieldTypeMulti(field: PDFFieldDefinition): field is FieldTypeMulti {
+export function isFieldTypeMulti(field: PDFFieldDefinition): field is FieldTypeMulti {
   return (field as FieldTypeMulti).type === 'multi';
 }
 
-function isTextFormField(field: PDFField): field is PDFTextField {
+export function isTextFormField(field: PDFField): field is PDFTextField {
   return field.constructor.name === 'PDFTextField';
 }
 
@@ -144,7 +134,6 @@ export type PDFFieldDefinition =
   /** For multi-checkboxes where only one should be checked */
   | FieldTypeCombo
   | FieldTypeSplitText
-  | FieldTypeNested
   | FieldTypeMulti;
 
 /**
@@ -196,11 +185,7 @@ function fillValueForField<Values>(
   }
 
   // Render the field
-  if (isFieldTypeNested(field)) {
-    for (const [key, nestedField] of Object.entries(field.fields)) {
-      fillValueForField(form, nestedField, get(value, key), allValues, font);
-    }
-  } else if (isFieldTypeMulti(field)) {
+  if (isFieldTypeMulti(field)) {
     for (const subField of field.fields) {
       fillValueForField(form, subField, value, allValues, font);
     }
