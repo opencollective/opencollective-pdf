@@ -6,7 +6,7 @@ import { isNil } from 'lodash';
 import { W8BenETaxFormValues } from './frontend-types';
 import { getCountryName } from '../i18n';
 
-const W8BenEFieldsDefinition: Partial<Record<keyof W8BenETaxFormValues, PDFFieldDefinition>> = {
+export const W8BenEFieldsDefinition: Partial<Record<keyof W8BenETaxFormValues, PDFFieldDefinition>> = {
   businessName: 'topmostSubform[0].Page1[0].f1_1[0]',
   disregardedBusinessName: 'topmostSubform[0].Page1[0].f1_3[0]',
   businessCountryOfIncorporationOrOrganization: {
