@@ -20,7 +20,7 @@
     "dayjs": "1.11.13",
     "dotenv": "16.4.7",
     "eslint-config-next": "^14.0.0",
-    "graphql": "16.9.0",
+    "graphql": "16.10.0",
     "html-pdf": "^3.0.1",
     "i18n-iso-countries": "7.13.0",
     "lodash": "4.17.21",
