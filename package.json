@@ -11,7 +11,7 @@
     "npm": "10.x"
   },
   "dependencies": {
-    "@apollo/client": "3.12.3",
+    "@apollo/client": "3.12.8",
     "@opencollective/taxes": "5.1.0",
     "@styled-icons/feather": "10.47.0",
     "@styled-system/prop-types": "^5.1.5",
