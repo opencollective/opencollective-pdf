@@ -1,0 +1,12 @@
+{
+  "tasks": {
+    "dev": "deno run --watch --allow-net --allow-read --allow-env server/index.ts"
+  },
+  "imports": {
+    "@react-pdf/renderer": "npm:@react-pdf/renderer@^4.1.6",
+    "dayjs": "npm:dayjs@^1.11.13",
+    "express": "npm:express@^4.21.2",
+    "lodash-es": "npm:lodash-es@^4.17.21",
+    "react": "npm:react@^19.0.0"
+  }
+}

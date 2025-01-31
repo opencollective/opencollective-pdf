@@ -1,0 +1,21 @@
+.next
+.env
+.env.*
+node_modules
+npm-debug.log.*
+*.log
+yarn.lock
+.DS_Store
+build
+cypress/screenshots
+*.swp
+dist
+out
+coverage
+
+# VSCode
+.vscode
+.history
+
+# Typescript
+*.tsbuildinfo
