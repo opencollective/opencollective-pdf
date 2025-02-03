@@ -10,26 +10,27 @@ import {
   Link,
 } from "@react-pdf/renderer";
 import dayjs from "dayjs";
-// import QRCode from "qrcode";
+import QRCode from "qrcode";
 import { chunk } from "lodash-es";
 import { formatCurrency } from "../../utils/currency.ts";
+import { LinkIcon } from "../icons/Link.tsx";
 
 // Register fonts
-// Font.register({
-//   family: "Inter-Regular",
-//   src: "./res/fonts/Inter-Regular.otf",
-// });
-// Font.register({
-//   family: "Inter-Bold",
-//   src: "./res/fonts/Inter-Bold.otf",
-// });
+Font.register({
+  family: "Inter-Regular",
+  src: "./public/static/fonts/Inter-Regular.otf",
+});
+Font.register({
+  family: "Inter-Bold",
+  src: "./public/static/fonts/Inter-Bold.otf",
+});
 
 const styles = StyleSheet.create({
   page: {
     flexDirection: "row",
     backgroundColor: "#FFFFFF",
     padding: 30,
-    // fontFamily: "Inter-Regular",
+    fontFamily: "Inter-Regular",
     fontSize: 10,
   },
   card: {
@@ -59,13 +60,13 @@ const GiftCardsPage: React.FC = ({ cards }) => {
                   {cardsPair.map((card, cardIdx) => {
                     const code = card.uuid.split("-")[0];
                     const redeemUrlPrefix = `https://opencollective.com/redeem`;
-                    // const qrImage = QRCode.imageSync(
-                    //   `https://opencollective.com/redeem/${code}`,
-                    //   {
-                    //     type: "png",
-                    //     margin: 0,
-                    //   }
-                    // );
+                    const qrImage = QRCode.toDataURL(
+                      `https://opencollective.com/redeem/${code}`,
+                      {
+                        type: "png",
+                        margin: 0,
+                      }
+                    );
                     return (
                       <View key={cardIdx} style={styles.card}>
                         {/** Background */}
@@ -105,7 +106,7 @@ const GiftCardsPage: React.FC = ({ cards }) => {
                                 <Text
                                   style={{
                                     fontSize: 10,
-                                    // fontFamily: "Inter-Bold",
+                                    fontFamily: "Inter-Bold",
                                     fontWeight: "bold",
                                   }}
                                 >
@@ -133,7 +134,7 @@ const GiftCardsPage: React.FC = ({ cards }) => {
                             <Text
                               style={{
                                 fontSize: 7,
-                                // fontFamily: "Inter-Bold",
+                                fontFamily: "Inter-Bold",
                                 color: "#FFFFFF",
                               }}
                             >
@@ -157,7 +158,7 @@ const GiftCardsPage: React.FC = ({ cards }) => {
                           <Text
                             style={{
                               fontSize: 7,
-                              // fontFamily: "Inter-Bold",
+                              fontFamily: "Inter-Bold",
                               fontWeight: "bold",
                             }}
                           >
@@ -194,20 +195,14 @@ const GiftCardsPage: React.FC = ({ cards }) => {
                                 fontSize: 6,
                               }}
                             >
-                              {/* <NewLinkIcon
-                                style={{
-                                  width: 10,
-                                  height: 10,
-                                  marginRight: 3,
-                                }}
-                              /> */}
+                              <LinkIcon size={6} style={{ marginRight: 2 }} />
                               <Text style={{ color: "#777777" }}>
                                 {redeemUrlPrefix.replace("https://", "")}/
                               </Text>
                               <Text
                                 style={{
-                                  fontSize: 7,
-                                  // fontFamily: "Inter-Bold",
+                                  fontSize: 6,
+                                  fontFamily: "Inter-Bold",
                                   fontWeight: "bold",
                                   color: "#000000",
                                 }}
@@ -223,7 +218,7 @@ const GiftCardsPage: React.FC = ({ cards }) => {
                             }}
                           >
                             {/** QR code */}
-                            {/* <Image
+                            <Image
                               src={qrImage}
                               style={{
                                 width: 50,
@@ -233,7 +228,7 @@ const GiftCardsPage: React.FC = ({ cards }) => {
                                 padding: 3,
                                 borderRadius: 3,
                               }}
-                            /> */}
+                            />
                             {/** Amount */}
                             <View
                               style={{
@@ -245,7 +240,7 @@ const GiftCardsPage: React.FC = ({ cards }) => {
                               <Text
                                 style={{
                                   fontSize: 12,
-                                  // fontFamily: "Inter-Bold",
+                                  fontFamily: "Inter-Bold",
                                   fontWeight: "bold",
                                 }}
                               >

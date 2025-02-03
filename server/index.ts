@@ -1,5 +1,6 @@
 import express from "express";
 
+import expensesRouter from "./routes/expenses.tsx";
 import giftCardsRouter from "./routes/gift-cards.tsx";
 
 const app = express();
@@ -7,7 +8,7 @@ const port = process.env.PORT || 3002;
 
 // Routes
 // app.use("/tax-forms", taxFormsRouter);
-// app.use("/expenses", expensesRouter);
+app.use("/expenses", expensesRouter);
 app.use("/gift-cards", giftCardsRouter);
 // app.use("/collectives/transactions", collectivesRouter);
 // app.use("/transactions", transactionsRouter);
