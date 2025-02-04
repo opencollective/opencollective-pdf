@@ -20,9 +20,11 @@
     "lodash-es": "^4.17.21",
     "qrcode": "^1.5.4",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "react-intl": "^7.1.5"
   },
   "devDependencies": {
+    "@ag-media/react-pdf-table": "^2.0.1",
     "@types/express": "^5.0.0",
     "@types/jest": "^29.5.11",
     "@types/lodash-es": "^4.17.12",

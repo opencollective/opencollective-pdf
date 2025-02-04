@@ -6,7 +6,6 @@ import {
   View,
   Text,
   StyleSheet,
-  Font,
   Link,
 } from "@react-pdf/renderer";
 import dayjs from "dayjs";
@@ -14,23 +13,14 @@ import QRCode from "qrcode";
 import { chunk } from "lodash-es";
 import { formatCurrency } from "../../utils/currency";
 import { LinkIcon } from "../icons/Link";
-
-// Register fonts
-Font.register({
-  family: "Inter-Regular",
-  src: "./public/static/fonts/Inter-Regular.otf",
-});
-Font.register({
-  family: "Inter-Bold",
-  src: "./public/static/fonts/Inter-Bold.otf",
-});
+import { FontFamily } from "../../utils/pdf";
 
 const styles = StyleSheet.create({
   page: {
     flexDirection: "row",
     backgroundColor: "#FFFFFF",
     padding: 30,
-    fontFamily: "Inter-Regular",
+    fontFamily: FontFamily.InterRegular,
     fontSize: 10,
   },
   card: {
@@ -141,7 +131,7 @@ const GiftCardsPage = ({ cards }: { cards: GiftCard[] }) => {
                             <Text
                               style={{
                                 fontSize: 7,
-                                fontFamily: "Inter-Bold",
+                                fontFamily: FontFamily.InterBold,
                                 color: "#FFFFFF",
                               }}
                             >
@@ -165,7 +155,7 @@ const GiftCardsPage = ({ cards }: { cards: GiftCard[] }) => {
                           <Text
                             style={{
                               fontSize: 7,
-                              fontFamily: "Inter-Bold",
+                              fontFamily: FontFamily.InterBold,
                               fontWeight: "bold",
                             }}
                           >
@@ -209,7 +199,7 @@ const GiftCardsPage = ({ cards }: { cards: GiftCard[] }) => {
                               <Text
                                 style={{
                                   fontSize: 6,
-                                  fontFamily: "Inter-Bold",
+                                  fontFamily: FontFamily.InterBold,
                                   fontWeight: "bold",
                                   color: "#000000",
                                 }}
@@ -247,7 +237,7 @@ const GiftCardsPage = ({ cards }: { cards: GiftCard[] }) => {
                               <Text
                                 style={{
                                   fontSize: 12,
-                                  fontFamily: "Inter-Bold",
+                                  fontFamily: FontFamily.InterBold,
                                   fontWeight: "bold",
                                 }}
                               >

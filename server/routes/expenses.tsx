@@ -8,8 +8,8 @@ import {
 import { gql } from "@apollo/client";
 import { createClient } from "../utils/apollo-client";
 import { adaptApolloError } from "../utils/apollo-client";
-import EmptyPDF from "../components/EmptyPDF";
 import { BadRequestError } from "../utils/errors";
+import ExpenseInvoice from "../components/expenses/ExpenseInvoice";
 
 const router = express.Router();
 
@@ -120,27 +120,17 @@ async function fetchExpenseInvoiceData(
   }
 }
 
-const getParams = (req: express.Request) => {
-  const { filename, id } = req.params;
-  if (!filename) {
-    throw new BadRequestError("Filename is required");
-  } else if (!id) {
-    throw new BadRequestError("ID is required");
-  }
-  return { filename, id };
-};
 router.options("/:id/:filename.pdf", (req, res) => {
-  getParams(req);
   res.sendStatus(204);
 });
 
 router.get(
   "/:id/:filename.pdf",
   async (req: express.Request, res: express.Response) => {
-    const { id } = getParams(req);
+    const { id } = req.params;
     const authorizationHeaders = authenticateRequest(req);
     const expense = await fetchExpenseInvoiceData(id, authorizationHeaders);
-    await sendPDFResponse(res, <EmptyPDF />);
+    await sendPDFResponse(res, ExpenseInvoice, { expense });
   }
 );
 
