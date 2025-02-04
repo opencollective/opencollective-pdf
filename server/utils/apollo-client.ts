@@ -8,15 +8,48 @@ import {
   InMemoryCache,
 } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
-import nodeFetch from "node-fetch";
 import { parseToBooleanDefaultTrue } from "./env";
+
+import { get } from "lodash-es";
+import { AuthorizationHeaders } from "./authentication";
+import {
+  BadRequestError,
+  ForbiddenError,
+  InternalServerError,
+  NotFoundError,
+  UnauthorizedError,
+} from "./errors";
+
+export const adaptApolloError = (error: any) => {
+  const status =
+    get(error, "networkError.statusCode") ||
+    get(error, "graphQLErrors[0].extensions.code");
+  const message =
+    get(error, "networkError.result.error.message") ||
+    get(error, "graphQLErrors[0].message");
+  switch (status) {
+    case 400:
+    case "BadRequest":
+      return new BadRequestError(message);
+    case 401:
+      return new UnauthorizedError(message);
+    case 403:
+      return new ForbiddenError(message);
+    case 404:
+      return new NotFoundError(message);
+    case 500:
+      return new InternalServerError(message);
+    default:
+      return new InternalServerError(message);
+  }
+};
 
 /**
  * Returns the GraphQL api url for the appropriate api version and environment.
  * @param {string} version - api version.
  * @returns {string} GraphQL api url.
  */
-const getGraphqlUrl = (apiVersion) => {
+const getGraphqlUrl = (apiVersion: "v1" | "v2") => {
   const apiKey = process.env.API_KEY;
   const baseApiUrl = process.env.API_URL || "https://api.opencollective.com";
   return `${baseApiUrl}/graphql/${apiVersion}${
@@ -24,7 +57,7 @@ const getGraphqlUrl = (apiVersion) => {
   }`;
 };
 
-async function fetch(url, options = {}) {
+async function customFetch(url: URL | RequestInfo, options: any = {}) {
   options.agent = getCustomAgent();
 
   // Add headers to help the API identify origin of requests
@@ -35,12 +68,11 @@ async function fetch(url, options = {}) {
   options.headers["oc-application"] = "pdf";
   options.headers["user-agent"] = "opencollective-pdf/1.0 node-fetch/1.0";
 
-  const result = await nodeFetch(url, options);
-
+  const result = await fetch(url, options);
   return result;
 }
 
-let customAgent;
+let customAgent: ((parsedURL: URL) => http.Agent) | undefined;
 
 function getCustomAgent() {
   if (!customAgent) {
@@ -61,16 +93,18 @@ function getCustomAgent() {
   return customAgent;
 }
 
-export const createClient = (authorizationHeaders) => {
+export const createClient = (authorizationHeaders: AuthorizationHeaders) => {
   const authLink = setContext((_, { headers }) => {
     const newHeaders = { ...headers, ...authorizationHeaders };
     return { headers: newHeaders };
   });
 
-  const apiLink = new HttpLink({ uri: getGraphqlUrl("v2"), fetch });
+  const apiLink = new HttpLink({
+    uri: getGraphqlUrl("v2"),
+    fetch: customFetch,
+  });
   return new ApolloClient({
-    connectToDevTools: process.browser,
-    ssrMode: !process.browser, // Disables forceFetch on the server (so queries are only run once)
+    ssrMode: true, // Disables forceFetch on the server (so queries are only run once)
     link: ApolloLink.from([authLink, apiLink]),
     cache: new InMemoryCache({
       // Documentation:

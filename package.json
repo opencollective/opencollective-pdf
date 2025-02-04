@@ -1,0 +1,42 @@
+{
+  "name": "opencollective-pdf",
+  "version": "2.0.0",
+  "description": "PDF generation service for Open Collective",
+  "main": "dist/server/index.js",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/server/index.js",
+    "test": "jest",
+    "types": "tsc --noEmit",
+    "dev": "tsx watch server/index.ts"
+  },
+  "dependencies": {
+    "@apollo/client": "^3.12.8",
+    "@react-pdf/renderer": "^4.1.6",
+    "dayjs": "^1.11.13",
+    "dotenv": "^16.4.1",
+    "express": "5.0.0",
+    "lodash-es": "^4.17.21",
+    "qrcode": "^1.5.4",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "@types/jest": "^29.5.11",
+    "@types/lodash-es": "^4.17.12",
+    "@types/node": "^22.13.1",
+    "@types/qrcode": "^1.5.5",
+    "@types/react": "^19.0.8",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.2",
+    "ts-node": "^10.9.2",
+    "ts-node-dev": "^2.0.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.3.3"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
