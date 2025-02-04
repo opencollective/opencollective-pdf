@@ -1,10 +1,34 @@
+import "dotenv/config";
+
 import express from "express";
 
-import expensesRouter from "./routes/expenses.tsx";
-import giftCardsRouter from "./routes/gift-cards.tsx";
+import expensesRouter from "./routes/expenses";
+import giftCardsRouter from "./routes/gift-cards";
+import { PDFServiceError } from "./utils/errors";
 
 const app = express();
 const port = process.env.PORT || 3002;
+
+// Set CORS headers
+app.use(
+  (req: express.Request, res: express.Response, next: express.NextFunction) => {
+    // Set Access-Control-Allow-Headers
+    res.setHeader(
+      "Access-Control-Allow-Headers",
+      "authorization,content-type,baggage,sentry-trace"
+    );
+
+    // Set Access-Control-Allow-Origin
+    if (process.env.WEBSITE_URL === "https://opencollective.com") {
+      res.setHeader("Access-Control-Allow-Origin", process.env.WEBSITE_URL);
+    } else {
+      // Always allow requests on non-prod environments
+      res.setHeader("Access-Control-Allow-Origin", "*");
+    }
+
+    next();
+  }
+);
 
 // Routes
 // app.use("/tax-forms", taxFormsRouter);
@@ -21,10 +45,16 @@ app.use(
     res: express.Response,
     next: express.NextFunction
   ) => {
-    console.error(err.stack);
-    res.status(500).json({
-      message: "An internal server error occurred",
-    });
+    if (err instanceof PDFServiceError) {
+      res.status(err.status).json({
+        message: err.message,
+      });
+    } else {
+      console.error(err);
+      res.status(500).json({
+        message: "An internal server error occurred",
+      });
+    }
   }
 );
 

@@ -1,15 +1,15 @@
 import React from "react";
 import express from "express";
-import { sendPDFResponse } from "../utils/pdf.ts";
-import GiftCardsPage from "../components/gift-cards/GiftCardsPage.tsx";
+import { sendPDFResponse } from "../utils/pdf";
+import GiftCardsPage from "../components/gift-cards/GiftCardsPage";
 
 const router = express.Router();
 
-const getCardsFromBody = async (req) => {
+const getCardsFromBody = async (req: express.Request) => {
   if (req.method === "POST") {
     return new Promise((resolve, reject) => {
       let body = "";
-      req.on("data", (data) => {
+      req.on("data", (data: Buffer) => {
         body += data;
 
         // Too much POST data, kill the connection!
@@ -24,7 +24,7 @@ const getCardsFromBody = async (req) => {
       });
     });
   } else if (req.query.cards) {
-    return JSON.parse(req.query.cards);
+    return JSON.parse(req.query.cards as string);
   }
 };
 

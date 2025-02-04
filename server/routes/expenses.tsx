@@ -1,15 +1,21 @@
 import React from "react";
 import express from "express";
-import { sendPDFResponse } from "../utils/pdf.ts";
-import GiftCardsPage from "../components/gift-cards/GiftCardsPage.tsx";
-import { authenticateRequest } from "../utils/req.ts";
+import { sendPDFResponse } from "../utils/pdf";
+import {
+  authenticateRequest,
+  AuthorizationHeaders,
+} from "../utils/authentication";
 import { gql } from "@apollo/client";
+import { createClient } from "../utils/apollo-client";
+import { adaptApolloError } from "../utils/apollo-client";
+import EmptyPDF from "../components/EmptyPDF";
+import { BadRequestError } from "../utils/errors";
 
 const router = express.Router();
 
 async function fetchExpenseInvoiceData(
   expenseId: string,
-  authorizationHeaders
+  authorizationHeaders: AuthorizationHeaders
 ) {
   const query = gql`
     query ExpenseInvoice($expenseId: String!) {
@@ -114,21 +120,27 @@ async function fetchExpenseInvoiceData(
   }
 }
 
+const getParams = (req: express.Request) => {
+  const { filename, id } = req.params;
+  if (!filename) {
+    throw new BadRequestError("Filename is required");
+  } else if (!id) {
+    throw new BadRequestError("ID is required");
+  }
+  return { filename, id };
+};
+router.options("/:id/:filename.pdf", (req, res) => {
+  getParams(req);
+  res.sendStatus(204);
+});
+
 router.get(
   "/:id/:filename.pdf",
   async (req: express.Request, res: express.Response) => {
-    const { filename, id } = req.params;
-    if (!filename) {
-      res.status(400).json({ message: "Filename is required" });
-      return;
-    } else if (!id) {
-      res.status(400).json({ message: "ID is required" });
-      return;
-    }
-
+    const { id } = getParams(req);
     const authorizationHeaders = authenticateRequest(req);
     const expense = await fetchExpenseInvoiceData(id, authorizationHeaders);
-    await sendPDFResponse(res, <GiftCardsPage cards={allCards} />);
+    await sendPDFResponse(res, <EmptyPDF />);
   }
 );
 

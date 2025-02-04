@@ -1,4 +1,4 @@
-import { ZERO_DECIMAL_CURRENCIES } from "../constants/currency.ts";
+import { ZERO_DECIMAL_CURRENCIES } from "../constants/currency";
 
 export function getCurrencyPrecision(currency: string) {
   return (ZERO_DECIMAL_CURRENCIES as readonly string[]).includes(currency)

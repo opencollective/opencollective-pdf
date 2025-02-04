@@ -1,4 +1,4 @@
-export const parseToBooleanDefaultTrue = (value) => {
+export const parseToBooleanDefaultTrue = (value: string | null | undefined) => {
   if (value === null || value === undefined || value === "") {
     return true;
   }

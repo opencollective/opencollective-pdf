@@ -1,13 +1,25 @@
 import { isEmpty, get } from "lodash-es";
 import express from "express";
+import { UnauthorizedError } from "./errors";
+
+export type AuthorizationHeaders = {
+  "oc-env"?: string;
+  "oc-application"?: string;
+  "user-agent"?: string;
+  "Api-Key"?: string;
+  "Personal-Token"?: string;
+  Authorization?: string;
+};
 
 /**
  * To forward API Key or Authorization headers from the request to the API calls.
  * Returns `null` if no headers are found.
  */
-const getAuthorizationHeadersFromCtx = (req: express.Request) => {
+const getAuthorizationHeadersFromCtx = (
+  req: express.Request
+): AuthorizationHeaders | null => {
   const { headers, query } = req;
-  const result = {};
+  const result: AuthorizationHeaders = {};
   const apiKey = get(headers, "api-key") || get(query, "apiKey");
   const personalToken =
     get(headers, "personal-token") ||
@@ -26,11 +38,11 @@ const getAuthorizationHeadersFromCtx = (req: express.Request) => {
   }
 
   if (apiKey) {
-    result["Api-Key"] = apiKey;
+    result["Api-Key"] = apiKey as string;
   }
 
   if (personalToken) {
-    result["Personal-Token"] = personalToken;
+    result["Personal-Token"] = personalToken as string;
   }
 
   return isEmpty(result) ? null : result;
@@ -40,15 +52,12 @@ const getAuthorizationHeadersFromCtx = (req: express.Request) => {
  * Some syntax sugar around the `getAuthorizationHeadersFromReq` function, that throws for non-authenticated requests
  * but allows `OPTIONS` requests to pass through
  */
-export const authenticateRequest = (req: express.Request) => {
+export const authenticateRequest = (
+  req: express.Request
+): AuthorizationHeaders => {
   const authorizationHeaders = getAuthorizationHeadersFromCtx(req);
   if (!authorizationHeaders) {
-    // Frontend sends an OPTIONS request to check CORS, we should just return OK when that happens
-    if (req.method === "OPTIONS") {
-      return null;
-    } else {
-      throw new Error("Please provide an access token or an APP key"); // TODO: Proper error code
-    }
+    throw new UnauthorizedError("Please provide an access token or an APP key");
   }
 
   return authorizationHeaders;

@@ -12,8 +12,8 @@ import {
 import dayjs from "dayjs";
 import QRCode from "qrcode";
 import { chunk } from "lodash-es";
-import { formatCurrency } from "../../utils/currency.ts";
-import { LinkIcon } from "../icons/Link.tsx";
+import { formatCurrency } from "../../utils/currency";
+import { LinkIcon } from "../icons/Link";
 
 // Register fonts
 Font.register({
@@ -43,7 +43,15 @@ const styles = StyleSheet.create({
   },
 });
 
-const GiftCardsPage: React.FC = ({ cards }) => {
+type GiftCard = {
+  uuid: string;
+  name: string;
+  expiryDate: string;
+  initialBalance: number;
+  currency: string;
+};
+
+const GiftCardsPage = ({ cards }: { cards: GiftCard[] }) => {
   const paginatedCards = chunk(cards, 8);
   return (
     <Document>
@@ -63,7 +71,6 @@ const GiftCardsPage: React.FC = ({ cards }) => {
                     const qrImage = QRCode.toDataURL(
                       `https://opencollective.com/redeem/${code}`,
                       {
-                        type: "png",
                         margin: 0,
                       }
                     );
