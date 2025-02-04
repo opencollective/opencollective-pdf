@@ -28,6 +28,10 @@ const getCardsFromBody = async (req: express.Request) => {
   }
 };
 
+router.options(":filename.pdf", (req, res) => {
+  res.sendStatus(204);
+});
+
 router.get(
   "/:filename.pdf",
   async (req: express.Request, res: express.Response) => {
@@ -38,7 +42,7 @@ router.get(
     }
 
     const cards = await getCardsFromBody(req);
-    await sendPDFResponse(res, <GiftCardsPage cards={cards} />);
+    await sendPDFResponse(res, GiftCardsPage, { cards });
   }
 );
 
