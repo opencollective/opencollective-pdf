@@ -1,0 +1,7 @@
+{
+  "gitlens.advanced.repositorySearchDepth": 1,
+  "gitlens.blame.ignoreWhitespace": true,
+  "gitlens.detectNestedRepositories": false,
+  "deepscan.enable": true,
+  "deno.enable": true
+}
