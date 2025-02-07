@@ -31,6 +31,24 @@ const styles = StyleSheet.create({
     borderColor: "#E8E8E8",
     borderStyle: "dashed",
   },
+  qrCode: {
+    width: 50,
+    height: 50,
+    marginBottom: 5,
+    backgroundColor: "#FFFFFF",
+    padding: 3,
+    borderRadius: 3,
+  },
+  mainAmount: {
+    fontSize: 12,
+    fontFamily: FontFamily.InterBold,
+    fontWeight: "bold",
+  },
+  mainAmountCurrency: {
+    fontSize: 7,
+    color: "#777777",
+    marginLeft: 2,
+  },
 });
 
 type GiftCard = {
@@ -170,7 +188,7 @@ const GiftCardsPage = ({ cards }: { cards: GiftCard[] }) => {
                         {/** Footer */}
                         <View
                           style={{
-                            bottom: 5,
+                            bottom: 6,
                             position: "absolute",
                             flexDirection: "row",
                             justifyContent: "space-between",
@@ -189,16 +207,20 @@ const GiftCardsPage = ({ cards }: { cards: GiftCard[] }) => {
                                 alignItems: "center",
                                 flexWrap: "nowrap",
                                 textDecoration: "none",
-                                fontSize: 6,
+                                fontSize: 7,
                               }}
                             >
-                              <LinkIcon size={6} style={{ marginRight: 2 }} />
+                              <LinkIcon
+                                size={6}
+                                color="grey"
+                                style={{ marginRight: 2 }}
+                              />
                               <Text style={{ color: "#777777" }}>
                                 {redeemUrlPrefix.replace("https://", "")}/
                               </Text>
                               <Text
                                 style={{
-                                  fontSize: 6,
+                                  fontSize: 7,
                                   fontFamily: FontFamily.InterBold,
                                   fontWeight: "bold",
                                   color: "#000000",
@@ -215,17 +237,7 @@ const GiftCardsPage = ({ cards }: { cards: GiftCard[] }) => {
                             }}
                           >
                             {/** QR code */}
-                            <Image
-                              src={qrImage}
-                              style={{
-                                width: 50,
-                                height: 50,
-                                marginBottom: 5,
-                                backgroundColor: "#FFFFFF",
-                                padding: 3,
-                                borderRadius: 3,
-                              }}
-                            />
+                            <Image src={qrImage} style={styles.qrCode} />
                             {/** Amount */}
                             <View
                               style={{
@@ -234,26 +246,14 @@ const GiftCardsPage = ({ cards }: { cards: GiftCard[] }) => {
                                 marginRight: 5,
                               }}
                             >
-                              <Text
-                                style={{
-                                  fontSize: 12,
-                                  fontFamily: FontFamily.InterBold,
-                                  fontWeight: "bold",
-                                }}
-                              >
+                              <Text style={styles.mainAmount}>
                                 {formatCurrency(
                                   card.initialBalance,
                                   card.currency,
                                   { precision: 0 }
                                 )}
                               </Text>
-                              <Text
-                                style={{
-                                  fontSize: 7,
-                                  color: "#777777",
-                                  marginLeft: 2,
-                                }}
-                              >
+                              <Text style={styles.mainAmountCurrency}>
                                 {card.currency}
                               </Text>
                             </View>

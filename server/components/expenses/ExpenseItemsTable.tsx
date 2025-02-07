@@ -57,6 +57,7 @@ const styles = StyleSheet.create({
   header: {
     fontFamily: FontFamily.InterBold,
     fontWeight: "bold",
+    backgroundColor: "#F0F0F0",
   },
   cell: {
     fontFamily: FontFamily.InterRegular,

@@ -13,9 +13,9 @@ const getCardsFromBody = async (req: express.Request) => {
         body += data;
 
         // Too much POST data, kill the connection!
-        // 1e7 === 1 * Math.pow(10, 7) === 1 * 10000000 ~~~ 10MB
-        if (body.length > 1e6) {
-          reject(req.connection.destroy());
+        // 1e7 ~ 10MB
+        if (body.length > 1e7) {
+          reject(req.socket.destroy());
         }
       });
 
