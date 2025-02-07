@@ -367,7 +367,7 @@ const ExpenseInvoice: React.FC<ExpenseInvoiceProps> = ({
 
                 <View style={[styles.totalRow, styles.totalRowHighlight]}>
                   <Text style={[styles.totalLabel]}>
-                    <FormattedMessage id="total" defaultMessage="TOTAL" />
+                    <FormattedMessage id="total" defaultMessage="Total" />
                   </Text>
                   <Text style={styles.totalAmount}>
                     {formatCurrency(expense.amount, expense.currency, {
