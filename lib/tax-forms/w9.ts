@@ -81,12 +81,14 @@ export const fillW9TaxForm = async (pdfDoc: PDFDocument, values: W9TaxFormValues
 
   fillPDFFormFromValues(form, values, W9FieldsDefinition, font);
 
+  const signBoxY = 200;
+
   // W9 don't have a dedicated date field, so we add it manually
   const firstPage = pdfDoc.getPage(0);
-  firstPage.drawText(moment().format('MM/DD/YYYY'), { x: 420, y: 235, size: 10, font });
+  firstPage.drawText(moment().format('MM/DD/YYYY'), { x: 420, y: signBoxY, size: 10, font });
 
   // Add date & signature
   if (values.isSigned) {
-    await addSignature(pdfDoc, signerFullName, { x: 140, y: 235, fallbackFont: font });
+    await addSignature(pdfDoc, signerFullName, { x: 140, y: signBoxY, fallbackFont: font });
   }
 };
