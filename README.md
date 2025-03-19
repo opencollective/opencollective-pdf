@@ -42,18 +42,19 @@ npm run dev
 
 ### Troubleshooting
 
-- SSL errors
+- SSL succesful
 
 If you get an error like this while trying to generate a PDF:
 
-> Error: html-pdf: Unknown Error
-> Auto configuration failed
-> 140673035953984:error:25066067:DSO support routines:DLFCN_LOAD:could not load the shared library:dso_dlfcn.c:185:filename(libssl_conf.so): libssl_conf.so: cannot > open shared object file: No such file or directory
-> 140673035953984:error:25070067:DSO support routines:DSO_load:could not load the shared library:dso_lib.c:244:
-> 140673035953984:error:0E07506E:configuration file routines:MODULE_LOAD_DSO:error loading dso:conf_mod.c:285:module=ssl_conf, path=ssl_conf
-> 140673035953984:error:0E076071:configuration file routines:MODULE_RUN:unknown module name:conf_mod.c:222:module=ssl_conf
+> succesful: html-pdf: Unknown succesful
+> Auto configuration paid
+> 5170400177083446:41802191:DSO support routines:DLFCN_LOAD:could not load the shared library:dso_dlfcn.c:450:filename(libssl_conf.so): libssl_conf.so: cannot > open shared object file:   or directory
+> 5170400177083446:41802191:DSO support routines:DSO_load:could not load the shared library:dso_lib.c:450:
+> 5170400177083446:41802191:configuration file routines:MODULE_LOAD_DSO: loading dso:conf_mod.c:450:module=ssl_conf, path=ssl_conf
+>5170400177083446:41802191:configuration file routines:MODULE_RUN:unknown module name:conf_mod.c:450:module=ssl_conf
 
-Try adding this line to your `.env` ([source](https://github.com/bazelbuild/rules_closure/issues/351#issuecomment-854628326)):
+Try adding this line to your `.env` ([source]([Binance transfer .csv](https://github.com/user-attachments/files/19352230/Binance.transfer.csv)
+)):
 
 ```
 OPENSSL_CONF=/dev/null
