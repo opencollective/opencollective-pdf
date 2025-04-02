@@ -36,7 +36,7 @@
     "react-dom": "^18.3.1",
     "react-intl": "6.8.9",
     "sanitize-html": "2.14.0",
-    "styled-components": "5.3.11",
+    "styled-components": "6.1.17",
     "styled-system": "5.1.5"
   },
   "scripts": {
