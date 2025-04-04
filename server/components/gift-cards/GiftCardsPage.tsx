@@ -1,24 +1,16 @@
-import React from "react";
-import {
-  Page,
-  Document,
-  Image,
-  View,
-  Text,
-  StyleSheet,
-  Link,
-} from "@react-pdf/renderer";
-import dayjs from "dayjs";
-import QRCode from "qrcode";
-import { chunk } from "lodash-es";
-import { formatCurrency } from "../../utils/currency";
-import { LinkIcon } from "../icons/Link";
-import { FontFamily } from "../../utils/pdf";
+import React from 'react';
+import { Page, Document, Image, View, Text, StyleSheet, Link } from '@react-pdf/renderer';
+import dayjs from 'dayjs';
+import QRCode from 'qrcode';
+import { chunk } from 'lodash-es';
+import { formatCurrency } from '../../utils/currency';
+import { LinkIcon } from '../icons/Link';
+import { FontFamily } from '../../utils/pdf';
 
 const styles = StyleSheet.create({
   page: {
-    flexDirection: "row",
-    backgroundColor: "#FFFFFF",
+    flexDirection: 'row',
+    backgroundColor: '#FFFFFF',
     padding: 30,
     fontFamily: FontFamily.InterRegular,
     fontSize: 10,
@@ -28,25 +20,25 @@ const styles = StyleSheet.create({
     height: 153,
     margin: 15,
     borderWidth: 1,
-    borderColor: "#E8E8E8",
-    borderStyle: "dashed",
+    borderColor: '#E8E8E8',
+    borderStyle: 'dashed',
   },
   qrCode: {
     width: 50,
     height: 50,
     marginBottom: 5,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: '#FFFFFF',
     padding: 3,
     borderRadius: 3,
   },
   mainAmount: {
     fontSize: 12,
     fontFamily: FontFamily.InterBold,
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
   mainAmountCurrency: {
     fontSize: 7,
-    color: "#777777",
+    color: '#777777',
     marginLeft: 2,
   },
 });
@@ -70,27 +62,24 @@ const GiftCardsPage = ({ cards }: { cards: GiftCard[] }) => {
       ) : (
         paginatedCards.map((pageCards, pageIndex) => (
           <Page key={pageIndex} size="A4" style={styles.page}>
-            <View style={{ flexDirection: "column" }}>
+            <View style={{ flexDirection: 'column' }}>
               {chunk(pageCards, 2).map((cardsPair, rowIdx) => (
-                <View key={rowIdx} style={{ flexDirection: "row" }}>
+                <View key={rowIdx} style={{ flexDirection: 'row' }}>
                   {cardsPair.map((card, cardIdx) => {
-                    const code = card.uuid.split("-")[0];
+                    const code = card.uuid.split('-')[0];
                     const redeemUrlPrefix = `https://opencollective.com/redeem`;
-                    const qrImage = QRCode.toDataURL(
-                      `https://opencollective.com/redeem/${code}`,
-                      {
-                        margin: 0,
-                      }
-                    );
+                    const qrImage = QRCode.toDataURL(`https://opencollective.com/redeem/${code}`, {
+                      margin: 0,
+                    });
                     return (
                       <View key={cardIdx} style={styles.card}>
                         {/** Background */}
                         <Image
                           src="public/static/images/oc-gift-card-front-straightened.png"
                           style={{
-                            position: "absolute",
-                            width: "100%",
-                            height: "100%",
+                            position: 'absolute',
+                            width: '100%',
+                            height: '100%',
                             top: 0,
                             left: 0,
                           }}
@@ -99,18 +88,18 @@ const GiftCardsPage = ({ cards }: { cards: GiftCard[] }) => {
                         {/** Header */}
                         <View
                           style={{
-                            flexDirection: "row",
-                            justifyContent: "space-between",
-                            alignItems: "center",
+                            flexDirection: 'row',
+                            justifyContent: 'space-between',
+                            alignItems: 'center',
                             padding: 3,
                           }}
                         >
                           {/** Open Collective branding */}
-                          <View style={{ padding: 5, color: "#FFFFFF" }}>
+                          <View style={{ padding: 5, color: '#FFFFFF' }}>
                             <View
                               style={{
-                                flexDirection: "row",
-                                alignItems: "center",
+                                flexDirection: 'row',
+                                alignItems: 'center',
                               }}
                             >
                               <Image
@@ -121,26 +110,24 @@ const GiftCardsPage = ({ cards }: { cards: GiftCard[] }) => {
                                 <Text
                                   style={{
                                     fontSize: 10,
-                                    fontFamily: "Inter-Bold",
-                                    fontWeight: "bold",
+                                    fontFamily: 'Inter-Bold',
+                                    fontWeight: 'bold',
                                   }}
                                 >
                                   Open Collective
                                 </Text>
-                                <Text style={{ fontSize: 6 }}>
-                                  Transparent funding for open source
-                                </Text>
+                                <Text style={{ fontSize: 6 }}>Transparent funding for open source</Text>
                               </View>
                             </View>
                           </View>
                           {/** Blue "Gift Card" rounded pill on the right */}
                           <View
                             style={{
-                              flexDirection: "row",
-                              alignItems: "center",
+                              flexDirection: 'row',
+                              alignItems: 'center',
                               height: 12,
                               marginRight: 5,
-                              backgroundColor: "#69a0f1",
+                              backgroundColor: '#69a0f1',
                               borderRadius: 10,
                               paddingLeft: 5,
                               paddingRight: 5,
@@ -150,7 +137,7 @@ const GiftCardsPage = ({ cards }: { cards: GiftCard[] }) => {
                               style={{
                                 fontSize: 7,
                                 fontFamily: FontFamily.InterBold,
-                                color: "#FFFFFF",
+                                color: '#FFFFFF',
                               }}
                             >
                               Gift Card
@@ -162,40 +149,37 @@ const GiftCardsPage = ({ cards }: { cards: GiftCard[] }) => {
                         <View
                           style={{
                             height: 1,
-                            backgroundColor: "#498bed",
+                            backgroundColor: '#498bed',
                             marginLeft: 8,
                             marginRight: 8,
                           }}
                         />
 
                         {/** Description & expiry date */}
-                        <View style={{ padding: 8, color: "#FFFFFF" }}>
+                        <View style={{ padding: 8, color: '#FFFFFF' }}>
                           <Text
                             style={{
                               fontSize: 7,
                               fontFamily: FontFamily.InterBold,
-                              fontWeight: "bold",
+                              fontWeight: 'bold',
                             }}
                           >
                             {card.name}
                           </Text>
-                          <Text style={{ fontSize: 7 }}>
-                            Expires on{" "}
-                            {dayjs(card.expiryDate).format("MMM D, YYYY")}
-                          </Text>
+                          <Text style={{ fontSize: 7 }}>Expires on {dayjs(card.expiryDate).format('MMM D, YYYY')}</Text>
                         </View>
 
                         {/** Footer */}
                         <View
                           style={{
                             bottom: 6,
-                            position: "absolute",
-                            flexDirection: "row",
-                            justifyContent: "space-between",
-                            alignItems: "flex-end",
+                            position: 'absolute',
+                            flexDirection: 'row',
+                            justifyContent: 'space-between',
+                            alignItems: 'flex-end',
                             paddingLeft: 5,
                             paddingRight: 5,
-                            width: "100%",
+                            width: '100%',
                           }}
                         >
                           <View>
@@ -203,27 +187,21 @@ const GiftCardsPage = ({ cards }: { cards: GiftCard[] }) => {
                             <Link
                               src={`${redeemUrlPrefix}/${code}`}
                               style={{
-                                flexDirection: "row",
-                                alignItems: "center",
-                                flexWrap: "nowrap",
-                                textDecoration: "none",
+                                flexDirection: 'row',
+                                alignItems: 'center',
+                                flexWrap: 'nowrap',
+                                textDecoration: 'none',
                                 fontSize: 7,
                               }}
                             >
-                              <LinkIcon
-                                size={6}
-                                color="grey"
-                                style={{ marginRight: 2 }}
-                              />
-                              <Text style={{ color: "#777777" }}>
-                                {redeemUrlPrefix.replace("https://", "")}/
-                              </Text>
+                              <LinkIcon size={6} color="grey" style={{ marginRight: 2 }} />
+                              <Text style={{ color: '#777777' }}>{redeemUrlPrefix.replace('https://', '')}/</Text>
                               <Text
                                 style={{
                                   fontSize: 7,
                                   fontFamily: FontFamily.InterBold,
-                                  fontWeight: "bold",
-                                  color: "#000000",
+                                  fontWeight: 'bold',
+                                  color: '#000000',
                                 }}
                               >
                                 {code}
@@ -232,8 +210,8 @@ const GiftCardsPage = ({ cards }: { cards: GiftCard[] }) => {
                           </View>
                           <View
                             style={{
-                              flexDirection: "column",
-                              alignItems: "flex-end",
+                              flexDirection: 'column',
+                              alignItems: 'flex-end',
                             }}
                           >
                             {/** QR code */}
@@ -241,21 +219,15 @@ const GiftCardsPage = ({ cards }: { cards: GiftCard[] }) => {
                             {/** Amount */}
                             <View
                               style={{
-                                flexDirection: "row",
-                                alignItems: "center",
+                                flexDirection: 'row',
+                                alignItems: 'center',
                                 marginRight: 5,
                               }}
                             >
                               <Text style={styles.mainAmount}>
-                                {formatCurrency(
-                                  card.initialBalance,
-                                  card.currency,
-                                  { precision: 0 }
-                                )}
+                                {formatCurrency(card.initialBalance, card.currency, { precision: 0 })}
                               </Text>
-                              <Text style={styles.mainAmountCurrency}>
-                                {card.currency}
-                              </Text>
+                              <Text style={styles.mainAmountCurrency}>{card.currency}</Text>
                             </View>
                           </View>
                         </View>

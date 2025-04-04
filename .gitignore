@@ -19,3 +19,5 @@ coverage
 
 # Typescript
 *.tsbuildinfo
+
+.legacy-app

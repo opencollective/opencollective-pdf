@@ -1,19 +1,12 @@
-import React from "react";
-import {
-  Document,
-  Page,
-  Text,
-  View,
-  StyleSheet,
-  Link,
-} from "@react-pdf/renderer";
-import { chunk, get, max, round, sumBy } from "lodash-es";
-import { FormattedMessage } from "react-intl";
+import React from 'react';
+import { Document, Page, Text, View, StyleSheet, Link } from '@react-pdf/renderer';
+import { chunk, get, max, round, sumBy } from 'lodash-es';
+import { FormattedMessage } from 'react-intl';
 
-import { formatCurrency } from "../../utils/currency";
-import { getCurrencyPrecision } from "../../utils/currency";
-import ExpenseItemsTable from "./ExpenseItemsTable";
-import { FontFamily } from "../../utils/pdf";
+import { formatCurrency } from '../../utils/currency';
+import { getCurrencyPrecision } from '../../utils/currency';
+import ExpenseItemsTable from './ExpenseItemsTable';
+import { FontFamily } from '../../utils/pdf';
 
 type AmountV2 = {
   valueInCents: number;
@@ -74,7 +67,7 @@ type Expense = {
   reference?: string;
   description: string;
   currency: string;
-  type: "INVOICE" | "RECEIPT";
+  type: 'INVOICE' | 'RECEIPT';
   invoiceInfo?: string;
   amount: number;
   createdAt: string;
@@ -87,7 +80,7 @@ type Expense = {
 
 type ExpenseInvoiceProps = {
   expense: Expense;
-  pageFormat?: "A4" | "LETTER";
+  pageFormat?: 'A4' | 'LETTER';
 };
 
 const styles = StyleSheet.create({
@@ -95,7 +88,7 @@ const styles = StyleSheet.create({
     padding: 40,
     fontFamily: FontFamily.InterRegular,
     fontSize: 10,
-    color: "#2C3135",
+    color: '#2C3135',
   },
   header: {
     marginBottom: 20,
@@ -105,20 +98,20 @@ const styles = StyleSheet.create({
   },
   fromAddressBlock: {
     marginBottom: 10,
-    alignSelf: "flex-start",
+    alignSelf: 'flex-start',
   },
   toAddressBlock: {
     marginBottom: 10,
-    alignSelf: "flex-end",
+    alignSelf: 'flex-end',
   },
   addressTitle: {
     fontSize: 12,
-    fontWeight: "bold",
+    fontWeight: 'bold',
     marginBottom: 5,
   },
   addressText: {
     fontSize: 10,
-    color: "#333333",
+    color: '#333333',
   },
   expenseDetails: {
     marginTop: 20,
@@ -126,30 +119,30 @@ const styles = StyleSheet.create({
   },
   expenseTitle: {
     fontSize: 12,
-    fontWeight: "bold",
+    fontWeight: 'bold',
     marginBottom: 5,
-    textDecoration: "underline",
-    color: "#000000",
+    textDecoration: 'underline',
+    color: '#000000',
   },
   expenseInfo: {
     fontSize: 10,
-    color: "#333333",
+    color: '#333333',
   },
   totalsContainer: {
-    width: "50%",
-    alignSelf: "flex-end",
+    width: '50%',
+    alignSelf: 'flex-end',
     fontSize: 9,
     borderWidth: 1,
-    borderColor: "#D0D0D0",
+    borderColor: '#D0D0D0',
     marginTop: 10,
   },
   totalRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     padding: 8,
   },
   totalRowHighlight: {
-    backgroundColor: "#EBF4FF",
+    backgroundColor: '#EBF4FF',
   },
   totalLabel: {
     fontFamily: FontFamily.InterBold,
@@ -160,9 +153,9 @@ const styles = StyleSheet.create({
   invoiceInfo: {
     marginTop: 40,
     fontSize: 10,
-    fontStyle: "italic",
-    alignSelf: "flex-end",
-    textAlign: "right",
+    fontStyle: 'italic',
+    alignSelf: 'flex-end',
+    textAlign: 'right',
   },
 });
 
@@ -176,7 +169,7 @@ const getItemAmounts = (item: ExpenseItem) => {
         currency: item.amountV2.exchangeRate.toCurrency,
         valueInCents: round(
           item.amountV2.valueInCents * item.amountV2.exchangeRate.value,
-          getCurrencyPrecision(item.amountV2.exchangeRate.toCurrency)
+          getCurrencyPrecision(item.amountV2.exchangeRate.toCurrency),
         ),
       },
     };
@@ -184,10 +177,7 @@ const getItemAmounts = (item: ExpenseItem) => {
 };
 
 const sumItemsInExpenseCurrency = (items: ExpenseItem[]) => {
-  return sumBy(
-    items,
-    (item) => getItemAmounts(item).inExpenseCurrency.valueInCents
-  );
+  return sumBy(items, item => getItemAmounts(item).inExpenseCurrency.valueInCents);
 };
 
 const chunkItems = (expense: Expense, billToAccount: Account) => {
@@ -196,47 +186,31 @@ const chunkItems = (expense: Expense, billToAccount: Account) => {
   const itemsPerPage = 22;
 
   // Estimate the space available
-  const countLines = (str?: string): number =>
-    str ? sumBy(str, (c) => (c === "\n" ? 1 : 0)) : 0;
-  const billFromAddressSize = countLines(get(expense.payeeLocation, "address"));
+  const countLines = (str?: string): number => (str ? sumBy(str, c => (c === '\n' ? 1 : 0)) : 0);
+  const billFromAddressSize = countLines(get(expense.payeeLocation, 'address'));
   const billToAddressSize = countLines(
-    get(billToAccount, "location.address") ||
-      get(billToAccount, "host.location.address")
+    get(billToAccount, 'location.address') || get(billToAccount, 'host.location.address'),
   );
   const maxNbOnFirstPage =
-    max([
-      minNbOnFirstPage,
-      baseNbOnFirstPage - (billFromAddressSize + billToAddressSize),
-    ]) || minNbOnFirstPage;
+    max([minNbOnFirstPage, baseNbOnFirstPage - (billFromAddressSize + billToAddressSize)]) || minNbOnFirstPage;
 
   // If we don't need to put the logo on first page then let's use all the space available
   const items = expense.items;
-  const nbOnFirstPage =
-    items.length > baseNbOnFirstPage ? baseNbOnFirstPage : maxNbOnFirstPage;
+  const nbOnFirstPage = items.length > baseNbOnFirstPage ? baseNbOnFirstPage : maxNbOnFirstPage;
 
-  return [
-    items.slice(0, nbOnFirstPage),
-    ...chunk(items.slice(nbOnFirstPage), itemsPerPage),
-  ];
+  return [items.slice(0, nbOnFirstPage), ...chunk(items.slice(nbOnFirstPage), itemsPerPage)];
 };
 
 const getBillTo = (expense: Expense) => {
-  const billToType = get(
-    expense,
-    "account.host.settings.invoice.expenseTemplates.default.billTo",
-    "host"
-  );
-  if (billToType === "collective") {
+  const billToType = get(expense, 'account.host.settings.invoice.expenseTemplates.default.billTo', 'host');
+  if (billToType === 'collective') {
     return expense.account;
   } else {
     return expense.account.host || expense.account;
   }
 };
 
-const ExpenseInvoice: React.FC<ExpenseInvoiceProps> = ({
-  expense,
-  pageFormat = "A4",
-}) => {
+const ExpenseInvoice: React.FC<ExpenseInvoiceProps> = ({ expense, pageFormat = 'A4' }) => {
   const { account, payee, payeeLocation } = expense;
   const billToAccount = getBillTo(expense);
   const chunkedItems = chunkItems(expense, billToAccount);
@@ -253,37 +227,21 @@ const ExpenseInvoice: React.FC<ExpenseInvoiceProps> = ({
                   <Text style={styles.addressTitle}>
                     <FormattedMessage id="billFrom" defaultMessage="From" />
                   </Text>
-                  <Text style={styles.addressText}>
-                    {payee.name || payee.slug}
-                  </Text>
-                  {payeeLocation?.address && (
-                    <Text style={styles.addressText}>
-                      {payeeLocation.address}
-                    </Text>
-                  )}
-                  {payeeLocation?.country && (
-                    <Text style={styles.addressText}>
-                      {payeeLocation.country}
-                    </Text>
-                  )}
+                  <Text style={styles.addressText}>{payee.name || payee.slug}</Text>
+                  {payeeLocation?.address && <Text style={styles.addressText}>{payeeLocation.address}</Text>}
+                  {payeeLocation?.country && <Text style={styles.addressText}>{payeeLocation.country}</Text>}
                 </View>
 
                 <View style={styles.toAddressBlock}>
                   <Text style={styles.addressTitle}>
                     <FormattedMessage id="billTo" defaultMessage="Bill to" />
                   </Text>
-                  <Text style={styles.addressText}>
-                    {billToAccount.name || billToAccount.slug}
-                  </Text>
+                  <Text style={styles.addressText}>{billToAccount.name || billToAccount.slug}</Text>
                   {billToAccount.location?.address && (
-                    <Text style={styles.addressText}>
-                      {billToAccount.location.address}
-                    </Text>
+                    <Text style={styles.addressText}>{billToAccount.location.address}</Text>
                   )}
                   {billToAccount.location?.country && (
-                    <Text style={styles.addressText}>
-                      {billToAccount.location.country}
-                    </Text>
+                    <Text style={styles.addressText}>{billToAccount.location.country}</Text>
                   )}
                 </View>
               </View>
@@ -329,10 +287,7 @@ const ExpenseInvoice: React.FC<ExpenseInvoiceProps> = ({
             </View>
           )}
 
-          <ExpenseItemsTable
-            expense={{ ...expense, taxes: expense.taxes || [] }}
-            items={itemsChunk}
-          />
+          <ExpenseItemsTable expense={{ ...expense, taxes: expense.taxes || [] }} items={itemsChunk} />
 
           {pageNumber === chunkedItems.length - 1 && (
             <View>
@@ -348,19 +303,15 @@ const ExpenseInvoice: React.FC<ExpenseInvoiceProps> = ({
                   </Text>
                 </View>
 
-                {expense.taxes?.map((tax) => (
+                {expense.taxes?.map(tax => (
                   <View key={tax.id} style={styles.totalRow}>
                     <Text style={styles.totalLabel}>
                       {tax.type} ({round(tax.rate * 100, 2)}%)
                     </Text>
                     <Text style={styles.totalAmount}>
-                      {formatCurrency(
-                        tax.rate * grossAmount,
-                        expense.currency,
-                        {
-                          showCurrencySymbol: true,
-                        }
-                      )}
+                      {formatCurrency(tax.rate * grossAmount, expense.currency, {
+                        showCurrencySymbol: true,
+                      })}
                     </Text>
                   </View>
                 ))}
@@ -377,9 +328,7 @@ const ExpenseInvoice: React.FC<ExpenseInvoiceProps> = ({
                 </View>
               </View>
 
-              {expense.invoiceInfo && (
-                <Text style={styles.invoiceInfo}>{expense.invoiceInfo}</Text>
-              )}
+              {expense.invoiceInfo && <Text style={styles.invoiceInfo}>{expense.invoiceInfo}</Text>}
             </View>
           )}
         </Page>

@@ -1,35 +1,30 @@
-import http from "http";
-import https from "https";
+import http from 'http';
+import https from 'https';
 
-import {
-  ApolloClient,
-  HttpLink,
-  ApolloLink,
-  InMemoryCache,
-} from "@apollo/client";
-import { setContext } from "@apollo/client/link/context";
-import { parseToBooleanDefaultTrue } from "./env";
+import { ApolloClient, HttpLink, ApolloLink, InMemoryCache } from '@apollo/client';
+import { setContext } from '@apollo/client/link/context';
+import { parseToBooleanDefaultTrue } from './env';
 
-import { get } from "lodash-es";
-import { AuthorizationHeaders } from "./authentication";
-import {
-  BadRequestError,
-  ForbiddenError,
-  InternalServerError,
-  NotFoundError,
-  UnauthorizedError,
-} from "./errors";
+import { get, has } from 'lodash-es';
+import { AuthorizationHeaders } from './authentication';
+import { BadRequestError, ForbiddenError, InternalServerError, NotFoundError, UnauthorizedError } from './errors';
 
-export const adaptApolloError = (error: any) => {
-  const status =
-    get(error, "networkError.statusCode") ||
-    get(error, "graphQLErrors[0].extensions.code");
-  const message =
-    get(error, "networkError.result.error.message") ||
-    get(error, "graphQLErrors[0].message");
+export const adaptApolloError = (error: unknown) => {
+  const status: string | number | undefined =
+    get(error, 'networkError.statusCode') || get(error, 'graphQLErrors[0].extensions.code');
+  const message = get(error, 'networkError.result.error.message') || get(error, 'graphQLErrors[0].message');
+
+  if (status === undefined || (!status && !message)) {
+    if (has(error, 'networkError')) {
+      return new InternalServerError('Connection error');
+    } else {
+      return new InternalServerError('Unknown error');
+    }
+  }
+
   switch (status) {
     case 400:
-    case "BadRequest":
+    case 'BadRequest':
       return new BadRequestError(message);
     case 401:
       return new UnauthorizedError(message);
@@ -49,12 +44,10 @@ export const adaptApolloError = (error: any) => {
  * @param {string} version - api version.
  * @returns {string} GraphQL api url.
  */
-const getGraphqlUrl = (apiVersion: "v1" | "v2") => {
+const getGraphqlUrl = (apiVersion: 'v1' | 'v2') => {
   const apiKey = process.env.API_KEY;
-  const baseApiUrl = process.env.API_URL || "https://api.opencollective.com";
-  return `${baseApiUrl}/graphql/${apiVersion}${
-    apiKey ? `?api_key=${apiKey}` : ""
-  }`;
+  const baseApiUrl = process.env.API_URL || 'https://api.opencollective.com';
+  return `${baseApiUrl}/graphql/${apiVersion}${apiKey ? `?api_key=${apiKey}` : ''}`;
 };
 
 async function customFetch(url: URL | RequestInfo, options: any = {}) {
@@ -62,11 +55,10 @@ async function customFetch(url: URL | RequestInfo, options: any = {}) {
 
   // Add headers to help the API identify origin of requests
   options.headers = options.headers || {};
-  options.headers["oc-env"] =
-    process.env.OC_ENV || process.env.NODE_ENV || "development";
+  options.headers['oc-env'] = process.env.OC_ENV || process.env.NODE_ENV || 'development';
   // options.headers['oc-secret'] = process.env.OC_SECRET; // TODO
-  options.headers["oc-application"] = "pdf";
-  options.headers["user-agent"] = "opencollective-pdf/1.0 node-fetch/1.0";
+  options.headers['oc-application'] = 'pdf';
+  options.headers['user-agent'] = 'opencollective-pdf/1.0 node-fetch/1.0';
 
   const result = await fetch(url, options);
   return result;
@@ -76,19 +68,12 @@ let customAgent: ((parsedURL: URL) => http.Agent) | undefined;
 
 function getCustomAgent() {
   if (!customAgent) {
-    const { FETCH_AGENT_KEEP_ALIVE, FETCH_AGENT_KEEP_ALIVE_MSECS } =
-      process.env;
-    const keepAlive =
-      FETCH_AGENT_KEEP_ALIVE !== undefined
-        ? parseToBooleanDefaultTrue(FETCH_AGENT_KEEP_ALIVE)
-        : true;
-    const keepAliveMsecs = FETCH_AGENT_KEEP_ALIVE_MSECS
-      ? Number(FETCH_AGENT_KEEP_ALIVE_MSECS)
-      : 10000;
+    const { FETCH_AGENT_KEEP_ALIVE, FETCH_AGENT_KEEP_ALIVE_MSECS } = process.env;
+    const keepAlive = FETCH_AGENT_KEEP_ALIVE !== undefined ? parseToBooleanDefaultTrue(FETCH_AGENT_KEEP_ALIVE) : true;
+    const keepAliveMsecs = FETCH_AGENT_KEEP_ALIVE_MSECS ? Number(FETCH_AGENT_KEEP_ALIVE_MSECS) : 10000;
     const httpAgent = new http.Agent({ keepAlive, keepAliveMsecs });
     const httpsAgent = new https.Agent({ keepAlive, keepAliveMsecs });
-    customAgent = (_parsedURL) =>
-      _parsedURL.protocol === "http:" ? httpAgent : httpsAgent;
+    customAgent = _parsedURL => (_parsedURL.protocol === 'http:' ? httpAgent : httpsAgent);
   }
   return customAgent;
 }
@@ -100,7 +85,7 @@ export const createClient = (authorizationHeaders: AuthorizationHeaders) => {
   });
 
   const apiLink = new HttpLink({
-    uri: getGraphqlUrl("v2"),
+    uri: getGraphqlUrl('v2'),
     fetch: customFetch,
   });
   return new ApolloClient({
@@ -110,25 +95,9 @@ export const createClient = (authorizationHeaders: AuthorizationHeaders) => {
       // Documentation:
       // https://www.apollographql.com/docs/react/data/fragments/#using-fragments-with-unions-and-interfaces
       possibleTypes: {
-        Account: [
-          "Collective",
-          "Host",
-          "Individual",
-          "Fund",
-          "Project",
-          "Bot",
-          "Event",
-          "Organization",
-          "Vendor",
-        ],
-        AccountWithHost: ["Collective", "Event", "Fund", "Project"],
-        AccountWithContributions: [
-          "Collective",
-          "Event",
-          "Fund",
-          "Project",
-          "Host",
-        ],
+        Account: ['Collective', 'Host', 'Individual', 'Fund', 'Project', 'Bot', 'Event', 'Organization', 'Vendor'],
+        AccountWithHost: ['Collective', 'Event', 'Fund', 'Project'],
+        AccountWithContributions: ['Collective', 'Event', 'Fund', 'Project', 'Host'],
       },
       // Documentation:
       // https://www.apollographql.com/docs/react/caching/cache-field-behavior/#merging-non-normalized-objects

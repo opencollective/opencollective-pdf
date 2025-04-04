@@ -1,22 +1,14 @@
-import React from "react";
-import express from "express";
-import { sendPDFResponse } from "../utils/pdf";
-import {
-  authenticateRequest,
-  AuthorizationHeaders,
-} from "../utils/authentication";
-import { gql } from "@apollo/client";
-import { createClient } from "../utils/apollo-client";
-import { adaptApolloError } from "../utils/apollo-client";
-import { BadRequestError } from "../utils/errors";
-import ExpenseInvoice from "../components/expenses/ExpenseInvoice";
+import express from 'express';
+import { sendPDFResponse } from '../utils/pdf';
+import { authenticateRequest, AuthorizationHeaders } from '../utils/authentication';
+import { gql } from '@apollo/client';
+import { createClient } from '../utils/apollo-client';
+import { adaptApolloError } from '../utils/apollo-client';
+import ExpenseInvoice from '../components/expenses/ExpenseInvoice';
 
 const router = express.Router();
 
-async function fetchExpenseInvoiceData(
-  expenseId: string,
-  authorizationHeaders: AuthorizationHeaders
-) {
+async function fetchExpenseInvoiceData(expenseId: string, authorizationHeaders: AuthorizationHeaders) {
   const query = gql`
     query ExpenseInvoice($expenseId: String!) {
       expense(expense: { id: $expenseId }) {
@@ -120,18 +112,15 @@ async function fetchExpenseInvoiceData(
   }
 }
 
-router.options("/:id/:filename.pdf", (req, res) => {
+router.options('/:id/:filename.pdf', (req, res) => {
   res.sendStatus(204);
 });
 
-router.get(
-  "/:id/:filename.pdf",
-  async (req: express.Request, res: express.Response) => {
-    const { id } = req.params;
-    const authorizationHeaders = authenticateRequest(req);
-    const expense = await fetchExpenseInvoiceData(id, authorizationHeaders);
-    await sendPDFResponse(res, ExpenseInvoice, { expense });
-  }
-);
+router.get('/:id/:filename.pdf', async (req: express.Request, res: express.Response) => {
+  const { id } = req.params;
+  const authorizationHeaders = authenticateRequest(req);
+  const expense = await fetchExpenseInvoiceData(id, authorizationHeaders);
+  await sendPDFResponse(res, ExpenseInvoice, { expense });
+});
 
 export default router;

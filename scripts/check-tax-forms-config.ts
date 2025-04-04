@@ -9,16 +9,16 @@ import { PDFDocument } from 'pdf-lib';
 
 const checkField = (formFields, field: PDFFieldDefinition): string[] => {
   if (typeof field === 'string') {
-    if (!formFields.find((f) => f.getName() === field)) {
+    if (!formFields.find(f => f.getName() === field)) {
       return [field];
     }
   } else if (isFieldTypeMulti(field) || isFieldTypeSplitText(field)) {
-    return field.fields.map((subField) => checkField(formFields, subField)).flat();
+    return field.fields.map(subField => checkField(formFields, subField)).flat();
   } else if (isFieldTypeCombo(field)) {
     return Object.values(field.values)
-      .map((subField) => checkField(formFields, subField))
+      .map(subField => checkField(formFields, subField))
       .flat();
-  } else if (!formFields.find((f) => f.getName() === field.formPath)) {
+  } else if (!formFields.find(f => f.getName() === field.formPath)) {
     return [field.formPath];
   }
 
@@ -36,7 +36,7 @@ const main = async () => {
     for (const field of Object.values(config.definition)) {
       const missingFields = checkField(fields, field);
       if (missingFields.length) {
-        missingFields.forEach((missingFieldName) => {
+        missingFields.forEach(missingFieldName => {
           errors.push(`Field ${missingFieldName} is missing in ${formName}`);
         });
       }

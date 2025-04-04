@@ -1,19 +1,17 @@
-import { ZERO_DECIMAL_CURRENCIES } from "../constants/currency";
+import { ZERO_DECIMAL_CURRENCIES } from '../constants/currency';
 
 export function getCurrencyPrecision(currency: string) {
-  return (ZERO_DECIMAL_CURRENCIES as readonly string[]).includes(currency)
-    ? 0
-    : 2;
+  return (ZERO_DECIMAL_CURRENCIES as readonly string[]).includes(currency) ? 0 : 2;
 }
 
 export function formatCurrency(
   amount: number,
-  currency = "USD",
+  currency = 'USD',
   options: {
     minimumFractionDigits?: number;
     precision?: number;
     showCurrencySymbol?: boolean;
-  } = {}
+  } = {},
 ) {
   amount = amount / 100;
 
@@ -29,11 +27,11 @@ export function formatCurrency(
   }
 
   const result = amount.toLocaleString(getLocaleFromCurrency(currency), {
-    style: "currency",
+    style: 'currency',
     currency,
     minimumFractionDigits: minimumFractionDigits,
     maximumFractionDigits: maximumFractionDigits,
-    currencyDisplay: "symbol",
+    currencyDisplay: 'symbol',
   });
 
   if (options.showCurrencySymbol && !/^[A-Z]{2,3}\$/.test(result)) {
@@ -63,22 +61,22 @@ export function formatAmount(
     minimumFractionDigits?: number;
     precision?: number;
     showCurrencySymbol?: boolean;
-  } = {}
+  } = {},
 ) {
   const valueInCents = getValueInCentsFromAmount(amount);
   return valueInCents === undefined || isNaN(valueInCents)
-    ? "--,--"
+    ? '--,--'
     : formatCurrency(valueInCents, amount.currency, options);
 }
 
 function getLocaleFromCurrency(currency: string) {
   let locale;
   switch (currency) {
-    case "USD":
-      locale = "en-US";
+    case 'USD':
+      locale = 'en-US';
       break;
-    case "EUR":
-      locale = "en-EU";
+    case 'EUR':
+      locale = 'en-EU';
       break;
     default:
       locale = currency;

@@ -3,10 +3,7 @@
     "target": "ES2020",
     "module": "ESNext",
     "moduleResolution": "node",
-    "lib": [
-      "ES2020",
-      "DOM"
-    ],
+    "lib": ["ES2020", "DOM"],
     "jsx": "react",
     "strict": true,
     "esModuleInterop": true,
@@ -16,25 +13,12 @@
     "outDir": "./dist",
     "rootDir": ".",
     "baseUrl": ".",
-    "types": [
-      "node",
-      "express",
-      "jest"
-    ],
-    "typeRoots": [
-      "node_modules/@types"
-    ],
+    "types": ["node", "express", "jest"],
+    "typeRoots": ["node_modules/@types"],
     "paths": {
-      "*": [
-        "node_modules/*"
-      ]
+      "*": ["node_modules/*"]
     }
   },
-  "include": [
-    "server/**/*"
-  ],
-  "exclude": [
-    "node_modules",
-    "dist"
-  ]
+  "include": ["server/**/*"],
+  "exclude": ["node_modules", "dist"]
 }
