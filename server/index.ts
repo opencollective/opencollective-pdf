@@ -1,6 +1,7 @@
 import 'dotenv/config';
 
 import express from 'express';
+import rateLimit from 'express-rate-limit';
 
 import expensesRouter from './routes/expenses';
 import giftCardsRouter from './routes/gift-cards';
@@ -9,10 +10,32 @@ import { PDFServiceError } from './utils/errors';
 const app = express();
 const port = process.env.PORT || 3002;
 
+// Configure rate limiter
+const apiLimiter = rateLimit({
+  // Limit each IP to 100 requests per 15 minutes
+  max: 100,
+  windowMs: 15 * 60 * 1000,
+  standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+  legacyHeaders: false,
+  // Skip rate limiter if request has the official OC API key
+  skip: req => {
+    const officialKey = process.env.OFFICIAL_OC_KEY;
+    if (!officialKey) {
+      return false;
+    } else {
+      const apiKey = req.headers['x-api-key'] || req.query.apiKey;
+      return apiKey === officialKey;
+    }
+  },
+});
+
+// Apply rate limiting to all routes
+app.use(apiLimiter);
+
 // Set CORS headers
 app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
   // Set Access-Control-Allow-Headers
-  res.setHeader('Access-Control-Allow-Headers', 'authorization,content-type,baggage,sentry-trace');
+  res.setHeader('Access-Control-Allow-Headers', 'authorization,content-type,baggage,sentry-trace,x-api-key');
 
   // Set Access-Control-Allow-Origin
   if (process.env.WEBSITE_URL === 'https://opencollective.com') {
@@ -40,7 +63,8 @@ app.use((req: express.Request, res: express.Response) => {
 });
 
 // Error handling
-app.use((err: Error, req: express.Request, res: express.Response, next: express.NextFunction) => {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+app.use((err: Error, req: express.Request, res: express.Response, _next: express.NextFunction) => {
   console.error(err);
   if (err instanceof PDFServiceError) {
     res.status(err.status).json({
@@ -59,7 +83,5 @@ if (process.env.NODE_ENV !== 'test') {
     console.log(`Server is running on port ${port}`);
   });
 }
-
-app.listen(8000);
 
 export default app;

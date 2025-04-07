@@ -21,6 +21,7 @@
     "dayjs": "^1.11.13",
     "dotenv": "^16.4.1",
     "express": "5.0.0",
+    "express-rate-limit": "7.5.0",
     "lodash-es": "^4.17.21",
     "qrcode": "^1.5.4",
     "react": "^19.0.0",
