@@ -57,13 +57,13 @@ const styles = StyleSheet.create({
   header: {
     fontFamily: FontFamily.InterBold,
     fontWeight: 'bold',
-    backgroundColor: '#F0F0F0',
+    backgroundColor: '#EBF4FF',
   },
   cell: {
     fontFamily: FontFamily.InterRegular,
     fontSize: 9,
     padding: 5,
-    borderColor: '#D0D0D0',
+    borderColor: '#E0E0E0',
   },
 });
 

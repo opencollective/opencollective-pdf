@@ -1,4 +1,4 @@
-import 'dotenv/config';
+import dotenv from 'dotenv';
 
 import express from 'express';
 import rateLimit from 'express-rate-limit';
@@ -6,6 +6,25 @@ import rateLimit from 'express-rate-limit';
 import expensesRouter from './routes/expenses';
 import giftCardsRouter from './routes/gift-cards';
 import { PDFServiceError } from './utils/errors';
+import path from 'path';
+
+import { last } from 'lodash-es';
+
+import fs from 'fs';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+if (process.env.EXTRA_ENV || process.env.NODE_ENV === 'development' || !process.env.NODE_ENV) {
+  const extraEnv = process.env.EXTRA_ENV || last(process.argv);
+  const __filename = fileURLToPath(import.meta.url);
+  const __dirname = dirname(__filename);
+  const extraEnvPath = path.join(__dirname, '..', `.env.${extraEnv}`);
+  if (fs.existsSync(extraEnvPath)) {
+    dotenv.config({ path: extraEnvPath });
+  }
+}
+
+dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 3002;
@@ -49,6 +68,12 @@ app.use((req: express.Request, res: express.Response, next: express.NextFunction
 });
 
 // Routes
+app.get('/', (req: express.Request, res: express.Response) => {
+  res.status(200).json({
+    status: 'ok',
+  });
+});
+
 // app.use("/tax-forms", taxFormsRouter);
 app.use('/expenses', expensesRouter);
 app.use('/gift-cards', giftCardsRouter);

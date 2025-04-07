@@ -88,6 +88,7 @@ export const createClient = (authorizationHeaders: AuthorizationHeaders) => {
     uri: getGraphqlUrl('v2'),
     fetch: customFetch,
   });
+
   return new ApolloClient({
     ssrMode: true, // Disables forceFetch on the server (so queries are only run once)
     link: ApolloLink.from([authLink, apiLink]),

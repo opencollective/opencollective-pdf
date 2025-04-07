@@ -107,6 +107,7 @@ const styles = StyleSheet.create({
   addressTitle: {
     fontSize: 12,
     fontWeight: 'bold',
+    fontFamily: FontFamily.InterBold,
     marginBottom: 5,
   },
   addressText: {
@@ -120,6 +121,7 @@ const styles = StyleSheet.create({
   expenseTitle: {
     fontSize: 12,
     fontWeight: 'bold',
+    fontFamily: FontFamily.InterBold,
     marginBottom: 5,
     textDecoration: 'underline',
     color: '#000000',
@@ -133,13 +135,15 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-end',
     fontSize: 9,
     borderWidth: 1,
-    borderColor: '#D0D0D0',
-    marginTop: 10,
+    borderColor: '#E0E0E0',
+    marginTop: 20,
+    borderRadius: 3,
   },
   totalRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    padding: 8,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
   },
   totalRowHighlight: {
     backgroundColor: '#EBF4FF',
