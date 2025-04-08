@@ -1,9 +1,9 @@
 import express from 'express';
-import { sendPDFResponse } from '../utils/pdf';
-import { authenticateRequest, AuthorizationHeaders } from '../utils/authentication';
+import { sendPDFResponse } from '../lib/pdf';
+import { authenticateRequest, AuthorizationHeaders } from '../lib/authentication';
 import { gql } from '@apollo/client';
-import { createClient } from '../utils/apollo-client';
-import { adaptApolloError } from '../utils/apollo-client';
+import { createClient } from '../lib/apollo-client';
+import { adaptApolloError } from '../lib/apollo-client';
 import ExpenseInvoice from '../components/expenses/ExpenseInvoice';
 
 const router = express.Router();

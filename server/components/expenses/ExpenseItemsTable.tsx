@@ -3,10 +3,10 @@ import { StyleSheet, Text, View } from '@react-pdf/renderer';
 import { Table, TR, TH, TD } from '@ag-media/react-pdf-table';
 import { FormattedDate, FormattedMessage } from 'react-intl';
 import { round, sumBy, uniq } from 'lodash-es';
-import { getCurrencyPrecision } from '../../utils/currency';
-import { formatAmount } from '../../utils/currency';
-import { formatCurrency } from '../../utils/currency';
-import { FontFamily } from '../../utils/pdf';
+import { getCurrencyPrecision } from '../../lib/currency';
+import { formatAmount } from '../../lib/currency';
+import { formatCurrency } from '../../lib/currency';
+import { FontFamily } from '../../lib/pdf';
 
 type AmountV2 = {
   valueInCents: number;
@@ -77,17 +77,17 @@ const ExpenseItemsTable: React.FC<ExpenseItemsTableProps> = ({ items, expense })
       <TH style={styles.header}>
         <TD style={styles.cell}>
           <Text>
-            <FormattedMessage id="date" defaultMessage="Date" />
+            <FormattedMessage id="P7PLVj" defaultMessage="Date" />
           </Text>
         </TD>
         <TD style={styles.cell}>
           <Text>
-            <FormattedMessage id="description" defaultMessage="Description" />
+            <FormattedMessage id="Q8Qw5B" defaultMessage="Description" />
           </Text>
         </TD>
         <TD style={styles.cell}>
           <Text>
-            <FormattedMessage id="grossAmount" defaultMessage="Gross amount" />
+            <FormattedMessage id="nDMBYb" defaultMessage="Gross amount" />
           </Text>
         </TD>
         <TD style={styles.cell}>
@@ -97,7 +97,7 @@ const ExpenseItemsTable: React.FC<ExpenseItemsTableProps> = ({ items, expense })
         </TD>
         <TD style={styles.cell}>
           <Text>
-            <FormattedMessage id="netAmount" defaultMessage="Net Amount" />
+            <FormattedMessage id="FxUka3" defaultMessage="Net Amount" />
           </Text>
         </TD>
       </TH>
@@ -112,7 +112,7 @@ const ExpenseItemsTable: React.FC<ExpenseItemsTableProps> = ({ items, expense })
             </TD>
             <TD style={styles.cell}>
               <Text>
-                {item.description || <FormattedMessage id="NoDescription" defaultMessage="No description provided" />}
+                {item.description || <FormattedMessage id="TOxNpA" defaultMessage="No description provided" />}
               </Text>
             </TD>
             <TD style={styles.cell}>

@@ -3,9 +3,9 @@ import { Page, Document, Image, View, Text, StyleSheet, Link } from '@react-pdf/
 import dayjs from 'dayjs';
 import QRCode from 'qrcode';
 import { chunk } from 'lodash-es';
-import { formatCurrency } from '../../utils/currency';
+import { formatCurrency } from '../../lib/currency';
 import { LinkIcon } from '../icons/Link';
-import { FontFamily } from '../../utils/pdf';
+import { FontFamily } from '../../lib/pdf';
 
 const styles = StyleSheet.create({
   page: {

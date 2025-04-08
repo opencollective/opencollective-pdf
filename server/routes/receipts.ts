@@ -1,16 +1,36 @@
 import express from 'express';
-import { sendPDFResponse } from '../utils/pdf';
-import { authenticateRequest, AuthorizationHeaders } from '../utils/authentication';
+import { sendPDFResponse } from '../lib/pdf';
+import { authenticateRequest, AuthorizationHeaders } from '../lib/authentication';
 import { gql } from '@apollo/client';
-import { createClient } from '../utils/apollo-client';
-import { adaptApolloError } from '../utils/apollo-client';
-import ExpenseInvoice from '../components/expenses/ExpenseInvoice';
-import { NotFoundError } from '../../server/utils/errors';
-import { ForbiddenError } from '../../server/utils/errors';
+import { createClient } from '../lib/apollo-client';
+import { adaptApolloError } from '../lib/apollo-client';
+import { NotFoundError } from '../lib/errors';
+import { ForbiddenError } from '../lib/errors';
+import Receipt from 'server/components/receipts/Receipt';
+import { Transaction } from 'server/graphql/types/v2/schema';
 
 const router = express.Router();
 
-// By transaction ID
+// ---- By transaction ID ----
+
+const receiptTransactionHostFieldsFragment = gql`
+  fragment ReceiptTransactionHostFieldsFragment on Account {
+    id
+    slug
+    name
+    legalName
+    currency
+    imageUrl(height: 200)
+    website
+    settings
+    type
+    location {
+      name
+      address
+      country
+    }
+  }
+`;
 
 const receiptTransactionFragment = gql`
   fragment ReceiptTransactionFragment on Transaction {
@@ -177,7 +197,7 @@ async function fetchTransactionInvoice(transactionId: string, authorizationHeade
   return response.data.transaction;
 }
 
-function getReceiptFromTransactionData(originalTransaction) {
+function getReceiptFromTransactionData(originalTransaction: Transaction) {
   let transaction = originalTransaction;
   if (transaction.type === 'DEBIT' && transaction.oppositeTransaction && !transaction.isRefund) {
     transaction = transaction.oppositeTransaction;
@@ -188,7 +208,7 @@ function getReceiptFromTransactionData(originalTransaction) {
     throw new Error('Could not find host for this transaction');
   }
 
-  const invoiceName = transaction.invoiceTemplate || transaction.order?.tier?.invoiceTemplate;
+  const invoiceName = transaction.invoiceTemplate || transaction.order?.tier?.invoiceTemplate || '';
   const template = host.settings?.invoice?.templates?.[invoiceName] || host?.settings?.invoice?.templates?.default;
   const fromAccount = transaction.isRefund ? transaction.toAccount : transaction.fromAccount;
   return {

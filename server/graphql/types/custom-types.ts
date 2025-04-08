@@ -9,4 +9,6 @@ export type GraphQLV1Collective = {
   parentCollective?: GraphQLV1Collective;
   settings?: Record<string, unknown>;
   isHost?: boolean;
+  website: string;
+  image: string;
 };

@@ -1,5 +1,5 @@
 import express from 'express';
-import { sendPDFResponse } from '../utils/pdf';
+import { sendPDFResponse } from '../lib/pdf';
 import GiftCardsPage from '../components/gift-cards/GiftCardsPage';
 
 const router = express.Router();

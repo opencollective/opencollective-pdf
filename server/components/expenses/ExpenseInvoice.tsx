@@ -3,10 +3,10 @@ import { Document, Page, Text, View, StyleSheet, Link } from '@react-pdf/rendere
 import { chunk, get, max, round, sumBy } from 'lodash-es';
 import { FormattedMessage } from 'react-intl';
 
-import { formatCurrency } from '../../utils/currency';
-import { getCurrencyPrecision } from '../../utils/currency';
+import { formatCurrency } from '../../lib/currency';
+import { getCurrencyPrecision } from '../../lib/currency';
 import ExpenseItemsTable from './ExpenseItemsTable';
-import { FontFamily } from '../../utils/pdf';
+import { FontFamily } from '../../lib/pdf';
 
 type AmountV2 = {
   valueInCents: number;
@@ -229,7 +229,7 @@ const ExpenseInvoice: React.FC<ExpenseInvoiceProps> = ({ expense, pageFormat = '
               <View style={styles.headerRow}>
                 <View style={styles.fromAddressBlock}>
                   <Text style={styles.addressTitle}>
-                    <FormattedMessage id="billFrom" defaultMessage="From" />
+                    <FormattedMessage id="dM+p3/" defaultMessage="From" />
                   </Text>
                   <Text style={styles.addressText}>{payee.name || payee.slug}</Text>
                   {payeeLocation?.address && <Text style={styles.addressText}>{payeeLocation.address}</Text>}
@@ -238,7 +238,7 @@ const ExpenseInvoice: React.FC<ExpenseInvoiceProps> = ({ expense, pageFormat = '
 
                 <View style={styles.toAddressBlock}>
                   <Text style={styles.addressTitle}>
-                    <FormattedMessage id="billTo" defaultMessage="Bill to" />
+                    <FormattedMessage id="gSv0eP" defaultMessage="Bill to" />
                   </Text>
                   <Text style={styles.addressText}>{billToAccount.name || billToAccount.slug}</Text>
                   {billToAccount.location?.address && (
@@ -256,7 +256,7 @@ const ExpenseInvoice: React.FC<ExpenseInvoiceProps> = ({ expense, pageFormat = '
                   style={styles.expenseTitle}
                 >
                   <FormattedMessage
-                    id="Expense.Description"
+                    id="GGuO8S"
                     defaultMessage="Expense #{id}: {description}"
                     values={{
                       id: expense.legacyId,
@@ -267,7 +267,7 @@ const ExpenseInvoice: React.FC<ExpenseInvoiceProps> = ({ expense, pageFormat = '
                 {expense.reference && (
                   <Text style={styles.expenseInfo}>
                     <FormattedMessage
-                      id="Expense.Reference"
+                      id="qdYmyV"
                       defaultMessage="Reference: {reference}"
                       values={{ reference: expense.reference }}
                     />
@@ -275,14 +275,14 @@ const ExpenseInvoice: React.FC<ExpenseInvoiceProps> = ({ expense, pageFormat = '
                 )}
                 <Text style={styles.expenseInfo}>
                   <FormattedMessage
-                    id="CollectiveColumn"
+                    id="AJ6aIN"
                     defaultMessage="Collective: {collectiveName}"
                     values={{ collectiveName: account.name || account.slug }}
                   />
                 </Text>
                 <Text style={styles.expenseInfo}>
                   <FormattedMessage
-                    id="DateLabel"
+                    id="AUpCdn"
                     defaultMessage="Date: {date, date, full}"
                     values={{ date: new Date(expense.createdAt) }}
                   />
@@ -298,7 +298,7 @@ const ExpenseInvoice: React.FC<ExpenseInvoiceProps> = ({ expense, pageFormat = '
               <View style={styles.totalsContainer}>
                 <View style={styles.totalRow}>
                   <Text>
-                    <FormattedMessage id="subtotal" defaultMessage="Subtotal" />
+                    <FormattedMessage id="L8seEc" defaultMessage="Subtotal" />
                   </Text>
                   <Text>
                     {formatCurrency(grossAmount, expense.currency, {
@@ -322,7 +322,7 @@ const ExpenseInvoice: React.FC<ExpenseInvoiceProps> = ({ expense, pageFormat = '
 
                 <View style={[styles.totalRow, styles.totalRowHighlight]}>
                   <Text style={[styles.totalLabel]}>
-                    <FormattedMessage id="total" defaultMessage="Total" />
+                    <FormattedMessage id="MJ2jZQ" defaultMessage="Total" />
                   </Text>
                   <Text style={styles.totalAmount}>
                     {formatCurrency(expense.amount, expense.currency, {

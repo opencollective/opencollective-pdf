@@ -29,7 +29,7 @@ const LinkToCollective = ({
   const { type, slug } = collective;
 
   if (!collective) {
-    return children || <FormattedMessage id="profile.incognito" defaultMessage="Incognito" />;
+    return children || <FormattedMessage id="Sp8UUp" defaultMessage="Incognito" />;
   }
 
   return type !== 'EVENT' ? (

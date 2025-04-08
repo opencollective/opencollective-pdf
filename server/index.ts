@@ -6,7 +6,7 @@ import rateLimit from 'express-rate-limit';
 import expensesRouter from './routes/expenses';
 import giftCardsRouter from './routes/gift-cards';
 import receiptsRouter from './routes/receipts';
-import { PDFServiceError } from './utils/errors';
+import { PDFServiceError } from './lib/errors';
 import path from 'path';
 
 import { last } from 'lodash-es';

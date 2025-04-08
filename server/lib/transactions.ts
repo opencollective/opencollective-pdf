@@ -1,7 +1,8 @@
-import { get, round, sumBy, uniqBy } from 'lodash';
+import { get, round, sumBy, uniqBy } from 'lodash-es';
+import { Account, Transaction } from 'server/graphql/types/v2/schema';
 
 /** Given a transaction, return the collective that receive the money */
-export const getTransactionReceiver = transaction => {
+export const getTransactionReceiver = (transaction: Transaction): Account => {
   return transaction.type === 'CREDIT' ? transaction.toAccount : transaction.fromAccount;
 };
 
@@ -9,7 +10,7 @@ export const getTransactionReceiver = transaction => {
  * Return the tax percentage applied for this transaction
  * TODO: More from percentage (10) to rate (.10)
  */
-export const getTransactionTaxPercent = transaction => {
+export const getTransactionTaxPercent = (transaction: Transaction): number => {
   const taxAmount = Math.abs(transaction.taxAmount?.valueInCents);
   if (!taxAmount) {
     return 0;
@@ -29,7 +30,7 @@ export const getTransactionTaxPercent = transaction => {
   return round((taxAmount / (transaction.amountInHostCurrency.valueInCents - taxAmount)) * 100, 2);
 };
 
-export const getTaxInfoFromTransaction = transaction => {
+export const getTaxInfoFromTransaction = (transaction: Transaction) => {
   if (transaction.taxInfo) {
     return {
       ...transaction.taxInfo,
@@ -45,7 +46,7 @@ export const getTaxInfoFromTransaction = transaction => {
   }
 };
 
-export const getTaxIdNumbersFromTransactions = transactions => {
+export const getTaxIdNumbersFromTransactions = (transactions: Array<Transaction>) => {
   const taxesSummary = transactions.map(getTaxInfoFromTransaction).filter(t => t?.idNumber);
   const uniqTaxInfo = uniqBy(taxesSummary, s => `${s.type}-${s.idNumber}`);
   return uniqTaxInfo;
@@ -55,7 +56,7 @@ export const getTaxIdNumbersFromTransactions = transactions => {
  * Get a list of taxes
  * @returns {Array} like [{ key: 'VAT-21', id: 'VAT', percentage: 21, amount: 42 }]
  */
-export const getTaxesBreakdown = transactions => {
+export const getTaxesBreakdown = (transactions: Array<Transaction>) => {
   const groupedTransactions = {};
   for (const transaction of transactions) {
     const taxInfo = getTaxInfoFromTransaction(transaction);
@@ -74,4 +75,14 @@ export const getTaxesBreakdown = transactions => {
       Math.abs(sumBy(taxBreakdown.transactions, t => t.taxAmount?.valueInCents * (t.hostCurrencyFxRate || 1))),
     ),
   }));
+};
+
+export const getTransactionUrl = (transaction: Transaction) => {
+  const domain = 'https://opencollective.com'; // We should have this one change based on env
+  const toAccount = transaction.toAccount;
+  if (transaction.order?.legacyId) {
+    return `${domain}/${toAccount.slug}/contributions/${transaction.order.legacyId}`;
+  } else {
+    return `${domain}/${toAccount.slug}/transactions`;
+  }
 };

@@ -1,16 +1,10 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
-import { get, chunk, sumBy, max, isNil, round, uniqBy } from 'lodash';
-// import { Box, Flex } from './styled-components/Grid';
-import moment from 'moment';
+import { Document, Page, Text, View, StyleSheet, Image, Link } from '@react-pdf/renderer';
+import { Table, TR, TH, TD } from '@ag-media/react-pdf-table';
+import { get, chunk, sumBy, max, isNil, round, uniqBy } from 'lodash-es';
 import QRCode from 'qrcode';
+import { FormattedMessage, FormattedDate } from 'react-intl';
 
-import { formatCurrency, getTransactionUrl } from '../lib/utils';
-// import { Tr, Td } from './StyledTable';
-import LinkToCollective from '../LinkToCollective';
-
-// import GiftCardImgSrc from '../public/static/images/giftcard.png';
-import CollectiveAddress from './CollectiveAddress';
 import { isMemberOfTheEuropeanUnion } from '@opencollective/taxes';
 import {
   getTransactionReceiver,
@@ -18,82 +12,272 @@ import {
   getTaxIdNumbersFromTransactions,
   getTaxesBreakdown,
   getTaxInfoFromTransaction,
+  getTransactionUrl,
 } from '../../lib/transactions';
-import CollectiveFooter from './CollectiveFooter';
-import CustomIntlDate from './CustomIntlDate';
-import AccountName from './AccountName';
-import StyledLink from './styled-components/StyledLink';
-import { H1, H2, P, Span } from './styled-components/Text';
-import Container from './styled-components/Container';
-import StyledTag from './styled-components/StyledTag';
-import StyledHr from './styled-components/StyledHr';
-import { EventDescription } from './EventDescription';
-import { formatPaymentMethodName } from '../lib/payment-methods';
+import { FontFamily } from '../../lib/pdf';
+import { TimeRange } from '../TimeRange';
+import CollectiveFooter from '../CollectiveFooter';
+import { formatCurrency } from 'server/lib/currency';
+import { formatPaymentMethodName } from 'server/lib/payment-methods';
+import { Account, Event, Transaction } from 'server/graphql/types/v2/schema';
+import dayjs from 'dayjs';
 
-export class Receipt extends React.Component {
-  static propTypes = {
-    /** The receipt data */
-    receipt: PropTypes.shape({
-      isRefundOnly: PropTypes.bool,
-      dateFrom: PropTypes.string,
-      dateTo: PropTypes.string,
-      currency: PropTypes.string.isRequired,
-      totalAmount: PropTypes.number,
-      fromAccount: PropTypes.shape({
-        slug: PropTypes.string.isRequired,
-        name: PropTypes.string,
-        legalName: PropTypes.string,
-        location: PropTypes.object,
-        settings: PropTypes.shape({
-          VAT: PropTypes.shape({
-            number: PropTypes.string,
-          }),
-        }),
-      }).isRequired,
-      fromAccountHost: PropTypes.shape({
-        slug: PropTypes.string.isRequired,
-        website: PropTypes.string.isRequired,
-        imageUrl: PropTypes.string.isRequired,
-      }),
-      host: PropTypes.shape({
-        slug: PropTypes.string.isRequired,
-        website: PropTypes.string,
-        imageUrl: PropTypes.string,
-        location: PropTypes.object,
-      }),
-      transactions: PropTypes.arrayOf(
-        PropTypes.shape({
-          id: PropTypes.string.isRequired,
-          paymentMethod: PropTypes.object,
-          toAccount: PropTypes.shape({
-            type: PropTypes.string,
-            startsAt: PropTypes.string,
-            endsAt: PropTypes.string,
-          }),
-          order: PropTypes.shape({
-            id: PropTypes.string,
-            legacyId: PropTypes.number,
-            type: PropTypes.string,
-            tier: PropTypes.shape({
-              type: PropTypes.string,
-            }),
-          }),
-        }),
-      ).isRequired,
-      /** The receipt template that should be used **/
-      template: PropTypes.shape({
-        title: PropTypes.string,
-        info: PropTypes.string,
-      }),
-    }).isRequired,
-    /**
-     * As we don't have access to the console for PDFs, debugging can sometimes
-     * be tricky. Set this flag to display useful information directly on the
-     * document.
-     */
-    debug: PropTypes.bool,
+// Placeholder for giftcard image, to be implemented properly
+const GiftCardImgSrc = '/public/static/images/giftcard.png';
+
+// Define styles for the PDF
+const styles = StyleSheet.create({
+  page: {
+    padding: 20,
+    fontSize: 10,
+    color: '#2C3135',
+  },
+  header: {
+    marginBottom: 20,
+  },
+  accountName: {
+    fontFamily: FontFamily.InterBold,
+    fontSize: 18,
+    marginBottom: 4,
+  },
+  addressBlock: {
+    marginBottom: 10,
+  },
+  addressText: {
+    fontSize: 10,
+    lineHeight: 1.5,
+  },
+  link: {
+    color: '#1869F5',
+    textDecoration: 'none',
+  },
+  receiptTitle: {
+    fontFamily: FontFamily.InterBold,
+    fontSize: 16,
+    marginTop: 20,
+    marginBottom: 8,
+  },
+  dateInfo: {
+    fontSize: 10,
+    marginBottom: 2,
+  },
+  referenceContainer: {
+    fontSize: 12,
+    marginTop: 10,
+    marginBottom: 8,
+  },
+  referenceText: {
+    marginBottom: 2,
+  },
+  paymentMethod: {
+    fontSize: 10,
+    marginTop: 5,
+  },
+  qrCode: {
+    width: 72,
+    height: 72,
+    marginLeft: 'auto',
+  },
+  eventDescription: {
+    fontSize: 12,
+    marginBottom: 12,
+    fontStyle: 'italic',
+  },
+  tableContainer: {
+    marginTop: 10,
+    flexGrow: 1,
+  },
+  tableHeader: {
+    fontFamily: FontFamily.InterBold,
+    fontWeight: 'bold',
+    backgroundColor: '#ebf4ff',
+  },
+  tableCell: {
+    fontSize: 11,
+    padding: 6,
+    borderColor: '#E0E0E0',
+  },
+  totalsContainer: {
+    width: '50%',
+    marginLeft: 'auto',
+    fontSize: 12,
+    marginTop: 12,
+  },
+  totalsRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+  },
+  totalHighlight: {
+    backgroundColor: '#ebf4ff',
+    padding: 8,
+    fontFamily: FontFamily.InterBold,
+  },
+  footerInfo: {
+    fontSize: 11,
+    marginTop: 20,
+    fontStyle: 'italic',
+  },
+  textAlignRight: {
+    textAlign: 'right',
+  },
+  warningText: {
+    fontSize: 11,
+    marginTop: 15,
+    textAlign: 'right',
+  },
+  footer: {
+    fontSize: 9,
+    color: '#6E747A',
+    marginTop: 20,
+  },
+  refundTag: {
+    fontFamily: FontFamily.InterBold,
+    fontSize: 10,
+    padding: 2,
+    marginRight: 4,
+    backgroundColor: '#F5F7FA',
+    color: '#494D52',
+  },
+  flexRow: {
+    display: 'flex',
+    flexDirection: 'row',
+  },
+  flexColumn: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  flexWrap: {
+    flexWrap: 'wrap',
+  },
+  alignStart: {
+    alignItems: 'flex-start',
+  },
+  justifyBetween: {
+    justifyContent: 'space-between',
+  },
+  justifyEnd: {
+    justifyContent: 'flex-end',
+  },
+  flexGrow: {
+    flexGrow: 1,
+  },
+  mb3: {
+    marginBottom: 12,
+  },
+  mt3: {
+    marginTop: 12,
+  },
+  mt5: {
+    marginTop: 20,
+  },
+  my2: {
+    marginVertical: 8,
+  },
+  pr3: {
+    paddingRight: 12,
+  },
+  minHeight100: {
+    minHeight: 100,
+  },
+  mt20: {
+    marginTop: 80,
+  },
+  bold: {
+    fontFamily: FontFamily.InterBold,
+  },
+  textSm: {
+    fontSize: 13,
+  },
+  borderBottom: {
+    borderBottomWidth: 1,
+    borderBottomColor: '#E0E0E0',
+    marginBottom: 12,
+  },
+  taxInfo: {
+    fontSize: 8,
+    marginTop: 2,
+    color: '#6E747A',
+  },
+  p3: {
+    padding: 12,
+  },
+  minWidth225: {
+    minWidth: 225,
+  },
+  debugPanel: {
+    padding: 30,
+    backgroundColor: '#EAEAEA',
+    border: '1px solid grey',
+  },
+});
+
+const CollectiveAddress = ({ collective }: { collective: Account }) => {
+  if (!collective.location) {
+    return null;
+  }
+  return (
+    <View style={styles.addressBlock}>
+      {collective.location.address && <Text style={styles.addressText}>{collective.location.address}</Text>}
+      {collective.location.country && <Text style={styles.addressText}>{collective.location.country}</Text>}
+    </View>
+  );
+};
+
+const LinkToCollective = ({ collective, children }: { collective: Account; children: React.ReactNode }) => (
+  <Link src={`https://opencollective.com/${collective.slug}`} style={styles.link}>
+    {children}
+  </Link>
+);
+
+const CustomIntlDate = ({ date }: { date: Date }) => (
+  <Text>
+    <FormattedDate value={date} day="2-digit" month="2-digit" year="numeric" />
+  </Text>
+);
+
+const Container = ({ children, fontSize, width }: { children: React.ReactNode; fontSize?: string; width?: number }) => (
+  <View style={{ fontSize, width: width ? `${width * 100}%` : undefined }}>{children}</View>
+);
+
+// Event description component
+const EventDescription = ({ event }: { event: Event }) => (
+  <React.Fragment>
+    <FormattedMessage defaultMessage='Registration for "{eventName}"' id="G8WqFT" values={{ eventName: event.name }} />
+    {'. '}
+
+    {event.startsAt && (
+      <React.Fragment>
+        <FormattedMessage defaultMessage="Date:" id="KHko3L" />
+        &nbsp;
+        <TimeRange startsAt={event.startsAt} endsAt={event.endsAt} timezone={event.timezone} />
+      </React.Fragment>
+    )}
+  </React.Fragment>
+);
+
+type Props = {
+  /** The receipt data */
+  receipt: {
+    isRefundOnly: boolean;
+    dateFrom?: string;
+    dateTo?: string;
+    currency: string;
+    totalAmount: number;
+    fromAccount: Account;
+    fromAccountHost?: Account;
+    host: Account;
+    transactions: Array<Transaction>;
+    template?: {
+      title?: string;
+      info?: string;
+    };
   };
+  debug?: boolean; // As we don't have access to the console for PDFs, debugging can sometimes be tricky. Set this flag to display useful information directly on the document.
+};
 
+export class Receipt extends React.Component<Props> {
   static defaultProps = {
     debug: false,
   };
@@ -103,19 +287,19 @@ export class Receipt extends React.Component {
    * to keep some space for the header. The number of transactions we show on it depends of
    * the size of the header, that we estimate from the number of lines in the addresses.
    */
-  chunkTransactions(receipt, transactions) {
+  chunkTransactions(receipt: Props['receipt'], transactions: Array<Transaction>): Array<Array<Transaction>> {
     const baseNbOnFirstPage = 12;
     const minNbOnFirstPage = 8;
     const transactionsPerPage = 22;
 
     // Estimate the space available
-    const countLines = str => sumBy(str, c => c === '\n') + (str.length > 0 ? 1 : 0);
+    const countLines = (str: string) => str.split('\n').length - 1 + (str.length > 0 ? 1 : 0);
     const billFromAddressSize = countLines(get(receipt.host, 'location.address') || '');
     const billToAddressSize = countLines(get(this.getBillTo(), 'location.address') || '');
     const totalTextSize = billFromAddressSize + billToAddressSize;
     const maxNbOnFirstPage = max([minNbOnFirstPage, baseNbOnFirstPage - totalTextSize]);
 
-    // If we don't need to put the logo on first page then let's use all the space available
+    // If we need to put the logo on first page then let's use all the space available
     const nbOnFirstPage = transactions.length > baseNbOnFirstPage ? baseNbOnFirstPage : maxNbOnFirstPage;
 
     return [
@@ -136,8 +320,8 @@ export class Receipt extends React.Component {
     const hostSlug = receipt.host.slug;
     let reference, contributionId;
     if (receipt.dateFrom && receipt.dateTo) {
-      const startString = moment.utc(receipt.dateFrom).format('YYYYMMDD');
-      const endString = moment.utc(receipt.dateTo).format('YYYYMMDD');
+      const startString = dayjs.utc(receipt.dateFrom).format('YYYYMMDD');
+      const endString = dayjs.utc(receipt.dateTo).format('YYYYMMDD');
       reference = `${hostSlug}_${billTo.slug}_${startString}-${endString}`;
     } else if (receipt.transactions.length === 1) {
       const transactionId = receipt.transactions[0].id;
@@ -149,13 +333,13 @@ export class Receipt extends React.Component {
 
     return (
       <Container fontSize="12px">
-        <div>
-          <FormattedMessage defaultMessage="Reference: {reference}" values={{ reference }} />
-        </div>
+        <Text>
+          <FormattedMessage defaultMessage="Reference: {reference}" id="qdYmyV" values={{ reference }} />
+        </Text>
         {contributionId && (
-          <div>
-            <FormattedMessage defaultMessage="Contribution #{id}" values={{ id: contributionId }} />
-          </div>
+          <Text>
+            <FormattedMessage defaultMessage="Contribution #{id}" id="Siv4wU" values={{ id: contributionId }} />
+          </Text>
         )}
       </Container>
     );
@@ -173,7 +357,7 @@ export class Receipt extends React.Component {
 
     // Expenses rely solely on the tax info stored in transactions. For orders, we look in the fromCollective
     if (!transactions.every(t => t.kind === 'EXPENSE')) {
-      const getVatNumberFromAccount = a => a?.settings?.VAT?.number;
+      const getVatNumberFromAccount = (a: Account | undefined) => a?.settings?.VAT?.number;
       if (getVatNumberFromAccount(fromAccount)) {
         taxesSummary.push({ type: 'VAT', idNumber: getVatNumberFromAccount(fromAccount) });
       } else if (getVatNumberFromAccount(fromAccountHost)) {
@@ -184,9 +368,9 @@ export class Receipt extends React.Component {
     const uniqTaxInfo = uniqBy(taxesSummary, s => `${s.type}-${s.idNumber}`);
     if (uniqTaxInfo.length) {
       return uniqTaxInfo.map(({ idNumber, type }) => (
-        <P fontSize="12px" mt={1} fontWeight="normal" key={`${type}-${idNumber}`}>
+        <Text key={`${type}-${idNumber}`}>
           {type}: {idNumber}
-        </P>
+        </Text>
       ));
     }
 
@@ -194,7 +378,7 @@ export class Receipt extends React.Component {
   }
 
   /** Get a description for transaction, with a mention to gift card emitter if necessary */
-  transactionDescription(transaction) {
+  transactionDescription(transaction: Transaction) {
     const targetCollective = getTransactionReceiver(transaction);
     const transactionDescription = (
       <LinkToCollective collective={targetCollective}>
@@ -212,78 +396,83 @@ export class Receipt extends React.Component {
     );
   }
 
-  getTaxColumnHeader(transactions) {
+  getTaxColumnHeader(transactions: Array<Transaction>) {
     const taxInfoList = transactions.map(getTaxInfoFromTransaction).filter(Boolean);
     const taxTypes = uniqBy(taxInfoList, t => t.type);
-    return taxTypes.length !== 1 ? <FormattedMessage defaultMessage="Tax" /> : taxTypes[0].type;
+    return taxTypes.length !== 1 ? <FormattedMessage defaultMessage="Tax" id="AwzkSM" /> : taxTypes[0].type;
   }
 
-  renderTransactionsTable(transactions) {
+  renderTransactionsTable(transactions: Array<Transaction>) {
     return (
-      <table style={{ borderCollapse: 'collapse', width: '100%' }}>
-        <thead>
-          <Tr background="#ebf4ff" borderRadius="4px">
-            <Td fontSize="13px" fontWeight={500} borderRadius="4px 0 0 4px" width="60px">
-              <FormattedMessage id="date" defaultMessage="Date" />
-            </Td>
-            <Td fontSize="13px" fontWeight={500}>
-              <FormattedMessage id="description" defaultMessage="Description" />
-            </Td>
-            <Td fontSize="13px" fontWeight={500} textAlign="center">
-              <FormattedMessage id="quantity" defaultMessage="QTY" />
-            </Td>
-            <Td fontSize="13px" fontWeight={500} textAlign="center" width={80}>
-              <FormattedMessage id="unitNetPrice" defaultMessage="Unit Price" />
-            </Td>
-            <Td fontSize="13px" fontWeight={500} textAlign="center">
-              {this.getTaxColumnHeader(transactions)}
-            </Td>
-            <Td fontSize="13px" fontWeight={500} textAlign="right" borderRadius="0 4px 4px 0">
-              <FormattedMessage id="netAmount" defaultMessage="Net Amount" />
-            </Td>
-          </Tr>
-        </thead>
-        <tbody>
-          {transactions.map(transaction => {
-            const quantity = get(transaction, 'order.quantity') || 1;
-            const amountInHostCurrency = transaction.amountInHostCurrency.valueInCents;
-            const taxAmount = Math.abs(transaction.taxAmount?.valueInCents || 0);
-            const hostCurrencyFxRate = transaction.hostCurrencyFxRate || 1;
-            const taxAmountInHostCurrency = taxAmount * hostCurrencyFxRate;
-            const grossPriceInHostCurrency =
-              amountInHostCurrency - (transaction.isRefund ? -taxAmountInHostCurrency : taxAmountInHostCurrency);
-            const unitGrossPriceInHostCurrency = Math.abs(grossPriceInHostCurrency / quantity);
-            const transactionCurrency = transaction.hostCurrency || this.props.receipt.currency;
-            const isRefunded = !transaction.isRefund && transaction.refundTransaction;
-            return (
-              <tr key={transaction.id}>
-                <Td fontSize="11px">
+      <Table>
+        <TH style={styles.tableHeader}>
+          <TD style={[styles.tableCell, { width: '60px' }]}>
+            <Text>
+              <FormattedMessage id="P7PLVj" defaultMessage="Date" />
+            </Text>
+          </TD>
+          <TD style={styles.tableCell}>
+            <Text>
+              <FormattedMessage id="Q8Qw5B" defaultMessage="Description" />
+            </Text>
+          </TD>
+          <TD style={[styles.tableCell, { textAlign: 'center' }]}>
+            <Text>
+              <FormattedMessage id="B6cXQW" defaultMessage="QTY" />
+            </Text>
+          </TD>
+          <TD style={[styles.tableCell, { textAlign: 'center', width: '80px' }]}>
+            <Text>
+              <FormattedMessage id="qMynRr" defaultMessage="Unit Price" />
+            </Text>
+          </TD>
+          <TD style={[styles.tableCell, { textAlign: 'center' }]}>
+            <Text>{this.getTaxColumnHeader(transactions)}</Text>
+          </TD>
+          <TD style={[styles.tableCell, { textAlign: 'right' }]}>
+            <Text>
+              <FormattedMessage id="FxUka3" defaultMessage="Net Amount" />
+            </Text>
+          </TD>
+        </TH>
+
+        {transactions.map(transaction => {
+          const quantity = get(transaction, 'order.quantity') || 1;
+          const amountInHostCurrency = transaction.amountInHostCurrency.valueInCents;
+          const taxAmount = Math.abs(transaction.taxAmount?.valueInCents || 0);
+          const hostCurrencyFxRate = transaction.hostCurrencyFxRate || 1;
+          const taxAmountInHostCurrency = taxAmount * hostCurrencyFxRate;
+          const grossPriceInHostCurrency =
+            amountInHostCurrency - (transaction.isRefund ? -taxAmountInHostCurrency : taxAmountInHostCurrency);
+          const unitGrossPriceInHostCurrency = Math.abs(grossPriceInHostCurrency / quantity);
+          const transactionCurrency = transaction.hostCurrency || this.props.receipt.currency;
+          const isRefunded = !transaction.isRefund && transaction.refundTransaction;
+
+          return (
+            <TR key={transaction.id}>
+              <TD style={styles.tableCell}>
+                <Text>
                   <CustomIntlDate date={new Date(transaction.createdAt)} />
-                </Td>
-                <Td fontSize="11px">
+                </Text>
+              </TD>
+              <TD style={styles.tableCell}>
+                <View>
                   {isRefunded && (
-                    <StyledTag
-                      fontWeight="500"
-                      fontSize="10px"
-                      px="4px"
-                      py="2px"
-                      color="black.900"
-                      display="inline"
-                      mr={1}
-                      letterSpacing="0"
-                    >
-                      <FormattedMessage defaultMessage="REFUNDED" />
-                    </StyledTag>
+                    <Text style={styles.refundTag}>
+                      <FormattedMessage defaultMessage="REFUNDED" id="xoZxx7" />
+                    </Text>
                   )}
-                  {this.transactionDescription(transaction)}
-                </Td>
-                <Td fontSize="11px" textAlign="center">
-                  {quantity}
-                </Td>
-                <Td fontSize="11px" textAlign="center">
-                  {formatCurrency(unitGrossPriceInHostCurrency, transactionCurrency)}
+                  <Text>{this.transactionDescription(transaction)}</Text>
+                </View>
+              </TD>
+              <TD style={[styles.tableCell, { textAlign: 'center' }]}>
+                <Text>{quantity}</Text>
+              </TD>
+              <TD style={[styles.tableCell, { textAlign: 'center' }]}>
+                <View>
+                  <Text>{formatCurrency(unitGrossPriceInHostCurrency, transactionCurrency)}</Text>
                   {transaction.amountInHostCurrency.currency !== transaction.amount.currency && (
-                    <P fontSize="8px" color="black.600" mt={1}>
+                    <Text style={styles.taxInfo}>
                       (
                       {formatCurrency(
                         (transaction.amount.valueInCents - taxAmount) / quantity,
@@ -291,18 +480,20 @@ export class Receipt extends React.Component {
                       )}
                       &nbsp;x&nbsp;
                       {round(transaction.hostCurrencyFxRate, 4)}%)
-                    </P>
+                    </Text>
                   )}
-                </Td>
-                <Td fontSize="11px" textAlign="center">
-                  {isNil(transaction.taxAmount) ? '-' : `${getTransactionTaxPercent(transaction)}%`}
-                </Td>
-                <Td textAlign="right">{formatCurrency(amountInHostCurrency, transactionCurrency)}</Td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+                </View>
+              </TD>
+              <TD style={[styles.tableCell, { textAlign: 'center' }]}>
+                <Text>{isNil(transaction.taxAmount) ? '-' : `${getTransactionTaxPercent(transaction)}%`}</Text>
+              </TD>
+              <TD style={[styles.tableCell, { textAlign: 'right' }]}>
+                <Text>{formatCurrency(amountInHostCurrency, transactionCurrency)}</Text>
+              </TD>
+            </TR>
+          );
+        })}
+      </Table>
     );
   }
 
@@ -310,21 +501,33 @@ export class Receipt extends React.Component {
     const { host, fromAccount, transactions } = this.props.receipt;
     const hostCountry = host.location?.country;
     const fromAccountCountry = fromAccount.location?.country;
-    if (hostCountry !== 'US' || !isMemberOfTheEuropeanUnion(fromAccountCountry)) {
+    if (isNil(fromAccountCountry) || hostCountry !== 'US' || !isMemberOfTheEuropeanUnion(fromAccountCountry)) {
       return false;
     }
 
-    return transactions.some(t => ['PRODUCT', 'SERVICE'].includes(get(t, 'order.tier.type')));
+    return transactions.some(t => ['PRODUCT', 'SERVICE'].includes(get(t, 'order.tier.type') as string));
   }
 
   render() {
     const { receipt } = this.props;
     if (!receipt) {
-      return <div>No receipt to render</div>;
+      return (
+        <Document>
+          <Page>
+            <Text>No receipt to render</Text>
+          </Page>
+        </Document>
+      );
     }
     const { transactions } = receipt;
     if (!transactions || transactions.length === 0) {
-      return <div>No transaction to render</div>;
+      return (
+        <Document>
+          <Page>
+            <Text>No transaction to render</Text>
+          </Page>
+        </Document>
+      );
     }
 
     const chunkedTransactions = this.chunkTransactions(receipt, transactions);
@@ -332,166 +535,175 @@ export class Receipt extends React.Component {
     const billTo = this.getBillTo();
     const isSingleTransaction = transactions.length === 1;
     const isTicketOrder = isSingleTransaction && get(transactions[0], 'order.tier.type') === 'TICKET';
-    const qrImage =
-      isTicketOrder &&
-      QRCode.toDataURL(getTransactionUrl(receipt.transactions[0]), {
-        margin: 0,
-        width: 72,
-        color: {
-          dark: '#313233',
-        },
-      });
+    let qrImage: string | undefined;
+
+    try {
+      if (isTicketOrder) {
+        qrImage = QRCode.toDataURL(getTransactionUrl(receipt.transactions[0]), {
+          margin: 0,
+          width: 72,
+          color: {
+            dark: '#313233',
+          },
+        });
+      }
+    } catch (e) {
+      console.error('Failed to generate QR code', e);
+    }
 
     return (
-      <div className={`Receipts ${receipt.fromAccount.slug}`}>
-        <div className="pages">
-          {this.props.debug && (
-            <div style={{ padding: 30, background: 'lightgrey', border: '1px solid grey' }}>
-              <strong>Dimensions</strong>
-              <strong>Receipt</strong>
-              <pre style={{ whiteSpace: 'pre-wrap' }}>{JSON.stringify(this.props.receipt, null, 2)}</pre>
-            </div>
-          )}
-          {chunkedTransactions.map((transactionsChunk, pageNumber) => (
-            <Flex flexDirection="column" className="page" key={pageNumber} p={5}>
-              {pageNumber === 0 && (
-                <Box className="header" mb={4}>
-                  <Flex flexWrap="wrap" alignItems="flex-start">
-                    <Box mb={3} css={{ flexGrow: 1 }}>
-                      <StyledLink href={`https://opencollective.com/${receipt.host.slug}`}>
-                        <H1 fontSize="18px" lineHeight="20px" m={0} color="black.900">
-                          <AccountName account={receipt.host} />
-                        </H1>
-                      </StyledLink>
-                      <Box my={2}>
-                        <CollectiveAddress collective={receipt.host} />
-                      </Box>
-                      <StyledLink href={`https://opencollective.com/${receipt.host.slug}`} className="website">
-                        https://opencollective.com/{receipt.host.slug}
-                      </StyledLink>
-                    </Box>
-                    <Box mt={80} pr={3} css={{ minHeight: 100 }}>
-                      <H2 fontSize="16px" lineHeight="18px">
-                        {receipt.isRefundOnly ? (
-                          <FormattedMessage id="refundTo" defaultMessage="Refund to" />
+      <Document>
+        {this.props.debug && (
+          <Page size="A4" style={styles.page}>
+            <View style={styles.debugPanel}>
+              <Text style={styles.bold}>Dimensions</Text>
+              <Text style={styles.bold}>Receipt</Text>
+              <Text>{JSON.stringify(this.props.receipt, null, 2)}</Text>
+            </View>
+          </Page>
+        )}
+
+        {chunkedTransactions.map((transactionsChunk, pageNumber) => (
+          <Page key={pageNumber} size="A4" style={styles.page}>
+            {pageNumber === 0 && (
+              <View style={styles.header}>
+                <View style={[styles.flexRow, styles.flexWrap, styles.alignStart]}>
+                  <View style={[styles.flexGrow, styles.mb3]}>
+                    <Link src={`https://opencollective.com/${receipt.host.slug}`} style={styles.link}>
+                      <Text style={styles.accountName}>{receipt.host.name || receipt.host.slug}</Text>
+                    </Link>
+                    <View style={styles.my2}>
+                      <CollectiveAddress collective={receipt.host} />
+                    </View>
+                    <Link src={`https://opencollective.com/${receipt.host.slug}`} style={styles.link}>
+                      https://opencollective.com/{receipt.host.slug}
+                    </Link>
+                  </View>
+
+                  <View style={[styles.mt20, styles.pr3, styles.minHeight100]}>
+                    <Text style={styles.receiptTitle}>
+                      {receipt.isRefundOnly ? (
+                        <FormattedMessage id="BMuEYE" defaultMessage="Refund to" />
+                      ) : (
+                        <FormattedMessage id="gSv0eP" defaultMessage="Bill to" />
+                      )}
+                    </Text>
+                    <View style={styles.my2}>
+                      <Text style={[styles.bold, styles.textSm]}>{billTo.name || billTo.slug}</Text>
+                      <CollectiveAddress collective={billTo} />
+                      {this.renderBillToTaxIdNumbers()}
+                    </View>
+                  </View>
+                </View>
+
+                <View style={[styles.flexRow, styles.justifyBetween, styles.mt3]}>
+                  <View>
+                    <Text style={styles.receiptTitle}>
+                      {receipt.template?.title ||
+                        (receipt.isRefundOnly ? (
+                          <FormattedMessage defaultMessage="Payment refund" id="avT1MX" />
                         ) : (
-                          <FormattedMessage id="billTo" defaultMessage="Bill to" />
-                        )}
-                      </H2>
-                      <Box my={2}>
-                        <P fontWeight={500} fontSize="13px">
-                          <AccountName account={billTo} />
-                        </P>
-                        <CollectiveAddress collective={billTo} />
-                        {this.renderBillToTaxIdNumbers()}
-                      </Box>
-                    </Box>
-                  </Flex>
-
-                  <Flex justifyContent="space-between">
-                    <Box>
-                      <H2 fontSize="16px" lineHeight="18px">
-                        {receipt.template?.title ||
-                          (receipt.isRefundOnly ? (
-                            <FormattedMessage defaultMessage="Payment refund" />
-                          ) : (
-                            <FormattedMessage id="invoice.donationReceipt" defaultMessage="Payment Receipt" />
-                          ))}
-                      </H2>
-                      <div>
-                        {receipt.dateFrom && (
-                          <div>
-                            <CustomIntlDate date={new Date(receipt.dateFrom)} />
-                          </div>
-                        )}
-                        {receipt.dateTo && (
-                          <div>
-                            <label>To:</label> <CustomIntlDate date={new Date(receipt.dateTo)} />
-                          </div>
-                        )}
-                      </div>
-                      <Box mt={2}>{this.getReceiptReference()}</Box>
-                      {transactions.length === 1 && transactions[0].paymentMethod && (
-                        <div>
-                          <label>
-                            <FormattedMessage defaultMessage="Payment Method:" />
-                          </label>{' '}
-                          {formatPaymentMethodName(transactions[0].paymentMethod)}
-                        </div>
-                      )}
-                    </Box>
-
-                    {qrImage && <Image src={qrImage} style={styles.qrCode} />}
-                  </Flex>
-                </Box>
-              )}
-              {Boolean(isTicketOrder && receipt.transactions[0].toAccount.type === 'EVENT') && (
-                <P fontSize="12px" mb={3}>
-                  <EventDescription event={receipt.transactions[0].toAccount} />
-                </P>
-              )}
-              <Box id="invoice-content" width={1} css={{ flexGrow: 1 }}>
-                {this.renderTransactionsTable(transactionsChunk)}
-                {pageNumber === chunkedTransactions.length - 1 && (
-                  <Flex justifyContent="flex-end" mt={3}>
-                    <Container width={0.5} fontSize="12px">
-                      <StyledHr borderColor="black.200" />
-                      <Box p={3} minWidth={225}>
-                        <Flex justifyContent="space-between">
-                          <FormattedMessage id="subtotal" defaultMessage="Subtotal" />
-                          <Span fontWeight="bold">
-                            {formatCurrency(receipt.totalAmount - taxesTotal, receipt.currency, {
-                              showCurrencySymbol: true,
-                            })}
-                          </Span>
-                        </Flex>
-                        {getTaxesBreakdown(this.props.receipt.transactions).map(tax => (
-                          <Flex key={tax.id} justifyContent="space-between" mt={2}>
-                            {tax.info.type} ({round(tax.info.rate * 100, 2)}%)
-                            <Span fontWeight="bold">
-                              {formatCurrency(tax.amountInHostCurrency, receipt.currency, { showCurrencySymbol: true })}
-                            </Span>
-                          </Flex>
+                          <FormattedMessage id="xl9qBU" defaultMessage="Payment Receipt" />
                         ))}
-                      </Box>
-                      <Flex
-                        display="flex"
-                        justifyContent="space-between"
-                        flexBasis="100%"
-                        style={{ background: '#ebf4ff', padding: '8px 16px', fontWeight: 'bold' }}
-                      >
-                        <FormattedMessage id="total" defaultMessage="TOTAL" />
-                        <Span>
-                          {formatCurrency(receipt.totalAmount, receipt.currency, { showCurrencySymbol: true })}
-                        </Span>
-                      </Flex>
-                      {this.shouldDisplayReverseVATWarning() && (
-                        <P mt={4} fontSize="11px" textAlign="right" whiteSpace="pre-wrap">
-                          <FormattedMessage
-                            id="reverseVATWarning"
-                            defaultMessage="0% VAT. Reverse charge to be applied by recipient."
-                          />
-                        </P>
-                      )}
-                    </Container>
-                  </Flex>
-                )}
-              </Box>
+                    </Text>
+
+                    {receipt.dateFrom && (
+                      <Text style={styles.dateInfo}>
+                        <CustomIntlDate date={new Date(receipt.dateFrom)} />
+                      </Text>
+                    )}
+
+                    {receipt.dateTo && (
+                      <Text style={styles.dateInfo}>
+                        To: <CustomIntlDate date={new Date(receipt.dateTo)} />
+                      </Text>
+                    )}
+
+                    <View style={styles.mt3}>{this.getReceiptReference()}</View>
+
+                    {transactions.length === 1 && transactions[0].paymentMethod && (
+                      <Text style={styles.paymentMethod}>
+                        Payment Method: {formatPaymentMethodName(transactions[0].paymentMethod)}
+                      </Text>
+                    )}
+                  </View>
+
+                  {qrImage && <Image src={qrImage} style={styles.qrCode} />}
+                </View>
+              </View>
+            )}
+
+            {Boolean(isTicketOrder && receipt.transactions[0].toAccount?.type === 'EVENT') && (
+              <Text style={styles.eventDescription}>
+                <EventDescription event={receipt.transactions[0].toAccount as Event} />
+              </Text>
+            )}
+
+            <View style={styles.flexGrow}>
+              {this.renderTransactionsTable(transactionsChunk)}
 
               {pageNumber === chunkedTransactions.length - 1 && (
-                <Flex flex="3" flexDirection="column" justifyContent="space-between">
-                  <Box>
-                    <P fontSize="11px" textAlign="left" whiteSpace="pre-wrap">
-                      {receipt.template?.info}
-                    </P>
-                  </Box>
-                  <CollectiveFooter collective={receipt.host} />
-                </Flex>
+                <View style={[styles.flexRow, styles.justifyEnd, styles.mt3]}>
+                  <View style={styles.totalsContainer}>
+                    <View style={styles.borderBottom} />
+
+                    <View style={[styles.p3, styles.minWidth225]}>
+                      <View style={styles.totalsRow}>
+                        <Text>
+                          <FormattedMessage id="L8seEc" defaultMessage="Subtotal" />
+                        </Text>
+                        <Text style={styles.bold}>
+                          {formatCurrency(receipt.totalAmount - taxesTotal, receipt.currency, {
+                            showCurrencySymbol: true,
+                          })}
+                        </Text>
+                      </View>
+
+                      {getTaxesBreakdown(this.props.receipt.transactions).map(tax => (
+                        <View key={tax.id} style={[styles.totalsRow, styles.mt3]}>
+                          <Text>
+                            {tax.info.type} ({round(tax.info.rate * 100, 2)}%)
+                          </Text>
+                          <Text style={styles.bold}>
+                            {formatCurrency(tax.amountInHostCurrency, receipt.currency, { showCurrencySymbol: true })}
+                          </Text>
+                        </View>
+                      ))}
+                    </View>
+
+                    <View style={styles.totalHighlight}>
+                      <View style={styles.totalsRow}>
+                        <Text style={styles.bold}>
+                          <FormattedMessage id="XY/5wo" defaultMessage="TOTAL" />
+                        </Text>
+                        <Text style={styles.bold}>
+                          {formatCurrency(receipt.totalAmount, receipt.currency, { showCurrencySymbol: true })}
+                        </Text>
+                      </View>
+                    </View>
+
+                    {this.shouldDisplayReverseVATWarning() && (
+                      <Text style={styles.warningText}>
+                        <FormattedMessage
+                          id="aqXI+n"
+                          defaultMessage="0% VAT. Reverse charge to be applied by recipient."
+                        />
+                      </Text>
+                    )}
+                  </View>
+                </View>
               )}
-            </Flex>
-          ))}
-        </div>
-      </div>
+            </View>
+
+            {pageNumber === chunkedTransactions.length - 1 && (
+              <View style={styles.mt5}>
+                {receipt.template?.info && <Text style={styles.footerInfo}>{receipt.template?.info}</Text>}
+                <CollectiveFooter collective={receipt.host} />
+              </View>
+            )}
+          </Page>
+        ))}
+      </Document>
     );
   }
 }
