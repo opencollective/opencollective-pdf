@@ -5,6 +5,7 @@ import rateLimit from 'express-rate-limit';
 
 import expensesRouter from './routes/expenses';
 import giftCardsRouter from './routes/gift-cards';
+import receiptsRouter from './routes/receipts';
 import { PDFServiceError } from './utils/errors';
 import path from 'path';
 
@@ -77,8 +78,7 @@ app.get('/', (req: express.Request, res: express.Response) => {
 // app.use("/tax-forms", taxFormsRouter);
 app.use('/expenses', expensesRouter);
 app.use('/gift-cards', giftCardsRouter);
-// app.use("/collectives/transactions", collectivesRouter);
-// app.use("/transactions", transactionsRouter);
+app.use('/receipts', receiptsRouter);
 
 // 404 handler
 app.use((req: express.Request, res: express.Response) => {
