@@ -9,11 +9,14 @@
     "start": "node dist/server/index.js",
     "test": "jest",
     "test:watch": "jest --watch",
-    "types": "tsc --noEmit",
+    "type:check": "tsc --noEmit",
     "dev": "tsx watch server/index.ts",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "prettier": "prettier --write ."
+    "prettier": "prettier --write .",
+    "prettier:check": "prettier --check .",
+    "depcheck": "npx depcheck",
+    "script": "npx tsx $@"
   },
   "dependencies": {
     "@apollo/client": "^3.12.8",

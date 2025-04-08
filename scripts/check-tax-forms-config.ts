@@ -2,8 +2,13 @@
  * This script ensures that all fields defined in the tax form configs are actually present in the PDFs.
  */
 
-import { isFieldTypeCombo, isFieldTypeMulti, isFieldTypeSplitText, PDFFieldDefinition } from '../lib/pdf-lib-utils';
-import { TAX_FORMS } from '../lib/tax-forms';
+import {
+  isFieldTypeCombo,
+  isFieldTypeMulti,
+  isFieldTypeSplitText,
+  PDFFieldDefinition,
+} from '../server/lib/pdf-lib-utils';
+import { TAX_FORMS } from '../server/lib/tax-forms';
 
 import { PDFDocument } from 'pdf-lib';
 
