@@ -6,6 +6,7 @@ import rateLimit from 'express-rate-limit';
 import expensesRouter from './routes/expenses';
 import giftCardsRouter from './routes/gift-cards';
 import receiptsRouter from './routes/receipts';
+import taxFormsRouter from './routes/tax-forms';
 import { PDFServiceError } from './lib/errors';
 import path from 'path';
 
@@ -52,14 +53,20 @@ const apiLimiter = rateLimit({
 // Apply rate limiting to all routes
 app.use(apiLimiter);
 
+// Disable cache on all requests
+app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
+  res.setHeader('Cache-Control', 'private');
+  next();
+});
+
 // Set CORS headers
 app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
   // Set Access-Control-Allow-Headers
   res.setHeader('Access-Control-Allow-Headers', 'authorization,content-type,baggage,sentry-trace,x-api-key');
 
   // Set Access-Control-Allow-Origin
-  if (process.env.WEBSITE_URL === 'https://opencollective.com') {
-    res.setHeader('Access-Control-Allow-Origin', process.env.WEBSITE_URL);
+  if (process.env.WEBSITE_URL === 'https://opencollective.com' || process.env.NODE_ENV === 'production') {
+    res.setHeader('Access-Control-Allow-Origin', 'https://opencollective.com');
   } else {
     // Always allow requests on non-prod environments
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -75,10 +82,10 @@ app.get('/', (req: express.Request, res: express.Response) => {
   });
 });
 
-// app.use("/tax-forms", taxFormsRouter);
 app.use('/expenses', expensesRouter);
 app.use('/gift-cards', giftCardsRouter);
 app.use('/receipts', receiptsRouter);
+app.use('/tax-forms', taxFormsRouter);
 
 // 404 handler
 app.use((req: express.Request, res: express.Response) => {

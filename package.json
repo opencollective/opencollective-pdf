@@ -25,6 +25,8 @@
     "express-rate-limit": "7.5.0",
     "i18n-iso-countries": "7.14.0",
     "lodash-es": "^4.17.21",
+    "pdf-fontkit": "1.8.9",
+    "pdf-lib": "1.17.1",
     "qrcode": "^1.5.4",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
