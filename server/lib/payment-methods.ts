@@ -5,8 +5,8 @@ export const formatPaymentMethodName = (paymentMethod: PaymentMethod) => {
   if (!paymentMethod) {
     return null;
   } else if (paymentMethod.service?.toUpperCase() === 'PAYPAL') {
-    return `PayPal ${paymentMethod.type?.toLowerCase() || 'payment'} ${paymentMethod.name}`;
+    return `PayPal ${paymentMethod.type?.toLowerCase() || 'payment'} ${paymentMethod.name || ''}`;
   } else {
-    return `${startCase(paymentMethod.type || 'Payment method')} ${paymentMethod.name}`;
+    return `${startCase(paymentMethod.type || 'Payment method')} ${paymentMethod.name || ''}`;
   }
 };

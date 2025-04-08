@@ -21,6 +21,7 @@ import { formatCurrency } from 'server/lib/currency';
 import { formatPaymentMethodName } from 'server/lib/payment-methods';
 import { Account, Event, Transaction } from 'server/graphql/types/v2/schema';
 import dayjs from 'dayjs';
+import LocationParagraph from '../LocationParagraph';
 
 // Placeholder for giftcard image, to be implemented properly
 const GiftCardImgSrc = '/public/static/images/giftcard.png';
@@ -28,20 +29,23 @@ const GiftCardImgSrc = '/public/static/images/giftcard.png';
 // Define styles for the PDF
 const styles = StyleSheet.create({
   page: {
-    padding: 20,
+    padding: 32,
     fontSize: 10,
     color: '#2C3135',
+    display: 'flex',
+    flexDirection: 'column',
   },
   header: {
     marginBottom: 20,
   },
   accountName: {
     fontFamily: FontFamily.InterBold,
-    fontSize: 18,
-    marginBottom: 4,
+    fontSize: 15,
+    marginBottom: 2,
+    color: '#2C3135',
   },
   addressBlock: {
-    marginBottom: 10,
+    marginBottom: 2,
   },
   addressText: {
     fontSize: 10,
@@ -51,22 +55,17 @@ const styles = StyleSheet.create({
     color: '#1869F5',
     textDecoration: 'none',
   },
+  billTo: {
+    fontFamily: FontFamily.InterBold,
+    fontSize: 14,
+    marginTop: 80,
+  },
   receiptTitle: {
     fontFamily: FontFamily.InterBold,
-    fontSize: 16,
-    marginTop: 20,
-    marginBottom: 8,
+    fontSize: 14,
   },
   dateInfo: {
     fontSize: 10,
-    marginBottom: 2,
-  },
-  referenceContainer: {
-    fontSize: 12,
-    marginTop: 10,
-    marginBottom: 8,
-  },
-  referenceText: {
     marginBottom: 2,
   },
   paymentMethod: {
@@ -93,7 +92,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#ebf4ff',
   },
   tableCell: {
-    fontSize: 11,
+    fontSize: 10,
     padding: 6,
     borderColor: '#E0E0E0',
   },
@@ -101,23 +100,25 @@ const styles = StyleSheet.create({
     width: '50%',
     marginLeft: 'auto',
     fontSize: 12,
-    marginTop: 12,
   },
   totalsRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingHorizontal: 12,
     paddingVertical: 8,
+    fontSize: 10,
   },
   totalHighlight: {
     backgroundColor: '#ebf4ff',
-    padding: 8,
     fontFamily: FontFamily.InterBold,
   },
   footerInfo: {
-    fontSize: 11,
-    marginTop: 20,
+    fontSize: 10,
     fontStyle: 'italic',
+    marginVertical: 10,
+    borderLeft: '2px solid lightgrey',
+    paddingLeft: 10,
+    paddingVertical: 5,
   },
   textAlignRight: {
     textAlign: 'right',
@@ -193,7 +194,6 @@ const styles = StyleSheet.create({
   borderBottom: {
     borderBottomWidth: 1,
     borderBottomColor: '#E0E0E0',
-    marginBottom: 12,
   },
   taxInfo: {
     fontSize: 8,
@@ -213,32 +213,19 @@ const styles = StyleSheet.create({
   },
 });
 
-const CollectiveAddress = ({ collective }: { collective: Account }) => {
-  if (!collective.location) {
-    return null;
-  }
-  return (
-    <View style={styles.addressBlock}>
-      {collective.location.address && <Text style={styles.addressText}>{collective.location.address}</Text>}
-      {collective.location.country && <Text style={styles.addressText}>{collective.location.country}</Text>}
-    </View>
-  );
+const TableWeighting = {
+  date: 0.15,
+  descripion: 0.45,
+  quantity: 0.05,
+  unitPrice: 0.15,
+  tax: 0.05,
+  netAmount: 0.15,
 };
-
-const LinkToCollective = ({ collective, children }: { collective: Account; children: React.ReactNode }) => (
-  <Link src={`https://opencollective.com/${collective.slug}`} style={styles.link}>
-    {children}
-  </Link>
-);
 
 const CustomIntlDate = ({ date }: { date: Date }) => (
   <Text>
     <FormattedDate value={date} day="2-digit" month="2-digit" year="numeric" />
   </Text>
-);
-
-const Container = ({ children, fontSize, width }: { children: React.ReactNode; fontSize?: string; width?: number }) => (
-  <View style={{ fontSize, width: width ? `${width * 100}%` : undefined }}>{children}</View>
 );
 
 // Event description component
@@ -260,7 +247,7 @@ const EventDescription = ({ event }: { event: Event }) => (
 type Props = {
   /** The receipt data */
   receipt: {
-    isRefundOnly: boolean;
+    isRefundOnly?: boolean;
     dateFrom?: string;
     dateTo?: string;
     currency: string;
@@ -332,7 +319,7 @@ export class Receipt extends React.Component<Props> {
     }
 
     return (
-      <Container fontSize="12px">
+      <View>
         <Text>
           <FormattedMessage defaultMessage="Reference: {reference}" id="qdYmyV" values={{ reference }} />
         </Text>
@@ -341,7 +328,7 @@ export class Receipt extends React.Component<Props> {
             <FormattedMessage defaultMessage="Contribution #{id}" id="Siv4wU" values={{ id: contributionId }} />
           </Text>
         )}
-      </Container>
+      </View>
     );
   }
 
@@ -381,9 +368,7 @@ export class Receipt extends React.Component<Props> {
   transactionDescription(transaction: Transaction) {
     const targetCollective = getTransactionReceiver(transaction);
     const transactionDescription = (
-      <LinkToCollective collective={targetCollective}>
-        {transaction.description || targetCollective.name || targetCollective.slug}
-      </LinkToCollective>
+      <Text>{transaction.description || targetCollective.name || targetCollective.slug}</Text>
     );
 
     return !transaction.giftCardEmitterAccount ? (
@@ -391,7 +376,7 @@ export class Receipt extends React.Component<Props> {
     ) : (
       <div>
         <img src={GiftCardImgSrc} alt="" style={{ verticalAlign: 'middle', height: '1em', marginRight: '4px' }} />
-        <LinkToCollective collective={targetCollective}>{transactionDescription}</LinkToCollective>
+        {transactionDescription}
       </div>
     );
   }
@@ -406,30 +391,30 @@ export class Receipt extends React.Component<Props> {
     return (
       <Table>
         <TH style={styles.tableHeader}>
-          <TD style={[styles.tableCell, { width: '60px' }]}>
+          <TD style={[styles.tableCell, { width: '60px' }]} weighting={TableWeighting.date}>
             <Text>
               <FormattedMessage id="P7PLVj" defaultMessage="Date" />
             </Text>
           </TD>
-          <TD style={styles.tableCell}>
+          <TD style={styles.tableCell} weighting={TableWeighting.descripion}>
             <Text>
               <FormattedMessage id="Q8Qw5B" defaultMessage="Description" />
             </Text>
           </TD>
-          <TD style={[styles.tableCell, { textAlign: 'center' }]}>
+          <TD style={[styles.tableCell, { textAlign: 'center' }]} weighting={TableWeighting.quantity}>
             <Text>
               <FormattedMessage id="B6cXQW" defaultMessage="QTY" />
             </Text>
           </TD>
-          <TD style={[styles.tableCell, { textAlign: 'center', width: '80px' }]}>
+          <TD style={[styles.tableCell, { textAlign: 'center', width: '80px' }]} weighting={TableWeighting.unitPrice}>
             <Text>
               <FormattedMessage id="qMynRr" defaultMessage="Unit Price" />
             </Text>
           </TD>
-          <TD style={[styles.tableCell, { textAlign: 'center' }]}>
+          <TD style={[styles.tableCell, { textAlign: 'center' }]} weighting={TableWeighting.tax}>
             <Text>{this.getTaxColumnHeader(transactions)}</Text>
           </TD>
-          <TD style={[styles.tableCell, { textAlign: 'right' }]}>
+          <TD style={[styles.tableCell, { textAlign: 'right' }]} weighting={TableWeighting.netAmount}>
             <Text>
               <FormattedMessage id="FxUka3" defaultMessage="Net Amount" />
             </Text>
@@ -450,12 +435,12 @@ export class Receipt extends React.Component<Props> {
 
           return (
             <TR key={transaction.id}>
-              <TD style={styles.tableCell}>
+              <TD style={styles.tableCell} weighting={TableWeighting.date}>
                 <Text>
                   <CustomIntlDate date={new Date(transaction.createdAt)} />
                 </Text>
               </TD>
-              <TD style={styles.tableCell}>
+              <TD style={styles.tableCell} weighting={TableWeighting.descripion}>
                 <View>
                   {isRefunded && (
                     <Text style={styles.refundTag}>
@@ -465,10 +450,10 @@ export class Receipt extends React.Component<Props> {
                   <Text>{this.transactionDescription(transaction)}</Text>
                 </View>
               </TD>
-              <TD style={[styles.tableCell, { textAlign: 'center' }]}>
+              <TD style={[styles.tableCell, { textAlign: 'center' }]} weighting={TableWeighting.quantity}>
                 <Text>{quantity}</Text>
               </TD>
-              <TD style={[styles.tableCell, { textAlign: 'center' }]}>
+              <TD style={[styles.tableCell, { textAlign: 'center' }]} weighting={TableWeighting.unitPrice}>
                 <View>
                   <Text>{formatCurrency(unitGrossPriceInHostCurrency, transactionCurrency)}</Text>
                   {transaction.amountInHostCurrency.currency !== transaction.amount.currency && (
@@ -484,10 +469,10 @@ export class Receipt extends React.Component<Props> {
                   )}
                 </View>
               </TD>
-              <TD style={[styles.tableCell, { textAlign: 'center' }]}>
+              <TD style={[styles.tableCell, { textAlign: 'center' }]} weighting={TableWeighting.tax}>
                 <Text>{isNil(transaction.taxAmount) ? '-' : `${getTransactionTaxPercent(transaction)}%`}</Text>
               </TD>
-              <TD style={[styles.tableCell, { textAlign: 'right' }]}>
+              <TD style={[styles.tableCell, { textAlign: 'right' }]} weighting={TableWeighting.netAmount}>
                 <Text>{formatCurrency(amountInHostCurrency, transactionCurrency)}</Text>
               </TD>
             </TR>
@@ -573,7 +558,7 @@ export class Receipt extends React.Component<Props> {
                       <Text style={styles.accountName}>{receipt.host.name || receipt.host.slug}</Text>
                     </Link>
                     <View style={styles.my2}>
-                      <CollectiveAddress collective={receipt.host} />
+                      <LocationParagraph collective={receipt.host} />
                     </View>
                     <Link src={`https://opencollective.com/${receipt.host.slug}`} style={styles.link}>
                       https://opencollective.com/{receipt.host.slug}
@@ -581,7 +566,7 @@ export class Receipt extends React.Component<Props> {
                   </View>
 
                   <View style={[styles.mt20, styles.pr3, styles.minHeight100]}>
-                    <Text style={styles.receiptTitle}>
+                    <Text style={styles.billTo}>
                       {receipt.isRefundOnly ? (
                         <FormattedMessage id="BMuEYE" defaultMessage="Refund to" />
                       ) : (
@@ -589,14 +574,14 @@ export class Receipt extends React.Component<Props> {
                       )}
                     </Text>
                     <View style={styles.my2}>
-                      <Text style={[styles.bold, styles.textSm]}>{billTo.name || billTo.slug}</Text>
-                      <CollectiveAddress collective={billTo} />
+                      <Text>{billTo.legalName || billTo.name || billTo.slug}</Text>
+                      <LocationParagraph collective={billTo} />
                       {this.renderBillToTaxIdNumbers()}
                     </View>
                   </View>
                 </View>
 
-                <View style={[styles.flexRow, styles.justifyBetween, styles.mt3]}>
+                <View style={[styles.flexRow, styles.justifyBetween]}>
                   <View>
                     <Text style={styles.receiptTitle}>
                       {receipt.template?.title ||
@@ -623,7 +608,8 @@ export class Receipt extends React.Component<Props> {
 
                     {transactions.length === 1 && transactions[0].paymentMethod && (
                       <Text style={styles.paymentMethod}>
-                        Payment Method: {formatPaymentMethodName(transactions[0].paymentMethod)}
+                        <FormattedMessage defaultMessage="Payment Method" id="nFQbxh" />:{' '}
+                        {formatPaymentMethodName(transactions[0].paymentMethod)}
                       </Text>
                     )}
                   </View>
@@ -639,7 +625,7 @@ export class Receipt extends React.Component<Props> {
               </Text>
             )}
 
-            <View style={styles.flexGrow}>
+            <View>
               {this.renderTransactionsTable(transactionsChunk)}
 
               {pageNumber === chunkedTransactions.length - 1 && (
@@ -647,29 +633,31 @@ export class Receipt extends React.Component<Props> {
                   <View style={styles.totalsContainer}>
                     <View style={styles.borderBottom} />
 
-                    <View style={[styles.p3, styles.minWidth225]}>
-                      <View style={styles.totalsRow}>
-                        <Text>
-                          <FormattedMessage id="L8seEc" defaultMessage="Subtotal" />
-                        </Text>
-                        <Text style={styles.bold}>
-                          {formatCurrency(receipt.totalAmount - taxesTotal, receipt.currency, {
-                            showCurrencySymbol: true,
-                          })}
-                        </Text>
-                      </View>
-
-                      {getTaxesBreakdown(this.props.receipt.transactions).map(tax => (
-                        <View key={tax.id} style={[styles.totalsRow, styles.mt3]}>
+                    {Boolean(taxesTotal) && (
+                      <View style={[styles.minWidth225]}>
+                        <View style={styles.totalsRow}>
                           <Text>
-                            {tax.info.type} ({round(tax.info.rate * 100, 2)}%)
+                            <FormattedMessage id="L8seEc" defaultMessage="Subtotal" />
                           </Text>
                           <Text style={styles.bold}>
-                            {formatCurrency(tax.amountInHostCurrency, receipt.currency, { showCurrencySymbol: true })}
+                            {formatCurrency(receipt.totalAmount - taxesTotal, receipt.currency, {
+                              showCurrencySymbol: true,
+                            })}
                           </Text>
                         </View>
-                      ))}
-                    </View>
+
+                        {getTaxesBreakdown(this.props.receipt.transactions).map(tax => (
+                          <View key={tax.id} style={styles.totalsRow}>
+                            <Text>
+                              {tax.info.type} ({round(tax.info.rate * 100, 2)}%)
+                            </Text>
+                            <Text style={styles.bold}>
+                              {formatCurrency(tax.amountInHostCurrency, receipt.currency, { showCurrencySymbol: true })}
+                            </Text>
+                          </View>
+                        ))}
+                      </View>
+                    )}
 
                     <View style={styles.totalHighlight}>
                       <View style={styles.totalsRow}>
@@ -696,10 +684,11 @@ export class Receipt extends React.Component<Props> {
             </View>
 
             {pageNumber === chunkedTransactions.length - 1 && (
-              <View style={styles.mt5}>
+              <React.Fragment>
                 {receipt.template?.info && <Text style={styles.footerInfo}>{receipt.template?.info}</Text>}
+                <View style={styles.flexGrow}></View>
                 <CollectiveFooter collective={receipt.host} />
-              </View>
+              </React.Fragment>
             )}
           </Page>
         ))}
