@@ -247,15 +247,22 @@ const EventDescription = ({ event }: { event: Event }) => (
 type Props = {
   /** The receipt data */
   receipt: {
-    isRefundOnly?: boolean;
+    isRefundOnly?: boolean | null;
     dateFrom?: string;
     dateTo?: string;
     currency: string;
     totalAmount: number;
-    fromAccount: Account;
-    fromAccountHost?: Account;
-    host: Account;
-    transactions: Array<Transaction>;
+    fromAccount: Pick<Account, 'name' | 'slug' | 'legalName' | 'location'>;
+    fromAccountHost?: Pick<Account, 'name' | 'slug' | 'legalName'> | null;
+    host: Pick<Account, 'name' | 'slug' | 'location'>;
+    transactions: Array<
+      Pick<
+        Transaction,
+        'id' | 'description' | 'createdAt' | 'amountInHostCurrency' | 'isRefund' | 'refundTransaction' | 'order'
+      > & {
+        paymentMethod: Pick<Transaction['paymentMethod'], 'name'>;
+      }
+    >;
     template?: {
       title?: string;
       info?: string;

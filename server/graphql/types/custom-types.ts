@@ -3,7 +3,6 @@ export type GraphQLV1Collective = {
   slug: string;
   name: string;
   legalName: string;
-  imageUrl: string;
   type: 'COLLECTIVE' | 'EVENT' | 'USER' | 'ORGANIZATION' | 'BOT' | 'PROJECT' | 'FUND' | 'VENDOR';
   isArchived?: boolean;
   parentCollective?: GraphQLV1Collective;

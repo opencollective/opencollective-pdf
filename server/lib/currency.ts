@@ -1,3 +1,4 @@
+import { isNil } from 'lodash-es';
 import { ZERO_DECIMAL_CURRENCIES } from '../constants/currency';
 
 export function getCurrencyPrecision(currency: string) {
@@ -42,13 +43,13 @@ export function formatCurrency(
 }
 
 const getValueInCentsFromAmount = (amount: {
-  valueInCents?: number;
-  value?: number;
-  currency?: string;
+  valueInCents?: number | null;
+  value?: number | null;
+  currency?: string | null;
 }): number | undefined => {
-  if (amount?.valueInCents !== undefined) {
+  if (!isNil(amount?.valueInCents)) {
     return amount.valueInCents;
-  } else if (amount?.value !== undefined) {
+  } else if (!isNil(amount?.value)) {
     return amount.value * 100;
   } else {
     return undefined;
@@ -56,7 +57,7 @@ const getValueInCentsFromAmount = (amount: {
 };
 
 export function formatAmount(
-  amount: { valueInCents?: number; value?: number; currency?: string },
+  amount: { valueInCents?: number | null; value?: number | null; currency?: string | null },
   options: {
     minimumFractionDigits?: number;
     precision?: number;
@@ -64,9 +65,9 @@ export function formatAmount(
   } = {},
 ) {
   const valueInCents = getValueInCentsFromAmount(amount);
-  return valueInCents === undefined || isNaN(valueInCents)
+  return isNil(valueInCents) || isNaN(valueInCents)
     ? '--,--'
-    : formatCurrency(valueInCents, amount.currency, options);
+    : formatCurrency(valueInCents, amount.currency || '??', options);
 }
 
 function getLocaleFromCurrency(currency: string) {

@@ -5,6 +5,8 @@ import { gql } from '@apollo/client';
 import { createClient } from '../lib/apollo-client';
 import { adaptApolloError } from '../lib/apollo-client';
 import ExpenseInvoice from '../components/expenses/ExpenseInvoice';
+import { ExpenseInvoiceQuery } from 'server/graphql/types/v2/graphql';
+import { NotFoundError } from 'server/lib/errors';
 
 const router = express.Router();
 
@@ -105,7 +107,11 @@ async function fetchExpenseInvoiceData(expenseId: string, authorizationHeaders: 
 
   const client = createClient(authorizationHeaders);
   try {
-    const result = await client.query({ query, variables: { expenseId } });
+    const result = await client.query<ExpenseInvoiceQuery>({ query, variables: { expenseId } });
+    if (result.error) {
+      throw adaptApolloError(result.error);
+    }
+
     return result.data.expense;
   } catch (error) {
     throw adaptApolloError(error);
@@ -120,6 +126,10 @@ router.get('/:id/:filename.pdf', async (req: express.Request, res: express.Respo
   const { id } = req.params;
   const authorizationHeaders = authenticateRequest(req);
   const expense = await fetchExpenseInvoiceData(id, authorizationHeaders);
+  if (expense === null || expense === undefined) {
+    throw new NotFoundError();
+  }
+
   await sendPDFResponse(res, ExpenseInvoice, { expense });
 });
 

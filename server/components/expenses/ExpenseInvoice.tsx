@@ -7,81 +7,11 @@ import { formatCurrency } from '../../lib/currency';
 import { getCurrencyPrecision } from '../../lib/currency';
 import ExpenseItemsTable from './ExpenseItemsTable';
 import { FontFamily } from '../../lib/pdf';
+import { QueryResult } from '@apollo/client';
+import { AccountWithHost, ExpenseInvoiceQuery } from 'server/graphql/types/v2/graphql';
+import { Account } from 'server/graphql/types/v2/schema';
 
-type AmountV2 = {
-  valueInCents: number;
-  currency: string;
-  exchangeRate?: {
-    value: number;
-    toCurrency: string;
-  };
-};
-
-type ExpenseItem = {
-  id: string;
-  description?: string;
-  incurredAt: string;
-  amountV2: AmountV2;
-};
-
-type Tax = {
-  id: string;
-  type: string;
-  rate: number;
-};
-
-type Location = {
-  address?: string;
-  country?: string;
-};
-
-type Account = {
-  id: string;
-  type: string;
-  slug: string;
-  imageUrl?: string;
-  name?: string;
-  location?: Location;
-  host?: {
-    id: string;
-    type: string;
-    slug: string;
-    imageUrl?: string;
-    name?: string;
-    location?: Location;
-    settings?: {
-      invoice?: {
-        expenseTemplates?: {
-          default?: {
-            billTo?: string;
-          };
-        };
-      };
-    };
-  };
-};
-
-type Expense = {
-  id: string;
-  legacyId: number;
-  reference?: string;
-  description: string;
-  currency: string;
-  type: 'INVOICE' | 'RECEIPT';
-  invoiceInfo?: string;
-  amount: number;
-  createdAt: string;
-  account: Account;
-  payee: Account;
-  payeeLocation?: Location;
-  items: ExpenseItem[];
-  taxes?: Tax[];
-};
-
-type ExpenseInvoiceProps = {
-  expense: Expense;
-  pageFormat?: 'A4' | 'LETTER';
-};
+type ExpenseFromQuery = NonNullable<NonNullable<QueryResult<ExpenseInvoiceQuery>['data']>['expense']>;
 
 const styles = StyleSheet.create({
   page: {
@@ -163,7 +93,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const getItemAmounts = (item: ExpenseItem) => {
+const getItemAmounts = (item: ExpenseFromQuery['items'][number]) => {
   if (!item.amountV2.exchangeRate) {
     return { inItemCurrency: item.amountV2, inExpenseCurrency: item.amountV2 };
   } else {
@@ -172,7 +102,7 @@ const getItemAmounts = (item: ExpenseItem) => {
       inExpenseCurrency: {
         currency: item.amountV2.exchangeRate.toCurrency,
         valueInCents: round(
-          item.amountV2.valueInCents * item.amountV2.exchangeRate.value,
+          (item.amountV2.valueInCents as NonNullable<number>) * item.amountV2.exchangeRate.value,
           getCurrencyPrecision(item.amountV2.exchangeRate.toCurrency),
         ),
       },
@@ -180,17 +110,17 @@ const getItemAmounts = (item: ExpenseItem) => {
   }
 };
 
-const sumItemsInExpenseCurrency = (items: ExpenseItem[]) => {
-  return sumBy(items, item => getItemAmounts(item).inExpenseCurrency.valueInCents);
+const sumItemsInExpenseCurrency = (items: ExpenseFromQuery['items']) => {
+  return sumBy(items, item => getItemAmounts(item).inExpenseCurrency.valueInCents as NonNullable<number>);
 };
 
-const chunkItems = (expense: Expense, billToAccount: Account) => {
+const chunkItems = (expense: ExpenseFromQuery, billToAccount: Pick<Account, 'location'>) => {
   const baseNbOnFirstPage = 12;
   const minNbOnFirstPage = 8;
   const itemsPerPage = 22;
 
   // Estimate the space available
-  const countLines = (str?: string): number => (str ? sumBy(str, c => (c === '\n' ? 1 : 0)) : 0);
+  const countLines = (str?: string | null): number => (str ? sumBy(str, c => (c === '\n' ? 1 : 0)) : 0);
   const billFromAddressSize = countLines(get(expense.payeeLocation, 'address'));
   const billToAddressSize = countLines(
     get(billToAccount, 'location.address') || get(billToAccount, 'host.location.address'),
@@ -205,16 +135,20 @@ const chunkItems = (expense: Expense, billToAccount: Account) => {
   return [items.slice(0, nbOnFirstPage), ...chunk(items.slice(nbOnFirstPage), itemsPerPage)];
 };
 
-const getBillTo = (expense: Expense) => {
+const getBillTo = (expense: ExpenseFromQuery) => {
   const billToType = get(expense, 'account.host.settings.invoice.expenseTemplates.default.billTo', 'host');
   if (billToType === 'collective') {
     return expense.account;
   } else {
-    return expense.account.host || expense.account;
+    return (expense.account as unknown as AccountWithHost).host || expense.account;
   }
 };
 
-const ExpenseInvoice: React.FC<ExpenseInvoiceProps> = ({ expense, pageFormat = 'A4' }) => {
+const ExpenseInvoice = ({
+  expense,
+}: {
+  expense: NonNullable<NonNullable<QueryResult<ExpenseInvoiceQuery>['data']>['expense']>;
+}) => {
   const { account, payee, payeeLocation } = expense;
   const billToAccount = getBillTo(expense);
   const chunkedItems = chunkItems(expense, billToAccount);
@@ -223,7 +157,7 @@ const ExpenseInvoice: React.FC<ExpenseInvoiceProps> = ({ expense, pageFormat = '
   return (
     <Document>
       {chunkedItems.map((itemsChunk, pageNumber) => (
-        <Page key={pageNumber} size={pageFormat} style={styles.page}>
+        <Page key={pageNumber} style={styles.page}>
           {pageNumber === 0 && (
             <View style={styles.header}>
               <View style={styles.headerRow}>

@@ -7,36 +7,9 @@ import { getCurrencyPrecision } from '../../lib/currency';
 import { formatAmount } from '../../lib/currency';
 import { formatCurrency } from '../../lib/currency';
 import { FontFamily } from '../../lib/pdf';
+import { Expense, ExpenseItem } from 'server/graphql/types/v2/schema';
 
-type AmountV2 = {
-  valueInCents: number;
-  currency: string;
-  exchangeRate?: {
-    value: number;
-    toCurrency: string;
-  };
-};
-
-type ExpenseItem = {
-  id: string;
-  description?: string;
-  incurredAt: string;
-  amountV2: AmountV2;
-};
-
-type Tax = {
-  type: string;
-  rate: number;
-};
-
-type ExpenseItemsTableProps = {
-  expense: {
-    taxes: Tax[];
-  };
-  items: ExpenseItem[];
-};
-
-const getItemAmounts = (item: ExpenseItem) => {
+const getItemAmounts = (item: Pick<ExpenseItem, 'id' | 'description' | 'incurredAt' | 'amountV2'>) => {
   if (!item.amountV2.exchangeRate) {
     return { inItemCurrency: item.amountV2, inExpenseCurrency: item.amountV2 };
   } else {
@@ -45,7 +18,7 @@ const getItemAmounts = (item: ExpenseItem) => {
       inExpenseCurrency: {
         currency: item.amountV2.exchangeRate.toCurrency,
         valueInCents: round(
-          item.amountV2.valueInCents * item.amountV2.exchangeRate.value,
+          (item.amountV2.valueInCents as NonNullable<number>) * item.amountV2.exchangeRate.value,
           getCurrencyPrecision(item.amountV2.exchangeRate.toCurrency),
         ),
       },
@@ -67,7 +40,13 @@ const styles = StyleSheet.create({
   },
 });
 
-const ExpenseItemsTable: React.FC<ExpenseItemsTableProps> = ({ items, expense }) => {
+const ExpenseItemsTable = ({
+  items,
+  expense,
+}: {
+  items: Pick<ExpenseItem, 'id' | 'description' | 'incurredAt' | 'amountV2'>[];
+  expense: { taxes: NonNullable<Array<Pick<Expense['taxes'][number], 'type' | 'rate'>>> };
+}) => {
   const allTaxTypes = uniq(expense.taxes.map(tax => tax.type));
   const taxType = allTaxTypes.length === 1 ? allTaxTypes[0] : 'Tax';
   const taxRate = sumBy(expense.taxes, 'rate') || 0;
@@ -142,14 +121,17 @@ const ExpenseItemsTable: React.FC<ExpenseItemsTableProps> = ({ items, expense })
             </TD>
             <TD style={styles.cell}>
               <Text>
-                {formatCurrency(amounts.inExpenseCurrency.valueInCents * taxRate, amounts.inExpenseCurrency.currency)}
+                {formatCurrency(
+                  (amounts.inExpenseCurrency.valueInCents as NonNullable<number>) * taxRate,
+                  amounts.inExpenseCurrency.currency as NonNullable<string>,
+                )}
               </Text>
             </TD>
             <TD style={styles.cell}>
               <Text>
                 {formatCurrency(
-                  amounts.inExpenseCurrency.valueInCents * (1 + taxRate),
-                  amounts.inExpenseCurrency.currency,
+                  (amounts.inExpenseCurrency.valueInCents as NonNullable<number>) * (1 + taxRate),
+                  amounts.inExpenseCurrency.currency as NonNullable<string>,
                 )}
               </Text>
             </TD>

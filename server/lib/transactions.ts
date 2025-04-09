@@ -57,7 +57,10 @@ export const getTaxIdNumbersFromTransactions = (transactions: Array<Transaction>
  * @returns {Array} like [{ key: 'VAT-21', id: 'VAT', percentage: 21, amount: 42 }]
  */
 export const getTaxesBreakdown = (transactions: Array<Transaction>) => {
-  const groupedTransactions = {};
+  const groupedTransactions: Record<
+    string,
+    { info: ReturnType<typeof getTaxInfoFromTransaction>; transactions: Array<Transaction> }
+  > = {};
   for (const transaction of transactions) {
     const taxInfo = getTaxInfoFromTransaction(transaction);
     if (taxInfo) {

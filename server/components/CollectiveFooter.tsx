@@ -42,13 +42,13 @@ const CollectiveFooter = ({ collective }: { collective: Account | GraphQLV1Colle
           <Link src={collective.website}>
             <Image
               style={styles.logo}
-              src={imagePreview(collective.imageUrl ?? collective.image, null, { height: 200 })}
+              src={imagePreview(collective['imageUrl'] ?? collective['image'], null, { height: 200 })}
             />
           </Link>
         ) : (
           <Image
             style={styles.logo}
-            src={imagePreview(collective.imageUrl ?? collective.image, null, { height: 200 })}
+            src={imagePreview(collective['imageUrl'] ?? collective['image'], null, { height: 200 })}
           />
         )}
       </View>

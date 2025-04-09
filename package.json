@@ -18,7 +18,7 @@
     "prettier:check": "prettier --check .",
     "depcheck": "npx depcheck --ignores='server,@graphql-typed-document-node/core'",
     "script": "tsx $@",
-    "graphql:update": "npm-run-all graphql:updateV1 graphql:updateV2",
+    "graphql:update": "npm-run-all graphql:updateV1 graphql:updateV2 graphql:codegen",
     "graphql:codegen": "graphql-codegen --config scripts/config/graphql-codegen.ts",
     "graphql:updateV1": "tsx ./scripts/update-gql-schemas.js http://localhost:3060/graphql/v1 server/graphql/schema.graphql && prettier server/graphql/schema.graphql --write",
     "graphql:updateV2": "tsx ./scripts/update-gql-schemas.js http://localhost:3060/graphql/v2 server/graphql/schemaV2.graphql && prettier server/graphql/schemaV2.graphql --write"

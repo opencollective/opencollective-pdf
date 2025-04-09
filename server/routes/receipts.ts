@@ -1,14 +1,15 @@
 import express from 'express';
 import { sendPDFResponse } from '../lib/pdf';
 import { authenticateRequest, AuthorizationHeaders } from '../lib/authentication';
-import { gql } from '@apollo/client';
+import { gql, QueryResult } from '@apollo/client';
 import { createClient } from '../lib/apollo-client';
 import { adaptApolloError } from '../lib/apollo-client';
 import { NotFoundError } from '../lib/errors';
 import { ForbiddenError } from '../lib/errors';
 import Receipt from 'server/components/receipts/Receipt';
-import { Transaction } from 'server/graphql/types/v2/schema';
+import { AccountWithHost } from 'server/graphql/types/v2/schema';
 import dayjs from 'server/lib/dayjs';
+import { InvoiceByDateRangeQuery, TransactionInvoiceQuery } from 'server/graphql/types/v2/graphql';
 
 const router = express.Router();
 
@@ -167,6 +168,12 @@ async function fetchTransactionInvoice(transactionId: string, authorizationHeade
         ...ReceiptTransactionFragment
         ... on Debit {
           oppositeTransaction {
+            id
+            type
+            kind
+            permissions {
+              canDownloadInvoice
+            }
             ...ReceiptTransactionFragment
           }
         }
@@ -178,7 +185,7 @@ async function fetchTransactionInvoice(transactionId: string, authorizationHeade
   const client = createClient(authorizationHeaders);
   let response;
   try {
-    response = await client.query({
+    response = await client.query<TransactionInvoiceQuery>({
       query,
       variables: { transactionId },
       fetchPolicy: 'no-cache',
@@ -188,6 +195,10 @@ async function fetchTransactionInvoice(transactionId: string, authorizationHeade
     throw adaptApolloError(e);
   }
 
+  if (response.error) {
+    throw adaptApolloError(response.error);
+  }
+
   const transaction = response.data.transaction;
   if (!transaction) {
     throw new NotFoundError(`Transaction ${transactionId} not found`);
@@ -195,10 +206,12 @@ async function fetchTransactionInvoice(transactionId: string, authorizationHeade
     throw new ForbiddenError(`You don't have permission to download this transaction's invoice`);
   }
 
-  return response.data.transaction;
+  return response.data.transaction as NonNullable<typeof response.data.transaction>;
 }
 
-function getReceiptFromTransactionData(originalTransaction: Transaction) {
+function getReceiptFromTransactionData(
+  originalTransaction: NonNullable<NonNullable<QueryResult<TransactionInvoiceQuery>['data']>['transaction']>,
+) {
   let transaction = originalTransaction;
   if (transaction.type === 'DEBIT' && transaction.oppositeTransaction && !transaction.isRefund) {
     transaction = transaction.oppositeTransaction;
@@ -214,12 +227,12 @@ function getReceiptFromTransactionData(originalTransaction: Transaction) {
   const fromAccount = transaction.isRefund ? transaction.toAccount : transaction.fromAccount;
   return {
     isRefundOnly: transaction.isRefund,
-    currency: transaction.amountInHostCurrency.currency,
-    totalAmount: transaction.amountInHostCurrency.valueInCents,
+    currency: transaction.amountInHostCurrency.currency as NonNullable<string>,
+    totalAmount: transaction.amountInHostCurrency.valueInCents as NonNullable<number>,
     transactions: [transaction],
     host,
-    fromAccount: fromAccount,
-    fromAccountHost: fromAccount.host,
+    fromAccount: fromAccount as NonNullable<typeof fromAccount>,
+    fromAccountHost: (fromAccount as unknown as AccountWithHost)?.host,
     template,
   };
 }
@@ -305,21 +318,29 @@ async function fetchInvoiceByDateRange(
   `;
 
   const client = createClient(authorizationHeaders);
-  const { data } = await client.query({
-    query,
-    variables: { fromCollectiveSlug, hostSlug, dateFrom, dateTo, hasExpense },
-    fetchPolicy: 'no-cache',
-  });
+  let response;
 
-  if (!data.host) {
+  try {
+    response = await client.query<InvoiceByDateRangeQuery>({
+      query,
+      variables: { fromCollectiveSlug, hostSlug, dateFrom, dateTo, hasExpense },
+      fetchPolicy: 'no-cache',
+    });
+  } catch (e) {
+    throw adaptApolloError(e);
+  }
+
+  if (response.error) {
+    throw adaptApolloError(response.error);
+  } else if (!response.data.host) {
     throw new NotFoundError(`Host ${hostSlug} doesn't exist`);
-  } else if (!data.fromAccount) {
+  } else if (!response.data.fromAccount) {
     throw new NotFoundError(`Account ${fromCollectiveSlug} doesn't exist`);
-  } else if (!data.fromAccount.permissions.canDownloadPaymentReceipts.allowed) {
+  } else if (!response.data.fromAccount.permissions.canDownloadPaymentReceipts.allowed) {
     throw new ForbiddenError(`You don't have permission to download this account's payment receipts`);
   }
 
-  return data;
+  return response.data as QueryResult<InvoiceByDateRangeQuery>['data'];
 }
 
 const validateReceiptPeriodParams = (req: express.Request) => {
@@ -368,7 +389,7 @@ router.get(
     await sendPDFResponse(res, Receipt, {
       receipt: {
         totalAmount: response.transactions.nodes.reduce(
-          (total: number, t: Transaction) => total + (t.amountInHostCurrency.valueInCents || 0),
+          (total, t) => total + (t.amountInHostCurrency.valueInCents || 0),
           0,
         ),
         currency: response.host.currency,
