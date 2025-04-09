@@ -9,33 +9,33 @@ export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> =
 export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  ID: { input: string; output: string; }
-  String: { input: string; output: string; }
-  Boolean: { input: boolean; output: boolean; }
-  Int: { input: number; output: number; }
-  Float: { input: number; output: number; }
+  ID: { input: string; output: string };
+  String: { input: string; output: string };
+  Boolean: { input: boolean; output: boolean };
+  Int: { input: number; output: number };
+  Float: { input: number; output: number };
   /** Values that can be edited in Account's settings */
-  AccountSettingsKey: { input: any; output: any; }
+  AccountSettingsKey: { input: any; output: any };
   /** A date string, such as 2007-12-03, compliant with the `full-date` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar. */
-  Date: { input: any; output: any; }
+  Date: { input: any; output: any };
   /** A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar. */
-  DateTime: { input: any; output: any; }
+  DateTime: { input: any; output: any };
   /** A field whose value conforms to the standard internet email address format as specified in RFC822: https://www.w3.org/Protocols/rfc822/. */
-  EmailAddress: { input: any; output: any; }
+  EmailAddress: { input: any; output: any };
   /** The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf). */
-  JSON: { input: any; output: any; }
+  JSON: { input: any; output: any };
   /** The `JSONObject` scalar type represents JSON objects as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf). */
-  JSONObject: { input: any; output: any; }
+  JSONObject: { input: any; output: any };
   /** The locale in the format of a BCP 47 (RFC 5646) standard string */
-  Locale: { input: any; output: any; }
+  Locale: { input: any; output: any };
   /** A string that cannot be passed as an empty value */
-  NonEmptyString: { input: any; output: any; }
+  NonEmptyString: { input: any; output: any };
   /** A positive float value between 0 and 100 */
-  StrictPercentage: { input: any; output: any; }
+  StrictPercentage: { input: any; output: any };
   /** A field whose value conforms to the standard URL format as specified in RFC3986: https://www.ietf.org/rfc/rfc3986.txt. */
-  URL: { input: any; output: any; }
+  URL: { input: any; output: any };
   /** The `Upload` scalar type represents a file upload. */
-  Upload: { input: any; output: any; }
+  Upload: { input: any; output: any };
 };
 
 /** Account interface shared by all kind of accounts (Bot, Collective, Event, User, Organization) */
@@ -158,19 +158,16 @@ export type Account = {
   website?: Maybe<Scalars['String']['output']>;
 };
 
-
 /** Account interface shared by all kind of accounts (Bot, Collective, Event, User, Organization) */
 export type AccountActivitySubscriptionsArgs = {
   channel?: InputMaybe<ActivityChannel>;
 };
-
 
 /** Account interface shared by all kind of accounts (Bot, Collective, Event, User, Organization) */
 export type AccountBackgroundImageUrlArgs = {
   format?: InputMaybe<ImageFormat>;
   height?: InputMaybe<Scalars['Int']['input']>;
 };
-
 
 /** Account interface shared by all kind of accounts (Bot, Collective, Event, User, Organization) */
 export type AccountChildrenAccountsArgs = {
@@ -182,7 +179,6 @@ export type AccountChildrenAccountsArgs = {
   searchTerm?: InputMaybe<Scalars['String']['input']>;
 };
 
-
 /** Account interface shared by all kind of accounts (Bot, Collective, Event, User, Organization) */
 export type AccountConversationsArgs = {
   limit?: Scalars['Int']['input'];
@@ -190,19 +186,16 @@ export type AccountConversationsArgs = {
   tag?: InputMaybe<Scalars['String']['input']>;
 };
 
-
 /** Account interface shared by all kind of accounts (Bot, Collective, Event, User, Organization) */
 export type AccountConversationsTagsArgs = {
   limit?: Scalars['Int']['input'];
 };
-
 
 /** Account interface shared by all kind of accounts (Bot, Collective, Event, User, Organization) */
 export type AccountDuplicatedAccountsArgs = {
   limit?: Scalars['Int']['input'];
   offset?: Scalars['Int']['input'];
 };
-
 
 /** Account interface shared by all kind of accounts (Bot, Collective, Event, User, Organization) */
 export type AccountExpensesArgs = {
@@ -235,12 +228,10 @@ export type AccountExpensesArgs = {
   virtualCards?: InputMaybe<Array<InputMaybe<VirtualCardReferenceInput>>>;
 };
 
-
 /** Account interface shared by all kind of accounts (Bot, Collective, Event, User, Organization) */
 export type AccountExpensesTagsArgs = {
   limit?: Scalars['Int']['input'];
 };
-
 
 /** Account interface shared by all kind of accounts (Bot, Collective, Event, User, Organization) */
 export type AccountFeedArgs = {
@@ -248,7 +239,6 @@ export type AccountFeedArgs = {
   dateTo?: InputMaybe<Scalars['DateTime']['input']>;
   limit?: InputMaybe<Scalars['Int']['input']>;
 };
-
 
 /** Account interface shared by all kind of accounts (Bot, Collective, Event, User, Organization) */
 export type AccountHostApplicationRequestsArgs = {
@@ -258,25 +248,21 @@ export type AccountHostApplicationRequestsArgs = {
   status?: InputMaybe<HostApplicationStatus>;
 };
 
-
 /** Account interface shared by all kind of accounts (Bot, Collective, Event, User, Organization) */
 export type AccountImageUrlArgs = {
   format?: InputMaybe<ImageFormat>;
   height?: InputMaybe<Scalars['Int']['input']>;
 };
 
-
 /** Account interface shared by all kind of accounts (Bot, Collective, Event, User, Organization) */
 export type AccountLegalDocumentsArgs = {
   type?: InputMaybe<Array<InputMaybe<LegalDocumentType>>>;
 };
 
-
 /** Account interface shared by all kind of accounts (Bot, Collective, Event, User, Organization) */
 export type AccountMemberInvitationsArgs = {
   role?: InputMaybe<Array<InputMaybe<MemberRole>>>;
 };
-
 
 /** Account interface shared by all kind of accounts (Bot, Collective, Event, User, Organization) */
 export type AccountMemberOfArgs = {
@@ -291,7 +277,6 @@ export type AccountMemberOfArgs = {
   role?: InputMaybe<Array<InputMaybe<MemberRole>>>;
 };
 
-
 /** Account interface shared by all kind of accounts (Bot, Collective, Event, User, Organization) */
 export type AccountMembersArgs = {
   accountType?: InputMaybe<Array<InputMaybe<AccountType>>>;
@@ -303,13 +288,11 @@ export type AccountMembersArgs = {
   role?: InputMaybe<Array<InputMaybe<MemberRole>>>;
 };
 
-
 /** Account interface shared by all kind of accounts (Bot, Collective, Event, User, Organization) */
 export type AccountOAuthApplicationsArgs = {
   limit?: Scalars['Int']['input'];
   offset?: Scalars['Int']['input'];
 };
-
 
 /** Account interface shared by all kind of accounts (Bot, Collective, Event, User, Organization) */
 export type AccountOrdersArgs = {
@@ -344,7 +327,6 @@ export type AccountOrdersArgs = {
   tierSlug?: InputMaybe<Scalars['String']['input']>;
 };
 
-
 /** Account interface shared by all kind of accounts (Bot, Collective, Event, User, Organization) */
 export type AccountPaymentMethodsArgs = {
   enumType?: InputMaybe<Array<InputMaybe<PaymentMethodType>>>;
@@ -353,12 +335,10 @@ export type AccountPaymentMethodsArgs = {
   type?: InputMaybe<Array<InputMaybe<PaymentMethodType>>>;
 };
 
-
 /** Account interface shared by all kind of accounts (Bot, Collective, Event, User, Organization) */
 export type AccountPayoutMethodsArgs = {
   includeArchived?: InputMaybe<Scalars['Boolean']['input']>;
 };
-
 
 /** Account interface shared by all kind of accounts (Bot, Collective, Event, User, Organization) */
 export type AccountTransactionGroupsArgs = {
@@ -370,14 +350,12 @@ export type AccountTransactionGroupsArgs = {
   type?: InputMaybe<TransactionType>;
 };
 
-
 /** Account interface shared by all kind of accounts (Bot, Collective, Event, User, Organization) */
 export type AccountTransactionReportsArgs = {
   dateFrom?: InputMaybe<Scalars['DateTime']['input']>;
   dateTo?: InputMaybe<Scalars['DateTime']['input']>;
   timeUnit?: InputMaybe<TimeUnit>;
 };
-
 
 /** Account interface shared by all kind of accounts (Bot, Collective, Event, User, Organization) */
 export type AccountTransactionsArgs = {
@@ -420,12 +398,10 @@ export type AccountTransactionsArgs = {
   virtualCard?: InputMaybe<Array<InputMaybe<VirtualCardReferenceInput>>>;
 };
 
-
 /** Account interface shared by all kind of accounts (Bot, Collective, Event, User, Organization) */
 export type AccountUnhostedAtArgs = {
   host: AccountReferenceInput;
 };
-
 
 /** Account interface shared by all kind of accounts (Bot, Collective, Event, User, Organization) */
 export type AccountUpdatesArgs = {
@@ -438,13 +414,11 @@ export type AccountUpdatesArgs = {
   searchTerm?: InputMaybe<Scalars['String']['input']>;
 };
 
-
 /** Account interface shared by all kind of accounts (Bot, Collective, Event, User, Organization) */
 export type AccountVirtualCardMerchantsArgs = {
   limit?: Scalars['Int']['input'];
   offset?: Scalars['Int']['input'];
 };
-
 
 /** Account interface shared by all kind of accounts (Bot, Collective, Event, User, Organization) */
 export type AccountVirtualCardsArgs = {
@@ -461,7 +435,7 @@ export type AccountVirtualCardsArgs = {
 export enum AccountCacheType {
   CLOUDFLARE = 'CLOUDFLARE',
   CONTRIBUTORS = 'CONTRIBUTORS',
-  GRAPHQL_QUERIES = 'GRAPHQL_QUERIES'
+  GRAPHQL_QUERIES = 'GRAPHQL_QUERIES',
 }
 
 /** A collection of "Accounts" */
@@ -475,13 +449,13 @@ export type AccountCollection = Collection & {
 
 export enum AccountFreezeAction {
   FREEZE = 'FREEZE',
-  UNFREEZE = 'UNFREEZE'
+  UNFREEZE = 'UNFREEZE',
 }
 
 /** Account orders filter (INCOMING or OUTGOING) */
 export enum AccountOrdersFilter {
   INCOMING = 'INCOMING',
-  OUTGOING = 'OUTGOING'
+  OUTGOING = 'OUTGOING',
 }
 
 /** Fields for the user permissions on an account */
@@ -569,19 +543,16 @@ export type AccountStats = {
   yearlyBudgetManaged: Amount;
 };
 
-
 /** Stats for the Account */
 export type AccountStatsActiveRecurringContributionsBreakdownArgs = {
   frequency?: InputMaybe<ContributionFrequency>;
   includeChildren?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
-
 /** Stats for the Account */
 export type AccountStatsActiveRecurringContributionsV2Args = {
   frequency?: ContributionFrequency;
 };
-
 
 /** Stats for the Account */
 export type AccountStatsAmountPledgedTimeSeriesArgs = {
@@ -591,7 +562,6 @@ export type AccountStatsAmountPledgedTimeSeriesArgs = {
   timeUnit?: InputMaybe<TimeUnit>;
 };
 
-
 /** Stats for the Account */
 export type AccountStatsBalanceArgs = {
   currency?: InputMaybe<Currency>;
@@ -599,7 +569,6 @@ export type AccountStatsBalanceArgs = {
   includeChildren?: InputMaybe<Scalars['Boolean']['input']>;
   withBlockedFunds?: InputMaybe<Scalars['Boolean']['input']>;
 };
-
 
 /** Stats for the Account */
 export type AccountStatsBalanceTimeSeriesArgs = {
@@ -613,7 +582,6 @@ export type AccountStatsBalanceTimeSeriesArgs = {
   timeUnit?: InputMaybe<TimeUnit>;
 };
 
-
 /** Stats for the Account */
 export type AccountStatsContributionsAmountArgs = {
   dateFrom?: InputMaybe<Scalars['DateTime']['input']>;
@@ -621,7 +589,6 @@ export type AccountStatsContributionsAmountArgs = {
   includeChildren?: InputMaybe<Scalars['Boolean']['input']>;
   kind?: InputMaybe<Array<InputMaybe<TransactionKind>>>;
 };
-
 
 /** Stats for the Account */
 export type AccountStatsContributionsAmountTimeSeriesArgs = {
@@ -632,7 +599,6 @@ export type AccountStatsContributionsAmountTimeSeriesArgs = {
   timeUnit?: InputMaybe<TimeUnit>;
 };
 
-
 /** Stats for the Account */
 export type AccountStatsContributionsCountArgs = {
   dateFrom?: InputMaybe<Scalars['DateTime']['input']>;
@@ -640,14 +606,12 @@ export type AccountStatsContributionsCountArgs = {
   includeChildren?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
-
 /** Stats for the Account */
 export type AccountStatsContributorsCountArgs = {
   dateFrom?: InputMaybe<Scalars['DateTime']['input']>;
   dateTo?: InputMaybe<Scalars['DateTime']['input']>;
   includeChildren?: InputMaybe<Scalars['Boolean']['input']>;
 };
-
 
 /** Stats for the Account */
 export type AccountStatsExpensesTagsArgs = {
@@ -658,7 +622,6 @@ export type AccountStatsExpensesTagsArgs = {
   truncate?: InputMaybe<Scalars['Int']['input']>;
 };
 
-
 /** Stats for the Account */
 export type AccountStatsExpensesTagsTimeSeriesArgs = {
   dateFrom?: InputMaybe<Scalars['DateTime']['input']>;
@@ -666,7 +629,6 @@ export type AccountStatsExpensesTagsTimeSeriesArgs = {
   includeChildren?: InputMaybe<Scalars['Boolean']['input']>;
   timeUnit?: InputMaybe<TimeUnit>;
 };
-
 
 /** Stats for the Account */
 export type AccountStatsTotalAmountReceivedArgs = {
@@ -680,7 +642,6 @@ export type AccountStatsTotalAmountReceivedArgs = {
   useCache?: Scalars['Boolean']['input'];
 };
 
-
 /** Stats for the Account */
 export type AccountStatsTotalAmountReceivedTimeSeriesArgs = {
   currency?: InputMaybe<Currency>;
@@ -692,7 +653,6 @@ export type AccountStatsTotalAmountReceivedTimeSeriesArgs = {
   periodInMonths?: InputMaybe<Scalars['Int']['input']>;
   timeUnit?: InputMaybe<TimeUnit>;
 };
-
 
 /** Stats for the Account */
 export type AccountStatsTotalAmountSpentArgs = {
@@ -706,7 +666,6 @@ export type AccountStatsTotalAmountSpentArgs = {
   periodInMonths?: InputMaybe<Scalars['Int']['input']>;
 };
 
-
 /** Stats for the Account */
 export type AccountStatsTotalNetAmountReceivedArgs = {
   dateFrom?: InputMaybe<Scalars['DateTime']['input']>;
@@ -715,7 +674,6 @@ export type AccountStatsTotalNetAmountReceivedArgs = {
   kind?: InputMaybe<Array<InputMaybe<TransactionKind>>>;
   periodInMonths?: InputMaybe<Scalars['Int']['input']>;
 };
-
 
 /** Stats for the Account */
 export type AccountStatsTotalNetAmountReceivedTimeSeriesArgs = {
@@ -727,7 +685,6 @@ export type AccountStatsTotalNetAmountReceivedTimeSeriesArgs = {
   periodInMonths?: InputMaybe<Scalars['Int']['input']>;
   timeUnit?: InputMaybe<TimeUnit>;
 };
-
 
 /** Stats for the Account */
 export type AccountStatsTotalPaidExpensesArgs = {
@@ -746,7 +703,7 @@ export enum AccountType {
   INDIVIDUAL = 'INDIVIDUAL',
   ORGANIZATION = 'ORGANIZATION',
   PROJECT = 'PROJECT',
-  VENDOR = 'VENDOR'
+  VENDOR = 'VENDOR',
 }
 
 export type AccountUpdateInput = {
@@ -775,7 +732,6 @@ export type AccountWithContributions = {
   totalFinancialContributors: Scalars['Int']['output'];
 };
 
-
 /** An account that can receive financial contributions */
 export type AccountWithContributionsActiveContributorsArgs = {
   dateFrom?: InputMaybe<Scalars['DateTime']['input']>;
@@ -785,7 +741,6 @@ export type AccountWithContributionsActiveContributorsArgs = {
   offset?: Scalars['Int']['input'];
 };
 
-
 /** An account that can receive financial contributions */
 export type AccountWithContributionsContributorsArgs = {
   limit?: Scalars['Int']['input'];
@@ -793,13 +748,11 @@ export type AccountWithContributionsContributorsArgs = {
   roles?: InputMaybe<Array<InputMaybe<MemberRole>>>;
 };
 
-
 /** An account that can receive financial contributions */
 export type AccountWithContributionsTiersArgs = {
   limit?: Scalars['Int']['input'];
   offset?: Scalars['Int']['input'];
 };
-
 
 /** An account that can receive financial contributions */
 export type AccountWithContributionsTotalFinancialContributorsArgs = {
@@ -831,20 +784,17 @@ export type AccountWithHost = {
   unfrozenAt?: Maybe<Scalars['DateTime']['output']>;
 };
 
-
 /** An account that can be hosted by a Host */
 export type AccountWithHostHostAgreementsArgs = {
   limit?: Scalars['Int']['input'];
   offset?: Scalars['Int']['input'];
 };
 
-
 /** An account that can be hosted by a Host */
 export type AccountWithHostHostFeePercentArgs = {
   paymentMethodService?: InputMaybe<PaymentMethodService>;
   paymentMethodType?: InputMaybe<PaymentMethodType>;
 };
-
 
 /** An account that can be hosted by a Host */
 export type AccountWithHostSummaryArgs = {
@@ -886,7 +836,7 @@ export type AccountingCategory = {
 
 export enum AccountingCategoryAppliesTo {
   HOST = 'HOST',
-  HOSTED_COLLECTIVES = 'HOSTED_COLLECTIVES'
+  HOSTED_COLLECTIVES = 'HOSTED_COLLECTIVES',
 }
 
 /** A collection of "Accounting Categories" */
@@ -922,7 +872,7 @@ export type AccountingCategoryInput = {
 export enum AccountingCategoryKind {
   ADDED_FUNDS = 'ADDED_FUNDS',
   CONTRIBUTION = 'CONTRIBUTION',
-  EXPENSE = 'EXPENSE'
+  EXPENSE = 'EXPENSE',
 }
 
 /** Reference to an accounting category */
@@ -1105,7 +1055,7 @@ export enum ActivityAndClassesType {
   VIRTUAL_CARD_PURCHASE = 'VIRTUAL_CARD_PURCHASE',
   VIRTUAL_CARD_REQUESTED = 'VIRTUAL_CARD_REQUESTED',
   WEBHOOK_PAYPAL_RECEIVED = 'WEBHOOK_PAYPAL_RECEIVED',
-  WEBHOOK_STRIPE_RECEIVED = 'WEBHOOK_STRIPE_RECEIVED'
+  WEBHOOK_STRIPE_RECEIVED = 'WEBHOOK_STRIPE_RECEIVED',
 }
 
 /** All supported Activity channels we can broadcast to */
@@ -1113,7 +1063,7 @@ export enum ActivityChannel {
   email = 'email',
   slack = 'slack',
   twitter = 'twitter',
-  webhook = 'webhook'
+  webhook = 'webhook',
 }
 
 export enum ActivityClassType {
@@ -1123,7 +1073,7 @@ export enum ActivityClassType {
   EXPENSES = 'EXPENSES',
   FUND_EVENTS = 'FUND_EVENTS',
   REPORTS = 'REPORTS',
-  VIRTUAL_CARDS = 'VIRTUAL_CARDS'
+  VIRTUAL_CARDS = 'VIRTUAL_CARDS',
 }
 
 /** A collection of "Activities" */
@@ -1288,7 +1238,7 @@ export enum ActivityType {
   VIRTUAL_CARD_PURCHASE = 'VIRTUAL_CARD_PURCHASE',
   VIRTUAL_CARD_REQUESTED = 'VIRTUAL_CARD_REQUESTED',
   WEBHOOK_PAYPAL_RECEIVED = 'WEBHOOK_PAYPAL_RECEIVED',
-  WEBHOOK_STRIPE_RECEIVED = 'WEBHOOK_STRIPE_RECEIVED'
+  WEBHOOK_STRIPE_RECEIVED = 'WEBHOOK_STRIPE_RECEIVED',
 }
 
 /** Response for the addTwoFactorAuthTokenToIndividual mutation */
@@ -1415,7 +1365,7 @@ export type ApplicationReferenceInput = {
 /** All application types */
 export enum ApplicationType {
   API_KEY = 'API_KEY',
-  OAUTH = 'OAUTH'
+  OAUTH = 'OAUTH',
 }
 
 /** Input type for Application */
@@ -1434,7 +1384,7 @@ export type ApplicationUpdateInput = {
 /** The period over which the average is calculated */
 export enum AveragePeriod {
   MONTH = 'MONTH',
-  YEAR = 'YEAR'
+  YEAR = 'YEAR',
 }
 
 export type BanAccountResponse = {
@@ -1562,19 +1512,16 @@ export type Bot = Account & {
   website?: Maybe<Scalars['String']['output']>;
 };
 
-
 /** This represents a Bot account */
 export type BotActivitySubscriptionsArgs = {
   channel?: InputMaybe<ActivityChannel>;
 };
-
 
 /** This represents a Bot account */
 export type BotBackgroundImageUrlArgs = {
   format?: InputMaybe<ImageFormat>;
   height?: InputMaybe<Scalars['Int']['input']>;
 };
-
 
 /** This represents a Bot account */
 export type BotChildrenAccountsArgs = {
@@ -1586,7 +1533,6 @@ export type BotChildrenAccountsArgs = {
   searchTerm?: InputMaybe<Scalars['String']['input']>;
 };
 
-
 /** This represents a Bot account */
 export type BotConversationsArgs = {
   limit?: Scalars['Int']['input'];
@@ -1594,19 +1540,16 @@ export type BotConversationsArgs = {
   tag?: InputMaybe<Scalars['String']['input']>;
 };
 
-
 /** This represents a Bot account */
 export type BotConversationsTagsArgs = {
   limit?: Scalars['Int']['input'];
 };
-
 
 /** This represents a Bot account */
 export type BotDuplicatedAccountsArgs = {
   limit?: Scalars['Int']['input'];
   offset?: Scalars['Int']['input'];
 };
-
 
 /** This represents a Bot account */
 export type BotExpensesArgs = {
@@ -1639,12 +1582,10 @@ export type BotExpensesArgs = {
   virtualCards?: InputMaybe<Array<InputMaybe<VirtualCardReferenceInput>>>;
 };
 
-
 /** This represents a Bot account */
 export type BotExpensesTagsArgs = {
   limit?: Scalars['Int']['input'];
 };
-
 
 /** This represents a Bot account */
 export type BotFeedArgs = {
@@ -1652,7 +1593,6 @@ export type BotFeedArgs = {
   dateTo?: InputMaybe<Scalars['DateTime']['input']>;
   limit?: InputMaybe<Scalars['Int']['input']>;
 };
-
 
 /** This represents a Bot account */
 export type BotHostApplicationRequestsArgs = {
@@ -1662,19 +1602,16 @@ export type BotHostApplicationRequestsArgs = {
   status?: InputMaybe<HostApplicationStatus>;
 };
 
-
 /** This represents a Bot account */
 export type BotImageUrlArgs = {
   format?: InputMaybe<ImageFormat>;
   height?: InputMaybe<Scalars['Int']['input']>;
 };
 
-
 /** This represents a Bot account */
 export type BotLegalDocumentsArgs = {
   type?: InputMaybe<Array<InputMaybe<LegalDocumentType>>>;
 };
-
 
 /** This represents a Bot account */
 export type BotMemberInvitationsArgs = {
@@ -1682,7 +1619,6 @@ export type BotMemberInvitationsArgs = {
   memberAccount?: InputMaybe<AccountReferenceInput>;
   role?: InputMaybe<Array<InputMaybe<MemberRole>>>;
 };
-
 
 /** This represents a Bot account */
 export type BotMemberOfArgs = {
@@ -1701,7 +1637,6 @@ export type BotMemberOfArgs = {
   searchTerm?: InputMaybe<Scalars['String']['input']>;
 };
 
-
 /** This represents a Bot account */
 export type BotMembersArgs = {
   accountType?: InputMaybe<Array<InputMaybe<AccountType>>>;
@@ -1713,13 +1648,11 @@ export type BotMembersArgs = {
   role?: InputMaybe<Array<InputMaybe<MemberRole>>>;
 };
 
-
 /** This represents a Bot account */
 export type BotOAuthApplicationsArgs = {
   limit?: Scalars['Int']['input'];
   offset?: Scalars['Int']['input'];
 };
-
 
 /** This represents a Bot account */
 export type BotOrdersArgs = {
@@ -1754,7 +1687,6 @@ export type BotOrdersArgs = {
   tierSlug?: InputMaybe<Scalars['String']['input']>;
 };
 
-
 /** This represents a Bot account */
 export type BotPaymentMethodsArgs = {
   enumType?: InputMaybe<Array<InputMaybe<PaymentMethodType>>>;
@@ -1763,12 +1695,10 @@ export type BotPaymentMethodsArgs = {
   type?: InputMaybe<Array<InputMaybe<PaymentMethodType>>>;
 };
 
-
 /** This represents a Bot account */
 export type BotPayoutMethodsArgs = {
   includeArchived?: InputMaybe<Scalars['Boolean']['input']>;
 };
-
 
 /** This represents a Bot account */
 export type BotTransactionGroupsArgs = {
@@ -1780,14 +1710,12 @@ export type BotTransactionGroupsArgs = {
   type?: InputMaybe<TransactionType>;
 };
 
-
 /** This represents a Bot account */
 export type BotTransactionReportsArgs = {
   dateFrom?: InputMaybe<Scalars['DateTime']['input']>;
   dateTo?: InputMaybe<Scalars['DateTime']['input']>;
   timeUnit?: InputMaybe<TimeUnit>;
 };
-
 
 /** This represents a Bot account */
 export type BotTransactionsArgs = {
@@ -1830,12 +1758,10 @@ export type BotTransactionsArgs = {
   virtualCard?: InputMaybe<Array<InputMaybe<VirtualCardReferenceInput>>>;
 };
 
-
 /** This represents a Bot account */
 export type BotUnhostedAtArgs = {
   host: AccountReferenceInput;
 };
-
 
 /** This represents a Bot account */
 export type BotUpdatesArgs = {
@@ -1848,13 +1774,11 @@ export type BotUpdatesArgs = {
   searchTerm?: InputMaybe<Scalars['String']['input']>;
 };
 
-
 /** This represents a Bot account */
 export type BotVirtualCardMerchantsArgs = {
   limit?: Scalars['Int']['input'];
   offset?: Scalars['Int']['input'];
 };
-
 
 /** This represents a Bot account */
 export type BotVirtualCardsArgs = {
@@ -1867,7 +1791,6 @@ export type BotVirtualCardsArgs = {
   state?: InputMaybe<Scalars['String']['input']>;
   status?: InputMaybe<Array<InputMaybe<VirtualCardStatus>>>;
 };
-
 
 /** This represents a Bot account */
 export type BotWebhooksArgs = {
@@ -1901,7 +1824,7 @@ export type CaptchaInput = {
 export enum CaptchaProvider {
   HCAPTCHA = 'HCAPTCHA',
   RECAPTCHA = 'RECAPTCHA',
-  TURNSTILE = 'TURNSTILE'
+  TURNSTILE = 'TURNSTILE',
 }
 
 /** Input to order results chronologically */
@@ -1920,153 +1843,154 @@ export type Collection = {
 };
 
 /** This represents a Collective account */
-export type Collective = Account & AccountWithContributions & AccountWithHost & {
-  __typename?: 'Collective';
-  /** [!] Warning: this query is currently in beta and the API might change */
-  activeContributors: AccountCollection;
-  /** List of activities that the logged-in user is subscribed for this collective */
-  activitySubscriptions?: Maybe<Array<Maybe<ActivitySubscription>>>;
-  /** Date of approval by the Fiscal Host. */
-  approvedAt?: Maybe<Scalars['DateTime']['output']>;
-  backgroundImageUrl?: Maybe<Scalars['String']['output']>;
-  /** Whether this account can have changelog updates */
-  canHaveChangelogUpdates: Scalars['Boolean']['output'];
-  /** Returns true if the remote user can start the process to resume contributions for account */
-  canStartResumeContributionsProcess: Scalars['Boolean']['output'];
-  categories: Array<Maybe<Scalars['String']['output']>>;
-  childrenAccounts: AccountCollection;
-  /** The list of connected accounts (Stripe, PayPal, etc ...). Admin only. Scope: "connectedAccounts". */
-  connectedAccounts?: Maybe<Array<Maybe<ConnectedAccount>>>;
-  contributionPolicy?: Maybe<Scalars['String']['output']>;
-  /** All the persons and entities that contribute to this account */
-  contributors: ContributorCollection;
-  conversations: ConversationCollection;
-  /** Returns conversation's tags for collective sorted by popularity */
-  conversationsTags?: Maybe<Array<Maybe<TagStat>>>;
-  /** The time of creation */
-  createdAt?: Maybe<Scalars['DateTime']['output']>;
-  /** The currency of the account */
-  currency: Currency;
-  description?: Maybe<Scalars['String']['output']>;
-  /** If this account was duplicated, the accounts that were created from it */
-  duplicatedAccounts: AccountCollection;
-  /** If created by duplication, the account from which this one was duplicated */
-  duplicatedFromAccount?: Maybe<Account>;
-  /** Returns the emails of the account. Individuals only have one, but organizations can have multiple emails. */
-  emails?: Maybe<Array<Scalars['EmailAddress']['output']>>;
-  /** @deprecated 2024-11-04: Please use policies.EXPENSE_POLICIES */
-  expensePolicy?: Maybe<Scalars['String']['output']>;
-  expenses: ExpenseCollection;
-  /** Returns expense tags for collective sorted by popularity */
-  expensesTags?: Maybe<Array<Maybe<TagStat>>>;
-  /** Describes the features enabled and available for this account */
-  features: CollectiveFeatures;
-  feed?: Maybe<Array<Maybe<Activity>>>;
-  /** @deprecated 2022-06-03: Please use repositoryUrl */
-  githubHandle?: Maybe<Scalars['String']['output']>;
-  /** Returns true if the account has started the process to resume contributions */
-  hasResumeContributionsProcessStarted: Scalars['Boolean']['output'];
-  /** Returns the Fiscal Host */
-  host?: Maybe<Host>;
-  /** Returns agreements this account has with its host, or null if not enough permissions. */
-  hostAgreements?: Maybe<AgreementCollection>;
-  /** Returns the Fiscal Host application */
-  hostApplication?: Maybe<HostApplication>;
-  /** Host application requests */
-  hostApplicationRequests: HostApplicationCollection;
-  /** Fees percentage that the host takes for this collective */
-  hostFeePercent?: Maybe<Scalars['Float']['output']>;
-  /** Describe how the host charges the collective */
-  hostFeesStructure?: Maybe<HostFeeStructure>;
-  id: Scalars['String']['output'];
-  imageUrl?: Maybe<Scalars['String']['output']>;
-  /** Returns whether it's active: can accept financial contributions and pay expenses. */
-  isActive: Scalars['Boolean']['output'];
-  /** Returns true if the remote user is an admin of this account */
-  isAdmin: Scalars['Boolean']['output'];
-  /** Returns whether it's approved by the Fiscal Host */
-  isApproved: Scalars['Boolean']['output'];
-  /** Returns whether this account is archived */
-  isArchived: Scalars['Boolean']['output'];
-  /** Whether this account is frozen */
-  isFrozen: Scalars['Boolean']['output'];
-  /** Returns whether the account is setup to Host collectives. */
-  isHost: Scalars['Boolean']['output'];
-  /** Defines if the contributors wants to be incognito (name not displayed) */
-  isIncognito: Scalars['Boolean']['output'];
-  legacyId: Scalars['Int']['output'];
-  /** The legal documents associated with this account */
-  legalDocuments?: Maybe<Array<Maybe<LegalDocument>>>;
-  /** Private, legal name. Used for expense receipts, taxes, etc. Scope: "account". */
-  legalName?: Maybe<Scalars['String']['output']>;
-  /** The address associated to this account. This field is always public for collectives and events. */
-  location?: Maybe<Location>;
-  longDescription?: Maybe<Scalars['String']['output']>;
-  /** [AUTHENTICATED] Returns the pending invitations */
-  memberInvitations?: Maybe<Array<Maybe<MemberInvitation>>>;
-  memberOf: MemberOfCollection;
-  /** Get all members (admins, members, backers, followers) */
-  members: MemberCollection;
-  /** Public name */
-  name?: Maybe<Scalars['String']['output']>;
-  /** The list of applications created by this account. Admin only. Scope: "applications". */
-  oAuthApplications?: Maybe<OAuthApplicationCollection>;
-  orders: OrderCollection;
-  /** @deprecated 2022-12-16: use parent on AccountWithParent instead */
-  parentAccount?: Maybe<Account>;
-  /** The list of payment methods that this collective can use to pay for Orders. Admin or Host only. Scope: "orders". */
-  paymentMethods?: Maybe<Array<Maybe<PaymentMethod>>>;
-  /** The list of payment methods for this account that are pending a client confirmation (3D Secure / SCA) */
-  paymentMethodsWithPendingConfirmation?: Maybe<Array<Maybe<PaymentMethod>>>;
-  /** The list of payout methods that this collective can use to get paid. In most cases, admin only and scope: "expenses". */
-  payoutMethods?: Maybe<Array<Maybe<PayoutMethod>>>;
-  /** Logged-in user permissions on an account */
-  permissions: AccountPermissions;
-  /** Returns true if a custom contribution to Open Collective can be submitted for contributions made to this account */
-  platformContributionAvailable: Scalars['Boolean']['output'];
-  /** How much platform fees are charged for this account */
-  platformFeePercent: Scalars['Float']['output'];
-  /** Policies for the account. To see non-public policies you need to be admin and have the scope: "account". */
-  policies: Policies;
-  /** @deprecated 2023-01-16: Please use socialLinks */
-  repositoryUrl?: Maybe<Scalars['String']['output']>;
-  settings: Scalars['JSON']['output'];
-  /** The slug identifying the account (ie: babel) */
-  slug: Scalars['String']['output'];
-  socialLinks: Array<SocialLink>;
-  stats?: Maybe<AccountStats>;
-  summary?: Maybe<HostedAccountSummary>;
-  /** The list of expense types supported by this account */
-  supportedExpenseTypes: Array<ExpenseType>;
-  tags?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  tiers: TierCollection;
-  /** Number of unique financial contributors. */
-  totalFinancialContributors: Scalars['Int']['output'];
-  /** [!] Warning: this query is currently in beta and the API might change */
-  transactionGroups: TransactionGroupCollection;
-  /** EXPERIMENTAL (this may change or be removed) */
-  transactionReports?: Maybe<TransactionReports>;
-  transactions: TransactionCollection;
-  transferwise?: Maybe<TransferWise>;
-  /** @deprecated 2023-01-16: Please use socialLinks */
-  twitterHandle?: Maybe<Scalars['String']['output']>;
-  type: AccountType;
-  /** Date when the collective was last unfrozen by current Fiscal Host */
-  unfrozenAt?: Maybe<Scalars['DateTime']['output']>;
-  /** Date of unhosting by a given Fiscal Host. */
-  unhostedAt?: Maybe<Scalars['DateTime']['output']>;
-  updatedAt?: Maybe<Scalars['DateTime']['output']>;
-  /** Updates published by the account. To see unpublished updates, you need to be an admin and have the scope "updates". */
-  updates: UpdateCollection;
-  /** Virtual Cards Merchants used by the account. Admin only. Scope: "virtualCards". */
-  virtualCardMerchants?: Maybe<AccountCollection>;
-  /** Virtual Cards attached to the account. Admin only. Scope: "virtualCards". */
-  virtualCards?: Maybe<VirtualCardCollection>;
-  webhooks: WebhookCollection;
-  /** @deprecated 2023-01-16: Please use socialLinks */
-  website?: Maybe<Scalars['String']['output']>;
-};
-
+export type Collective = Account &
+  AccountWithContributions &
+  AccountWithHost & {
+    __typename?: 'Collective';
+    /** [!] Warning: this query is currently in beta and the API might change */
+    activeContributors: AccountCollection;
+    /** List of activities that the logged-in user is subscribed for this collective */
+    activitySubscriptions?: Maybe<Array<Maybe<ActivitySubscription>>>;
+    /** Date of approval by the Fiscal Host. */
+    approvedAt?: Maybe<Scalars['DateTime']['output']>;
+    backgroundImageUrl?: Maybe<Scalars['String']['output']>;
+    /** Whether this account can have changelog updates */
+    canHaveChangelogUpdates: Scalars['Boolean']['output'];
+    /** Returns true if the remote user can start the process to resume contributions for account */
+    canStartResumeContributionsProcess: Scalars['Boolean']['output'];
+    categories: Array<Maybe<Scalars['String']['output']>>;
+    childrenAccounts: AccountCollection;
+    /** The list of connected accounts (Stripe, PayPal, etc ...). Admin only. Scope: "connectedAccounts". */
+    connectedAccounts?: Maybe<Array<Maybe<ConnectedAccount>>>;
+    contributionPolicy?: Maybe<Scalars['String']['output']>;
+    /** All the persons and entities that contribute to this account */
+    contributors: ContributorCollection;
+    conversations: ConversationCollection;
+    /** Returns conversation's tags for collective sorted by popularity */
+    conversationsTags?: Maybe<Array<Maybe<TagStat>>>;
+    /** The time of creation */
+    createdAt?: Maybe<Scalars['DateTime']['output']>;
+    /** The currency of the account */
+    currency: Currency;
+    description?: Maybe<Scalars['String']['output']>;
+    /** If this account was duplicated, the accounts that were created from it */
+    duplicatedAccounts: AccountCollection;
+    /** If created by duplication, the account from which this one was duplicated */
+    duplicatedFromAccount?: Maybe<Account>;
+    /** Returns the emails of the account. Individuals only have one, but organizations can have multiple emails. */
+    emails?: Maybe<Array<Scalars['EmailAddress']['output']>>;
+    /** @deprecated 2024-11-04: Please use policies.EXPENSE_POLICIES */
+    expensePolicy?: Maybe<Scalars['String']['output']>;
+    expenses: ExpenseCollection;
+    /** Returns expense tags for collective sorted by popularity */
+    expensesTags?: Maybe<Array<Maybe<TagStat>>>;
+    /** Describes the features enabled and available for this account */
+    features: CollectiveFeatures;
+    feed?: Maybe<Array<Maybe<Activity>>>;
+    /** @deprecated 2022-06-03: Please use repositoryUrl */
+    githubHandle?: Maybe<Scalars['String']['output']>;
+    /** Returns true if the account has started the process to resume contributions */
+    hasResumeContributionsProcessStarted: Scalars['Boolean']['output'];
+    /** Returns the Fiscal Host */
+    host?: Maybe<Host>;
+    /** Returns agreements this account has with its host, or null if not enough permissions. */
+    hostAgreements?: Maybe<AgreementCollection>;
+    /** Returns the Fiscal Host application */
+    hostApplication?: Maybe<HostApplication>;
+    /** Host application requests */
+    hostApplicationRequests: HostApplicationCollection;
+    /** Fees percentage that the host takes for this collective */
+    hostFeePercent?: Maybe<Scalars['Float']['output']>;
+    /** Describe how the host charges the collective */
+    hostFeesStructure?: Maybe<HostFeeStructure>;
+    id: Scalars['String']['output'];
+    imageUrl?: Maybe<Scalars['String']['output']>;
+    /** Returns whether it's active: can accept financial contributions and pay expenses. */
+    isActive: Scalars['Boolean']['output'];
+    /** Returns true if the remote user is an admin of this account */
+    isAdmin: Scalars['Boolean']['output'];
+    /** Returns whether it's approved by the Fiscal Host */
+    isApproved: Scalars['Boolean']['output'];
+    /** Returns whether this account is archived */
+    isArchived: Scalars['Boolean']['output'];
+    /** Whether this account is frozen */
+    isFrozen: Scalars['Boolean']['output'];
+    /** Returns whether the account is setup to Host collectives. */
+    isHost: Scalars['Boolean']['output'];
+    /** Defines if the contributors wants to be incognito (name not displayed) */
+    isIncognito: Scalars['Boolean']['output'];
+    legacyId: Scalars['Int']['output'];
+    /** The legal documents associated with this account */
+    legalDocuments?: Maybe<Array<Maybe<LegalDocument>>>;
+    /** Private, legal name. Used for expense receipts, taxes, etc. Scope: "account". */
+    legalName?: Maybe<Scalars['String']['output']>;
+    /** The address associated to this account. This field is always public for collectives and events. */
+    location?: Maybe<Location>;
+    longDescription?: Maybe<Scalars['String']['output']>;
+    /** [AUTHENTICATED] Returns the pending invitations */
+    memberInvitations?: Maybe<Array<Maybe<MemberInvitation>>>;
+    memberOf: MemberOfCollection;
+    /** Get all members (admins, members, backers, followers) */
+    members: MemberCollection;
+    /** Public name */
+    name?: Maybe<Scalars['String']['output']>;
+    /** The list of applications created by this account. Admin only. Scope: "applications". */
+    oAuthApplications?: Maybe<OAuthApplicationCollection>;
+    orders: OrderCollection;
+    /** @deprecated 2022-12-16: use parent on AccountWithParent instead */
+    parentAccount?: Maybe<Account>;
+    /** The list of payment methods that this collective can use to pay for Orders. Admin or Host only. Scope: "orders". */
+    paymentMethods?: Maybe<Array<Maybe<PaymentMethod>>>;
+    /** The list of payment methods for this account that are pending a client confirmation (3D Secure / SCA) */
+    paymentMethodsWithPendingConfirmation?: Maybe<Array<Maybe<PaymentMethod>>>;
+    /** The list of payout methods that this collective can use to get paid. In most cases, admin only and scope: "expenses". */
+    payoutMethods?: Maybe<Array<Maybe<PayoutMethod>>>;
+    /** Logged-in user permissions on an account */
+    permissions: AccountPermissions;
+    /** Returns true if a custom contribution to Open Collective can be submitted for contributions made to this account */
+    platformContributionAvailable: Scalars['Boolean']['output'];
+    /** How much platform fees are charged for this account */
+    platformFeePercent: Scalars['Float']['output'];
+    /** Policies for the account. To see non-public policies you need to be admin and have the scope: "account". */
+    policies: Policies;
+    /** @deprecated 2023-01-16: Please use socialLinks */
+    repositoryUrl?: Maybe<Scalars['String']['output']>;
+    settings: Scalars['JSON']['output'];
+    /** The slug identifying the account (ie: babel) */
+    slug: Scalars['String']['output'];
+    socialLinks: Array<SocialLink>;
+    stats?: Maybe<AccountStats>;
+    summary?: Maybe<HostedAccountSummary>;
+    /** The list of expense types supported by this account */
+    supportedExpenseTypes: Array<ExpenseType>;
+    tags?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+    tiers: TierCollection;
+    /** Number of unique financial contributors. */
+    totalFinancialContributors: Scalars['Int']['output'];
+    /** [!] Warning: this query is currently in beta and the API might change */
+    transactionGroups: TransactionGroupCollection;
+    /** EXPERIMENTAL (this may change or be removed) */
+    transactionReports?: Maybe<TransactionReports>;
+    transactions: TransactionCollection;
+    transferwise?: Maybe<TransferWise>;
+    /** @deprecated 2023-01-16: Please use socialLinks */
+    twitterHandle?: Maybe<Scalars['String']['output']>;
+    type: AccountType;
+    /** Date when the collective was last unfrozen by current Fiscal Host */
+    unfrozenAt?: Maybe<Scalars['DateTime']['output']>;
+    /** Date of unhosting by a given Fiscal Host. */
+    unhostedAt?: Maybe<Scalars['DateTime']['output']>;
+    updatedAt?: Maybe<Scalars['DateTime']['output']>;
+    /** Updates published by the account. To see unpublished updates, you need to be an admin and have the scope "updates". */
+    updates: UpdateCollection;
+    /** Virtual Cards Merchants used by the account. Admin only. Scope: "virtualCards". */
+    virtualCardMerchants?: Maybe<AccountCollection>;
+    /** Virtual Cards attached to the account. Admin only. Scope: "virtualCards". */
+    virtualCards?: Maybe<VirtualCardCollection>;
+    webhooks: WebhookCollection;
+    /** @deprecated 2023-01-16: Please use socialLinks */
+    website?: Maybe<Scalars['String']['output']>;
+  };
 
 /** This represents a Collective account */
 export type CollectiveActiveContributorsArgs = {
@@ -2077,19 +2001,16 @@ export type CollectiveActiveContributorsArgs = {
   offset?: Scalars['Int']['input'];
 };
 
-
 /** This represents a Collective account */
 export type CollectiveActivitySubscriptionsArgs = {
   channel?: InputMaybe<ActivityChannel>;
 };
-
 
 /** This represents a Collective account */
 export type CollectiveBackgroundImageUrlArgs = {
   format?: InputMaybe<ImageFormat>;
   height?: InputMaybe<Scalars['Int']['input']>;
 };
-
 
 /** This represents a Collective account */
 export type CollectiveChildrenAccountsArgs = {
@@ -2101,14 +2022,12 @@ export type CollectiveChildrenAccountsArgs = {
   searchTerm?: InputMaybe<Scalars['String']['input']>;
 };
 
-
 /** This represents a Collective account */
 export type CollectiveContributorsArgs = {
   limit?: Scalars['Int']['input'];
   offset?: Scalars['Int']['input'];
   roles?: InputMaybe<Array<InputMaybe<MemberRole>>>;
 };
-
 
 /** This represents a Collective account */
 export type CollectiveConversationsArgs = {
@@ -2117,19 +2036,16 @@ export type CollectiveConversationsArgs = {
   tag?: InputMaybe<Scalars['String']['input']>;
 };
 
-
 /** This represents a Collective account */
 export type CollectiveConversationsTagsArgs = {
   limit?: Scalars['Int']['input'];
 };
-
 
 /** This represents a Collective account */
 export type CollectiveDuplicatedAccountsArgs = {
   limit?: Scalars['Int']['input'];
   offset?: Scalars['Int']['input'];
 };
-
 
 /** This represents a Collective account */
 export type CollectiveExpensesArgs = {
@@ -2162,12 +2078,10 @@ export type CollectiveExpensesArgs = {
   virtualCards?: InputMaybe<Array<InputMaybe<VirtualCardReferenceInput>>>;
 };
 
-
 /** This represents a Collective account */
 export type CollectiveExpensesTagsArgs = {
   limit?: Scalars['Int']['input'];
 };
-
 
 /** This represents a Collective account */
 export type CollectiveFeedArgs = {
@@ -2176,13 +2090,11 @@ export type CollectiveFeedArgs = {
   limit?: InputMaybe<Scalars['Int']['input']>;
 };
 
-
 /** This represents a Collective account */
 export type CollectiveHostAgreementsArgs = {
   limit?: Scalars['Int']['input'];
   offset?: Scalars['Int']['input'];
 };
-
 
 /** This represents a Collective account */
 export type CollectiveHostApplicationRequestsArgs = {
@@ -2192,13 +2104,11 @@ export type CollectiveHostApplicationRequestsArgs = {
   status?: InputMaybe<HostApplicationStatus>;
 };
 
-
 /** This represents a Collective account */
 export type CollectiveHostFeePercentArgs = {
   paymentMethodService?: InputMaybe<PaymentMethodService>;
   paymentMethodType?: InputMaybe<PaymentMethodType>;
 };
-
 
 /** This represents a Collective account */
 export type CollectiveImageUrlArgs = {
@@ -2206,12 +2116,10 @@ export type CollectiveImageUrlArgs = {
   height?: InputMaybe<Scalars['Int']['input']>;
 };
 
-
 /** This represents a Collective account */
 export type CollectiveLegalDocumentsArgs = {
   type?: InputMaybe<Array<InputMaybe<LegalDocumentType>>>;
 };
-
 
 /** This represents a Collective account */
 export type CollectiveMemberInvitationsArgs = {
@@ -2219,7 +2127,6 @@ export type CollectiveMemberInvitationsArgs = {
   memberAccount?: InputMaybe<AccountReferenceInput>;
   role?: InputMaybe<Array<InputMaybe<MemberRole>>>;
 };
-
 
 /** This represents a Collective account */
 export type CollectiveMemberOfArgs = {
@@ -2238,7 +2145,6 @@ export type CollectiveMemberOfArgs = {
   searchTerm?: InputMaybe<Scalars['String']['input']>;
 };
 
-
 /** This represents a Collective account */
 export type CollectiveMembersArgs = {
   accountType?: InputMaybe<Array<InputMaybe<AccountType>>>;
@@ -2250,13 +2156,11 @@ export type CollectiveMembersArgs = {
   role?: InputMaybe<Array<InputMaybe<MemberRole>>>;
 };
 
-
 /** This represents a Collective account */
 export type CollectiveOAuthApplicationsArgs = {
   limit?: Scalars['Int']['input'];
   offset?: Scalars['Int']['input'];
 };
-
 
 /** This represents a Collective account */
 export type CollectiveOrdersArgs = {
@@ -2291,7 +2195,6 @@ export type CollectiveOrdersArgs = {
   tierSlug?: InputMaybe<Scalars['String']['input']>;
 };
 
-
 /** This represents a Collective account */
 export type CollectivePaymentMethodsArgs = {
   enumType?: InputMaybe<Array<InputMaybe<PaymentMethodType>>>;
@@ -2300,12 +2203,10 @@ export type CollectivePaymentMethodsArgs = {
   type?: InputMaybe<Array<InputMaybe<PaymentMethodType>>>;
 };
 
-
 /** This represents a Collective account */
 export type CollectivePayoutMethodsArgs = {
   includeArchived?: InputMaybe<Scalars['Boolean']['input']>;
 };
-
 
 /** This represents a Collective account */
 export type CollectiveSummaryArgs = {
@@ -2313,19 +2214,16 @@ export type CollectiveSummaryArgs = {
   dateTo?: InputMaybe<Scalars['DateTime']['input']>;
 };
 
-
 /** This represents a Collective account */
 export type CollectiveTiersArgs = {
   limit?: Scalars['Int']['input'];
   offset?: Scalars['Int']['input'];
 };
 
-
 /** This represents a Collective account */
 export type CollectiveTotalFinancialContributorsArgs = {
   accountType?: InputMaybe<AccountType>;
 };
-
 
 /** This represents a Collective account */
 export type CollectiveTransactionGroupsArgs = {
@@ -2337,14 +2235,12 @@ export type CollectiveTransactionGroupsArgs = {
   type?: InputMaybe<TransactionType>;
 };
 
-
 /** This represents a Collective account */
 export type CollectiveTransactionReportsArgs = {
   dateFrom?: InputMaybe<Scalars['DateTime']['input']>;
   dateTo?: InputMaybe<Scalars['DateTime']['input']>;
   timeUnit?: InputMaybe<TimeUnit>;
 };
-
 
 /** This represents a Collective account */
 export type CollectiveTransactionsArgs = {
@@ -2387,12 +2283,10 @@ export type CollectiveTransactionsArgs = {
   virtualCard?: InputMaybe<Array<InputMaybe<VirtualCardReferenceInput>>>;
 };
 
-
 /** This represents a Collective account */
 export type CollectiveUnhostedAtArgs = {
   host: AccountReferenceInput;
 };
-
 
 /** This represents a Collective account */
 export type CollectiveUpdatesArgs = {
@@ -2405,13 +2299,11 @@ export type CollectiveUpdatesArgs = {
   searchTerm?: InputMaybe<Scalars['String']['input']>;
 };
 
-
 /** This represents a Collective account */
 export type CollectiveVirtualCardMerchantsArgs = {
   limit?: Scalars['Int']['input'];
   offset?: Scalars['Int']['input'];
 };
-
 
 /** This represents a Collective account */
 export type CollectiveVirtualCardsArgs = {
@@ -2424,7 +2316,6 @@ export type CollectiveVirtualCardsArgs = {
   state?: InputMaybe<Scalars['String']['input']>;
   status?: InputMaybe<Array<InputMaybe<VirtualCardStatus>>>;
 };
-
 
 /** This represents a Collective account */
 export type CollectiveWebhooksArgs = {
@@ -2458,7 +2349,7 @@ export enum CollectiveFeatureStatus {
   /** The feature is disabled, but can be enabled by an admin */
   DISABLED = 'DISABLED',
   /** The feature is disabled and cannot be activated for this account */
-  UNSUPPORTED = 'UNSUPPORTED'
+  UNSUPPORTED = 'UNSUPPORTED',
 }
 
 /** Describes the features enabled and available for this account */
@@ -2557,7 +2448,7 @@ export enum CommentType {
   /** Default regular comment */
   COMMENT = 'COMMENT',
   /** Comment is visible only to host admins */
-  PRIVATE_NOTE = 'PRIVATE_NOTE'
+  PRIVATE_NOTE = 'PRIVATE_NOTE',
 }
 
 export type CommentUpdateInput = {
@@ -2629,13 +2520,13 @@ export enum ConnectedAccountService {
   stripe_customer = 'stripe_customer',
   thegivingblock = 'thegivingblock',
   transferwise = 'transferwise',
-  twitter = 'twitter'
+  twitter = 'twitter',
 }
 
 export enum ContributionFrequency {
   MONTHLY = 'MONTHLY',
   ONETIME = 'ONETIME',
-  YEARLY = 'YEARLY'
+  YEARLY = 'YEARLY',
 }
 
 /** Contribution statistics related to the given accounts */
@@ -2712,7 +2603,6 @@ export type Contributor = {
   type: Scalars['String']['output'];
 };
 
-
 /**
  *
  *     A person or an entity that contributes financially or by any other mean to the mission
@@ -2746,7 +2636,6 @@ export type ContributorProfile = {
   totalContributedToHost?: Maybe<Amount>;
 };
 
-
 /** This represents a profile that can be use to create a contribution */
 export type ContributorProfileTotalContributedToHostArgs = {
   inCollectiveCurrency?: InputMaybe<Scalars['Boolean']['input']>;
@@ -2773,13 +2662,11 @@ export type Conversation = {
   updatedAt: Scalars['DateTime']['output'];
 };
 
-
 /** A conversation thread */
 export type ConversationCommentsArgs = {
   limit?: Scalars['Int']['input'];
   offset?: Scalars['Int']['input'];
 };
-
 
 /** A conversation thread */
 export type ConversationFollowersArgs = {
@@ -3308,7 +3195,7 @@ export enum CountryIso {
   /** Zambia */
   ZM = 'ZM',
   /** Zimbabwe */
-  ZW = 'ZW'
+  ZW = 'ZW',
 }
 
 /** This represents a Credit transaction */
@@ -3369,19 +3256,16 @@ export type Credit = Transaction & {
   uuid: Scalars['String']['output'];
 };
 
-
 /** This represents a Credit transaction */
 export type CreditDescriptionArgs = {
   dynamic?: InputMaybe<Scalars['Boolean']['input']>;
   full?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
-
 /** This represents a Credit transaction */
 export type CreditHostFeeArgs = {
   fetchHostFee?: InputMaybe<Scalars['Boolean']['input']>;
 };
-
 
 /** This represents a Credit transaction */
 export type CreditNetAmountArgs = {
@@ -3390,7 +3274,6 @@ export type CreditNetAmountArgs = {
   fetchTax?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
-
 /** This represents a Credit transaction */
 export type CreditNetAmountInHostCurrencyArgs = {
   fetchHostFee?: InputMaybe<Scalars['Boolean']['input']>;
@@ -3398,18 +3281,15 @@ export type CreditNetAmountInHostCurrencyArgs = {
   fetchTax?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
-
 /** This represents a Credit transaction */
 export type CreditPaymentProcessorFeeArgs = {
   fetchPaymentProcessorFee?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
-
 /** This represents a Credit transaction */
 export type CreditRelatedTransactionsArgs = {
   kind?: InputMaybe<Array<InputMaybe<TransactionKind>>>;
 };
-
 
 /** This represents a Credit transaction */
 export type CreditTaxAmountArgs = {
@@ -3710,7 +3590,7 @@ export enum Currency {
   /** Rand */
   ZAR = 'ZAR',
   /** Zambian Kwacha */
-  ZMW = 'ZMW'
+  ZMW = 'ZMW',
 }
 
 /** Fields for a currency fx rate */
@@ -3759,7 +3639,7 @@ export enum CurrencyExchangeRateSourceType {
   /** User-provided exchange rate */
   USER = 'USER',
   /** Wise API */
-  WISE = 'WISE'
+  WISE = 'WISE',
 }
 
 /** All possible DateTime fields for a resource */
@@ -3769,7 +3649,7 @@ export enum DateTimeField {
   /** Transactions only: The date when a transaction was cleared by the payment processor */
   EFFECTIVE_DATE = 'EFFECTIVE_DATE',
   /** Orders only: The date when an order was last charged, defaults to createdAt if never charged */
-  LAST_CHARGED_AT = 'LAST_CHARGED_AT'
+  LAST_CHARGED_AT = 'LAST_CHARGED_AT',
 }
 
 /** This represents a Debit transaction */
@@ -3830,19 +3710,16 @@ export type Debit = Transaction & {
   uuid: Scalars['String']['output'];
 };
 
-
 /** This represents a Debit transaction */
 export type DebitDescriptionArgs = {
   dynamic?: InputMaybe<Scalars['Boolean']['input']>;
   full?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
-
 /** This represents a Debit transaction */
 export type DebitHostFeeArgs = {
   fetchHostFee?: InputMaybe<Scalars['Boolean']['input']>;
 };
-
 
 /** This represents a Debit transaction */
 export type DebitNetAmountArgs = {
@@ -3851,7 +3728,6 @@ export type DebitNetAmountArgs = {
   fetchTax?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
-
 /** This represents a Debit transaction */
 export type DebitNetAmountInHostCurrencyArgs = {
   fetchHostFee?: InputMaybe<Scalars['Boolean']['input']>;
@@ -3859,18 +3735,15 @@ export type DebitNetAmountInHostCurrencyArgs = {
   fetchTax?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
-
 /** This represents a Debit transaction */
 export type DebitPaymentProcessorFeeArgs = {
   fetchPaymentProcessorFee?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
-
 /** This represents a Debit transaction */
 export type DebitRelatedTransactionsArgs = {
   kind?: InputMaybe<Array<InputMaybe<TransactionKind>>>;
 };
-
 
 /** This represents a Debit transaction */
 export type DebitTaxAmountArgs = {
@@ -3916,161 +3789,163 @@ export type EmojiReactionResponse = {
 };
 
 /** This represents an Event account */
-export type Event = Account & AccountWithContributions & AccountWithHost & AccountWithParent & {
-  __typename?: 'Event';
-  /** [!] Warning: this query is currently in beta and the API might change */
-  activeContributors: AccountCollection;
-  /** List of activities that the logged-in user is subscribed for this collective */
-  activitySubscriptions?: Maybe<Array<Maybe<ActivitySubscription>>>;
-  /** Date of approval by the Fiscal Host. */
-  approvedAt?: Maybe<Scalars['DateTime']['output']>;
-  backgroundImageUrl?: Maybe<Scalars['String']['output']>;
-  /** Whether this account can have changelog updates */
-  canHaveChangelogUpdates: Scalars['Boolean']['output'];
-  /** Returns true if the remote user can start the process to resume contributions for account */
-  canStartResumeContributionsProcess: Scalars['Boolean']['output'];
-  categories: Array<Maybe<Scalars['String']['output']>>;
-  childrenAccounts: AccountCollection;
-  /** The list of connected accounts (Stripe, PayPal, etc ...). Admin only. Scope: "connectedAccounts". */
-  connectedAccounts?: Maybe<Array<Maybe<ConnectedAccount>>>;
-  contributionPolicy?: Maybe<Scalars['String']['output']>;
-  /** All the persons and entities that contribute to this account */
-  contributors: ContributorCollection;
-  conversations: ConversationCollection;
-  /** Returns conversation's tags for collective sorted by popularity */
-  conversationsTags?: Maybe<Array<Maybe<TagStat>>>;
-  /** The time of creation */
-  createdAt?: Maybe<Scalars['DateTime']['output']>;
-  /** The currency of the account */
-  currency: Currency;
-  description?: Maybe<Scalars['String']['output']>;
-  /** If this account was duplicated, the accounts that were created from it */
-  duplicatedAccounts: AccountCollection;
-  /** If created by duplication, the account from which this one was duplicated */
-  duplicatedFromAccount?: Maybe<Account>;
-  /** Returns the emails of the account. Individuals only have one, but organizations can have multiple emails. */
-  emails?: Maybe<Array<Scalars['EmailAddress']['output']>>;
-  /** The Event end date and time */
-  endsAt?: Maybe<Scalars['DateTime']['output']>;
-  /** @deprecated 2024-11-04: Please use policies.EXPENSE_POLICIES */
-  expensePolicy?: Maybe<Scalars['String']['output']>;
-  expenses: ExpenseCollection;
-  /** Returns expense tags for collective sorted by popularity */
-  expensesTags?: Maybe<Array<Maybe<TagStat>>>;
-  /** Describes the features enabled and available for this account */
-  features: CollectiveFeatures;
-  feed?: Maybe<Array<Maybe<Activity>>>;
-  /** @deprecated 2022-06-03: Please use repositoryUrl */
-  githubHandle?: Maybe<Scalars['String']['output']>;
-  /** Returns true if the account has started the process to resume contributions */
-  hasResumeContributionsProcessStarted: Scalars['Boolean']['output'];
-  /** Returns the Fiscal Host */
-  host?: Maybe<Host>;
-  /** Returns agreements this account has with its host, or null if not enough permissions. */
-  hostAgreements?: Maybe<AgreementCollection>;
-  /** Returns the Fiscal Host application */
-  hostApplication?: Maybe<HostApplication>;
-  /** Host application requests */
-  hostApplicationRequests: HostApplicationCollection;
-  /** Fees percentage that the host takes for this collective */
-  hostFeePercent?: Maybe<Scalars['Float']['output']>;
-  /** Describe how the host charges the collective */
-  hostFeesStructure?: Maybe<HostFeeStructure>;
-  id: Scalars['String']['output'];
-  imageUrl?: Maybe<Scalars['String']['output']>;
-  /** Returns whether it's active: can accept financial contributions and pay expenses. */
-  isActive: Scalars['Boolean']['output'];
-  /** Returns true if the remote user is an admin of this account */
-  isAdmin: Scalars['Boolean']['output'];
-  /** Returns whether it's approved by the Fiscal Host */
-  isApproved: Scalars['Boolean']['output'];
-  /** Returns whether this account is archived */
-  isArchived: Scalars['Boolean']['output'];
-  /** Whether this account is frozen */
-  isFrozen: Scalars['Boolean']['output'];
-  /** Returns whether the account is setup to Host collectives. */
-  isHost: Scalars['Boolean']['output'];
-  /** Defines if the contributors wants to be incognito (name not displayed) */
-  isIncognito: Scalars['Boolean']['output'];
-  legacyId: Scalars['Int']['output'];
-  /** The legal documents associated with this account */
-  legalDocuments?: Maybe<Array<Maybe<LegalDocument>>>;
-  /** Private, legal name. Used for expense receipts, taxes, etc. Scope: "account". */
-  legalName?: Maybe<Scalars['String']['output']>;
-  /** The address associated to this account. This field is always public for collectives and events. */
-  location?: Maybe<Location>;
-  longDescription?: Maybe<Scalars['String']['output']>;
-  /** [AUTHENTICATED] Returns the pending invitations */
-  memberInvitations?: Maybe<Array<Maybe<MemberInvitation>>>;
-  memberOf: MemberOfCollection;
-  /** Get all members (admins, members, backers, followers) */
-  members: MemberCollection;
-  /** Public name */
-  name?: Maybe<Scalars['String']['output']>;
-  /** The list of applications created by this account. Admin only. Scope: "applications". */
-  oAuthApplications?: Maybe<OAuthApplicationCollection>;
-  orders: OrderCollection;
-  /** The Account parenting this account */
-  parent?: Maybe<Account>;
-  /** @deprecated 2022-12-16: use parent on AccountWithParent instead */
-  parentAccount?: Maybe<Account>;
-  /** The list of payment methods that this collective can use to pay for Orders. Admin or Host only. Scope: "orders". */
-  paymentMethods?: Maybe<Array<Maybe<PaymentMethod>>>;
-  /** The list of payment methods for this account that are pending a client confirmation (3D Secure / SCA) */
-  paymentMethodsWithPendingConfirmation?: Maybe<Array<Maybe<PaymentMethod>>>;
-  /** The list of payout methods that this collective can use to get paid. In most cases, admin only and scope: "expenses". */
-  payoutMethods?: Maybe<Array<Maybe<PayoutMethod>>>;
-  /** Logged-in user permissions on an account */
-  permissions: AccountPermissions;
-  /** Returns true if a custom contribution to Open Collective can be submitted for contributions made to this account */
-  platformContributionAvailable: Scalars['Boolean']['output'];
-  /** How much platform fees are charged for this account */
-  platformFeePercent: Scalars['Float']['output'];
-  /** Policies for the account. To see non-public policies you need to be admin and have the scope: "account". */
-  policies: Policies;
-  /** @deprecated 2023-01-16: Please use socialLinks */
-  repositoryUrl?: Maybe<Scalars['String']['output']>;
-  settings: Scalars['JSON']['output'];
-  /** The slug identifying the account (ie: babel) */
-  slug: Scalars['String']['output'];
-  socialLinks: Array<SocialLink>;
-  /** The Event start date and time */
-  startsAt?: Maybe<Scalars['DateTime']['output']>;
-  stats?: Maybe<AccountStats>;
-  summary?: Maybe<HostedAccountSummary>;
-  /** The list of expense types supported by this account */
-  supportedExpenseTypes: Array<ExpenseType>;
-  tags?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  tiers: TierCollection;
-  /** Timezone of the Event (TZ database format, e.g. UTC or Europe/Berlin) */
-  timezone?: Maybe<Scalars['String']['output']>;
-  /** Number of unique financial contributors. */
-  totalFinancialContributors: Scalars['Int']['output'];
-  /** [!] Warning: this query is currently in beta and the API might change */
-  transactionGroups: TransactionGroupCollection;
-  /** EXPERIMENTAL (this may change or be removed) */
-  transactionReports?: Maybe<TransactionReports>;
-  transactions: TransactionCollection;
-  transferwise?: Maybe<TransferWise>;
-  /** @deprecated 2023-01-16: Please use socialLinks */
-  twitterHandle?: Maybe<Scalars['String']['output']>;
-  type: AccountType;
-  /** Date when the collective was last unfrozen by current Fiscal Host */
-  unfrozenAt?: Maybe<Scalars['DateTime']['output']>;
-  /** Date of unhosting by a given Fiscal Host. */
-  unhostedAt?: Maybe<Scalars['DateTime']['output']>;
-  updatedAt?: Maybe<Scalars['DateTime']['output']>;
-  /** Updates published by the account. To see unpublished updates, you need to be an admin and have the scope "updates". */
-  updates: UpdateCollection;
-  /** Virtual Cards Merchants used by the account. Admin only. Scope: "virtualCards". */
-  virtualCardMerchants?: Maybe<AccountCollection>;
-  /** Virtual Cards attached to the account. Admin only. Scope: "virtualCards". */
-  virtualCards?: Maybe<VirtualCardCollection>;
-  webhooks: WebhookCollection;
-  /** @deprecated 2023-01-16: Please use socialLinks */
-  website?: Maybe<Scalars['String']['output']>;
-};
-
+export type Event = Account &
+  AccountWithContributions &
+  AccountWithHost &
+  AccountWithParent & {
+    __typename?: 'Event';
+    /** [!] Warning: this query is currently in beta and the API might change */
+    activeContributors: AccountCollection;
+    /** List of activities that the logged-in user is subscribed for this collective */
+    activitySubscriptions?: Maybe<Array<Maybe<ActivitySubscription>>>;
+    /** Date of approval by the Fiscal Host. */
+    approvedAt?: Maybe<Scalars['DateTime']['output']>;
+    backgroundImageUrl?: Maybe<Scalars['String']['output']>;
+    /** Whether this account can have changelog updates */
+    canHaveChangelogUpdates: Scalars['Boolean']['output'];
+    /** Returns true if the remote user can start the process to resume contributions for account */
+    canStartResumeContributionsProcess: Scalars['Boolean']['output'];
+    categories: Array<Maybe<Scalars['String']['output']>>;
+    childrenAccounts: AccountCollection;
+    /** The list of connected accounts (Stripe, PayPal, etc ...). Admin only. Scope: "connectedAccounts". */
+    connectedAccounts?: Maybe<Array<Maybe<ConnectedAccount>>>;
+    contributionPolicy?: Maybe<Scalars['String']['output']>;
+    /** All the persons and entities that contribute to this account */
+    contributors: ContributorCollection;
+    conversations: ConversationCollection;
+    /** Returns conversation's tags for collective sorted by popularity */
+    conversationsTags?: Maybe<Array<Maybe<TagStat>>>;
+    /** The time of creation */
+    createdAt?: Maybe<Scalars['DateTime']['output']>;
+    /** The currency of the account */
+    currency: Currency;
+    description?: Maybe<Scalars['String']['output']>;
+    /** If this account was duplicated, the accounts that were created from it */
+    duplicatedAccounts: AccountCollection;
+    /** If created by duplication, the account from which this one was duplicated */
+    duplicatedFromAccount?: Maybe<Account>;
+    /** Returns the emails of the account. Individuals only have one, but organizations can have multiple emails. */
+    emails?: Maybe<Array<Scalars['EmailAddress']['output']>>;
+    /** The Event end date and time */
+    endsAt?: Maybe<Scalars['DateTime']['output']>;
+    /** @deprecated 2024-11-04: Please use policies.EXPENSE_POLICIES */
+    expensePolicy?: Maybe<Scalars['String']['output']>;
+    expenses: ExpenseCollection;
+    /** Returns expense tags for collective sorted by popularity */
+    expensesTags?: Maybe<Array<Maybe<TagStat>>>;
+    /** Describes the features enabled and available for this account */
+    features: CollectiveFeatures;
+    feed?: Maybe<Array<Maybe<Activity>>>;
+    /** @deprecated 2022-06-03: Please use repositoryUrl */
+    githubHandle?: Maybe<Scalars['String']['output']>;
+    /** Returns true if the account has started the process to resume contributions */
+    hasResumeContributionsProcessStarted: Scalars['Boolean']['output'];
+    /** Returns the Fiscal Host */
+    host?: Maybe<Host>;
+    /** Returns agreements this account has with its host, or null if not enough permissions. */
+    hostAgreements?: Maybe<AgreementCollection>;
+    /** Returns the Fiscal Host application */
+    hostApplication?: Maybe<HostApplication>;
+    /** Host application requests */
+    hostApplicationRequests: HostApplicationCollection;
+    /** Fees percentage that the host takes for this collective */
+    hostFeePercent?: Maybe<Scalars['Float']['output']>;
+    /** Describe how the host charges the collective */
+    hostFeesStructure?: Maybe<HostFeeStructure>;
+    id: Scalars['String']['output'];
+    imageUrl?: Maybe<Scalars['String']['output']>;
+    /** Returns whether it's active: can accept financial contributions and pay expenses. */
+    isActive: Scalars['Boolean']['output'];
+    /** Returns true if the remote user is an admin of this account */
+    isAdmin: Scalars['Boolean']['output'];
+    /** Returns whether it's approved by the Fiscal Host */
+    isApproved: Scalars['Boolean']['output'];
+    /** Returns whether this account is archived */
+    isArchived: Scalars['Boolean']['output'];
+    /** Whether this account is frozen */
+    isFrozen: Scalars['Boolean']['output'];
+    /** Returns whether the account is setup to Host collectives. */
+    isHost: Scalars['Boolean']['output'];
+    /** Defines if the contributors wants to be incognito (name not displayed) */
+    isIncognito: Scalars['Boolean']['output'];
+    legacyId: Scalars['Int']['output'];
+    /** The legal documents associated with this account */
+    legalDocuments?: Maybe<Array<Maybe<LegalDocument>>>;
+    /** Private, legal name. Used for expense receipts, taxes, etc. Scope: "account". */
+    legalName?: Maybe<Scalars['String']['output']>;
+    /** The address associated to this account. This field is always public for collectives and events. */
+    location?: Maybe<Location>;
+    longDescription?: Maybe<Scalars['String']['output']>;
+    /** [AUTHENTICATED] Returns the pending invitations */
+    memberInvitations?: Maybe<Array<Maybe<MemberInvitation>>>;
+    memberOf: MemberOfCollection;
+    /** Get all members (admins, members, backers, followers) */
+    members: MemberCollection;
+    /** Public name */
+    name?: Maybe<Scalars['String']['output']>;
+    /** The list of applications created by this account. Admin only. Scope: "applications". */
+    oAuthApplications?: Maybe<OAuthApplicationCollection>;
+    orders: OrderCollection;
+    /** The Account parenting this account */
+    parent?: Maybe<Account>;
+    /** @deprecated 2022-12-16: use parent on AccountWithParent instead */
+    parentAccount?: Maybe<Account>;
+    /** The list of payment methods that this collective can use to pay for Orders. Admin or Host only. Scope: "orders". */
+    paymentMethods?: Maybe<Array<Maybe<PaymentMethod>>>;
+    /** The list of payment methods for this account that are pending a client confirmation (3D Secure / SCA) */
+    paymentMethodsWithPendingConfirmation?: Maybe<Array<Maybe<PaymentMethod>>>;
+    /** The list of payout methods that this collective can use to get paid. In most cases, admin only and scope: "expenses". */
+    payoutMethods?: Maybe<Array<Maybe<PayoutMethod>>>;
+    /** Logged-in user permissions on an account */
+    permissions: AccountPermissions;
+    /** Returns true if a custom contribution to Open Collective can be submitted for contributions made to this account */
+    platformContributionAvailable: Scalars['Boolean']['output'];
+    /** How much platform fees are charged for this account */
+    platformFeePercent: Scalars['Float']['output'];
+    /** Policies for the account. To see non-public policies you need to be admin and have the scope: "account". */
+    policies: Policies;
+    /** @deprecated 2023-01-16: Please use socialLinks */
+    repositoryUrl?: Maybe<Scalars['String']['output']>;
+    settings: Scalars['JSON']['output'];
+    /** The slug identifying the account (ie: babel) */
+    slug: Scalars['String']['output'];
+    socialLinks: Array<SocialLink>;
+    /** The Event start date and time */
+    startsAt?: Maybe<Scalars['DateTime']['output']>;
+    stats?: Maybe<AccountStats>;
+    summary?: Maybe<HostedAccountSummary>;
+    /** The list of expense types supported by this account */
+    supportedExpenseTypes: Array<ExpenseType>;
+    tags?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+    tiers: TierCollection;
+    /** Timezone of the Event (TZ database format, e.g. UTC or Europe/Berlin) */
+    timezone?: Maybe<Scalars['String']['output']>;
+    /** Number of unique financial contributors. */
+    totalFinancialContributors: Scalars['Int']['output'];
+    /** [!] Warning: this query is currently in beta and the API might change */
+    transactionGroups: TransactionGroupCollection;
+    /** EXPERIMENTAL (this may change or be removed) */
+    transactionReports?: Maybe<TransactionReports>;
+    transactions: TransactionCollection;
+    transferwise?: Maybe<TransferWise>;
+    /** @deprecated 2023-01-16: Please use socialLinks */
+    twitterHandle?: Maybe<Scalars['String']['output']>;
+    type: AccountType;
+    /** Date when the collective was last unfrozen by current Fiscal Host */
+    unfrozenAt?: Maybe<Scalars['DateTime']['output']>;
+    /** Date of unhosting by a given Fiscal Host. */
+    unhostedAt?: Maybe<Scalars['DateTime']['output']>;
+    updatedAt?: Maybe<Scalars['DateTime']['output']>;
+    /** Updates published by the account. To see unpublished updates, you need to be an admin and have the scope "updates". */
+    updates: UpdateCollection;
+    /** Virtual Cards Merchants used by the account. Admin only. Scope: "virtualCards". */
+    virtualCardMerchants?: Maybe<AccountCollection>;
+    /** Virtual Cards attached to the account. Admin only. Scope: "virtualCards". */
+    virtualCards?: Maybe<VirtualCardCollection>;
+    webhooks: WebhookCollection;
+    /** @deprecated 2023-01-16: Please use socialLinks */
+    website?: Maybe<Scalars['String']['output']>;
+  };
 
 /** This represents an Event account */
 export type EventActiveContributorsArgs = {
@@ -4081,19 +3956,16 @@ export type EventActiveContributorsArgs = {
   offset?: Scalars['Int']['input'];
 };
 
-
 /** This represents an Event account */
 export type EventActivitySubscriptionsArgs = {
   channel?: InputMaybe<ActivityChannel>;
 };
-
 
 /** This represents an Event account */
 export type EventBackgroundImageUrlArgs = {
   format?: InputMaybe<ImageFormat>;
   height?: InputMaybe<Scalars['Int']['input']>;
 };
-
 
 /** This represents an Event account */
 export type EventChildrenAccountsArgs = {
@@ -4105,14 +3977,12 @@ export type EventChildrenAccountsArgs = {
   searchTerm?: InputMaybe<Scalars['String']['input']>;
 };
 
-
 /** This represents an Event account */
 export type EventContributorsArgs = {
   limit?: Scalars['Int']['input'];
   offset?: Scalars['Int']['input'];
   roles?: InputMaybe<Array<InputMaybe<MemberRole>>>;
 };
-
 
 /** This represents an Event account */
 export type EventConversationsArgs = {
@@ -4121,19 +3991,16 @@ export type EventConversationsArgs = {
   tag?: InputMaybe<Scalars['String']['input']>;
 };
 
-
 /** This represents an Event account */
 export type EventConversationsTagsArgs = {
   limit?: Scalars['Int']['input'];
 };
-
 
 /** This represents an Event account */
 export type EventDuplicatedAccountsArgs = {
   limit?: Scalars['Int']['input'];
   offset?: Scalars['Int']['input'];
 };
-
 
 /** This represents an Event account */
 export type EventExpensesArgs = {
@@ -4166,12 +4033,10 @@ export type EventExpensesArgs = {
   virtualCards?: InputMaybe<Array<InputMaybe<VirtualCardReferenceInput>>>;
 };
 
-
 /** This represents an Event account */
 export type EventExpensesTagsArgs = {
   limit?: Scalars['Int']['input'];
 };
-
 
 /** This represents an Event account */
 export type EventFeedArgs = {
@@ -4180,13 +4045,11 @@ export type EventFeedArgs = {
   limit?: InputMaybe<Scalars['Int']['input']>;
 };
 
-
 /** This represents an Event account */
 export type EventHostAgreementsArgs = {
   limit?: Scalars['Int']['input'];
   offset?: Scalars['Int']['input'];
 };
-
 
 /** This represents an Event account */
 export type EventHostApplicationRequestsArgs = {
@@ -4196,13 +4059,11 @@ export type EventHostApplicationRequestsArgs = {
   status?: InputMaybe<HostApplicationStatus>;
 };
 
-
 /** This represents an Event account */
 export type EventHostFeePercentArgs = {
   paymentMethodService?: InputMaybe<PaymentMethodService>;
   paymentMethodType?: InputMaybe<PaymentMethodType>;
 };
-
 
 /** This represents an Event account */
 export type EventImageUrlArgs = {
@@ -4210,12 +4071,10 @@ export type EventImageUrlArgs = {
   height?: InputMaybe<Scalars['Int']['input']>;
 };
 
-
 /** This represents an Event account */
 export type EventLegalDocumentsArgs = {
   type?: InputMaybe<Array<InputMaybe<LegalDocumentType>>>;
 };
-
 
 /** This represents an Event account */
 export type EventMemberInvitationsArgs = {
@@ -4223,7 +4082,6 @@ export type EventMemberInvitationsArgs = {
   memberAccount?: InputMaybe<AccountReferenceInput>;
   role?: InputMaybe<Array<InputMaybe<MemberRole>>>;
 };
-
 
 /** This represents an Event account */
 export type EventMemberOfArgs = {
@@ -4242,7 +4100,6 @@ export type EventMemberOfArgs = {
   searchTerm?: InputMaybe<Scalars['String']['input']>;
 };
 
-
 /** This represents an Event account */
 export type EventMembersArgs = {
   accountType?: InputMaybe<Array<InputMaybe<AccountType>>>;
@@ -4254,13 +4111,11 @@ export type EventMembersArgs = {
   role?: InputMaybe<Array<InputMaybe<MemberRole>>>;
 };
 
-
 /** This represents an Event account */
 export type EventOAuthApplicationsArgs = {
   limit?: Scalars['Int']['input'];
   offset?: Scalars['Int']['input'];
 };
-
 
 /** This represents an Event account */
 export type EventOrdersArgs = {
@@ -4295,7 +4150,6 @@ export type EventOrdersArgs = {
   tierSlug?: InputMaybe<Scalars['String']['input']>;
 };
 
-
 /** This represents an Event account */
 export type EventPaymentMethodsArgs = {
   enumType?: InputMaybe<Array<InputMaybe<PaymentMethodType>>>;
@@ -4304,12 +4158,10 @@ export type EventPaymentMethodsArgs = {
   type?: InputMaybe<Array<InputMaybe<PaymentMethodType>>>;
 };
 
-
 /** This represents an Event account */
 export type EventPayoutMethodsArgs = {
   includeArchived?: InputMaybe<Scalars['Boolean']['input']>;
 };
-
 
 /** This represents an Event account */
 export type EventSummaryArgs = {
@@ -4317,19 +4169,16 @@ export type EventSummaryArgs = {
   dateTo?: InputMaybe<Scalars['DateTime']['input']>;
 };
 
-
 /** This represents an Event account */
 export type EventTiersArgs = {
   limit?: Scalars['Int']['input'];
   offset?: Scalars['Int']['input'];
 };
 
-
 /** This represents an Event account */
 export type EventTotalFinancialContributorsArgs = {
   accountType?: InputMaybe<AccountType>;
 };
-
 
 /** This represents an Event account */
 export type EventTransactionGroupsArgs = {
@@ -4341,14 +4190,12 @@ export type EventTransactionGroupsArgs = {
   type?: InputMaybe<TransactionType>;
 };
 
-
 /** This represents an Event account */
 export type EventTransactionReportsArgs = {
   dateFrom?: InputMaybe<Scalars['DateTime']['input']>;
   dateTo?: InputMaybe<Scalars['DateTime']['input']>;
   timeUnit?: InputMaybe<TimeUnit>;
 };
-
 
 /** This represents an Event account */
 export type EventTransactionsArgs = {
@@ -4391,12 +4238,10 @@ export type EventTransactionsArgs = {
   virtualCard?: InputMaybe<Array<InputMaybe<VirtualCardReferenceInput>>>;
 };
 
-
 /** This represents an Event account */
 export type EventUnhostedAtArgs = {
   host: AccountReferenceInput;
 };
-
 
 /** This represents an Event account */
 export type EventUpdatesArgs = {
@@ -4409,13 +4254,11 @@ export type EventUpdatesArgs = {
   searchTerm?: InputMaybe<Scalars['String']['input']>;
 };
 
-
 /** This represents an Event account */
 export type EventVirtualCardMerchantsArgs = {
   limit?: Scalars['Int']['input'];
   offset?: Scalars['Int']['input'];
 };
-
 
 /** This represents an Event account */
 export type EventVirtualCardsArgs = {
@@ -4428,7 +4271,6 @@ export type EventVirtualCardsArgs = {
   state?: InputMaybe<Scalars['String']['input']>;
   status?: InputMaybe<Array<InputMaybe<VirtualCardStatus>>>;
 };
-
 
 /** This represents an Event account */
 export type EventWebhooksArgs = {
@@ -4459,7 +4301,7 @@ export type EventCreateInput = {
 export enum ExpectedFundsFilter {
   ALL_EXPECTED_FUNDS = 'ALL_EXPECTED_FUNDS',
   ONLY_MANUAL = 'ONLY_MANUAL',
-  ONLY_PENDING = 'ONLY_PENDING'
+  ONLY_PENDING = 'ONLY_PENDING',
 }
 
 /** This represents an Expense */
@@ -4566,12 +4408,10 @@ export type Expense = {
   virtualCard?: Maybe<VirtualCard>;
 };
 
-
 /** This represents an Expense */
 export type ExpenseAmountV2Args = {
   currencySource?: InputMaybe<ExpenseCurrencySource>;
 };
-
 
 /** This represents an Expense */
 export type ExpenseCommentsArgs = {
@@ -4579,7 +4419,6 @@ export type ExpenseCommentsArgs = {
   offset?: Scalars['Int']['input'];
   orderBy?: InputMaybe<ChronologicalOrderInput>;
 };
-
 
 /** This represents an Expense */
 export type ExpenseLegalDocumentsArgs = {
@@ -4589,7 +4428,6 @@ export type ExpenseLegalDocumentsArgs = {
   status?: InputMaybe<Array<InputMaybe<LegalDocumentRequestStatus>>>;
   type?: InputMaybe<Array<InputMaybe<LegalDocumentType>>>;
 };
-
 
 /** This represents an Expense */
 export type ExpenseValidateTransferRequirementsArgs = {
@@ -4638,7 +4476,6 @@ export type ExpenseCollectionTotalAmount = {
   amount?: Maybe<Amount>;
   amountsByCurrency?: Maybe<Array<Maybe<Amount>>>;
 };
-
 
 export type ExpenseCollectionTotalAmountAmountArgs = {
   currency?: InputMaybe<Currency>;
@@ -4690,7 +4527,7 @@ export enum ExpenseCurrencySource {
   /** The expense currency expressed as the expense currency */
   EXPENSE = 'EXPENSE',
   /** The expense currency expressed as the host currency */
-  HOST = 'HOST'
+  HOST = 'HOST',
 }
 
 /** Describes the role in which an account is involved in an expense. This is used to filter */
@@ -4698,7 +4535,7 @@ export enum ExpenseDirection {
   /** Received: The account is the one who received the expense and the one who's paying for it. */
   RECEIVED = 'RECEIVED',
   /** Submitted: The account is the one who submitted the expense and possibly the beneficiary. */
-  SUBMITTED = 'SUBMITTED'
+  SUBMITTED = 'SUBMITTED',
 }
 
 export type ExpenseInviteDraftInput = {
@@ -4836,7 +4673,7 @@ export enum ExpenseLockableFields {
   /** Locks the payee field, if the user is not on the platform it locks its email. */
   PAYEE = 'PAYEE',
   /** Locks the type field. */
-  TYPE = 'TYPE'
+  TYPE = 'TYPE',
 }
 
 export type ExpenseParsedFileInfo = {
@@ -4911,7 +4748,6 @@ export type ExpensePermissions = {
   verifyDraftExpense: Permission;
 };
 
-
 /** Fields for the user permissions on an expense */
 export type ExpensePermissionsCanDeclineExpenseInviteArgs = {
   draftKey?: InputMaybe<Scalars['String']['input']>;
@@ -4944,7 +4780,7 @@ export enum ExpenseProcessAction {
   /** To mark the expense as pending after it has been approved */
   UNAPPROVE = 'UNAPPROVE',
   /** To unschedule the expense payment */
-  UNSCHEDULE_PAYMENT = 'UNSCHEDULE_PAYMENT'
+  UNSCHEDULE_PAYMENT = 'UNSCHEDULE_PAYMENT',
 }
 
 /** Fields for an expense quote */
@@ -4993,7 +4829,7 @@ export enum ExpenseStatus {
   REJECTED = 'REJECTED',
   SCHEDULED_FOR_PAYMENT = 'SCHEDULED_FOR_PAYMENT',
   SPAM = 'SPAM',
-  UNVERIFIED = 'UNVERIFIED'
+  UNVERIFIED = 'UNVERIFIED',
 }
 
 /** Describes the values allowed to filter expenses, namely all the expense statuses and the special "READY_TO_PAY" value. */
@@ -5014,7 +4850,7 @@ export enum ExpenseStatusFilter {
   REJECTED = 'REJECTED',
   SCHEDULED_FOR_PAYMENT = 'SCHEDULED_FOR_PAYMENT',
   SPAM = 'SPAM',
-  UNVERIFIED = 'UNVERIFIED'
+  UNVERIFIED = 'UNVERIFIED',
 }
 
 /** Input to set taxes for an expense */
@@ -5041,7 +4877,7 @@ export enum ExpenseType {
   /** Settlement: expense generated by Open Collective to collect money owed by Fiscal Hosts. */
   SETTLEMENT = 'SETTLEMENT',
   /** Unclassified expense */
-  UNCLASSIFIED = 'UNCLASSIFIED'
+  UNCLASSIFIED = 'UNCLASSIFIED',
 }
 
 export type ExpenseUpdateInput = {
@@ -5106,7 +4942,7 @@ export enum FeesPayer {
   /** The collective will be responsible for paying the fees */
   COLLECTIVE = 'COLLECTIVE',
   /** The payee will be responsible for paying the fees (they'll be deduced from the total amount) */
-  PAYEE = 'PAYEE'
+  PAYEE = 'PAYEE',
 }
 
 /** Exposes information about an uploaded file (image, pdf, etc.) */
@@ -5130,153 +4966,154 @@ export type FollowAccountResult = {
 };
 
 /** This represents an Project account */
-export type Fund = Account & AccountWithContributions & AccountWithHost & {
-  __typename?: 'Fund';
-  /** [!] Warning: this query is currently in beta and the API might change */
-  activeContributors: AccountCollection;
-  /** List of activities that the logged-in user is subscribed for this collective */
-  activitySubscriptions?: Maybe<Array<Maybe<ActivitySubscription>>>;
-  /** Date of approval by the Fiscal Host. */
-  approvedAt?: Maybe<Scalars['DateTime']['output']>;
-  backgroundImageUrl?: Maybe<Scalars['String']['output']>;
-  /** Whether this account can have changelog updates */
-  canHaveChangelogUpdates: Scalars['Boolean']['output'];
-  /** Returns true if the remote user can start the process to resume contributions for account */
-  canStartResumeContributionsProcess: Scalars['Boolean']['output'];
-  categories: Array<Maybe<Scalars['String']['output']>>;
-  childrenAccounts: AccountCollection;
-  /** The list of connected accounts (Stripe, PayPal, etc ...). Admin only. Scope: "connectedAccounts". */
-  connectedAccounts?: Maybe<Array<Maybe<ConnectedAccount>>>;
-  contributionPolicy?: Maybe<Scalars['String']['output']>;
-  /** All the persons and entities that contribute to this account */
-  contributors: ContributorCollection;
-  conversations: ConversationCollection;
-  /** Returns conversation's tags for collective sorted by popularity */
-  conversationsTags?: Maybe<Array<Maybe<TagStat>>>;
-  /** The time of creation */
-  createdAt?: Maybe<Scalars['DateTime']['output']>;
-  /** The currency of the account */
-  currency: Currency;
-  description?: Maybe<Scalars['String']['output']>;
-  /** If this account was duplicated, the accounts that were created from it */
-  duplicatedAccounts: AccountCollection;
-  /** If created by duplication, the account from which this one was duplicated */
-  duplicatedFromAccount?: Maybe<Account>;
-  /** Returns the emails of the account. Individuals only have one, but organizations can have multiple emails. */
-  emails?: Maybe<Array<Scalars['EmailAddress']['output']>>;
-  /** @deprecated 2024-11-04: Please use policies.EXPENSE_POLICIES */
-  expensePolicy?: Maybe<Scalars['String']['output']>;
-  expenses: ExpenseCollection;
-  /** Returns expense tags for collective sorted by popularity */
-  expensesTags?: Maybe<Array<Maybe<TagStat>>>;
-  /** Describes the features enabled and available for this account */
-  features: CollectiveFeatures;
-  feed?: Maybe<Array<Maybe<Activity>>>;
-  /** @deprecated 2022-06-03: Please use repositoryUrl */
-  githubHandle?: Maybe<Scalars['String']['output']>;
-  /** Returns true if the account has started the process to resume contributions */
-  hasResumeContributionsProcessStarted: Scalars['Boolean']['output'];
-  /** Returns the Fiscal Host */
-  host?: Maybe<Host>;
-  /** Returns agreements this account has with its host, or null if not enough permissions. */
-  hostAgreements?: Maybe<AgreementCollection>;
-  /** Returns the Fiscal Host application */
-  hostApplication?: Maybe<HostApplication>;
-  /** Host application requests */
-  hostApplicationRequests: HostApplicationCollection;
-  /** Fees percentage that the host takes for this collective */
-  hostFeePercent?: Maybe<Scalars['Float']['output']>;
-  /** Describe how the host charges the collective */
-  hostFeesStructure?: Maybe<HostFeeStructure>;
-  id: Scalars['String']['output'];
-  imageUrl?: Maybe<Scalars['String']['output']>;
-  /** Returns whether it's active: can accept financial contributions and pay expenses. */
-  isActive: Scalars['Boolean']['output'];
-  /** Returns true if the remote user is an admin of this account */
-  isAdmin: Scalars['Boolean']['output'];
-  /** Returns whether it's approved by the Fiscal Host */
-  isApproved: Scalars['Boolean']['output'];
-  /** Returns whether this account is archived */
-  isArchived: Scalars['Boolean']['output'];
-  /** Whether this account is frozen */
-  isFrozen: Scalars['Boolean']['output'];
-  /** Returns whether the account is setup to Host collectives. */
-  isHost: Scalars['Boolean']['output'];
-  /** Defines if the contributors wants to be incognito (name not displayed) */
-  isIncognito: Scalars['Boolean']['output'];
-  legacyId: Scalars['Int']['output'];
-  /** The legal documents associated with this account */
-  legalDocuments?: Maybe<Array<Maybe<LegalDocument>>>;
-  /** Private, legal name. Used for expense receipts, taxes, etc. Scope: "account". */
-  legalName?: Maybe<Scalars['String']['output']>;
-  /** The address associated to this account. This field is always public for collectives and events. */
-  location?: Maybe<Location>;
-  longDescription?: Maybe<Scalars['String']['output']>;
-  /** [AUTHENTICATED] Returns the pending invitations */
-  memberInvitations?: Maybe<Array<Maybe<MemberInvitation>>>;
-  memberOf: MemberOfCollection;
-  /** Get all members (admins, members, backers, followers) */
-  members: MemberCollection;
-  /** Public name */
-  name?: Maybe<Scalars['String']['output']>;
-  /** The list of applications created by this account. Admin only. Scope: "applications". */
-  oAuthApplications?: Maybe<OAuthApplicationCollection>;
-  orders: OrderCollection;
-  /** @deprecated 2022-12-16: use parent on AccountWithParent instead */
-  parentAccount?: Maybe<Account>;
-  /** The list of payment methods that this collective can use to pay for Orders. Admin or Host only. Scope: "orders". */
-  paymentMethods?: Maybe<Array<Maybe<PaymentMethod>>>;
-  /** The list of payment methods for this account that are pending a client confirmation (3D Secure / SCA) */
-  paymentMethodsWithPendingConfirmation?: Maybe<Array<Maybe<PaymentMethod>>>;
-  /** The list of payout methods that this collective can use to get paid. In most cases, admin only and scope: "expenses". */
-  payoutMethods?: Maybe<Array<Maybe<PayoutMethod>>>;
-  /** Logged-in user permissions on an account */
-  permissions: AccountPermissions;
-  /** Returns true if a custom contribution to Open Collective can be submitted for contributions made to this account */
-  platformContributionAvailable: Scalars['Boolean']['output'];
-  /** How much platform fees are charged for this account */
-  platformFeePercent: Scalars['Float']['output'];
-  /** Policies for the account. To see non-public policies you need to be admin and have the scope: "account". */
-  policies: Policies;
-  /** @deprecated 2023-01-16: Please use socialLinks */
-  repositoryUrl?: Maybe<Scalars['String']['output']>;
-  settings: Scalars['JSON']['output'];
-  /** The slug identifying the account (ie: babel) */
-  slug: Scalars['String']['output'];
-  socialLinks: Array<SocialLink>;
-  stats?: Maybe<AccountStats>;
-  summary?: Maybe<HostedAccountSummary>;
-  /** The list of expense types supported by this account */
-  supportedExpenseTypes: Array<ExpenseType>;
-  tags?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  tiers: TierCollection;
-  /** Number of unique financial contributors. */
-  totalFinancialContributors: Scalars['Int']['output'];
-  /** [!] Warning: this query is currently in beta and the API might change */
-  transactionGroups: TransactionGroupCollection;
-  /** EXPERIMENTAL (this may change or be removed) */
-  transactionReports?: Maybe<TransactionReports>;
-  transactions: TransactionCollection;
-  transferwise?: Maybe<TransferWise>;
-  /** @deprecated 2023-01-16: Please use socialLinks */
-  twitterHandle?: Maybe<Scalars['String']['output']>;
-  type: AccountType;
-  /** Date when the collective was last unfrozen by current Fiscal Host */
-  unfrozenAt?: Maybe<Scalars['DateTime']['output']>;
-  /** Date of unhosting by a given Fiscal Host. */
-  unhostedAt?: Maybe<Scalars['DateTime']['output']>;
-  updatedAt?: Maybe<Scalars['DateTime']['output']>;
-  /** Updates published by the account. To see unpublished updates, you need to be an admin and have the scope "updates". */
-  updates: UpdateCollection;
-  /** Virtual Cards Merchants used by the account. Admin only. Scope: "virtualCards". */
-  virtualCardMerchants?: Maybe<AccountCollection>;
-  /** Virtual Cards attached to the account. Admin only. Scope: "virtualCards". */
-  virtualCards?: Maybe<VirtualCardCollection>;
-  webhooks: WebhookCollection;
-  /** @deprecated 2023-01-16: Please use socialLinks */
-  website?: Maybe<Scalars['String']['output']>;
-};
-
+export type Fund = Account &
+  AccountWithContributions &
+  AccountWithHost & {
+    __typename?: 'Fund';
+    /** [!] Warning: this query is currently in beta and the API might change */
+    activeContributors: AccountCollection;
+    /** List of activities that the logged-in user is subscribed for this collective */
+    activitySubscriptions?: Maybe<Array<Maybe<ActivitySubscription>>>;
+    /** Date of approval by the Fiscal Host. */
+    approvedAt?: Maybe<Scalars['DateTime']['output']>;
+    backgroundImageUrl?: Maybe<Scalars['String']['output']>;
+    /** Whether this account can have changelog updates */
+    canHaveChangelogUpdates: Scalars['Boolean']['output'];
+    /** Returns true if the remote user can start the process to resume contributions for account */
+    canStartResumeContributionsProcess: Scalars['Boolean']['output'];
+    categories: Array<Maybe<Scalars['String']['output']>>;
+    childrenAccounts: AccountCollection;
+    /** The list of connected accounts (Stripe, PayPal, etc ...). Admin only. Scope: "connectedAccounts". */
+    connectedAccounts?: Maybe<Array<Maybe<ConnectedAccount>>>;
+    contributionPolicy?: Maybe<Scalars['String']['output']>;
+    /** All the persons and entities that contribute to this account */
+    contributors: ContributorCollection;
+    conversations: ConversationCollection;
+    /** Returns conversation's tags for collective sorted by popularity */
+    conversationsTags?: Maybe<Array<Maybe<TagStat>>>;
+    /** The time of creation */
+    createdAt?: Maybe<Scalars['DateTime']['output']>;
+    /** The currency of the account */
+    currency: Currency;
+    description?: Maybe<Scalars['String']['output']>;
+    /** If this account was duplicated, the accounts that were created from it */
+    duplicatedAccounts: AccountCollection;
+    /** If created by duplication, the account from which this one was duplicated */
+    duplicatedFromAccount?: Maybe<Account>;
+    /** Returns the emails of the account. Individuals only have one, but organizations can have multiple emails. */
+    emails?: Maybe<Array<Scalars['EmailAddress']['output']>>;
+    /** @deprecated 2024-11-04: Please use policies.EXPENSE_POLICIES */
+    expensePolicy?: Maybe<Scalars['String']['output']>;
+    expenses: ExpenseCollection;
+    /** Returns expense tags for collective sorted by popularity */
+    expensesTags?: Maybe<Array<Maybe<TagStat>>>;
+    /** Describes the features enabled and available for this account */
+    features: CollectiveFeatures;
+    feed?: Maybe<Array<Maybe<Activity>>>;
+    /** @deprecated 2022-06-03: Please use repositoryUrl */
+    githubHandle?: Maybe<Scalars['String']['output']>;
+    /** Returns true if the account has started the process to resume contributions */
+    hasResumeContributionsProcessStarted: Scalars['Boolean']['output'];
+    /** Returns the Fiscal Host */
+    host?: Maybe<Host>;
+    /** Returns agreements this account has with its host, or null if not enough permissions. */
+    hostAgreements?: Maybe<AgreementCollection>;
+    /** Returns the Fiscal Host application */
+    hostApplication?: Maybe<HostApplication>;
+    /** Host application requests */
+    hostApplicationRequests: HostApplicationCollection;
+    /** Fees percentage that the host takes for this collective */
+    hostFeePercent?: Maybe<Scalars['Float']['output']>;
+    /** Describe how the host charges the collective */
+    hostFeesStructure?: Maybe<HostFeeStructure>;
+    id: Scalars['String']['output'];
+    imageUrl?: Maybe<Scalars['String']['output']>;
+    /** Returns whether it's active: can accept financial contributions and pay expenses. */
+    isActive: Scalars['Boolean']['output'];
+    /** Returns true if the remote user is an admin of this account */
+    isAdmin: Scalars['Boolean']['output'];
+    /** Returns whether it's approved by the Fiscal Host */
+    isApproved: Scalars['Boolean']['output'];
+    /** Returns whether this account is archived */
+    isArchived: Scalars['Boolean']['output'];
+    /** Whether this account is frozen */
+    isFrozen: Scalars['Boolean']['output'];
+    /** Returns whether the account is setup to Host collectives. */
+    isHost: Scalars['Boolean']['output'];
+    /** Defines if the contributors wants to be incognito (name not displayed) */
+    isIncognito: Scalars['Boolean']['output'];
+    legacyId: Scalars['Int']['output'];
+    /** The legal documents associated with this account */
+    legalDocuments?: Maybe<Array<Maybe<LegalDocument>>>;
+    /** Private, legal name. Used for expense receipts, taxes, etc. Scope: "account". */
+    legalName?: Maybe<Scalars['String']['output']>;
+    /** The address associated to this account. This field is always public for collectives and events. */
+    location?: Maybe<Location>;
+    longDescription?: Maybe<Scalars['String']['output']>;
+    /** [AUTHENTICATED] Returns the pending invitations */
+    memberInvitations?: Maybe<Array<Maybe<MemberInvitation>>>;
+    memberOf: MemberOfCollection;
+    /** Get all members (admins, members, backers, followers) */
+    members: MemberCollection;
+    /** Public name */
+    name?: Maybe<Scalars['String']['output']>;
+    /** The list of applications created by this account. Admin only. Scope: "applications". */
+    oAuthApplications?: Maybe<OAuthApplicationCollection>;
+    orders: OrderCollection;
+    /** @deprecated 2022-12-16: use parent on AccountWithParent instead */
+    parentAccount?: Maybe<Account>;
+    /** The list of payment methods that this collective can use to pay for Orders. Admin or Host only. Scope: "orders". */
+    paymentMethods?: Maybe<Array<Maybe<PaymentMethod>>>;
+    /** The list of payment methods for this account that are pending a client confirmation (3D Secure / SCA) */
+    paymentMethodsWithPendingConfirmation?: Maybe<Array<Maybe<PaymentMethod>>>;
+    /** The list of payout methods that this collective can use to get paid. In most cases, admin only and scope: "expenses". */
+    payoutMethods?: Maybe<Array<Maybe<PayoutMethod>>>;
+    /** Logged-in user permissions on an account */
+    permissions: AccountPermissions;
+    /** Returns true if a custom contribution to Open Collective can be submitted for contributions made to this account */
+    platformContributionAvailable: Scalars['Boolean']['output'];
+    /** How much platform fees are charged for this account */
+    platformFeePercent: Scalars['Float']['output'];
+    /** Policies for the account. To see non-public policies you need to be admin and have the scope: "account". */
+    policies: Policies;
+    /** @deprecated 2023-01-16: Please use socialLinks */
+    repositoryUrl?: Maybe<Scalars['String']['output']>;
+    settings: Scalars['JSON']['output'];
+    /** The slug identifying the account (ie: babel) */
+    slug: Scalars['String']['output'];
+    socialLinks: Array<SocialLink>;
+    stats?: Maybe<AccountStats>;
+    summary?: Maybe<HostedAccountSummary>;
+    /** The list of expense types supported by this account */
+    supportedExpenseTypes: Array<ExpenseType>;
+    tags?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+    tiers: TierCollection;
+    /** Number of unique financial contributors. */
+    totalFinancialContributors: Scalars['Int']['output'];
+    /** [!] Warning: this query is currently in beta and the API might change */
+    transactionGroups: TransactionGroupCollection;
+    /** EXPERIMENTAL (this may change or be removed) */
+    transactionReports?: Maybe<TransactionReports>;
+    transactions: TransactionCollection;
+    transferwise?: Maybe<TransferWise>;
+    /** @deprecated 2023-01-16: Please use socialLinks */
+    twitterHandle?: Maybe<Scalars['String']['output']>;
+    type: AccountType;
+    /** Date when the collective was last unfrozen by current Fiscal Host */
+    unfrozenAt?: Maybe<Scalars['DateTime']['output']>;
+    /** Date of unhosting by a given Fiscal Host. */
+    unhostedAt?: Maybe<Scalars['DateTime']['output']>;
+    updatedAt?: Maybe<Scalars['DateTime']['output']>;
+    /** Updates published by the account. To see unpublished updates, you need to be an admin and have the scope "updates". */
+    updates: UpdateCollection;
+    /** Virtual Cards Merchants used by the account. Admin only. Scope: "virtualCards". */
+    virtualCardMerchants?: Maybe<AccountCollection>;
+    /** Virtual Cards attached to the account. Admin only. Scope: "virtualCards". */
+    virtualCards?: Maybe<VirtualCardCollection>;
+    webhooks: WebhookCollection;
+    /** @deprecated 2023-01-16: Please use socialLinks */
+    website?: Maybe<Scalars['String']['output']>;
+  };
 
 /** This represents an Project account */
 export type FundActiveContributorsArgs = {
@@ -5287,19 +5124,16 @@ export type FundActiveContributorsArgs = {
   offset?: Scalars['Int']['input'];
 };
 
-
 /** This represents an Project account */
 export type FundActivitySubscriptionsArgs = {
   channel?: InputMaybe<ActivityChannel>;
 };
-
 
 /** This represents an Project account */
 export type FundBackgroundImageUrlArgs = {
   format?: InputMaybe<ImageFormat>;
   height?: InputMaybe<Scalars['Int']['input']>;
 };
-
 
 /** This represents an Project account */
 export type FundChildrenAccountsArgs = {
@@ -5311,14 +5145,12 @@ export type FundChildrenAccountsArgs = {
   searchTerm?: InputMaybe<Scalars['String']['input']>;
 };
 
-
 /** This represents an Project account */
 export type FundContributorsArgs = {
   limit?: Scalars['Int']['input'];
   offset?: Scalars['Int']['input'];
   roles?: InputMaybe<Array<InputMaybe<MemberRole>>>;
 };
-
 
 /** This represents an Project account */
 export type FundConversationsArgs = {
@@ -5327,19 +5159,16 @@ export type FundConversationsArgs = {
   tag?: InputMaybe<Scalars['String']['input']>;
 };
 
-
 /** This represents an Project account */
 export type FundConversationsTagsArgs = {
   limit?: Scalars['Int']['input'];
 };
-
 
 /** This represents an Project account */
 export type FundDuplicatedAccountsArgs = {
   limit?: Scalars['Int']['input'];
   offset?: Scalars['Int']['input'];
 };
-
 
 /** This represents an Project account */
 export type FundExpensesArgs = {
@@ -5372,12 +5201,10 @@ export type FundExpensesArgs = {
   virtualCards?: InputMaybe<Array<InputMaybe<VirtualCardReferenceInput>>>;
 };
 
-
 /** This represents an Project account */
 export type FundExpensesTagsArgs = {
   limit?: Scalars['Int']['input'];
 };
-
 
 /** This represents an Project account */
 export type FundFeedArgs = {
@@ -5386,13 +5213,11 @@ export type FundFeedArgs = {
   limit?: InputMaybe<Scalars['Int']['input']>;
 };
 
-
 /** This represents an Project account */
 export type FundHostAgreementsArgs = {
   limit?: Scalars['Int']['input'];
   offset?: Scalars['Int']['input'];
 };
-
 
 /** This represents an Project account */
 export type FundHostApplicationRequestsArgs = {
@@ -5402,13 +5227,11 @@ export type FundHostApplicationRequestsArgs = {
   status?: InputMaybe<HostApplicationStatus>;
 };
 
-
 /** This represents an Project account */
 export type FundHostFeePercentArgs = {
   paymentMethodService?: InputMaybe<PaymentMethodService>;
   paymentMethodType?: InputMaybe<PaymentMethodType>;
 };
-
 
 /** This represents an Project account */
 export type FundImageUrlArgs = {
@@ -5416,12 +5239,10 @@ export type FundImageUrlArgs = {
   height?: InputMaybe<Scalars['Int']['input']>;
 };
 
-
 /** This represents an Project account */
 export type FundLegalDocumentsArgs = {
   type?: InputMaybe<Array<InputMaybe<LegalDocumentType>>>;
 };
-
 
 /** This represents an Project account */
 export type FundMemberInvitationsArgs = {
@@ -5429,7 +5250,6 @@ export type FundMemberInvitationsArgs = {
   memberAccount?: InputMaybe<AccountReferenceInput>;
   role?: InputMaybe<Array<InputMaybe<MemberRole>>>;
 };
-
 
 /** This represents an Project account */
 export type FundMemberOfArgs = {
@@ -5448,7 +5268,6 @@ export type FundMemberOfArgs = {
   searchTerm?: InputMaybe<Scalars['String']['input']>;
 };
 
-
 /** This represents an Project account */
 export type FundMembersArgs = {
   accountType?: InputMaybe<Array<InputMaybe<AccountType>>>;
@@ -5460,13 +5279,11 @@ export type FundMembersArgs = {
   role?: InputMaybe<Array<InputMaybe<MemberRole>>>;
 };
 
-
 /** This represents an Project account */
 export type FundOAuthApplicationsArgs = {
   limit?: Scalars['Int']['input'];
   offset?: Scalars['Int']['input'];
 };
-
 
 /** This represents an Project account */
 export type FundOrdersArgs = {
@@ -5501,7 +5318,6 @@ export type FundOrdersArgs = {
   tierSlug?: InputMaybe<Scalars['String']['input']>;
 };
 
-
 /** This represents an Project account */
 export type FundPaymentMethodsArgs = {
   enumType?: InputMaybe<Array<InputMaybe<PaymentMethodType>>>;
@@ -5510,12 +5326,10 @@ export type FundPaymentMethodsArgs = {
   type?: InputMaybe<Array<InputMaybe<PaymentMethodType>>>;
 };
 
-
 /** This represents an Project account */
 export type FundPayoutMethodsArgs = {
   includeArchived?: InputMaybe<Scalars['Boolean']['input']>;
 };
-
 
 /** This represents an Project account */
 export type FundSummaryArgs = {
@@ -5523,19 +5337,16 @@ export type FundSummaryArgs = {
   dateTo?: InputMaybe<Scalars['DateTime']['input']>;
 };
 
-
 /** This represents an Project account */
 export type FundTiersArgs = {
   limit?: Scalars['Int']['input'];
   offset?: Scalars['Int']['input'];
 };
 
-
 /** This represents an Project account */
 export type FundTotalFinancialContributorsArgs = {
   accountType?: InputMaybe<AccountType>;
 };
-
 
 /** This represents an Project account */
 export type FundTransactionGroupsArgs = {
@@ -5547,14 +5358,12 @@ export type FundTransactionGroupsArgs = {
   type?: InputMaybe<TransactionType>;
 };
 
-
 /** This represents an Project account */
 export type FundTransactionReportsArgs = {
   dateFrom?: InputMaybe<Scalars['DateTime']['input']>;
   dateTo?: InputMaybe<Scalars['DateTime']['input']>;
   timeUnit?: InputMaybe<TimeUnit>;
 };
-
 
 /** This represents an Project account */
 export type FundTransactionsArgs = {
@@ -5597,12 +5406,10 @@ export type FundTransactionsArgs = {
   virtualCard?: InputMaybe<Array<InputMaybe<VirtualCardReferenceInput>>>;
 };
 
-
 /** This represents an Project account */
 export type FundUnhostedAtArgs = {
   host: AccountReferenceInput;
 };
-
 
 /** This represents an Project account */
 export type FundUpdatesArgs = {
@@ -5615,13 +5422,11 @@ export type FundUpdatesArgs = {
   searchTerm?: InputMaybe<Scalars['String']['input']>;
 };
 
-
 /** This represents an Project account */
 export type FundVirtualCardMerchantsArgs = {
   limit?: Scalars['Int']['input'];
   offset?: Scalars['Int']['input'];
 };
-
 
 /** This represents an Project account */
 export type FundVirtualCardsArgs = {
@@ -5634,7 +5439,6 @@ export type FundVirtualCardsArgs = {
   state?: InputMaybe<Scalars['String']['input']>;
   status?: InputMaybe<Array<InputMaybe<VirtualCardStatus>>>;
 };
-
 
 /** This represents an Project account */
 export type FundWebhooksArgs = {
@@ -5684,203 +5488,202 @@ export type GuestInfoInput = {
 };
 
 /** This represents an Host account */
-export type Host = Account & AccountWithContributions & {
-  __typename?: 'Host';
-  /** List of accounting categories for this host */
-  accountingCategories: AccountingCategoryCollection;
-  /** [!] Warning: this query is currently in beta and the API might change */
-  activeContributors: AccountCollection;
-  /** List of activities that the logged-in user is subscribed for this collective */
-  activitySubscriptions?: Maybe<Array<Maybe<ActivitySubscription>>>;
-  backgroundImageUrl?: Maybe<Scalars['String']['output']>;
-  bankAccount?: Maybe<PayoutMethod>;
-  /** Whether this account can have changelog updates */
-  canHaveChangelogUpdates: Scalars['Boolean']['output'];
-  /** Returns true if the remote user can start the process to resume contributions for account */
-  canStartResumeContributionsProcess: Scalars['Boolean']['output'];
-  categories: Array<Maybe<Scalars['String']['output']>>;
-  childrenAccounts: AccountCollection;
-  /** The list of connected accounts (Stripe, PayPal, etc ...). Admin only. Scope: "connectedAccounts". */
-  connectedAccounts?: Maybe<Array<Maybe<ConnectedAccount>>>;
-  contributionPolicy?: Maybe<Scalars['String']['output']>;
-  contributionStats: ContributionStats;
-  /** All the persons and entities that contribute to this account */
-  contributors: ContributorCollection;
-  conversations: ConversationCollection;
-  /** Returns conversation's tags for collective sorted by popularity */
-  conversationsTags?: Maybe<Array<Maybe<TagStat>>>;
-  /** The time of creation */
-  createdAt?: Maybe<Scalars['DateTime']['output']>;
-  /** The currency of the account */
-  currency: Currency;
-  description?: Maybe<Scalars['String']['output']>;
-  /** If this account was duplicated, the accounts that were created from it */
-  duplicatedAccounts: AccountCollection;
-  /** If created by duplication, the account from which this one was duplicated */
-  duplicatedFromAccount?: Maybe<Account>;
-  /** Returns the emails of the account. Individuals only have one, but organizations can have multiple emails. */
-  emails?: Maybe<Array<Scalars['EmailAddress']['output']>>;
-  /** @deprecated 2024-11-04: Please use policies.EXPENSE_POLICIES */
-  expensePolicy?: Maybe<Scalars['String']['output']>;
-  expenseStats: ExpenseStats;
-  expenses: ExpenseCollection;
-  /** Returns expense tags for collective sorted by popularity */
-  expensesTags?: Maybe<Array<Maybe<TagStat>>>;
-  /** Describes the features enabled and available for this account */
-  features: CollectiveFeatures;
-  feed?: Maybe<Array<Maybe<Activity>>>;
-  /** @deprecated 2022-06-03: Please use repositoryUrl */
-  githubHandle?: Maybe<Scalars['String']['output']>;
-  /** Returns whether the host has any Stripe disputed orders */
-  hasDisputedOrders?: Maybe<Scalars['Boolean']['output']>;
-  /** Returns whether the host has any Stripe in review orders */
-  hasInReviewOrders?: Maybe<Scalars['Boolean']['output']>;
-  /** Returns true if the account has started the process to resume contributions */
-  hasResumeContributionsProcessStarted: Scalars['Boolean']['output'];
-  /** Host application requests */
-  hostApplicationRequests: HostApplicationCollection;
-  /** Applications for this host */
-  hostApplications: HostApplicationCollection;
-  /** EXPERIMENTAL (this may change or be removed) */
-  hostExpensesReport?: Maybe<HostExpensesReports>;
-  hostFeePercent?: Maybe<Scalars['Float']['output']>;
-  hostMetrics: HostMetrics;
-  hostMetricsTimeSeries: HostMetricsTimeSeries;
-  /** EXPERIMENTAL (this may change or be removed) */
-  hostTransactionsReports?: Maybe<HostTransactionReports>;
-  /** Returns agreements with Hosted Accounts */
-  hostedAccountAgreements: AgreementCollection;
-  /** Returns a list of accounts hosted by this host */
-  hostedAccounts: HostedAccountCollection;
-  /** Returns legal documents hosted by this host */
-  hostedLegalDocuments: LegalDocumentCollection;
-  hostedVirtualCardCollectives: AccountCollection;
-  hostedVirtualCardMerchants: AccountCollection;
-  hostedVirtualCards: VirtualCardCollection;
-  id: Scalars['String']['output'];
-  imageUrl?: Maybe<Scalars['String']['output']>;
-  /** Returns whether the account accepts financial contributions. */
-  isActive?: Maybe<Scalars['Boolean']['output']>;
-  /** Returns true if the remote user is an admin of this account */
-  isAdmin: Scalars['Boolean']['output'];
-  /** Returns whether this account is archived */
-  isArchived: Scalars['Boolean']['output'];
-  /** Whether this account is frozen */
-  isFrozen: Scalars['Boolean']['output'];
-  /** Returns whether the account is setup to Host collectives. */
-  isHost: Scalars['Boolean']['output'];
-  /** Defines if the contributors wants to be incognito (name not displayed) */
-  isIncognito: Scalars['Boolean']['output'];
-  isOpenToApplications?: Maybe<Scalars['Boolean']['output']>;
-  /** Returns whether the host is trusted or not */
-  isTrustedHost: Scalars['Boolean']['output'];
-  legacyId: Scalars['Int']['output'];
-  /** The legal documents associated with this account */
-  legalDocuments?: Maybe<Array<Maybe<LegalDocument>>>;
-  /** Private, legal name. Used for expense receipts, taxes, etc. Scope: "account". */
-  legalName?: Maybe<Scalars['String']['output']>;
-  /** The address associated to this account. This field is always public for collectives and events. */
-  location?: Maybe<Location>;
-  longDescription?: Maybe<Scalars['String']['output']>;
-  /** [AUTHENTICATED] Returns the pending invitations */
-  memberInvitations?: Maybe<Array<Maybe<MemberInvitation>>>;
-  memberOf: MemberOfCollection;
-  /** Get all members (admins, members, backers, followers) */
-  members: MemberCollection;
-  /** Public name */
-  name?: Maybe<Scalars['String']['output']>;
-  /** The list of applications created by this account. Admin only. Scope: "applications". */
-  oAuthApplications?: Maybe<OAuthApplicationCollection>;
-  orders: OrderCollection;
-  /** @deprecated 2022-12-16: use parent on AccountWithParent instead */
-  parentAccount?: Maybe<Account>;
-  /** The list of payment methods that this collective can use to pay for Orders. Admin or Host only. Scope: "orders". */
-  paymentMethods?: Maybe<Array<Maybe<PaymentMethod>>>;
-  /** The list of payment methods for this account that are pending a client confirmation (3D Secure / SCA) */
-  paymentMethodsWithPendingConfirmation?: Maybe<Array<Maybe<PaymentMethod>>>;
-  /** The list of payout methods that this collective can use to get paid. In most cases, admin only and scope: "expenses". */
-  payoutMethods?: Maybe<Array<Maybe<PayoutMethod>>>;
-  /** If the host supports PayPal, this will contain the client ID to use in the frontend */
-  paypalClientId?: Maybe<Scalars['String']['output']>;
-  /** Paypal preapproval info. Returns null if PayPal account is not connected. */
-  paypalPreApproval?: Maybe<PaymentMethod>;
-  /**
-   * Pending applications for this host
-   * @deprecated 2023-08-25: Deprecated in favour of host.hostApplications(status: PENDING).
-   */
-  pendingApplications: HostApplicationCollection;
-  /** Logged-in user permissions on an account */
-  permissions: AccountPermissions;
-  plan: HostPlan;
-  /** Returns true if a custom contribution to Open Collective can be submitted for contributions made to this account */
-  platformContributionAvailable: Scalars['Boolean']['output'];
-  /** How much platform fees are charged for this account */
-  platformFeePercent: Scalars['Float']['output'];
-  /** Policies for the account. To see non-public policies you need to be admin and have the scope: "account". */
-  policies: Policies;
-  /** Returns a list of organizations that only transacted with this host and all its admins are also admins of this host. */
-  potentialVendors: AccountCollection;
-  /** @deprecated 2023-01-16: Please use socialLinks */
-  repositoryUrl?: Maybe<Scalars['String']['output']>;
-  /** Returns the legal documents required by this host */
-  requiredLegalDocuments: Array<LegalDocumentType>;
-  settings: Scalars['JSON']['output'];
-  /** The slug identifying the account (ie: babel) */
-  slug: Scalars['String']['output'];
-  socialLinks: Array<SocialLink>;
-  stats?: Maybe<AccountStats>;
-  /** Stripe connected account */
-  stripe?: Maybe<StripeConnectedAccount>;
-  /** The list of expense types supported by this account */
-  supportedExpenseTypes: Array<ExpenseType>;
-  /** The list of payment methods (Stripe, Paypal, manual bank transfer, etc ...) the Host can accept for its Collectives */
-  supportedPaymentMethods?: Maybe<Array<Maybe<PaymentMethodLegacyType>>>;
-  /** The list of payout methods this Host accepts for its expenses */
-  supportedPayoutMethods?: Maybe<Array<Maybe<PayoutMethodType>>>;
-  tags?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  termsUrl?: Maybe<Scalars['URL']['output']>;
-  tiers: TierCollection;
-  /** Number of unique financial contributors. */
-  totalFinancialContributors: Scalars['Int']['output'];
-  totalHostedAccounts?: Maybe<Scalars['Int']['output']>;
-  /** @deprecated 2023-03-20: Renamed to totalHostedAccounts */
-  totalHostedCollectives?: Maybe<Scalars['Int']['output']>;
-  /** [!] Warning: this query is currently in beta and the API might change */
-  transactionGroups: TransactionGroupCollection;
-  /** EXPERIMENTAL (this may change or be removed) */
-  transactionReports?: Maybe<TransactionReports>;
-  transactions: TransactionCollection;
-  /** Returns a list of transactions imports for this host */
-  transactionsImports: TransactionsImportsCollection;
-  /** Returns a list of transactions imports sources for this host */
-  transactionsImportsSources: Array<Maybe<Scalars['NonEmptyString']['output']>>;
-  transferwise?: Maybe<TransferWise>;
-  /** @deprecated 2023-01-16: Please use socialLinks */
-  twitterHandle?: Maybe<Scalars['String']['output']>;
-  type: AccountType;
-  /** Date of unhosting by a given Fiscal Host. */
-  unhostedAt?: Maybe<Scalars['DateTime']['output']>;
-  updatedAt?: Maybe<Scalars['DateTime']['output']>;
-  /** Updates published by the account. To see unpublished updates, you need to be an admin and have the scope "updates". */
-  updates: UpdateCollection;
-  /** Returns a list of vendors that works with this host */
-  vendors: VendorCollection;
-  /** Virtual Cards Merchants used by the account. Admin only. Scope: "virtualCards". */
-  virtualCardMerchants?: Maybe<AccountCollection>;
-  /** Virtual Cards attached to the account. Admin only. Scope: "virtualCards". */
-  virtualCards?: Maybe<VirtualCardCollection>;
-  webhooks: WebhookCollection;
-  /** @deprecated 2023-01-16: Please use socialLinks */
-  website?: Maybe<Scalars['String']['output']>;
-};
-
+export type Host = Account &
+  AccountWithContributions & {
+    __typename?: 'Host';
+    /** List of accounting categories for this host */
+    accountingCategories: AccountingCategoryCollection;
+    /** [!] Warning: this query is currently in beta and the API might change */
+    activeContributors: AccountCollection;
+    /** List of activities that the logged-in user is subscribed for this collective */
+    activitySubscriptions?: Maybe<Array<Maybe<ActivitySubscription>>>;
+    backgroundImageUrl?: Maybe<Scalars['String']['output']>;
+    bankAccount?: Maybe<PayoutMethod>;
+    /** Whether this account can have changelog updates */
+    canHaveChangelogUpdates: Scalars['Boolean']['output'];
+    /** Returns true if the remote user can start the process to resume contributions for account */
+    canStartResumeContributionsProcess: Scalars['Boolean']['output'];
+    categories: Array<Maybe<Scalars['String']['output']>>;
+    childrenAccounts: AccountCollection;
+    /** The list of connected accounts (Stripe, PayPal, etc ...). Admin only. Scope: "connectedAccounts". */
+    connectedAccounts?: Maybe<Array<Maybe<ConnectedAccount>>>;
+    contributionPolicy?: Maybe<Scalars['String']['output']>;
+    contributionStats: ContributionStats;
+    /** All the persons and entities that contribute to this account */
+    contributors: ContributorCollection;
+    conversations: ConversationCollection;
+    /** Returns conversation's tags for collective sorted by popularity */
+    conversationsTags?: Maybe<Array<Maybe<TagStat>>>;
+    /** The time of creation */
+    createdAt?: Maybe<Scalars['DateTime']['output']>;
+    /** The currency of the account */
+    currency: Currency;
+    description?: Maybe<Scalars['String']['output']>;
+    /** If this account was duplicated, the accounts that were created from it */
+    duplicatedAccounts: AccountCollection;
+    /** If created by duplication, the account from which this one was duplicated */
+    duplicatedFromAccount?: Maybe<Account>;
+    /** Returns the emails of the account. Individuals only have one, but organizations can have multiple emails. */
+    emails?: Maybe<Array<Scalars['EmailAddress']['output']>>;
+    /** @deprecated 2024-11-04: Please use policies.EXPENSE_POLICIES */
+    expensePolicy?: Maybe<Scalars['String']['output']>;
+    expenseStats: ExpenseStats;
+    expenses: ExpenseCollection;
+    /** Returns expense tags for collective sorted by popularity */
+    expensesTags?: Maybe<Array<Maybe<TagStat>>>;
+    /** Describes the features enabled and available for this account */
+    features: CollectiveFeatures;
+    feed?: Maybe<Array<Maybe<Activity>>>;
+    /** @deprecated 2022-06-03: Please use repositoryUrl */
+    githubHandle?: Maybe<Scalars['String']['output']>;
+    /** Returns whether the host has any Stripe disputed orders */
+    hasDisputedOrders?: Maybe<Scalars['Boolean']['output']>;
+    /** Returns whether the host has any Stripe in review orders */
+    hasInReviewOrders?: Maybe<Scalars['Boolean']['output']>;
+    /** Returns true if the account has started the process to resume contributions */
+    hasResumeContributionsProcessStarted: Scalars['Boolean']['output'];
+    /** Host application requests */
+    hostApplicationRequests: HostApplicationCollection;
+    /** Applications for this host */
+    hostApplications: HostApplicationCollection;
+    /** EXPERIMENTAL (this may change or be removed) */
+    hostExpensesReport?: Maybe<HostExpensesReports>;
+    hostFeePercent?: Maybe<Scalars['Float']['output']>;
+    hostMetrics: HostMetrics;
+    hostMetricsTimeSeries: HostMetricsTimeSeries;
+    /** EXPERIMENTAL (this may change or be removed) */
+    hostTransactionsReports?: Maybe<HostTransactionReports>;
+    /** Returns agreements with Hosted Accounts */
+    hostedAccountAgreements: AgreementCollection;
+    /** Returns a list of accounts hosted by this host */
+    hostedAccounts: HostedAccountCollection;
+    /** Returns legal documents hosted by this host */
+    hostedLegalDocuments: LegalDocumentCollection;
+    hostedVirtualCardCollectives: AccountCollection;
+    hostedVirtualCardMerchants: AccountCollection;
+    hostedVirtualCards: VirtualCardCollection;
+    id: Scalars['String']['output'];
+    imageUrl?: Maybe<Scalars['String']['output']>;
+    /** Returns whether the account accepts financial contributions. */
+    isActive?: Maybe<Scalars['Boolean']['output']>;
+    /** Returns true if the remote user is an admin of this account */
+    isAdmin: Scalars['Boolean']['output'];
+    /** Returns whether this account is archived */
+    isArchived: Scalars['Boolean']['output'];
+    /** Whether this account is frozen */
+    isFrozen: Scalars['Boolean']['output'];
+    /** Returns whether the account is setup to Host collectives. */
+    isHost: Scalars['Boolean']['output'];
+    /** Defines if the contributors wants to be incognito (name not displayed) */
+    isIncognito: Scalars['Boolean']['output'];
+    isOpenToApplications?: Maybe<Scalars['Boolean']['output']>;
+    /** Returns whether the host is trusted or not */
+    isTrustedHost: Scalars['Boolean']['output'];
+    legacyId: Scalars['Int']['output'];
+    /** The legal documents associated with this account */
+    legalDocuments?: Maybe<Array<Maybe<LegalDocument>>>;
+    /** Private, legal name. Used for expense receipts, taxes, etc. Scope: "account". */
+    legalName?: Maybe<Scalars['String']['output']>;
+    /** The address associated to this account. This field is always public for collectives and events. */
+    location?: Maybe<Location>;
+    longDescription?: Maybe<Scalars['String']['output']>;
+    /** [AUTHENTICATED] Returns the pending invitations */
+    memberInvitations?: Maybe<Array<Maybe<MemberInvitation>>>;
+    memberOf: MemberOfCollection;
+    /** Get all members (admins, members, backers, followers) */
+    members: MemberCollection;
+    /** Public name */
+    name?: Maybe<Scalars['String']['output']>;
+    /** The list of applications created by this account. Admin only. Scope: "applications". */
+    oAuthApplications?: Maybe<OAuthApplicationCollection>;
+    orders: OrderCollection;
+    /** @deprecated 2022-12-16: use parent on AccountWithParent instead */
+    parentAccount?: Maybe<Account>;
+    /** The list of payment methods that this collective can use to pay for Orders. Admin or Host only. Scope: "orders". */
+    paymentMethods?: Maybe<Array<Maybe<PaymentMethod>>>;
+    /** The list of payment methods for this account that are pending a client confirmation (3D Secure / SCA) */
+    paymentMethodsWithPendingConfirmation?: Maybe<Array<Maybe<PaymentMethod>>>;
+    /** The list of payout methods that this collective can use to get paid. In most cases, admin only and scope: "expenses". */
+    payoutMethods?: Maybe<Array<Maybe<PayoutMethod>>>;
+    /** If the host supports PayPal, this will contain the client ID to use in the frontend */
+    paypalClientId?: Maybe<Scalars['String']['output']>;
+    /** Paypal preapproval info. Returns null if PayPal account is not connected. */
+    paypalPreApproval?: Maybe<PaymentMethod>;
+    /**
+     * Pending applications for this host
+     * @deprecated 2023-08-25: Deprecated in favour of host.hostApplications(status: PENDING).
+     */
+    pendingApplications: HostApplicationCollection;
+    /** Logged-in user permissions on an account */
+    permissions: AccountPermissions;
+    plan: HostPlan;
+    /** Returns true if a custom contribution to Open Collective can be submitted for contributions made to this account */
+    platformContributionAvailable: Scalars['Boolean']['output'];
+    /** How much platform fees are charged for this account */
+    platformFeePercent: Scalars['Float']['output'];
+    /** Policies for the account. To see non-public policies you need to be admin and have the scope: "account". */
+    policies: Policies;
+    /** Returns a list of organizations that only transacted with this host and all its admins are also admins of this host. */
+    potentialVendors: AccountCollection;
+    /** @deprecated 2023-01-16: Please use socialLinks */
+    repositoryUrl?: Maybe<Scalars['String']['output']>;
+    /** Returns the legal documents required by this host */
+    requiredLegalDocuments: Array<LegalDocumentType>;
+    settings: Scalars['JSON']['output'];
+    /** The slug identifying the account (ie: babel) */
+    slug: Scalars['String']['output'];
+    socialLinks: Array<SocialLink>;
+    stats?: Maybe<AccountStats>;
+    /** Stripe connected account */
+    stripe?: Maybe<StripeConnectedAccount>;
+    /** The list of expense types supported by this account */
+    supportedExpenseTypes: Array<ExpenseType>;
+    /** The list of payment methods (Stripe, Paypal, manual bank transfer, etc ...) the Host can accept for its Collectives */
+    supportedPaymentMethods?: Maybe<Array<Maybe<PaymentMethodLegacyType>>>;
+    /** The list of payout methods this Host accepts for its expenses */
+    supportedPayoutMethods?: Maybe<Array<Maybe<PayoutMethodType>>>;
+    tags?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+    termsUrl?: Maybe<Scalars['URL']['output']>;
+    tiers: TierCollection;
+    /** Number of unique financial contributors. */
+    totalFinancialContributors: Scalars['Int']['output'];
+    totalHostedAccounts?: Maybe<Scalars['Int']['output']>;
+    /** @deprecated 2023-03-20: Renamed to totalHostedAccounts */
+    totalHostedCollectives?: Maybe<Scalars['Int']['output']>;
+    /** [!] Warning: this query is currently in beta and the API might change */
+    transactionGroups: TransactionGroupCollection;
+    /** EXPERIMENTAL (this may change or be removed) */
+    transactionReports?: Maybe<TransactionReports>;
+    transactions: TransactionCollection;
+    /** Returns a list of transactions imports for this host */
+    transactionsImports: TransactionsImportsCollection;
+    /** Returns a list of transactions imports sources for this host */
+    transactionsImportsSources: Array<Maybe<Scalars['NonEmptyString']['output']>>;
+    transferwise?: Maybe<TransferWise>;
+    /** @deprecated 2023-01-16: Please use socialLinks */
+    twitterHandle?: Maybe<Scalars['String']['output']>;
+    type: AccountType;
+    /** Date of unhosting by a given Fiscal Host. */
+    unhostedAt?: Maybe<Scalars['DateTime']['output']>;
+    updatedAt?: Maybe<Scalars['DateTime']['output']>;
+    /** Updates published by the account. To see unpublished updates, you need to be an admin and have the scope "updates". */
+    updates: UpdateCollection;
+    /** Returns a list of vendors that works with this host */
+    vendors: VendorCollection;
+    /** Virtual Cards Merchants used by the account. Admin only. Scope: "virtualCards". */
+    virtualCardMerchants?: Maybe<AccountCollection>;
+    /** Virtual Cards attached to the account. Admin only. Scope: "virtualCards". */
+    virtualCards?: Maybe<VirtualCardCollection>;
+    webhooks: WebhookCollection;
+    /** @deprecated 2023-01-16: Please use socialLinks */
+    website?: Maybe<Scalars['String']['output']>;
+  };
 
 /** This represents an Host account */
 export type HostAccountingCategoriesArgs = {
   account?: InputMaybe<AccountReferenceInput>;
   kind?: InputMaybe<Array<AccountingCategoryKind>>;
 };
-
 
 /** This represents an Host account */
 export type HostActiveContributorsArgs = {
@@ -5891,19 +5694,16 @@ export type HostActiveContributorsArgs = {
   offset?: Scalars['Int']['input'];
 };
 
-
 /** This represents an Host account */
 export type HostActivitySubscriptionsArgs = {
   channel?: InputMaybe<ActivityChannel>;
 };
-
 
 /** This represents an Host account */
 export type HostBackgroundImageUrlArgs = {
   format?: InputMaybe<ImageFormat>;
   height?: InputMaybe<Scalars['Int']['input']>;
 };
-
 
 /** This represents an Host account */
 export type HostChildrenAccountsArgs = {
@@ -5915,7 +5715,6 @@ export type HostChildrenAccountsArgs = {
   searchTerm?: InputMaybe<Scalars['String']['input']>;
 };
 
-
 /** This represents an Host account */
 export type HostContributionStatsArgs = {
   account?: InputMaybe<Array<AccountReferenceInput>>;
@@ -5924,14 +5723,12 @@ export type HostContributionStatsArgs = {
   timeUnit?: InputMaybe<TimeUnit>;
 };
 
-
 /** This represents an Host account */
 export type HostContributorsArgs = {
   limit?: Scalars['Int']['input'];
   offset?: Scalars['Int']['input'];
   roles?: InputMaybe<Array<InputMaybe<MemberRole>>>;
 };
-
 
 /** This represents an Host account */
 export type HostConversationsArgs = {
@@ -5940,19 +5737,16 @@ export type HostConversationsArgs = {
   tag?: InputMaybe<Scalars['String']['input']>;
 };
 
-
 /** This represents an Host account */
 export type HostConversationsTagsArgs = {
   limit?: Scalars['Int']['input'];
 };
-
 
 /** This represents an Host account */
 export type HostDuplicatedAccountsArgs = {
   limit?: Scalars['Int']['input'];
   offset?: Scalars['Int']['input'];
 };
-
 
 /** This represents an Host account */
 export type HostExpenseStatsArgs = {
@@ -5961,7 +5755,6 @@ export type HostExpenseStatsArgs = {
   dateTo?: InputMaybe<Scalars['DateTime']['input']>;
   timeUnit?: InputMaybe<TimeUnit>;
 };
-
 
 /** This represents an Host account */
 export type HostExpensesArgs = {
@@ -5994,12 +5787,10 @@ export type HostExpensesArgs = {
   virtualCards?: InputMaybe<Array<InputMaybe<VirtualCardReferenceInput>>>;
 };
 
-
 /** This represents an Host account */
 export type HostExpensesTagsArgs = {
   limit?: Scalars['Int']['input'];
 };
-
 
 /** This represents an Host account */
 export type HostFeedArgs = {
@@ -6008,7 +5799,6 @@ export type HostFeedArgs = {
   limit?: InputMaybe<Scalars['Int']['input']>;
 };
 
-
 /** This represents an Host account */
 export type HostHostApplicationRequestsArgs = {
   limit?: Scalars['Int']['input'];
@@ -6016,7 +5806,6 @@ export type HostHostApplicationRequestsArgs = {
   orderBy?: ChronologicalOrderInput;
   status?: InputMaybe<HostApplicationStatus>;
 };
-
 
 /** This represents an Host account */
 export type HostHostApplicationsArgs = {
@@ -6028,7 +5817,6 @@ export type HostHostApplicationsArgs = {
   status?: InputMaybe<HostApplicationStatus>;
 };
 
-
 /** This represents an Host account */
 export type HostHostExpensesReportArgs = {
   dateFrom?: InputMaybe<Scalars['DateTime']['input']>;
@@ -6036,14 +5824,12 @@ export type HostHostExpensesReportArgs = {
   timeUnit?: InputMaybe<TimeUnit>;
 };
 
-
 /** This represents an Host account */
 export type HostHostMetricsArgs = {
   account?: InputMaybe<Array<AccountReferenceInput>>;
   dateFrom?: InputMaybe<Scalars['DateTime']['input']>;
   dateTo?: InputMaybe<Scalars['DateTime']['input']>;
 };
-
 
 /** This represents an Host account */
 export type HostHostMetricsTimeSeriesArgs = {
@@ -6053,7 +5839,6 @@ export type HostHostMetricsTimeSeriesArgs = {
   timeUnit?: InputMaybe<TimeUnit>;
 };
 
-
 /** This represents an Host account */
 export type HostHostTransactionsReportsArgs = {
   dateFrom?: InputMaybe<Scalars['DateTime']['input']>;
@@ -6061,14 +5846,12 @@ export type HostHostTransactionsReportsArgs = {
   timeUnit?: InputMaybe<TimeUnit>;
 };
 
-
 /** This represents an Host account */
 export type HostHostedAccountAgreementsArgs = {
   accounts?: InputMaybe<Array<InputMaybe<AccountReferenceInput>>>;
   limit?: Scalars['Int']['input'];
   offset?: Scalars['Int']['input'];
 };
-
 
 /** This represents an Host account */
 export type HostHostedAccountsArgs = {
@@ -6086,7 +5869,6 @@ export type HostHostedAccountsArgs = {
   searchTerm?: InputMaybe<Scalars['String']['input']>;
 };
 
-
 /** This represents an Host account */
 export type HostHostedLegalDocumentsArgs = {
   account?: InputMaybe<Array<InputMaybe<AccountReferenceInput>>>;
@@ -6100,20 +5882,17 @@ export type HostHostedLegalDocumentsArgs = {
   type?: InputMaybe<Array<InputMaybe<LegalDocumentType>>>;
 };
 
-
 /** This represents an Host account */
 export type HostHostedVirtualCardCollectivesArgs = {
   limit?: Scalars['Int']['input'];
   offset?: Scalars['Int']['input'];
 };
 
-
 /** This represents an Host account */
 export type HostHostedVirtualCardMerchantsArgs = {
   limit?: Scalars['Int']['input'];
   offset?: Scalars['Int']['input'];
 };
-
 
 /** This represents an Host account */
 export type HostHostedVirtualCardsArgs = {
@@ -6132,19 +5911,16 @@ export type HostHostedVirtualCardsArgs = {
   withExpensesDateTo?: InputMaybe<Scalars['DateTime']['input']>;
 };
 
-
 /** This represents an Host account */
 export type HostImageUrlArgs = {
   format?: InputMaybe<ImageFormat>;
   height?: InputMaybe<Scalars['Int']['input']>;
 };
 
-
 /** This represents an Host account */
 export type HostLegalDocumentsArgs = {
   type?: InputMaybe<Array<InputMaybe<LegalDocumentType>>>;
 };
-
 
 /** This represents an Host account */
 export type HostMemberInvitationsArgs = {
@@ -6152,7 +5928,6 @@ export type HostMemberInvitationsArgs = {
   memberAccount?: InputMaybe<AccountReferenceInput>;
   role?: InputMaybe<Array<InputMaybe<MemberRole>>>;
 };
-
 
 /** This represents an Host account */
 export type HostMemberOfArgs = {
@@ -6171,7 +5946,6 @@ export type HostMemberOfArgs = {
   searchTerm?: InputMaybe<Scalars['String']['input']>;
 };
 
-
 /** This represents an Host account */
 export type HostMembersArgs = {
   accountType?: InputMaybe<Array<InputMaybe<AccountType>>>;
@@ -6183,13 +5957,11 @@ export type HostMembersArgs = {
   role?: InputMaybe<Array<InputMaybe<MemberRole>>>;
 };
 
-
 /** This represents an Host account */
 export type HostOAuthApplicationsArgs = {
   limit?: Scalars['Int']['input'];
   offset?: Scalars['Int']['input'];
 };
-
 
 /** This represents an Host account */
 export type HostOrdersArgs = {
@@ -6224,7 +5996,6 @@ export type HostOrdersArgs = {
   tierSlug?: InputMaybe<Scalars['String']['input']>;
 };
 
-
 /** This represents an Host account */
 export type HostPaymentMethodsArgs = {
   enumType?: InputMaybe<Array<InputMaybe<PaymentMethodType>>>;
@@ -6233,12 +6004,10 @@ export type HostPaymentMethodsArgs = {
   type?: InputMaybe<Array<InputMaybe<PaymentMethodType>>>;
 };
 
-
 /** This represents an Host account */
 export type HostPayoutMethodsArgs = {
   includeArchived?: InputMaybe<Scalars['Boolean']['input']>;
 };
-
 
 /** This represents an Host account */
 export type HostPendingApplicationsArgs = {
@@ -6248,13 +6017,11 @@ export type HostPendingApplicationsArgs = {
   searchTerm?: InputMaybe<Scalars['String']['input']>;
 };
 
-
 /** This represents an Host account */
 export type HostPotentialVendorsArgs = {
   limit?: Scalars['Int']['input'];
   offset?: Scalars['Int']['input'];
 };
-
 
 /** This represents an Host account */
 export type HostTiersArgs = {
@@ -6262,12 +6029,10 @@ export type HostTiersArgs = {
   offset?: Scalars['Int']['input'];
 };
 
-
 /** This represents an Host account */
 export type HostTotalFinancialContributorsArgs = {
   accountType?: InputMaybe<AccountType>;
 };
-
 
 /** This represents an Host account */
 export type HostTransactionGroupsArgs = {
@@ -6279,14 +6044,12 @@ export type HostTransactionGroupsArgs = {
   type?: InputMaybe<TransactionType>;
 };
 
-
 /** This represents an Host account */
 export type HostTransactionReportsArgs = {
   dateFrom?: InputMaybe<Scalars['DateTime']['input']>;
   dateTo?: InputMaybe<Scalars['DateTime']['input']>;
   timeUnit?: InputMaybe<TimeUnit>;
 };
-
 
 /** This represents an Host account */
 export type HostTransactionsArgs = {
@@ -6329,7 +6092,6 @@ export type HostTransactionsArgs = {
   virtualCard?: InputMaybe<Array<InputMaybe<VirtualCardReferenceInput>>>;
 };
 
-
 /** This represents an Host account */
 export type HostTransactionsImportsArgs = {
   limit?: Scalars['Int']['input'];
@@ -6337,12 +6099,10 @@ export type HostTransactionsImportsArgs = {
   orderBy?: ChronologicalOrderInput;
 };
 
-
 /** This represents an Host account */
 export type HostUnhostedAtArgs = {
   host: AccountReferenceInput;
 };
-
 
 /** This represents an Host account */
 export type HostUpdatesArgs = {
@@ -6355,7 +6115,6 @@ export type HostUpdatesArgs = {
   searchTerm?: InputMaybe<Scalars['String']['input']>;
 };
 
-
 /** This represents an Host account */
 export type HostVendorsArgs = {
   forAccount?: InputMaybe<AccountReferenceInput>;
@@ -6365,13 +6124,11 @@ export type HostVendorsArgs = {
   searchTerm?: InputMaybe<Scalars['String']['input']>;
 };
 
-
 /** This represents an Host account */
 export type HostVirtualCardMerchantsArgs = {
   limit?: Scalars['Int']['input'];
   offset?: Scalars['Int']['input'];
 };
-
 
 /** This represents an Host account */
 export type HostVirtualCardsArgs = {
@@ -6384,7 +6141,6 @@ export type HostVirtualCardsArgs = {
   state?: InputMaybe<Scalars['String']['input']>;
   status?: InputMaybe<Array<InputMaybe<VirtualCardStatus>>>;
 };
-
 
 /** This represents an Host account */
 export type HostWebhooksArgs = {
@@ -6411,7 +6167,6 @@ export type HostApplication = {
   updatedAt: Scalars['DateTime']['output'];
 };
 
-
 export type HostApplicationCommentsArgs = {
   limit?: Scalars['Int']['input'];
   offset?: Scalars['Int']['input'];
@@ -6436,7 +6191,7 @@ export enum HostApplicationStatus {
   APPROVED = 'APPROVED',
   EXPIRED = 'EXPIRED',
   PENDING = 'PENDING',
-  REJECTED = 'REJECTED'
+  REJECTED = 'REJECTED',
 }
 
 /** A collection of "Hosts" */
@@ -6476,7 +6231,7 @@ export enum HostFeeStructure {
   /** Use global host fees */
   DEFAULT = 'DEFAULT',
   /** Set a monthly retainer for this Collective */
-  MONTHLY_RETAINER = 'MONTHLY_RETAINER'
+  MONTHLY_RETAINER = 'MONTHLY_RETAINER',
 }
 
 /** Host metrics related to collected and pending fees/tips. */
@@ -6616,36 +6371,30 @@ export type HostedAccountSummary = {
   spentTotalAverage?: Maybe<Amount>;
 };
 
-
 /** Return a summary of transaction info about a given account within the context of its current fiscal host */
 export type HostedAccountSummaryContributionAverageCountArgs = {
   period?: InputMaybe<AveragePeriod>;
 };
-
 
 /** Return a summary of transaction info about a given account within the context of its current fiscal host */
 export type HostedAccountSummaryContributionAverageTotalArgs = {
   period?: InputMaybe<AveragePeriod>;
 };
 
-
 /** Return a summary of transaction info about a given account within the context of its current fiscal host */
 export type HostedAccountSummaryExpenseAverageCountArgs = {
   period?: InputMaybe<AveragePeriod>;
 };
-
 
 /** Return a summary of transaction info about a given account within the context of its current fiscal host */
 export type HostedAccountSummaryExpenseAverageTotalArgs = {
   period?: InputMaybe<AveragePeriod>;
 };
 
-
 /** Return a summary of transaction info about a given account within the context of its current fiscal host */
 export type HostedAccountSummaryReceivedTotalAverageArgs = {
   period?: InputMaybe<AveragePeriod>;
 };
-
 
 /** Return a summary of transaction info about a given account within the context of its current fiscal host */
 export type HostedAccountSummarySpentTotalAverageArgs = {
@@ -6678,7 +6427,7 @@ export enum ImageFormat {
   jpg = 'jpg',
   png = 'png',
   svg = 'svg',
-  txt = 'txt'
+  txt = 'txt',
 }
 
 /** This represents an Individual account */
@@ -6819,19 +6568,16 @@ export type Individual = Account & {
   website?: Maybe<Scalars['String']['output']>;
 };
 
-
 /** This represents an Individual account */
 export type IndividualActivitySubscriptionsArgs = {
   channel?: InputMaybe<ActivityChannel>;
 };
-
 
 /** This represents an Individual account */
 export type IndividualBackgroundImageUrlArgs = {
   format?: InputMaybe<ImageFormat>;
   height?: InputMaybe<Scalars['Int']['input']>;
 };
-
 
 /** This represents an Individual account */
 export type IndividualChildrenAccountsArgs = {
@@ -6843,12 +6589,10 @@ export type IndividualChildrenAccountsArgs = {
   searchTerm?: InputMaybe<Scalars['String']['input']>;
 };
 
-
 /** This represents an Individual account */
 export type IndividualContributorProfilesArgs = {
   forAccount: AccountReferenceInput;
 };
-
 
 /** This represents an Individual account */
 export type IndividualConversationsArgs = {
@@ -6857,19 +6601,16 @@ export type IndividualConversationsArgs = {
   tag?: InputMaybe<Scalars['String']['input']>;
 };
 
-
 /** This represents an Individual account */
 export type IndividualConversationsTagsArgs = {
   limit?: Scalars['Int']['input'];
 };
-
 
 /** This represents an Individual account */
 export type IndividualDuplicatedAccountsArgs = {
   limit?: Scalars['Int']['input'];
   offset?: Scalars['Int']['input'];
 };
-
 
 /** This represents an Individual account */
 export type IndividualExpensesArgs = {
@@ -6902,12 +6643,10 @@ export type IndividualExpensesArgs = {
   virtualCards?: InputMaybe<Array<InputMaybe<VirtualCardReferenceInput>>>;
 };
 
-
 /** This represents an Individual account */
 export type IndividualExpensesTagsArgs = {
   limit?: Scalars['Int']['input'];
 };
-
 
 /** This represents an Individual account */
 export type IndividualFeedArgs = {
@@ -6915,7 +6654,6 @@ export type IndividualFeedArgs = {
   dateTo?: InputMaybe<Scalars['DateTime']['input']>;
   limit?: InputMaybe<Scalars['Int']['input']>;
 };
-
 
 /** This represents an Individual account */
 export type IndividualHostApplicationRequestsArgs = {
@@ -6925,25 +6663,21 @@ export type IndividualHostApplicationRequestsArgs = {
   status?: InputMaybe<HostApplicationStatus>;
 };
 
-
 /** This represents an Individual account */
 export type IndividualImageUrlArgs = {
   format?: InputMaybe<ImageFormat>;
   height?: InputMaybe<Scalars['Int']['input']>;
 };
 
-
 /** This represents an Individual account */
 export type IndividualIsFollowingConversationArgs = {
   id: Scalars['String']['input'];
 };
 
-
 /** This represents an Individual account */
 export type IndividualLegalDocumentsArgs = {
   type?: InputMaybe<Array<InputMaybe<LegalDocumentType>>>;
 };
-
 
 /** This represents an Individual account */
 export type IndividualMemberInvitationsArgs = {
@@ -6951,7 +6685,6 @@ export type IndividualMemberInvitationsArgs = {
   memberAccount?: InputMaybe<AccountReferenceInput>;
   role?: InputMaybe<Array<InputMaybe<MemberRole>>>;
 };
-
 
 /** This represents an Individual account */
 export type IndividualMemberOfArgs = {
@@ -6970,7 +6703,6 @@ export type IndividualMemberOfArgs = {
   searchTerm?: InputMaybe<Scalars['String']['input']>;
 };
 
-
 /** This represents an Individual account */
 export type IndividualMembersArgs = {
   accountType?: InputMaybe<Array<InputMaybe<AccountType>>>;
@@ -6982,20 +6714,17 @@ export type IndividualMembersArgs = {
   role?: InputMaybe<Array<InputMaybe<MemberRole>>>;
 };
 
-
 /** This represents an Individual account */
 export type IndividualOAuthApplicationsArgs = {
   limit?: Scalars['Int']['input'];
   offset?: Scalars['Int']['input'];
 };
 
-
 /** This represents an Individual account */
 export type IndividualOAuthAuthorizationsArgs = {
   limit?: Scalars['Int']['input'];
   offset?: Scalars['Int']['input'];
 };
-
 
 /** This represents an Individual account */
 export type IndividualOrdersArgs = {
@@ -7030,7 +6759,6 @@ export type IndividualOrdersArgs = {
   tierSlug?: InputMaybe<Scalars['String']['input']>;
 };
 
-
 /** This represents an Individual account */
 export type IndividualPaymentMethodsArgs = {
   enumType?: InputMaybe<Array<InputMaybe<PaymentMethodType>>>;
@@ -7039,19 +6767,16 @@ export type IndividualPaymentMethodsArgs = {
   type?: InputMaybe<Array<InputMaybe<PaymentMethodType>>>;
 };
 
-
 /** This represents an Individual account */
 export type IndividualPayoutMethodsArgs = {
   includeArchived?: InputMaybe<Scalars['Boolean']['input']>;
 };
-
 
 /** This represents an Individual account */
 export type IndividualPersonalTokensArgs = {
   limit?: Scalars['Int']['input'];
   offset?: Scalars['Int']['input'];
 };
-
 
 /** This represents an Individual account */
 export type IndividualTransactionGroupsArgs = {
@@ -7063,14 +6788,12 @@ export type IndividualTransactionGroupsArgs = {
   type?: InputMaybe<TransactionType>;
 };
 
-
 /** This represents an Individual account */
 export type IndividualTransactionReportsArgs = {
   dateFrom?: InputMaybe<Scalars['DateTime']['input']>;
   dateTo?: InputMaybe<Scalars['DateTime']['input']>;
   timeUnit?: InputMaybe<TimeUnit>;
 };
-
 
 /** This represents an Individual account */
 export type IndividualTransactionsArgs = {
@@ -7113,12 +6836,10 @@ export type IndividualTransactionsArgs = {
   virtualCard?: InputMaybe<Array<InputMaybe<VirtualCardReferenceInput>>>;
 };
 
-
 /** This represents an Individual account */
 export type IndividualUnhostedAtArgs = {
   host: AccountReferenceInput;
 };
-
 
 /** This represents an Individual account */
 export type IndividualUpdatesArgs = {
@@ -7131,13 +6852,11 @@ export type IndividualUpdatesArgs = {
   searchTerm?: InputMaybe<Scalars['String']['input']>;
 };
 
-
 /** This represents an Individual account */
 export type IndividualVirtualCardMerchantsArgs = {
   limit?: Scalars['Int']['input'];
   offset?: Scalars['Int']['input'];
 };
-
 
 /** This represents an Individual account */
 export type IndividualVirtualCardsArgs = {
@@ -7150,7 +6869,6 @@ export type IndividualVirtualCardsArgs = {
   state?: InputMaybe<Scalars['String']['input']>;
   status?: InputMaybe<Array<InputMaybe<VirtualCardStatus>>>;
 };
-
 
 /** This represents an Individual account */
 export type IndividualWebhooksArgs = {
@@ -7192,7 +6910,7 @@ export enum LastCommentBy {
   /** Not a Fiscal Host Admin */
   NON_HOST_ADMIN = 'NON_HOST_ADMIN',
   /** Expense Submitter */
-  USER = 'USER'
+  USER = 'USER',
 }
 
 /** A legal document (e.g. W9, W8BEN, W8BEN-E) */
@@ -7235,19 +6953,19 @@ export enum LegalDocumentRequestStatus {
   INVALID = 'INVALID',
   NOT_REQUESTED = 'NOT_REQUESTED',
   RECEIVED = 'RECEIVED',
-  REQUESTED = 'REQUESTED'
+  REQUESTED = 'REQUESTED',
 }
 
 /** Type for a required legal document */
 export enum LegalDocumentService {
   DROPBOX_FORMS = 'DROPBOX_FORMS',
-  OPENCOLLECTIVE = 'OPENCOLLECTIVE'
+  OPENCOLLECTIVE = 'OPENCOLLECTIVE',
 }
 
 /** Type for a required legal document */
 export enum LegalDocumentType {
   /** US tax form (W9, W8BEN, W8BEN-E) */
-  US_TAX_FORM = 'US_TAX_FORM'
+  US_TAX_FORM = 'US_TAX_FORM',
 }
 
 /** Type for Geographic location */
@@ -7298,7 +7016,7 @@ export type Maximum_Virtual_Card_Limit_Amount_For_Interval = {
 export enum MarkAsUnPaidExpenseStatus {
   APPROVED = 'APPROVED',
   ERROR = 'ERROR',
-  INCOMPLETE = 'INCOMPLETE'
+  INCOMPLETE = 'INCOMPLETE',
 }
 
 /** This represents a Member relationship (ie: Organization backing a Collective) */
@@ -7405,7 +7123,7 @@ export enum MemberRole {
   /** @deprecated 2022-09-12: This role does not exist anymore */
   FUNDRAISER = 'FUNDRAISER',
   HOST = 'HOST',
-  MEMBER = 'MEMBER'
+  MEMBER = 'MEMBER',
 }
 
 export type MergeAccountsResponse = {
@@ -7677,7 +7395,6 @@ export type Mutation = {
   uploadFile: Array<UploadFileResult>;
 };
 
-
 /** This is the root mutation */
 export type MutationAddAgreementArgs = {
   account: AccountReferenceInput;
@@ -7688,7 +7405,6 @@ export type MutationAddAgreementArgs = {
   title: Scalars['NonEmptyString']['input'];
 };
 
-
 /** This is the root mutation */
 export type MutationAddCreditCardArgs = {
   account: AccountReferenceInput;
@@ -7697,14 +7413,12 @@ export type MutationAddCreditCardArgs = {
   name: Scalars['String']['input'];
 };
 
-
 /** This is the root mutation */
 export type MutationAddEmojiReactionArgs = {
   comment?: InputMaybe<CommentReferenceInput>;
   emoji: Scalars['String']['input'];
   update?: InputMaybe<UpdateReferenceInput>;
 };
-
 
 /** This is the root mutation */
 export type MutationAddFundsArgs = {
@@ -7723,13 +7437,11 @@ export type MutationAddFundsArgs = {
   transactionsImportRow?: InputMaybe<TransactionsImportRowReferenceInput>;
 };
 
-
 /** This is the root mutation */
 export type MutationAddStripePaymentMethodFromSetupIntentArgs = {
   account: AccountReferenceInput;
   setupIntent: SetupIntentInput;
 };
-
 
 /** This is the root mutation */
 export type MutationAddTwoFactorAuthTokenToIndividualArgs = {
@@ -7737,7 +7449,6 @@ export type MutationAddTwoFactorAuthTokenToIndividualArgs = {
   token: Scalars['String']['input'];
   type?: InputMaybe<TwoFactorMethod>;
 };
-
 
 /** This is the root mutation */
 export type MutationApplyToHostArgs = {
@@ -7748,14 +7459,12 @@ export type MutationApplyToHostArgs = {
   message?: InputMaybe<Scalars['String']['input']>;
 };
 
-
 /** This is the root mutation */
 export type MutationAssignNewVirtualCardArgs = {
   account: AccountReferenceInput;
   assignee: AccountReferenceInput;
   virtualCard: VirtualCardInput;
 };
-
 
 /** This is the root mutation */
 export type MutationBanAccountArgs = {
@@ -7764,7 +7473,6 @@ export type MutationBanAccountArgs = {
   includeAssociatedAccounts: Scalars['Boolean']['input'];
 };
 
-
 /** This is the root mutation */
 export type MutationCancelOrderArgs = {
   order: OrderReferenceInput;
@@ -7772,25 +7480,21 @@ export type MutationCancelOrderArgs = {
   reasonCode?: InputMaybe<Scalars['String']['input']>;
 };
 
-
 /** This is the root mutation */
 export type MutationClearCacheForAccountArgs = {
   account: AccountReferenceInput;
   type?: Array<InputMaybe<AccountCacheType>>;
 };
 
-
 /** This is the root mutation */
 export type MutationConfirmCreditCardArgs = {
   paymentMethod: PaymentMethodReferenceInput;
 };
 
-
 /** This is the root mutation */
 export type MutationConfirmEmailArgs = {
   token: Scalars['NonEmptyString']['input'];
 };
-
 
 /** This is the root mutation */
 export type MutationConfirmGuestAccountArgs = {
@@ -7798,13 +7502,11 @@ export type MutationConfirmGuestAccountArgs = {
   emailConfirmationToken: Scalars['String']['input'];
 };
 
-
 /** This is the root mutation */
 export type MutationConfirmOrderArgs = {
   guestToken?: InputMaybe<Scalars['String']['input']>;
   order: OrderReferenceInput;
 };
-
 
 /** This is the root mutation */
 export type MutationConnectPlaidAccountArgs = {
@@ -7814,19 +7516,16 @@ export type MutationConnectPlaidAccountArgs = {
   sourceName?: InputMaybe<Scalars['String']['input']>;
 };
 
-
 /** This is the root mutation */
 export type MutationConvertOrganizationToVendorArgs = {
   host: AccountReferenceInput;
   organization: AccountReferenceInput;
 };
 
-
 /** This is the root mutation */
 export type MutationCreateApplicationArgs = {
   application: ApplicationCreateInput;
 };
-
 
 /** This is the root mutation */
 export type MutationCreateCollectiveArgs = {
@@ -7841,19 +7540,16 @@ export type MutationCreateCollectiveArgs = {
   user?: InputMaybe<IndividualCreateInput>;
 };
 
-
 /** This is the root mutation */
 export type MutationCreateCommentArgs = {
   comment: CommentCreateInput;
 };
-
 
 /** This is the root mutation */
 export type MutationCreateConnectedAccountArgs = {
   account: AccountReferenceInput;
   connectedAccount: ConnectedAccountCreateInput;
 };
-
 
 /** This is the root mutation */
 export type MutationCreateConversationArgs = {
@@ -7864,13 +7560,11 @@ export type MutationCreateConversationArgs = {
   title: Scalars['String']['input'];
 };
 
-
 /** This is the root mutation */
 export type MutationCreateEventArgs = {
   account: AccountReferenceInput;
   event: EventCreateInput;
 };
-
 
 /** This is the root mutation */
 export type MutationCreateExpenseArgs = {
@@ -7881,13 +7575,11 @@ export type MutationCreateExpenseArgs = {
   transactionsImportRow?: InputMaybe<TransactionsImportRowReferenceInput>;
 };
 
-
 /** This is the root mutation */
 export type MutationCreateFundArgs = {
   fund: FundCreateInput;
   host?: InputMaybe<AccountReferenceInput>;
 };
-
 
 /** This is the root mutation */
 export type MutationCreateMemberArgs = {
@@ -7898,12 +7590,10 @@ export type MutationCreateMemberArgs = {
   since?: InputMaybe<Scalars['DateTime']['input']>;
 };
 
-
 /** This is the root mutation */
 export type MutationCreateOrderArgs = {
   order: OrderCreateInput;
 };
-
 
 /** This is the root mutation */
 export type MutationCreateOrganizationArgs = {
@@ -7911,13 +7601,11 @@ export type MutationCreateOrganizationArgs = {
   organization: OrganizationCreateInput;
 };
 
-
 /** This is the root mutation */
 export type MutationCreatePaymentIntentArgs = {
   guestInfo?: InputMaybe<GuestInfoInput>;
   paymentIntent: PaymentIntentInput;
 };
-
 
 /** This is the root mutation */
 export type MutationCreatePayoutMethodArgs = {
@@ -7925,18 +7613,15 @@ export type MutationCreatePayoutMethodArgs = {
   payoutMethod: PayoutMethodInput;
 };
 
-
 /** This is the root mutation */
 export type MutationCreatePendingOrderArgs = {
   order: PendingOrderCreateInput;
 };
 
-
 /** This is the root mutation */
 export type MutationCreatePersonalTokenArgs = {
   personalToken: PersonalTokenCreateInput;
 };
-
 
 /** This is the root mutation */
 export type MutationCreateProjectArgs = {
@@ -7946,20 +7631,17 @@ export type MutationCreateProjectArgs = {
   project: ProjectCreateInput;
 };
 
-
 /** This is the root mutation */
 export type MutationCreateSetupIntentArgs = {
   account: AccountReferenceInput;
   host: AccountReferenceInput;
 };
 
-
 /** This is the root mutation */
 export type MutationCreateTierArgs = {
   account: AccountReferenceInput;
   tier: TierCreateInput;
 };
-
 
 /** This is the root mutation */
 export type MutationCreateTransactionsImportArgs = {
@@ -7969,19 +7651,16 @@ export type MutationCreateTransactionsImportArgs = {
   type: TransactionsImportType;
 };
 
-
 /** This is the root mutation */
 export type MutationCreateUpdateArgs = {
   update: UpdateCreateInput;
 };
-
 
 /** This is the root mutation */
 export type MutationCreateVendorArgs = {
   host: AccountReferenceInput;
   vendor: VendorCreateInput;
 };
-
 
 /** This is the root mutation */
 export type MutationCreateVirtualCardArgs = {
@@ -7993,60 +7672,50 @@ export type MutationCreateVirtualCardArgs = {
   virtualCardRequest?: InputMaybe<VirtualCardRequestReferenceInput>;
 };
 
-
 /** This is the root mutation */
 export type MutationCreateWebAuthnRegistrationOptionsArgs = {
   account: AccountReferenceInput;
 };
-
 
 /** This is the root mutation */
 export type MutationCreateWebhookArgs = {
   webhook: WebhookCreateInput;
 };
 
-
 /** This is the root mutation */
 export type MutationDeleteAccountArgs = {
   account: AccountReferenceInput;
 };
-
 
 /** This is the root mutation */
 export type MutationDeleteAgreementArgs = {
   agreement: AgreementReferenceInput;
 };
 
-
 /** This is the root mutation */
 export type MutationDeleteApplicationArgs = {
   application: ApplicationReferenceInput;
 };
-
 
 /** This is the root mutation */
 export type MutationDeleteCommentArgs = {
   id: Scalars['String']['input'];
 };
 
-
 /** This is the root mutation */
 export type MutationDeleteConnectedAccountArgs = {
   connectedAccount: ConnectedAccountReferenceInput;
 };
-
 
 /** This is the root mutation */
 export type MutationDeleteExpenseArgs = {
   expense: ExpenseReferenceInput;
 };
 
-
 /** This is the root mutation */
 export type MutationDeletePersonalTokenArgs = {
   personalToken: PersonalTokenReferenceInput;
 };
-
 
 /** This is the root mutation */
 export type MutationDeleteTierArgs = {
@@ -8054,36 +7723,30 @@ export type MutationDeleteTierArgs = {
   tier: TierReferenceInput;
 };
 
-
 /** This is the root mutation */
 export type MutationDeleteTransactionsImportArgs = {
   id: Scalars['NonEmptyString']['input'];
 };
-
 
 /** This is the root mutation */
 export type MutationDeleteUpdateArgs = {
   id: Scalars['String']['input'];
 };
 
-
 /** This is the root mutation */
 export type MutationDeleteVendorArgs = {
   vendor: AccountReferenceInput;
 };
-
 
 /** This is the root mutation */
 export type MutationDeleteVirtualCardArgs = {
   virtualCard: VirtualCardReferenceInput;
 };
 
-
 /** This is the root mutation */
 export type MutationDeleteWebhookArgs = {
   webhook: WebhookReferenceInput;
 };
-
 
 /** This is the root mutation */
 export type MutationDraftExpenseAndInviteUserArgs = {
@@ -8092,7 +7755,6 @@ export type MutationDraftExpenseAndInviteUserArgs = {
   lockedFields?: InputMaybe<Array<InputMaybe<ExpenseLockableFields>>>;
   skipInvite?: Scalars['Boolean']['input'];
 };
-
 
 /** This is the root mutation */
 export type MutationDuplicateAccountArgs = {
@@ -8104,12 +7766,10 @@ export type MutationDuplicateAccountArgs = {
   oldName?: InputMaybe<Scalars['String']['input']>;
 };
 
-
 /** This is the root mutation */
 export type MutationEditAccountArgs = {
   account: AccountUpdateInput;
 };
-
 
 /** This is the root mutation */
 export type MutationEditAccountFeeStructureArgs = {
@@ -8118,7 +7778,6 @@ export type MutationEditAccountFeeStructureArgs = {
   isCustomFee: Scalars['Boolean']['input'];
 };
 
-
 /** This is the root mutation */
 export type MutationEditAccountFlagsArgs = {
   account: AccountReferenceInput;
@@ -8126,7 +7785,6 @@ export type MutationEditAccountFlagsArgs = {
   isTrustedHost?: InputMaybe<Scalars['Boolean']['input']>;
   isTwoFactorAuthEnabled?: InputMaybe<Scalars['Boolean']['input']>;
 };
-
 
 /** This is the root mutation */
 export type MutationEditAccountFreezeStatusArgs = {
@@ -8138,7 +7796,6 @@ export type MutationEditAccountFreezeStatusArgs = {
   pauseExistingRecurringContributions?: Scalars['Boolean']['input'];
 };
 
-
 /** This is the root mutation */
 export type MutationEditAccountSettingArgs = {
   account: AccountReferenceInput;
@@ -8146,19 +7803,16 @@ export type MutationEditAccountSettingArgs = {
   value: Scalars['JSON']['input'];
 };
 
-
 /** This is the root mutation */
 export type MutationEditAccountTypeArgs = {
   account: AccountReferenceInput;
 };
-
 
 /** This is the root mutation */
 export type MutationEditAccountingCategoriesArgs = {
   account: AccountReferenceInput;
   categories: Array<AccountingCategoryInput>;
 };
-
 
 /** This is the root mutation */
 export type MutationEditAddedFundsArgs = {
@@ -8177,7 +7831,6 @@ export type MutationEditAddedFundsArgs = {
   tier?: InputMaybe<TierReferenceInput>;
 };
 
-
 /** This is the root mutation */
 export type MutationEditAgreementArgs = {
   agreement: AgreementReferenceInput;
@@ -8187,12 +7840,10 @@ export type MutationEditAgreementArgs = {
   title?: InputMaybe<Scalars['NonEmptyString']['input']>;
 };
 
-
 /** This is the root mutation */
 export type MutationEditCommentArgs = {
   comment: CommentUpdateInput;
 };
-
 
 /** This is the root mutation */
 export type MutationEditConversationArgs = {
@@ -8201,13 +7852,11 @@ export type MutationEditConversationArgs = {
   title: Scalars['String']['input'];
 };
 
-
 /** This is the root mutation */
 export type MutationEditExpenseArgs = {
   draftKey?: InputMaybe<Scalars['String']['input']>;
   expense: ExpenseUpdateInput;
 };
-
 
 /** This is the root mutation */
 export type MutationEditLegalDocumentStatusArgs = {
@@ -8218,7 +7867,6 @@ export type MutationEditLegalDocumentStatusArgs = {
   status: LegalDocumentRequestStatus;
 };
 
-
 /** This is the root mutation */
 export type MutationEditMemberArgs = {
   account: AccountReferenceInput;
@@ -8227,7 +7875,6 @@ export type MutationEditMemberArgs = {
   role?: InputMaybe<MemberRole>;
   since?: InputMaybe<Scalars['DateTime']['input']>;
 };
-
 
 /** This is the root mutation */
 export type MutationEditMemberInvitationArgs = {
@@ -8238,18 +7885,15 @@ export type MutationEditMemberInvitationArgs = {
   since?: InputMaybe<Scalars['DateTime']['input']>;
 };
 
-
 /** This is the root mutation */
 export type MutationEditPayoutMethodArgs = {
   payoutMethod: PayoutMethodInput;
 };
 
-
 /** This is the root mutation */
 export type MutationEditPendingOrderArgs = {
   order: PendingOrderEditInput;
 };
-
 
 /** This is the root mutation */
 export type MutationEditPublicMessageArgs = {
@@ -8258,12 +7902,10 @@ export type MutationEditPublicMessageArgs = {
   toAccount: AccountReferenceInput;
 };
 
-
 /** This is the root mutation */
 export type MutationEditTierArgs = {
   tier: TierUpdateInput;
 };
-
 
 /** This is the root mutation */
 export type MutationEditTransactionsImportArgs = {
@@ -8273,26 +7915,22 @@ export type MutationEditTransactionsImportArgs = {
   source?: InputMaybe<Scalars['NonEmptyString']['input']>;
 };
 
-
 /** This is the root mutation */
 export type MutationEditTwoFactorAuthenticationMethodArgs = {
   name?: InputMaybe<Scalars['String']['input']>;
   userTwoFactorMethod: UserTwoFactorMethodReferenceInput;
 };
 
-
 /** This is the root mutation */
 export type MutationEditUpdateArgs = {
   update: UpdateUpdateInput;
 };
-
 
 /** This is the root mutation */
 export type MutationEditVendorArgs = {
   archive?: InputMaybe<Scalars['Boolean']['input']>;
   vendor: VendorEditInput;
 };
-
 
 /** This is the root mutation */
 export type MutationEditVirtualCardArgs = {
@@ -8303,19 +7941,16 @@ export type MutationEditVirtualCardArgs = {
   virtualCard: VirtualCardReferenceInput;
 };
 
-
 /** This is the root mutation */
 export type MutationFollowAccountArgs = {
   account: AccountReferenceInput;
 };
-
 
 /** This is the root mutation */
 export type MutationFollowConversationArgs = {
   id: Scalars['String']['input'];
   isActive?: InputMaybe<Scalars['Boolean']['input']>;
 };
-
 
 /** This is the root mutation */
 export type MutationGeneratePlaidLinkTokenArgs = {
@@ -8326,7 +7961,6 @@ export type MutationGeneratePlaidLinkTokenArgs = {
   transactionImport?: InputMaybe<TransactionsImportReferenceInput>;
 };
 
-
 /** This is the root mutation */
 export type MutationImportTransactionsArgs = {
   csvConfig?: InputMaybe<Scalars['JSONObject']['input']>;
@@ -8334,7 +7968,6 @@ export type MutationImportTransactionsArgs = {
   file?: InputMaybe<Scalars['Upload']['input']>;
   id: Scalars['NonEmptyString']['input'];
 };
-
 
 /** This is the root mutation */
 export type MutationInviteMemberArgs = {
@@ -8345,7 +7978,6 @@ export type MutationInviteMemberArgs = {
   since?: InputMaybe<Scalars['DateTime']['input']>;
 };
 
-
 /** This is the root mutation */
 export type MutationMergeAccountsArgs = {
   dryRun?: Scalars['Boolean']['input'];
@@ -8353,13 +7985,11 @@ export type MutationMergeAccountsArgs = {
   toAccount: AccountReferenceInput;
 };
 
-
 /** This is the root mutation */
 export type MutationMoveExpensesArgs = {
   destinationAccount: AccountReferenceInput;
   expenses: Array<ExpenseReferenceInput>;
 };
-
 
 /** This is the root mutation */
 export type MutationMoveOrdersArgs = {
@@ -8369,12 +7999,10 @@ export type MutationMoveOrdersArgs = {
   tier?: InputMaybe<TierReferenceInput>;
 };
 
-
 /** This is the root mutation */
 export type MutationPauseVirtualCardArgs = {
   virtualCard: VirtualCardReferenceInput;
 };
-
 
 /** This is the root mutation */
 export type MutationProcessExpenseArgs = {
@@ -8385,7 +8013,6 @@ export type MutationProcessExpenseArgs = {
   paymentParams?: InputMaybe<ProcessExpensePaymentParams>;
 };
 
-
 /** This is the root mutation */
 export type MutationProcessHostApplicationArgs = {
   account?: InputMaybe<AccountReferenceInput>;
@@ -8395,13 +8022,11 @@ export type MutationProcessHostApplicationArgs = {
   message?: InputMaybe<Scalars['String']['input']>;
 };
 
-
 /** This is the root mutation */
 export type MutationProcessPendingOrderArgs = {
   action: ProcessOrderAction;
   order: OrderUpdateInput;
 };
-
 
 /** This is the root mutation */
 export type MutationPublishUpdateArgs = {
@@ -8409,13 +8034,11 @@ export type MutationPublishUpdateArgs = {
   notificationAudience?: InputMaybe<UpdateAudience>;
 };
 
-
 /** This is the root mutation */
 export type MutationRefreshPlaidAccountArgs = {
   connectedAccount?: InputMaybe<ConnectedAccountReferenceInput>;
   transactionImport?: InputMaybe<TransactionsImportReferenceInput>;
 };
-
 
 /** This is the root mutation */
 export type MutationRefundTransactionArgs = {
@@ -8423,19 +8046,16 @@ export type MutationRefundTransactionArgs = {
   transaction: TransactionReferenceInput;
 };
 
-
 /** This is the root mutation */
 export type MutationRejectTransactionArgs = {
   message?: InputMaybe<Scalars['String']['input']>;
   transaction: TransactionReferenceInput;
 };
 
-
 /** This is the root mutation */
 export type MutationRejectVirtualCardRequestArgs = {
   virtualCardRequest?: InputMaybe<VirtualCardRequestReferenceInput>;
 };
-
 
 /** This is the root mutation */
 export type MutationRemoveEmojiReactionArgs = {
@@ -8443,7 +8063,6 @@ export type MutationRemoveEmojiReactionArgs = {
   emoji: Scalars['String']['input'];
   update?: InputMaybe<UpdateReferenceInput>;
 };
-
 
 /** This is the root mutation */
 export type MutationRemoveHostArgs = {
@@ -8453,7 +8072,6 @@ export type MutationRemoveHostArgs = {
   pauseContributions?: Scalars['Boolean']['input'];
 };
 
-
 /** This is the root mutation */
 export type MutationRemoveMemberArgs = {
   account: AccountReferenceInput;
@@ -8462,19 +8080,16 @@ export type MutationRemoveMemberArgs = {
   role: MemberRole;
 };
 
-
 /** This is the root mutation */
 export type MutationRemovePaymentMethodArgs = {
   cancelActiveSubscriptions?: InputMaybe<Scalars['Boolean']['input']>;
   paymentMethod: PaymentMethodReferenceInput;
 };
 
-
 /** This is the root mutation */
 export type MutationRemovePayoutMethodArgs = {
   payoutMethodId: Scalars['String']['input'];
 };
-
 
 /** This is the root mutation */
 export type MutationRemoveTwoFactorAuthTokenFromIndividualArgs = {
@@ -8484,13 +8099,11 @@ export type MutationRemoveTwoFactorAuthTokenFromIndividualArgs = {
   userTwoFactorMethod?: InputMaybe<UserTwoFactorMethodReferenceInput>;
 };
 
-
 /** This is the root mutation */
 export type MutationReplyToMemberInvitationArgs = {
   accept: Scalars['Boolean']['input'];
   invitation: MemberInvitationReferenceInput;
 };
-
 
 /** This is the root mutation */
 export type MutationRequestVirtualCardArgs = {
@@ -8502,42 +8115,35 @@ export type MutationRequestVirtualCardArgs = {
   spendingLimitInterval?: InputMaybe<VirtualCardLimitInterval>;
 };
 
-
 /** This is the root mutation */
 export type MutationResendDraftExpenseInviteArgs = {
   expense: ExpenseReferenceInput;
 };
-
 
 /** This is the root mutation */
 export type MutationRestorePayoutMethodArgs = {
   payoutMethod: PayoutMethodReferenceInput;
 };
 
-
 /** This is the root mutation */
 export type MutationResumeVirtualCardArgs = {
   virtualCard: VirtualCardReferenceInput;
 };
-
 
 /** This is the root mutation */
 export type MutationRevokeOAuthAuthorizationArgs = {
   oAuthAuthorization: OAuthAuthorizationReferenceInput;
 };
 
-
 /** This is the root mutation */
 export type MutationRootAnonymizeAccountArgs = {
   account: AccountReferenceInput;
 };
 
-
 /** This is the root mutation */
 export type MutationSendGuestConfirmationEmailArgs = {
   email: Scalars['EmailAddress']['input'];
 };
-
 
 /** This is the root mutation */
 export type MutationSendMessageArgs = {
@@ -8545,7 +8151,6 @@ export type MutationSendMessageArgs = {
   message: Scalars['NonEmptyString']['input'];
   subject?: InputMaybe<Scalars['String']['input']>;
 };
-
 
 /** This is the root mutation */
 export type MutationSendSurveyResponseArgs = {
@@ -8556,12 +8161,10 @@ export type MutationSendSurveyResponseArgs = {
   text?: InputMaybe<Scalars['String']['input']>;
 };
 
-
 /** This is the root mutation */
 export type MutationSetChangelogViewDateArgs = {
   changelogViewDate: Scalars['DateTime']['input'];
 };
-
 
 /** This is the root mutation */
 export type MutationSetEmailNotificationArgs = {
@@ -8570,12 +8173,10 @@ export type MutationSetEmailNotificationArgs = {
   type: ActivityAndClassesType;
 };
 
-
 /** This is the root mutation */
 export type MutationSetNewsletterOptInArgs = {
   newsletterOptIn: Scalars['Boolean']['input'];
 };
-
 
 /** This is the root mutation */
 export type MutationSetPasswordArgs = {
@@ -8583,13 +8184,11 @@ export type MutationSetPasswordArgs = {
   password: Scalars['String']['input'];
 };
 
-
 /** This is the root mutation */
 export type MutationSetPoliciesArgs = {
   account: AccountReferenceInput;
   policies: PoliciesInput;
 };
-
 
 /** This is the root mutation */
 export type MutationSetTagsArgs = {
@@ -8598,13 +8197,11 @@ export type MutationSetTagsArgs = {
   tags?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
 };
 
-
 /** This is the root mutation */
 export type MutationStartResumeOrdersProcessArgs = {
   account: AccountReferenceInput;
   message?: InputMaybe<Scalars['String']['input']>;
 };
-
 
 /** This is the root mutation */
 export type MutationSubmitLegalDocumentArgs = {
@@ -8613,30 +8210,25 @@ export type MutationSubmitLegalDocumentArgs = {
   type: LegalDocumentType;
 };
 
-
 /** This is the root mutation */
 export type MutationSyncPlaidAccountArgs = {
   connectedAccount: ConnectedAccountReferenceInput;
 };
-
 
 /** This is the root mutation */
 export type MutationUnfollowAccountArgs = {
   account: AccountReferenceInput;
 };
 
-
 /** This is the root mutation */
 export type MutationUnpublishUpdateArgs = {
   id: Scalars['String']['input'];
 };
 
-
 /** This is the root mutation */
 export type MutationUpdateApplicationArgs = {
   application: ApplicationUpdateInput;
 };
-
 
 /** This is the root mutation */
 export type MutationUpdateOrderArgs = {
@@ -8647,26 +8239,22 @@ export type MutationUpdateOrderArgs = {
   tier?: InputMaybe<TierReferenceInput>;
 };
 
-
 /** This is the root mutation */
 export type MutationUpdateOrderAccountingCategoryArgs = {
   accountingCategory?: InputMaybe<AccountingCategoryReferenceInput>;
   order: OrderReferenceInput;
 };
 
-
 /** This is the root mutation */
 export type MutationUpdatePersonalTokenArgs = {
   personalToken: PersonalTokenUpdateInput;
 };
-
 
 /** This is the root mutation */
 export type MutationUpdateSocialLinksArgs = {
   account: AccountReferenceInput;
   socialLinks: Array<SocialLinkInput>;
 };
-
 
 /** This is the root mutation */
 export type MutationUpdateTransactionsImportRowsArgs = {
@@ -8675,12 +8263,10 @@ export type MutationUpdateTransactionsImportRowsArgs = {
   rows?: InputMaybe<Array<TransactionsImportRowUpdateInput>>;
 };
 
-
 /** This is the root mutation */
 export type MutationUpdateWebhookArgs = {
   webhook: WebhookUpdateInput;
 };
-
 
 /** This is the root mutation */
 export type MutationUploadFileArgs = {
@@ -8784,7 +8370,7 @@ export enum OAuthScope {
   /** Create and manage virtual cards. */
   virtualCards = 'virtualCards',
   /** Create and manage webhooks */
-  webhooks = 'webhooks'
+  webhooks = 'webhooks',
 }
 
 /** To configure the OCR parsing */
@@ -8862,7 +8448,6 @@ export type Order = {
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
 };
 
-
 /** Order model */
 export type OrderCommentsArgs = {
   limit?: Scalars['Int']['input'];
@@ -8886,7 +8471,7 @@ export enum OrderByFieldType {
   RANK = 'RANK',
   /** Order by start date */
   STARTS_AT = 'STARTS_AT',
-  TOTAL_CONTRIBUTED = 'TOTAL_CONTRIBUTED'
+  TOTAL_CONTRIBUTED = 'TOTAL_CONTRIBUTED',
 }
 
 /** Input to order collection */
@@ -8956,7 +8541,7 @@ export type OrderCreateInput = {
 /** Possible directions in which to order a list of items */
 export enum OrderDirection {
   ASC = 'ASC',
-  DESC = 'DESC'
+  DESC = 'DESC',
 }
 
 /** Some context about how an order was created */
@@ -8977,7 +8562,7 @@ export enum OrderPausedBy {
   /** The platform */
   PLATFORM = 'PLATFORM',
   /** Individual who administers the account for this contribution */
-  USER = 'USER'
+  USER = 'USER',
 }
 
 /** Fields for the user permissions on an order */
@@ -9024,7 +8609,7 @@ export enum OrderStatus {
   PROCESSING = 'PROCESSING',
   REFUNDED = 'REFUNDED',
   REJECTED = 'REJECTED',
-  REQUIRE_CLIENT_CONFIRMATION = 'REQUIRE_CLIENT_CONFIRMATION'
+  REQUIRE_CLIENT_CONFIRMATION = 'REQUIRE_CLIENT_CONFIRMATION',
 }
 
 export type OrderTax = {
@@ -9078,146 +8663,146 @@ export type OrderWithPayment = {
 };
 
 /** This represents an Organization account */
-export type Organization = Account & AccountWithContributions & {
-  __typename?: 'Organization';
-  /** [!] Warning: this query is currently in beta and the API might change */
-  activeContributors: AccountCollection;
-  /** List of activities that the logged-in user is subscribed for this collective */
-  activitySubscriptions?: Maybe<Array<Maybe<ActivitySubscription>>>;
-  backgroundImageUrl?: Maybe<Scalars['String']['output']>;
-  /** Whether this account can have changelog updates */
-  canHaveChangelogUpdates: Scalars['Boolean']['output'];
-  /** Returns true if the remote user can start the process to resume contributions for account */
-  canStartResumeContributionsProcess: Scalars['Boolean']['output'];
-  categories: Array<Maybe<Scalars['String']['output']>>;
-  childrenAccounts: AccountCollection;
-  /** The list of connected accounts (Stripe, PayPal, etc ...). Admin only. Scope: "connectedAccounts". */
-  connectedAccounts?: Maybe<Array<Maybe<ConnectedAccount>>>;
-  contributionPolicy?: Maybe<Scalars['String']['output']>;
-  /** All the persons and entities that contribute to this account */
-  contributors: ContributorCollection;
-  conversations: ConversationCollection;
-  /** Returns conversation's tags for collective sorted by popularity */
-  conversationsTags?: Maybe<Array<Maybe<TagStat>>>;
-  /** The time of creation */
-  createdAt?: Maybe<Scalars['DateTime']['output']>;
-  /** The currency of the account */
-  currency: Currency;
-  description?: Maybe<Scalars['String']['output']>;
-  /** If this account was duplicated, the accounts that were created from it */
-  duplicatedAccounts: AccountCollection;
-  /** If created by duplication, the account from which this one was duplicated */
-  duplicatedFromAccount?: Maybe<Account>;
-  /** @deprecated 2022-07-18: This field is deprecated and will return null */
-  email?: Maybe<Scalars['String']['output']>;
-  /** Returns the emails of the account. Individuals only have one, but organizations can have multiple emails. */
-  emails?: Maybe<Array<Scalars['EmailAddress']['output']>>;
-  /** @deprecated 2024-11-04: Please use policies.EXPENSE_POLICIES */
-  expensePolicy?: Maybe<Scalars['String']['output']>;
-  expenses: ExpenseCollection;
-  /** Returns expense tags for collective sorted by popularity */
-  expensesTags?: Maybe<Array<Maybe<TagStat>>>;
-  /** Describes the features enabled and available for this account */
-  features: CollectiveFeatures;
-  feed?: Maybe<Array<Maybe<Activity>>>;
-  /** @deprecated 2022-06-03: Please use repositoryUrl */
-  githubHandle?: Maybe<Scalars['String']['output']>;
-  /** Returns true if the account has started the process to resume contributions */
-  hasResumeContributionsProcessStarted: Scalars['Boolean']['output'];
-  /** If the organization is a host account, this will return the matching Host object */
-  host?: Maybe<Host>;
-  /** Host application requests */
-  hostApplicationRequests: HostApplicationCollection;
-  id: Scalars['String']['output'];
-  imageUrl?: Maybe<Scalars['String']['output']>;
-  /** Returns whether the account accepts financial contributions. */
-  isActive?: Maybe<Scalars['Boolean']['output']>;
-  /** Returns true if the remote user is an admin of this account */
-  isAdmin: Scalars['Boolean']['output'];
-  /** Returns whether this account is archived */
-  isArchived: Scalars['Boolean']['output'];
-  /** Whether this account is frozen */
-  isFrozen: Scalars['Boolean']['output'];
-  /** Returns whether the account is setup to Host collectives. */
-  isHost: Scalars['Boolean']['output'];
-  /** Defines if the contributors wants to be incognito (name not displayed) */
-  isIncognito: Scalars['Boolean']['output'];
-  legacyId: Scalars['Int']['output'];
-  /** The legal documents associated with this account */
-  legalDocuments?: Maybe<Array<Maybe<LegalDocument>>>;
-  /** Private, legal name. Used for expense receipts, taxes, etc. Scope: "account". */
-  legalName?: Maybe<Scalars['String']['output']>;
-  /**
-   *
-   *           Address. This field is public for hosts, otherwise:
-   *             - Users can see the addresses of the collectives they're admin of; if they are not an admin they can only see the country that the org belong to.
-   *             - Hosts can see the address of organizations submitting expenses to their collectives.
-   *
-   */
-  location?: Maybe<Location>;
-  longDescription?: Maybe<Scalars['String']['output']>;
-  /** [AUTHENTICATED] Returns the pending invitations */
-  memberInvitations?: Maybe<Array<Maybe<MemberInvitation>>>;
-  memberOf: MemberOfCollection;
-  /** Get all members (admins, members, backers, followers) */
-  members: MemberCollection;
-  /** Public name */
-  name?: Maybe<Scalars['String']['output']>;
-  /** The list of applications created by this account. Admin only. Scope: "applications". */
-  oAuthApplications?: Maybe<OAuthApplicationCollection>;
-  orders: OrderCollection;
-  /** @deprecated 2022-12-16: use parent on AccountWithParent instead */
-  parentAccount?: Maybe<Account>;
-  /** The list of payment methods that this collective can use to pay for Orders. Admin or Host only. Scope: "orders". */
-  paymentMethods?: Maybe<Array<Maybe<PaymentMethod>>>;
-  /** The list of payment methods for this account that are pending a client confirmation (3D Secure / SCA) */
-  paymentMethodsWithPendingConfirmation?: Maybe<Array<Maybe<PaymentMethod>>>;
-  /** The list of payout methods that this collective can use to get paid. In most cases, admin only and scope: "expenses". */
-  payoutMethods?: Maybe<Array<Maybe<PayoutMethod>>>;
-  /** Logged-in user permissions on an account */
-  permissions: AccountPermissions;
-  /** Returns true if a custom contribution to Open Collective can be submitted for contributions made to this account */
-  platformContributionAvailable: Scalars['Boolean']['output'];
-  /** How much platform fees are charged for this account */
-  platformFeePercent: Scalars['Float']['output'];
-  /** Policies for the account. To see non-public policies you need to be admin and have the scope: "account". */
-  policies: Policies;
-  /** @deprecated 2023-01-16: Please use socialLinks */
-  repositoryUrl?: Maybe<Scalars['String']['output']>;
-  settings: Scalars['JSON']['output'];
-  /** The slug identifying the account (ie: babel) */
-  slug: Scalars['String']['output'];
-  socialLinks: Array<SocialLink>;
-  stats?: Maybe<AccountStats>;
-  /** The list of expense types supported by this account */
-  supportedExpenseTypes: Array<ExpenseType>;
-  tags?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  tiers: TierCollection;
-  /** Number of unique financial contributors. */
-  totalFinancialContributors: Scalars['Int']['output'];
-  /** [!] Warning: this query is currently in beta and the API might change */
-  transactionGroups: TransactionGroupCollection;
-  /** EXPERIMENTAL (this may change or be removed) */
-  transactionReports?: Maybe<TransactionReports>;
-  transactions: TransactionCollection;
-  transferwise?: Maybe<TransferWise>;
-  /** @deprecated 2023-01-16: Please use socialLinks */
-  twitterHandle?: Maybe<Scalars['String']['output']>;
-  type: AccountType;
-  /** Date of unhosting by a given Fiscal Host. */
-  unhostedAt?: Maybe<Scalars['DateTime']['output']>;
-  updatedAt?: Maybe<Scalars['DateTime']['output']>;
-  /** Updates published by the account. To see unpublished updates, you need to be an admin and have the scope "updates". */
-  updates: UpdateCollection;
-  /** Virtual Cards Merchants used by the account. Admin only. Scope: "virtualCards". */
-  virtualCardMerchants?: Maybe<AccountCollection>;
-  /** Virtual Cards attached to the account. Admin only. Scope: "virtualCards". */
-  virtualCards?: Maybe<VirtualCardCollection>;
-  webhooks: WebhookCollection;
-  /** @deprecated 2023-01-16: Please use socialLinks */
-  website?: Maybe<Scalars['String']['output']>;
-};
-
+export type Organization = Account &
+  AccountWithContributions & {
+    __typename?: 'Organization';
+    /** [!] Warning: this query is currently in beta and the API might change */
+    activeContributors: AccountCollection;
+    /** List of activities that the logged-in user is subscribed for this collective */
+    activitySubscriptions?: Maybe<Array<Maybe<ActivitySubscription>>>;
+    backgroundImageUrl?: Maybe<Scalars['String']['output']>;
+    /** Whether this account can have changelog updates */
+    canHaveChangelogUpdates: Scalars['Boolean']['output'];
+    /** Returns true if the remote user can start the process to resume contributions for account */
+    canStartResumeContributionsProcess: Scalars['Boolean']['output'];
+    categories: Array<Maybe<Scalars['String']['output']>>;
+    childrenAccounts: AccountCollection;
+    /** The list of connected accounts (Stripe, PayPal, etc ...). Admin only. Scope: "connectedAccounts". */
+    connectedAccounts?: Maybe<Array<Maybe<ConnectedAccount>>>;
+    contributionPolicy?: Maybe<Scalars['String']['output']>;
+    /** All the persons and entities that contribute to this account */
+    contributors: ContributorCollection;
+    conversations: ConversationCollection;
+    /** Returns conversation's tags for collective sorted by popularity */
+    conversationsTags?: Maybe<Array<Maybe<TagStat>>>;
+    /** The time of creation */
+    createdAt?: Maybe<Scalars['DateTime']['output']>;
+    /** The currency of the account */
+    currency: Currency;
+    description?: Maybe<Scalars['String']['output']>;
+    /** If this account was duplicated, the accounts that were created from it */
+    duplicatedAccounts: AccountCollection;
+    /** If created by duplication, the account from which this one was duplicated */
+    duplicatedFromAccount?: Maybe<Account>;
+    /** @deprecated 2022-07-18: This field is deprecated and will return null */
+    email?: Maybe<Scalars['String']['output']>;
+    /** Returns the emails of the account. Individuals only have one, but organizations can have multiple emails. */
+    emails?: Maybe<Array<Scalars['EmailAddress']['output']>>;
+    /** @deprecated 2024-11-04: Please use policies.EXPENSE_POLICIES */
+    expensePolicy?: Maybe<Scalars['String']['output']>;
+    expenses: ExpenseCollection;
+    /** Returns expense tags for collective sorted by popularity */
+    expensesTags?: Maybe<Array<Maybe<TagStat>>>;
+    /** Describes the features enabled and available for this account */
+    features: CollectiveFeatures;
+    feed?: Maybe<Array<Maybe<Activity>>>;
+    /** @deprecated 2022-06-03: Please use repositoryUrl */
+    githubHandle?: Maybe<Scalars['String']['output']>;
+    /** Returns true if the account has started the process to resume contributions */
+    hasResumeContributionsProcessStarted: Scalars['Boolean']['output'];
+    /** If the organization is a host account, this will return the matching Host object */
+    host?: Maybe<Host>;
+    /** Host application requests */
+    hostApplicationRequests: HostApplicationCollection;
+    id: Scalars['String']['output'];
+    imageUrl?: Maybe<Scalars['String']['output']>;
+    /** Returns whether the account accepts financial contributions. */
+    isActive?: Maybe<Scalars['Boolean']['output']>;
+    /** Returns true if the remote user is an admin of this account */
+    isAdmin: Scalars['Boolean']['output'];
+    /** Returns whether this account is archived */
+    isArchived: Scalars['Boolean']['output'];
+    /** Whether this account is frozen */
+    isFrozen: Scalars['Boolean']['output'];
+    /** Returns whether the account is setup to Host collectives. */
+    isHost: Scalars['Boolean']['output'];
+    /** Defines if the contributors wants to be incognito (name not displayed) */
+    isIncognito: Scalars['Boolean']['output'];
+    legacyId: Scalars['Int']['output'];
+    /** The legal documents associated with this account */
+    legalDocuments?: Maybe<Array<Maybe<LegalDocument>>>;
+    /** Private, legal name. Used for expense receipts, taxes, etc. Scope: "account". */
+    legalName?: Maybe<Scalars['String']['output']>;
+    /**
+     *
+     *           Address. This field is public for hosts, otherwise:
+     *             - Users can see the addresses of the collectives they're admin of; if they are not an admin they can only see the country that the org belong to.
+     *             - Hosts can see the address of organizations submitting expenses to their collectives.
+     *
+     */
+    location?: Maybe<Location>;
+    longDescription?: Maybe<Scalars['String']['output']>;
+    /** [AUTHENTICATED] Returns the pending invitations */
+    memberInvitations?: Maybe<Array<Maybe<MemberInvitation>>>;
+    memberOf: MemberOfCollection;
+    /** Get all members (admins, members, backers, followers) */
+    members: MemberCollection;
+    /** Public name */
+    name?: Maybe<Scalars['String']['output']>;
+    /** The list of applications created by this account. Admin only. Scope: "applications". */
+    oAuthApplications?: Maybe<OAuthApplicationCollection>;
+    orders: OrderCollection;
+    /** @deprecated 2022-12-16: use parent on AccountWithParent instead */
+    parentAccount?: Maybe<Account>;
+    /** The list of payment methods that this collective can use to pay for Orders. Admin or Host only. Scope: "orders". */
+    paymentMethods?: Maybe<Array<Maybe<PaymentMethod>>>;
+    /** The list of payment methods for this account that are pending a client confirmation (3D Secure / SCA) */
+    paymentMethodsWithPendingConfirmation?: Maybe<Array<Maybe<PaymentMethod>>>;
+    /** The list of payout methods that this collective can use to get paid. In most cases, admin only and scope: "expenses". */
+    payoutMethods?: Maybe<Array<Maybe<PayoutMethod>>>;
+    /** Logged-in user permissions on an account */
+    permissions: AccountPermissions;
+    /** Returns true if a custom contribution to Open Collective can be submitted for contributions made to this account */
+    platformContributionAvailable: Scalars['Boolean']['output'];
+    /** How much platform fees are charged for this account */
+    platformFeePercent: Scalars['Float']['output'];
+    /** Policies for the account. To see non-public policies you need to be admin and have the scope: "account". */
+    policies: Policies;
+    /** @deprecated 2023-01-16: Please use socialLinks */
+    repositoryUrl?: Maybe<Scalars['String']['output']>;
+    settings: Scalars['JSON']['output'];
+    /** The slug identifying the account (ie: babel) */
+    slug: Scalars['String']['output'];
+    socialLinks: Array<SocialLink>;
+    stats?: Maybe<AccountStats>;
+    /** The list of expense types supported by this account */
+    supportedExpenseTypes: Array<ExpenseType>;
+    tags?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+    tiers: TierCollection;
+    /** Number of unique financial contributors. */
+    totalFinancialContributors: Scalars['Int']['output'];
+    /** [!] Warning: this query is currently in beta and the API might change */
+    transactionGroups: TransactionGroupCollection;
+    /** EXPERIMENTAL (this may change or be removed) */
+    transactionReports?: Maybe<TransactionReports>;
+    transactions: TransactionCollection;
+    transferwise?: Maybe<TransferWise>;
+    /** @deprecated 2023-01-16: Please use socialLinks */
+    twitterHandle?: Maybe<Scalars['String']['output']>;
+    type: AccountType;
+    /** Date of unhosting by a given Fiscal Host. */
+    unhostedAt?: Maybe<Scalars['DateTime']['output']>;
+    updatedAt?: Maybe<Scalars['DateTime']['output']>;
+    /** Updates published by the account. To see unpublished updates, you need to be an admin and have the scope "updates". */
+    updates: UpdateCollection;
+    /** Virtual Cards Merchants used by the account. Admin only. Scope: "virtualCards". */
+    virtualCardMerchants?: Maybe<AccountCollection>;
+    /** Virtual Cards attached to the account. Admin only. Scope: "virtualCards". */
+    virtualCards?: Maybe<VirtualCardCollection>;
+    webhooks: WebhookCollection;
+    /** @deprecated 2023-01-16: Please use socialLinks */
+    website?: Maybe<Scalars['String']['output']>;
+  };
 
 /** This represents an Organization account */
 export type OrganizationActiveContributorsArgs = {
@@ -9228,19 +8813,16 @@ export type OrganizationActiveContributorsArgs = {
   offset?: Scalars['Int']['input'];
 };
 
-
 /** This represents an Organization account */
 export type OrganizationActivitySubscriptionsArgs = {
   channel?: InputMaybe<ActivityChannel>;
 };
-
 
 /** This represents an Organization account */
 export type OrganizationBackgroundImageUrlArgs = {
   format?: InputMaybe<ImageFormat>;
   height?: InputMaybe<Scalars['Int']['input']>;
 };
-
 
 /** This represents an Organization account */
 export type OrganizationChildrenAccountsArgs = {
@@ -9252,14 +8834,12 @@ export type OrganizationChildrenAccountsArgs = {
   searchTerm?: InputMaybe<Scalars['String']['input']>;
 };
 
-
 /** This represents an Organization account */
 export type OrganizationContributorsArgs = {
   limit?: Scalars['Int']['input'];
   offset?: Scalars['Int']['input'];
   roles?: InputMaybe<Array<InputMaybe<MemberRole>>>;
 };
-
 
 /** This represents an Organization account */
 export type OrganizationConversationsArgs = {
@@ -9268,19 +8848,16 @@ export type OrganizationConversationsArgs = {
   tag?: InputMaybe<Scalars['String']['input']>;
 };
 
-
 /** This represents an Organization account */
 export type OrganizationConversationsTagsArgs = {
   limit?: Scalars['Int']['input'];
 };
-
 
 /** This represents an Organization account */
 export type OrganizationDuplicatedAccountsArgs = {
   limit?: Scalars['Int']['input'];
   offset?: Scalars['Int']['input'];
 };
-
 
 /** This represents an Organization account */
 export type OrganizationExpensesArgs = {
@@ -9313,12 +8890,10 @@ export type OrganizationExpensesArgs = {
   virtualCards?: InputMaybe<Array<InputMaybe<VirtualCardReferenceInput>>>;
 };
 
-
 /** This represents an Organization account */
 export type OrganizationExpensesTagsArgs = {
   limit?: Scalars['Int']['input'];
 };
-
 
 /** This represents an Organization account */
 export type OrganizationFeedArgs = {
@@ -9326,7 +8901,6 @@ export type OrganizationFeedArgs = {
   dateTo?: InputMaybe<Scalars['DateTime']['input']>;
   limit?: InputMaybe<Scalars['Int']['input']>;
 };
-
 
 /** This represents an Organization account */
 export type OrganizationHostApplicationRequestsArgs = {
@@ -9336,19 +8910,16 @@ export type OrganizationHostApplicationRequestsArgs = {
   status?: InputMaybe<HostApplicationStatus>;
 };
 
-
 /** This represents an Organization account */
 export type OrganizationImageUrlArgs = {
   format?: InputMaybe<ImageFormat>;
   height?: InputMaybe<Scalars['Int']['input']>;
 };
 
-
 /** This represents an Organization account */
 export type OrganizationLegalDocumentsArgs = {
   type?: InputMaybe<Array<InputMaybe<LegalDocumentType>>>;
 };
-
 
 /** This represents an Organization account */
 export type OrganizationMemberInvitationsArgs = {
@@ -9356,7 +8927,6 @@ export type OrganizationMemberInvitationsArgs = {
   memberAccount?: InputMaybe<AccountReferenceInput>;
   role?: InputMaybe<Array<InputMaybe<MemberRole>>>;
 };
-
 
 /** This represents an Organization account */
 export type OrganizationMemberOfArgs = {
@@ -9375,7 +8945,6 @@ export type OrganizationMemberOfArgs = {
   searchTerm?: InputMaybe<Scalars['String']['input']>;
 };
 
-
 /** This represents an Organization account */
 export type OrganizationMembersArgs = {
   accountType?: InputMaybe<Array<InputMaybe<AccountType>>>;
@@ -9387,13 +8956,11 @@ export type OrganizationMembersArgs = {
   role?: InputMaybe<Array<InputMaybe<MemberRole>>>;
 };
 
-
 /** This represents an Organization account */
 export type OrganizationOAuthApplicationsArgs = {
   limit?: Scalars['Int']['input'];
   offset?: Scalars['Int']['input'];
 };
-
 
 /** This represents an Organization account */
 export type OrganizationOrdersArgs = {
@@ -9428,7 +8995,6 @@ export type OrganizationOrdersArgs = {
   tierSlug?: InputMaybe<Scalars['String']['input']>;
 };
 
-
 /** This represents an Organization account */
 export type OrganizationPaymentMethodsArgs = {
   enumType?: InputMaybe<Array<InputMaybe<PaymentMethodType>>>;
@@ -9437,12 +9003,10 @@ export type OrganizationPaymentMethodsArgs = {
   type?: InputMaybe<Array<InputMaybe<PaymentMethodType>>>;
 };
 
-
 /** This represents an Organization account */
 export type OrganizationPayoutMethodsArgs = {
   includeArchived?: InputMaybe<Scalars['Boolean']['input']>;
 };
-
 
 /** This represents an Organization account */
 export type OrganizationTiersArgs = {
@@ -9450,12 +9014,10 @@ export type OrganizationTiersArgs = {
   offset?: Scalars['Int']['input'];
 };
 
-
 /** This represents an Organization account */
 export type OrganizationTotalFinancialContributorsArgs = {
   accountType?: InputMaybe<AccountType>;
 };
-
 
 /** This represents an Organization account */
 export type OrganizationTransactionGroupsArgs = {
@@ -9467,14 +9029,12 @@ export type OrganizationTransactionGroupsArgs = {
   type?: InputMaybe<TransactionType>;
 };
 
-
 /** This represents an Organization account */
 export type OrganizationTransactionReportsArgs = {
   dateFrom?: InputMaybe<Scalars['DateTime']['input']>;
   dateTo?: InputMaybe<Scalars['DateTime']['input']>;
   timeUnit?: InputMaybe<TimeUnit>;
 };
-
 
 /** This represents an Organization account */
 export type OrganizationTransactionsArgs = {
@@ -9517,12 +9077,10 @@ export type OrganizationTransactionsArgs = {
   virtualCard?: InputMaybe<Array<InputMaybe<VirtualCardReferenceInput>>>;
 };
 
-
 /** This represents an Organization account */
 export type OrganizationUnhostedAtArgs = {
   host: AccountReferenceInput;
 };
-
 
 /** This represents an Organization account */
 export type OrganizationUpdatesArgs = {
@@ -9535,13 +9093,11 @@ export type OrganizationUpdatesArgs = {
   searchTerm?: InputMaybe<Scalars['String']['input']>;
 };
 
-
 /** This represents an Organization account */
 export type OrganizationVirtualCardMerchantsArgs = {
   limit?: Scalars['Int']['input'];
   offset?: Scalars['Int']['input'];
 };
-
 
 /** This represents an Organization account */
 export type OrganizationVirtualCardsArgs = {
@@ -9554,7 +9110,6 @@ export type OrganizationVirtualCardsArgs = {
   state?: InputMaybe<Scalars['String']['input']>;
   status?: InputMaybe<Array<InputMaybe<VirtualCardStatus>>>;
 };
-
 
 /** This represents an Organization account */
 export type OrganizationWebhooksArgs = {
@@ -9632,7 +9187,6 @@ export type PaymentMethod = {
   type?: Maybe<PaymentMethodType>;
 };
 
-
 /** PaymentMethod model */
 export type PaymentMethodOrdersArgs = {
   chargedDateFrom?: InputMaybe<Scalars['DateTime']['input']>;
@@ -9706,7 +9260,7 @@ export enum PaymentMethodLegacyType {
   PAYPAL = 'PAYPAL',
   PREPAID_BUDGET = 'PREPAID_BUDGET',
   SEPA_DEBIT = 'SEPA_DEBIT',
-  US_BANK_ACCOUNT = 'US_BANK_ACCOUNT'
+  US_BANK_ACCOUNT = 'US_BANK_ACCOUNT',
 }
 
 export type PaymentMethodReferenceInput = {
@@ -9719,7 +9273,7 @@ export enum PaymentMethodService {
   PAYPAL = 'PAYPAL',
   STRIPE = 'STRIPE',
   THEGIVINGBLOCK = 'THEGIVINGBLOCK',
-  WISE = 'WISE'
+  WISE = 'WISE',
 }
 
 export enum PaymentMethodType {
@@ -9788,7 +9342,7 @@ export enum PaymentMethodType {
   /** @deprecated Please use uppercase values */
   us_bank_account = 'us_bank_account',
   /** @deprecated Please use uppercase values */
-  virtual_card = 'virtual_card'
+  virtual_card = 'virtual_card',
 }
 
 /** A payout method */
@@ -9833,7 +9387,7 @@ export enum PayoutMethodType {
   BANK_ACCOUNT = 'BANK_ACCOUNT',
   CREDIT_CARD = 'CREDIT_CARD',
   OTHER = 'OTHER',
-  PAYPAL = 'PAYPAL'
+  PAYPAL = 'PAYPAL',
 }
 
 export type PaypalPaymentInput = {
@@ -10020,7 +9574,7 @@ export enum PlaidAccountType {
   /** Loan */
   loan = 'loan',
   /** Other */
-  other = 'other'
+  other = 'other',
 }
 
 export type PlaidConnectAccountResponse = {
@@ -10104,7 +9658,7 @@ export type PoliciesInput = {
 /** Defines how the policy is applied */
 export enum PolicyApplication {
   ALL_COLLECTIVES = 'ALL_COLLECTIVES',
-  NEW_COLLECTIVES = 'NEW_COLLECTIVES'
+  NEW_COLLECTIVES = 'NEW_COLLECTIVES',
 }
 
 /** Parameters for paying an expense */
@@ -10143,7 +9697,7 @@ export enum ProcessHostApplicationAction {
   /** Sends a private message to the admins of the account */
   SEND_PRIVATE_MESSAGE = 'SEND_PRIVATE_MESSAGE',
   /** Creates a public conversation */
-  SEND_PUBLIC_MESSAGE = 'SEND_PUBLIC_MESSAGE'
+  SEND_PUBLIC_MESSAGE = 'SEND_PUBLIC_MESSAGE',
 }
 
 export type ProcessHostApplicationResponse = {
@@ -10160,159 +9714,161 @@ export enum ProcessOrderAction {
   /** To mark the order as expired */
   MARK_AS_EXPIRED = 'MARK_AS_EXPIRED',
   /** To mark the order as paid */
-  MARK_AS_PAID = 'MARK_AS_PAID'
+  MARK_AS_PAID = 'MARK_AS_PAID',
 }
 
 /** This represents an Project account */
-export type Project = Account & AccountWithContributions & AccountWithHost & AccountWithParent & {
-  __typename?: 'Project';
-  /** [!] Warning: this query is currently in beta and the API might change */
-  activeContributors: AccountCollection;
-  /** List of activities that the logged-in user is subscribed for this collective */
-  activitySubscriptions?: Maybe<Array<Maybe<ActivitySubscription>>>;
-  /** Date of approval by the Fiscal Host. */
-  approvedAt?: Maybe<Scalars['DateTime']['output']>;
-  backgroundImageUrl?: Maybe<Scalars['String']['output']>;
-  /** Whether this account can have changelog updates */
-  canHaveChangelogUpdates: Scalars['Boolean']['output'];
-  /** Returns true if the remote user can start the process to resume contributions for account */
-  canStartResumeContributionsProcess: Scalars['Boolean']['output'];
-  categories: Array<Maybe<Scalars['String']['output']>>;
-  childrenAccounts: AccountCollection;
-  /** The list of connected accounts (Stripe, PayPal, etc ...). Admin only. Scope: "connectedAccounts". */
-  connectedAccounts?: Maybe<Array<Maybe<ConnectedAccount>>>;
-  contributionPolicy?: Maybe<Scalars['String']['output']>;
-  /** All the persons and entities that contribute to this account */
-  contributors: ContributorCollection;
-  conversations: ConversationCollection;
-  /** Returns conversation's tags for collective sorted by popularity */
-  conversationsTags?: Maybe<Array<Maybe<TagStat>>>;
-  /** The time of creation */
-  createdAt?: Maybe<Scalars['DateTime']['output']>;
-  /** The currency of the account */
-  currency: Currency;
-  description?: Maybe<Scalars['String']['output']>;
-  /** If this account was duplicated, the accounts that were created from it */
-  duplicatedAccounts: AccountCollection;
-  /** If created by duplication, the account from which this one was duplicated */
-  duplicatedFromAccount?: Maybe<Account>;
-  /** Returns the emails of the account. Individuals only have one, but organizations can have multiple emails. */
-  emails?: Maybe<Array<Scalars['EmailAddress']['output']>>;
-  /** @deprecated 2024-11-04: Please use policies.EXPENSE_POLICIES */
-  expensePolicy?: Maybe<Scalars['String']['output']>;
-  expenses: ExpenseCollection;
-  /** Returns expense tags for collective sorted by popularity */
-  expensesTags?: Maybe<Array<Maybe<TagStat>>>;
-  /** Describes the features enabled and available for this account */
-  features: CollectiveFeatures;
-  feed?: Maybe<Array<Maybe<Activity>>>;
-  /** @deprecated 2022-06-03: Please use repositoryUrl */
-  githubHandle?: Maybe<Scalars['String']['output']>;
-  /** Returns true if the account has started the process to resume contributions */
-  hasResumeContributionsProcessStarted: Scalars['Boolean']['output'];
-  /** Returns the Fiscal Host */
-  host?: Maybe<Host>;
-  /** Returns agreements this account has with its host, or null if not enough permissions. */
-  hostAgreements?: Maybe<AgreementCollection>;
-  /** Returns the Fiscal Host application */
-  hostApplication?: Maybe<HostApplication>;
-  /** Host application requests */
-  hostApplicationRequests: HostApplicationCollection;
-  /** Fees percentage that the host takes for this collective */
-  hostFeePercent?: Maybe<Scalars['Float']['output']>;
-  /** Describe how the host charges the collective */
-  hostFeesStructure?: Maybe<HostFeeStructure>;
-  id: Scalars['String']['output'];
-  imageUrl?: Maybe<Scalars['String']['output']>;
-  /** Returns whether it's active: can accept financial contributions and pay expenses. */
-  isActive: Scalars['Boolean']['output'];
-  /** Returns true if the remote user is an admin of this account */
-  isAdmin: Scalars['Boolean']['output'];
-  /** Returns whether it's approved by the Fiscal Host */
-  isApproved: Scalars['Boolean']['output'];
-  /** Returns whether this account is archived */
-  isArchived: Scalars['Boolean']['output'];
-  /** Whether this account is frozen */
-  isFrozen: Scalars['Boolean']['output'];
-  /** Returns whether the account is setup to Host collectives. */
-  isHost: Scalars['Boolean']['output'];
-  /** Defines if the contributors wants to be incognito (name not displayed) */
-  isIncognito: Scalars['Boolean']['output'];
-  legacyId: Scalars['Int']['output'];
-  /** The legal documents associated with this account */
-  legalDocuments?: Maybe<Array<Maybe<LegalDocument>>>;
-  /** Private, legal name. Used for expense receipts, taxes, etc. Scope: "account". */
-  legalName?: Maybe<Scalars['String']['output']>;
-  /** The address associated to this account. This field is always public for collectives and events. */
-  location?: Maybe<Location>;
-  longDescription?: Maybe<Scalars['String']['output']>;
-  /** [AUTHENTICATED] Returns the pending invitations */
-  memberInvitations?: Maybe<Array<Maybe<MemberInvitation>>>;
-  memberOf: MemberOfCollection;
-  /** Get all members (admins, members, backers, followers) */
-  members: MemberCollection;
-  /** Public name */
-  name?: Maybe<Scalars['String']['output']>;
-  /** The list of applications created by this account. Admin only. Scope: "applications". */
-  oAuthApplications?: Maybe<OAuthApplicationCollection>;
-  orders: OrderCollection;
-  /** The Account parenting this account */
-  parent?: Maybe<Account>;
-  /** @deprecated 2022-12-16: use parent on AccountWithParent instead */
-  parentAccount?: Maybe<Account>;
-  /** The list of payment methods that this collective can use to pay for Orders. Admin or Host only. Scope: "orders". */
-  paymentMethods?: Maybe<Array<Maybe<PaymentMethod>>>;
-  /** The list of payment methods for this account that are pending a client confirmation (3D Secure / SCA) */
-  paymentMethodsWithPendingConfirmation?: Maybe<Array<Maybe<PaymentMethod>>>;
-  /** The list of payout methods that this collective can use to get paid. In most cases, admin only and scope: "expenses". */
-  payoutMethods?: Maybe<Array<Maybe<PayoutMethod>>>;
-  /** Logged-in user permissions on an account */
-  permissions: AccountPermissions;
-  /** Returns true if a custom contribution to Open Collective can be submitted for contributions made to this account */
-  platformContributionAvailable: Scalars['Boolean']['output'];
-  /** How much platform fees are charged for this account */
-  platformFeePercent: Scalars['Float']['output'];
-  /** Policies for the account. To see non-public policies you need to be admin and have the scope: "account". */
-  policies: Policies;
-  /** @deprecated 2023-01-16: Please use socialLinks */
-  repositoryUrl?: Maybe<Scalars['String']['output']>;
-  settings: Scalars['JSON']['output'];
-  /** The slug identifying the account (ie: babel) */
-  slug: Scalars['String']['output'];
-  socialLinks: Array<SocialLink>;
-  stats?: Maybe<AccountStats>;
-  summary?: Maybe<HostedAccountSummary>;
-  /** The list of expense types supported by this account */
-  supportedExpenseTypes: Array<ExpenseType>;
-  tags?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  tiers: TierCollection;
-  /** Number of unique financial contributors. */
-  totalFinancialContributors: Scalars['Int']['output'];
-  /** [!] Warning: this query is currently in beta and the API might change */
-  transactionGroups: TransactionGroupCollection;
-  /** EXPERIMENTAL (this may change or be removed) */
-  transactionReports?: Maybe<TransactionReports>;
-  transactions: TransactionCollection;
-  transferwise?: Maybe<TransferWise>;
-  /** @deprecated 2023-01-16: Please use socialLinks */
-  twitterHandle?: Maybe<Scalars['String']['output']>;
-  type: AccountType;
-  /** Date when the collective was last unfrozen by current Fiscal Host */
-  unfrozenAt?: Maybe<Scalars['DateTime']['output']>;
-  /** Date of unhosting by a given Fiscal Host. */
-  unhostedAt?: Maybe<Scalars['DateTime']['output']>;
-  updatedAt?: Maybe<Scalars['DateTime']['output']>;
-  /** Updates published by the account. To see unpublished updates, you need to be an admin and have the scope "updates". */
-  updates: UpdateCollection;
-  /** Virtual Cards Merchants used by the account. Admin only. Scope: "virtualCards". */
-  virtualCardMerchants?: Maybe<AccountCollection>;
-  /** Virtual Cards attached to the account. Admin only. Scope: "virtualCards". */
-  virtualCards?: Maybe<VirtualCardCollection>;
-  webhooks: WebhookCollection;
-  /** @deprecated 2023-01-16: Please use socialLinks */
-  website?: Maybe<Scalars['String']['output']>;
-};
-
+export type Project = Account &
+  AccountWithContributions &
+  AccountWithHost &
+  AccountWithParent & {
+    __typename?: 'Project';
+    /** [!] Warning: this query is currently in beta and the API might change */
+    activeContributors: AccountCollection;
+    /** List of activities that the logged-in user is subscribed for this collective */
+    activitySubscriptions?: Maybe<Array<Maybe<ActivitySubscription>>>;
+    /** Date of approval by the Fiscal Host. */
+    approvedAt?: Maybe<Scalars['DateTime']['output']>;
+    backgroundImageUrl?: Maybe<Scalars['String']['output']>;
+    /** Whether this account can have changelog updates */
+    canHaveChangelogUpdates: Scalars['Boolean']['output'];
+    /** Returns true if the remote user can start the process to resume contributions for account */
+    canStartResumeContributionsProcess: Scalars['Boolean']['output'];
+    categories: Array<Maybe<Scalars['String']['output']>>;
+    childrenAccounts: AccountCollection;
+    /** The list of connected accounts (Stripe, PayPal, etc ...). Admin only. Scope: "connectedAccounts". */
+    connectedAccounts?: Maybe<Array<Maybe<ConnectedAccount>>>;
+    contributionPolicy?: Maybe<Scalars['String']['output']>;
+    /** All the persons and entities that contribute to this account */
+    contributors: ContributorCollection;
+    conversations: ConversationCollection;
+    /** Returns conversation's tags for collective sorted by popularity */
+    conversationsTags?: Maybe<Array<Maybe<TagStat>>>;
+    /** The time of creation */
+    createdAt?: Maybe<Scalars['DateTime']['output']>;
+    /** The currency of the account */
+    currency: Currency;
+    description?: Maybe<Scalars['String']['output']>;
+    /** If this account was duplicated, the accounts that were created from it */
+    duplicatedAccounts: AccountCollection;
+    /** If created by duplication, the account from which this one was duplicated */
+    duplicatedFromAccount?: Maybe<Account>;
+    /** Returns the emails of the account. Individuals only have one, but organizations can have multiple emails. */
+    emails?: Maybe<Array<Scalars['EmailAddress']['output']>>;
+    /** @deprecated 2024-11-04: Please use policies.EXPENSE_POLICIES */
+    expensePolicy?: Maybe<Scalars['String']['output']>;
+    expenses: ExpenseCollection;
+    /** Returns expense tags for collective sorted by popularity */
+    expensesTags?: Maybe<Array<Maybe<TagStat>>>;
+    /** Describes the features enabled and available for this account */
+    features: CollectiveFeatures;
+    feed?: Maybe<Array<Maybe<Activity>>>;
+    /** @deprecated 2022-06-03: Please use repositoryUrl */
+    githubHandle?: Maybe<Scalars['String']['output']>;
+    /** Returns true if the account has started the process to resume contributions */
+    hasResumeContributionsProcessStarted: Scalars['Boolean']['output'];
+    /** Returns the Fiscal Host */
+    host?: Maybe<Host>;
+    /** Returns agreements this account has with its host, or null if not enough permissions. */
+    hostAgreements?: Maybe<AgreementCollection>;
+    /** Returns the Fiscal Host application */
+    hostApplication?: Maybe<HostApplication>;
+    /** Host application requests */
+    hostApplicationRequests: HostApplicationCollection;
+    /** Fees percentage that the host takes for this collective */
+    hostFeePercent?: Maybe<Scalars['Float']['output']>;
+    /** Describe how the host charges the collective */
+    hostFeesStructure?: Maybe<HostFeeStructure>;
+    id: Scalars['String']['output'];
+    imageUrl?: Maybe<Scalars['String']['output']>;
+    /** Returns whether it's active: can accept financial contributions and pay expenses. */
+    isActive: Scalars['Boolean']['output'];
+    /** Returns true if the remote user is an admin of this account */
+    isAdmin: Scalars['Boolean']['output'];
+    /** Returns whether it's approved by the Fiscal Host */
+    isApproved: Scalars['Boolean']['output'];
+    /** Returns whether this account is archived */
+    isArchived: Scalars['Boolean']['output'];
+    /** Whether this account is frozen */
+    isFrozen: Scalars['Boolean']['output'];
+    /** Returns whether the account is setup to Host collectives. */
+    isHost: Scalars['Boolean']['output'];
+    /** Defines if the contributors wants to be incognito (name not displayed) */
+    isIncognito: Scalars['Boolean']['output'];
+    legacyId: Scalars['Int']['output'];
+    /** The legal documents associated with this account */
+    legalDocuments?: Maybe<Array<Maybe<LegalDocument>>>;
+    /** Private, legal name. Used for expense receipts, taxes, etc. Scope: "account". */
+    legalName?: Maybe<Scalars['String']['output']>;
+    /** The address associated to this account. This field is always public for collectives and events. */
+    location?: Maybe<Location>;
+    longDescription?: Maybe<Scalars['String']['output']>;
+    /** [AUTHENTICATED] Returns the pending invitations */
+    memberInvitations?: Maybe<Array<Maybe<MemberInvitation>>>;
+    memberOf: MemberOfCollection;
+    /** Get all members (admins, members, backers, followers) */
+    members: MemberCollection;
+    /** Public name */
+    name?: Maybe<Scalars['String']['output']>;
+    /** The list of applications created by this account. Admin only. Scope: "applications". */
+    oAuthApplications?: Maybe<OAuthApplicationCollection>;
+    orders: OrderCollection;
+    /** The Account parenting this account */
+    parent?: Maybe<Account>;
+    /** @deprecated 2022-12-16: use parent on AccountWithParent instead */
+    parentAccount?: Maybe<Account>;
+    /** The list of payment methods that this collective can use to pay for Orders. Admin or Host only. Scope: "orders". */
+    paymentMethods?: Maybe<Array<Maybe<PaymentMethod>>>;
+    /** The list of payment methods for this account that are pending a client confirmation (3D Secure / SCA) */
+    paymentMethodsWithPendingConfirmation?: Maybe<Array<Maybe<PaymentMethod>>>;
+    /** The list of payout methods that this collective can use to get paid. In most cases, admin only and scope: "expenses". */
+    payoutMethods?: Maybe<Array<Maybe<PayoutMethod>>>;
+    /** Logged-in user permissions on an account */
+    permissions: AccountPermissions;
+    /** Returns true if a custom contribution to Open Collective can be submitted for contributions made to this account */
+    platformContributionAvailable: Scalars['Boolean']['output'];
+    /** How much platform fees are charged for this account */
+    platformFeePercent: Scalars['Float']['output'];
+    /** Policies for the account. To see non-public policies you need to be admin and have the scope: "account". */
+    policies: Policies;
+    /** @deprecated 2023-01-16: Please use socialLinks */
+    repositoryUrl?: Maybe<Scalars['String']['output']>;
+    settings: Scalars['JSON']['output'];
+    /** The slug identifying the account (ie: babel) */
+    slug: Scalars['String']['output'];
+    socialLinks: Array<SocialLink>;
+    stats?: Maybe<AccountStats>;
+    summary?: Maybe<HostedAccountSummary>;
+    /** The list of expense types supported by this account */
+    supportedExpenseTypes: Array<ExpenseType>;
+    tags?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+    tiers: TierCollection;
+    /** Number of unique financial contributors. */
+    totalFinancialContributors: Scalars['Int']['output'];
+    /** [!] Warning: this query is currently in beta and the API might change */
+    transactionGroups: TransactionGroupCollection;
+    /** EXPERIMENTAL (this may change or be removed) */
+    transactionReports?: Maybe<TransactionReports>;
+    transactions: TransactionCollection;
+    transferwise?: Maybe<TransferWise>;
+    /** @deprecated 2023-01-16: Please use socialLinks */
+    twitterHandle?: Maybe<Scalars['String']['output']>;
+    type: AccountType;
+    /** Date when the collective was last unfrozen by current Fiscal Host */
+    unfrozenAt?: Maybe<Scalars['DateTime']['output']>;
+    /** Date of unhosting by a given Fiscal Host. */
+    unhostedAt?: Maybe<Scalars['DateTime']['output']>;
+    updatedAt?: Maybe<Scalars['DateTime']['output']>;
+    /** Updates published by the account. To see unpublished updates, you need to be an admin and have the scope "updates". */
+    updates: UpdateCollection;
+    /** Virtual Cards Merchants used by the account. Admin only. Scope: "virtualCards". */
+    virtualCardMerchants?: Maybe<AccountCollection>;
+    /** Virtual Cards attached to the account. Admin only. Scope: "virtualCards". */
+    virtualCards?: Maybe<VirtualCardCollection>;
+    webhooks: WebhookCollection;
+    /** @deprecated 2023-01-16: Please use socialLinks */
+    website?: Maybe<Scalars['String']['output']>;
+  };
 
 /** This represents an Project account */
 export type ProjectActiveContributorsArgs = {
@@ -10323,19 +9879,16 @@ export type ProjectActiveContributorsArgs = {
   offset?: Scalars['Int']['input'];
 };
 
-
 /** This represents an Project account */
 export type ProjectActivitySubscriptionsArgs = {
   channel?: InputMaybe<ActivityChannel>;
 };
-
 
 /** This represents an Project account */
 export type ProjectBackgroundImageUrlArgs = {
   format?: InputMaybe<ImageFormat>;
   height?: InputMaybe<Scalars['Int']['input']>;
 };
-
 
 /** This represents an Project account */
 export type ProjectChildrenAccountsArgs = {
@@ -10347,14 +9900,12 @@ export type ProjectChildrenAccountsArgs = {
   searchTerm?: InputMaybe<Scalars['String']['input']>;
 };
 
-
 /** This represents an Project account */
 export type ProjectContributorsArgs = {
   limit?: Scalars['Int']['input'];
   offset?: Scalars['Int']['input'];
   roles?: InputMaybe<Array<InputMaybe<MemberRole>>>;
 };
-
 
 /** This represents an Project account */
 export type ProjectConversationsArgs = {
@@ -10363,19 +9914,16 @@ export type ProjectConversationsArgs = {
   tag?: InputMaybe<Scalars['String']['input']>;
 };
 
-
 /** This represents an Project account */
 export type ProjectConversationsTagsArgs = {
   limit?: Scalars['Int']['input'];
 };
-
 
 /** This represents an Project account */
 export type ProjectDuplicatedAccountsArgs = {
   limit?: Scalars['Int']['input'];
   offset?: Scalars['Int']['input'];
 };
-
 
 /** This represents an Project account */
 export type ProjectExpensesArgs = {
@@ -10408,12 +9956,10 @@ export type ProjectExpensesArgs = {
   virtualCards?: InputMaybe<Array<InputMaybe<VirtualCardReferenceInput>>>;
 };
 
-
 /** This represents an Project account */
 export type ProjectExpensesTagsArgs = {
   limit?: Scalars['Int']['input'];
 };
-
 
 /** This represents an Project account */
 export type ProjectFeedArgs = {
@@ -10422,13 +9968,11 @@ export type ProjectFeedArgs = {
   limit?: InputMaybe<Scalars['Int']['input']>;
 };
 
-
 /** This represents an Project account */
 export type ProjectHostAgreementsArgs = {
   limit?: Scalars['Int']['input'];
   offset?: Scalars['Int']['input'];
 };
-
 
 /** This represents an Project account */
 export type ProjectHostApplicationRequestsArgs = {
@@ -10438,13 +9982,11 @@ export type ProjectHostApplicationRequestsArgs = {
   status?: InputMaybe<HostApplicationStatus>;
 };
 
-
 /** This represents an Project account */
 export type ProjectHostFeePercentArgs = {
   paymentMethodService?: InputMaybe<PaymentMethodService>;
   paymentMethodType?: InputMaybe<PaymentMethodType>;
 };
-
 
 /** This represents an Project account */
 export type ProjectImageUrlArgs = {
@@ -10452,12 +9994,10 @@ export type ProjectImageUrlArgs = {
   height?: InputMaybe<Scalars['Int']['input']>;
 };
 
-
 /** This represents an Project account */
 export type ProjectLegalDocumentsArgs = {
   type?: InputMaybe<Array<InputMaybe<LegalDocumentType>>>;
 };
-
 
 /** This represents an Project account */
 export type ProjectMemberInvitationsArgs = {
@@ -10465,7 +10005,6 @@ export type ProjectMemberInvitationsArgs = {
   memberAccount?: InputMaybe<AccountReferenceInput>;
   role?: InputMaybe<Array<InputMaybe<MemberRole>>>;
 };
-
 
 /** This represents an Project account */
 export type ProjectMemberOfArgs = {
@@ -10484,7 +10023,6 @@ export type ProjectMemberOfArgs = {
   searchTerm?: InputMaybe<Scalars['String']['input']>;
 };
 
-
 /** This represents an Project account */
 export type ProjectMembersArgs = {
   accountType?: InputMaybe<Array<InputMaybe<AccountType>>>;
@@ -10496,13 +10034,11 @@ export type ProjectMembersArgs = {
   role?: InputMaybe<Array<InputMaybe<MemberRole>>>;
 };
 
-
 /** This represents an Project account */
 export type ProjectOAuthApplicationsArgs = {
   limit?: Scalars['Int']['input'];
   offset?: Scalars['Int']['input'];
 };
-
 
 /** This represents an Project account */
 export type ProjectOrdersArgs = {
@@ -10537,7 +10073,6 @@ export type ProjectOrdersArgs = {
   tierSlug?: InputMaybe<Scalars['String']['input']>;
 };
 
-
 /** This represents an Project account */
 export type ProjectPaymentMethodsArgs = {
   enumType?: InputMaybe<Array<InputMaybe<PaymentMethodType>>>;
@@ -10546,12 +10081,10 @@ export type ProjectPaymentMethodsArgs = {
   type?: InputMaybe<Array<InputMaybe<PaymentMethodType>>>;
 };
 
-
 /** This represents an Project account */
 export type ProjectPayoutMethodsArgs = {
   includeArchived?: InputMaybe<Scalars['Boolean']['input']>;
 };
-
 
 /** This represents an Project account */
 export type ProjectSummaryArgs = {
@@ -10559,19 +10092,16 @@ export type ProjectSummaryArgs = {
   dateTo?: InputMaybe<Scalars['DateTime']['input']>;
 };
 
-
 /** This represents an Project account */
 export type ProjectTiersArgs = {
   limit?: Scalars['Int']['input'];
   offset?: Scalars['Int']['input'];
 };
 
-
 /** This represents an Project account */
 export type ProjectTotalFinancialContributorsArgs = {
   accountType?: InputMaybe<AccountType>;
 };
-
 
 /** This represents an Project account */
 export type ProjectTransactionGroupsArgs = {
@@ -10583,14 +10113,12 @@ export type ProjectTransactionGroupsArgs = {
   type?: InputMaybe<TransactionType>;
 };
 
-
 /** This represents an Project account */
 export type ProjectTransactionReportsArgs = {
   dateFrom?: InputMaybe<Scalars['DateTime']['input']>;
   dateTo?: InputMaybe<Scalars['DateTime']['input']>;
   timeUnit?: InputMaybe<TimeUnit>;
 };
-
 
 /** This represents an Project account */
 export type ProjectTransactionsArgs = {
@@ -10633,12 +10161,10 @@ export type ProjectTransactionsArgs = {
   virtualCard?: InputMaybe<Array<InputMaybe<VirtualCardReferenceInput>>>;
 };
 
-
 /** This represents an Project account */
 export type ProjectUnhostedAtArgs = {
   host: AccountReferenceInput;
 };
-
 
 /** This represents an Project account */
 export type ProjectUpdatesArgs = {
@@ -10651,13 +10177,11 @@ export type ProjectUpdatesArgs = {
   searchTerm?: InputMaybe<Scalars['String']['input']>;
 };
 
-
 /** This represents an Project account */
 export type ProjectVirtualCardMerchantsArgs = {
   limit?: Scalars['Int']['input'];
   offset?: Scalars['Int']['input'];
 };
-
 
 /** This represents an Project account */
 export type ProjectVirtualCardsArgs = {
@@ -10670,7 +10194,6 @@ export type ProjectVirtualCardsArgs = {
   state?: InputMaybe<Scalars['String']['input']>;
   status?: InputMaybe<Array<InputMaybe<VirtualCardStatus>>>;
 };
-
 
 /** This represents an Project account */
 export type ProjectWebhooksArgs = {
@@ -10745,7 +10268,6 @@ export type Query = {
   virtualCardRequests: VirtualCardRequestCollection;
 };
 
-
 /** This is the root query */
 export type QueryAccountArgs = {
   githubHandle?: InputMaybe<Scalars['String']['input']>;
@@ -10753,7 +10275,6 @@ export type QueryAccountArgs = {
   slug?: InputMaybe<Scalars['String']['input']>;
   throwIfMissing?: InputMaybe<Scalars['Boolean']['input']>;
 };
-
 
 /** This is the root query */
 export type QueryAccountsArgs = {
@@ -10777,7 +10298,6 @@ export type QueryAccountsArgs = {
   type?: InputMaybe<Array<InputMaybe<AccountType>>>;
 };
 
-
 /** This is the root query */
 export type QueryActivitiesArgs = {
   account: Array<AccountReferenceInput>;
@@ -10792,14 +10312,12 @@ export type QueryActivitiesArgs = {
   type?: InputMaybe<Array<ActivityAndClassesType>>;
 };
 
-
 /** This is the root query */
 export type QueryApplicationArgs = {
   clientId?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['String']['input']>;
   legacyId?: InputMaybe<Scalars['Int']['input']>;
 };
-
 
 /** This is the root query */
 export type QueryCollectiveArgs = {
@@ -10809,18 +10327,15 @@ export type QueryCollectiveArgs = {
   throwIfMissing?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
-
 /** This is the root query */
 export type QueryConversationArgs = {
   id: Scalars['String']['input'];
 };
 
-
 /** This is the root query */
 export type QueryCurrencyExchangeRateArgs = {
   requests: Array<CurrencyExchangeRateRequest>;
 };
-
 
 /** This is the root query */
 export type QueryEventArgs = {
@@ -10830,14 +10345,12 @@ export type QueryEventArgs = {
   throwIfMissing?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
-
 /** This is the root query */
 export type QueryExpenseArgs = {
   draftKey?: InputMaybe<Scalars['String']['input']>;
   expense?: InputMaybe<ExpenseReferenceInput>;
   id?: InputMaybe<Scalars['String']['input']>;
 };
-
 
 /** This is the root query */
 export type QueryExpenseTagStatsArgs = {
@@ -10847,7 +10360,6 @@ export type QueryExpenseTagStatsArgs = {
   offset?: Scalars['Int']['input'];
   tagSearchTerm?: InputMaybe<Scalars['String']['input']>;
 };
-
 
 /** This is the root query */
 export type QueryExpensesArgs = {
@@ -10879,7 +10391,6 @@ export type QueryExpensesArgs = {
   virtualCards?: InputMaybe<Array<InputMaybe<VirtualCardReferenceInput>>>;
 };
 
-
 /** This is the root query */
 export type QueryFundArgs = {
   githubHandle?: InputMaybe<Scalars['String']['input']>;
@@ -10887,7 +10398,6 @@ export type QueryFundArgs = {
   slug?: InputMaybe<Scalars['String']['input']>;
   throwIfMissing?: InputMaybe<Scalars['Boolean']['input']>;
 };
-
 
 /** This is the root query */
 export type QueryHostArgs = {
@@ -10897,12 +10407,10 @@ export type QueryHostArgs = {
   throwIfMissing?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
-
 /** This is the root query */
 export type QueryHostApplicationArgs = {
   hostApplication?: InputMaybe<HostApplicationReferenceInput>;
 };
-
 
 /** This is the root query */
 export type QueryHostsArgs = {
@@ -10920,7 +10428,6 @@ export type QueryHostsArgs = {
   tags?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
 };
 
-
 /** This is the root query */
 export type QueryIndividualArgs = {
   githubHandle?: InputMaybe<Scalars['String']['input']>;
@@ -10929,7 +10436,6 @@ export type QueryIndividualArgs = {
   throwIfMissing?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
-
 /** This is the root query */
 export type QueryMemberInvitationsArgs = {
   account?: InputMaybe<AccountReferenceInput>;
@@ -10937,12 +10443,10 @@ export type QueryMemberInvitationsArgs = {
   role?: InputMaybe<Array<InputMaybe<MemberRole>>>;
 };
 
-
 /** This is the root query */
 export type QueryOrderArgs = {
   order: OrderReferenceInput;
 };
-
 
 /** This is the root query */
 export type QueryOrdersArgs = {
@@ -10978,7 +10482,6 @@ export type QueryOrdersArgs = {
   tierSlug?: InputMaybe<Scalars['String']['input']>;
 };
 
-
 /** This is the root query */
 export type QueryOrganizationArgs = {
   githubHandle?: InputMaybe<Scalars['String']['input']>;
@@ -10986,7 +10489,6 @@ export type QueryOrganizationArgs = {
   slug?: InputMaybe<Scalars['String']['input']>;
   throwIfMissing?: InputMaybe<Scalars['Boolean']['input']>;
 };
-
 
 /** This is the root query */
 export type QueryPaypalPlanArgs = {
@@ -10997,13 +10499,11 @@ export type QueryPaypalPlanArgs = {
   tier?: InputMaybe<TierReferenceInput>;
 };
 
-
 /** This is the root query */
 export type QueryPersonalTokenArgs = {
   id?: InputMaybe<Scalars['String']['input']>;
   legacyId?: InputMaybe<Scalars['Int']['input']>;
 };
-
 
 /** This is the root query */
 export type QueryProjectArgs = {
@@ -11012,7 +10512,6 @@ export type QueryProjectArgs = {
   slug?: InputMaybe<Scalars['String']['input']>;
   throwIfMissing?: InputMaybe<Scalars['Boolean']['input']>;
 };
-
 
 /** This is the root query */
 export type QuerySearchArgs = {
@@ -11023,7 +10522,6 @@ export type QuerySearchArgs = {
   timeout?: Scalars['Int']['input'];
 };
 
-
 /** This is the root query */
 export type QueryTagStatsArgs = {
   host?: InputMaybe<AccountReferenceInput>;
@@ -11033,13 +10531,11 @@ export type QueryTagStatsArgs = {
   tagSearchTerm?: InputMaybe<Scalars['String']['input']>;
 };
 
-
 /** This is the root query */
 export type QueryTierArgs = {
   throwIfMissing?: Scalars['Boolean']['input'];
   tier: TierReferenceInput;
 };
-
 
 /** This is the root query */
 export type QueryTransactionArgs = {
@@ -11047,13 +10543,11 @@ export type QueryTransactionArgs = {
   transaction?: InputMaybe<TransactionReferenceInput>;
 };
 
-
 /** This is the root query */
 export type QueryTransactionGroupArgs = {
   account: AccountReferenceInput;
   groupId: Scalars['String']['input'];
 };
-
 
 /** This is the root query */
 export type QueryTransactionGroupsArgs = {
@@ -11065,7 +10559,6 @@ export type QueryTransactionGroupsArgs = {
   offset?: Scalars['Int']['input'];
   type?: InputMaybe<TransactionType>;
 };
-
 
 /** This is the root query */
 export type QueryTransactionsArgs = {
@@ -11109,12 +10602,10 @@ export type QueryTransactionsArgs = {
   virtualCard?: InputMaybe<Array<InputMaybe<VirtualCardReferenceInput>>>;
 };
 
-
 /** This is the root query */
 export type QueryTransactionsImportArgs = {
   id: Scalars['String']['input'];
 };
-
 
 /** This is the root query */
 export type QueryUpdateArgs = {
@@ -11122,7 +10613,6 @@ export type QueryUpdateArgs = {
   id?: InputMaybe<Scalars['String']['input']>;
   slug?: InputMaybe<Scalars['String']['input']>;
 };
-
 
 /** This is the root query */
 export type QueryUpdatesArgs = {
@@ -11135,20 +10625,17 @@ export type QueryUpdatesArgs = {
   orderBy?: UpdateChronologicalOrderInput;
 };
 
-
 /** This is the root query */
 export type QueryVirtualCardArgs = {
   throwIfMissing?: Scalars['Boolean']['input'];
   virtualCard: VirtualCardReferenceInput;
 };
 
-
 /** This is the root query */
 export type QueryVirtualCardRequestArgs = {
   throwIfMissing?: Scalars['Boolean']['input'];
   virtualCardRequest: VirtualCardRequestReferenceInput;
 };
-
 
 /** This is the root query */
 export type QueryVirtualCardRequestsArgs = {
@@ -11189,7 +10676,7 @@ export enum RecurringExpenseInterval {
   month = 'month',
   quarter = 'quarter',
   week = 'week',
-  year = 'year'
+  year = 'year',
 }
 
 export type SearchResponse = {
@@ -11218,7 +10705,6 @@ export type SearchResults = {
   /** Search results for Updates */
   updates?: Maybe<SearchResultsUpdates>;
 };
-
 
 /** Search results for all types */
 export type SearchResultsAccountsArgs = {
@@ -11308,7 +10794,7 @@ export enum SecurityCheckLevel {
   HIGH = 'HIGH',
   LOW = 'LOW',
   MEDIUM = 'MEDIUM',
-  PASS = 'PASS'
+  PASS = 'PASS',
 }
 
 /** All supported SecurityCheck scopes */
@@ -11316,7 +10802,7 @@ export enum SecurityCheckScope {
   COLLECTIVE = 'COLLECTIVE',
   PAYEE = 'PAYEE',
   PAYOUT_METHOD = 'PAYOUT_METHOD',
-  USER = 'USER'
+  USER = 'USER',
 }
 
 export type SendMessageResult = {
@@ -11383,7 +10869,7 @@ export enum SocialLinkType {
   TWITCH = 'TWITCH',
   TWITTER = 'TWITTER',
   WEBSITE = 'WEBSITE',
-  YOUTUBE = 'YOUTUBE'
+  YOUTUBE = 'YOUTUBE',
 }
 
 /** Stripe connected account properties */
@@ -11409,7 +10895,7 @@ export type TagResponse = {
 /** The operator to use when searching with tags */
 export enum TagSearchOperator {
   AND = 'AND',
-  OR = 'OR'
+  OR = 'OR',
 }
 
 /** Statistics for a given tag */
@@ -11471,7 +10957,7 @@ export enum TaxType {
   /** New Zealand Good and Services Tax */
   GST = 'GST',
   /** European Value Added Tax */
-  VAT = 'VAT'
+  VAT = 'VAT',
 }
 
 /** Tier model */
@@ -11513,13 +10999,11 @@ export type Tier = {
   videoUrl?: Maybe<Scalars['String']['output']>;
 };
 
-
 /** Tier model */
 export type TierContributorsArgs = {
   limit?: Scalars['Int']['input'];
   offset?: Scalars['Int']['input'];
 };
-
 
 /** Tier model */
 export type TierOrdersArgs = {
@@ -11530,7 +11014,7 @@ export type TierOrdersArgs = {
 
 export enum TierAmountType {
   FIXED = 'FIXED',
-  FLEXIBLE = 'FLEXIBLE'
+  FLEXIBLE = 'FLEXIBLE',
 }
 
 /** A collection of "Tiers" */
@@ -11563,13 +11047,13 @@ export enum TierFrequency {
   FLEXIBLE = 'FLEXIBLE',
   MONTHLY = 'MONTHLY',
   ONETIME = 'ONETIME',
-  YEARLY = 'YEARLY'
+  YEARLY = 'YEARLY',
 }
 
 export enum TierInterval {
   flexible = 'flexible',
   month = 'month',
-  year = 'year'
+  year = 'year',
 }
 
 export type TierReferenceInput = {
@@ -11597,7 +11081,7 @@ export enum TierType {
   PRODUCT = 'PRODUCT',
   SERVICE = 'SERVICE',
   TICKET = 'TICKET',
-  TIER = 'TIER'
+  TIER = 'TIER',
 }
 
 export type TierUpdateInput = {
@@ -11699,7 +11183,7 @@ export enum TimeUnit {
   QUARTER = 'QUARTER',
   SECOND = 'SECOND',
   WEEK = 'WEEK',
-  YEAR = 'YEAR'
+  YEAR = 'YEAR',
 }
 
 /** Transaction interface shared by all kind of transactions (Debit, Credit) */
@@ -11757,19 +11241,16 @@ export type Transaction = {
   uuid: Scalars['String']['output'];
 };
 
-
 /** Transaction interface shared by all kind of transactions (Debit, Credit) */
 export type TransactionDescriptionArgs = {
   dynamic?: InputMaybe<Scalars['Boolean']['input']>;
   full?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
-
 /** Transaction interface shared by all kind of transactions (Debit, Credit) */
 export type TransactionHostFeeArgs = {
   fetchHostFee?: InputMaybe<Scalars['Boolean']['input']>;
 };
-
 
 /** Transaction interface shared by all kind of transactions (Debit, Credit) */
 export type TransactionNetAmountArgs = {
@@ -11778,7 +11259,6 @@ export type TransactionNetAmountArgs = {
   fetchTax?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
-
 /** Transaction interface shared by all kind of transactions (Debit, Credit) */
 export type TransactionNetAmountInHostCurrencyArgs = {
   fetchHostFee?: InputMaybe<Scalars['Boolean']['input']>;
@@ -11786,18 +11266,15 @@ export type TransactionNetAmountInHostCurrencyArgs = {
   fetchTax?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
-
 /** Transaction interface shared by all kind of transactions (Debit, Credit) */
 export type TransactionPaymentProcessorFeeArgs = {
   fetchPaymentProcessorFee?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
-
 /** Transaction interface shared by all kind of transactions (Debit, Credit) */
 export type TransactionRelatedTransactionsArgs = {
   kind?: InputMaybe<Array<InputMaybe<TransactionKind>>>;
 };
-
 
 /** Transaction interface shared by all kind of transactions (Debit, Credit) */
 export type TransactionTaxAmountArgs = {
@@ -11855,7 +11332,7 @@ export enum TransactionKind {
   PLATFORM_TIP = 'PLATFORM_TIP',
   PLATFORM_TIP_DEBT = 'PLATFORM_TIP_DEBT',
   PREPAID_PAYMENT_METHOD = 'PREPAID_PAYMENT_METHOD',
-  TAX = 'TAX'
+  TAX = 'TAX',
 }
 
 /** Fields for the user permissions on an transaction */
@@ -11902,13 +11379,13 @@ export type TransactionReports = {
 export enum TransactionSettlementStatus {
   INVOICED = 'INVOICED',
   OWED = 'OWED',
-  SETTLED = 'SETTLED'
+  SETTLED = 'SETTLED',
 }
 
 /** All transaction types */
 export enum TransactionType {
   CREDIT = 'CREDIT',
-  DEBIT = 'DEBIT'
+  DEBIT = 'DEBIT',
 }
 
 /** EXPERIMENTAL (this may change or be deleted): Transaction amounts grouped by type, kind, isRefund, isHost, expenseType */
@@ -11963,7 +11440,6 @@ export type TransactionsImport = {
   /** When the import was last updated */
   updatedAt: Scalars['DateTime']['output'];
 };
-
 
 export type TransactionsImportRowsArgs = {
   accountId?: InputMaybe<Array<InputMaybe<Scalars['NonEmptyString']['input']>>>;
@@ -12031,7 +11507,7 @@ export enum TransactionsImportRowAction {
   DISMISS_ALL = 'DISMISS_ALL',
   PUT_ON_HOLD_ALL = 'PUT_ON_HOLD_ALL',
   RESTORE_ALL = 'RESTORE_ALL',
-  UPDATE_ROWS = 'UPDATE_ROWS'
+  UPDATE_ROWS = 'UPDATE_ROWS',
 }
 
 /** A collection of "TransactionsImportRow" */
@@ -12070,7 +11546,7 @@ export enum TransactionsImportRowStatus {
   /** The row is on hold */
   ON_HOLD = 'ON_HOLD',
   /** The row has not been processed yet */
-  PENDING = 'PENDING'
+  PENDING = 'PENDING',
 }
 
 export type TransactionsImportRowUpdateInput = {
@@ -12118,7 +11594,7 @@ export type TransactionsImportStats = {
 export enum TransactionsImportType {
   CSV = 'CSV',
   MANUAL = 'MANUAL',
-  PLAID = 'PLAID'
+  PLAID = 'PLAID',
 }
 
 /** A collection of "TransactionsImports" */
@@ -12142,12 +11618,10 @@ export type TransferWise = {
   requiredFields?: Maybe<Array<Maybe<TransferWiseRequiredField>>>;
 };
 
-
 /** TransferWise related properties for bank transfer. */
 export type TransferWiseAvailableCurrenciesArgs = {
   ignoreBlockedCurrencies?: InputMaybe<Scalars['Boolean']['input']>;
 };
-
 
 /** TransferWise related properties for bank transfer. */
 export type TransferWiseRequiredFieldsArgs = {
@@ -12194,7 +11668,7 @@ export type TransferWiseRequiredField = {
 export enum TwoFactorMethod {
   TOTP = 'TOTP',
   WEBAUTHN = 'WEBAUTHN',
-  YUBIKEY_OTP = 'YUBIKEY_OTP'
+  YUBIKEY_OTP = 'YUBIKEY_OTP',
 }
 
 export type UnfollowAccountResult = {
@@ -12236,12 +11710,10 @@ export type Update = {
   userReactions?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
 };
 
-
 /** This represents an Update */
 export type UpdateAudienceStatsArgs = {
   audience?: InputMaybe<UpdateAudience>;
 };
-
 
 /** This represents an Update */
 export type UpdateCommentsArgs = {
@@ -12258,7 +11730,7 @@ export enum UpdateAudience {
   /** Will be sent to financial contributors */
   FINANCIAL_CONTRIBUTORS = 'FINANCIAL_CONTRIBUTORS',
   /** Will be sent to no one */
-  NO_ONE = 'NO_ONE'
+  NO_ONE = 'NO_ONE',
 }
 
 /** Stats about the potential audience of an update */
@@ -12308,7 +11780,7 @@ export enum UpdateDateTimeField {
   /** The creation time */
   CREATED_AT = 'CREATED_AT',
   /** The creation time */
-  PUBLISHED_AT = 'PUBLISHED_AT'
+  PUBLISHED_AT = 'PUBLISHED_AT',
 }
 
 export type UpdateReferenceInput = {
@@ -12359,7 +11831,7 @@ export enum UploadedFileKind {
   EXPENSE_ITEM = 'EXPENSE_ITEM',
   TIER_LONG_DESCRIPTION = 'TIER_LONG_DESCRIPTION',
   TRANSACTIONS_IMPORT = 'TRANSACTIONS_IMPORT',
-  UPDATE = 'UPDATE'
+  UPDATE = 'UPDATE',
 }
 
 /** User two factor authentication method */
@@ -12379,141 +11851,141 @@ export type UserTwoFactorMethodReferenceInput = {
 };
 
 /** This represents a Vendor account */
-export type Vendor = Account & AccountWithContributions & {
-  __typename?: 'Vendor';
-  /** [!] Warning: this query is currently in beta and the API might change */
-  activeContributors: AccountCollection;
-  /** List of activities that the logged-in user is subscribed for this collective */
-  activitySubscriptions?: Maybe<Array<Maybe<ActivitySubscription>>>;
-  backgroundImageUrl?: Maybe<Scalars['String']['output']>;
-  /** Whether this account can have changelog updates */
-  canHaveChangelogUpdates: Scalars['Boolean']['output'];
-  /** Returns true if the remote user can start the process to resume contributions for account */
-  canStartResumeContributionsProcess: Scalars['Boolean']['output'];
-  categories: Array<Maybe<Scalars['String']['output']>>;
-  childrenAccounts: AccountCollection;
-  /** The list of connected accounts (Stripe, PayPal, etc ...). Admin only. Scope: "connectedAccounts". */
-  connectedAccounts?: Maybe<Array<Maybe<ConnectedAccount>>>;
-  contributionPolicy?: Maybe<Scalars['String']['output']>;
-  /** All the persons and entities that contribute to this account */
-  contributors: ContributorCollection;
-  conversations: ConversationCollection;
-  /** Returns conversation's tags for collective sorted by popularity */
-  conversationsTags?: Maybe<Array<Maybe<TagStat>>>;
-  /** The time of creation */
-  createdAt?: Maybe<Scalars['DateTime']['output']>;
-  /** The account who created this order */
-  createdByAccount?: Maybe<Account>;
-  /** The currency of the account */
-  currency: Currency;
-  description?: Maybe<Scalars['String']['output']>;
-  /** If this account was duplicated, the accounts that were created from it */
-  duplicatedAccounts: AccountCollection;
-  /** If created by duplication, the account from which this one was duplicated */
-  duplicatedFromAccount?: Maybe<Account>;
-  /** Returns the emails of the account. Individuals only have one, but organizations can have multiple emails. */
-  emails?: Maybe<Array<Scalars['EmailAddress']['output']>>;
-  /** @deprecated 2024-11-04: Please use policies.EXPENSE_POLICIES */
-  expensePolicy?: Maybe<Scalars['String']['output']>;
-  expenses: ExpenseCollection;
-  /** Returns expense tags for collective sorted by popularity */
-  expensesTags?: Maybe<Array<Maybe<TagStat>>>;
-  /** Describes the features enabled and available for this account */
-  features: CollectiveFeatures;
-  feed?: Maybe<Array<Maybe<Activity>>>;
-  /** @deprecated 2022-06-03: Please use repositoryUrl */
-  githubHandle?: Maybe<Scalars['String']['output']>;
-  /** Returns whether this account has any payout methods saved */
-  hasPayoutMethod?: Maybe<Scalars['Boolean']['output']>;
-  /** Returns true if the account has started the process to resume contributions */
-  hasResumeContributionsProcessStarted: Scalars['Boolean']['output'];
-  /** Host application requests */
-  hostApplicationRequests: HostApplicationCollection;
-  id: Scalars['String']['output'];
-  imageUrl?: Maybe<Scalars['String']['output']>;
-  /** Returns whether the account accepts financial contributions. */
-  isActive?: Maybe<Scalars['Boolean']['output']>;
-  /** Returns true if the remote user is an admin of this account */
-  isAdmin: Scalars['Boolean']['output'];
-  /** Returns whether this account is archived */
-  isArchived: Scalars['Boolean']['output'];
-  /** Whether this account is frozen */
-  isFrozen: Scalars['Boolean']['output'];
-  /** Returns whether the account is setup to Host collectives. */
-  isHost: Scalars['Boolean']['output'];
-  /** Defines if the contributors wants to be incognito (name not displayed) */
-  isIncognito: Scalars['Boolean']['output'];
-  legacyId: Scalars['Int']['output'];
-  /** The legal documents associated with this account */
-  legalDocuments?: Maybe<Array<Maybe<LegalDocument>>>;
-  /** Private, legal name. Used for expense receipts, taxes, etc. Scope: "account". */
-  legalName?: Maybe<Scalars['String']['output']>;
-  /** The address associated to this account. This field is always public for collectives and events. */
-  location?: Maybe<Location>;
-  longDescription?: Maybe<Scalars['String']['output']>;
-  /** [AUTHENTICATED] Returns the pending invitations */
-  memberInvitations?: Maybe<Array<Maybe<MemberInvitation>>>;
-  memberOf: MemberOfCollection;
-  /** Get all members (admins, members, backers, followers) */
-  members: MemberCollection;
-  /** Public name */
-  name?: Maybe<Scalars['String']['output']>;
-  /** The list of applications created by this account. Admin only. Scope: "applications". */
-  oAuthApplications?: Maybe<OAuthApplicationCollection>;
-  orders: OrderCollection;
-  /** @deprecated 2022-12-16: use parent on AccountWithParent instead */
-  parentAccount?: Maybe<Account>;
-  /** The list of payment methods that this collective can use to pay for Orders. Admin or Host only. Scope: "orders". */
-  paymentMethods?: Maybe<Array<Maybe<PaymentMethod>>>;
-  /** The list of payment methods for this account that are pending a client confirmation (3D Secure / SCA) */
-  paymentMethodsWithPendingConfirmation?: Maybe<Array<Maybe<PaymentMethod>>>;
-  /** The list of payout methods that this collective can use to get paid. In most cases, admin only and scope: "expenses". */
-  payoutMethods?: Maybe<Array<Maybe<PayoutMethod>>>;
-  /** Logged-in user permissions on an account */
-  permissions: AccountPermissions;
-  /** Returns true if a custom contribution to Open Collective can be submitted for contributions made to this account */
-  platformContributionAvailable: Scalars['Boolean']['output'];
-  /** How much platform fees are charged for this account */
-  platformFeePercent: Scalars['Float']['output'];
-  /** Policies for the account. To see non-public policies you need to be admin and have the scope: "account". */
-  policies: Policies;
-  /** @deprecated 2023-01-16: Please use socialLinks */
-  repositoryUrl?: Maybe<Scalars['String']['output']>;
-  settings: Scalars['JSON']['output'];
-  /** The slug identifying the account (ie: babel) */
-  slug: Scalars['String']['output'];
-  socialLinks: Array<SocialLink>;
-  stats?: Maybe<AccountStats>;
-  /** The list of expense types supported by this account */
-  supportedExpenseTypes: Array<ExpenseType>;
-  tags?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  tiers: TierCollection;
-  /** Number of unique financial contributors. */
-  totalFinancialContributors: Scalars['Int']['output'];
-  /** [!] Warning: this query is currently in beta and the API might change */
-  transactionGroups: TransactionGroupCollection;
-  /** EXPERIMENTAL (this may change or be removed) */
-  transactionReports?: Maybe<TransactionReports>;
-  transactions: TransactionCollection;
-  transferwise?: Maybe<TransferWise>;
-  /** @deprecated 2023-01-16: Please use socialLinks */
-  twitterHandle?: Maybe<Scalars['String']['output']>;
-  type: AccountType;
-  /** Date of unhosting by a given Fiscal Host. */
-  unhostedAt?: Maybe<Scalars['DateTime']['output']>;
-  updatedAt?: Maybe<Scalars['DateTime']['output']>;
-  /** Updates published by the account. To see unpublished updates, you need to be an admin and have the scope "updates". */
-  updates: UpdateCollection;
-  vendorInfo?: Maybe<VendorInfo>;
-  /** Virtual Cards Merchants used by the account. Admin only. Scope: "virtualCards". */
-  virtualCardMerchants?: Maybe<AccountCollection>;
-  /** Virtual Cards attached to the account. Admin only. Scope: "virtualCards". */
-  virtualCards?: Maybe<VirtualCardCollection>;
-  webhooks: WebhookCollection;
-  /** @deprecated 2023-01-16: Please use socialLinks */
-  website?: Maybe<Scalars['String']['output']>;
-};
-
+export type Vendor = Account &
+  AccountWithContributions & {
+    __typename?: 'Vendor';
+    /** [!] Warning: this query is currently in beta and the API might change */
+    activeContributors: AccountCollection;
+    /** List of activities that the logged-in user is subscribed for this collective */
+    activitySubscriptions?: Maybe<Array<Maybe<ActivitySubscription>>>;
+    backgroundImageUrl?: Maybe<Scalars['String']['output']>;
+    /** Whether this account can have changelog updates */
+    canHaveChangelogUpdates: Scalars['Boolean']['output'];
+    /** Returns true if the remote user can start the process to resume contributions for account */
+    canStartResumeContributionsProcess: Scalars['Boolean']['output'];
+    categories: Array<Maybe<Scalars['String']['output']>>;
+    childrenAccounts: AccountCollection;
+    /** The list of connected accounts (Stripe, PayPal, etc ...). Admin only. Scope: "connectedAccounts". */
+    connectedAccounts?: Maybe<Array<Maybe<ConnectedAccount>>>;
+    contributionPolicy?: Maybe<Scalars['String']['output']>;
+    /** All the persons and entities that contribute to this account */
+    contributors: ContributorCollection;
+    conversations: ConversationCollection;
+    /** Returns conversation's tags for collective sorted by popularity */
+    conversationsTags?: Maybe<Array<Maybe<TagStat>>>;
+    /** The time of creation */
+    createdAt?: Maybe<Scalars['DateTime']['output']>;
+    /** The account who created this order */
+    createdByAccount?: Maybe<Account>;
+    /** The currency of the account */
+    currency: Currency;
+    description?: Maybe<Scalars['String']['output']>;
+    /** If this account was duplicated, the accounts that were created from it */
+    duplicatedAccounts: AccountCollection;
+    /** If created by duplication, the account from which this one was duplicated */
+    duplicatedFromAccount?: Maybe<Account>;
+    /** Returns the emails of the account. Individuals only have one, but organizations can have multiple emails. */
+    emails?: Maybe<Array<Scalars['EmailAddress']['output']>>;
+    /** @deprecated 2024-11-04: Please use policies.EXPENSE_POLICIES */
+    expensePolicy?: Maybe<Scalars['String']['output']>;
+    expenses: ExpenseCollection;
+    /** Returns expense tags for collective sorted by popularity */
+    expensesTags?: Maybe<Array<Maybe<TagStat>>>;
+    /** Describes the features enabled and available for this account */
+    features: CollectiveFeatures;
+    feed?: Maybe<Array<Maybe<Activity>>>;
+    /** @deprecated 2022-06-03: Please use repositoryUrl */
+    githubHandle?: Maybe<Scalars['String']['output']>;
+    /** Returns whether this account has any payout methods saved */
+    hasPayoutMethod?: Maybe<Scalars['Boolean']['output']>;
+    /** Returns true if the account has started the process to resume contributions */
+    hasResumeContributionsProcessStarted: Scalars['Boolean']['output'];
+    /** Host application requests */
+    hostApplicationRequests: HostApplicationCollection;
+    id: Scalars['String']['output'];
+    imageUrl?: Maybe<Scalars['String']['output']>;
+    /** Returns whether the account accepts financial contributions. */
+    isActive?: Maybe<Scalars['Boolean']['output']>;
+    /** Returns true if the remote user is an admin of this account */
+    isAdmin: Scalars['Boolean']['output'];
+    /** Returns whether this account is archived */
+    isArchived: Scalars['Boolean']['output'];
+    /** Whether this account is frozen */
+    isFrozen: Scalars['Boolean']['output'];
+    /** Returns whether the account is setup to Host collectives. */
+    isHost: Scalars['Boolean']['output'];
+    /** Defines if the contributors wants to be incognito (name not displayed) */
+    isIncognito: Scalars['Boolean']['output'];
+    legacyId: Scalars['Int']['output'];
+    /** The legal documents associated with this account */
+    legalDocuments?: Maybe<Array<Maybe<LegalDocument>>>;
+    /** Private, legal name. Used for expense receipts, taxes, etc. Scope: "account". */
+    legalName?: Maybe<Scalars['String']['output']>;
+    /** The address associated to this account. This field is always public for collectives and events. */
+    location?: Maybe<Location>;
+    longDescription?: Maybe<Scalars['String']['output']>;
+    /** [AUTHENTICATED] Returns the pending invitations */
+    memberInvitations?: Maybe<Array<Maybe<MemberInvitation>>>;
+    memberOf: MemberOfCollection;
+    /** Get all members (admins, members, backers, followers) */
+    members: MemberCollection;
+    /** Public name */
+    name?: Maybe<Scalars['String']['output']>;
+    /** The list of applications created by this account. Admin only. Scope: "applications". */
+    oAuthApplications?: Maybe<OAuthApplicationCollection>;
+    orders: OrderCollection;
+    /** @deprecated 2022-12-16: use parent on AccountWithParent instead */
+    parentAccount?: Maybe<Account>;
+    /** The list of payment methods that this collective can use to pay for Orders. Admin or Host only. Scope: "orders". */
+    paymentMethods?: Maybe<Array<Maybe<PaymentMethod>>>;
+    /** The list of payment methods for this account that are pending a client confirmation (3D Secure / SCA) */
+    paymentMethodsWithPendingConfirmation?: Maybe<Array<Maybe<PaymentMethod>>>;
+    /** The list of payout methods that this collective can use to get paid. In most cases, admin only and scope: "expenses". */
+    payoutMethods?: Maybe<Array<Maybe<PayoutMethod>>>;
+    /** Logged-in user permissions on an account */
+    permissions: AccountPermissions;
+    /** Returns true if a custom contribution to Open Collective can be submitted for contributions made to this account */
+    platformContributionAvailable: Scalars['Boolean']['output'];
+    /** How much platform fees are charged for this account */
+    platformFeePercent: Scalars['Float']['output'];
+    /** Policies for the account. To see non-public policies you need to be admin and have the scope: "account". */
+    policies: Policies;
+    /** @deprecated 2023-01-16: Please use socialLinks */
+    repositoryUrl?: Maybe<Scalars['String']['output']>;
+    settings: Scalars['JSON']['output'];
+    /** The slug identifying the account (ie: babel) */
+    slug: Scalars['String']['output'];
+    socialLinks: Array<SocialLink>;
+    stats?: Maybe<AccountStats>;
+    /** The list of expense types supported by this account */
+    supportedExpenseTypes: Array<ExpenseType>;
+    tags?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+    tiers: TierCollection;
+    /** Number of unique financial contributors. */
+    totalFinancialContributors: Scalars['Int']['output'];
+    /** [!] Warning: this query is currently in beta and the API might change */
+    transactionGroups: TransactionGroupCollection;
+    /** EXPERIMENTAL (this may change or be removed) */
+    transactionReports?: Maybe<TransactionReports>;
+    transactions: TransactionCollection;
+    transferwise?: Maybe<TransferWise>;
+    /** @deprecated 2023-01-16: Please use socialLinks */
+    twitterHandle?: Maybe<Scalars['String']['output']>;
+    type: AccountType;
+    /** Date of unhosting by a given Fiscal Host. */
+    unhostedAt?: Maybe<Scalars['DateTime']['output']>;
+    updatedAt?: Maybe<Scalars['DateTime']['output']>;
+    /** Updates published by the account. To see unpublished updates, you need to be an admin and have the scope "updates". */
+    updates: UpdateCollection;
+    vendorInfo?: Maybe<VendorInfo>;
+    /** Virtual Cards Merchants used by the account. Admin only. Scope: "virtualCards". */
+    virtualCardMerchants?: Maybe<AccountCollection>;
+    /** Virtual Cards attached to the account. Admin only. Scope: "virtualCards". */
+    virtualCards?: Maybe<VirtualCardCollection>;
+    webhooks: WebhookCollection;
+    /** @deprecated 2023-01-16: Please use socialLinks */
+    website?: Maybe<Scalars['String']['output']>;
+  };
 
 /** This represents a Vendor account */
 export type VendorActiveContributorsArgs = {
@@ -12524,19 +11996,16 @@ export type VendorActiveContributorsArgs = {
   offset?: Scalars['Int']['input'];
 };
 
-
 /** This represents a Vendor account */
 export type VendorActivitySubscriptionsArgs = {
   channel?: InputMaybe<ActivityChannel>;
 };
-
 
 /** This represents a Vendor account */
 export type VendorBackgroundImageUrlArgs = {
   format?: InputMaybe<ImageFormat>;
   height?: InputMaybe<Scalars['Int']['input']>;
 };
-
 
 /** This represents a Vendor account */
 export type VendorChildrenAccountsArgs = {
@@ -12548,14 +12017,12 @@ export type VendorChildrenAccountsArgs = {
   searchTerm?: InputMaybe<Scalars['String']['input']>;
 };
 
-
 /** This represents a Vendor account */
 export type VendorContributorsArgs = {
   limit?: Scalars['Int']['input'];
   offset?: Scalars['Int']['input'];
   roles?: InputMaybe<Array<InputMaybe<MemberRole>>>;
 };
-
 
 /** This represents a Vendor account */
 export type VendorConversationsArgs = {
@@ -12564,19 +12031,16 @@ export type VendorConversationsArgs = {
   tag?: InputMaybe<Scalars['String']['input']>;
 };
 
-
 /** This represents a Vendor account */
 export type VendorConversationsTagsArgs = {
   limit?: Scalars['Int']['input'];
 };
-
 
 /** This represents a Vendor account */
 export type VendorDuplicatedAccountsArgs = {
   limit?: Scalars['Int']['input'];
   offset?: Scalars['Int']['input'];
 };
-
 
 /** This represents a Vendor account */
 export type VendorExpensesArgs = {
@@ -12609,12 +12073,10 @@ export type VendorExpensesArgs = {
   virtualCards?: InputMaybe<Array<InputMaybe<VirtualCardReferenceInput>>>;
 };
 
-
 /** This represents a Vendor account */
 export type VendorExpensesTagsArgs = {
   limit?: Scalars['Int']['input'];
 };
-
 
 /** This represents a Vendor account */
 export type VendorFeedArgs = {
@@ -12622,7 +12084,6 @@ export type VendorFeedArgs = {
   dateTo?: InputMaybe<Scalars['DateTime']['input']>;
   limit?: InputMaybe<Scalars['Int']['input']>;
 };
-
 
 /** This represents a Vendor account */
 export type VendorHostApplicationRequestsArgs = {
@@ -12632,19 +12093,16 @@ export type VendorHostApplicationRequestsArgs = {
   status?: InputMaybe<HostApplicationStatus>;
 };
 
-
 /** This represents a Vendor account */
 export type VendorImageUrlArgs = {
   format?: InputMaybe<ImageFormat>;
   height?: InputMaybe<Scalars['Int']['input']>;
 };
 
-
 /** This represents a Vendor account */
 export type VendorLegalDocumentsArgs = {
   type?: InputMaybe<Array<InputMaybe<LegalDocumentType>>>;
 };
-
 
 /** This represents a Vendor account */
 export type VendorMemberInvitationsArgs = {
@@ -12652,7 +12110,6 @@ export type VendorMemberInvitationsArgs = {
   memberAccount?: InputMaybe<AccountReferenceInput>;
   role?: InputMaybe<Array<InputMaybe<MemberRole>>>;
 };
-
 
 /** This represents a Vendor account */
 export type VendorMemberOfArgs = {
@@ -12671,7 +12128,6 @@ export type VendorMemberOfArgs = {
   searchTerm?: InputMaybe<Scalars['String']['input']>;
 };
 
-
 /** This represents a Vendor account */
 export type VendorMembersArgs = {
   accountType?: InputMaybe<Array<InputMaybe<AccountType>>>;
@@ -12683,13 +12139,11 @@ export type VendorMembersArgs = {
   role?: InputMaybe<Array<InputMaybe<MemberRole>>>;
 };
 
-
 /** This represents a Vendor account */
 export type VendorOAuthApplicationsArgs = {
   limit?: Scalars['Int']['input'];
   offset?: Scalars['Int']['input'];
 };
-
 
 /** This represents a Vendor account */
 export type VendorOrdersArgs = {
@@ -12724,7 +12178,6 @@ export type VendorOrdersArgs = {
   tierSlug?: InputMaybe<Scalars['String']['input']>;
 };
 
-
 /** This represents a Vendor account */
 export type VendorPaymentMethodsArgs = {
   enumType?: InputMaybe<Array<InputMaybe<PaymentMethodType>>>;
@@ -12733,12 +12186,10 @@ export type VendorPaymentMethodsArgs = {
   type?: InputMaybe<Array<InputMaybe<PaymentMethodType>>>;
 };
 
-
 /** This represents a Vendor account */
 export type VendorPayoutMethodsArgs = {
   includeArchived?: InputMaybe<Scalars['Boolean']['input']>;
 };
-
 
 /** This represents a Vendor account */
 export type VendorTiersArgs = {
@@ -12746,12 +12197,10 @@ export type VendorTiersArgs = {
   offset?: Scalars['Int']['input'];
 };
 
-
 /** This represents a Vendor account */
 export type VendorTotalFinancialContributorsArgs = {
   accountType?: InputMaybe<AccountType>;
 };
-
 
 /** This represents a Vendor account */
 export type VendorTransactionGroupsArgs = {
@@ -12763,14 +12212,12 @@ export type VendorTransactionGroupsArgs = {
   type?: InputMaybe<TransactionType>;
 };
 
-
 /** This represents a Vendor account */
 export type VendorTransactionReportsArgs = {
   dateFrom?: InputMaybe<Scalars['DateTime']['input']>;
   dateTo?: InputMaybe<Scalars['DateTime']['input']>;
   timeUnit?: InputMaybe<TimeUnit>;
 };
-
 
 /** This represents a Vendor account */
 export type VendorTransactionsArgs = {
@@ -12813,12 +12260,10 @@ export type VendorTransactionsArgs = {
   virtualCard?: InputMaybe<Array<InputMaybe<VirtualCardReferenceInput>>>;
 };
 
-
 /** This represents a Vendor account */
 export type VendorUnhostedAtArgs = {
   host: AccountReferenceInput;
 };
-
 
 /** This represents a Vendor account */
 export type VendorUpdatesArgs = {
@@ -12831,13 +12276,11 @@ export type VendorUpdatesArgs = {
   searchTerm?: InputMaybe<Scalars['String']['input']>;
 };
 
-
 /** This represents a Vendor account */
 export type VendorVirtualCardMerchantsArgs = {
   limit?: Scalars['Int']['input'];
   offset?: Scalars['Int']['input'];
 };
-
 
 /** This represents a Vendor account */
 export type VendorVirtualCardsArgs = {
@@ -12850,7 +12293,6 @@ export type VendorVirtualCardsArgs = {
   state?: InputMaybe<Scalars['String']['input']>;
   status?: InputMaybe<Array<InputMaybe<VirtualCardStatus>>>;
 };
-
 
 /** This represents a Vendor account */
 export type VendorWebhooksArgs = {
@@ -12988,12 +12430,12 @@ export enum VirtualCardLimitInterval {
   MONTHLY = 'MONTHLY',
   PER_AUTHORIZATION = 'PER_AUTHORIZATION',
   WEEKLY = 'WEEKLY',
-  YEARLY = 'YEARLY'
+  YEARLY = 'YEARLY',
 }
 
 export enum VirtualCardProvider {
   PRIVACY = 'PRIVACY',
-  STRIPE = 'STRIPE'
+  STRIPE = 'STRIPE',
 }
 
 export type VirtualCardReferenceInput = {
@@ -13036,14 +12478,14 @@ export type VirtualCardRequestReferenceInput = {
 export enum VirtualCardRequestStatus {
   APPROVED = 'APPROVED',
   PENDING = 'PENDING',
-  REJECTED = 'REJECTED'
+  REJECTED = 'REJECTED',
 }
 
 /** The status of a virtual card */
 export enum VirtualCardStatus {
   ACTIVE = 'ACTIVE',
   CANCELED = 'CANCELED',
-  INACTIVE = 'INACTIVE'
+  INACTIVE = 'INACTIVE',
 }
 
 /** An webhook attached to an account */
@@ -13101,41 +12543,5702 @@ export type ExpenseInvoiceQueryVariables = Exact<{
   expenseId: Scalars['String']['input'];
 }>;
 
+export type ExpenseInvoiceQuery = {
+  __typename?: 'Query';
+  expense?: {
+    __typename?: 'Expense';
+    id: string;
+    legacyId: number;
+    description: string;
+    currency: Currency;
+    type: ExpenseType;
+    invoiceInfo?: string | null;
+    amount: number;
+    reference?: string | null;
+    createdAt: any;
+    permissions: { __typename?: 'ExpensePermissions'; canSeeInvoiceInfo: boolean };
+    taxes: Array<{ __typename?: 'TaxInfo'; id: string; type: TaxType; rate: number; idNumber?: string | null }>;
+    account:
+      | {
+          __typename?: 'Bot';
+          id: string;
+          type: AccountType;
+          name?: string | null;
+          legalName?: string | null;
+          slug: string;
+          imageUrl?: string | null;
+          settings: any;
+          location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+        }
+      | {
+          __typename?: 'Collective';
+          id: string;
+          type: AccountType;
+          name?: string | null;
+          legalName?: string | null;
+          slug: string;
+          imageUrl?: string | null;
+          settings: any;
+          host?: {
+            __typename?: 'Host';
+            id: string;
+            name?: string | null;
+            legalName?: string | null;
+            slug: string;
+            type: AccountType;
+            expensePolicy?: string | null;
+            settings: any;
+            location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+          } | null;
+          location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+        }
+      | {
+          __typename?: 'Event';
+          id: string;
+          type: AccountType;
+          name?: string | null;
+          legalName?: string | null;
+          slug: string;
+          imageUrl?: string | null;
+          settings: any;
+          host?: {
+            __typename?: 'Host';
+            id: string;
+            name?: string | null;
+            legalName?: string | null;
+            slug: string;
+            type: AccountType;
+            expensePolicy?: string | null;
+            settings: any;
+            location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+          } | null;
+          location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+        }
+      | {
+          __typename?: 'Fund';
+          id: string;
+          type: AccountType;
+          name?: string | null;
+          legalName?: string | null;
+          slug: string;
+          imageUrl?: string | null;
+          settings: any;
+          host?: {
+            __typename?: 'Host';
+            id: string;
+            name?: string | null;
+            legalName?: string | null;
+            slug: string;
+            type: AccountType;
+            expensePolicy?: string | null;
+            settings: any;
+            location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+          } | null;
+          location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+        }
+      | {
+          __typename?: 'Host';
+          id: string;
+          type: AccountType;
+          name?: string | null;
+          legalName?: string | null;
+          slug: string;
+          imageUrl?: string | null;
+          settings: any;
+          location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+        }
+      | {
+          __typename?: 'Individual';
+          id: string;
+          type: AccountType;
+          name?: string | null;
+          legalName?: string | null;
+          slug: string;
+          imageUrl?: string | null;
+          settings: any;
+          location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+        }
+      | {
+          __typename?: 'Organization';
+          id: string;
+          type: AccountType;
+          name?: string | null;
+          legalName?: string | null;
+          slug: string;
+          imageUrl?: string | null;
+          settings: any;
+          location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+        }
+      | {
+          __typename?: 'Project';
+          id: string;
+          type: AccountType;
+          name?: string | null;
+          legalName?: string | null;
+          slug: string;
+          imageUrl?: string | null;
+          settings: any;
+          host?: {
+            __typename?: 'Host';
+            id: string;
+            name?: string | null;
+            legalName?: string | null;
+            slug: string;
+            type: AccountType;
+            expensePolicy?: string | null;
+            settings: any;
+            location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+          } | null;
+          location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+        }
+      | {
+          __typename?: 'Vendor';
+          id: string;
+          type: AccountType;
+          name?: string | null;
+          legalName?: string | null;
+          slug: string;
+          imageUrl?: string | null;
+          settings: any;
+          location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+        };
+    payee:
+      | {
+          __typename?: 'Bot';
+          id: string;
+          type: AccountType;
+          name?: string | null;
+          legalName?: string | null;
+          slug: string;
+          imageUrl?: string | null;
+        }
+      | {
+          __typename?: 'Collective';
+          id: string;
+          type: AccountType;
+          name?: string | null;
+          legalName?: string | null;
+          slug: string;
+          imageUrl?: string | null;
+          host?: {
+            __typename?: 'Host';
+            id: string;
+            name?: string | null;
+            legalName?: string | null;
+            slug: string;
+            type: AccountType;
+            expensePolicy?: string | null;
+            location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+          } | null;
+        }
+      | {
+          __typename?: 'Event';
+          id: string;
+          type: AccountType;
+          name?: string | null;
+          legalName?: string | null;
+          slug: string;
+          imageUrl?: string | null;
+          host?: {
+            __typename?: 'Host';
+            id: string;
+            name?: string | null;
+            legalName?: string | null;
+            slug: string;
+            type: AccountType;
+            expensePolicy?: string | null;
+            location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+          } | null;
+        }
+      | {
+          __typename?: 'Fund';
+          id: string;
+          type: AccountType;
+          name?: string | null;
+          legalName?: string | null;
+          slug: string;
+          imageUrl?: string | null;
+          host?: {
+            __typename?: 'Host';
+            id: string;
+            name?: string | null;
+            legalName?: string | null;
+            slug: string;
+            type: AccountType;
+            expensePolicy?: string | null;
+            location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+          } | null;
+        }
+      | {
+          __typename?: 'Host';
+          id: string;
+          type: AccountType;
+          name?: string | null;
+          legalName?: string | null;
+          slug: string;
+          imageUrl?: string | null;
+        }
+      | {
+          __typename?: 'Individual';
+          id: string;
+          type: AccountType;
+          name?: string | null;
+          legalName?: string | null;
+          slug: string;
+          imageUrl?: string | null;
+        }
+      | {
+          __typename?: 'Organization';
+          id: string;
+          type: AccountType;
+          name?: string | null;
+          legalName?: string | null;
+          slug: string;
+          imageUrl?: string | null;
+        }
+      | {
+          __typename?: 'Project';
+          id: string;
+          type: AccountType;
+          name?: string | null;
+          legalName?: string | null;
+          slug: string;
+          imageUrl?: string | null;
+          host?: {
+            __typename?: 'Host';
+            id: string;
+            name?: string | null;
+            legalName?: string | null;
+            slug: string;
+            type: AccountType;
+            expensePolicy?: string | null;
+            location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+          } | null;
+        }
+      | {
+          __typename?: 'Vendor';
+          id: string;
+          type: AccountType;
+          name?: string | null;
+          legalName?: string | null;
+          slug: string;
+          imageUrl?: string | null;
+        };
+    payeeLocation?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+    items: Array<{
+      __typename?: 'ExpenseItem';
+      id: string;
+      description?: string | null;
+      incurredAt: any;
+      url?: any | null;
+      amountV2: {
+        __typename?: 'Amount';
+        valueInCents?: number | null;
+        currency?: Currency | null;
+        exchangeRate?: {
+          __typename?: 'CurrencyExchangeRate';
+          fromCurrency: Currency;
+          toCurrency: Currency;
+          value: number;
+          date: any;
+          isApproximate: boolean;
+          source: CurrencyExchangeRateSourceType;
+        } | null;
+      };
+    }>;
+  } | null;
+};
 
-export type ExpenseInvoiceQuery = { __typename?: 'Query', expense?: { __typename?: 'Expense', id: string, legacyId: number, description: string, currency: Currency, type: ExpenseType, invoiceInfo?: string | null, amount: number, reference?: string | null, createdAt: any, permissions: { __typename?: 'ExpensePermissions', canSeeInvoiceInfo: boolean }, taxes: Array<{ __typename?: 'TaxInfo', id: string, type: TaxType, rate: number, idNumber?: string | null }>, account: { __typename?: 'Bot', id: string, type: AccountType, name?: string | null, legalName?: string | null, slug: string, imageUrl?: string | null, settings: any, location?: { __typename?: 'Location', address?: string | null, country?: string | null } | null } | { __typename?: 'Collective', id: string, type: AccountType, name?: string | null, legalName?: string | null, slug: string, imageUrl?: string | null, settings: any, host?: { __typename?: 'Host', id: string, name?: string | null, legalName?: string | null, slug: string, type: AccountType, expensePolicy?: string | null, settings: any, location?: { __typename?: 'Location', address?: string | null, country?: string | null } | null } | null, location?: { __typename?: 'Location', address?: string | null, country?: string | null } | null } | { __typename?: 'Event', id: string, type: AccountType, name?: string | null, legalName?: string | null, slug: string, imageUrl?: string | null, settings: any, host?: { __typename?: 'Host', id: string, name?: string | null, legalName?: string | null, slug: string, type: AccountType, expensePolicy?: string | null, settings: any, location?: { __typename?: 'Location', address?: string | null, country?: string | null } | null } | null, location?: { __typename?: 'Location', address?: string | null, country?: string | null } | null } | { __typename?: 'Fund', id: string, type: AccountType, name?: string | null, legalName?: string | null, slug: string, imageUrl?: string | null, settings: any, host?: { __typename?: 'Host', id: string, name?: string | null, legalName?: string | null, slug: string, type: AccountType, expensePolicy?: string | null, settings: any, location?: { __typename?: 'Location', address?: string | null, country?: string | null } | null } | null, location?: { __typename?: 'Location', address?: string | null, country?: string | null } | null } | { __typename?: 'Host', id: string, type: AccountType, name?: string | null, legalName?: string | null, slug: string, imageUrl?: string | null, settings: any, location?: { __typename?: 'Location', address?: string | null, country?: string | null } | null } | { __typename?: 'Individual', id: string, type: AccountType, name?: string | null, legalName?: string | null, slug: string, imageUrl?: string | null, settings: any, location?: { __typename?: 'Location', address?: string | null, country?: string | null } | null } | { __typename?: 'Organization', id: string, type: AccountType, name?: string | null, legalName?: string | null, slug: string, imageUrl?: string | null, settings: any, location?: { __typename?: 'Location', address?: string | null, country?: string | null } | null } | { __typename?: 'Project', id: string, type: AccountType, name?: string | null, legalName?: string | null, slug: string, imageUrl?: string | null, settings: any, host?: { __typename?: 'Host', id: string, name?: string | null, legalName?: string | null, slug: string, type: AccountType, expensePolicy?: string | null, settings: any, location?: { __typename?: 'Location', address?: string | null, country?: string | null } | null } | null, location?: { __typename?: 'Location', address?: string | null, country?: string | null } | null } | { __typename?: 'Vendor', id: string, type: AccountType, name?: string | null, legalName?: string | null, slug: string, imageUrl?: string | null, settings: any, location?: { __typename?: 'Location', address?: string | null, country?: string | null } | null }, payee: { __typename?: 'Bot', id: string, type: AccountType, name?: string | null, legalName?: string | null, slug: string, imageUrl?: string | null } | { __typename?: 'Collective', id: string, type: AccountType, name?: string | null, legalName?: string | null, slug: string, imageUrl?: string | null, host?: { __typename?: 'Host', id: string, name?: string | null, legalName?: string | null, slug: string, type: AccountType, expensePolicy?: string | null, location?: { __typename?: 'Location', address?: string | null, country?: string | null } | null } | null } | { __typename?: 'Event', id: string, type: AccountType, name?: string | null, legalName?: string | null, slug: string, imageUrl?: string | null, host?: { __typename?: 'Host', id: string, name?: string | null, legalName?: string | null, slug: string, type: AccountType, expensePolicy?: string | null, location?: { __typename?: 'Location', address?: string | null, country?: string | null } | null } | null } | { __typename?: 'Fund', id: string, type: AccountType, name?: string | null, legalName?: string | null, slug: string, imageUrl?: string | null, host?: { __typename?: 'Host', id: string, name?: string | null, legalName?: string | null, slug: string, type: AccountType, expensePolicy?: string | null, location?: { __typename?: 'Location', address?: string | null, country?: string | null } | null } | null } | { __typename?: 'Host', id: string, type: AccountType, name?: string | null, legalName?: string | null, slug: string, imageUrl?: string | null } | { __typename?: 'Individual', id: string, type: AccountType, name?: string | null, legalName?: string | null, slug: string, imageUrl?: string | null } | { __typename?: 'Organization', id: string, type: AccountType, name?: string | null, legalName?: string | null, slug: string, imageUrl?: string | null } | { __typename?: 'Project', id: string, type: AccountType, name?: string | null, legalName?: string | null, slug: string, imageUrl?: string | null, host?: { __typename?: 'Host', id: string, name?: string | null, legalName?: string | null, slug: string, type: AccountType, expensePolicy?: string | null, location?: { __typename?: 'Location', address?: string | null, country?: string | null } | null } | null } | { __typename?: 'Vendor', id: string, type: AccountType, name?: string | null, legalName?: string | null, slug: string, imageUrl?: string | null }, payeeLocation?: { __typename?: 'Location', address?: string | null, country?: string | null } | null, items: Array<{ __typename?: 'ExpenseItem', id: string, description?: string | null, incurredAt: any, url?: any | null, amountV2: { __typename?: 'Amount', valueInCents?: number | null, currency?: Currency | null, exchangeRate?: { __typename?: 'CurrencyExchangeRate', fromCurrency: Currency, toCurrency: Currency, value: number } | null } }> } | null };
+type ReceiptTransactionHostFieldsFragment_Bot_Fragment = {
+  __typename?: 'Bot';
+  id: string;
+  slug: string;
+  name?: string | null;
+  legalName?: string | null;
+  currency: Currency;
+  imageUrl?: string | null;
+  website?: string | null;
+  settings: any;
+  type: AccountType;
+  location?: { __typename?: 'Location'; name?: string | null; address?: string | null; country?: string | null } | null;
+};
 
-type ReceiptTransactionHostFieldsFragment_Bot_Fragment = { __typename?: 'Bot', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null };
+type ReceiptTransactionHostFieldsFragment_Collective_Fragment = {
+  __typename?: 'Collective';
+  id: string;
+  slug: string;
+  name?: string | null;
+  legalName?: string | null;
+  currency: Currency;
+  imageUrl?: string | null;
+  website?: string | null;
+  settings: any;
+  type: AccountType;
+  location?: { __typename?: 'Location'; name?: string | null; address?: string | null; country?: string | null } | null;
+};
 
-type ReceiptTransactionHostFieldsFragment_Collective_Fragment = { __typename?: 'Collective', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null };
+type ReceiptTransactionHostFieldsFragment_Event_Fragment = {
+  __typename?: 'Event';
+  id: string;
+  slug: string;
+  name?: string | null;
+  legalName?: string | null;
+  currency: Currency;
+  imageUrl?: string | null;
+  website?: string | null;
+  settings: any;
+  type: AccountType;
+  location?: { __typename?: 'Location'; name?: string | null; address?: string | null; country?: string | null } | null;
+};
 
-type ReceiptTransactionHostFieldsFragment_Event_Fragment = { __typename?: 'Event', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null };
+type ReceiptTransactionHostFieldsFragment_Fund_Fragment = {
+  __typename?: 'Fund';
+  id: string;
+  slug: string;
+  name?: string | null;
+  legalName?: string | null;
+  currency: Currency;
+  imageUrl?: string | null;
+  website?: string | null;
+  settings: any;
+  type: AccountType;
+  location?: { __typename?: 'Location'; name?: string | null; address?: string | null; country?: string | null } | null;
+};
 
-type ReceiptTransactionHostFieldsFragment_Fund_Fragment = { __typename?: 'Fund', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null };
+type ReceiptTransactionHostFieldsFragment_Host_Fragment = {
+  __typename?: 'Host';
+  id: string;
+  slug: string;
+  name?: string | null;
+  legalName?: string | null;
+  currency: Currency;
+  imageUrl?: string | null;
+  website?: string | null;
+  settings: any;
+  type: AccountType;
+  location?: { __typename?: 'Location'; name?: string | null; address?: string | null; country?: string | null } | null;
+};
 
-type ReceiptTransactionHostFieldsFragment_Host_Fragment = { __typename?: 'Host', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null };
+type ReceiptTransactionHostFieldsFragment_Individual_Fragment = {
+  __typename?: 'Individual';
+  id: string;
+  slug: string;
+  name?: string | null;
+  legalName?: string | null;
+  currency: Currency;
+  imageUrl?: string | null;
+  website?: string | null;
+  settings: any;
+  type: AccountType;
+  location?: { __typename?: 'Location'; name?: string | null; address?: string | null; country?: string | null } | null;
+};
 
-type ReceiptTransactionHostFieldsFragment_Individual_Fragment = { __typename?: 'Individual', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null };
+type ReceiptTransactionHostFieldsFragment_Organization_Fragment = {
+  __typename?: 'Organization';
+  id: string;
+  slug: string;
+  name?: string | null;
+  legalName?: string | null;
+  currency: Currency;
+  imageUrl?: string | null;
+  website?: string | null;
+  settings: any;
+  type: AccountType;
+  location?: { __typename?: 'Location'; name?: string | null; address?: string | null; country?: string | null } | null;
+};
 
-type ReceiptTransactionHostFieldsFragment_Organization_Fragment = { __typename?: 'Organization', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null };
+type ReceiptTransactionHostFieldsFragment_Project_Fragment = {
+  __typename?: 'Project';
+  id: string;
+  slug: string;
+  name?: string | null;
+  legalName?: string | null;
+  currency: Currency;
+  imageUrl?: string | null;
+  website?: string | null;
+  settings: any;
+  type: AccountType;
+  location?: { __typename?: 'Location'; name?: string | null; address?: string | null; country?: string | null } | null;
+};
 
-type ReceiptTransactionHostFieldsFragment_Project_Fragment = { __typename?: 'Project', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null };
+type ReceiptTransactionHostFieldsFragment_Vendor_Fragment = {
+  __typename?: 'Vendor';
+  id: string;
+  slug: string;
+  name?: string | null;
+  legalName?: string | null;
+  currency: Currency;
+  imageUrl?: string | null;
+  website?: string | null;
+  settings: any;
+  type: AccountType;
+  location?: { __typename?: 'Location'; name?: string | null; address?: string | null; country?: string | null } | null;
+};
 
-type ReceiptTransactionHostFieldsFragment_Vendor_Fragment = { __typename?: 'Vendor', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null };
+export type ReceiptTransactionHostFieldsFragmentFragment =
+  | ReceiptTransactionHostFieldsFragment_Bot_Fragment
+  | ReceiptTransactionHostFieldsFragment_Collective_Fragment
+  | ReceiptTransactionHostFieldsFragment_Event_Fragment
+  | ReceiptTransactionHostFieldsFragment_Fund_Fragment
+  | ReceiptTransactionHostFieldsFragment_Host_Fragment
+  | ReceiptTransactionHostFieldsFragment_Individual_Fragment
+  | ReceiptTransactionHostFieldsFragment_Organization_Fragment
+  | ReceiptTransactionHostFieldsFragment_Project_Fragment
+  | ReceiptTransactionHostFieldsFragment_Vendor_Fragment;
 
-export type ReceiptTransactionHostFieldsFragmentFragment = ReceiptTransactionHostFieldsFragment_Bot_Fragment | ReceiptTransactionHostFieldsFragment_Collective_Fragment | ReceiptTransactionHostFieldsFragment_Event_Fragment | ReceiptTransactionHostFieldsFragment_Fund_Fragment | ReceiptTransactionHostFieldsFragment_Host_Fragment | ReceiptTransactionHostFieldsFragment_Individual_Fragment | ReceiptTransactionHostFieldsFragment_Organization_Fragment | ReceiptTransactionHostFieldsFragment_Project_Fragment | ReceiptTransactionHostFieldsFragment_Vendor_Fragment;
+type ReceiptTransactionFragment_Credit_Fragment = {
+  __typename?: 'Credit';
+  id: string;
+  type: TransactionType;
+  kind?: TransactionKind | null;
+  createdAt?: any | null;
+  description?: string | null;
+  hostCurrencyFxRate?: number | null;
+  invoiceTemplate?: string | null;
+  isRefund?: boolean | null;
+  host?:
+    | {
+        __typename?: 'Bot';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        currency: Currency;
+        imageUrl?: string | null;
+        website?: string | null;
+        settings: any;
+        type: AccountType;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Collective';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        currency: Currency;
+        imageUrl?: string | null;
+        website?: string | null;
+        settings: any;
+        type: AccountType;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Event';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        currency: Currency;
+        imageUrl?: string | null;
+        website?: string | null;
+        settings: any;
+        type: AccountType;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Fund';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        currency: Currency;
+        imageUrl?: string | null;
+        website?: string | null;
+        settings: any;
+        type: AccountType;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Host';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        currency: Currency;
+        imageUrl?: string | null;
+        website?: string | null;
+        settings: any;
+        type: AccountType;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Individual';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        currency: Currency;
+        imageUrl?: string | null;
+        website?: string | null;
+        settings: any;
+        type: AccountType;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Organization';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        currency: Currency;
+        imageUrl?: string | null;
+        website?: string | null;
+        settings: any;
+        type: AccountType;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Project';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        currency: Currency;
+        imageUrl?: string | null;
+        website?: string | null;
+        settings: any;
+        type: AccountType;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Vendor';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        currency: Currency;
+        imageUrl?: string | null;
+        website?: string | null;
+        settings: any;
+        type: AccountType;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | null;
+  oppositeTransaction?:
+    | {
+        __typename?: 'Credit';
+        host?:
+          | {
+              __typename?: 'Bot';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Collective';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Event';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Fund';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Host';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Individual';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Organization';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Project';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Vendor';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | null;
+      }
+    | {
+        __typename?: 'Debit';
+        host?:
+          | {
+              __typename?: 'Bot';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Collective';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Event';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Fund';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Host';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Individual';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Organization';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Project';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Vendor';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | null;
+      }
+    | null;
+  amount: { __typename?: 'Amount'; valueInCents?: number | null; currency?: Currency | null };
+  amountInHostCurrency: { __typename?: 'Amount'; valueInCents?: number | null; currency?: Currency | null };
+  netAmount: { __typename?: 'Amount'; valueInCents?: number | null; currency?: Currency | null };
+  taxAmount: { __typename?: 'Amount'; valueInCents?: number | null; currency?: Currency | null };
+  taxInfo?: { __typename?: 'TaxInfo'; type: TaxType; rate: number } | null;
+  paymentMethod?: {
+    __typename?: 'PaymentMethod';
+    id?: string | null;
+    type?: PaymentMethodType | null;
+    service?: PaymentMethodService | null;
+    name?: string | null;
+  } | null;
+  fromAccount?:
+    | {
+        __typename?: 'Bot';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        type: AccountType;
+        settings: any;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Collective';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        type: AccountType;
+        settings: any;
+        host?: {
+          __typename?: 'Host';
+          id: string;
+          name?: string | null;
+          legalName?: string | null;
+          slug: string;
+          type: AccountType;
+          expensePolicy?: string | null;
+          settings: any;
+          location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+        } | null;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Event';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        type: AccountType;
+        settings: any;
+        host?: {
+          __typename?: 'Host';
+          id: string;
+          name?: string | null;
+          legalName?: string | null;
+          slug: string;
+          type: AccountType;
+          expensePolicy?: string | null;
+          settings: any;
+          location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+        } | null;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Fund';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        type: AccountType;
+        settings: any;
+        host?: {
+          __typename?: 'Host';
+          id: string;
+          name?: string | null;
+          legalName?: string | null;
+          slug: string;
+          type: AccountType;
+          expensePolicy?: string | null;
+          settings: any;
+          location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+        } | null;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Host';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        type: AccountType;
+        settings: any;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Individual';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        type: AccountType;
+        settings: any;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Organization';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        type: AccountType;
+        settings: any;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Project';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        type: AccountType;
+        settings: any;
+        host?: {
+          __typename?: 'Host';
+          id: string;
+          name?: string | null;
+          legalName?: string | null;
+          slug: string;
+          type: AccountType;
+          expensePolicy?: string | null;
+          settings: any;
+          location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+        } | null;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Vendor';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        type: AccountType;
+        settings: any;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | null;
+  toAccount?:
+    | {
+        __typename?: 'Bot';
+        id: string;
+        slug: string;
+        legalName?: string | null;
+        name?: string | null;
+        type: AccountType;
+        settings: any;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Collective';
+        id: string;
+        slug: string;
+        legalName?: string | null;
+        name?: string | null;
+        type: AccountType;
+        settings: any;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Event';
+        startsAt?: any | null;
+        endsAt?: any | null;
+        timezone?: string | null;
+        id: string;
+        slug: string;
+        legalName?: string | null;
+        name?: string | null;
+        type: AccountType;
+        settings: any;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Fund';
+        id: string;
+        slug: string;
+        legalName?: string | null;
+        name?: string | null;
+        type: AccountType;
+        settings: any;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Host';
+        id: string;
+        slug: string;
+        legalName?: string | null;
+        name?: string | null;
+        type: AccountType;
+        settings: any;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Individual';
+        id: string;
+        slug: string;
+        legalName?: string | null;
+        name?: string | null;
+        type: AccountType;
+        settings: any;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Organization';
+        id: string;
+        slug: string;
+        legalName?: string | null;
+        name?: string | null;
+        type: AccountType;
+        settings: any;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Project';
+        id: string;
+        slug: string;
+        legalName?: string | null;
+        name?: string | null;
+        type: AccountType;
+        settings: any;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Vendor';
+        id: string;
+        slug: string;
+        legalName?: string | null;
+        name?: string | null;
+        type: AccountType;
+        settings: any;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | null;
+  giftCardEmitterAccount?:
+    | {
+        __typename?: 'Bot';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        type: AccountType;
+      }
+    | {
+        __typename?: 'Collective';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        type: AccountType;
+      }
+    | {
+        __typename?: 'Event';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        type: AccountType;
+      }
+    | {
+        __typename?: 'Fund';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        type: AccountType;
+      }
+    | {
+        __typename?: 'Host';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        type: AccountType;
+      }
+    | {
+        __typename?: 'Individual';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        type: AccountType;
+      }
+    | {
+        __typename?: 'Organization';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        type: AccountType;
+      }
+    | {
+        __typename?: 'Project';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        type: AccountType;
+      }
+    | {
+        __typename?: 'Vendor';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        type: AccountType;
+      }
+    | null;
+  refundTransaction?: { __typename?: 'Credit'; id: string } | { __typename?: 'Debit'; id: string } | null;
+  order?: {
+    __typename?: 'Order';
+    id: string;
+    legacyId: number;
+    data?: any | null;
+    quantity?: number | null;
+    taxes: Array<{ __typename?: 'OrderTax'; type: TaxType; percentage: number } | null>;
+    tier?: { __typename?: 'Tier'; id: string; type: TierType; invoiceTemplate?: string | null } | null;
+  } | null;
+};
 
-type ReceiptTransactionFragment_Credit_Fragment = { __typename?: 'Credit', id: string, type: TransactionType, kind?: TransactionKind | null, createdAt?: any | null, description?: string | null, hostCurrencyFxRate?: number | null, invoiceTemplate?: string | null, isRefund?: boolean | null, host?: { __typename?: 'Bot', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Collective', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Event', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Fund', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Host', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Individual', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Organization', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Project', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Vendor', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | null, oppositeTransaction?: { __typename?: 'Credit', host?: { __typename?: 'Bot', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Collective', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Event', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Fund', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Host', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Individual', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Organization', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Project', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Vendor', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | null } | { __typename?: 'Debit', host?: { __typename?: 'Bot', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Collective', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Event', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Fund', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Host', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Individual', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Organization', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Project', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Vendor', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | null } | null, amount: { __typename?: 'Amount', valueInCents?: number | null, currency?: Currency | null }, amountInHostCurrency: { __typename?: 'Amount', valueInCents?: number | null, currency?: Currency | null }, netAmount: { __typename?: 'Amount', valueInCents?: number | null, currency?: Currency | null }, taxAmount: { __typename?: 'Amount', valueInCents?: number | null, currency?: Currency | null }, taxInfo?: { __typename?: 'TaxInfo', type: TaxType, rate: number } | null, paymentMethod?: { __typename?: 'PaymentMethod', id?: string | null, type?: PaymentMethodType | null, service?: PaymentMethodService | null, name?: string | null } | null, fromAccount?: { __typename?: 'Bot', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Collective', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType, settings: any, host?: { __typename?: 'Host', id: string, name?: string | null, legalName?: string | null, slug: string, type: AccountType, expensePolicy?: string | null, settings: any, location?: { __typename?: 'Location', address?: string | null, country?: string | null } | null } | null, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Event', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType, settings: any, host?: { __typename?: 'Host', id: string, name?: string | null, legalName?: string | null, slug: string, type: AccountType, expensePolicy?: string | null, settings: any, location?: { __typename?: 'Location', address?: string | null, country?: string | null } | null } | null, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Fund', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType, settings: any, host?: { __typename?: 'Host', id: string, name?: string | null, legalName?: string | null, slug: string, type: AccountType, expensePolicy?: string | null, settings: any, location?: { __typename?: 'Location', address?: string | null, country?: string | null } | null } | null, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Host', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Individual', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Organization', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Project', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType, settings: any, host?: { __typename?: 'Host', id: string, name?: string | null, legalName?: string | null, slug: string, type: AccountType, expensePolicy?: string | null, settings: any, location?: { __typename?: 'Location', address?: string | null, country?: string | null } | null } | null, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Vendor', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | null, toAccount?: { __typename?: 'Bot', id: string, slug: string, legalName?: string | null, name?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Collective', id: string, slug: string, legalName?: string | null, name?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Event', startsAt?: any | null, endsAt?: any | null, timezone?: string | null, id: string, slug: string, legalName?: string | null, name?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Fund', id: string, slug: string, legalName?: string | null, name?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Host', id: string, slug: string, legalName?: string | null, name?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Individual', id: string, slug: string, legalName?: string | null, name?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Organization', id: string, slug: string, legalName?: string | null, name?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Project', id: string, slug: string, legalName?: string | null, name?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Vendor', id: string, slug: string, legalName?: string | null, name?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | null, giftCardEmitterAccount?: { __typename?: 'Bot', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType } | { __typename?: 'Collective', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType } | { __typename?: 'Event', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType } | { __typename?: 'Fund', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType } | { __typename?: 'Host', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType } | { __typename?: 'Individual', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType } | { __typename?: 'Organization', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType } | { __typename?: 'Project', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType } | { __typename?: 'Vendor', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType } | null, refundTransaction?: { __typename?: 'Credit', id: string } | { __typename?: 'Debit', id: string } | null, order?: { __typename?: 'Order', id: string, legacyId: number, data?: any | null, quantity?: number | null, taxes: Array<{ __typename?: 'OrderTax', type: TaxType, percentage: number } | null>, tier?: { __typename?: 'Tier', id: string, type: TierType, invoiceTemplate?: string | null } | null } | null };
+type ReceiptTransactionFragment_Debit_Fragment = {
+  __typename?: 'Debit';
+  id: string;
+  type: TransactionType;
+  kind?: TransactionKind | null;
+  createdAt?: any | null;
+  description?: string | null;
+  hostCurrencyFxRate?: number | null;
+  invoiceTemplate?: string | null;
+  isRefund?: boolean | null;
+  host?:
+    | {
+        __typename?: 'Bot';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        currency: Currency;
+        imageUrl?: string | null;
+        website?: string | null;
+        settings: any;
+        type: AccountType;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Collective';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        currency: Currency;
+        imageUrl?: string | null;
+        website?: string | null;
+        settings: any;
+        type: AccountType;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Event';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        currency: Currency;
+        imageUrl?: string | null;
+        website?: string | null;
+        settings: any;
+        type: AccountType;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Fund';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        currency: Currency;
+        imageUrl?: string | null;
+        website?: string | null;
+        settings: any;
+        type: AccountType;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Host';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        currency: Currency;
+        imageUrl?: string | null;
+        website?: string | null;
+        settings: any;
+        type: AccountType;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Individual';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        currency: Currency;
+        imageUrl?: string | null;
+        website?: string | null;
+        settings: any;
+        type: AccountType;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Organization';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        currency: Currency;
+        imageUrl?: string | null;
+        website?: string | null;
+        settings: any;
+        type: AccountType;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Project';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        currency: Currency;
+        imageUrl?: string | null;
+        website?: string | null;
+        settings: any;
+        type: AccountType;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Vendor';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        currency: Currency;
+        imageUrl?: string | null;
+        website?: string | null;
+        settings: any;
+        type: AccountType;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | null;
+  oppositeTransaction?:
+    | {
+        __typename?: 'Credit';
+        host?:
+          | {
+              __typename?: 'Bot';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Collective';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Event';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Fund';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Host';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Individual';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Organization';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Project';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Vendor';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | null;
+      }
+    | {
+        __typename?: 'Debit';
+        host?:
+          | {
+              __typename?: 'Bot';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Collective';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Event';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Fund';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Host';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Individual';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Organization';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Project';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Vendor';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | null;
+      }
+    | null;
+  amount: { __typename?: 'Amount'; valueInCents?: number | null; currency?: Currency | null };
+  amountInHostCurrency: { __typename?: 'Amount'; valueInCents?: number | null; currency?: Currency | null };
+  netAmount: { __typename?: 'Amount'; valueInCents?: number | null; currency?: Currency | null };
+  taxAmount: { __typename?: 'Amount'; valueInCents?: number | null; currency?: Currency | null };
+  taxInfo?: { __typename?: 'TaxInfo'; type: TaxType; rate: number } | null;
+  paymentMethod?: {
+    __typename?: 'PaymentMethod';
+    id?: string | null;
+    type?: PaymentMethodType | null;
+    service?: PaymentMethodService | null;
+    name?: string | null;
+  } | null;
+  fromAccount?:
+    | {
+        __typename?: 'Bot';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        type: AccountType;
+        settings: any;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Collective';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        type: AccountType;
+        settings: any;
+        host?: {
+          __typename?: 'Host';
+          id: string;
+          name?: string | null;
+          legalName?: string | null;
+          slug: string;
+          type: AccountType;
+          expensePolicy?: string | null;
+          settings: any;
+          location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+        } | null;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Event';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        type: AccountType;
+        settings: any;
+        host?: {
+          __typename?: 'Host';
+          id: string;
+          name?: string | null;
+          legalName?: string | null;
+          slug: string;
+          type: AccountType;
+          expensePolicy?: string | null;
+          settings: any;
+          location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+        } | null;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Fund';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        type: AccountType;
+        settings: any;
+        host?: {
+          __typename?: 'Host';
+          id: string;
+          name?: string | null;
+          legalName?: string | null;
+          slug: string;
+          type: AccountType;
+          expensePolicy?: string | null;
+          settings: any;
+          location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+        } | null;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Host';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        type: AccountType;
+        settings: any;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Individual';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        type: AccountType;
+        settings: any;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Organization';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        type: AccountType;
+        settings: any;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Project';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        type: AccountType;
+        settings: any;
+        host?: {
+          __typename?: 'Host';
+          id: string;
+          name?: string | null;
+          legalName?: string | null;
+          slug: string;
+          type: AccountType;
+          expensePolicy?: string | null;
+          settings: any;
+          location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+        } | null;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Vendor';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        type: AccountType;
+        settings: any;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | null;
+  toAccount?:
+    | {
+        __typename?: 'Bot';
+        id: string;
+        slug: string;
+        legalName?: string | null;
+        name?: string | null;
+        type: AccountType;
+        settings: any;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Collective';
+        id: string;
+        slug: string;
+        legalName?: string | null;
+        name?: string | null;
+        type: AccountType;
+        settings: any;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Event';
+        startsAt?: any | null;
+        endsAt?: any | null;
+        timezone?: string | null;
+        id: string;
+        slug: string;
+        legalName?: string | null;
+        name?: string | null;
+        type: AccountType;
+        settings: any;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Fund';
+        id: string;
+        slug: string;
+        legalName?: string | null;
+        name?: string | null;
+        type: AccountType;
+        settings: any;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Host';
+        id: string;
+        slug: string;
+        legalName?: string | null;
+        name?: string | null;
+        type: AccountType;
+        settings: any;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Individual';
+        id: string;
+        slug: string;
+        legalName?: string | null;
+        name?: string | null;
+        type: AccountType;
+        settings: any;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Organization';
+        id: string;
+        slug: string;
+        legalName?: string | null;
+        name?: string | null;
+        type: AccountType;
+        settings: any;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Project';
+        id: string;
+        slug: string;
+        legalName?: string | null;
+        name?: string | null;
+        type: AccountType;
+        settings: any;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Vendor';
+        id: string;
+        slug: string;
+        legalName?: string | null;
+        name?: string | null;
+        type: AccountType;
+        settings: any;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | null;
+  giftCardEmitterAccount?:
+    | {
+        __typename?: 'Bot';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        type: AccountType;
+      }
+    | {
+        __typename?: 'Collective';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        type: AccountType;
+      }
+    | {
+        __typename?: 'Event';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        type: AccountType;
+      }
+    | {
+        __typename?: 'Fund';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        type: AccountType;
+      }
+    | {
+        __typename?: 'Host';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        type: AccountType;
+      }
+    | {
+        __typename?: 'Individual';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        type: AccountType;
+      }
+    | {
+        __typename?: 'Organization';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        type: AccountType;
+      }
+    | {
+        __typename?: 'Project';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        type: AccountType;
+      }
+    | {
+        __typename?: 'Vendor';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        type: AccountType;
+      }
+    | null;
+  refundTransaction?: { __typename?: 'Credit'; id: string } | { __typename?: 'Debit'; id: string } | null;
+  order?: {
+    __typename?: 'Order';
+    id: string;
+    legacyId: number;
+    data?: any | null;
+    quantity?: number | null;
+    taxes: Array<{ __typename?: 'OrderTax'; type: TaxType; percentage: number } | null>;
+    tier?: { __typename?: 'Tier'; id: string; type: TierType; invoiceTemplate?: string | null } | null;
+  } | null;
+};
 
-type ReceiptTransactionFragment_Debit_Fragment = { __typename?: 'Debit', id: string, type: TransactionType, kind?: TransactionKind | null, createdAt?: any | null, description?: string | null, hostCurrencyFxRate?: number | null, invoiceTemplate?: string | null, isRefund?: boolean | null, host?: { __typename?: 'Bot', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Collective', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Event', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Fund', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Host', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Individual', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Organization', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Project', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Vendor', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | null, oppositeTransaction?: { __typename?: 'Credit', host?: { __typename?: 'Bot', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Collective', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Event', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Fund', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Host', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Individual', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Organization', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Project', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Vendor', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | null } | { __typename?: 'Debit', host?: { __typename?: 'Bot', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Collective', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Event', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Fund', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Host', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Individual', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Organization', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Project', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Vendor', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | null } | null, amount: { __typename?: 'Amount', valueInCents?: number | null, currency?: Currency | null }, amountInHostCurrency: { __typename?: 'Amount', valueInCents?: number | null, currency?: Currency | null }, netAmount: { __typename?: 'Amount', valueInCents?: number | null, currency?: Currency | null }, taxAmount: { __typename?: 'Amount', valueInCents?: number | null, currency?: Currency | null }, taxInfo?: { __typename?: 'TaxInfo', type: TaxType, rate: number } | null, paymentMethod?: { __typename?: 'PaymentMethod', id?: string | null, type?: PaymentMethodType | null, service?: PaymentMethodService | null, name?: string | null } | null, fromAccount?: { __typename?: 'Bot', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Collective', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType, settings: any, host?: { __typename?: 'Host', id: string, name?: string | null, legalName?: string | null, slug: string, type: AccountType, expensePolicy?: string | null, settings: any, location?: { __typename?: 'Location', address?: string | null, country?: string | null } | null } | null, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Event', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType, settings: any, host?: { __typename?: 'Host', id: string, name?: string | null, legalName?: string | null, slug: string, type: AccountType, expensePolicy?: string | null, settings: any, location?: { __typename?: 'Location', address?: string | null, country?: string | null } | null } | null, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Fund', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType, settings: any, host?: { __typename?: 'Host', id: string, name?: string | null, legalName?: string | null, slug: string, type: AccountType, expensePolicy?: string | null, settings: any, location?: { __typename?: 'Location', address?: string | null, country?: string | null } | null } | null, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Host', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Individual', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Organization', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Project', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType, settings: any, host?: { __typename?: 'Host', id: string, name?: string | null, legalName?: string | null, slug: string, type: AccountType, expensePolicy?: string | null, settings: any, location?: { __typename?: 'Location', address?: string | null, country?: string | null } | null } | null, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Vendor', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | null, toAccount?: { __typename?: 'Bot', id: string, slug: string, legalName?: string | null, name?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Collective', id: string, slug: string, legalName?: string | null, name?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Event', startsAt?: any | null, endsAt?: any | null, timezone?: string | null, id: string, slug: string, legalName?: string | null, name?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Fund', id: string, slug: string, legalName?: string | null, name?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Host', id: string, slug: string, legalName?: string | null, name?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Individual', id: string, slug: string, legalName?: string | null, name?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Organization', id: string, slug: string, legalName?: string | null, name?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Project', id: string, slug: string, legalName?: string | null, name?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Vendor', id: string, slug: string, legalName?: string | null, name?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | null, giftCardEmitterAccount?: { __typename?: 'Bot', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType } | { __typename?: 'Collective', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType } | { __typename?: 'Event', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType } | { __typename?: 'Fund', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType } | { __typename?: 'Host', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType } | { __typename?: 'Individual', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType } | { __typename?: 'Organization', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType } | { __typename?: 'Project', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType } | { __typename?: 'Vendor', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType } | null, refundTransaction?: { __typename?: 'Credit', id: string } | { __typename?: 'Debit', id: string } | null, order?: { __typename?: 'Order', id: string, legacyId: number, data?: any | null, quantity?: number | null, taxes: Array<{ __typename?: 'OrderTax', type: TaxType, percentage: number } | null>, tier?: { __typename?: 'Tier', id: string, type: TierType, invoiceTemplate?: string | null } | null } | null };
-
-export type ReceiptTransactionFragmentFragment = ReceiptTransactionFragment_Credit_Fragment | ReceiptTransactionFragment_Debit_Fragment;
+export type ReceiptTransactionFragmentFragment =
+  | ReceiptTransactionFragment_Credit_Fragment
+  | ReceiptTransactionFragment_Debit_Fragment;
 
 export type TransactionInvoiceQueryVariables = Exact<{
   transactionId: Scalars['String']['input'];
 }>;
 
-
-export type TransactionInvoiceQuery = { __typename?: 'Query', transaction?: { __typename?: 'Credit', id: string, type: TransactionType, kind?: TransactionKind | null, createdAt?: any | null, description?: string | null, hostCurrencyFxRate?: number | null, invoiceTemplate?: string | null, isRefund?: boolean | null, permissions: { __typename?: 'TransactionPermissions', canDownloadInvoice: boolean }, host?: { __typename?: 'Bot', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Collective', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Event', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Fund', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Host', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Individual', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Organization', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Project', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Vendor', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | null, oppositeTransaction?: { __typename?: 'Credit', host?: { __typename?: 'Bot', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Collective', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Event', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Fund', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Host', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Individual', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Organization', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Project', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Vendor', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | null } | { __typename?: 'Debit', host?: { __typename?: 'Bot', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Collective', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Event', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Fund', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Host', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Individual', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Organization', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Project', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Vendor', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | null } | null, amount: { __typename?: 'Amount', valueInCents?: number | null, currency?: Currency | null }, amountInHostCurrency: { __typename?: 'Amount', valueInCents?: number | null, currency?: Currency | null }, netAmount: { __typename?: 'Amount', valueInCents?: number | null, currency?: Currency | null }, taxAmount: { __typename?: 'Amount', valueInCents?: number | null, currency?: Currency | null }, taxInfo?: { __typename?: 'TaxInfo', type: TaxType, rate: number } | null, paymentMethod?: { __typename?: 'PaymentMethod', id?: string | null, type?: PaymentMethodType | null, service?: PaymentMethodService | null, name?: string | null } | null, fromAccount?: { __typename?: 'Bot', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Collective', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType, settings: any, host?: { __typename?: 'Host', id: string, name?: string | null, legalName?: string | null, slug: string, type: AccountType, expensePolicy?: string | null, settings: any, location?: { __typename?: 'Location', address?: string | null, country?: string | null } | null } | null, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Event', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType, settings: any, host?: { __typename?: 'Host', id: string, name?: string | null, legalName?: string | null, slug: string, type: AccountType, expensePolicy?: string | null, settings: any, location?: { __typename?: 'Location', address?: string | null, country?: string | null } | null } | null, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Fund', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType, settings: any, host?: { __typename?: 'Host', id: string, name?: string | null, legalName?: string | null, slug: string, type: AccountType, expensePolicy?: string | null, settings: any, location?: { __typename?: 'Location', address?: string | null, country?: string | null } | null } | null, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Host', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Individual', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Organization', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Project', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType, settings: any, host?: { __typename?: 'Host', id: string, name?: string | null, legalName?: string | null, slug: string, type: AccountType, expensePolicy?: string | null, settings: any, location?: { __typename?: 'Location', address?: string | null, country?: string | null } | null } | null, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Vendor', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | null, toAccount?: { __typename?: 'Bot', id: string, slug: string, legalName?: string | null, name?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Collective', id: string, slug: string, legalName?: string | null, name?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Event', startsAt?: any | null, endsAt?: any | null, timezone?: string | null, id: string, slug: string, legalName?: string | null, name?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Fund', id: string, slug: string, legalName?: string | null, name?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Host', id: string, slug: string, legalName?: string | null, name?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Individual', id: string, slug: string, legalName?: string | null, name?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Organization', id: string, slug: string, legalName?: string | null, name?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Project', id: string, slug: string, legalName?: string | null, name?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Vendor', id: string, slug: string, legalName?: string | null, name?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | null, giftCardEmitterAccount?: { __typename?: 'Bot', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType } | { __typename?: 'Collective', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType } | { __typename?: 'Event', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType } | { __typename?: 'Fund', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType } | { __typename?: 'Host', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType } | { __typename?: 'Individual', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType } | { __typename?: 'Organization', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType } | { __typename?: 'Project', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType } | { __typename?: 'Vendor', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType } | null, refundTransaction?: { __typename?: 'Credit', id: string } | { __typename?: 'Debit', id: string } | null, order?: { __typename?: 'Order', id: string, legacyId: number, data?: any | null, quantity?: number | null, taxes: Array<{ __typename?: 'OrderTax', type: TaxType, percentage: number } | null>, tier?: { __typename?: 'Tier', id: string, type: TierType, invoiceTemplate?: string | null } | null } | null } | { __typename?: 'Debit', id: string, type: TransactionType, kind?: TransactionKind | null, createdAt?: any | null, description?: string | null, hostCurrencyFxRate?: number | null, invoiceTemplate?: string | null, isRefund?: boolean | null, oppositeTransaction?: { __typename?: 'Credit', id: string, type: TransactionType, kind?: TransactionKind | null, createdAt?: any | null, description?: string | null, hostCurrencyFxRate?: number | null, invoiceTemplate?: string | null, isRefund?: boolean | null, permissions: { __typename?: 'TransactionPermissions', canDownloadInvoice: boolean }, host?: { __typename?: 'Bot', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Collective', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Event', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Fund', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Host', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Individual', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Organization', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Project', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Vendor', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | null, oppositeTransaction?: { __typename?: 'Credit', host?: { __typename?: 'Bot', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Collective', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Event', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Fund', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Host', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Individual', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Organization', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Project', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Vendor', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | null } | { __typename?: 'Debit', host?: { __typename?: 'Bot', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Collective', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Event', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Fund', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Host', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Individual', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Organization', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Project', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Vendor', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | null } | null, amount: { __typename?: 'Amount', valueInCents?: number | null, currency?: Currency | null }, amountInHostCurrency: { __typename?: 'Amount', valueInCents?: number | null, currency?: Currency | null }, netAmount: { __typename?: 'Amount', valueInCents?: number | null, currency?: Currency | null }, taxAmount: { __typename?: 'Amount', valueInCents?: number | null, currency?: Currency | null }, taxInfo?: { __typename?: 'TaxInfo', type: TaxType, rate: number } | null, paymentMethod?: { __typename?: 'PaymentMethod', id?: string | null, type?: PaymentMethodType | null, service?: PaymentMethodService | null, name?: string | null } | null, fromAccount?: { __typename?: 'Bot', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Collective', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType, settings: any, host?: { __typename?: 'Host', id: string, name?: string | null, legalName?: string | null, slug: string, type: AccountType, expensePolicy?: string | null, settings: any, location?: { __typename?: 'Location', address?: string | null, country?: string | null } | null } | null, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Event', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType, settings: any, host?: { __typename?: 'Host', id: string, name?: string | null, legalName?: string | null, slug: string, type: AccountType, expensePolicy?: string | null, settings: any, location?: { __typename?: 'Location', address?: string | null, country?: string | null } | null } | null, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Fund', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType, settings: any, host?: { __typename?: 'Host', id: string, name?: string | null, legalName?: string | null, slug: string, type: AccountType, expensePolicy?: string | null, settings: any, location?: { __typename?: 'Location', address?: string | null, country?: string | null } | null } | null, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Host', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Individual', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Organization', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Project', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType, settings: any, host?: { __typename?: 'Host', id: string, name?: string | null, legalName?: string | null, slug: string, type: AccountType, expensePolicy?: string | null, settings: any, location?: { __typename?: 'Location', address?: string | null, country?: string | null } | null } | null, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Vendor', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | null, toAccount?: { __typename?: 'Bot', id: string, slug: string, legalName?: string | null, name?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Collective', id: string, slug: string, legalName?: string | null, name?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Event', startsAt?: any | null, endsAt?: any | null, timezone?: string | null, id: string, slug: string, legalName?: string | null, name?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Fund', id: string, slug: string, legalName?: string | null, name?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Host', id: string, slug: string, legalName?: string | null, name?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Individual', id: string, slug: string, legalName?: string | null, name?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Organization', id: string, slug: string, legalName?: string | null, name?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Project', id: string, slug: string, legalName?: string | null, name?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Vendor', id: string, slug: string, legalName?: string | null, name?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | null, giftCardEmitterAccount?: { __typename?: 'Bot', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType } | { __typename?: 'Collective', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType } | { __typename?: 'Event', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType } | { __typename?: 'Fund', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType } | { __typename?: 'Host', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType } | { __typename?: 'Individual', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType } | { __typename?: 'Organization', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType } | { __typename?: 'Project', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType } | { __typename?: 'Vendor', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType } | null, refundTransaction?: { __typename?: 'Credit', id: string } | { __typename?: 'Debit', id: string } | null, order?: { __typename?: 'Order', id: string, legacyId: number, data?: any | null, quantity?: number | null, taxes: Array<{ __typename?: 'OrderTax', type: TaxType, percentage: number } | null>, tier?: { __typename?: 'Tier', id: string, type: TierType, invoiceTemplate?: string | null } | null } | null } | { __typename?: 'Debit', id: string, type: TransactionType, kind?: TransactionKind | null, createdAt?: any | null, description?: string | null, hostCurrencyFxRate?: number | null, invoiceTemplate?: string | null, isRefund?: boolean | null, permissions: { __typename?: 'TransactionPermissions', canDownloadInvoice: boolean }, host?: { __typename?: 'Bot', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Collective', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Event', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Fund', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Host', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Individual', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Organization', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Project', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Vendor', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | null, oppositeTransaction?: { __typename?: 'Credit', host?: { __typename?: 'Bot', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Collective', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Event', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Fund', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Host', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Individual', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Organization', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Project', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Vendor', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | null } | { __typename?: 'Debit', host?: { __typename?: 'Bot', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Collective', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Event', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Fund', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Host', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Individual', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Organization', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Project', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Vendor', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | null } | null, amount: { __typename?: 'Amount', valueInCents?: number | null, currency?: Currency | null }, amountInHostCurrency: { __typename?: 'Amount', valueInCents?: number | null, currency?: Currency | null }, netAmount: { __typename?: 'Amount', valueInCents?: number | null, currency?: Currency | null }, taxAmount: { __typename?: 'Amount', valueInCents?: number | null, currency?: Currency | null }, taxInfo?: { __typename?: 'TaxInfo', type: TaxType, rate: number } | null, paymentMethod?: { __typename?: 'PaymentMethod', id?: string | null, type?: PaymentMethodType | null, service?: PaymentMethodService | null, name?: string | null } | null, fromAccount?: { __typename?: 'Bot', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Collective', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType, settings: any, host?: { __typename?: 'Host', id: string, name?: string | null, legalName?: string | null, slug: string, type: AccountType, expensePolicy?: string | null, settings: any, location?: { __typename?: 'Location', address?: string | null, country?: string | null } | null } | null, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Event', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType, settings: any, host?: { __typename?: 'Host', id: string, name?: string | null, legalName?: string | null, slug: string, type: AccountType, expensePolicy?: string | null, settings: any, location?: { __typename?: 'Location', address?: string | null, country?: string | null } | null } | null, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Fund', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType, settings: any, host?: { __typename?: 'Host', id: string, name?: string | null, legalName?: string | null, slug: string, type: AccountType, expensePolicy?: string | null, settings: any, location?: { __typename?: 'Location', address?: string | null, country?: string | null } | null } | null, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Host', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Individual', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Organization', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Project', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType, settings: any, host?: { __typename?: 'Host', id: string, name?: string | null, legalName?: string | null, slug: string, type: AccountType, expensePolicy?: string | null, settings: any, location?: { __typename?: 'Location', address?: string | null, country?: string | null } | null } | null, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Vendor', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | null, toAccount?: { __typename?: 'Bot', id: string, slug: string, legalName?: string | null, name?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Collective', id: string, slug: string, legalName?: string | null, name?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Event', startsAt?: any | null, endsAt?: any | null, timezone?: string | null, id: string, slug: string, legalName?: string | null, name?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Fund', id: string, slug: string, legalName?: string | null, name?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Host', id: string, slug: string, legalName?: string | null, name?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Individual', id: string, slug: string, legalName?: string | null, name?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Organization', id: string, slug: string, legalName?: string | null, name?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Project', id: string, slug: string, legalName?: string | null, name?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Vendor', id: string, slug: string, legalName?: string | null, name?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | null, giftCardEmitterAccount?: { __typename?: 'Bot', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType } | { __typename?: 'Collective', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType } | { __typename?: 'Event', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType } | { __typename?: 'Fund', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType } | { __typename?: 'Host', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType } | { __typename?: 'Individual', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType } | { __typename?: 'Organization', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType } | { __typename?: 'Project', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType } | { __typename?: 'Vendor', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType } | null, refundTransaction?: { __typename?: 'Credit', id: string } | { __typename?: 'Debit', id: string } | null, order?: { __typename?: 'Order', id: string, legacyId: number, data?: any | null, quantity?: number | null, taxes: Array<{ __typename?: 'OrderTax', type: TaxType, percentage: number } | null>, tier?: { __typename?: 'Tier', id: string, type: TierType, invoiceTemplate?: string | null } | null } | null } | null, permissions: { __typename?: 'TransactionPermissions', canDownloadInvoice: boolean }, host?: { __typename?: 'Bot', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Collective', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Event', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Fund', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Host', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Individual', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Organization', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Project', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Vendor', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | null, amount: { __typename?: 'Amount', valueInCents?: number | null, currency?: Currency | null }, amountInHostCurrency: { __typename?: 'Amount', valueInCents?: number | null, currency?: Currency | null }, netAmount: { __typename?: 'Amount', valueInCents?: number | null, currency?: Currency | null }, taxAmount: { __typename?: 'Amount', valueInCents?: number | null, currency?: Currency | null }, taxInfo?: { __typename?: 'TaxInfo', type: TaxType, rate: number } | null, paymentMethod?: { __typename?: 'PaymentMethod', id?: string | null, type?: PaymentMethodType | null, service?: PaymentMethodService | null, name?: string | null } | null, fromAccount?: { __typename?: 'Bot', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Collective', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType, settings: any, host?: { __typename?: 'Host', id: string, name?: string | null, legalName?: string | null, slug: string, type: AccountType, expensePolicy?: string | null, settings: any, location?: { __typename?: 'Location', address?: string | null, country?: string | null } | null } | null, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Event', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType, settings: any, host?: { __typename?: 'Host', id: string, name?: string | null, legalName?: string | null, slug: string, type: AccountType, expensePolicy?: string | null, settings: any, location?: { __typename?: 'Location', address?: string | null, country?: string | null } | null } | null, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Fund', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType, settings: any, host?: { __typename?: 'Host', id: string, name?: string | null, legalName?: string | null, slug: string, type: AccountType, expensePolicy?: string | null, settings: any, location?: { __typename?: 'Location', address?: string | null, country?: string | null } | null } | null, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Host', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Individual', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Organization', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Project', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType, settings: any, host?: { __typename?: 'Host', id: string, name?: string | null, legalName?: string | null, slug: string, type: AccountType, expensePolicy?: string | null, settings: any, location?: { __typename?: 'Location', address?: string | null, country?: string | null } | null } | null, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Vendor', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | null, toAccount?: { __typename?: 'Bot', id: string, slug: string, legalName?: string | null, name?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Collective', id: string, slug: string, legalName?: string | null, name?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Event', startsAt?: any | null, endsAt?: any | null, timezone?: string | null, id: string, slug: string, legalName?: string | null, name?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Fund', id: string, slug: string, legalName?: string | null, name?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Host', id: string, slug: string, legalName?: string | null, name?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Individual', id: string, slug: string, legalName?: string | null, name?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Organization', id: string, slug: string, legalName?: string | null, name?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Project', id: string, slug: string, legalName?: string | null, name?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Vendor', id: string, slug: string, legalName?: string | null, name?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | null, giftCardEmitterAccount?: { __typename?: 'Bot', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType } | { __typename?: 'Collective', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType } | { __typename?: 'Event', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType } | { __typename?: 'Fund', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType } | { __typename?: 'Host', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType } | { __typename?: 'Individual', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType } | { __typename?: 'Organization', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType } | { __typename?: 'Project', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType } | { __typename?: 'Vendor', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType } | null, refundTransaction?: { __typename?: 'Credit', id: string } | { __typename?: 'Debit', id: string } | null, order?: { __typename?: 'Order', id: string, legacyId: number, data?: any | null, quantity?: number | null, taxes: Array<{ __typename?: 'OrderTax', type: TaxType, percentage: number } | null>, tier?: { __typename?: 'Tier', id: string, type: TierType, invoiceTemplate?: string | null } | null } | null } | null };
+export type TransactionInvoiceQuery = {
+  __typename?: 'Query';
+  transaction?:
+    | {
+        __typename?: 'Credit';
+        id: string;
+        type: TransactionType;
+        kind?: TransactionKind | null;
+        createdAt?: any | null;
+        description?: string | null;
+        hostCurrencyFxRate?: number | null;
+        invoiceTemplate?: string | null;
+        isRefund?: boolean | null;
+        permissions: { __typename?: 'TransactionPermissions'; canDownloadInvoice: boolean };
+        host?:
+          | {
+              __typename?: 'Bot';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Collective';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Event';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Fund';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Host';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Individual';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Organization';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Project';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Vendor';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | null;
+        oppositeTransaction?:
+          | {
+              __typename?: 'Credit';
+              host?:
+                | {
+                    __typename?: 'Bot';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Collective';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Event';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Fund';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Host';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Individual';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Organization';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Project';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Vendor';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | null;
+            }
+          | {
+              __typename?: 'Debit';
+              host?:
+                | {
+                    __typename?: 'Bot';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Collective';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Event';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Fund';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Host';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Individual';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Organization';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Project';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Vendor';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | null;
+            }
+          | null;
+        amount: { __typename?: 'Amount'; valueInCents?: number | null; currency?: Currency | null };
+        amountInHostCurrency: { __typename?: 'Amount'; valueInCents?: number | null; currency?: Currency | null };
+        netAmount: { __typename?: 'Amount'; valueInCents?: number | null; currency?: Currency | null };
+        taxAmount: { __typename?: 'Amount'; valueInCents?: number | null; currency?: Currency | null };
+        taxInfo?: { __typename?: 'TaxInfo'; type: TaxType; rate: number } | null;
+        paymentMethod?: {
+          __typename?: 'PaymentMethod';
+          id?: string | null;
+          type?: PaymentMethodType | null;
+          service?: PaymentMethodService | null;
+          name?: string | null;
+        } | null;
+        fromAccount?:
+          | {
+              __typename?: 'Bot';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+              settings: any;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Collective';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+              settings: any;
+              host?: {
+                __typename?: 'Host';
+                id: string;
+                name?: string | null;
+                legalName?: string | null;
+                slug: string;
+                type: AccountType;
+                expensePolicy?: string | null;
+                settings: any;
+                location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+              } | null;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Event';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+              settings: any;
+              host?: {
+                __typename?: 'Host';
+                id: string;
+                name?: string | null;
+                legalName?: string | null;
+                slug: string;
+                type: AccountType;
+                expensePolicy?: string | null;
+                settings: any;
+                location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+              } | null;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Fund';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+              settings: any;
+              host?: {
+                __typename?: 'Host';
+                id: string;
+                name?: string | null;
+                legalName?: string | null;
+                slug: string;
+                type: AccountType;
+                expensePolicy?: string | null;
+                settings: any;
+                location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+              } | null;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Host';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+              settings: any;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Individual';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+              settings: any;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Organization';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+              settings: any;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Project';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+              settings: any;
+              host?: {
+                __typename?: 'Host';
+                id: string;
+                name?: string | null;
+                legalName?: string | null;
+                slug: string;
+                type: AccountType;
+                expensePolicy?: string | null;
+                settings: any;
+                location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+              } | null;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Vendor';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+              settings: any;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | null;
+        toAccount?:
+          | {
+              __typename?: 'Bot';
+              id: string;
+              slug: string;
+              legalName?: string | null;
+              name?: string | null;
+              type: AccountType;
+              settings: any;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Collective';
+              id: string;
+              slug: string;
+              legalName?: string | null;
+              name?: string | null;
+              type: AccountType;
+              settings: any;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Event';
+              startsAt?: any | null;
+              endsAt?: any | null;
+              timezone?: string | null;
+              id: string;
+              slug: string;
+              legalName?: string | null;
+              name?: string | null;
+              type: AccountType;
+              settings: any;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Fund';
+              id: string;
+              slug: string;
+              legalName?: string | null;
+              name?: string | null;
+              type: AccountType;
+              settings: any;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Host';
+              id: string;
+              slug: string;
+              legalName?: string | null;
+              name?: string | null;
+              type: AccountType;
+              settings: any;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Individual';
+              id: string;
+              slug: string;
+              legalName?: string | null;
+              name?: string | null;
+              type: AccountType;
+              settings: any;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Organization';
+              id: string;
+              slug: string;
+              legalName?: string | null;
+              name?: string | null;
+              type: AccountType;
+              settings: any;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Project';
+              id: string;
+              slug: string;
+              legalName?: string | null;
+              name?: string | null;
+              type: AccountType;
+              settings: any;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Vendor';
+              id: string;
+              slug: string;
+              legalName?: string | null;
+              name?: string | null;
+              type: AccountType;
+              settings: any;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | null;
+        giftCardEmitterAccount?:
+          | {
+              __typename?: 'Bot';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+            }
+          | {
+              __typename?: 'Collective';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+            }
+          | {
+              __typename?: 'Event';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+            }
+          | {
+              __typename?: 'Fund';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+            }
+          | {
+              __typename?: 'Host';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+            }
+          | {
+              __typename?: 'Individual';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+            }
+          | {
+              __typename?: 'Organization';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+            }
+          | {
+              __typename?: 'Project';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+            }
+          | {
+              __typename?: 'Vendor';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+            }
+          | null;
+        refundTransaction?: { __typename?: 'Credit'; id: string } | { __typename?: 'Debit'; id: string } | null;
+        order?: {
+          __typename?: 'Order';
+          id: string;
+          legacyId: number;
+          data?: any | null;
+          quantity?: number | null;
+          taxes: Array<{ __typename?: 'OrderTax'; type: TaxType; percentage: number } | null>;
+          tier?: { __typename?: 'Tier'; id: string; type: TierType; invoiceTemplate?: string | null } | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Debit';
+        id: string;
+        type: TransactionType;
+        kind?: TransactionKind | null;
+        createdAt?: any | null;
+        description?: string | null;
+        hostCurrencyFxRate?: number | null;
+        invoiceTemplate?: string | null;
+        isRefund?: boolean | null;
+        oppositeTransaction?:
+          | {
+              __typename?: 'Credit';
+              id: string;
+              type: TransactionType;
+              kind?: TransactionKind | null;
+              createdAt?: any | null;
+              description?: string | null;
+              hostCurrencyFxRate?: number | null;
+              invoiceTemplate?: string | null;
+              isRefund?: boolean | null;
+              permissions: { __typename?: 'TransactionPermissions'; canDownloadInvoice: boolean };
+              host?:
+                | {
+                    __typename?: 'Bot';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Collective';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Event';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Fund';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Host';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Individual';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Organization';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Project';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Vendor';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | null;
+              oppositeTransaction?:
+                | {
+                    __typename?: 'Credit';
+                    host?:
+                      | {
+                          __typename?: 'Bot';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Collective';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Event';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Fund';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Host';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Individual';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Organization';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Project';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Vendor';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | null;
+                  }
+                | {
+                    __typename?: 'Debit';
+                    host?:
+                      | {
+                          __typename?: 'Bot';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Collective';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Event';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Fund';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Host';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Individual';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Organization';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Project';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Vendor';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | null;
+                  }
+                | null;
+              amount: { __typename?: 'Amount'; valueInCents?: number | null; currency?: Currency | null };
+              amountInHostCurrency: { __typename?: 'Amount'; valueInCents?: number | null; currency?: Currency | null };
+              netAmount: { __typename?: 'Amount'; valueInCents?: number | null; currency?: Currency | null };
+              taxAmount: { __typename?: 'Amount'; valueInCents?: number | null; currency?: Currency | null };
+              taxInfo?: { __typename?: 'TaxInfo'; type: TaxType; rate: number } | null;
+              paymentMethod?: {
+                __typename?: 'PaymentMethod';
+                id?: string | null;
+                type?: PaymentMethodType | null;
+                service?: PaymentMethodService | null;
+                name?: string | null;
+              } | null;
+              fromAccount?:
+                | {
+                    __typename?: 'Bot';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Collective';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    host?: {
+                      __typename?: 'Host';
+                      id: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      slug: string;
+                      type: AccountType;
+                      expensePolicy?: string | null;
+                      settings: any;
+                      location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+                    } | null;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Event';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    host?: {
+                      __typename?: 'Host';
+                      id: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      slug: string;
+                      type: AccountType;
+                      expensePolicy?: string | null;
+                      settings: any;
+                      location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+                    } | null;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Fund';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    host?: {
+                      __typename?: 'Host';
+                      id: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      slug: string;
+                      type: AccountType;
+                      expensePolicy?: string | null;
+                      settings: any;
+                      location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+                    } | null;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Host';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Individual';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Organization';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Project';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    host?: {
+                      __typename?: 'Host';
+                      id: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      slug: string;
+                      type: AccountType;
+                      expensePolicy?: string | null;
+                      settings: any;
+                      location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+                    } | null;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Vendor';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | null;
+              toAccount?:
+                | {
+                    __typename?: 'Bot';
+                    id: string;
+                    slug: string;
+                    legalName?: string | null;
+                    name?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Collective';
+                    id: string;
+                    slug: string;
+                    legalName?: string | null;
+                    name?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Event';
+                    startsAt?: any | null;
+                    endsAt?: any | null;
+                    timezone?: string | null;
+                    id: string;
+                    slug: string;
+                    legalName?: string | null;
+                    name?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Fund';
+                    id: string;
+                    slug: string;
+                    legalName?: string | null;
+                    name?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Host';
+                    id: string;
+                    slug: string;
+                    legalName?: string | null;
+                    name?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Individual';
+                    id: string;
+                    slug: string;
+                    legalName?: string | null;
+                    name?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Organization';
+                    id: string;
+                    slug: string;
+                    legalName?: string | null;
+                    name?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Project';
+                    id: string;
+                    slug: string;
+                    legalName?: string | null;
+                    name?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Vendor';
+                    id: string;
+                    slug: string;
+                    legalName?: string | null;
+                    name?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | null;
+              giftCardEmitterAccount?:
+                | {
+                    __typename?: 'Bot';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                  }
+                | {
+                    __typename?: 'Collective';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                  }
+                | {
+                    __typename?: 'Event';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                  }
+                | {
+                    __typename?: 'Fund';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                  }
+                | {
+                    __typename?: 'Host';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                  }
+                | {
+                    __typename?: 'Individual';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                  }
+                | {
+                    __typename?: 'Organization';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                  }
+                | {
+                    __typename?: 'Project';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                  }
+                | {
+                    __typename?: 'Vendor';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                  }
+                | null;
+              refundTransaction?: { __typename?: 'Credit'; id: string } | { __typename?: 'Debit'; id: string } | null;
+              order?: {
+                __typename?: 'Order';
+                id: string;
+                legacyId: number;
+                data?: any | null;
+                quantity?: number | null;
+                taxes: Array<{ __typename?: 'OrderTax'; type: TaxType; percentage: number } | null>;
+                tier?: { __typename?: 'Tier'; id: string; type: TierType; invoiceTemplate?: string | null } | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Debit';
+              id: string;
+              type: TransactionType;
+              kind?: TransactionKind | null;
+              createdAt?: any | null;
+              description?: string | null;
+              hostCurrencyFxRate?: number | null;
+              invoiceTemplate?: string | null;
+              isRefund?: boolean | null;
+              permissions: { __typename?: 'TransactionPermissions'; canDownloadInvoice: boolean };
+              host?:
+                | {
+                    __typename?: 'Bot';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Collective';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Event';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Fund';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Host';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Individual';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Organization';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Project';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Vendor';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | null;
+              oppositeTransaction?:
+                | {
+                    __typename?: 'Credit';
+                    host?:
+                      | {
+                          __typename?: 'Bot';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Collective';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Event';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Fund';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Host';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Individual';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Organization';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Project';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Vendor';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | null;
+                  }
+                | {
+                    __typename?: 'Debit';
+                    host?:
+                      | {
+                          __typename?: 'Bot';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Collective';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Event';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Fund';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Host';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Individual';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Organization';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Project';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Vendor';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | null;
+                  }
+                | null;
+              amount: { __typename?: 'Amount'; valueInCents?: number | null; currency?: Currency | null };
+              amountInHostCurrency: { __typename?: 'Amount'; valueInCents?: number | null; currency?: Currency | null };
+              netAmount: { __typename?: 'Amount'; valueInCents?: number | null; currency?: Currency | null };
+              taxAmount: { __typename?: 'Amount'; valueInCents?: number | null; currency?: Currency | null };
+              taxInfo?: { __typename?: 'TaxInfo'; type: TaxType; rate: number } | null;
+              paymentMethod?: {
+                __typename?: 'PaymentMethod';
+                id?: string | null;
+                type?: PaymentMethodType | null;
+                service?: PaymentMethodService | null;
+                name?: string | null;
+              } | null;
+              fromAccount?:
+                | {
+                    __typename?: 'Bot';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Collective';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    host?: {
+                      __typename?: 'Host';
+                      id: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      slug: string;
+                      type: AccountType;
+                      expensePolicy?: string | null;
+                      settings: any;
+                      location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+                    } | null;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Event';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    host?: {
+                      __typename?: 'Host';
+                      id: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      slug: string;
+                      type: AccountType;
+                      expensePolicy?: string | null;
+                      settings: any;
+                      location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+                    } | null;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Fund';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    host?: {
+                      __typename?: 'Host';
+                      id: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      slug: string;
+                      type: AccountType;
+                      expensePolicy?: string | null;
+                      settings: any;
+                      location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+                    } | null;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Host';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Individual';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Organization';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Project';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    host?: {
+                      __typename?: 'Host';
+                      id: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      slug: string;
+                      type: AccountType;
+                      expensePolicy?: string | null;
+                      settings: any;
+                      location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+                    } | null;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Vendor';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | null;
+              toAccount?:
+                | {
+                    __typename?: 'Bot';
+                    id: string;
+                    slug: string;
+                    legalName?: string | null;
+                    name?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Collective';
+                    id: string;
+                    slug: string;
+                    legalName?: string | null;
+                    name?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Event';
+                    startsAt?: any | null;
+                    endsAt?: any | null;
+                    timezone?: string | null;
+                    id: string;
+                    slug: string;
+                    legalName?: string | null;
+                    name?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Fund';
+                    id: string;
+                    slug: string;
+                    legalName?: string | null;
+                    name?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Host';
+                    id: string;
+                    slug: string;
+                    legalName?: string | null;
+                    name?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Individual';
+                    id: string;
+                    slug: string;
+                    legalName?: string | null;
+                    name?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Organization';
+                    id: string;
+                    slug: string;
+                    legalName?: string | null;
+                    name?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Project';
+                    id: string;
+                    slug: string;
+                    legalName?: string | null;
+                    name?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Vendor';
+                    id: string;
+                    slug: string;
+                    legalName?: string | null;
+                    name?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | null;
+              giftCardEmitterAccount?:
+                | {
+                    __typename?: 'Bot';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                  }
+                | {
+                    __typename?: 'Collective';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                  }
+                | {
+                    __typename?: 'Event';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                  }
+                | {
+                    __typename?: 'Fund';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                  }
+                | {
+                    __typename?: 'Host';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                  }
+                | {
+                    __typename?: 'Individual';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                  }
+                | {
+                    __typename?: 'Organization';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                  }
+                | {
+                    __typename?: 'Project';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                  }
+                | {
+                    __typename?: 'Vendor';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                  }
+                | null;
+              refundTransaction?: { __typename?: 'Credit'; id: string } | { __typename?: 'Debit'; id: string } | null;
+              order?: {
+                __typename?: 'Order';
+                id: string;
+                legacyId: number;
+                data?: any | null;
+                quantity?: number | null;
+                taxes: Array<{ __typename?: 'OrderTax'; type: TaxType; percentage: number } | null>;
+                tier?: { __typename?: 'Tier'; id: string; type: TierType; invoiceTemplate?: string | null } | null;
+              } | null;
+            }
+          | null;
+        permissions: { __typename?: 'TransactionPermissions'; canDownloadInvoice: boolean };
+        host?:
+          | {
+              __typename?: 'Bot';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Collective';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Event';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Fund';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Host';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Individual';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Organization';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Project';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Vendor';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | null;
+        amount: { __typename?: 'Amount'; valueInCents?: number | null; currency?: Currency | null };
+        amountInHostCurrency: { __typename?: 'Amount'; valueInCents?: number | null; currency?: Currency | null };
+        netAmount: { __typename?: 'Amount'; valueInCents?: number | null; currency?: Currency | null };
+        taxAmount: { __typename?: 'Amount'; valueInCents?: number | null; currency?: Currency | null };
+        taxInfo?: { __typename?: 'TaxInfo'; type: TaxType; rate: number } | null;
+        paymentMethod?: {
+          __typename?: 'PaymentMethod';
+          id?: string | null;
+          type?: PaymentMethodType | null;
+          service?: PaymentMethodService | null;
+          name?: string | null;
+        } | null;
+        fromAccount?:
+          | {
+              __typename?: 'Bot';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+              settings: any;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Collective';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+              settings: any;
+              host?: {
+                __typename?: 'Host';
+                id: string;
+                name?: string | null;
+                legalName?: string | null;
+                slug: string;
+                type: AccountType;
+                expensePolicy?: string | null;
+                settings: any;
+                location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+              } | null;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Event';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+              settings: any;
+              host?: {
+                __typename?: 'Host';
+                id: string;
+                name?: string | null;
+                legalName?: string | null;
+                slug: string;
+                type: AccountType;
+                expensePolicy?: string | null;
+                settings: any;
+                location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+              } | null;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Fund';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+              settings: any;
+              host?: {
+                __typename?: 'Host';
+                id: string;
+                name?: string | null;
+                legalName?: string | null;
+                slug: string;
+                type: AccountType;
+                expensePolicy?: string | null;
+                settings: any;
+                location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+              } | null;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Host';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+              settings: any;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Individual';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+              settings: any;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Organization';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+              settings: any;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Project';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+              settings: any;
+              host?: {
+                __typename?: 'Host';
+                id: string;
+                name?: string | null;
+                legalName?: string | null;
+                slug: string;
+                type: AccountType;
+                expensePolicy?: string | null;
+                settings: any;
+                location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+              } | null;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Vendor';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+              settings: any;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | null;
+        toAccount?:
+          | {
+              __typename?: 'Bot';
+              id: string;
+              slug: string;
+              legalName?: string | null;
+              name?: string | null;
+              type: AccountType;
+              settings: any;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Collective';
+              id: string;
+              slug: string;
+              legalName?: string | null;
+              name?: string | null;
+              type: AccountType;
+              settings: any;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Event';
+              startsAt?: any | null;
+              endsAt?: any | null;
+              timezone?: string | null;
+              id: string;
+              slug: string;
+              legalName?: string | null;
+              name?: string | null;
+              type: AccountType;
+              settings: any;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Fund';
+              id: string;
+              slug: string;
+              legalName?: string | null;
+              name?: string | null;
+              type: AccountType;
+              settings: any;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Host';
+              id: string;
+              slug: string;
+              legalName?: string | null;
+              name?: string | null;
+              type: AccountType;
+              settings: any;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Individual';
+              id: string;
+              slug: string;
+              legalName?: string | null;
+              name?: string | null;
+              type: AccountType;
+              settings: any;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Organization';
+              id: string;
+              slug: string;
+              legalName?: string | null;
+              name?: string | null;
+              type: AccountType;
+              settings: any;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Project';
+              id: string;
+              slug: string;
+              legalName?: string | null;
+              name?: string | null;
+              type: AccountType;
+              settings: any;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Vendor';
+              id: string;
+              slug: string;
+              legalName?: string | null;
+              name?: string | null;
+              type: AccountType;
+              settings: any;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | null;
+        giftCardEmitterAccount?:
+          | {
+              __typename?: 'Bot';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+            }
+          | {
+              __typename?: 'Collective';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+            }
+          | {
+              __typename?: 'Event';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+            }
+          | {
+              __typename?: 'Fund';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+            }
+          | {
+              __typename?: 'Host';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+            }
+          | {
+              __typename?: 'Individual';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+            }
+          | {
+              __typename?: 'Organization';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+            }
+          | {
+              __typename?: 'Project';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+            }
+          | {
+              __typename?: 'Vendor';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+            }
+          | null;
+        refundTransaction?: { __typename?: 'Credit'; id: string } | { __typename?: 'Debit'; id: string } | null;
+        order?: {
+          __typename?: 'Order';
+          id: string;
+          legacyId: number;
+          data?: any | null;
+          quantity?: number | null;
+          taxes: Array<{ __typename?: 'OrderTax'; type: TaxType; percentage: number } | null>;
+          tier?: { __typename?: 'Tier'; id: string; type: TierType; invoiceTemplate?: string | null } | null;
+        } | null;
+      }
+    | null;
+};
 
 export type InvoiceByDateRangeQueryVariables = Exact<{
   fromCollectiveSlug: Scalars['String']['input'];
@@ -13145,11 +18248,3578 @@ export type InvoiceByDateRangeQueryVariables = Exact<{
   hasExpense?: InputMaybe<Scalars['Boolean']['input']>;
 }>;
 
+export type InvoiceByDateRangeQuery = {
+  __typename?: 'Query';
+  host?: {
+    __typename?: 'Host';
+    id: string;
+    slug: string;
+    name?: string | null;
+    legalName?: string | null;
+    currency: Currency;
+    imageUrl?: string | null;
+    website?: string | null;
+    settings: any;
+    type: AccountType;
+    location?: {
+      __typename?: 'Location';
+      name?: string | null;
+      address?: string | null;
+      country?: string | null;
+    } | null;
+  } | null;
+  fromAccount?:
+    | {
+        __typename?: 'Bot';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        currency: Currency;
+        type: AccountType;
+        settings: any;
+        permissions: {
+          __typename?: 'AccountPermissions';
+          canDownloadPaymentReceipts: { __typename?: 'Permission'; allowed: boolean };
+        };
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Collective';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        currency: Currency;
+        type: AccountType;
+        settings: any;
+        permissions: {
+          __typename?: 'AccountPermissions';
+          canDownloadPaymentReceipts: { __typename?: 'Permission'; allowed: boolean };
+        };
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Event';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        currency: Currency;
+        type: AccountType;
+        settings: any;
+        permissions: {
+          __typename?: 'AccountPermissions';
+          canDownloadPaymentReceipts: { __typename?: 'Permission'; allowed: boolean };
+        };
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Fund';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        currency: Currency;
+        type: AccountType;
+        settings: any;
+        permissions: {
+          __typename?: 'AccountPermissions';
+          canDownloadPaymentReceipts: { __typename?: 'Permission'; allowed: boolean };
+        };
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Host';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        currency: Currency;
+        type: AccountType;
+        settings: any;
+        permissions: {
+          __typename?: 'AccountPermissions';
+          canDownloadPaymentReceipts: { __typename?: 'Permission'; allowed: boolean };
+        };
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Individual';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        currency: Currency;
+        type: AccountType;
+        settings: any;
+        permissions: {
+          __typename?: 'AccountPermissions';
+          canDownloadPaymentReceipts: { __typename?: 'Permission'; allowed: boolean };
+        };
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Organization';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        currency: Currency;
+        type: AccountType;
+        settings: any;
+        permissions: {
+          __typename?: 'AccountPermissions';
+          canDownloadPaymentReceipts: { __typename?: 'Permission'; allowed: boolean };
+        };
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Project';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        currency: Currency;
+        type: AccountType;
+        settings: any;
+        permissions: {
+          __typename?: 'AccountPermissions';
+          canDownloadPaymentReceipts: { __typename?: 'Permission'; allowed: boolean };
+        };
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Vendor';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        currency: Currency;
+        type: AccountType;
+        settings: any;
+        permissions: {
+          __typename?: 'AccountPermissions';
+          canDownloadPaymentReceipts: { __typename?: 'Permission'; allowed: boolean };
+        };
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | null;
+  transactions: {
+    __typename?: 'TransactionCollection';
+    totalCount?: number | null;
+    nodes?: Array<
+      | {
+          __typename?: 'Credit';
+          id: string;
+          type: TransactionType;
+          kind?: TransactionKind | null;
+          createdAt?: any | null;
+          description?: string | null;
+          hostCurrencyFxRate?: number | null;
+          invoiceTemplate?: string | null;
+          isRefund?: boolean | null;
+          host?:
+            | {
+                __typename?: 'Bot';
+                id: string;
+                slug: string;
+                name?: string | null;
+                legalName?: string | null;
+                currency: Currency;
+                imageUrl?: string | null;
+                website?: string | null;
+                settings: any;
+                type: AccountType;
+                location?: {
+                  __typename?: 'Location';
+                  name?: string | null;
+                  address?: string | null;
+                  country?: string | null;
+                } | null;
+              }
+            | {
+                __typename?: 'Collective';
+                id: string;
+                slug: string;
+                name?: string | null;
+                legalName?: string | null;
+                currency: Currency;
+                imageUrl?: string | null;
+                website?: string | null;
+                settings: any;
+                type: AccountType;
+                location?: {
+                  __typename?: 'Location';
+                  name?: string | null;
+                  address?: string | null;
+                  country?: string | null;
+                } | null;
+              }
+            | {
+                __typename?: 'Event';
+                id: string;
+                slug: string;
+                name?: string | null;
+                legalName?: string | null;
+                currency: Currency;
+                imageUrl?: string | null;
+                website?: string | null;
+                settings: any;
+                type: AccountType;
+                location?: {
+                  __typename?: 'Location';
+                  name?: string | null;
+                  address?: string | null;
+                  country?: string | null;
+                } | null;
+              }
+            | {
+                __typename?: 'Fund';
+                id: string;
+                slug: string;
+                name?: string | null;
+                legalName?: string | null;
+                currency: Currency;
+                imageUrl?: string | null;
+                website?: string | null;
+                settings: any;
+                type: AccountType;
+                location?: {
+                  __typename?: 'Location';
+                  name?: string | null;
+                  address?: string | null;
+                  country?: string | null;
+                } | null;
+              }
+            | {
+                __typename?: 'Host';
+                id: string;
+                slug: string;
+                name?: string | null;
+                legalName?: string | null;
+                currency: Currency;
+                imageUrl?: string | null;
+                website?: string | null;
+                settings: any;
+                type: AccountType;
+                location?: {
+                  __typename?: 'Location';
+                  name?: string | null;
+                  address?: string | null;
+                  country?: string | null;
+                } | null;
+              }
+            | {
+                __typename?: 'Individual';
+                id: string;
+                slug: string;
+                name?: string | null;
+                legalName?: string | null;
+                currency: Currency;
+                imageUrl?: string | null;
+                website?: string | null;
+                settings: any;
+                type: AccountType;
+                location?: {
+                  __typename?: 'Location';
+                  name?: string | null;
+                  address?: string | null;
+                  country?: string | null;
+                } | null;
+              }
+            | {
+                __typename?: 'Organization';
+                id: string;
+                slug: string;
+                name?: string | null;
+                legalName?: string | null;
+                currency: Currency;
+                imageUrl?: string | null;
+                website?: string | null;
+                settings: any;
+                type: AccountType;
+                location?: {
+                  __typename?: 'Location';
+                  name?: string | null;
+                  address?: string | null;
+                  country?: string | null;
+                } | null;
+              }
+            | {
+                __typename?: 'Project';
+                id: string;
+                slug: string;
+                name?: string | null;
+                legalName?: string | null;
+                currency: Currency;
+                imageUrl?: string | null;
+                website?: string | null;
+                settings: any;
+                type: AccountType;
+                location?: {
+                  __typename?: 'Location';
+                  name?: string | null;
+                  address?: string | null;
+                  country?: string | null;
+                } | null;
+              }
+            | {
+                __typename?: 'Vendor';
+                id: string;
+                slug: string;
+                name?: string | null;
+                legalName?: string | null;
+                currency: Currency;
+                imageUrl?: string | null;
+                website?: string | null;
+                settings: any;
+                type: AccountType;
+                location?: {
+                  __typename?: 'Location';
+                  name?: string | null;
+                  address?: string | null;
+                  country?: string | null;
+                } | null;
+              }
+            | null;
+          oppositeTransaction?:
+            | {
+                __typename?: 'Credit';
+                host?:
+                  | {
+                      __typename?: 'Bot';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      currency: Currency;
+                      imageUrl?: string | null;
+                      website?: string | null;
+                      settings: any;
+                      type: AccountType;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Collective';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      currency: Currency;
+                      imageUrl?: string | null;
+                      website?: string | null;
+                      settings: any;
+                      type: AccountType;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Event';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      currency: Currency;
+                      imageUrl?: string | null;
+                      website?: string | null;
+                      settings: any;
+                      type: AccountType;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Fund';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      currency: Currency;
+                      imageUrl?: string | null;
+                      website?: string | null;
+                      settings: any;
+                      type: AccountType;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Host';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      currency: Currency;
+                      imageUrl?: string | null;
+                      website?: string | null;
+                      settings: any;
+                      type: AccountType;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Individual';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      currency: Currency;
+                      imageUrl?: string | null;
+                      website?: string | null;
+                      settings: any;
+                      type: AccountType;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Organization';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      currency: Currency;
+                      imageUrl?: string | null;
+                      website?: string | null;
+                      settings: any;
+                      type: AccountType;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Project';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      currency: Currency;
+                      imageUrl?: string | null;
+                      website?: string | null;
+                      settings: any;
+                      type: AccountType;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Vendor';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      currency: Currency;
+                      imageUrl?: string | null;
+                      website?: string | null;
+                      settings: any;
+                      type: AccountType;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | null;
+              }
+            | {
+                __typename?: 'Debit';
+                host?:
+                  | {
+                      __typename?: 'Bot';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      currency: Currency;
+                      imageUrl?: string | null;
+                      website?: string | null;
+                      settings: any;
+                      type: AccountType;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Collective';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      currency: Currency;
+                      imageUrl?: string | null;
+                      website?: string | null;
+                      settings: any;
+                      type: AccountType;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Event';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      currency: Currency;
+                      imageUrl?: string | null;
+                      website?: string | null;
+                      settings: any;
+                      type: AccountType;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Fund';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      currency: Currency;
+                      imageUrl?: string | null;
+                      website?: string | null;
+                      settings: any;
+                      type: AccountType;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Host';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      currency: Currency;
+                      imageUrl?: string | null;
+                      website?: string | null;
+                      settings: any;
+                      type: AccountType;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Individual';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      currency: Currency;
+                      imageUrl?: string | null;
+                      website?: string | null;
+                      settings: any;
+                      type: AccountType;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Organization';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      currency: Currency;
+                      imageUrl?: string | null;
+                      website?: string | null;
+                      settings: any;
+                      type: AccountType;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Project';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      currency: Currency;
+                      imageUrl?: string | null;
+                      website?: string | null;
+                      settings: any;
+                      type: AccountType;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Vendor';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      currency: Currency;
+                      imageUrl?: string | null;
+                      website?: string | null;
+                      settings: any;
+                      type: AccountType;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | null;
+              }
+            | null;
+          amount: { __typename?: 'Amount'; valueInCents?: number | null; currency?: Currency | null };
+          amountInHostCurrency: { __typename?: 'Amount'; valueInCents?: number | null; currency?: Currency | null };
+          netAmount: { __typename?: 'Amount'; valueInCents?: number | null; currency?: Currency | null };
+          taxAmount: { __typename?: 'Amount'; valueInCents?: number | null; currency?: Currency | null };
+          taxInfo?: { __typename?: 'TaxInfo'; type: TaxType; rate: number } | null;
+          paymentMethod?: {
+            __typename?: 'PaymentMethod';
+            id?: string | null;
+            type?: PaymentMethodType | null;
+            service?: PaymentMethodService | null;
+            name?: string | null;
+          } | null;
+          fromAccount?:
+            | {
+                __typename?: 'Bot';
+                id: string;
+                slug: string;
+                name?: string | null;
+                legalName?: string | null;
+                type: AccountType;
+                settings: any;
+                location?: {
+                  __typename?: 'Location';
+                  name?: string | null;
+                  address?: string | null;
+                  country?: string | null;
+                } | null;
+              }
+            | {
+                __typename?: 'Collective';
+                id: string;
+                slug: string;
+                name?: string | null;
+                legalName?: string | null;
+                type: AccountType;
+                settings: any;
+                host?: {
+                  __typename?: 'Host';
+                  id: string;
+                  name?: string | null;
+                  legalName?: string | null;
+                  slug: string;
+                  type: AccountType;
+                  expensePolicy?: string | null;
+                  settings: any;
+                  location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+                } | null;
+                location?: {
+                  __typename?: 'Location';
+                  name?: string | null;
+                  address?: string | null;
+                  country?: string | null;
+                } | null;
+              }
+            | {
+                __typename?: 'Event';
+                id: string;
+                slug: string;
+                name?: string | null;
+                legalName?: string | null;
+                type: AccountType;
+                settings: any;
+                host?: {
+                  __typename?: 'Host';
+                  id: string;
+                  name?: string | null;
+                  legalName?: string | null;
+                  slug: string;
+                  type: AccountType;
+                  expensePolicy?: string | null;
+                  settings: any;
+                  location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+                } | null;
+                location?: {
+                  __typename?: 'Location';
+                  name?: string | null;
+                  address?: string | null;
+                  country?: string | null;
+                } | null;
+              }
+            | {
+                __typename?: 'Fund';
+                id: string;
+                slug: string;
+                name?: string | null;
+                legalName?: string | null;
+                type: AccountType;
+                settings: any;
+                host?: {
+                  __typename?: 'Host';
+                  id: string;
+                  name?: string | null;
+                  legalName?: string | null;
+                  slug: string;
+                  type: AccountType;
+                  expensePolicy?: string | null;
+                  settings: any;
+                  location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+                } | null;
+                location?: {
+                  __typename?: 'Location';
+                  name?: string | null;
+                  address?: string | null;
+                  country?: string | null;
+                } | null;
+              }
+            | {
+                __typename?: 'Host';
+                id: string;
+                slug: string;
+                name?: string | null;
+                legalName?: string | null;
+                type: AccountType;
+                settings: any;
+                location?: {
+                  __typename?: 'Location';
+                  name?: string | null;
+                  address?: string | null;
+                  country?: string | null;
+                } | null;
+              }
+            | {
+                __typename?: 'Individual';
+                id: string;
+                slug: string;
+                name?: string | null;
+                legalName?: string | null;
+                type: AccountType;
+                settings: any;
+                location?: {
+                  __typename?: 'Location';
+                  name?: string | null;
+                  address?: string | null;
+                  country?: string | null;
+                } | null;
+              }
+            | {
+                __typename?: 'Organization';
+                id: string;
+                slug: string;
+                name?: string | null;
+                legalName?: string | null;
+                type: AccountType;
+                settings: any;
+                location?: {
+                  __typename?: 'Location';
+                  name?: string | null;
+                  address?: string | null;
+                  country?: string | null;
+                } | null;
+              }
+            | {
+                __typename?: 'Project';
+                id: string;
+                slug: string;
+                name?: string | null;
+                legalName?: string | null;
+                type: AccountType;
+                settings: any;
+                host?: {
+                  __typename?: 'Host';
+                  id: string;
+                  name?: string | null;
+                  legalName?: string | null;
+                  slug: string;
+                  type: AccountType;
+                  expensePolicy?: string | null;
+                  settings: any;
+                  location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+                } | null;
+                location?: {
+                  __typename?: 'Location';
+                  name?: string | null;
+                  address?: string | null;
+                  country?: string | null;
+                } | null;
+              }
+            | {
+                __typename?: 'Vendor';
+                id: string;
+                slug: string;
+                name?: string | null;
+                legalName?: string | null;
+                type: AccountType;
+                settings: any;
+                location?: {
+                  __typename?: 'Location';
+                  name?: string | null;
+                  address?: string | null;
+                  country?: string | null;
+                } | null;
+              }
+            | null;
+          toAccount?:
+            | {
+                __typename?: 'Bot';
+                id: string;
+                slug: string;
+                legalName?: string | null;
+                name?: string | null;
+                type: AccountType;
+                settings: any;
+                location?: {
+                  __typename?: 'Location';
+                  name?: string | null;
+                  address?: string | null;
+                  country?: string | null;
+                } | null;
+              }
+            | {
+                __typename?: 'Collective';
+                id: string;
+                slug: string;
+                legalName?: string | null;
+                name?: string | null;
+                type: AccountType;
+                settings: any;
+                location?: {
+                  __typename?: 'Location';
+                  name?: string | null;
+                  address?: string | null;
+                  country?: string | null;
+                } | null;
+              }
+            | {
+                __typename?: 'Event';
+                startsAt?: any | null;
+                endsAt?: any | null;
+                timezone?: string | null;
+                id: string;
+                slug: string;
+                legalName?: string | null;
+                name?: string | null;
+                type: AccountType;
+                settings: any;
+                location?: {
+                  __typename?: 'Location';
+                  name?: string | null;
+                  address?: string | null;
+                  country?: string | null;
+                } | null;
+              }
+            | {
+                __typename?: 'Fund';
+                id: string;
+                slug: string;
+                legalName?: string | null;
+                name?: string | null;
+                type: AccountType;
+                settings: any;
+                location?: {
+                  __typename?: 'Location';
+                  name?: string | null;
+                  address?: string | null;
+                  country?: string | null;
+                } | null;
+              }
+            | {
+                __typename?: 'Host';
+                id: string;
+                slug: string;
+                legalName?: string | null;
+                name?: string | null;
+                type: AccountType;
+                settings: any;
+                location?: {
+                  __typename?: 'Location';
+                  name?: string | null;
+                  address?: string | null;
+                  country?: string | null;
+                } | null;
+              }
+            | {
+                __typename?: 'Individual';
+                id: string;
+                slug: string;
+                legalName?: string | null;
+                name?: string | null;
+                type: AccountType;
+                settings: any;
+                location?: {
+                  __typename?: 'Location';
+                  name?: string | null;
+                  address?: string | null;
+                  country?: string | null;
+                } | null;
+              }
+            | {
+                __typename?: 'Organization';
+                id: string;
+                slug: string;
+                legalName?: string | null;
+                name?: string | null;
+                type: AccountType;
+                settings: any;
+                location?: {
+                  __typename?: 'Location';
+                  name?: string | null;
+                  address?: string | null;
+                  country?: string | null;
+                } | null;
+              }
+            | {
+                __typename?: 'Project';
+                id: string;
+                slug: string;
+                legalName?: string | null;
+                name?: string | null;
+                type: AccountType;
+                settings: any;
+                location?: {
+                  __typename?: 'Location';
+                  name?: string | null;
+                  address?: string | null;
+                  country?: string | null;
+                } | null;
+              }
+            | {
+                __typename?: 'Vendor';
+                id: string;
+                slug: string;
+                legalName?: string | null;
+                name?: string | null;
+                type: AccountType;
+                settings: any;
+                location?: {
+                  __typename?: 'Location';
+                  name?: string | null;
+                  address?: string | null;
+                  country?: string | null;
+                } | null;
+              }
+            | null;
+          giftCardEmitterAccount?:
+            | {
+                __typename?: 'Bot';
+                id: string;
+                slug: string;
+                name?: string | null;
+                legalName?: string | null;
+                type: AccountType;
+              }
+            | {
+                __typename?: 'Collective';
+                id: string;
+                slug: string;
+                name?: string | null;
+                legalName?: string | null;
+                type: AccountType;
+              }
+            | {
+                __typename?: 'Event';
+                id: string;
+                slug: string;
+                name?: string | null;
+                legalName?: string | null;
+                type: AccountType;
+              }
+            | {
+                __typename?: 'Fund';
+                id: string;
+                slug: string;
+                name?: string | null;
+                legalName?: string | null;
+                type: AccountType;
+              }
+            | {
+                __typename?: 'Host';
+                id: string;
+                slug: string;
+                name?: string | null;
+                legalName?: string | null;
+                type: AccountType;
+              }
+            | {
+                __typename?: 'Individual';
+                id: string;
+                slug: string;
+                name?: string | null;
+                legalName?: string | null;
+                type: AccountType;
+              }
+            | {
+                __typename?: 'Organization';
+                id: string;
+                slug: string;
+                name?: string | null;
+                legalName?: string | null;
+                type: AccountType;
+              }
+            | {
+                __typename?: 'Project';
+                id: string;
+                slug: string;
+                name?: string | null;
+                legalName?: string | null;
+                type: AccountType;
+              }
+            | {
+                __typename?: 'Vendor';
+                id: string;
+                slug: string;
+                name?: string | null;
+                legalName?: string | null;
+                type: AccountType;
+              }
+            | null;
+          refundTransaction?: { __typename?: 'Credit'; id: string } | { __typename?: 'Debit'; id: string } | null;
+          order?: {
+            __typename?: 'Order';
+            id: string;
+            legacyId: number;
+            data?: any | null;
+            quantity?: number | null;
+            taxes: Array<{ __typename?: 'OrderTax'; type: TaxType; percentage: number } | null>;
+            tier?: { __typename?: 'Tier'; id: string; type: TierType; invoiceTemplate?: string | null } | null;
+          } | null;
+        }
+      | {
+          __typename?: 'Debit';
+          id: string;
+          type: TransactionType;
+          kind?: TransactionKind | null;
+          createdAt?: any | null;
+          description?: string | null;
+          hostCurrencyFxRate?: number | null;
+          invoiceTemplate?: string | null;
+          isRefund?: boolean | null;
+          host?:
+            | {
+                __typename?: 'Bot';
+                id: string;
+                slug: string;
+                name?: string | null;
+                legalName?: string | null;
+                currency: Currency;
+                imageUrl?: string | null;
+                website?: string | null;
+                settings: any;
+                type: AccountType;
+                location?: {
+                  __typename?: 'Location';
+                  name?: string | null;
+                  address?: string | null;
+                  country?: string | null;
+                } | null;
+              }
+            | {
+                __typename?: 'Collective';
+                id: string;
+                slug: string;
+                name?: string | null;
+                legalName?: string | null;
+                currency: Currency;
+                imageUrl?: string | null;
+                website?: string | null;
+                settings: any;
+                type: AccountType;
+                location?: {
+                  __typename?: 'Location';
+                  name?: string | null;
+                  address?: string | null;
+                  country?: string | null;
+                } | null;
+              }
+            | {
+                __typename?: 'Event';
+                id: string;
+                slug: string;
+                name?: string | null;
+                legalName?: string | null;
+                currency: Currency;
+                imageUrl?: string | null;
+                website?: string | null;
+                settings: any;
+                type: AccountType;
+                location?: {
+                  __typename?: 'Location';
+                  name?: string | null;
+                  address?: string | null;
+                  country?: string | null;
+                } | null;
+              }
+            | {
+                __typename?: 'Fund';
+                id: string;
+                slug: string;
+                name?: string | null;
+                legalName?: string | null;
+                currency: Currency;
+                imageUrl?: string | null;
+                website?: string | null;
+                settings: any;
+                type: AccountType;
+                location?: {
+                  __typename?: 'Location';
+                  name?: string | null;
+                  address?: string | null;
+                  country?: string | null;
+                } | null;
+              }
+            | {
+                __typename?: 'Host';
+                id: string;
+                slug: string;
+                name?: string | null;
+                legalName?: string | null;
+                currency: Currency;
+                imageUrl?: string | null;
+                website?: string | null;
+                settings: any;
+                type: AccountType;
+                location?: {
+                  __typename?: 'Location';
+                  name?: string | null;
+                  address?: string | null;
+                  country?: string | null;
+                } | null;
+              }
+            | {
+                __typename?: 'Individual';
+                id: string;
+                slug: string;
+                name?: string | null;
+                legalName?: string | null;
+                currency: Currency;
+                imageUrl?: string | null;
+                website?: string | null;
+                settings: any;
+                type: AccountType;
+                location?: {
+                  __typename?: 'Location';
+                  name?: string | null;
+                  address?: string | null;
+                  country?: string | null;
+                } | null;
+              }
+            | {
+                __typename?: 'Organization';
+                id: string;
+                slug: string;
+                name?: string | null;
+                legalName?: string | null;
+                currency: Currency;
+                imageUrl?: string | null;
+                website?: string | null;
+                settings: any;
+                type: AccountType;
+                location?: {
+                  __typename?: 'Location';
+                  name?: string | null;
+                  address?: string | null;
+                  country?: string | null;
+                } | null;
+              }
+            | {
+                __typename?: 'Project';
+                id: string;
+                slug: string;
+                name?: string | null;
+                legalName?: string | null;
+                currency: Currency;
+                imageUrl?: string | null;
+                website?: string | null;
+                settings: any;
+                type: AccountType;
+                location?: {
+                  __typename?: 'Location';
+                  name?: string | null;
+                  address?: string | null;
+                  country?: string | null;
+                } | null;
+              }
+            | {
+                __typename?: 'Vendor';
+                id: string;
+                slug: string;
+                name?: string | null;
+                legalName?: string | null;
+                currency: Currency;
+                imageUrl?: string | null;
+                website?: string | null;
+                settings: any;
+                type: AccountType;
+                location?: {
+                  __typename?: 'Location';
+                  name?: string | null;
+                  address?: string | null;
+                  country?: string | null;
+                } | null;
+              }
+            | null;
+          oppositeTransaction?:
+            | {
+                __typename?: 'Credit';
+                host?:
+                  | {
+                      __typename?: 'Bot';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      currency: Currency;
+                      imageUrl?: string | null;
+                      website?: string | null;
+                      settings: any;
+                      type: AccountType;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Collective';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      currency: Currency;
+                      imageUrl?: string | null;
+                      website?: string | null;
+                      settings: any;
+                      type: AccountType;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Event';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      currency: Currency;
+                      imageUrl?: string | null;
+                      website?: string | null;
+                      settings: any;
+                      type: AccountType;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Fund';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      currency: Currency;
+                      imageUrl?: string | null;
+                      website?: string | null;
+                      settings: any;
+                      type: AccountType;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Host';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      currency: Currency;
+                      imageUrl?: string | null;
+                      website?: string | null;
+                      settings: any;
+                      type: AccountType;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Individual';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      currency: Currency;
+                      imageUrl?: string | null;
+                      website?: string | null;
+                      settings: any;
+                      type: AccountType;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Organization';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      currency: Currency;
+                      imageUrl?: string | null;
+                      website?: string | null;
+                      settings: any;
+                      type: AccountType;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Project';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      currency: Currency;
+                      imageUrl?: string | null;
+                      website?: string | null;
+                      settings: any;
+                      type: AccountType;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Vendor';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      currency: Currency;
+                      imageUrl?: string | null;
+                      website?: string | null;
+                      settings: any;
+                      type: AccountType;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | null;
+              }
+            | {
+                __typename?: 'Debit';
+                host?:
+                  | {
+                      __typename?: 'Bot';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      currency: Currency;
+                      imageUrl?: string | null;
+                      website?: string | null;
+                      settings: any;
+                      type: AccountType;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Collective';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      currency: Currency;
+                      imageUrl?: string | null;
+                      website?: string | null;
+                      settings: any;
+                      type: AccountType;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Event';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      currency: Currency;
+                      imageUrl?: string | null;
+                      website?: string | null;
+                      settings: any;
+                      type: AccountType;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Fund';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      currency: Currency;
+                      imageUrl?: string | null;
+                      website?: string | null;
+                      settings: any;
+                      type: AccountType;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Host';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      currency: Currency;
+                      imageUrl?: string | null;
+                      website?: string | null;
+                      settings: any;
+                      type: AccountType;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Individual';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      currency: Currency;
+                      imageUrl?: string | null;
+                      website?: string | null;
+                      settings: any;
+                      type: AccountType;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Organization';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      currency: Currency;
+                      imageUrl?: string | null;
+                      website?: string | null;
+                      settings: any;
+                      type: AccountType;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Project';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      currency: Currency;
+                      imageUrl?: string | null;
+                      website?: string | null;
+                      settings: any;
+                      type: AccountType;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Vendor';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      currency: Currency;
+                      imageUrl?: string | null;
+                      website?: string | null;
+                      settings: any;
+                      type: AccountType;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | null;
+              }
+            | null;
+          amount: { __typename?: 'Amount'; valueInCents?: number | null; currency?: Currency | null };
+          amountInHostCurrency: { __typename?: 'Amount'; valueInCents?: number | null; currency?: Currency | null };
+          netAmount: { __typename?: 'Amount'; valueInCents?: number | null; currency?: Currency | null };
+          taxAmount: { __typename?: 'Amount'; valueInCents?: number | null; currency?: Currency | null };
+          taxInfo?: { __typename?: 'TaxInfo'; type: TaxType; rate: number } | null;
+          paymentMethod?: {
+            __typename?: 'PaymentMethod';
+            id?: string | null;
+            type?: PaymentMethodType | null;
+            service?: PaymentMethodService | null;
+            name?: string | null;
+          } | null;
+          fromAccount?:
+            | {
+                __typename?: 'Bot';
+                id: string;
+                slug: string;
+                name?: string | null;
+                legalName?: string | null;
+                type: AccountType;
+                settings: any;
+                location?: {
+                  __typename?: 'Location';
+                  name?: string | null;
+                  address?: string | null;
+                  country?: string | null;
+                } | null;
+              }
+            | {
+                __typename?: 'Collective';
+                id: string;
+                slug: string;
+                name?: string | null;
+                legalName?: string | null;
+                type: AccountType;
+                settings: any;
+                host?: {
+                  __typename?: 'Host';
+                  id: string;
+                  name?: string | null;
+                  legalName?: string | null;
+                  slug: string;
+                  type: AccountType;
+                  expensePolicy?: string | null;
+                  settings: any;
+                  location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+                } | null;
+                location?: {
+                  __typename?: 'Location';
+                  name?: string | null;
+                  address?: string | null;
+                  country?: string | null;
+                } | null;
+              }
+            | {
+                __typename?: 'Event';
+                id: string;
+                slug: string;
+                name?: string | null;
+                legalName?: string | null;
+                type: AccountType;
+                settings: any;
+                host?: {
+                  __typename?: 'Host';
+                  id: string;
+                  name?: string | null;
+                  legalName?: string | null;
+                  slug: string;
+                  type: AccountType;
+                  expensePolicy?: string | null;
+                  settings: any;
+                  location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+                } | null;
+                location?: {
+                  __typename?: 'Location';
+                  name?: string | null;
+                  address?: string | null;
+                  country?: string | null;
+                } | null;
+              }
+            | {
+                __typename?: 'Fund';
+                id: string;
+                slug: string;
+                name?: string | null;
+                legalName?: string | null;
+                type: AccountType;
+                settings: any;
+                host?: {
+                  __typename?: 'Host';
+                  id: string;
+                  name?: string | null;
+                  legalName?: string | null;
+                  slug: string;
+                  type: AccountType;
+                  expensePolicy?: string | null;
+                  settings: any;
+                  location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+                } | null;
+                location?: {
+                  __typename?: 'Location';
+                  name?: string | null;
+                  address?: string | null;
+                  country?: string | null;
+                } | null;
+              }
+            | {
+                __typename?: 'Host';
+                id: string;
+                slug: string;
+                name?: string | null;
+                legalName?: string | null;
+                type: AccountType;
+                settings: any;
+                location?: {
+                  __typename?: 'Location';
+                  name?: string | null;
+                  address?: string | null;
+                  country?: string | null;
+                } | null;
+              }
+            | {
+                __typename?: 'Individual';
+                id: string;
+                slug: string;
+                name?: string | null;
+                legalName?: string | null;
+                type: AccountType;
+                settings: any;
+                location?: {
+                  __typename?: 'Location';
+                  name?: string | null;
+                  address?: string | null;
+                  country?: string | null;
+                } | null;
+              }
+            | {
+                __typename?: 'Organization';
+                id: string;
+                slug: string;
+                name?: string | null;
+                legalName?: string | null;
+                type: AccountType;
+                settings: any;
+                location?: {
+                  __typename?: 'Location';
+                  name?: string | null;
+                  address?: string | null;
+                  country?: string | null;
+                } | null;
+              }
+            | {
+                __typename?: 'Project';
+                id: string;
+                slug: string;
+                name?: string | null;
+                legalName?: string | null;
+                type: AccountType;
+                settings: any;
+                host?: {
+                  __typename?: 'Host';
+                  id: string;
+                  name?: string | null;
+                  legalName?: string | null;
+                  slug: string;
+                  type: AccountType;
+                  expensePolicy?: string | null;
+                  settings: any;
+                  location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+                } | null;
+                location?: {
+                  __typename?: 'Location';
+                  name?: string | null;
+                  address?: string | null;
+                  country?: string | null;
+                } | null;
+              }
+            | {
+                __typename?: 'Vendor';
+                id: string;
+                slug: string;
+                name?: string | null;
+                legalName?: string | null;
+                type: AccountType;
+                settings: any;
+                location?: {
+                  __typename?: 'Location';
+                  name?: string | null;
+                  address?: string | null;
+                  country?: string | null;
+                } | null;
+              }
+            | null;
+          toAccount?:
+            | {
+                __typename?: 'Bot';
+                id: string;
+                slug: string;
+                legalName?: string | null;
+                name?: string | null;
+                type: AccountType;
+                settings: any;
+                location?: {
+                  __typename?: 'Location';
+                  name?: string | null;
+                  address?: string | null;
+                  country?: string | null;
+                } | null;
+              }
+            | {
+                __typename?: 'Collective';
+                id: string;
+                slug: string;
+                legalName?: string | null;
+                name?: string | null;
+                type: AccountType;
+                settings: any;
+                location?: {
+                  __typename?: 'Location';
+                  name?: string | null;
+                  address?: string | null;
+                  country?: string | null;
+                } | null;
+              }
+            | {
+                __typename?: 'Event';
+                startsAt?: any | null;
+                endsAt?: any | null;
+                timezone?: string | null;
+                id: string;
+                slug: string;
+                legalName?: string | null;
+                name?: string | null;
+                type: AccountType;
+                settings: any;
+                location?: {
+                  __typename?: 'Location';
+                  name?: string | null;
+                  address?: string | null;
+                  country?: string | null;
+                } | null;
+              }
+            | {
+                __typename?: 'Fund';
+                id: string;
+                slug: string;
+                legalName?: string | null;
+                name?: string | null;
+                type: AccountType;
+                settings: any;
+                location?: {
+                  __typename?: 'Location';
+                  name?: string | null;
+                  address?: string | null;
+                  country?: string | null;
+                } | null;
+              }
+            | {
+                __typename?: 'Host';
+                id: string;
+                slug: string;
+                legalName?: string | null;
+                name?: string | null;
+                type: AccountType;
+                settings: any;
+                location?: {
+                  __typename?: 'Location';
+                  name?: string | null;
+                  address?: string | null;
+                  country?: string | null;
+                } | null;
+              }
+            | {
+                __typename?: 'Individual';
+                id: string;
+                slug: string;
+                legalName?: string | null;
+                name?: string | null;
+                type: AccountType;
+                settings: any;
+                location?: {
+                  __typename?: 'Location';
+                  name?: string | null;
+                  address?: string | null;
+                  country?: string | null;
+                } | null;
+              }
+            | {
+                __typename?: 'Organization';
+                id: string;
+                slug: string;
+                legalName?: string | null;
+                name?: string | null;
+                type: AccountType;
+                settings: any;
+                location?: {
+                  __typename?: 'Location';
+                  name?: string | null;
+                  address?: string | null;
+                  country?: string | null;
+                } | null;
+              }
+            | {
+                __typename?: 'Project';
+                id: string;
+                slug: string;
+                legalName?: string | null;
+                name?: string | null;
+                type: AccountType;
+                settings: any;
+                location?: {
+                  __typename?: 'Location';
+                  name?: string | null;
+                  address?: string | null;
+                  country?: string | null;
+                } | null;
+              }
+            | {
+                __typename?: 'Vendor';
+                id: string;
+                slug: string;
+                legalName?: string | null;
+                name?: string | null;
+                type: AccountType;
+                settings: any;
+                location?: {
+                  __typename?: 'Location';
+                  name?: string | null;
+                  address?: string | null;
+                  country?: string | null;
+                } | null;
+              }
+            | null;
+          giftCardEmitterAccount?:
+            | {
+                __typename?: 'Bot';
+                id: string;
+                slug: string;
+                name?: string | null;
+                legalName?: string | null;
+                type: AccountType;
+              }
+            | {
+                __typename?: 'Collective';
+                id: string;
+                slug: string;
+                name?: string | null;
+                legalName?: string | null;
+                type: AccountType;
+              }
+            | {
+                __typename?: 'Event';
+                id: string;
+                slug: string;
+                name?: string | null;
+                legalName?: string | null;
+                type: AccountType;
+              }
+            | {
+                __typename?: 'Fund';
+                id: string;
+                slug: string;
+                name?: string | null;
+                legalName?: string | null;
+                type: AccountType;
+              }
+            | {
+                __typename?: 'Host';
+                id: string;
+                slug: string;
+                name?: string | null;
+                legalName?: string | null;
+                type: AccountType;
+              }
+            | {
+                __typename?: 'Individual';
+                id: string;
+                slug: string;
+                name?: string | null;
+                legalName?: string | null;
+                type: AccountType;
+              }
+            | {
+                __typename?: 'Organization';
+                id: string;
+                slug: string;
+                name?: string | null;
+                legalName?: string | null;
+                type: AccountType;
+              }
+            | {
+                __typename?: 'Project';
+                id: string;
+                slug: string;
+                name?: string | null;
+                legalName?: string | null;
+                type: AccountType;
+              }
+            | {
+                __typename?: 'Vendor';
+                id: string;
+                slug: string;
+                name?: string | null;
+                legalName?: string | null;
+                type: AccountType;
+              }
+            | null;
+          refundTransaction?: { __typename?: 'Credit'; id: string } | { __typename?: 'Debit'; id: string } | null;
+          order?: {
+            __typename?: 'Order';
+            id: string;
+            legacyId: number;
+            data?: any | null;
+            quantity?: number | null;
+            taxes: Array<{ __typename?: 'OrderTax'; type: TaxType; percentage: number } | null>;
+            tier?: { __typename?: 'Tier'; id: string; type: TierType; invoiceTemplate?: string | null } | null;
+          } | null;
+        }
+      | null
+    > | null;
+  };
+};
 
-export type InvoiceByDateRangeQuery = { __typename?: 'Query', host?: { __typename?: 'Host', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | null, fromAccount?: { __typename?: 'Bot', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, type: AccountType, settings: any, permissions: { __typename?: 'AccountPermissions', canDownloadPaymentReceipts: { __typename?: 'Permission', allowed: boolean } }, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Collective', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, type: AccountType, settings: any, permissions: { __typename?: 'AccountPermissions', canDownloadPaymentReceipts: { __typename?: 'Permission', allowed: boolean } }, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Event', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, type: AccountType, settings: any, permissions: { __typename?: 'AccountPermissions', canDownloadPaymentReceipts: { __typename?: 'Permission', allowed: boolean } }, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Fund', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, type: AccountType, settings: any, permissions: { __typename?: 'AccountPermissions', canDownloadPaymentReceipts: { __typename?: 'Permission', allowed: boolean } }, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Host', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, type: AccountType, settings: any, permissions: { __typename?: 'AccountPermissions', canDownloadPaymentReceipts: { __typename?: 'Permission', allowed: boolean } }, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Individual', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, type: AccountType, settings: any, permissions: { __typename?: 'AccountPermissions', canDownloadPaymentReceipts: { __typename?: 'Permission', allowed: boolean } }, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Organization', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, type: AccountType, settings: any, permissions: { __typename?: 'AccountPermissions', canDownloadPaymentReceipts: { __typename?: 'Permission', allowed: boolean } }, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Project', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, type: AccountType, settings: any, permissions: { __typename?: 'AccountPermissions', canDownloadPaymentReceipts: { __typename?: 'Permission', allowed: boolean } }, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Vendor', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, type: AccountType, settings: any, permissions: { __typename?: 'AccountPermissions', canDownloadPaymentReceipts: { __typename?: 'Permission', allowed: boolean } }, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | null, transactions: { __typename?: 'TransactionCollection', totalCount?: number | null, nodes?: Array<{ __typename?: 'Credit', id: string, type: TransactionType, kind?: TransactionKind | null, createdAt?: any | null, description?: string | null, hostCurrencyFxRate?: number | null, invoiceTemplate?: string | null, isRefund?: boolean | null, host?: { __typename?: 'Bot', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Collective', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Event', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Fund', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Host', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Individual', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Organization', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Project', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Vendor', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | null, oppositeTransaction?: { __typename?: 'Credit', host?: { __typename?: 'Bot', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Collective', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Event', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Fund', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Host', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Individual', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Organization', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Project', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Vendor', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | null } | { __typename?: 'Debit', host?: { __typename?: 'Bot', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Collective', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Event', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Fund', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Host', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Individual', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Organization', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Project', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Vendor', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | null } | null, amount: { __typename?: 'Amount', valueInCents?: number | null, currency?: Currency | null }, amountInHostCurrency: { __typename?: 'Amount', valueInCents?: number | null, currency?: Currency | null }, netAmount: { __typename?: 'Amount', valueInCents?: number | null, currency?: Currency | null }, taxAmount: { __typename?: 'Amount', valueInCents?: number | null, currency?: Currency | null }, taxInfo?: { __typename?: 'TaxInfo', type: TaxType, rate: number } | null, paymentMethod?: { __typename?: 'PaymentMethod', id?: string | null, type?: PaymentMethodType | null, service?: PaymentMethodService | null, name?: string | null } | null, fromAccount?: { __typename?: 'Bot', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Collective', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType, settings: any, host?: { __typename?: 'Host', id: string, name?: string | null, legalName?: string | null, slug: string, type: AccountType, expensePolicy?: string | null, settings: any, location?: { __typename?: 'Location', address?: string | null, country?: string | null } | null } | null, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Event', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType, settings: any, host?: { __typename?: 'Host', id: string, name?: string | null, legalName?: string | null, slug: string, type: AccountType, expensePolicy?: string | null, settings: any, location?: { __typename?: 'Location', address?: string | null, country?: string | null } | null } | null, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Fund', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType, settings: any, host?: { __typename?: 'Host', id: string, name?: string | null, legalName?: string | null, slug: string, type: AccountType, expensePolicy?: string | null, settings: any, location?: { __typename?: 'Location', address?: string | null, country?: string | null } | null } | null, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Host', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Individual', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Organization', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Project', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType, settings: any, host?: { __typename?: 'Host', id: string, name?: string | null, legalName?: string | null, slug: string, type: AccountType, expensePolicy?: string | null, settings: any, location?: { __typename?: 'Location', address?: string | null, country?: string | null } | null } | null, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Vendor', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | null, toAccount?: { __typename?: 'Bot', id: string, slug: string, legalName?: string | null, name?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Collective', id: string, slug: string, legalName?: string | null, name?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Event', startsAt?: any | null, endsAt?: any | null, timezone?: string | null, id: string, slug: string, legalName?: string | null, name?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Fund', id: string, slug: string, legalName?: string | null, name?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Host', id: string, slug: string, legalName?: string | null, name?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Individual', id: string, slug: string, legalName?: string | null, name?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Organization', id: string, slug: string, legalName?: string | null, name?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Project', id: string, slug: string, legalName?: string | null, name?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Vendor', id: string, slug: string, legalName?: string | null, name?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | null, giftCardEmitterAccount?: { __typename?: 'Bot', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType } | { __typename?: 'Collective', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType } | { __typename?: 'Event', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType } | { __typename?: 'Fund', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType } | { __typename?: 'Host', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType } | { __typename?: 'Individual', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType } | { __typename?: 'Organization', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType } | { __typename?: 'Project', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType } | { __typename?: 'Vendor', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType } | null, refundTransaction?: { __typename?: 'Credit', id: string } | { __typename?: 'Debit', id: string } | null, order?: { __typename?: 'Order', id: string, legacyId: number, data?: any | null, quantity?: number | null, taxes: Array<{ __typename?: 'OrderTax', type: TaxType, percentage: number } | null>, tier?: { __typename?: 'Tier', id: string, type: TierType, invoiceTemplate?: string | null } | null } | null } | { __typename?: 'Debit', id: string, type: TransactionType, kind?: TransactionKind | null, createdAt?: any | null, description?: string | null, hostCurrencyFxRate?: number | null, invoiceTemplate?: string | null, isRefund?: boolean | null, host?: { __typename?: 'Bot', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Collective', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Event', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Fund', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Host', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Individual', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Organization', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Project', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Vendor', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | null, oppositeTransaction?: { __typename?: 'Credit', host?: { __typename?: 'Bot', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Collective', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Event', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Fund', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Host', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Individual', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Organization', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Project', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Vendor', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | null } | { __typename?: 'Debit', host?: { __typename?: 'Bot', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Collective', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Event', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Fund', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Host', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Individual', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Organization', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Project', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Vendor', id: string, slug: string, name?: string | null, legalName?: string | null, currency: Currency, imageUrl?: string | null, website?: string | null, settings: any, type: AccountType, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | null } | null, amount: { __typename?: 'Amount', valueInCents?: number | null, currency?: Currency | null }, amountInHostCurrency: { __typename?: 'Amount', valueInCents?: number | null, currency?: Currency | null }, netAmount: { __typename?: 'Amount', valueInCents?: number | null, currency?: Currency | null }, taxAmount: { __typename?: 'Amount', valueInCents?: number | null, currency?: Currency | null }, taxInfo?: { __typename?: 'TaxInfo', type: TaxType, rate: number } | null, paymentMethod?: { __typename?: 'PaymentMethod', id?: string | null, type?: PaymentMethodType | null, service?: PaymentMethodService | null, name?: string | null } | null, fromAccount?: { __typename?: 'Bot', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Collective', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType, settings: any, host?: { __typename?: 'Host', id: string, name?: string | null, legalName?: string | null, slug: string, type: AccountType, expensePolicy?: string | null, settings: any, location?: { __typename?: 'Location', address?: string | null, country?: string | null } | null } | null, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Event', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType, settings: any, host?: { __typename?: 'Host', id: string, name?: string | null, legalName?: string | null, slug: string, type: AccountType, expensePolicy?: string | null, settings: any, location?: { __typename?: 'Location', address?: string | null, country?: string | null } | null } | null, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Fund', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType, settings: any, host?: { __typename?: 'Host', id: string, name?: string | null, legalName?: string | null, slug: string, type: AccountType, expensePolicy?: string | null, settings: any, location?: { __typename?: 'Location', address?: string | null, country?: string | null } | null } | null, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Host', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Individual', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Organization', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Project', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType, settings: any, host?: { __typename?: 'Host', id: string, name?: string | null, legalName?: string | null, slug: string, type: AccountType, expensePolicy?: string | null, settings: any, location?: { __typename?: 'Location', address?: string | null, country?: string | null } | null } | null, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Vendor', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | null, toAccount?: { __typename?: 'Bot', id: string, slug: string, legalName?: string | null, name?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Collective', id: string, slug: string, legalName?: string | null, name?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Event', startsAt?: any | null, endsAt?: any | null, timezone?: string | null, id: string, slug: string, legalName?: string | null, name?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Fund', id: string, slug: string, legalName?: string | null, name?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Host', id: string, slug: string, legalName?: string | null, name?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Individual', id: string, slug: string, legalName?: string | null, name?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Organization', id: string, slug: string, legalName?: string | null, name?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Project', id: string, slug: string, legalName?: string | null, name?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | { __typename?: 'Vendor', id: string, slug: string, legalName?: string | null, name?: string | null, type: AccountType, settings: any, location?: { __typename?: 'Location', name?: string | null, address?: string | null, country?: string | null } | null } | null, giftCardEmitterAccount?: { __typename?: 'Bot', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType } | { __typename?: 'Collective', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType } | { __typename?: 'Event', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType } | { __typename?: 'Fund', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType } | { __typename?: 'Host', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType } | { __typename?: 'Individual', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType } | { __typename?: 'Organization', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType } | { __typename?: 'Project', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType } | { __typename?: 'Vendor', id: string, slug: string, name?: string | null, legalName?: string | null, type: AccountType } | null, refundTransaction?: { __typename?: 'Credit', id: string } | { __typename?: 'Debit', id: string } | null, order?: { __typename?: 'Order', id: string, legacyId: number, data?: any | null, quantity?: number | null, taxes: Array<{ __typename?: 'OrderTax', type: TaxType, percentage: number } | null>, tier?: { __typename?: 'Tier', id: string, type: TierType, invoiceTemplate?: string | null } | null } | null } | null> | null } };
-
-export const ReceiptTransactionHostFieldsFragmentFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ReceiptTransactionHostFieldsFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Account"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"legalName"}},{"kind":"Field","name":{"kind":"Name","value":"currency"}},{"kind":"Field","name":{"kind":"Name","value":"imageUrl"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"height"},"value":{"kind":"IntValue","value":"200"}}]},{"kind":"Field","name":{"kind":"Name","value":"website"}},{"kind":"Field","name":{"kind":"Name","value":"settings"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"location"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"address"}},{"kind":"Field","name":{"kind":"Name","value":"country"}}]}}]}}]} as unknown as DocumentNode<ReceiptTransactionHostFieldsFragmentFragment, unknown>;
-export const ReceiptTransactionFragmentFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ReceiptTransactionFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Transaction"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"kind"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"hostCurrencyFxRate"}},{"kind":"Field","name":{"kind":"Name","value":"invoiceTemplate"}},{"kind":"Field","name":{"kind":"Name","value":"isRefund"}},{"kind":"Field","name":{"kind":"Name","value":"host"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"ReceiptTransactionHostFieldsFragment"}}]}},{"kind":"Field","name":{"kind":"Name","value":"oppositeTransaction"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"host"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"ReceiptTransactionHostFieldsFragment"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"amount"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"valueInCents"}},{"kind":"Field","name":{"kind":"Name","value":"currency"}}]}},{"kind":"Field","name":{"kind":"Name","value":"amountInHostCurrency"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"valueInCents"}},{"kind":"Field","name":{"kind":"Name","value":"currency"}}]}},{"kind":"Field","name":{"kind":"Name","value":"netAmount"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"valueInCents"}},{"kind":"Field","name":{"kind":"Name","value":"currency"}}]}},{"kind":"Field","name":{"kind":"Name","value":"taxAmount"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"valueInCents"}},{"kind":"Field","name":{"kind":"Name","value":"currency"}}]}},{"kind":"Field","name":{"kind":"Name","value":"taxInfo"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"rate"}}]}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"paymentMethod"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"service"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"fromAccount"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"legalName"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"settings"}},{"kind":"Field","name":{"kind":"Name","value":"location"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"address"}},{"kind":"Field","name":{"kind":"Name","value":"country"}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"AccountWithHost"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"host"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"legalName"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"expensePolicy"}},{"kind":"Field","name":{"kind":"Name","value":"settings"}},{"kind":"Field","name":{"kind":"Name","value":"location"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"address"}},{"kind":"Field","name":{"kind":"Name","value":"country"}}]}}]}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"toAccount"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}},{"kind":"Field","name":{"kind":"Name","value":"legalName"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"settings"}},{"kind":"Field","name":{"kind":"Name","value":"location"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"address"}},{"kind":"Field","name":{"kind":"Name","value":"country"}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Event"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"startsAt"}},{"kind":"Field","name":{"kind":"Name","value":"endsAt"}},{"kind":"Field","name":{"kind":"Name","value":"timezone"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"giftCardEmitterAccount"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"legalName"}},{"kind":"Field","name":{"kind":"Name","value":"type"}}]}},{"kind":"Field","name":{"kind":"Name","value":"isRefund"}},{"kind":"Field","name":{"kind":"Name","value":"refundTransaction"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"order"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"legacyId"}},{"kind":"Field","name":{"kind":"Name","value":"data"}},{"kind":"Field","name":{"kind":"Name","value":"taxes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"percentage"}}]}},{"kind":"Field","name":{"kind":"Name","value":"quantity"}},{"kind":"Field","name":{"kind":"Name","value":"tier"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"invoiceTemplate"}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ReceiptTransactionHostFieldsFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Account"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"legalName"}},{"kind":"Field","name":{"kind":"Name","value":"currency"}},{"kind":"Field","name":{"kind":"Name","value":"imageUrl"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"height"},"value":{"kind":"IntValue","value":"200"}}]},{"kind":"Field","name":{"kind":"Name","value":"website"}},{"kind":"Field","name":{"kind":"Name","value":"settings"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"location"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"address"}},{"kind":"Field","name":{"kind":"Name","value":"country"}}]}}]}}]} as unknown as DocumentNode<ReceiptTransactionFragmentFragment, unknown>;
-export const ExpenseInvoiceDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"ExpenseInvoice"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"expenseId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"expense"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"expense"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"expenseId"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"legacyId"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"currency"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"invoiceInfo"}},{"kind":"Field","name":{"kind":"Name","value":"amount"}},{"kind":"Field","name":{"kind":"Name","value":"reference"}},{"kind":"Field","name":{"kind":"Name","value":"permissions"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"canSeeInvoiceInfo"}}]}},{"kind":"Field","name":{"kind":"Name","value":"taxes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"rate"}},{"kind":"Field","name":{"kind":"Name","value":"idNumber"}}]}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"account"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"legalName"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}},{"kind":"Field","name":{"kind":"Name","value":"imageUrl"}},{"kind":"Field","name":{"kind":"Name","value":"settings"}},{"kind":"Field","name":{"kind":"Name","value":"location"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"address"}},{"kind":"Field","name":{"kind":"Name","value":"country"}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"AccountWithHost"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"host"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"legalName"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"expensePolicy"}},{"kind":"Field","name":{"kind":"Name","value":"settings"}},{"kind":"Field","name":{"kind":"Name","value":"location"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"address"}},{"kind":"Field","name":{"kind":"Name","value":"country"}}]}}]}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"payee"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"legalName"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}},{"kind":"Field","name":{"kind":"Name","value":"imageUrl"}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"AccountWithHost"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"host"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"legalName"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"expensePolicy"}},{"kind":"Field","name":{"kind":"Name","value":"location"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"address"}},{"kind":"Field","name":{"kind":"Name","value":"country"}}]}}]}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"payeeLocation"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"address"}},{"kind":"Field","name":{"kind":"Name","value":"country"}}]}},{"kind":"Field","name":{"kind":"Name","value":"items"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"incurredAt"}},{"kind":"Field","name":{"kind":"Name","value":"url"}},{"kind":"Field","name":{"kind":"Name","value":"amountV2"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"valueInCents"}},{"kind":"Field","name":{"kind":"Name","value":"currency"}},{"kind":"Field","name":{"kind":"Name","value":"exchangeRate"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"fromCurrency"}},{"kind":"Field","name":{"kind":"Name","value":"toCurrency"}},{"kind":"Field","name":{"kind":"Name","value":"value"}}]}}]}}]}}]}}]}}]} as unknown as DocumentNode<ExpenseInvoiceQuery, ExpenseInvoiceQueryVariables>;
-export const TransactionInvoiceDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"TransactionInvoice"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"transactionId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"transaction"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"transactionId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"kind"}},{"kind":"Field","name":{"kind":"Name","value":"permissions"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"canDownloadInvoice"}}]}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"ReceiptTransactionFragment"}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Debit"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"oppositeTransaction"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"kind"}},{"kind":"Field","name":{"kind":"Name","value":"permissions"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"canDownloadInvoice"}}]}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"ReceiptTransactionFragment"}}]}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ReceiptTransactionHostFieldsFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Account"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"legalName"}},{"kind":"Field","name":{"kind":"Name","value":"currency"}},{"kind":"Field","name":{"kind":"Name","value":"imageUrl"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"height"},"value":{"kind":"IntValue","value":"200"}}]},{"kind":"Field","name":{"kind":"Name","value":"website"}},{"kind":"Field","name":{"kind":"Name","value":"settings"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"location"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"address"}},{"kind":"Field","name":{"kind":"Name","value":"country"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ReceiptTransactionFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Transaction"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"kind"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"hostCurrencyFxRate"}},{"kind":"Field","name":{"kind":"Name","value":"invoiceTemplate"}},{"kind":"Field","name":{"kind":"Name","value":"isRefund"}},{"kind":"Field","name":{"kind":"Name","value":"host"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"ReceiptTransactionHostFieldsFragment"}}]}},{"kind":"Field","name":{"kind":"Name","value":"oppositeTransaction"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"host"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"ReceiptTransactionHostFieldsFragment"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"amount"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"valueInCents"}},{"kind":"Field","name":{"kind":"Name","value":"currency"}}]}},{"kind":"Field","name":{"kind":"Name","value":"amountInHostCurrency"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"valueInCents"}},{"kind":"Field","name":{"kind":"Name","value":"currency"}}]}},{"kind":"Field","name":{"kind":"Name","value":"netAmount"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"valueInCents"}},{"kind":"Field","name":{"kind":"Name","value":"currency"}}]}},{"kind":"Field","name":{"kind":"Name","value":"taxAmount"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"valueInCents"}},{"kind":"Field","name":{"kind":"Name","value":"currency"}}]}},{"kind":"Field","name":{"kind":"Name","value":"taxInfo"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"rate"}}]}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"paymentMethod"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"service"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"fromAccount"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"legalName"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"settings"}},{"kind":"Field","name":{"kind":"Name","value":"location"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"address"}},{"kind":"Field","name":{"kind":"Name","value":"country"}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"AccountWithHost"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"host"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"legalName"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"expensePolicy"}},{"kind":"Field","name":{"kind":"Name","value":"settings"}},{"kind":"Field","name":{"kind":"Name","value":"location"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"address"}},{"kind":"Field","name":{"kind":"Name","value":"country"}}]}}]}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"toAccount"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}},{"kind":"Field","name":{"kind":"Name","value":"legalName"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"settings"}},{"kind":"Field","name":{"kind":"Name","value":"location"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"address"}},{"kind":"Field","name":{"kind":"Name","value":"country"}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Event"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"startsAt"}},{"kind":"Field","name":{"kind":"Name","value":"endsAt"}},{"kind":"Field","name":{"kind":"Name","value":"timezone"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"giftCardEmitterAccount"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"legalName"}},{"kind":"Field","name":{"kind":"Name","value":"type"}}]}},{"kind":"Field","name":{"kind":"Name","value":"isRefund"}},{"kind":"Field","name":{"kind":"Name","value":"refundTransaction"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"order"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"legacyId"}},{"kind":"Field","name":{"kind":"Name","value":"data"}},{"kind":"Field","name":{"kind":"Name","value":"taxes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"percentage"}}]}},{"kind":"Field","name":{"kind":"Name","value":"quantity"}},{"kind":"Field","name":{"kind":"Name","value":"tier"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"invoiceTemplate"}}]}}]}}]}}]} as unknown as DocumentNode<TransactionInvoiceQuery, TransactionInvoiceQueryVariables>;
-export const InvoiceByDateRangeDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"InvoiceByDateRange"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"fromCollectiveSlug"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"hostSlug"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"dateFrom"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"DateTime"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"dateTo"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"DateTime"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"hasExpense"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Boolean"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"host"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"slug"},"value":{"kind":"Variable","name":{"kind":"Name","value":"hostSlug"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"ReceiptTransactionHostFieldsFragment"}}]}},{"kind":"Field","alias":{"kind":"Name","value":"fromAccount"},"name":{"kind":"Name","value":"account"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"slug"},"value":{"kind":"Variable","name":{"kind":"Name","value":"fromCollectiveSlug"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"legalName"}},{"kind":"Field","name":{"kind":"Name","value":"currency"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"permissions"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"canDownloadPaymentReceipts"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"allowed"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"settings"}},{"kind":"Field","name":{"kind":"Name","value":"location"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"address"}},{"kind":"Field","name":{"kind":"Name","value":"country"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"transactions"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"fromAccount"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"slug"},"value":{"kind":"Variable","name":{"kind":"Name","value":"fromCollectiveSlug"}}}]}},{"kind":"Argument","name":{"kind":"Name","value":"host"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"slug"},"value":{"kind":"Variable","name":{"kind":"Name","value":"hostSlug"}}}]}},{"kind":"Argument","name":{"kind":"Name","value":"dateFrom"},"value":{"kind":"Variable","name":{"kind":"Name","value":"dateFrom"}}},{"kind":"Argument","name":{"kind":"Name","value":"dateTo"},"value":{"kind":"Variable","name":{"kind":"Name","value":"dateTo"}}},{"kind":"Argument","name":{"kind":"Name","value":"limit"},"value":{"kind":"IntValue","value":"1000"}},{"kind":"Argument","name":{"kind":"Name","value":"includeIncognitoTransactions"},"value":{"kind":"BooleanValue","value":true}},{"kind":"Argument","name":{"kind":"Name","value":"includeGiftCardTransactions"},"value":{"kind":"BooleanValue","value":true}},{"kind":"Argument","name":{"kind":"Name","value":"hasExpense"},"value":{"kind":"Variable","name":{"kind":"Name","value":"hasExpense"}}},{"kind":"Argument","name":{"kind":"Name","value":"kind"},"value":{"kind":"ListValue","values":[{"kind":"EnumValue","value":"CONTRIBUTION"},{"kind":"EnumValue","value":"PLATFORM_TIP"}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"totalCount"}},{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"ReceiptTransactionFragment"}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ReceiptTransactionHostFieldsFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Account"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"legalName"}},{"kind":"Field","name":{"kind":"Name","value":"currency"}},{"kind":"Field","name":{"kind":"Name","value":"imageUrl"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"height"},"value":{"kind":"IntValue","value":"200"}}]},{"kind":"Field","name":{"kind":"Name","value":"website"}},{"kind":"Field","name":{"kind":"Name","value":"settings"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"location"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"address"}},{"kind":"Field","name":{"kind":"Name","value":"country"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"ReceiptTransactionFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Transaction"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"kind"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"hostCurrencyFxRate"}},{"kind":"Field","name":{"kind":"Name","value":"invoiceTemplate"}},{"kind":"Field","name":{"kind":"Name","value":"isRefund"}},{"kind":"Field","name":{"kind":"Name","value":"host"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"ReceiptTransactionHostFieldsFragment"}}]}},{"kind":"Field","name":{"kind":"Name","value":"oppositeTransaction"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"host"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"ReceiptTransactionHostFieldsFragment"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"amount"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"valueInCents"}},{"kind":"Field","name":{"kind":"Name","value":"currency"}}]}},{"kind":"Field","name":{"kind":"Name","value":"amountInHostCurrency"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"valueInCents"}},{"kind":"Field","name":{"kind":"Name","value":"currency"}}]}},{"kind":"Field","name":{"kind":"Name","value":"netAmount"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"valueInCents"}},{"kind":"Field","name":{"kind":"Name","value":"currency"}}]}},{"kind":"Field","name":{"kind":"Name","value":"taxAmount"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"valueInCents"}},{"kind":"Field","name":{"kind":"Name","value":"currency"}}]}},{"kind":"Field","name":{"kind":"Name","value":"taxInfo"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"rate"}}]}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"paymentMethod"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"service"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"fromAccount"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"legalName"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"settings"}},{"kind":"Field","name":{"kind":"Name","value":"location"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"address"}},{"kind":"Field","name":{"kind":"Name","value":"country"}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"AccountWithHost"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"host"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"legalName"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"expensePolicy"}},{"kind":"Field","name":{"kind":"Name","value":"settings"}},{"kind":"Field","name":{"kind":"Name","value":"location"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"address"}},{"kind":"Field","name":{"kind":"Name","value":"country"}}]}}]}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"toAccount"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}},{"kind":"Field","name":{"kind":"Name","value":"legalName"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"settings"}},{"kind":"Field","name":{"kind":"Name","value":"location"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"address"}},{"kind":"Field","name":{"kind":"Name","value":"country"}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Event"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"startsAt"}},{"kind":"Field","name":{"kind":"Name","value":"endsAt"}},{"kind":"Field","name":{"kind":"Name","value":"timezone"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"giftCardEmitterAccount"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"legalName"}},{"kind":"Field","name":{"kind":"Name","value":"type"}}]}},{"kind":"Field","name":{"kind":"Name","value":"isRefund"}},{"kind":"Field","name":{"kind":"Name","value":"refundTransaction"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"order"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"legacyId"}},{"kind":"Field","name":{"kind":"Name","value":"data"}},{"kind":"Field","name":{"kind":"Name","value":"taxes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"percentage"}}]}},{"kind":"Field","name":{"kind":"Name","value":"quantity"}},{"kind":"Field","name":{"kind":"Name","value":"tier"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"invoiceTemplate"}}]}}]}}]}}]} as unknown as DocumentNode<InvoiceByDateRangeQuery, InvoiceByDateRangeQueryVariables>;
+export const ReceiptTransactionHostFieldsFragmentFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'ReceiptTransactionHostFieldsFragment' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Account' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'slug' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'legalName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'currency' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'imageUrl' },
+            arguments: [
+              { kind: 'Argument', name: { kind: 'Name', value: 'height' }, value: { kind: 'IntValue', value: '200' } },
+            ],
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'website' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'settings' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'location' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'address' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'country' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<ReceiptTransactionHostFieldsFragmentFragment, unknown>;
+export const ReceiptTransactionFragmentFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'ReceiptTransactionFragment' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Transaction' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'kind' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'hostCurrencyFxRate' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'invoiceTemplate' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'isRefund' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'host' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'ReceiptTransactionHostFieldsFragment' } },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'oppositeTransaction' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'host' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'FragmentSpread', name: { kind: 'Name', value: 'ReceiptTransactionHostFieldsFragment' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'amount' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'valueInCents' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'currency' } },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'amountInHostCurrency' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'valueInCents' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'currency' } },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'netAmount' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'valueInCents' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'currency' } },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'taxAmount' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'valueInCents' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'currency' } },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'taxInfo' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'rate' } },
+              ],
+            },
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'paymentMethod' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'service' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'fromAccount' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'slug' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'legalName' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'settings' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'location' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'address' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'country' } },
+                    ],
+                  },
+                },
+                {
+                  kind: 'InlineFragment',
+                  typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'AccountWithHost' } },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'host' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'legalName' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'slug' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'expensePolicy' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'settings' } },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'location' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  { kind: 'Field', name: { kind: 'Name', value: 'address' } },
+                                  { kind: 'Field', name: { kind: 'Name', value: 'country' } },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'toAccount' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'slug' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'legalName' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'settings' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'location' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'address' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'country' } },
+                    ],
+                  },
+                },
+                {
+                  kind: 'InlineFragment',
+                  typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Event' } },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'startsAt' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'endsAt' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'timezone' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'giftCardEmitterAccount' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'slug' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'legalName' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+              ],
+            },
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'isRefund' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'refundTransaction' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'order' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'legacyId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'data' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'taxes' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'percentage' } },
+                    ],
+                  },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'quantity' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'tier' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'invoiceTemplate' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'ReceiptTransactionHostFieldsFragment' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Account' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'slug' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'legalName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'currency' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'imageUrl' },
+            arguments: [
+              { kind: 'Argument', name: { kind: 'Name', value: 'height' }, value: { kind: 'IntValue', value: '200' } },
+            ],
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'website' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'settings' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'location' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'address' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'country' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<ReceiptTransactionFragmentFragment, unknown>;
+export const ExpenseInvoiceDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'ExpenseInvoice' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'expenseId' } },
+          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'expense' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'expense' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'id' },
+                      value: { kind: 'Variable', name: { kind: 'Name', value: 'expenseId' } },
+                    },
+                  ],
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'legacyId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'currency' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'invoiceInfo' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'amount' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'reference' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'permissions' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [{ kind: 'Field', name: { kind: 'Name', value: 'canSeeInvoiceInfo' } }],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'taxes' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'rate' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'idNumber' } },
+                    ],
+                  },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'account' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'legalName' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'slug' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'imageUrl' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'settings' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'location' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            { kind: 'Field', name: { kind: 'Name', value: 'address' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'country' } },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'InlineFragment',
+                        typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'AccountWithHost' } },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'host' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                                  { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                                  { kind: 'Field', name: { kind: 'Name', value: 'legalName' } },
+                                  { kind: 'Field', name: { kind: 'Name', value: 'slug' } },
+                                  { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                                  { kind: 'Field', name: { kind: 'Name', value: 'expensePolicy' } },
+                                  { kind: 'Field', name: { kind: 'Name', value: 'settings' } },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'location' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        { kind: 'Field', name: { kind: 'Name', value: 'address' } },
+                                        { kind: 'Field', name: { kind: 'Name', value: 'country' } },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'payee' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'legalName' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'slug' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'imageUrl' } },
+                      {
+                        kind: 'InlineFragment',
+                        typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'AccountWithHost' } },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'host' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                                  { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                                  { kind: 'Field', name: { kind: 'Name', value: 'legalName' } },
+                                  { kind: 'Field', name: { kind: 'Name', value: 'slug' } },
+                                  { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                                  { kind: 'Field', name: { kind: 'Name', value: 'expensePolicy' } },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'location' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        { kind: 'Field', name: { kind: 'Name', value: 'address' } },
+                                        { kind: 'Field', name: { kind: 'Name', value: 'country' } },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'payeeLocation' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'address' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'country' } },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'items' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'incurredAt' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'url' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'amountV2' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            { kind: 'Field', name: { kind: 'Name', value: 'valueInCents' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'currency' } },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'exchangeRate' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  { kind: 'Field', name: { kind: 'Name', value: 'fromCurrency' } },
+                                  { kind: 'Field', name: { kind: 'Name', value: 'toCurrency' } },
+                                  { kind: 'Field', name: { kind: 'Name', value: 'value' } },
+                                  { kind: 'Field', name: { kind: 'Name', value: 'date' } },
+                                  { kind: 'Field', name: { kind: 'Name', value: 'isApproximate' } },
+                                  { kind: 'Field', name: { kind: 'Name', value: 'source' } },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<ExpenseInvoiceQuery, ExpenseInvoiceQueryVariables>;
+export const TransactionInvoiceDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'TransactionInvoice' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'transactionId' } },
+          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'transaction' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'id' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'transactionId' } },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'kind' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'permissions' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [{ kind: 'Field', name: { kind: 'Name', value: 'canDownloadInvoice' } }],
+                  },
+                },
+                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'ReceiptTransactionFragment' } },
+                {
+                  kind: 'InlineFragment',
+                  typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Debit' } },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'oppositeTransaction' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'kind' } },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'permissions' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [{ kind: 'Field', name: { kind: 'Name', value: 'canDownloadInvoice' } }],
+                              },
+                            },
+                            { kind: 'FragmentSpread', name: { kind: 'Name', value: 'ReceiptTransactionFragment' } },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'ReceiptTransactionHostFieldsFragment' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Account' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'slug' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'legalName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'currency' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'imageUrl' },
+            arguments: [
+              { kind: 'Argument', name: { kind: 'Name', value: 'height' }, value: { kind: 'IntValue', value: '200' } },
+            ],
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'website' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'settings' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'location' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'address' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'country' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'ReceiptTransactionFragment' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Transaction' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'kind' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'hostCurrencyFxRate' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'invoiceTemplate' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'isRefund' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'host' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'ReceiptTransactionHostFieldsFragment' } },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'oppositeTransaction' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'host' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'FragmentSpread', name: { kind: 'Name', value: 'ReceiptTransactionHostFieldsFragment' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'amount' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'valueInCents' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'currency' } },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'amountInHostCurrency' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'valueInCents' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'currency' } },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'netAmount' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'valueInCents' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'currency' } },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'taxAmount' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'valueInCents' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'currency' } },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'taxInfo' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'rate' } },
+              ],
+            },
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'paymentMethod' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'service' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'fromAccount' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'slug' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'legalName' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'settings' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'location' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'address' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'country' } },
+                    ],
+                  },
+                },
+                {
+                  kind: 'InlineFragment',
+                  typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'AccountWithHost' } },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'host' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'legalName' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'slug' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'expensePolicy' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'settings' } },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'location' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  { kind: 'Field', name: { kind: 'Name', value: 'address' } },
+                                  { kind: 'Field', name: { kind: 'Name', value: 'country' } },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'toAccount' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'slug' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'legalName' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'settings' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'location' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'address' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'country' } },
+                    ],
+                  },
+                },
+                {
+                  kind: 'InlineFragment',
+                  typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Event' } },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'startsAt' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'endsAt' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'timezone' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'giftCardEmitterAccount' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'slug' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'legalName' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+              ],
+            },
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'isRefund' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'refundTransaction' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'order' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'legacyId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'data' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'taxes' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'percentage' } },
+                    ],
+                  },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'quantity' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'tier' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'invoiceTemplate' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<TransactionInvoiceQuery, TransactionInvoiceQueryVariables>;
+export const InvoiceByDateRangeDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'InvoiceByDateRange' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'fromCollectiveSlug' } },
+          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'hostSlug' } },
+          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'dateFrom' } },
+          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'DateTime' } } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'dateTo' } },
+          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'DateTime' } } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'hasExpense' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Boolean' } },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'host' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'slug' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'hostSlug' } },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'ReceiptTransactionHostFieldsFragment' } },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            alias: { kind: 'Name', value: 'fromAccount' },
+            name: { kind: 'Name', value: 'account' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'slug' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'fromCollectiveSlug' } },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'slug' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'legalName' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'currency' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'permissions' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'canDownloadPaymentReceipts' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [{ kind: 'Field', name: { kind: 'Name', value: 'allowed' } }],
+                        },
+                      },
+                    ],
+                  },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'settings' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'location' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'address' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'country' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'transactions' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'fromAccount' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'slug' },
+                      value: { kind: 'Variable', name: { kind: 'Name', value: 'fromCollectiveSlug' } },
+                    },
+                  ],
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'host' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'slug' },
+                      value: { kind: 'Variable', name: { kind: 'Name', value: 'hostSlug' } },
+                    },
+                  ],
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'dateFrom' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'dateFrom' } },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'dateTo' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'dateTo' } },
+              },
+              { kind: 'Argument', name: { kind: 'Name', value: 'limit' }, value: { kind: 'IntValue', value: '1000' } },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'includeIncognitoTransactions' },
+                value: { kind: 'BooleanValue', value: true },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'includeGiftCardTransactions' },
+                value: { kind: 'BooleanValue', value: true },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'hasExpense' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'hasExpense' } },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'kind' },
+                value: {
+                  kind: 'ListValue',
+                  values: [
+                    { kind: 'EnumValue', value: 'CONTRIBUTION' },
+                    { kind: 'EnumValue', value: 'PLATFORM_TIP' },
+                  ],
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'totalCount' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'nodes' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'FragmentSpread', name: { kind: 'Name', value: 'ReceiptTransactionFragment' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'ReceiptTransactionHostFieldsFragment' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Account' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'slug' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'legalName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'currency' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'imageUrl' },
+            arguments: [
+              { kind: 'Argument', name: { kind: 'Name', value: 'height' }, value: { kind: 'IntValue', value: '200' } },
+            ],
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'website' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'settings' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'location' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'address' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'country' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'ReceiptTransactionFragment' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Transaction' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'kind' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'hostCurrencyFxRate' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'invoiceTemplate' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'isRefund' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'host' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'ReceiptTransactionHostFieldsFragment' } },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'oppositeTransaction' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'host' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'FragmentSpread', name: { kind: 'Name', value: 'ReceiptTransactionHostFieldsFragment' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'amount' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'valueInCents' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'currency' } },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'amountInHostCurrency' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'valueInCents' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'currency' } },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'netAmount' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'valueInCents' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'currency' } },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'taxAmount' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'valueInCents' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'currency' } },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'taxInfo' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'rate' } },
+              ],
+            },
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'paymentMethod' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'service' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'fromAccount' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'slug' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'legalName' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'settings' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'location' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'address' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'country' } },
+                    ],
+                  },
+                },
+                {
+                  kind: 'InlineFragment',
+                  typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'AccountWithHost' } },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'host' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'legalName' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'slug' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'expensePolicy' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'settings' } },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'location' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  { kind: 'Field', name: { kind: 'Name', value: 'address' } },
+                                  { kind: 'Field', name: { kind: 'Name', value: 'country' } },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'toAccount' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'slug' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'legalName' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'settings' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'location' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'address' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'country' } },
+                    ],
+                  },
+                },
+                {
+                  kind: 'InlineFragment',
+                  typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Event' } },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'startsAt' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'endsAt' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'timezone' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'giftCardEmitterAccount' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'slug' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'legalName' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+              ],
+            },
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'isRefund' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'refundTransaction' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'order' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'legacyId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'data' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'taxes' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'percentage' } },
+                    ],
+                  },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'quantity' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'tier' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'invoiceTemplate' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<InvoiceByDateRangeQuery, InvoiceByDateRangeQueryVariables>;

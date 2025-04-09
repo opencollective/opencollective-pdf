@@ -10,7 +10,13 @@ export const getTransactionReceiver = (transaction: Transaction): Account => {
  * Return the tax percentage applied for this transaction
  * TODO: More from percentage (10) to rate (.10)
  */
-export const getTransactionTaxPercent = (transaction: Transaction): number => {
+export const getTransactionTaxPercent = (transaction: {
+  taxAmount?: { valueInCents?: number };
+  amountInHostCurrency?: { valueInCents?: number };
+  order?: { taxPercentage?: number; data?: { tax: { percentage: number } } };
+  hostCurrencyFxRate?: number;
+  taxInfo?: { rate: number };
+}): number => {
   const taxAmount = Math.abs(transaction.taxAmount?.valueInCents);
   if (!taxAmount) {
     return 0;
@@ -30,23 +36,36 @@ export const getTransactionTaxPercent = (transaction: Transaction): number => {
   return round((taxAmount / (transaction.amountInHostCurrency.valueInCents - taxAmount)) * 100, 2);
 };
 
-export const getTaxInfoFromTransaction = (transaction: Transaction) => {
+export const getTaxInfoFromTransaction = (
+  transaction: Parameters<typeof getTransactionTaxPercent>[0] & {
+    taxInfo?: { idNumber?: string; rate: number; type: string; id?: string };
+    order?: { data?: Record<string, unknown> };
+  },
+): {
+  type: string;
+  rate: number;
+  idNumber: string;
+} => {
   if (transaction.taxInfo) {
     return {
       ...transaction.taxInfo,
       rate: transaction.taxInfo.rate || round(getTransactionTaxPercent(transaction) / 100, 4),
       type: transaction.taxInfo.type || transaction.taxInfo.id || 'Tax',
+      idNumber: transaction.taxInfo.idNumber || transaction.taxInfo.id || 'Tax',
     };
   } else if (transaction.order?.data?.tax) {
     return {
-      type: transaction.order.data.tax.id || 'Tax',
-      rate: transaction.order.data.tax.rate || round(getTransactionTaxPercent(transaction) / 100, 4),
-      idNumber: transaction.order.data.tax.taxIDNumber,
+      type: (get(transaction.order.data, 'tax.id') as string) || 'Tax',
+      rate:
+        (get(transaction.order.data, 'tax.rate') as number) || round(getTransactionTaxPercent(transaction) / 100, 4),
+      idNumber: (get(transaction.order.data, 'tax.taxIDNumber') as string) || 'Tax',
     };
   }
 };
 
-export const getTaxIdNumbersFromTransactions = (transactions: Array<Transaction>) => {
+export const getTaxIdNumbersFromTransactions = (
+  transactions: Array<Parameters<typeof getTaxInfoFromTransaction>[0]>,
+): Array<{ type: string; idNumber: string }> => {
   const taxesSummary = transactions.map(getTaxInfoFromTransaction).filter(t => t?.idNumber);
   const uniqTaxInfo = uniqBy(taxesSummary, s => `${s.type}-${s.idNumber}`);
   return uniqTaxInfo;

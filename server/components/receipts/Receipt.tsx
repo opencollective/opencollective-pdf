@@ -19,7 +19,7 @@ import { TimeRange } from '../TimeRange';
 import CollectiveFooter from '../CollectiveFooter';
 import { formatCurrency } from 'server/lib/currency';
 import { formatPaymentMethodName } from 'server/lib/payment-methods';
-import { Account, Event, Transaction } from 'server/graphql/types/v2/schema';
+import { Account, Event, Order, Transaction, PaymentMethod } from 'server/graphql/types/v2/schema';
 import dayjs from 'dayjs';
 import LocationParagraph from '../LocationParagraph';
 
@@ -252,15 +252,26 @@ type Props = {
     dateTo?: string;
     currency: string;
     totalAmount: number;
-    fromAccount: Pick<Account, 'name' | 'slug' | 'legalName' | 'location'>;
-    fromAccountHost?: Pick<Account, 'name' | 'slug' | 'legalName'> | null;
+    fromAccount: Pick<Account, 'name' | 'slug' | 'legalName' | 'location'> & {
+      settings?: { VAT?: { number?: string } };
+    };
+    fromAccountHost?:
+      | (Pick<Account, 'name' | 'slug' | 'legalName'> & { settings?: { VAT?: { number?: string } } })
+      | null;
     host: Pick<Account, 'name' | 'slug' | 'location'>;
     transactions: Array<
       Pick<
         Transaction,
-        'id' | 'description' | 'createdAt' | 'amountInHostCurrency' | 'isRefund' | 'refundTransaction' | 'order'
+        'id' | 'kind' | 'description' | 'createdAt' | 'amountInHostCurrency' | 'isRefund' | 'refundTransaction'
       > & {
-        paymentMethod: Pick<Transaction['paymentMethod'], 'name'>;
+        order?: Pick<Order, 'legacyId' | 'data'> | null;
+        paymentMethod?: Pick<Transaction['paymentMethod'], 'name'>;
+        taxAmount?: { valueInCents: number; currency: string };
+        hostCurrencyFxRate?: number;
+        hostCurrency?: string;
+        amount: { valueInCents: number; currency: string };
+        toAccount?: { type: string; name: string; startsAt?: string; endsAt?: string; timezone?: string };
+        giftCardEmitterAccount?: { name: string } | null;
       }
     >;
     template?: {
@@ -281,7 +292,10 @@ export class Receipt extends React.Component<Props> {
    * to keep some space for the header. The number of transactions we show on it depends of
    * the size of the header, that we estimate from the number of lines in the addresses.
    */
-  chunkTransactions(receipt: Props['receipt'], transactions: Array<Transaction>): Array<Array<Transaction>> {
+  chunkTransactions(
+    receipt: Props['receipt'],
+    transactions: Props['receipt']['transactions'],
+  ): Array<Array<(typeof transactions)[0]>> {
     const baseNbOnFirstPage = 12;
     const minNbOnFirstPage = 8;
     const transactionsPerPage = 22;
@@ -347,11 +361,12 @@ export class Receipt extends React.Component<Props> {
   /** Returns the VAT number of the collective */
   renderBillToTaxIdNumbers() {
     const { fromAccount, fromAccountHost, transactions } = this.props.receipt;
-    const taxesSummary = getTaxIdNumbersFromTransactions(transactions);
+    const taxesSummary = getTaxIdNumbersFromTransactions(transactions as unknown as Transaction[]);
 
     // Expenses rely solely on the tax info stored in transactions. For orders, we look in the fromCollective
     if (!transactions.every(t => t.kind === 'EXPENSE')) {
-      const getVatNumberFromAccount = (a: Account | undefined) => a?.settings?.VAT?.number;
+      const getVatNumberFromAccount = (a: { settings?: { VAT?: { number?: string } } } | undefined | null) =>
+        a?.settings?.VAT?.number;
       if (getVatNumberFromAccount(fromAccount)) {
         taxesSummary.push({ type: 'VAT', idNumber: getVatNumberFromAccount(fromAccount) });
       } else if (getVatNumberFromAccount(fromAccountHost)) {
@@ -372,8 +387,8 @@ export class Receipt extends React.Component<Props> {
   }
 
   /** Get a description for transaction, with a mention to gift card emitter if necessary */
-  transactionDescription(transaction: Transaction) {
-    const targetCollective = getTransactionReceiver(transaction);
+  transactionDescription(transaction: Props['receipt']['transactions'][0]) {
+    const targetCollective = getTransactionReceiver(transaction as unknown as Transaction);
     const transactionDescription = (
       <Text>{transaction.description || targetCollective.name || targetCollective.slug}</Text>
     );
@@ -388,13 +403,13 @@ export class Receipt extends React.Component<Props> {
     );
   }
 
-  getTaxColumnHeader(transactions: Array<Transaction>) {
+  getTaxColumnHeader(transactions: Props['receipt']['transactions']) {
     const taxInfoList = transactions.map(getTaxInfoFromTransaction).filter(Boolean);
     const taxTypes = uniqBy(taxInfoList, t => t.type);
     return taxTypes.length !== 1 ? <FormattedMessage defaultMessage="Tax" id="AwzkSM" /> : taxTypes[0].type;
   }
 
-  renderTransactionsTable(transactions: Array<Transaction>) {
+  renderTransactionsTable(transactions: Props['receipt']['transactions']) {
     return (
       <Table>
         <TH style={styles.tableHeader}>
@@ -437,7 +452,7 @@ export class Receipt extends React.Component<Props> {
           const grossPriceInHostCurrency =
             amountInHostCurrency - (transaction.isRefund ? -taxAmountInHostCurrency : taxAmountInHostCurrency);
           const unitGrossPriceInHostCurrency = Math.abs(grossPriceInHostCurrency / quantity);
-          const transactionCurrency = transaction.hostCurrency || this.props.receipt.currency;
+          const transactionCurrency = (transaction.hostCurrency as string) || this.props.receipt.currency;
           const isRefunded = !transaction.isRefund && transaction.refundTransaction;
 
           return (
@@ -531,12 +546,15 @@ export class Receipt extends React.Component<Props> {
 
     try {
       if (isTicketOrder) {
-        qrImage = QRCode.toDataURL(getTransactionUrl(receipt.transactions[0]), {
+        // Using await inside try/catch to handle the Promise
+        QRCode.toDataURL(getTransactionUrl(receipt.transactions[0] as unknown as Transaction), {
           margin: 0,
           width: 72,
           color: {
             dark: '#313233',
           },
+        }).then(url => {
+          qrImage = url;
         });
       }
     } catch (e) {
@@ -565,7 +583,7 @@ export class Receipt extends React.Component<Props> {
                       <Text style={styles.accountName}>{receipt.host.name || receipt.host.slug}</Text>
                     </Link>
                     <View style={styles.my2}>
-                      <LocationParagraph collective={receipt.host} />
+                      <LocationParagraph collective={receipt.host as Account} />
                     </View>
                     <Link src={`https://opencollective.com/${receipt.host.slug}`} style={styles.link}>
                       https://opencollective.com/{receipt.host.slug}
@@ -582,7 +600,7 @@ export class Receipt extends React.Component<Props> {
                     </Text>
                     <View style={styles.my2}>
                       <Text>{billTo.legalName || billTo.name || billTo.slug}</Text>
-                      <LocationParagraph collective={billTo} />
+                      <LocationParagraph collective={billTo as Account} />
                       {this.renderBillToTaxIdNumbers()}
                     </View>
                   </View>
@@ -616,7 +634,7 @@ export class Receipt extends React.Component<Props> {
                     {transactions.length === 1 && transactions[0].paymentMethod && (
                       <Text style={styles.paymentMethod}>
                         <FormattedMessage defaultMessage="Payment Method" id="nFQbxh" />:{' '}
-                        {formatPaymentMethodName(transactions[0].paymentMethod)}
+                        {formatPaymentMethodName(transactions[0].paymentMethod as unknown as PaymentMethod)}
                       </Text>
                     )}
                   </View>
@@ -653,7 +671,7 @@ export class Receipt extends React.Component<Props> {
                           </Text>
                         </View>
 
-                        {getTaxesBreakdown(this.props.receipt.transactions).map(tax => (
+                        {getTaxesBreakdown(this.props.receipt.transactions as unknown as Transaction[]).map(tax => (
                           <View key={tax.id} style={styles.totalsRow}>
                             <Text>
                               {tax.info.type} ({round(tax.info.rate * 100, 2)}%)
@@ -694,7 +712,7 @@ export class Receipt extends React.Component<Props> {
               <React.Fragment>
                 {receipt.template?.info && <Text style={styles.footerInfo}>{receipt.template?.info}</Text>}
                 <View style={styles.flexGrow}></View>
-                <CollectiveFooter collective={receipt.host} />
+                <CollectiveFooter collective={receipt.host as Account} />
               </React.Fragment>
             )}
           </Page>

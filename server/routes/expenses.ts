@@ -98,6 +98,9 @@ async function fetchExpenseInvoiceData(expenseId: string, authorizationHeaders: 
               fromCurrency
               toCurrency
               value
+              date
+              isApproximate
+              source
             }
           }
         }

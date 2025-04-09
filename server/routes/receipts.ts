@@ -206,15 +206,15 @@ async function fetchTransactionInvoice(transactionId: string, authorizationHeade
     throw new ForbiddenError(`You don't have permission to download this transaction's invoice`);
   }
 
-  return response.data.transaction as NonNullable<typeof response.data.transaction>;
+  return response.data.transaction as QueryResult<TransactionInvoiceQuery>['data']['transaction'];
 }
 
 function getReceiptFromTransactionData(
   originalTransaction: NonNullable<NonNullable<QueryResult<TransactionInvoiceQuery>['data']>['transaction']>,
-) {
+): React.ComponentProps<typeof Receipt>['receipt'] {
   let transaction = originalTransaction;
   if (transaction.type === 'DEBIT' && transaction.oppositeTransaction && !transaction.isRefund) {
-    transaction = transaction.oppositeTransaction;
+    transaction = transaction.oppositeTransaction as typeof transaction;
   }
 
   const host = transaction.host;
@@ -229,7 +229,7 @@ function getReceiptFromTransactionData(
     isRefundOnly: transaction.isRefund,
     currency: transaction.amountInHostCurrency.currency as NonNullable<string>,
     totalAmount: transaction.amountInHostCurrency.valueInCents as NonNullable<number>,
-    transactions: [transaction],
+    transactions: [transaction] as unknown as React.ComponentProps<typeof Receipt>['receipt']['transactions'],
     host,
     fromAccount: fromAccount as NonNullable<typeof fromAccount>,
     fromAccountHost: (fromAccount as unknown as AccountWithHost)?.host,
@@ -393,10 +393,12 @@ router.get(
           0,
         ),
         currency: response.host.currency,
-        transactions: response.transactions.nodes,
+        transactions: response.transactions.nodes as unknown as React.ComponentProps<
+          typeof Receipt
+        >['receipt']['transactions'],
         host: response.host,
         fromAccount: response.fromAccount,
-        fromAccountHost: response.fromAccount.host,
+        fromAccountHost: (response.fromAccount as unknown as AccountWithHost).host,
         dateFrom,
         dateTo,
         template,
