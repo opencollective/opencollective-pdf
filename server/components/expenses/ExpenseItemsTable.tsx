@@ -8,6 +8,7 @@ import { formatAmount } from '../../lib/currency';
 import { formatCurrency } from '../../lib/currency';
 import { FontFamily } from '../../lib/pdf';
 import { Expense, ExpenseItem } from 'server/graphql/types/v2/schema';
+import { createStylesheetWithFonts } from 'server/lib/react-pdf-utils';
 
 const getItemAmounts = (item: Pick<ExpenseItem, 'id' | 'description' | 'incurredAt' | 'amountV2'>) => {
   if (!item.amountV2.exchangeRate) {
@@ -26,14 +27,12 @@ const getItemAmounts = (item: Pick<ExpenseItem, 'id' | 'description' | 'incurred
   }
 };
 
-const styles = StyleSheet.create({
+const styles = createStylesheetWithFonts({
   header: {
     fontFamily: FontFamily.InterBold,
-    fontWeight: 'bold',
     backgroundColor: '#EBF4FF',
   },
   cell: {
-    fontFamily: FontFamily.InterRegular,
     fontSize: 9,
     padding: 5,
     borderColor: '#E0E0E0',

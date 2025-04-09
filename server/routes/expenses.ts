@@ -117,6 +117,7 @@ async function fetchExpenseInvoiceData(expenseId: string, authorizationHeaders: 
 
     return result.data.expense;
   } catch (error) {
+    console.error('Error fetching expense invoice data', error);
     throw adaptApolloError(error);
   }
 }

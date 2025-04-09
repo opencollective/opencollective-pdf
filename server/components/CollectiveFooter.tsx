@@ -1,12 +1,13 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image, Link } from '@react-pdf/renderer';
-import { FontFamily } from '../lib/pdf';
+import { View, Text, Image, Link } from '@react-pdf/renderer';
 import { GraphQLV1Collective } from 'server/graphql/types/custom-types';
 import { Account } from 'server/graphql/types/v2/schema';
 import { imagePreview } from 'server/lib/images';
 import LocationParagraph from './LocationParagraph';
+import { FontFamily } from 'server/lib/pdf';
+import { createStylesheetWithFonts } from 'server/lib/react-pdf-utils';
 
-const styles = StyleSheet.create({
+const styles = createStylesheetWithFonts({
   container: {
     flexDirection: 'row',
     justifyContent: 'center',
@@ -30,7 +31,6 @@ const styles = StyleSheet.create({
     marginTop: 8,
     fontSize: 10,
     color: '#6B7280',
-    fontFamily: FontFamily.InterRegular,
   },
 });
 

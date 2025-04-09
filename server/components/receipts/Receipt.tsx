@@ -22,18 +22,20 @@ import { formatPaymentMethodName } from 'server/lib/payment-methods';
 import { Account, Event, Order, Transaction, PaymentMethod } from 'server/graphql/types/v2/schema';
 import dayjs from 'dayjs';
 import LocationParagraph from '../LocationParagraph';
+import { createStylesheetWithFonts } from 'server/lib/react-pdf-utils';
 
 // Placeholder for giftcard image, to be implemented properly
 const GiftCardImgSrc = '/public/static/images/giftcard.png';
 
 // Define styles for the PDF
-const styles = StyleSheet.create({
+const styles = createStylesheetWithFonts({
   page: {
     padding: 32,
     fontSize: 10,
     color: '#2C3135',
     display: 'flex',
     flexDirection: 'column',
+    fontFamily: FontFamily.InterRegular,
   },
   header: {
     marginBottom: 20,
@@ -88,7 +90,6 @@ const styles = StyleSheet.create({
   },
   tableHeader: {
     fontFamily: FontFamily.InterBold,
-    fontWeight: 'bold',
     backgroundColor: '#ebf4ff',
   },
   tableCell: {
@@ -110,6 +111,7 @@ const styles = StyleSheet.create({
   },
   totalHighlight: {
     backgroundColor: '#ebf4ff',
+
     fontFamily: FontFamily.InterBold,
   },
   footerInfo: {

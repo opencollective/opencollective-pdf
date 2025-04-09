@@ -1,19 +1,20 @@
 import React from 'react';
-import { Document, Page, Text, View, StyleSheet, Link } from '@react-pdf/renderer';
+import { Document, Page, Text, View, Link } from '@react-pdf/renderer';
 import { chunk, get, max, round, sumBy } from 'lodash-es';
 import { FormattedMessage } from 'react-intl';
 
 import { formatCurrency } from '../../lib/currency';
 import { getCurrencyPrecision } from '../../lib/currency';
 import ExpenseItemsTable from './ExpenseItemsTable';
-import { FontFamily } from '../../lib/pdf';
 import { QueryResult } from '@apollo/client';
 import { AccountWithHost, ExpenseInvoiceQuery } from 'server/graphql/types/v2/graphql';
 import { Account } from 'server/graphql/types/v2/schema';
+import { FontFamily } from 'server/lib/pdf';
+import { createStylesheetWithFonts } from 'server/lib/react-pdf-utils';
 
 type ExpenseFromQuery = NonNullable<NonNullable<QueryResult<ExpenseInvoiceQuery>['data']>['expense']>;
 
-const styles = StyleSheet.create({
+const styles = createStylesheetWithFonts({
   page: {
     padding: 40,
     fontFamily: FontFamily.InterRegular,
@@ -36,7 +37,7 @@ const styles = StyleSheet.create({
   },
   addressTitle: {
     fontSize: 12,
-    fontWeight: 'bold',
+
     fontFamily: FontFamily.InterBold,
     marginBottom: 5,
   },
@@ -50,7 +51,7 @@ const styles = StyleSheet.create({
   },
   expenseTitle: {
     fontSize: 12,
-    fontWeight: 'bold',
+
     fontFamily: FontFamily.InterBold,
     marginBottom: 5,
     textDecoration: 'underline',

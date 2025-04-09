@@ -1,17 +1,9 @@
 import React from 'react';
-import { renderToStream, Font } from '@react-pdf/renderer';
+import { renderToStream } from '@react-pdf/renderer';
 import { Response } from 'express';
 import { IntlProvider } from 'react-intl';
 
 // Register fonts
-Font.register({
-  family: 'Inter-Regular',
-  src: './public/static/fonts/Inter-Regular.otf',
-});
-Font.register({
-  family: 'Inter-Bold',
-  src: './public/static/fonts/Inter-Bold.otf',
-});
 
 export enum FontFamily {
   InterRegular = 'Inter-Regular',

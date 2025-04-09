@@ -10,6 +10,9 @@ on:
       - synchronize
       - reopened
 
+env:
+  OC_ENV: ci
+
 jobs:
   lint:
     runs-on: ubuntu-latest
