@@ -31,7 +31,7 @@ router.options(':filename.pdf', (req, res) => {
   res.sendStatus(204);
 });
 
-router.get('/:filename.pdf', async (req: express.Request, res: express.Response) => {
+const handlePDFRequest = async (req: express.Request, res: express.Response) => {
   const { filename } = req.params;
   if (!filename) {
     res.status(400).json({ message: 'Filename is required' });
@@ -40,6 +40,9 @@ router.get('/:filename.pdf', async (req: express.Request, res: express.Response)
 
   const cards = await getCardsFromBody(req);
   await sendPDFResponse(res, GiftCardsPage, { cards });
-});
+};
+
+router.get('/:filename.pdf', handlePDFRequest);
+router.post('/:filename.pdf', handlePDFRequest);
 
 export default router;

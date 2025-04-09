@@ -59,11 +59,13 @@
     "graphql": "^16.10.0",
     "node-fetch": "^3.3.2",
     "npm-run-all2": "^7.0.2",
+    "pdf-visual-diff": "^0.14.0",
     "prettier": "3.5.3",
     "supertest": "^7.0.0",
     "tsx": "^4.19.2",
     "typescript": "^5.3.3",
     "typescript-eslint": "^8.29.0",
+    "uuid": "^11.1.0",
     "vitest": "^3.1.1"
   },
   "engines": {
