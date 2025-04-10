@@ -2,8 +2,8 @@ import { expect, test, describe } from 'vitest';
 import express from 'express';
 import request from 'supertest';
 import { beforeEach } from 'vitest';
-import appRouter from '../../server';
-import { snapshotPDF } from '../utils';
+import appRouter from '../../server/index.js';
+import { snapshotPDF } from '../utils.js';
 
 describe('Gift Cards Routes', () => {
   let app: express.Application;

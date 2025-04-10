@@ -31,6 +31,7 @@ export async function sendPDFResponse<PropTypes extends object>(
 ) {
   try {
     const stream = await renderToStream(
+      // @ts-expect-error JSX element class does not support attributes because it does not have a 'props' property.
       <IntlProvider locale="en">
         <Component {...props} />
       </IntlProvider>,

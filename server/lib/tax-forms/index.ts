@@ -1,9 +1,9 @@
-import { fillW9TaxForm, W9FieldsDefinition } from './w9';
-import { fillW8BenTaxForm, W8BenFieldsDefinition } from './w8-ben';
+import { fillW9TaxForm, W9FieldsDefinition } from './w9.js';
+import { fillW8BenTaxForm, W8BenFieldsDefinition } from './w8-ben.js';
 import { PDFDocument, PDFFont } from 'pdf-lib';
-import { fillW8BenETaxForm, W8BenEFieldsDefinition } from './w8-ben-e';
-import { readFileSyncFromPublicStaticFolder } from '../file-utils';
-import { PDFFieldDefinition } from '../pdf-lib-utils';
+import { fillW8BenETaxForm, W8BenEFieldsDefinition } from './w8-ben-e.js';
+import { readFileSyncFromPublicStaticFolder } from '../file-utils.js';
+import { PDFFieldDefinition } from '../pdf-lib-utils.js';
 
 type TaxFormType = 'W9' | 'W8_BEN' | 'W8_BEN_E';
 

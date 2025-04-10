@@ -1,9 +1,9 @@
 {
   "compilerOptions": {
-    "target": "ES2021",
-    "module": "ESNext",
-    "moduleResolution": "node",
-    "lib": ["ES2021", "DOM"],
+    "target": "ESNext",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "lib": ["ESNext", "DOM"],
     "jsx": "react",
     "strict": false,
     "esModuleInterop": true,
@@ -16,8 +16,7 @@
     "types": ["node", "express"],
     "typeRoots": ["node_modules/@types"],
     "paths": {
-      "*": ["node_modules/*"],
-      "server/*": ["./server/*"]
+      "*": ["node_modules/*"]
     }
   },
   "include": ["server/**/*"],

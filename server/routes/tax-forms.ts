@@ -1,11 +1,11 @@
 import express from 'express';
 import fontkit from 'pdf-fontkit';
 import { PDFDocument, StandardFonts } from 'pdf-lib';
-import { readFileSyncFromPublicStaticFolder } from 'server/lib/file-utils';
-import { addNonFinalWaterMark, flattenForm } from 'server/lib/pdf-lib-utils';
-import { allCharsValid } from 'server/lib/string-utils';
-import { isValidTaxFormType, TAX_FORMS } from 'server/lib/tax-forms';
-import { getFullName } from 'server/lib/tax-forms/utils';
+import { readFileSyncFromPublicStaticFolder } from '../lib/file-utils.js';
+import { addNonFinalWaterMark, flattenForm } from '../lib/pdf-lib-utils.js';
+import { allCharsValid } from '../lib/string-utils.js';
+import { isValidTaxFormType, TAX_FORMS } from '../lib/tax-forms/index.js';
+import { getFullName } from '../lib/tax-forms/utils.js';
 
 const router = express.Router();
 

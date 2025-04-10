@@ -2,8 +2,8 @@ import { expect, test, describe, beforeEach, afterEach } from 'vitest';
 import express from 'express';
 import request from 'supertest';
 import nock from 'nock';
-import appRouter from '../../server';
-import { snapshotPDF } from '../utils';
+import appRouter from '../../server/index.js';
+import { snapshotPDF } from '../utils.js';
 
 // Test expense data
 const mockExpenseData = {

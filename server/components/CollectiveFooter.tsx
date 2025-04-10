@@ -1,10 +1,10 @@
 import React from 'react';
 import { View, Text, Image, Link, StyleSheet } from '@react-pdf/renderer';
-import { GraphQLV1Collective } from 'server/graphql/types/custom-types';
-import { Account } from 'server/graphql/types/v2/schema';
-import { imagePreview } from 'server/lib/images';
-import LocationParagraph from './LocationParagraph';
-import { FontFamily } from 'server/lib/pdf';
+import { GraphQLV1Collective } from '../../server/graphql/types/custom-types.js';
+import { Account } from '../../server/graphql/types/v2/schema.js';
+import { imagePreview } from '../../server/lib/images.js';
+import LocationParagraph from './LocationParagraph.js';
+import { FontFamily } from '../../server/lib/pdf.js';
 
 const styles = StyleSheet.create({
   container: {

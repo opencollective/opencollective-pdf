@@ -1,10 +1,10 @@
-import { addSignature, fillPDFFormFromValues, PDFFieldDefinition } from '../pdf-lib-utils';
+import { addSignature, fillPDFFormFromValues, PDFFieldDefinition } from '../pdf-lib-utils.js';
 import { PDFDocument, PDFFont } from 'pdf-lib';
-import { getFullName } from './utils';
+import { getFullName } from './utils.js';
 import { isNil } from 'lodash-es';
-import { W8BenETaxFormValues } from './frontend-types';
-import { getCountryName } from '../i18n';
-import dayjs from 'server/lib/dayjs';
+import { W8BenETaxFormValues } from './frontend-types.js';
+import { getCountryName } from '../i18n.js';
+import dayjs from '../dayjs.js';
 
 export const W8BenEFieldsDefinition: Partial<Record<keyof W8BenETaxFormValues, PDFFieldDefinition>> = {
   businessName: 'topmostSubform[0].Page1[0].f1_1[0]',

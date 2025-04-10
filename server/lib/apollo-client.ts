@@ -1,12 +1,12 @@
 import http from 'http';
 import https from 'https';
 
-import { ApolloClient, HttpLink, ApolloLink, InMemoryCache } from '@apollo/client';
-import { setContext } from '@apollo/client/link/context';
-import { parseToBooleanDefaultTrue } from './env';
+import { ApolloClient, HttpLink, ApolloLink, InMemoryCache } from '@apollo/client/index.js';
+import { setContext } from '@apollo/client/link/context/index.js';
+import { parseToBooleanDefaultTrue } from './env.js';
 
 import { get, has } from 'lodash-es';
-import { AuthorizationHeaders } from './authentication';
+import { AuthorizationHeaders } from './authentication.js';
 import {
   BadRequestError,
   ForbiddenError,
@@ -14,7 +14,7 @@ import {
   NotFoundError,
   PDFServiceError,
   UnauthorizedError,
-} from './errors';
+} from './errors.js';
 
 export const adaptApolloError = (error: unknown) => {
   if (error instanceof PDFServiceError) {

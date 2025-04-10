@@ -1,5 +1,5 @@
 import countries from 'i18n-iso-countries';
-import countriesEN from 'i18n-iso-countries/langs/en.json';
+import countriesEN from 'i18n-iso-countries/langs/en.json' with { type: 'json' };
 
 countries.registerLocale(countriesEN);
 

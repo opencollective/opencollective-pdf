@@ -1,9 +1,9 @@
-import dayjs from 'server/lib/dayjs';
+import dayjs from '../dayjs.js';
 import { PDFDocument, PDFFont } from 'pdf-lib';
-import { addSignature, fillPDFFormFromValues, PDFFieldDefinition } from '../pdf-lib-utils';
-import { getFullName } from './utils';
-import { W9TaxFormValues } from './frontend-types';
-import { getCountryName } from '../i18n';
+import { addSignature, fillPDFFormFromValues, PDFFieldDefinition } from '../pdf-lib-utils.js';
+import { getFullName } from './utils.js';
+import { W9TaxFormValues } from './frontend-types.js';
+import { getCountryName } from '../i18n.js';
 
 export const W9FieldsDefinition: Partial<Record<keyof W9TaxFormValues, PDFFieldDefinition>> = {
   signer: { formPath: 'topmostSubform[0].Page1[0].f1_01[0]', transform: getFullName },

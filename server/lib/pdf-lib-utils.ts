@@ -1,9 +1,9 @@
 import { isNil } from 'lodash-es';
-import { scaleValue } from './math';
+import { scaleValue } from './math.js';
 import fontkit from 'pdf-fontkit';
 import { PDFDocument, PDFField, PDFFont, PDFForm, PDFHexString, PDFTextField, rgb, TextAlignment } from 'pdf-lib';
-import { allCharsValid } from './string-utils';
-import { readFileSyncFromPublicStaticFolder } from './file-utils';
+import { allCharsValid } from './string-utils.js';
+import { readFileSyncFromPublicStaticFolder } from './file-utils.js';
 
 const SIGNATURE_FONT_BYTES = readFileSyncFromPublicStaticFolder('fonts/JustMeAgainDownHere-Regular.ttf');
 
