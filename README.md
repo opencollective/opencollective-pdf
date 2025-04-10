@@ -52,7 +52,11 @@ TL;DR: we use [Prettier](https://prettier.io/) and [ESLint](https://eslint.org/)
 
 ## Tests
 
-You can run the tests using `npm test`.
+- Run all tests: `npm test`
+- Run tests in watch mode: `npm run test:watch`
+- Run tests with coverage report: `npm run test:coverage`
+
+Be aware that `watch` currently doesn't auto-reload the express app.
 
 ## Deployment
 
