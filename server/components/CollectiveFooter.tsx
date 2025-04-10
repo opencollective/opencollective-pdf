@@ -1,20 +1,19 @@
 import React from 'react';
-import { View, Text, Image, Link } from '@react-pdf/renderer';
+import { View, Text, Image, Link, StyleSheet } from '@react-pdf/renderer';
 import { GraphQLV1Collective } from 'server/graphql/types/custom-types';
 import { Account } from 'server/graphql/types/v2/schema';
 import { imagePreview } from 'server/lib/images';
 import LocationParagraph from './LocationParagraph';
 import { FontFamily } from 'server/lib/pdf';
-import { createStylesheetWithFonts } from 'server/lib/react-pdf-utils';
 
-const styles = createStylesheetWithFonts({
+const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
   },
   logoContainer: {
-    borderRight: '1px solid #E5E7EB',
+    borderRight: '1 solid #E5E7EB',
     paddingRight: 16,
     marginRight: 16,
   },

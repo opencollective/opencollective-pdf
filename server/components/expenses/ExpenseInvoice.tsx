@@ -1,5 +1,5 @@
 import React from 'react';
-import { Document, Page, Text, View, Link } from '@react-pdf/renderer';
+import { Document, Page, Text, View, Link, Styles, StyleSheet } from '@react-pdf/renderer';
 import { chunk, get, max, round, sumBy } from 'lodash-es';
 import { FormattedMessage } from 'react-intl';
 
@@ -10,11 +10,10 @@ import { QueryResult } from '@apollo/client';
 import { AccountWithHost, ExpenseInvoiceQuery } from 'server/graphql/types/v2/graphql';
 import { Account } from 'server/graphql/types/v2/schema';
 import { FontFamily } from 'server/lib/pdf';
-import { createStylesheetWithFonts } from 'server/lib/react-pdf-utils';
 
 type ExpenseFromQuery = NonNullable<NonNullable<QueryResult<ExpenseInvoiceQuery>['data']>['expense']>;
 
-const styles = createStylesheetWithFonts({
+const styles: Styles = StyleSheet.create({
   page: {
     padding: 40,
     fontFamily: FontFamily.InterRegular,
@@ -37,7 +36,6 @@ const styles = createStylesheetWithFonts({
   },
   addressTitle: {
     fontSize: 12,
-
     fontFamily: FontFamily.InterBold,
     marginBottom: 5,
   },
@@ -45,13 +43,19 @@ const styles = createStylesheetWithFonts({
     fontSize: 10,
     color: '#333333',
   },
+  expenseLink: {
+    fontSize: 12,
+    fontFamily: FontFamily.InterBold,
+    marginBottom: 5,
+    textDecoration: 'underline',
+    color: '#000000',
+  },
   expenseDetails: {
     marginTop: 20,
     marginBottom: 20,
   },
   expenseTitle: {
     fontSize: 12,
-
     fontFamily: FontFamily.InterBold,
     marginBottom: 5,
     textDecoration: 'underline',
@@ -86,9 +90,9 @@ const styles = createStylesheetWithFonts({
     fontFamily: FontFamily.InterBold,
   },
   invoiceInfo: {
+    fontFamily: FontFamily.InterItalic,
     marginTop: 40,
     fontSize: 10,
-    fontStyle: 'italic',
     alignSelf: 'flex-end',
     textAlign: 'right',
   },
@@ -188,7 +192,7 @@ const ExpenseInvoice = ({
               <View style={styles.expenseDetails}>
                 <Link
                   src={`${process.env.WEBSITE_URL}/${expense.account.slug}/expenses/${expense.legacyId}`}
-                  style={styles.expenseTitle}
+                  style={styles.expenseLink}
                 >
                   <FormattedMessage
                     id="GGuO8S"

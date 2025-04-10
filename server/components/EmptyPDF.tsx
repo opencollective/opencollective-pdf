@@ -1,8 +1,7 @@
 import React from 'react';
-import { Page, Document, Text } from '@react-pdf/renderer';
-import { createStylesheetWithFonts } from 'server/lib/react-pdf-utils';
+import { Page, Document, Text, StyleSheet } from '@react-pdf/renderer';
 
-const styles = createStylesheetWithFonts({
+const styles = StyleSheet.create({
   page: {
     flexDirection: 'column',
     backgroundColor: '#ffffff',

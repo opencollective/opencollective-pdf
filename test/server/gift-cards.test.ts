@@ -4,7 +4,6 @@ import request from 'supertest';
 import { beforeEach } from 'vitest';
 import giftCardsRouter from '../../server/routes/gift-cards';
 import { snapshotPDF } from '../utils';
-import { repeat } from 'lodash-es';
 
 describe('Gift Cards Routes', () => {
   let app: express.Application;
