@@ -1,2 +1,4 @@
 ignore:
   - test
+  - scripts
+  - server/graphql

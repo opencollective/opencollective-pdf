@@ -10,6 +10,9 @@ on:
       - synchronize
       - reopened
 
+env:
+  OC_ENV: ci
+
 jobs:
   lint:
     runs-on: ubuntu-latest
@@ -69,11 +72,17 @@ jobs:
           cache: 'npm'
       - name: Install dependencies
         run: npm ci --prefer-offline --no-audit
-      - run: npm run test -- --ci --coverage --reporters=default --reporters=jest-junit
+      - run: npm run test:coverage
       - uses: codecov/codecov-action@v5
         with:
           fail_ci_if_error: true
           token: ${{ secrets.CODECOV_TOKEN }}
+      - name: Upload snapshots on failure
+        uses: actions/upload-artifact@v4
+        with:
+          name: snapshots-${{ github.run_id }}-${{ strategy.job-index }}
+          path: test/__snapshots__
+        if: ${{ failure() }}
 
   check-tax-forms-config:
     runs-on: ubuntu-latest

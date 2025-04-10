@@ -10,9 +10,6 @@ If you see a step below that could be improved (or is outdated), please update t
 
 ### Prerequisite
 
-Make sure you have Node.js version >= 10.
-We recommend using [nvm](https://github.com/creationix/nvm): `nvm use`.
-
 ### Install
 
 We recommend cloning the repository in a folder dedicated to `opencollective` projects.
@@ -23,15 +20,6 @@ cd opencollective/pdf
 npm install
 ```
 
-### Environment variables
-
-This project requires an access to the Open Collective API. You have two options:
-
-- `cp .env.staging .env` to connect to the Open Collective staging API
-- `cp .env.local .env` to connect to the API running locally
-
-If you decide to pick the local strategy, make sure you install and run the [opencollective-api](https://github.com/opencollective/opencollective-api) project.
-
 ### Start
 
 To start the service:
@@ -39,32 +27,6 @@ To start the service:
 ```
 npm run dev
 ```
-
-### Troubleshooting
-
-- SSL errors
-
-If you get an error like this while trying to generate a PDF:
-
-> Error: html-pdf: Unknown Error
-> Auto configuration failed
-> 140673035953984:error:25066067:DSO support routines:DLFCN_LOAD:could not load the shared library:dso_dlfcn.c:185:filename(libssl_conf.so): libssl_conf.so: cannot > open shared object file: No such file or directory
-> 140673035953984:error:25070067:DSO support routines:DSO_load:could not load the shared library:dso_lib.c:244:
-> 140673035953984:error:0E07506E:configuration file routines:MODULE_LOAD_DSO:error loading dso:conf_mod.c:285:module=ssl_conf, path=ssl_conf
-> 140673035953984:error:0E076071:configuration file routines:MODULE_RUN:unknown module name:conf_mod.c:222:module=ssl_conf
-
-Try adding this line to your `.env` ([source](https://github.com/bazelbuild/rules_closure/issues/351#issuecomment-854628326)):
-
-```
-OPENSSL_CONF=/dev/null
-```
-
-#### Usage with fixture data
-
-This is the easy way to start developing. Just go to the root URL http://localhost:3002/
-to see a list of test pages and click on any of them to load it in the right pane.
-
-The page will auto-refresh everytime a change is made.
 
 #### Usage with frontend
 
@@ -82,13 +44,6 @@ the graphql queries.
 The easier to make it work is to go to `/:userSlug/admin/for-developers` on the frontend,
 generate a personal token, and to add `?personalToken=your_key_here` to all your requests.
 
-**Tips**
-
-- Replace `.html` by `.pdf` to see the generated pdf.
-- Add `?pageFormat=A4` with `A4` or `Letter` to change page format
-- Add `?debug=true` to the URL to see verbose data on the document
-- Add `?raw=true` to disabled HTML sanitazing (useful to debug missing attributes)
-
 ## Contributing
 
 Code style? Commit convention? Please check our [Contributing guidelines](CONTRIBUTING.md).
@@ -97,7 +52,11 @@ TL;DR: we use [Prettier](https://prettier.io/) and [ESLint](https://eslint.org/)
 
 ## Tests
 
-You can run the tests using `npm test`.
+- Run all tests: `npm test`
+- Run tests in watch mode: `npm run test:watch`
+- Run tests with coverage report: `npm run test:coverage`
+
+Be aware that `watch` currently doesn't auto-reload the express app.
 
 ## Deployment
 
