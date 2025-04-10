@@ -4,7 +4,7 @@ import { authenticateRequest, AuthorizationHeaders } from '../lib/authentication
 import { gql, QueryResult } from '@apollo/client';
 import { createClient } from '../lib/apollo-client';
 import { adaptApolloError } from '../lib/apollo-client';
-import { NotFoundError } from '../lib/errors';
+import { BadRequestError, InternalServerError, NotFoundError } from '../lib/errors';
 import { ForbiddenError } from '../lib/errors';
 import Receipt from 'server/components/receipts/Receipt';
 import { AccountWithHost } from 'server/graphql/types/v2/schema';
@@ -346,13 +346,13 @@ async function fetchInvoiceByDateRange(
 const validateReceiptPeriodParams = (req: express.Request) => {
   const { contributorSlug, hostSlug, dateFrom, dateTo } = req.params;
   if (!contributorSlug) {
-    throw new Error('Contributor slug is required');
+    throw new BadRequestError('Contributor slug is required');
   } else if (!hostSlug) {
-    throw new Error('Host slug is required');
+    throw new BadRequestError('Host slug is required');
   } else if (!dateFrom || !dateTo) {
-    throw new Error('Date range is required');
+    throw new BadRequestError('Date range is required');
   } else if (!dayjs(dateFrom).isValid() || !dayjs(dateTo).isValid()) {
-    throw new Error('Invalid date range');
+    throw new BadRequestError('Invalid date range');
   }
 };
 
@@ -364,6 +364,7 @@ router.options('/period/:contributorSlug/:hostSlug/:dateFrom/:dateTo/:filename.p
 router.get(
   '/period/:contributorSlug/:hostSlug/:dateFrom/:dateTo/:filename.pdf',
   async (req: express.Request, res: express.Response) => {
+    validateReceiptPeriodParams(req);
     const { contributorSlug, hostSlug, dateFrom, dateTo } = req.params;
     const authorizationHeaders = authenticateRequest(req);
     const response = await fetchInvoiceByDateRange(
@@ -377,7 +378,7 @@ router.get(
     );
 
     if (response.transactions.totalCount > response.transactions.nodes.length) {
-      throw new Error('Too many transactions. Please contact support');
+      throw new InternalServerError('Too many transactions. Please contact support');
     }
 
     const invoiceTemplateObj =

@@ -41,4 +41,23 @@ export default defineConfig([
       ],
     },
   },
+  // Test files
+  {
+    files: ['**/*.test.{ts,tsx}'],
+    rules: {
+      'no-restricted-properties': [
+        'error',
+        {
+          object: 'test',
+          property: 'only',
+          message: 'test.only should only be used for debugging purposes and is not allowed in production code',
+        },
+        {
+          object: 'describe',
+          property: 'only',
+          message: 'describe.only should only be used for debugging purposes and is not allowed in production code',
+        },
+      ],
+    },
+  },
 ]);

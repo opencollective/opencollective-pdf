@@ -2,7 +2,7 @@ import { expect, test, describe, beforeEach, afterEach } from 'vitest';
 import express from 'express';
 import request from 'supertest';
 import nock from 'nock';
-import expensesRouter from '../../server/routes/expenses';
+import appRouter from '../../server';
 import { snapshotPDF } from '../utils';
 
 // Test expense data
@@ -73,7 +73,7 @@ describe('Expenses Routes', () => {
 
   beforeEach(() => {
     app = express();
-    app.use('/', expensesRouter);
+    app.use('/', appRouter);
     nock.disableNetConnect();
     nock.enableNetConnect(host => ['127.0.0.1', 'localhost', API_URL].includes(host.split(':')[0]));
   });
@@ -83,21 +83,23 @@ describe('Expenses Routes', () => {
     nock.enableNetConnect();
   });
 
-  describe('OPTIONS /:id/:filename.pdf', () => {
+  describe('OPTIONS /expenses/:id/:filename.pdf', () => {
     test('should respond with 204 status', async () => {
-      const response = await request(app).options('/123/expense.pdf');
+      const response = await request(app).options('/expenses/123/expense.pdf');
       expect(response.status).toBe(204);
     });
   });
 
-  describe('GET /:id/:filename.pdf', () => {
+  describe('GET /expenses/:id/:filename.pdf', () => {
     test('should generate a PDF for a valid expense', async () => {
       // Mock GraphQL API call
       nock(API_URL)
         .post(/\/graphql\/v2/)
         .reply(200, JSON.stringify(mockExpenseData));
 
-      const response = await request(app).get('/test-expense/expense.pdf').set('Authorization', 'Bearer test-token');
+      const response = await request(app)
+        .get('/expenses/test-expense/expense.pdf')
+        .set('Authorization', 'Bearer test-token');
 
       expect(response.status).toBe(200);
       expect(response.headers['content-type']).toBe('application/pdf');
@@ -114,7 +116,9 @@ describe('Expenses Routes', () => {
         .post(/\/graphql\/v2/)
         .reply(200, { data: { expense: null } });
 
-      const response = await request(app).get('/non-existent/expense.pdf').set('Authorization', 'Bearer test-token');
+      const response = await request(app)
+        .get('/expenses/non-existent/file.pdf')
+        .set('Authorization', 'Bearer test-token');
 
       expect(response.status).toBe(404);
     });
@@ -127,13 +131,13 @@ describe('Expenses Routes', () => {
           errors: [{ message: 'GraphQL Error' }],
         });
 
-      const response = await request(app).get('/error/expense.pdf').set('Authorization', 'Bearer test-token');
+      const response = await request(app).get('/expenses/error/expense.pdf').set('Authorization', 'Bearer test-token');
 
       expect(response.status).toBe(400);
     });
 
     test('should require authentication', async () => {
-      const response = await request(app).get('/test-expense/expense.pdf');
+      const response = await request(app).get('/expenses/test-expense/expense.pdf');
 
       expect(response.status).toBe(401);
     });

@@ -97,13 +97,11 @@ app.use((req: express.Request, res: express.Response) => {
 // Error handling
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 app.use((err: Error, req: express.Request, res: express.Response, _next: express.NextFunction) => {
-  console.error(err);
-  if (err instanceof PDFServiceError) {
-    res.status(err.status).json({
-      message: err.message,
-    });
+  // Node loses the error type when passing it around, we use the `isPDFServiceError` property to circumvent this
+  if (err && (err instanceof PDFServiceError || err['isPDFServiceError'])) {
+    res.status((err as PDFServiceError).status).json({ message: err.message });
   } else {
-    console.error(err);
+    console.error('Unexpected error', err);
     res.status(500).json({
       message: 'An internal server error occurred',
     });

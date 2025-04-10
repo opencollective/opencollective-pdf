@@ -2,7 +2,7 @@ import { expect, test, describe } from 'vitest';
 import express from 'express';
 import request from 'supertest';
 import { beforeEach } from 'vitest';
-import giftCardsRouter from '../../server/routes/gift-cards';
+import appRouter from '../../server';
 import { snapshotPDF } from '../utils';
 
 describe('Gift Cards Routes', () => {
@@ -10,7 +10,7 @@ describe('Gift Cards Routes', () => {
 
   beforeEach(() => {
     app = express();
-    app.use('/gift-cards', giftCardsRouter);
+    app.use('/', appRouter);
   });
 
   describe('OPTIONS /:filename.pdf', () => {

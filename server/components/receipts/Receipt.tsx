@@ -23,9 +23,6 @@ import { Account, Event, Order, Transaction, PaymentMethod } from 'server/graphq
 import dayjs from 'dayjs';
 import LocationParagraph from '../LocationParagraph';
 
-// Placeholder for giftcard image, to be implemented properly
-const GiftCardImgSrc = '/public/static/images/giftcard.png';
-
 // Define styles for the PDF
 const styles = StyleSheet.create({
   page: {
@@ -96,6 +93,12 @@ const styles = StyleSheet.create({
     padding: 6,
     borderColor: '#E0E0E0',
   },
+  tableCellCenter: {
+    textAlign: 'center',
+  },
+  tableCellRight: {
+    textAlign: 'right',
+  },
   totalsContainer: {
     width: '50%',
     marginLeft: 'auto',
@@ -110,7 +113,6 @@ const styles = StyleSheet.create({
   },
   totalHighlight: {
     backgroundColor: '#ebf4ff',
-
     fontFamily: FontFamily.InterBold,
   },
   footerInfo: {
@@ -212,6 +214,16 @@ const styles = StyleSheet.create({
     backgroundColor: '#EAEAEA',
     border: '1 solid grey',
   },
+  giftCardImage: {
+    height: 10,
+    width: 14,
+  },
+  descriptionContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    gap: 2,
+    fontSize: 8,
+  },
 });
 
 const TableWeighting = {
@@ -265,7 +277,7 @@ type Props = {
         Transaction,
         'id' | 'kind' | 'description' | 'createdAt' | 'amountInHostCurrency' | 'isRefund' | 'refundTransaction'
       > & {
-        order?: Pick<Order, 'legacyId' | 'data'> | null;
+        order?: null | (Pick<Order, 'legacyId' | 'data' | 'quantity'> & { tier: Pick<Order['tier'], 'type' | 'name'> });
         paymentMethod?: Pick<Transaction['paymentMethod'], 'name'>;
         taxAmount?: { valueInCents: number; currency: string };
         hostCurrencyFxRate?: number;
@@ -390,17 +402,15 @@ export class Receipt extends React.Component<Props> {
   /** Get a description for transaction, with a mention to gift card emitter if necessary */
   transactionDescription(transaction: Props['receipt']['transactions'][0]) {
     const targetCollective = getTransactionReceiver(transaction as unknown as Transaction);
-    const transactionDescription = (
-      <Text>{transaction.description || targetCollective.name || targetCollective.slug}</Text>
-    );
+    const transactionDescription = transaction.description || targetCollective.name || targetCollective.slug;
 
     return !transaction.giftCardEmitterAccount ? (
-      transactionDescription
+      <Text>{transactionDescription}</Text>
     ) : (
-      <div>
-        <img src={GiftCardImgSrc} alt="" style={{ verticalAlign: 'middle', height: '1em', marginRight: '4px' }} />
-        {transactionDescription}
-      </div>
+      <React.Fragment>
+        <Image src="./public/static/images/giftcard.png" style={styles.giftCardImage} />
+        <Text>{transactionDescription}</Text>
+      </React.Fragment>
     );
   }
 
@@ -414,7 +424,7 @@ export class Receipt extends React.Component<Props> {
     return (
       <Table>
         <TH style={styles.tableHeader}>
-          <TD style={[styles.tableCell, { width: '60px' }]} weighting={TableWeighting.date}>
+          <TD style={[styles.tableCell]} weighting={TableWeighting.date}>
             <Text>
               <FormattedMessage id="P7PLVj" defaultMessage="Date" />
             </Text>
@@ -424,20 +434,20 @@ export class Receipt extends React.Component<Props> {
               <FormattedMessage id="Q8Qw5B" defaultMessage="Description" />
             </Text>
           </TD>
-          <TD style={[styles.tableCell, { textAlign: 'center' }]} weighting={TableWeighting.quantity}>
+          <TD style={[styles.tableCell, styles.tableCellCenter]} weighting={TableWeighting.quantity}>
             <Text>
               <FormattedMessage id="B6cXQW" defaultMessage="QTY" />
             </Text>
           </TD>
-          <TD style={[styles.tableCell, { textAlign: 'center', width: '80px' }]} weighting={TableWeighting.unitPrice}>
+          <TD style={[styles.tableCell, styles.tableCellCenter]} weighting={TableWeighting.unitPrice}>
             <Text>
               <FormattedMessage id="qMynRr" defaultMessage="Unit Price" />
             </Text>
           </TD>
-          <TD style={[styles.tableCell, { textAlign: 'center' }]} weighting={TableWeighting.tax}>
+          <TD style={[styles.tableCell, styles.tableCellCenter]} weighting={TableWeighting.tax}>
             <Text>{this.getTaxColumnHeader(transactions)}</Text>
           </TD>
-          <TD style={[styles.tableCell, { textAlign: 'right' }]} weighting={TableWeighting.netAmount}>
+          <TD style={[styles.tableCell, styles.tableCellRight]} weighting={TableWeighting.netAmount}>
             <Text>
               <FormattedMessage id="FxUka3" defaultMessage="Net Amount" />
             </Text>
@@ -470,13 +480,13 @@ export class Receipt extends React.Component<Props> {
                       <FormattedMessage defaultMessage="REFUNDED" id="xoZxx7" />
                     </Text>
                   )}
-                  <Text>{this.transactionDescription(transaction)}</Text>
+                  <View style={styles.descriptionContainer}>{this.transactionDescription(transaction)}</View>
                 </View>
               </TD>
-              <TD style={[styles.tableCell, { textAlign: 'center' }]} weighting={TableWeighting.quantity}>
+              <TD style={[styles.tableCell, styles.tableCellCenter]} weighting={TableWeighting.quantity}>
                 <Text>{quantity}</Text>
               </TD>
-              <TD style={[styles.tableCell, { textAlign: 'center' }]} weighting={TableWeighting.unitPrice}>
+              <TD style={[styles.tableCell, styles.tableCellCenter]} weighting={TableWeighting.unitPrice}>
                 <View>
                   <Text>{formatCurrency(unitGrossPriceInHostCurrency, transactionCurrency)}</Text>
                   {transaction.amountInHostCurrency.currency !== transaction.amount.currency && (
@@ -492,10 +502,10 @@ export class Receipt extends React.Component<Props> {
                   )}
                 </View>
               </TD>
-              <TD style={[styles.tableCell, { textAlign: 'center' }]} weighting={TableWeighting.tax}>
+              <TD style={[styles.tableCell, styles.tableCellCenter]} weighting={TableWeighting.tax}>
                 <Text>{isNil(transaction.taxAmount) ? '-' : `${getTransactionTaxPercent(transaction)}%`}</Text>
               </TD>
-              <TD style={[styles.tableCell, { textAlign: 'right' }]} weighting={TableWeighting.netAmount}>
+              <TD style={[styles.tableCell, styles.tableCellRight]} weighting={TableWeighting.netAmount}>
                 <Text>{formatCurrency(amountInHostCurrency, transactionCurrency)}</Text>
               </TD>
             </TR>
@@ -518,10 +528,11 @@ export class Receipt extends React.Component<Props> {
 
   render() {
     const { receipt } = this.props;
+
     if (!receipt) {
       return (
         <Document>
-          <Page>
+          <Page style={styles.page}>
             <Text>No receipt to render</Text>
           </Page>
         </Document>
@@ -531,7 +542,7 @@ export class Receipt extends React.Component<Props> {
     if (!transactions || transactions.length === 0) {
       return (
         <Document>
-          <Page>
+          <Page style={styles.page}>
             <Text>No transaction to render</Text>
           </Page>
         </Document>
@@ -543,19 +554,17 @@ export class Receipt extends React.Component<Props> {
     const billTo = this.getBillTo();
     const isSingleTransaction = transactions.length === 1;
     const isTicketOrder = isSingleTransaction && get(transactions[0], 'order.tier.type') === 'TICKET';
-    let qrImage: string | undefined;
+    let qrImage: Promise<string> | undefined;
 
     try {
       if (isTicketOrder) {
         // Using await inside try/catch to handle the Promise
-        QRCode.toDataURL(getTransactionUrl(receipt.transactions[0] as unknown as Transaction), {
+        qrImage = QRCode.toDataURL(getTransactionUrl(receipt.transactions[0] as unknown as Transaction), {
           margin: 0,
           width: 72,
           color: {
             dark: '#313233',
           },
-        }).then(url => {
-          qrImage = url;
         });
       }
     } catch (e) {

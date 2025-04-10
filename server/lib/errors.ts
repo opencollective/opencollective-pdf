@@ -1,10 +1,12 @@
 export class PDFServiceError extends Error {
   status: number;
+  isPDFServiceError: true;
 
   constructor(message: string, status = 400, name: string = '') {
     super(message);
     this.name = name || this.constructor.name.replace(/Error$/, '');
     this.status = status;
+    this.isPDFServiceError = true;
   }
 
   toJSON() {
@@ -12,6 +14,7 @@ export class PDFServiceError extends Error {
       name: this.name,
       message: this.message,
       status: this.status,
+      isPDFServiceError: this.isPDFServiceError,
     };
   }
 }

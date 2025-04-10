@@ -117,7 +117,6 @@ async function fetchExpenseInvoiceData(expenseId: string, authorizationHeaders: 
 
     return result.data.expense;
   } catch (error) {
-    console.error('Error fetching expense invoice data', error);
     throw adaptApolloError(error);
   }
 }
@@ -131,10 +130,10 @@ router.get('/:id/:filename.pdf', async (req: express.Request, res: express.Respo
   const authorizationHeaders = authenticateRequest(req);
   const expense = await fetchExpenseInvoiceData(id, authorizationHeaders);
   if (expense === null || expense === undefined) {
-    throw new NotFoundError();
+    throw new NotFoundError(`Expense not found`);
+  } else {
+    await sendPDFResponse(res, ExpenseInvoice, { expense });
   }
-
-  await sendPDFResponse(res, ExpenseInvoice, { expense });
 });
 
 export default router;

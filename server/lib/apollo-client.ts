@@ -7,9 +7,20 @@ import { parseToBooleanDefaultTrue } from './env';
 
 import { get, has } from 'lodash-es';
 import { AuthorizationHeaders } from './authentication';
-import { BadRequestError, ForbiddenError, InternalServerError, NotFoundError, UnauthorizedError } from './errors';
+import {
+  BadRequestError,
+  ForbiddenError,
+  InternalServerError,
+  NotFoundError,
+  PDFServiceError,
+  UnauthorizedError,
+} from './errors';
 
 export const adaptApolloError = (error: unknown) => {
+  if (error instanceof PDFServiceError) {
+    return error;
+  }
+
   const status: string | number | undefined =
     get(error, 'networkError.statusCode') || get(error, 'graphQLErrors[0].extensions.code');
   const message = get(error, 'networkError.result.error.message') || get(error, 'graphQLErrors[0].message');
