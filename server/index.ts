@@ -29,7 +29,7 @@ if (process.env.EXTRA_ENV || process.env.NODE_ENV === 'development' || !process.
 dotenv.config();
 
 const app = express();
-const port = process.env.PORT || 3002;
+const port = process.env.PORT || 3000;
 
 // Configure rate limiter
 const apiLimiter = rateLimit({

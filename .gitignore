@@ -29,3 +29,4 @@ test/__snapshots__/*.new.png
 .DS_Store
 *.swp
 *.log
+.vercel
