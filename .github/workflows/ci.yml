@@ -77,6 +77,12 @@ jobs:
         with:
           fail_ci_if_error: true
           token: ${{ secrets.CODECOV_TOKEN }}
+      - name: Upload snapshots on failure
+        uses: actions/upload-artifact@v4
+        with:
+          name: snapshots-${{ github.run_id }}-${{ strategy.job-index }}
+          path: test/__snapshots__
+        if: ${{ failure() }}
 
   check-tax-forms-config:
     runs-on: ubuntu-latest
