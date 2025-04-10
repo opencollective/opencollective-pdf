@@ -8,7 +8,7 @@ import {
   isFieldTypeSplitText,
   PDFFieldDefinition,
 } from '../server/lib/pdf-lib-utils';
-import { TAX_FORMS } from '../server/lib/tax-forms';
+import { TAX_FORMS } from '../server/lib/tax-forms/index.js';
 
 import { PDFDocument } from 'pdf-lib';
 

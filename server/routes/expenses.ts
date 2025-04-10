@@ -1,12 +1,12 @@
 import express from 'express';
-import { sendPDFResponse } from '../lib/pdf';
-import { authenticateRequest, AuthorizationHeaders } from '../lib/authentication';
-import { gql } from '@apollo/client';
-import { createClient } from '../lib/apollo-client';
-import { adaptApolloError } from '../lib/apollo-client';
-import ExpenseInvoice from '../components/expenses/ExpenseInvoice';
-import { ExpenseInvoiceQuery } from 'server/graphql/types/v2/graphql';
-import { NotFoundError } from 'server/lib/errors';
+import { sendPDFResponse } from '../lib/pdf.js';
+import { authenticateRequest, AuthorizationHeaders } from '../lib/authentication.js';
+import { gql } from '@apollo/client/index.js';
+import { createClient } from '../lib/apollo-client.js';
+import { adaptApolloError } from '../lib/apollo-client.js';
+import ExpenseInvoice from '../components/expenses/ExpenseInvoice.js';
+import { ExpenseInvoiceQuery } from '../graphql/types/v2/graphql.js';
+import { NotFoundError } from '../lib/errors.js';
 
 const router = express.Router();
 

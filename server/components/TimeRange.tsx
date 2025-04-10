@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import { FormattedDate, FormattedTime } from 'react-intl';
-import dayjs from '../lib/dayjs';
+import dayjs from '../lib/dayjs.js';
 
 const getIsSameDay = (startsAt, endsAt, timezone) => {
   if (!endsAt) {

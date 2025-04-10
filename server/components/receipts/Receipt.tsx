@@ -13,15 +13,15 @@ import {
   getTaxesBreakdown,
   getTaxInfoFromTransaction,
   getTransactionUrl,
-} from '../../lib/transactions';
-import { FontFamily } from '../../lib/pdf';
-import { TimeRange } from '../TimeRange';
-import CollectiveFooter from '../CollectiveFooter';
-import { formatCurrency } from 'server/lib/currency';
-import { formatPaymentMethodName } from 'server/lib/payment-methods';
-import { Account, Event, Order, Transaction, PaymentMethod } from 'server/graphql/types/v2/schema';
+} from '../../lib/transactions.js';
+import { FontFamily } from '../../lib/pdf.js';
+import { TimeRange } from '../TimeRange.js';
+import CollectiveFooter from '../CollectiveFooter.js';
+import { formatCurrency } from '../../../server/lib/currency.js';
+import { formatPaymentMethodName } from '../../../server/lib/payment-methods.js';
+import { Account, Event, Order, Transaction, PaymentMethod } from '../../../server/graphql/types/v2/schema.js';
 import dayjs from 'dayjs';
-import LocationParagraph from '../LocationParagraph';
+import LocationParagraph from '../LocationParagraph.js';
 
 // Define styles for the PDF
 const styles = StyleSheet.create({

@@ -1,5 +1,5 @@
 import { startCase } from 'lodash-es';
-import { PaymentMethod } from 'server/graphql/types/v2/schema';
+import { PaymentMethod } from '../graphql/types/v2/schema.js';
 
 export const formatPaymentMethodName = (paymentMethod: PaymentMethod) => {
   if (!paymentMethod) {

@@ -3,13 +3,13 @@ import { Document, Page, Text, View, Link, Styles, StyleSheet } from '@react-pdf
 import { chunk, get, max, round, sumBy } from 'lodash-es';
 import { FormattedMessage } from 'react-intl';
 
-import { formatCurrency } from '../../lib/currency';
-import { getCurrencyPrecision } from '../../lib/currency';
-import ExpenseItemsTable from './ExpenseItemsTable';
-import { QueryResult } from '@apollo/client';
-import { AccountWithHost, ExpenseInvoiceQuery } from 'server/graphql/types/v2/graphql';
-import { Account } from 'server/graphql/types/v2/schema';
-import { FontFamily } from 'server/lib/pdf';
+import { formatCurrency } from '../../lib/currency.js';
+import { getCurrencyPrecision } from '../../lib/currency.js';
+import ExpenseItemsTable from './ExpenseItemsTable.js';
+import { QueryResult } from '@apollo/client/index.js';
+import { AccountWithHost, ExpenseInvoiceQuery } from '../../../server/graphql/types/v2/graphql.js';
+import { Account } from '../../../server/graphql/types/v2/schema.js';
+import { FontFamily } from '../../../server/lib/pdf.js';
 
 type ExpenseFromQuery = NonNullable<NonNullable<QueryResult<ExpenseInvoiceQuery>['data']>['expense']>;
 

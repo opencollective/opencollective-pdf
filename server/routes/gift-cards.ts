@@ -1,6 +1,6 @@
 import express from 'express';
-import { sendPDFResponse } from '../lib/pdf';
-import GiftCardsPage from '../components/gift-cards/GiftCardsPage';
+import { sendPDFResponse } from '../lib/pdf.js';
+import GiftCardsPage from '../components/gift-cards/GiftCardsPage.js';
 
 const router = express.Router();
 

@@ -1,6 +1,6 @@
 import { isEmpty, get } from 'lodash-es';
 import express from 'express';
-import { UnauthorizedError } from './errors';
+import { UnauthorizedError } from './errors.js';
 
 export type AuthorizationHeaders = {
   'oc-env'?: string;

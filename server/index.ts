@@ -3,11 +3,11 @@ import dotenv from 'dotenv';
 import express from 'express';
 import rateLimit from 'express-rate-limit';
 
-import expensesRouter from './routes/expenses';
-import giftCardsRouter from './routes/gift-cards';
-import receiptsRouter from './routes/receipts';
-import taxFormsRouter from './routes/tax-forms';
-import { PDFServiceError } from './lib/errors';
+import expensesRouter from './routes/expenses.js';
+import giftCardsRouter from './routes/gift-cards.js';
+import receiptsRouter from './routes/receipts.js';
+import taxFormsRouter from './routes/tax-forms.js';
+import { PDFServiceError } from './lib/errors.js';
 import path from 'path';
 
 import { last } from 'lodash-es';

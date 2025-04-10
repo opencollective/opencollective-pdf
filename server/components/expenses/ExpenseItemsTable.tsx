@@ -3,11 +3,11 @@ import { StyleSheet, Text, View } from '@react-pdf/renderer';
 import { Table, TR, TH, TD } from '@ag-media/react-pdf-table';
 import { FormattedDate, FormattedMessage } from 'react-intl';
 import { round, sumBy, uniq } from 'lodash-es';
-import { getCurrencyPrecision } from '../../lib/currency';
-import { formatAmount } from '../../lib/currency';
-import { formatCurrency } from '../../lib/currency';
-import { FontFamily } from '../../lib/pdf';
-import { Expense, ExpenseItem } from 'server/graphql/types/v2/schema';
+import { getCurrencyPrecision } from '../../lib/currency.js';
+import { formatAmount } from '../../lib/currency.js';
+import { formatCurrency } from '../../lib/currency.js';
+import { FontFamily } from '../../lib/pdf.js';
+import { Expense, ExpenseItem } from '../../../server/graphql/types/v2/schema.js';
 
 const getItemAmounts = (item: Pick<ExpenseItem, 'id' | 'description' | 'incurredAt' | 'amountV2'>) => {
   if (!item.amountV2.exchangeRate) {

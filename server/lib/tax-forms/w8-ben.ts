@@ -1,9 +1,9 @@
-import dayjs from 'server/lib/dayjs';
-import { addSignature, fillPDFFormFromValues, PDFFieldDefinition } from '../pdf-lib-utils';
+import dayjs from '../dayjs.js';
+import { addSignature, fillPDFFormFromValues, PDFFieldDefinition } from '../pdf-lib-utils.js';
 import { PDFDocument, PDFFont } from 'pdf-lib';
-import { getFullName } from './utils';
-import { W8BenTaxFormValues } from './frontend-types';
-import { getCountryName } from '../i18n';
+import { getFullName } from './utils.js';
+import { W8BenTaxFormValues } from './frontend-types.js';
+import { getCountryName } from '../i18n.js';
 
 export const W8BenFieldsDefinition: Partial<Record<keyof W8BenTaxFormValues, PDFFieldDefinition>> = {
   beneficialOwner: { formPath: 'topmostSubform[0].Page1[0].f_1[0]', transform: getFullName },

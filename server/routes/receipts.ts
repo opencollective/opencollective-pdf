@@ -1,15 +1,15 @@
 import express from 'express';
-import { sendPDFResponse } from '../lib/pdf';
-import { authenticateRequest, AuthorizationHeaders } from '../lib/authentication';
-import { gql, QueryResult } from '@apollo/client';
-import { createClient } from '../lib/apollo-client';
-import { adaptApolloError } from '../lib/apollo-client';
-import { BadRequestError, InternalServerError, NotFoundError } from '../lib/errors';
-import { ForbiddenError } from '../lib/errors';
-import Receipt from 'server/components/receipts/Receipt';
-import { AccountWithHost } from 'server/graphql/types/v2/schema';
-import dayjs from 'server/lib/dayjs';
-import { InvoiceByDateRangeQuery, TransactionInvoiceQuery } from 'server/graphql/types/v2/graphql';
+import { sendPDFResponse } from '../lib/pdf.js';
+import { authenticateRequest, AuthorizationHeaders } from '../lib/authentication.js';
+import { gql, QueryResult } from '@apollo/client/index.js';
+import { createClient } from '../lib/apollo-client.js';
+import { adaptApolloError } from '../lib/apollo-client.js';
+import { BadRequestError, InternalServerError, NotFoundError } from '../lib/errors.js';
+import { ForbiddenError } from '../lib/errors.js';
+import Receipt from '../components/receipts/Receipt.js';
+import { AccountWithHost } from '../graphql/types/v2/schema.js';
+import dayjs from '../lib/dayjs.js';
+import { InvoiceByDateRangeQuery, TransactionInvoiceQuery } from '../graphql/types/v2/graphql.js';
 
 const router = express.Router();
 

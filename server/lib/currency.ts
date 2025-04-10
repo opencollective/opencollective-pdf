@@ -1,5 +1,5 @@
 import { isNil } from 'lodash-es';
-import { ZERO_DECIMAL_CURRENCIES } from '../constants/currency';
+import { ZERO_DECIMAL_CURRENCIES } from '../constants/currency.js';
 
 export function getCurrencyPrecision(currency: string) {
   return (ZERO_DECIMAL_CURRENCIES as readonly string[]).includes(currency) ? 0 : 2;

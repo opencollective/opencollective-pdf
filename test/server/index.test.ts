@@ -1,6 +1,6 @@
 import { expect, test } from 'vitest';
 import request from 'supertest';
-import app from '../../server';
+import app from '../../server/index.js';
 
 test('returns a 404 for unknown routes', async () => {
   const response = await request(app).get('/unknown-route');

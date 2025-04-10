@@ -1,9 +1,9 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import AccountName from './AccountName';
+import AccountName from './AccountName.js';
 import { Link } from '@react-pdf/renderer';
-import { Account } from 'server/graphql/types/v2/graphql';
-import { GraphQLV1Collective } from 'server/graphql/types/custom-types';
+import { Account } from '../../server/graphql/types/v2/graphql.js';
+import { GraphQLV1Collective } from '../../server/graphql/types/custom-types.js';
 
 import { get } from 'lodash-es';
 
