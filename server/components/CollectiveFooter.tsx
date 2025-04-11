@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
     marginRight: 16,
   },
   logo: {
-    width: 200,
+    width: 80,
     height: 80,
   },
   collectiveName: {
