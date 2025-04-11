@@ -7,10 +7,10 @@
   "scripts": {
     "build": "tsc",
     "start": "node dist/server/index.js",
-    "test": "vitest --run",
+    "test": "START_SERVER=false vitest --run",
     "test:watch": "vitest --watch",
     "test:coverage": "vitest --run --coverage",
-    "test:update": "rm test/__snapshots__/*.png && vitest --run --coverage",
+    "test:update": "rm test/__snapshots__/*.png && vitest --run",
     "type:check": "tsc --noEmit",
     "dev": "tsx watch server/index.ts",
     "lint": "eslint .",

@@ -15,6 +15,7 @@ import { last } from 'lodash-es';
 import fs from 'fs';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
+import { parseToBooleanDefaultTrue } from './lib/env.js';
 
 if (process.env.EXTRA_ENV || process.env.NODE_ENV === 'development' || !process.env.NODE_ENV) {
   const extraEnv = process.env.EXTRA_ENV || last(process.argv);
@@ -120,7 +121,7 @@ app.use((err: Error, req: express.Request, res: express.Response, _next: express
   }
 });
 
-if (process.env.NODE_ENV !== 'test') {
+if (parseToBooleanDefaultTrue(process.env.START_SERVER)) {
   app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
   });
