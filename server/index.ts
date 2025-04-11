@@ -31,6 +31,13 @@ dotenv.config();
 const app = express();
 const port = process.env.PORT || 3000;
 
+if (process.env.VERBOSE) {
+  app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
+    console.log(`${req.method} ${req.url}`);
+    next();
+  });
+}
+
 // Configure rate limiter
 const apiLimiter = rateLimit({
   // Limit each IP to 100 requests per 15 minutes
@@ -99,6 +106,11 @@ app.use((req: express.Request, res: express.Response) => {
 app.use((err: Error, req: express.Request, res: express.Response, _next: express.NextFunction) => {
   // Node loses the error type when passing it around, we use the `isPDFServiceError` property to circumvent this
   if (err && (err instanceof PDFServiceError || err['isPDFServiceError'])) {
+    if (process.env.VERBOSE) {
+      console.error('PDFServiceError', err);
+      console.error(JSON.stringify(err));
+    }
+
     res.status((err as PDFServiceError).status).json({ message: err.message });
   } else {
     console.error('Unexpected error', err);
