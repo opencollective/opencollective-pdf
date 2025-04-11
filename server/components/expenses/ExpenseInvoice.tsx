@@ -10,6 +10,7 @@ import { QueryResult } from '@apollo/client/index.js';
 import { AccountWithHost, ExpenseInvoiceQuery } from '../../../server/graphql/types/v2/graphql.js';
 import { Account } from '../../../server/graphql/types/v2/schema.js';
 import { FontFamily } from '../../../server/lib/pdf.js';
+import dayjs from 'dayjs';
 
 type ExpenseFromQuery = NonNullable<NonNullable<QueryResult<ExpenseInvoiceQuery>['data']>['expense']>;
 
@@ -221,9 +222,9 @@ const ExpenseInvoice = ({
                 </Text>
                 <Text style={styles.expenseInfo}>
                   <FormattedMessage
-                    id="AUpCdn"
-                    defaultMessage="Date: {date, date, full}"
-                    values={{ date: new Date(expense.createdAt) }}
+                    defaultMessage="Date: {date}"
+                    id="IeqnaT"
+                    values={{ date: dayjs(expense.createdAt).format('YYYY-MM-DD') }}
                   />
                 </Text>
               </View>
