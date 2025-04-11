@@ -1,13 +1,14 @@
 import React from 'react';
 import { StyleSheet, Text, View } from '@react-pdf/renderer';
 import { Table, TR, TH, TD } from '@ag-media/react-pdf-table';
-import { FormattedDate, FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import { round, sumBy, uniq } from 'lodash-es';
 import { getCurrencyPrecision } from '../../lib/currency.js';
 import { formatAmount } from '../../lib/currency.js';
 import { formatCurrency } from '../../lib/currency.js';
 import { FontFamily } from '../../lib/pdf.js';
 import { Expense, ExpenseItem } from '../../../server/graphql/types/v2/schema.js';
+import dayjs from 'dayjs';
 
 const getItemAmounts = (item: Pick<ExpenseItem, 'id' | 'description' | 'incurredAt' | 'amountV2'>) => {
   if (!item.amountV2.exchangeRate) {
@@ -83,9 +84,7 @@ const ExpenseItemsTable = ({
         return (
           <TR key={item.id}>
             <TD style={styles.cell}>
-              <Text>
-                <FormattedDate value={new Date(item.incurredAt)} day="2-digit" month="2-digit" year="numeric" />
-              </Text>
+              <Text>{dayjs(item.incurredAt).format('YYYY-MM-DD')}</Text>
             </TD>
             <TD style={styles.cell}>
               <Text>

@@ -3,7 +3,7 @@ import { Document, Page, Text, View, StyleSheet, Image, Link } from '@react-pdf/
 import { Table, TR, TH, TD } from '@ag-media/react-pdf-table';
 import { get, chunk, sumBy, max, isNil, round, uniqBy } from 'lodash-es';
 import QRCode from 'qrcode';
-import { FormattedMessage, FormattedDate } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 
 import { isMemberOfTheEuropeanUnion } from '@opencollective/taxes';
 import {
@@ -235,11 +235,7 @@ const TableWeighting = {
   netAmount: 0.15,
 };
 
-const CustomIntlDate = ({ date }: { date: Date }) => (
-  <Text>
-    <FormattedDate value={date} day="2-digit" month="2-digit" year="numeric" />
-  </Text>
-);
+const CustomIntlDate = ({ date }: { date: Date }) => dayjs(date).format('YYYY-MM-DD');
 
 // Event description component
 const EventDescription = ({ event }: { event: Event }) => (
