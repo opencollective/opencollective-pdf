@@ -73,8 +73,8 @@ app.use((req: express.Request, res: express.Response, next: express.NextFunction
   res.setHeader('Access-Control-Allow-Headers', 'authorization,content-type,baggage,sentry-trace,x-api-key');
 
   // Set Access-Control-Allow-Origin
-  if (process.env.WEBSITE_URL === 'https://opencollective.com' || process.env.NODE_ENV === 'production') {
-    res.setHeader('Access-Control-Allow-Origin', 'https://opencollective.com');
+  if (process.env.NODE_ENV === 'production') {
+    res.setHeader('Access-Control-Allow-Origin', process.env.WEBSITE_URL || 'https://opencollective.com');
   } else {
     // Always allow requests on non-prod environments
     res.setHeader('Access-Control-Allow-Origin', '*');
