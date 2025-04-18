@@ -28,7 +28,7 @@
     "@ag-media/react-pdf-table": "^2.0.1",
     "@apollo/client": "3.13.8",
     "@opencollective/taxes": "5.1.0",
-    "@react-pdf/renderer": "4.1.6",
+    "@react-pdf/renderer": "4.3.0",
     "dayjs": "1.11.13",
     "dotenv": "16.4.1",
     "express": "5.0.0",
