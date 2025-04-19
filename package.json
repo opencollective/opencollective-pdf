@@ -40,7 +40,7 @@
     "qrcode": "1.5.4",
     "react": "19.1.0",
     "react-dom": "19.1.0",
-    "react-intl": "7.1.5"
+    "react-intl": "7.1.11"
   },
   "devDependencies": {
     "@eslint/compat": "^1.2.8",
