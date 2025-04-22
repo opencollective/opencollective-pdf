@@ -30,7 +30,7 @@
     "@opencollective/taxes": "5.1.0",
     "@react-pdf/renderer": "4.1.6",
     "dayjs": "1.11.13",
-    "dotenv": "16.4.1",
+    "dotenv": "16.5.0",
     "express": "5.1.0",
     "express-rate-limit": "7.5.0",
     "i18n-iso-countries": "7.14.0",
