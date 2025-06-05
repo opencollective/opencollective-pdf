@@ -1,7 +1,5 @@
 # Open Collective PDF service
 
-![Build and Push](https://github.com/wei/pull/workflows/Build%20and%20Push/badge.svg)
-
 ## Foreword
 
 If you see a step below that could be improved (or is outdated), please update the instructions. We rarely go through this process ourselves, so your fresh pair of eyes and your recent experience with it, makes you the best candidate to improve them for other users. Thank you!
