@@ -26,7 +26,7 @@
   },
   "dependencies": {
     "@ag-media/react-pdf-table": "^2.0.1",
-    "@apollo/client": "3.13.8",
+    "@apollo/client": "3.13.9",
     "@opencollective/taxes": "5.1.0",
     "@react-pdf/renderer": "4.1.6",
     "dayjs": "1.11.13",
