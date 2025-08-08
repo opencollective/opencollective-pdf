@@ -171,7 +171,7 @@ function fillValueForField<Values>(
   if (typeof field === 'string') {
     const formField = form.getField(field);
     if (isTextFormField(formField)) {
-      if (value) {
+      if (!isNil(value) && value !== '') {
         formField.setAlignment(TextAlignment.Left);
         setTextFieldContentWithFont(formField, value.toString().trim(), font);
       }
@@ -215,7 +215,7 @@ function fillValueForField<Values>(
     const formPath = field.formPath;
     const transform = field.transform || (v => v);
     const transformedValue = transform(value, allValues);
-    if (transformedValue) {
+    if (!isNil(transformedValue) && transformedValue !== '') {
       const formField = form.getTextField(formPath);
       formField.setAlignment(TextAlignment.Left);
       const content = transformedValue.toString().trim();
