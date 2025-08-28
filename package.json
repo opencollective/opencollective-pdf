@@ -64,7 +64,7 @@
     "pdf-visual-diff": "^0.14.0",
     "prettier": "3.6.2",
     "supertest": "^7.0.0",
-    "tsx": "^4.19.2",
+    "tsx": "^4.20.5",
     "typescript": "^5.3.3",
     "typescript-eslint": "^8.29.0",
     "vite": "^7.0.0",
