@@ -12,6 +12,7 @@ import path from 'path';
 
 import { last } from 'lodash-es';
 
+import cloudflareIps from 'cloudflare-ip/ips.json' with { type: 'json' };
 import fs from 'fs';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
@@ -31,6 +32,8 @@ dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 3000;
+
+app.set('trust proxy', ['loopback', 'linklocal', 'uniquelocal'].concat(cloudflareIps));
 
 if (process.env.VERBOSE) {
   app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
