@@ -33,7 +33,7 @@
     "dayjs": "1.11.15",
     "dotenv": "17.2.1",
     "express": "5.1.0",
-    "express-rate-limit": "8.0.1",
+    "express-rate-limit": "8.1.0",
     "i18n-iso-countries": "7.14.0",
     "lodash-es": "4.17.21",
     "pdf-fontkit": "1.8.9",
