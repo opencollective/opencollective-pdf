@@ -41,7 +41,7 @@
     "qrcode": "1.5.4",
     "react": "19.1.1",
     "react-dom": "19.1.1",
-    "react-intl": "7.1.11"
+    "react-intl": "7.1.14"
   },
   "devDependencies": {
     "@eslint/compat": "^1.2.8",
