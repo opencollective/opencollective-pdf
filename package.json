@@ -31,7 +31,7 @@
     "@react-pdf/renderer": "4.1.6",
     "cloudflare-ip": "^0.0.7",
     "dayjs": "1.11.15",
-    "dotenv": "17.2.1",
+    "dotenv": "17.2.3",
     "express": "5.1.0",
     "express-rate-limit": "8.1.0",
     "i18n-iso-countries": "7.14.0",
