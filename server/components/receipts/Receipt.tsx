@@ -123,6 +123,11 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     paddingVertical: 5,
   },
+  embeddedImage: {
+    marginTop: 10,
+    width: 300,
+    height: 102,
+  },
   textAlignRight: {
     textAlign: 'right',
   },
@@ -286,6 +291,7 @@ type Props = {
     template?: {
       title?: string;
       info?: string;
+      embeddedImage?: string;
     };
   };
   debug?: boolean; // As we don't have access to the console for PDFs, debugging can sometimes be tricky. Set this flag to display useful information directly on the document.
@@ -717,6 +723,9 @@ export class Receipt extends React.Component<Props> {
             {pageNumber === chunkedTransactions.length - 1 && (
               <React.Fragment>
                 {receipt.template?.info && <Text style={styles.footerInfo}>{receipt.template?.info}</Text>}
+                {receipt.template?.embeddedImage && (
+                  <Image src={receipt.template.embeddedImage} style={styles.embeddedImage} />
+                )}
                 <View style={styles.flexGrow}></View>
                 <CollectiveFooter collective={receipt.host as Account} />
               </React.Fragment>

@@ -28,7 +28,7 @@ npm run dev
 
 #### Usage with frontend
 
-If you use this service through local frontend, you will need to add `PDF_SERVICE_V2_URL=http://localhost:3002` line to `.env`. You're ready to go - frontend will pass your authorization token directly to the app.
+If you use this service through local frontend, you will need to add `PDF_SERVICE_URL=http://localhost:3002` line to `.env`. You're ready to go - frontend will pass your authorization token directly to the app.
 
 However this is not practical to develop, you should only use it to debug the
 bridge between the two services.
