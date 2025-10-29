@@ -125,8 +125,8 @@ const styles = StyleSheet.create({
   },
   embeddedImage: {
     marginTop: 10,
-    width: 300,
-    height: 102,
+    width: 200, // Original width is 300, x2/3 for better resolution
+    height: 68, // Original height is 102, x2/3 for better resolution
   },
   textAlignRight: {
     textAlign: 'right',
