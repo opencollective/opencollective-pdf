@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
     fontFamily: FontFamily.InterRegular,
   },
   header: {
-    marginBottom: 20,
+    marginBottom: 12,
   },
   accountName: {
     fontFamily: FontFamily.InterBold,
@@ -191,7 +191,7 @@ const styles = StyleSheet.create({
     minHeight: 100,
   },
   mt20: {
-    marginTop: 80,
+    marginTop: 20,
   },
   bold: {
     fontFamily: FontFamily.InterBold,
