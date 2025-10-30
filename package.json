@@ -9,7 +9,7 @@
     "start": "node dist/server/index.js",
     "test": "START_SERVER=false vitest --run",
     "test:watch": "vitest --watch",
-    "test:coverage": "vitest --run --coverage --reporter=junit --outputFile=test-report.junit.xml",
+    "test:coverage": "vitest --run --coverage --reporter=junit --reporter=default --outputFile=test-report.junit.xml",
     "test:update": "rm test/__snapshots__/*.png && vitest --run",
     "type:check": "tsc --noEmit",
     "dev": "tsx watch server/index.ts",
