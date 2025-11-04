@@ -171,7 +171,7 @@ const ExpenseInvoice = ({
                   <Text style={styles.addressTitle}>
                     <FormattedMessage id="dM+p3/" defaultMessage="From" />
                   </Text>
-                  <Text style={styles.addressText}>{payee.name || payee.slug}</Text>
+                  <Text style={styles.addressText}>{payee.legalName || payee.name || payee.slug}</Text>
                   {payeeLocation?.address && <Text style={styles.addressText}>{payeeLocation.address}</Text>}
                   {payeeLocation?.country && <Text style={styles.addressText}>{payeeLocation.country}</Text>}
                 </View>
@@ -180,7 +180,9 @@ const ExpenseInvoice = ({
                   <Text style={styles.addressTitle}>
                     <FormattedMessage id="gSv0eP" defaultMessage="Bill to" />
                   </Text>
-                  <Text style={styles.addressText}>{billToAccount.name || billToAccount.slug}</Text>
+                  <Text style={styles.addressText}>
+                    {billToAccount.legalName || billToAccount.name || billToAccount.slug}
+                  </Text>
                   {billToAccount.location?.address && (
                     <Text style={styles.addressText}>{billToAccount.location.address}</Text>
                   )}
@@ -217,7 +219,7 @@ const ExpenseInvoice = ({
                   <FormattedMessage
                     id="AJ6aIN"
                     defaultMessage="Collective: {collectiveName}"
-                    values={{ collectiveName: account.name || account.slug }}
+                    values={{ collectiveName: account.legalName || account.name || account.slug }}
                   />
                 </Text>
                 <Text style={styles.expenseInfo}>

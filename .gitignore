@@ -17,6 +17,7 @@ out
 coverage
 test/__snapshots__/*.diff.png
 test/__snapshots__/*.new.png
+test-report.junit.xml
 
 # VSCode
 .vscode

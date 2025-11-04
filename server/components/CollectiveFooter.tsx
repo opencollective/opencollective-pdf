@@ -49,7 +49,7 @@ const CollectiveFooter = ({ collective }: { collective: Account | GraphQLV1Colle
         </View>
       )}
       <View>
-        <Text style={styles.collectiveName}>{collective.name}</Text>
+        <Text style={styles.collectiveName}>{collective.legalName || collective.name || collective.slug}</Text>
         <View style={styles.address}>
           <LocationParagraph collective={collective} />
         </View>
