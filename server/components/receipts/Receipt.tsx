@@ -272,7 +272,7 @@ type Props = {
     fromAccountHost?:
       | (Pick<Account, 'name' | 'slug' | 'legalName'> & { settings?: { VAT?: { number?: string } } })
       | null;
-    host: Pick<Account, 'name' | 'slug' | 'location'>;
+    host: Pick<Account, 'name' | 'slug' | 'legalName' | 'location'>;
     transactions: Array<
       Pick<
         Transaction,
@@ -592,7 +592,9 @@ export class Receipt extends React.Component<Props> {
                 <View style={[styles.flexRow, styles.flexWrap, styles.alignStart]}>
                   <View style={[styles.flexGrow, styles.mb3]}>
                     <Link src={`https://opencollective.com/${receipt.host.slug}`} style={styles.link}>
-                      <Text style={styles.accountName}>{receipt.host.name || receipt.host.slug}</Text>
+                      <Text style={styles.accountName}>
+                        {receipt.host.legalName || receipt.host.name || receipt.host.slug}
+                      </Text>
                     </Link>
                     <View style={styles.my2}>
                       <LocationParagraph collective={receipt.host as Account} />
