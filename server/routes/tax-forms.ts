@@ -54,7 +54,7 @@ router.get('/:formType.pdf', async (req: express.Request, res: express.Response)
 
   // Set metadata
   const signerFullName = getFullName(values.signer);
-  const entityName = values.businessName || signerFullName;
+  const entityName = values.organizationName || values.businessName || signerFullName;
   pdfDoc.setTitle(`${formType} Form - ${entityName}`);
   pdfDoc.setSubject(`${formType} Form`);
   pdfDoc.setAuthor(signerFullName || '');

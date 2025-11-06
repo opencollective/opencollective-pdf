@@ -57,13 +57,6 @@ export enum NFFEStatus {
   NonProfitOrganization = 'NonProfitOrganization',
 }
 
-export type TaxFormNameValues = { firstName?: string; middleName?: string; lastName?: string };
-
-export type TaxFormLocationValues = {
-  country?: string;
-  structured?: { address1?: string; address2?: string; city?: string; zone?: string; postalCode?: string };
-};
-
 export type BaseFormValues = {
   isUSPersonOrEntity?: boolean;
   submitterType?: SubmitterType;
@@ -80,6 +73,7 @@ export type W9TaxFormValues = {
   email?: string;
   signer?: { firstName?: string; middleName?: string; lastName?: string };
   isSigned?: boolean;
+  organizationName?: string;
   businessName?: string;
   federalTaxClassificationDetails?: string;
   exemptPayeeCode?: string;
@@ -102,6 +96,7 @@ export type W8BenTaxFormValues = ({
   email?: string;
   signer?: { firstName?: string; middleName?: string; lastName?: string };
   isSigned?: boolean;
+  hasConfirmedTOS?: boolean;
   beneficialOwner?: { firstName?: string; middleName?: string; lastName?: string };
   taxpayerIdentificationNumberTypeUS?: 'SSN' | 'ITIN';
   taxpayerIdentificationNumberUS?: string;
@@ -116,7 +111,6 @@ export type W8BenTaxFormValues = ({
     country?: string;
     structured?: { address1?: string; address2?: string; city?: string; zone?: string; postalCode?: string };
   };
-  hasConfirmedTOS?: boolean;
   claimsSpecialRatesAndConditions?: boolean;
   isSignerTheBeneficialOwner?: boolean;
   certifiesResidentCountry?: boolean;
@@ -130,11 +124,12 @@ export type W8BenTaxFormValues = ({
   | { claimsSpecialRatesAndConditions?: false }
   | {
       claimsSpecialRatesAndConditions?: true;
-      hasTaxTreatySpecialRatesAndConditions?: boolean;
       certifiesResidentCountry?: boolean;
+      hasTaxTreatySpecialRatesAndConditions?: boolean;
     }
 ) &
   (
+    | { hasTaxTreatySpecialRatesAndConditions?: any }
     | { hasTaxTreatySpecialRatesAndConditions?: false }
     | {
         hasTaxTreatySpecialRatesAndConditions?: true;
@@ -154,6 +149,14 @@ export type W8BenETaxFormValues = ((({
   signer?: { firstName?: string; middleName?: string; lastName?: string };
   isSigned?: boolean;
   businessName?: string;
+  hasConfirmedTOS?: boolean;
+  taxpayerIdentificationNumberUS?: string;
+  taxpayerIdentificationNumberForeign?: string;
+  claimsSpecialRatesAndConditions?: boolean;
+  claimsArticleAndParagraph?: string;
+  claimsRate?: number;
+  claimsIncomeType?: string;
+  claimsExplanation?: string;
   businessCountryOfIncorporationOrOrganization?: string;
   businessAddress?: {
     country?: string;
@@ -167,23 +170,15 @@ export type W8BenETaxFormValues = ((({
   chapter3Status?: Chapter3Status;
   hasCapacityToSign?: boolean;
   certifyStatus?: boolean;
-  taxpayerIdentificationNumberForeign?: string;
-  taxpayerIdentificationNumberUS?: string;
   giin?: string;
   reference?: string;
-  hasConfirmedTOS?: boolean;
   isHybridEntity?: boolean;
-  claimsSpecialRatesAndConditions?: boolean;
   nffeStatus?: NFFEStatus;
   certifyDerivesIncome?: boolean;
   typeOfLimitationOnBenefitsProvisions?: TypeOfLimitationOnBenefitsProvisions;
   typeOfLimitationOnBenefitsProvisionsOther?: string;
   certifyBeneficialOwnerCountry?: boolean;
   certifyForeignCorporation?: boolean;
-  claimsArticleAndParagraph?: string;
-  claimsRate?: number;
-  claimsIncomeType?: string;
-  claimsExplanation?: string;
   usOwners?: {
     name?: string;
     address?: {
@@ -197,7 +192,6 @@ export type W8BenETaxFormValues = ((({
   | { nffeStatus?: NFFEStatus.NonProfitOrganization }
   | {
       nffeStatus?: NFFEStatus.PassiveNFFE;
-      entityHasNoUSOwners?: boolean;
       usOwners?: {
         name?: string;
         address?: {
@@ -206,16 +200,17 @@ export type W8BenETaxFormValues = ((({
         };
         tin?: string;
       }[];
+      entityHasNoUSOwners?: boolean;
     }
 )) &
   (
     | { isHybridEntity?: boolean }
     | {
-        isHybridEntity?: boolean;
-        certifyBeneficialOwnerCountry?: boolean;
-        certifyDerivesIncome?: boolean;
-        certifyForeignCorporation?: boolean;
         claimsSpecialRatesAndConditions?: boolean;
+        isHybridEntity?: boolean;
+        certifyDerivesIncome?: boolean;
+        certifyBeneficialOwnerCountry?: boolean;
+        certifyForeignCorporation?: boolean;
       }
   )) &
   (
