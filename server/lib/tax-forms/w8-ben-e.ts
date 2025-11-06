@@ -82,6 +82,7 @@ export const W8BenEFieldsDefinition: Partial<Record<keyof W8BenETaxFormValues, P
   },
   claimsExplanation: {
     type: 'split-text',
+    if: (value, values) => values.claimsSpecialRatesAndConditions,
     fields: [
       { formPath: 'topmostSubform[0].Page2[0].f2_14[0]', maxLength: 18 },
       { formPath: 'topmostSubform[0].Page2[0].f2_15[0]', maxLength: 120 },

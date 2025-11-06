@@ -2,11 +2,19 @@ import dayjs from '../dayjs.js';
 import { PDFDocument, PDFFont } from 'pdf-lib';
 import { addSignature, fillPDFFormFromValues, PDFFieldDefinition } from '../pdf-lib-utils.js';
 import { getFullName } from './utils.js';
-import { W9TaxFormValues } from './frontend-types.js';
+import { SubmitterType, W9TaxFormValues } from './frontend-types.js';
 import { getCountryName } from '../i18n.js';
 
 export const W9FieldsDefinition: Partial<Record<keyof W9TaxFormValues, PDFFieldDefinition>> = {
-  signer: { formPath: 'topmostSubform[0].Page1[0].f1_01[0]', transform: getFullName },
+  signer: {
+    formPath: 'topmostSubform[0].Page1[0].f1_01[0]',
+    transform: getFullName,
+    if: (value, values) => values.submitterType === SubmitterType.Individual,
+  },
+  organizationName: {
+    formPath: 'topmostSubform[0].Page1[0].f1_01[0]',
+    if: (value, values) => values.submitterType === SubmitterType.Business,
+  },
   businessName: 'topmostSubform[0].Page1[0].f1_02[0]',
   accountNumbers: 'topmostSubform[0].Page1[0].f1_10[0]',
   exemptPayeeCode: 'topmostSubform[0].Page1[0].f1_05[0]',
