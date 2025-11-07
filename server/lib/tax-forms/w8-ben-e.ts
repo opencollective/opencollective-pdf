@@ -64,6 +64,7 @@ export const W8BenEFieldsDefinition: Partial<Record<keyof W8BenETaxFormValues, P
       Other: 'topmostSubform[0].Page2[0].c2_5[5]',
     },
   },
+  certifyForeignCorporation: 'topmostSubform[0].Page2[0].c2_6[0]',
   typeOfLimitationOnBenefitsProvisionsOther: 'topmostSubform[0].Page2[0].f2_10[0]',
   certifyBeneficialOwnerCountry: 'topmostSubform[0].Page2[0].c2_3[0]',
   taxpayerIdentificationNumberUS: 'topmostSubform[0].Page2[0].f2_1[0]',
@@ -105,6 +106,11 @@ export const W8BenEFieldsDefinition: Partial<Record<keyof W8BenETaxFormValues, P
         formPath: 'topmostSubform[0].Page1[0].f1_5[0]',
         transform: (value: W8BenETaxFormValues['businessAddress']) =>
           [value?.structured?.city, value?.structured?.zone, value?.structured?.postalCode].filter(Boolean).join(', '),
+      },
+      {
+        formPath: 'topmostSubform[0].Page2[0].f2_9[0]',
+        if: (value, values) => values.certifyBeneficialOwnerCountry,
+        transform: (value: W8BenETaxFormValues['businessAddress']) => getCountryName(value?.country),
       },
     ],
   },
