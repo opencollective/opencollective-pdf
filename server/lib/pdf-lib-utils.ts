@@ -216,10 +216,17 @@ function fillValueForField<Values>(
     const transform = field.transform || (v => v);
     const transformedValue = transform(value, allValues);
     if (!isNil(transformedValue) && transformedValue !== '') {
-      const formField = form.getTextField(formPath);
-      formField.setAlignment(TextAlignment.Left);
-      const content = transformedValue.toString().trim();
-      setTextFieldContentWithFont(formField, content, font);
+      const formField = form.getField(formPath);
+      if (formField.constructor.name === 'PDFCheckBox') {
+        if (value) {
+          form.getCheckBox(formPath).check();
+        }
+      } else {
+        const textField = form.getTextField(formPath);
+        textField.setAlignment(TextAlignment.Left);
+        const content = transformedValue.toString().trim();
+        setTextFieldContentWithFont(textField, content, font);
+      }
     }
   }
 }

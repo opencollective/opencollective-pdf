@@ -2,7 +2,7 @@ import { addSignature, fillPDFFormFromValues, PDFFieldDefinition } from '../pdf-
 import { PDFDocument, PDFFont } from 'pdf-lib';
 import { getFullName } from './utils.js';
 import { isNil } from 'lodash-es';
-import { W8BenETaxFormValues } from './frontend-types.js';
+import { NFFEStatus, W8BenETaxFormValues } from './frontend-types.js';
 import { getCountryName } from '../i18n.js';
 import dayjs from '../dayjs.js';
 
@@ -136,6 +136,30 @@ export const W8BenEFieldsDefinition: Partial<Record<keyof W8BenETaxFormValues, P
   reference: 'topmostSubform[0].Page2[0].f2_4[0]',
   giin: 'topmostSubform[0].Page2[0].Line9a_ReadOrder[0].f2_2[0]',
   usOwners: 'topmostSubform[0].Page8[0].Table_Part29[0].BodyRow1[0].f8_3[0]',
+  certifyStatus: {
+    type: 'multi',
+    if: (hasCertified: boolean) => hasCertified,
+    fields: [
+      // [A-NFFE] I certify that the entity is a foreign (non-US) entity...
+      {
+        formPath: 'topmostSubform[0].Page7[0].c7_5[0]',
+        if: (v, values: W8BenETaxFormValues) => values.nffeStatus === NFFEStatus.ActiveNFFE,
+      },
+      // [P-NFFE] I certify that the entity is a foreign entity...
+      {
+        formPath: 'topmostSubform[0].Page7[0].c7_6[0]',
+        if: (v, values: W8BenETaxFormValues) => values.nffeStatus === NFFEStatus.PassiveNFFE,
+      },
+      // I certify that the entity is a nonprofit organization
+      {
+        formPath: 'topmostSubform[0].Page7[0].c7_2[0]',
+        if: (v, values: W8BenETaxFormValues) => values.nffeStatus === NFFEStatus.NonProfitOrganization,
+      },
+    ],
+  },
+  // @ts-expect-error TODO: fix this
+  entityHasNoUSOwners: 'topmostSubform[0].Page7[0].c7_7[0]',
+  hasCapacityToSign: 'topmostSubform[0].Page8[0].c8_3[0]',
   signer: {
     formPath: 'topmostSubform[0].Page8[0].f8_31[0]',
     transform: getFullName,
