@@ -44,7 +44,7 @@
     "react-intl": "7.1.14"
   },
   "devDependencies": {
-    "@eslint/compat": "^1.2.8",
+    "@eslint/compat": "^2.0.0",
     "@eslint/js": "^9.23.0",
     "@graphql-codegen/cli": "^6.0.0",
     "@types/express": "^5.0.0",
