@@ -1,8 +1,8 @@
 import { CompareOptions, comparePdfToSnapshot } from 'pdf-visual-diff';
 
 export const snapshotPDF = async (
-  pdfContent,
-  snapshotName,
+  pdfContent: Buffer,
+  snapshotName: string,
   options: Omit<CompareOptions, 'failOnMissingSnapshot'> = {},
 ) => {
   if (

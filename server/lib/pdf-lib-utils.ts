@@ -92,6 +92,8 @@ type FieldTypeCombo = {
   transform?: (value, allValues) => string;
 };
 
+// Field types. Make sure to update `getAllFieldsFromDefinition` when adding new field types.
+
 type AdvancedPDFFieldDefinition = {
   formPath: string;
   if?: (value, allValues) => boolean;
