@@ -63,7 +63,7 @@
     "node-fetch": "^3.3.2",
     "npm-run-all2": "^8.0.0",
     "pdf-visual-diff": "^0.14.0",
-    "prettier": "3.6.2",
+    "prettier": "3.7.4",
     "supertest": "^7.0.0",
     "tsx": "^4.20.5",
     "typescript": "^5.3.3",
