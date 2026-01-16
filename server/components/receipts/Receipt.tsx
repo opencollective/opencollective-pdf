@@ -376,7 +376,7 @@ export class Receipt extends React.Component<Props> {
   /** Returns the VAT number of the collective */
   renderBillToTaxIdNumbers() {
     const { fromAccount, fromAccountHost, transactions } = this.props.receipt;
-    const taxesSummary = getTaxIdNumbersFromTransactions(transactions as unknown as Transaction[]);
+    const taxesSummary = getTaxIdNumbersFromTransactions(transactions);
 
     // Expenses rely solely on the tax info stored in transactions. For orders, we look in the fromCollective
     if (!transactions.every(t => t.kind === 'EXPENSE')) {
