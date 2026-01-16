@@ -1,4 +1,4 @@
-import { get, round, sumBy, uniqBy } from 'lodash-es';
+import { get, isUndefined, round, sumBy, uniqBy } from 'lodash-es';
 import { Account, Transaction } from '../graphql/types/v2/schema.js';
 
 /** Given a transaction, return the collective that receive the money */
@@ -15,7 +15,7 @@ export const getTransactionTaxPercent = (transaction: {
   amountInHostCurrency?: { valueInCents?: number };
   order?: { taxPercentage?: number; data?: { tax: { percentage: number } } };
   hostCurrencyFxRate?: number;
-  taxInfo?: { rate: number };
+  taxInfo?: { rate: number; percentage: number };
 }): number => {
   const taxAmount = Math.abs(transaction.taxAmount?.valueInCents);
   if (!taxAmount) {
@@ -23,7 +23,11 @@ export const getTransactionTaxPercent = (transaction: {
   }
 
   if (transaction.taxInfo) {
-    return round(transaction.taxInfo.rate * 100, 2);
+    if (transaction.taxInfo.percentage) {
+      return transaction.taxInfo.percentage;
+    } else {
+      return round(transaction.taxInfo.rate * 100, 2);
+    }
   } else if (transaction.order?.data?.tax) {
     const percent = get(transaction, 'order.data.tax.percentage');
     const percentV2 = get(transaction, 'order.taxPercentage');
@@ -34,6 +38,20 @@ export const getTransactionTaxPercent = (transaction: {
 
   // Calculate from amount
   return round((taxAmount / (transaction.amountInHostCurrency.valueInCents - taxAmount)) * 100, 2);
+};
+
+const getTaxPercentageFromOrderData = data => {
+  const percentage = get(data, 'tax.percentage') as number | undefined;
+  if (!isUndefined(percentage)) {
+    return percentage;
+  }
+
+  const rate = get(data, 'tax.rate') as number | undefined;
+  if (!isUndefined(rate)) {
+    return round(rate * 100, 2);
+  }
+
+  return undefined;
 };
 
 export const getTaxInfoFromTransaction = (
@@ -54,10 +72,10 @@ export const getTaxInfoFromTransaction = (
       idNumber: transaction.taxInfo.idNumber || transaction.taxInfo.id || 'Tax',
     };
   } else if (transaction.order?.data?.tax) {
+    const percentage = getTransactionTaxPercent(transaction) ?? getTaxPercentageFromOrderData(transaction.order.data);
     return {
       type: (get(transaction.order.data, 'tax.id') as string) || 'Tax',
-      rate:
-        (get(transaction.order.data, 'tax.rate') as number) || round(getTransactionTaxPercent(transaction) / 100, 4),
+      rate: percentage ? round(percentage / 100, 4) : undefined,
       idNumber: (get(transaction.order.data, 'tax.taxIDNumber') as string) || 'Tax',
     };
   }
