@@ -141,8 +141,10 @@ const receiptTransactionFragment = gql`
       id
       legacyId
       data
-      taxes {
+      tax {
+        id
         type
+        rate
         percentage
       }
       quantity

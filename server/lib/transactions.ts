@@ -8,7 +8,6 @@ export const getTransactionReceiver = (transaction: Transaction): Account => {
 
 /**
  * Return the tax percentage applied for this transaction
- * TODO: More from percentage (10) to rate (.10)
  */
 export const getTransactionTaxPercent = (transaction: {
   taxAmount?: { valueInCents?: number };
@@ -17,11 +16,6 @@ export const getTransactionTaxPercent = (transaction: {
   hostCurrencyFxRate?: number;
   taxInfo?: { rate: number; percentage: number };
 }): number => {
-  const taxAmount = Math.abs(transaction.taxAmount?.valueInCents);
-  if (!taxAmount) {
-    return 0;
-  }
-
   if (transaction.taxInfo) {
     if (transaction.taxInfo.percentage) {
       return transaction.taxInfo.percentage;
@@ -34,6 +28,11 @@ export const getTransactionTaxPercent = (transaction: {
     if (percent || percentV2) {
       return percent || percentV2;
     }
+  }
+
+  const taxAmount = Math.abs(transaction.taxAmount?.valueInCents);
+  if (!taxAmount) {
+    return 0;
   }
 
   // Calculate from amount
@@ -57,7 +56,7 @@ const getTaxPercentageFromOrderData = data => {
 export const getTaxInfoFromTransaction = (
   transaction: Parameters<typeof getTransactionTaxPercent>[0] & {
     taxInfo?: { idNumber?: string; rate: number; type: string; id?: string };
-    order?: { data?: Record<string, unknown> };
+    order?: { tax?: { id: string; taxIDNumber: string; percentage: number; rate: number } };
   },
 ): {
   type: string;
@@ -71,12 +70,12 @@ export const getTaxInfoFromTransaction = (
       type: transaction.taxInfo.type || transaction.taxInfo.id || 'Tax',
       idNumber: transaction.taxInfo.idNumber || transaction.taxInfo.id || 'Tax',
     };
-  } else if (transaction.order?.data?.tax) {
+  } else if (transaction.order?.tax) {
     const percentage = getTransactionTaxPercent(transaction) ?? getTaxPercentageFromOrderData(transaction.order.data);
     return {
-      type: (get(transaction.order.data, 'tax.id') as string) || 'Tax',
+      type: (get(transaction.order, 'tax.id') as string) || 'Tax',
       rate: percentage ? round(percentage / 100, 4) : undefined,
-      idNumber: (get(transaction.order.data, 'tax.taxIDNumber') as string) || 'Tax',
+      idNumber: (get(transaction.order, 'tax.taxIDNumber') as string) || 'Tax',
     };
   }
 };
@@ -99,7 +98,7 @@ export const getTaxesBreakdown = (transactions: Array<Transaction>) => {
     { info: ReturnType<typeof getTaxInfoFromTransaction>; transactions: Array<Transaction> }
   > = {};
   for (const transaction of transactions) {
-    const taxInfo = getTaxInfoFromTransaction(transaction);
+    const taxInfo = getTaxInfoFromTransaction(transaction as any);
     if (taxInfo) {
       const taxId = `${taxInfo.type}-${taxInfo.rate}`;
       groupedTransactions[taxId] = groupedTransactions[taxId] || { info: taxInfo, transactions: [] };
