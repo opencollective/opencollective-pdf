@@ -10,6 +10,7 @@ import Receipt from '../components/receipts/Receipt.js';
 import { AccountWithHost } from '../graphql/types/v2/schema.js';
 import dayjs from '../lib/dayjs.js';
 import { InvoiceByDateRangeQuery, TransactionInvoiceQuery } from '../graphql/types/v2/graphql.js';
+import { parseToBoolean } from '../lib/env.js';
 
 const router = express.Router();
 
@@ -204,6 +205,10 @@ async function fetchTransactionInvoice(transactionId: string, authorizationHeade
     throw new NotFoundError(`Transaction ${transactionId} not found`);
   } else if (!transaction.permissions.canDownloadInvoice) {
     throw new ForbiddenError(`You don't have permission to download this transaction's invoice`);
+  }
+
+  if (parseToBoolean(process.env.DEBUG_RECEIPTS_GQL)) {
+    console.log('Query Response', JSON.stringify(response.data));
   }
 
   return response.data.transaction as QueryResult<TransactionInvoiceQuery>['data']['transaction'];
