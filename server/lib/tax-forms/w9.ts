@@ -35,6 +35,10 @@ export const W9FieldsDefinition: Partial<Record<keyof W9TaxFormValues, PDFFieldD
     formPath: 'topmostSubform[0].Page1[0].Boxes3a-b_ReadOrder[0].f1_04[0]',
     if: (value, values) => values.federalTaxClassification === 'Other',
   },
+  llcTaxClassification: {
+    formPath: 'topmostSubform[0].Page1[0].Boxes3a-b_ReadOrder[0].f1_03[0]',
+    if: (value, values) => values.federalTaxClassification === 'LimitedLiabilityCompany',
+  },
   taxIdNumber: {
     type: 'multi',
     fields: [

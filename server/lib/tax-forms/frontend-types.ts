@@ -76,6 +76,7 @@ export type W9TaxFormValues = {
   organizationName?: string;
   businessName?: string;
   federalTaxClassificationDetails?: string;
+  llcTaxClassification?: 'C' | 'S' | 'P' | '';
   exemptPayeeCode?: string;
   fatcaExemptionCode?: string;
   taxIdNumberType?: 'SSN' | 'EIN';
