@@ -1,5 +1,5 @@
 import { GraphQLV1Collective } from '../../server/graphql/types/custom-types.js';
-import { Account } from '../../server/graphql/types/v2/schema.js';
+import { Account } from '../../server/graphql/types/v2/graphql.js';
 
 /**
  * Displays the name for an account, using its legal name if available.

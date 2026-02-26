@@ -7,7 +7,7 @@ import { adaptApolloError } from '../lib/apollo-client.js';
 import { BadRequestError, InternalServerError, NotFoundError } from '../lib/errors.js';
 import { ForbiddenError } from '../lib/errors.js';
 import Receipt from '../components/receipts/Receipt.js';
-import { AccountWithHost } from '../graphql/types/v2/schema.js';
+import { AccountWithHost } from '../graphql/types/v2/graphql.js';
 import dayjs from '../lib/dayjs.js';
 import { InvoiceByDateRangeQuery, TransactionInvoiceQuery } from '../graphql/types/v2/graphql.js';
 import { parseToBoolean } from '../lib/env.js';

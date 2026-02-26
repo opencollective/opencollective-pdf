@@ -7,7 +7,7 @@ import { getCurrencyPrecision } from '../../lib/currency.js';
 import { formatAmount } from '../../lib/currency.js';
 import { formatCurrency } from '../../lib/currency.js';
 import { FontFamily } from '../../lib/pdf.js';
-import { Expense, ExpenseItem } from '../../../server/graphql/types/v2/schema.js';
+import { Expense, ExpenseItem } from '../../../server/graphql/types/v2/graphql.js';
 import dayjs from 'dayjs';
 
 const getItemAmounts = (item: Pick<ExpenseItem, 'id' | 'description' | 'incurredAt' | 'amountV2'>) => {

@@ -8,7 +8,7 @@ import { getCurrencyPrecision } from '../../lib/currency.js';
 import ExpenseItemsTable from './ExpenseItemsTable.js';
 import { QueryResult } from '@apollo/client/index.js';
 import { AccountWithHost, ExpenseInvoiceQuery } from '../../../server/graphql/types/v2/graphql.js';
-import { Account } from '../../../server/graphql/types/v2/schema.js';
+import { Account } from '../../../server/graphql/types/v2/graphql.js';
 import { FontFamily } from '../../../server/lib/pdf.js';
 import dayjs from 'dayjs';
 

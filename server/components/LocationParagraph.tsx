@@ -2,7 +2,7 @@ import React from 'react';
 import { get } from 'lodash-es';
 import { getCountryName } from '../../server/lib/i18n.js';
 import { GraphQLV1Collective } from '../../server/graphql/types/custom-types.js';
-import { Account } from '../../server/graphql/types/v2/schema.js';
+import { Account } from '../../server/graphql/types/v2/graphql.js';
 import { Text } from '@react-pdf/renderer';
 
 /**

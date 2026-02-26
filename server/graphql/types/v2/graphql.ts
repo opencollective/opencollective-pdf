@@ -1,7 +1,7 @@
 /* eslint-disable */
 import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
 export type Maybe<T> = T | null;
-export type InputMaybe<T> = Maybe<T>;
+export type InputMaybe<T> = T | null | undefined;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
@@ -7345,8 +7345,6 @@ export type Mutation = {
   requestVirtualCard?: Maybe<Scalars['Boolean']['output']>;
   /** To re-send the invitation to complete a draft expense. Scope: "expenses". */
   resendDraftExpenseInvite: Expense;
-  /** Restore the given payout method. Scope: "expenses". */
-  restorePayoutMethod: PayoutMethod;
   /** Resume paused Virtual Card. Scope: "virtualCards". */
   resumeVirtualCard: VirtualCard;
   /** Revoke an OAuth authorization. Scope: "account". */
@@ -8118,11 +8116,6 @@ export type MutationRequestVirtualCardArgs = {
 /** This is the root mutation */
 export type MutationResendDraftExpenseInviteArgs = {
   expense: ExpenseReferenceInput;
-};
-
-/** This is the root mutation */
-export type MutationRestorePayoutMethodArgs = {
-  payoutMethod: PayoutMethodReferenceInput;
 };
 
 /** This is the root mutation */
@@ -13910,7 +13903,7 @@ type ReceiptTransactionFragment_Credit_Fragment = {
     legacyId: number;
     data?: any | null;
     quantity?: number | null;
-    taxes: Array<{ __typename?: 'OrderTax'; type: TaxType; percentage: number } | null>;
+    tax?: { __typename?: 'TaxInfo'; id: string; type: TaxType; rate: number; percentage: number } | null;
     tier?: { __typename?: 'Tier'; id: string; type: TierType; invoiceTemplate?: string | null } | null;
   } | null;
 };
@@ -14839,7 +14832,7 @@ type ReceiptTransactionFragment_Debit_Fragment = {
     legacyId: number;
     data?: any | null;
     quantity?: number | null;
-    taxes: Array<{ __typename?: 'OrderTax'; type: TaxType; percentage: number } | null>;
+    tax?: { __typename?: 'TaxInfo'; id: string; type: TaxType; rate: number; percentage: number } | null;
     tier?: { __typename?: 'Tier'; id: string; type: TierType; invoiceTemplate?: string | null } | null;
   } | null;
 };
@@ -15780,7 +15773,7 @@ export type TransactionInvoiceQuery = {
           legacyId: number;
           data?: any | null;
           quantity?: number | null;
-          taxes: Array<{ __typename?: 'OrderTax'; type: TaxType; percentage: number } | null>;
+          tax?: { __typename?: 'TaxInfo'; id: string; type: TaxType; rate: number; percentage: number } | null;
           tier?: { __typename?: 'Tier'; id: string; type: TierType; invoiceTemplate?: string | null } | null;
         } | null;
       }
@@ -16720,7 +16713,7 @@ export type TransactionInvoiceQuery = {
                 legacyId: number;
                 data?: any | null;
                 quantity?: number | null;
-                taxes: Array<{ __typename?: 'OrderTax'; type: TaxType; percentage: number } | null>;
+                tax?: { __typename?: 'TaxInfo'; id: string; type: TaxType; rate: number; percentage: number } | null;
                 tier?: { __typename?: 'Tier'; id: string; type: TierType; invoiceTemplate?: string | null } | null;
               } | null;
             }
@@ -17649,7 +17642,7 @@ export type TransactionInvoiceQuery = {
                 legacyId: number;
                 data?: any | null;
                 quantity?: number | null;
-                taxes: Array<{ __typename?: 'OrderTax'; type: TaxType; percentage: number } | null>;
+                tax?: { __typename?: 'TaxInfo'; id: string; type: TaxType; rate: number; percentage: number } | null;
                 tier?: { __typename?: 'Tier'; id: string; type: TierType; invoiceTemplate?: string | null } | null;
               } | null;
             }
@@ -18233,7 +18226,7 @@ export type TransactionInvoiceQuery = {
           legacyId: number;
           data?: any | null;
           quantity?: number | null;
-          taxes: Array<{ __typename?: 'OrderTax'; type: TaxType; percentage: number } | null>;
+          tax?: { __typename?: 'TaxInfo'; id: string; type: TaxType; rate: number; percentage: number } | null;
           tier?: { __typename?: 'Tier'; id: string; type: TierType; invoiceTemplate?: string | null } | null;
         } | null;
       }
@@ -19378,7 +19371,7 @@ export type InvoiceByDateRangeQuery = {
             legacyId: number;
             data?: any | null;
             quantity?: number | null;
-            taxes: Array<{ __typename?: 'OrderTax'; type: TaxType; percentage: number } | null>;
+            tax?: { __typename?: 'TaxInfo'; id: string; type: TaxType; rate: number; percentage: number } | null;
             tier?: { __typename?: 'Tier'; id: string; type: TierType; invoiceTemplate?: string | null } | null;
           } | null;
         }
@@ -20306,7 +20299,7 @@ export type InvoiceByDateRangeQuery = {
             legacyId: number;
             data?: any | null;
             quantity?: number | null;
-            taxes: Array<{ __typename?: 'OrderTax'; type: TaxType; percentage: number } | null>;
+            tax?: { __typename?: 'TaxInfo'; id: string; type: TaxType; rate: number; percentage: number } | null;
             tier?: { __typename?: 'Tier'; id: string; type: TierType; invoiceTemplate?: string | null } | null;
           } | null;
         }
@@ -20609,11 +20602,13 @@ export const ReceiptTransactionFragmentFragmentDoc = {
                 { kind: 'Field', name: { kind: 'Name', value: 'data' } },
                 {
                   kind: 'Field',
-                  name: { kind: 'Name', value: 'taxes' },
+                  name: { kind: 'Name', value: 'tax' },
                   selectionSet: {
                     kind: 'SelectionSet',
                     selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'rate' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'percentage' } },
                     ],
                   },
@@ -21280,11 +21275,13 @@ export const TransactionInvoiceDocument = {
                 { kind: 'Field', name: { kind: 'Name', value: 'data' } },
                 {
                   kind: 'Field',
-                  name: { kind: 'Name', value: 'taxes' },
+                  name: { kind: 'Name', value: 'tax' },
                   selectionSet: {
                     kind: 'SelectionSet',
                     selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'rate' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'percentage' } },
                     ],
                   },
@@ -21793,11 +21790,13 @@ export const InvoiceByDateRangeDocument = {
                 { kind: 'Field', name: { kind: 'Name', value: 'data' } },
                 {
                   kind: 'Field',
-                  name: { kind: 'Name', value: 'taxes' },
+                  name: { kind: 'Name', value: 'tax' },
                   selectionSet: {
                     kind: 'SelectionSet',
                     selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'rate' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'percentage' } },
                     ],
                   },

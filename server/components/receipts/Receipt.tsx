@@ -19,7 +19,7 @@ import { TimeRange } from '../TimeRange.js';
 import CollectiveFooter from '../CollectiveFooter.js';
 import { formatCurrency } from '../../../server/lib/currency.js';
 import { formatPaymentMethodName } from '../../../server/lib/payment-methods.js';
-import { Account, Event, Order, Transaction, PaymentMethod } from '../../../server/graphql/types/v2/schema.js';
+import { Account, Event, Order, Transaction, PaymentMethod } from '../../../server/graphql/types/v2/graphql.js';
 import dayjs from 'dayjs';
 import LocationParagraph from '../LocationParagraph.js';
 

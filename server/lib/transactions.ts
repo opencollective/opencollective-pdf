@@ -1,5 +1,5 @@
 import { get, isUndefined, round, sumBy, uniqBy } from 'lodash-es';
-import { Account, Transaction } from '../graphql/types/v2/schema.js';
+import { Account, Transaction } from '../graphql/types/v2/graphql.js';
 
 /** Given a transaction, return the collective that receive the money */
 export const getTransactionReceiver = (transaction: Transaction): Account => {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, Image, Link, StyleSheet } from '@react-pdf/renderer';
 import { GraphQLV1Collective } from '../../server/graphql/types/custom-types.js';
-import { Account } from '../../server/graphql/types/v2/schema.js';
+import { Account } from '../../server/graphql/types/v2/graphql.js';
 import { imagePreview } from '../../server/lib/images.js';
 import LocationParagraph from './LocationParagraph.js';
 import { FontFamily } from '../../server/lib/pdf.js';
