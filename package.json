@@ -52,7 +52,7 @@
     "@types/node": "^24.0.0",
     "@types/qrcode": "^1.5.5",
     "@types/react": "^19.0.8",
-    "@types/supertest": "^6.0.2",
+    "@types/supertest": "^7.0.0",
     "@vitest/coverage-v8": "^4.0.0",
     "eslint": "^9.23.0",
     "eslint-plugin-formatjs": "^5.3.1",
