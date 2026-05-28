@@ -2700,6 +2700,7 @@ export type CollectiveFeatures = {
   RECEIVE_HOST_APPLICATIONS?: Maybe<CollectiveFeatureStatus>;
   RECURRING_CONTRIBUTIONS?: Maybe<CollectiveFeatureStatus>;
   REQUEST_VIRTUAL_CARDS?: Maybe<CollectiveFeatureStatus>;
+  SINGLE_RECEIPT_PLATFORM_TIP?: Maybe<CollectiveFeatureStatus>;
   STRIPE_PAYMENT_INTENT?: Maybe<CollectiveFeatureStatus>;
   TAX_FORMS?: Maybe<CollectiveFeatureStatus>;
   TEAM?: Maybe<CollectiveFeatureStatus>;

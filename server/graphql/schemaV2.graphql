@@ -7437,6 +7437,7 @@ type CollectiveFeatures {
   CREATE_COLLECTIVE: CollectiveFeatureStatus
   PAYPAL_DONATIONS: CollectiveFeatureStatus
   HOST_DASHBOARD: CollectiveFeatureStatus
+  SINGLE_RECEIPT_PLATFORM_TIP: CollectiveFeatureStatus
   CONNECTED_ACCOUNTS: CollectiveFeatureStatus
   ALIPAY: CollectiveFeatureStatus
   STRIPE_PAYMENT_INTENT: CollectiveFeatureStatus
