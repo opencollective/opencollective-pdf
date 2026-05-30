@@ -30,7 +30,7 @@
     "@opencollective/taxes": "5.4.0",
     "@react-pdf/renderer": "4.1.6",
     "cloudflare-ip": "^0.0.7",
-    "dayjs": "1.11.20",
+    "dayjs": "1.11.21",
     "dotenv": "17.4.2",
     "express": "5.2.1",
     "express-rate-limit": "8.5.2",
