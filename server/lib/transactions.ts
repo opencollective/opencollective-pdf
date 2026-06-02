@@ -56,7 +56,7 @@ const getTaxPercentageFromOrderData = data => {
 export const getTaxInfoFromTransaction = (
   transaction: Parameters<typeof getTransactionTaxPercent>[0] & {
     taxInfo?: { idNumber?: string; rate: number; type: string; id?: string };
-    order?: { tax?: { id: string; taxIDNumber: string; percentage: number; rate: number } };
+    order?: { tax?: { id: string; idNumber: string; percentage: number; rate: number } };
   },
 ): {
   type: string;
@@ -75,7 +75,7 @@ export const getTaxInfoFromTransaction = (
     return {
       type: (get(transaction.order, 'tax.id') as string) || 'Tax',
       rate: percentage ? round(percentage / 100, 4) : undefined,
-      idNumber: (get(transaction.order, 'tax.taxIDNumber') as string) || 'Tax',
+      idNumber: (get(transaction.order, 'tax.idNumber') as string) || 'Tax',
     };
   }
 };
