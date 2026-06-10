@@ -237,6 +237,11 @@ interface Account {
   isIncognito: Boolean!
 
   """
+  Whether the account is private
+  """
+  isPrivate: Boolean!
+
+  """
   For an incognito account, returns the main profile. Only visible to users with the right permissions. Scope: "account".
   """
   mainProfile: Account
@@ -2620,9 +2625,14 @@ type TaxInfo {
   rate: Float!
 
   """
-  Tax ID number of the 3rd party receiving/paying the tax
+  Tax ID number of the 3rd party receiving/paying the tax. Will be null if not allowed to see it.
   """
   idNumber: String
+
+  """
+  Whether the tax ID number is available. Contrary to `idNumber`, this field is public.
+  """
+  hasTaxIdNumber: Boolean!
 }
 
 """
@@ -3069,6 +3079,11 @@ type Host implements Account & AccountWithContributions & AccountWithPlatformSub
   Defines if the contributors wants to be incognito (name not displayed)
   """
   isIncognito: Boolean!
+
+  """
+  Whether the account is private
+  """
+  isPrivate: Boolean!
 
   """
   For an incognito account, returns the main profile. Only visible to users with the right permissions. Scope: "account".
@@ -4237,6 +4252,11 @@ type Host implements Account & AccountWithContributions & AccountWithPlatformSub
   ): HostMetricsTimeSeries!
 
   """
+  Aggregated metrics for this host.
+  """
+  metrics: HostMetricsNamespace
+
+  """
   EXPERIMENTAL (this may change or be removed)
   """
   hostExpensesReport(timeUnit: TimeUnit = MONTH, dateFrom: DateTime, dateTo: DateTime): HostExpensesReports
@@ -4446,6 +4466,10 @@ type Host implements Account & AccountWithContributions & AccountWithPlatformSub
     Filter for accounts (Events) that started at a specific date range
     """
     startsAtTo: DateTime
+    joinedBetween: MetricsDateRangeInput
+    unhostedBetween: MetricsDateRangeInput
+    hadActivityBetween: MetricsDateRangeInput
+    noActivityBetween: MetricsDateRangeInput
   ): HostedAccountCollection!
 
   """
@@ -4635,9 +4659,10 @@ type Host implements Account & AccountWithContributions & AccountWithPlatformSub
     forAccount: AccountReferenceInput
 
     """
-    Only returns vendors that are visible to the given accounts
+    Only return vendors that can be used with the given accounts
     """
-    visibleToAccounts: [AccountReferenceInput]
+    canBeUsedWithAccounts: [AccountReferenceInput]
+    visibleToAccounts: [AccountReferenceInput] @deprecated(reason: "Use canBeUsedWithAccounts instead.")
 
     """
     Filter on archived vendors
@@ -5079,6 +5104,7 @@ type PlatformSubscriptionFeatures {
   UPDATES: Boolean!
   RECEIVE_FINANCIAL_CONTRIBUTIONS: Boolean!
   RECEIVE_EXPENSES: Boolean!
+  RECEIVE_GRANTS: Boolean!
   ACCOUNT_MANAGEMENT: Boolean!
   OFF_PLATFORM_TRANSACTIONS: Boolean!
 }
@@ -5976,6 +6002,8 @@ enum ActivityType {
   HOST_APPLICATION_CONTACT
   HOST_APPLICATION_COMMENT_CREATED
   CONTRIBUTION_REJECTED
+  CONTRIBUTION_REFUNDED
+  CONTRIBUTOR_REMOVED_BY_HOST
   SUBSCRIPTION_ACTIVATED
   SUBSCRIPTION_CANCELED
   SUBSCRIPTION_PAUSED
@@ -6013,6 +6041,7 @@ enum ActivityType {
   USER_CREATED
   USER_NEW_TOKEN
   USER_SIGNIN
+  USER_NEW_PASSWORD_SIGNIN
   USER_RESET_PASSWORD
   USER_OTP_REQUESTED
   OAUTH_APPLICATION_AUTHORIZED
@@ -6376,6 +6405,11 @@ type PayoutMethod {
   The type of this payout method (usually the payment provider)
   """
   type: PayoutMethodType
+
+  """
+  The currency of this payout method
+  """
+  currency: Currency
 
   """
   A friendly name for users to easily find their payout methods
@@ -7424,6 +7458,7 @@ type CollectiveFeatures {
   PROJECTS: CollectiveFeatureStatus
   USE_EXPENSES: CollectiveFeatureStatus
   RECEIVE_EXPENSES: CollectiveFeatureStatus
+  RECEIVE_GRANTS: CollectiveFeatureStatus
   MULTI_CURRENCY_EXPENSES: CollectiveFeatureStatus
   COLLECTIVE_GOALS: CollectiveFeatureStatus
   TOP_FINANCIAL_CONTRIBUTORS: CollectiveFeatureStatus
@@ -7437,7 +7472,6 @@ type CollectiveFeatures {
   CREATE_COLLECTIVE: CollectiveFeatureStatus
   PAYPAL_DONATIONS: CollectiveFeatureStatus
   HOST_DASHBOARD: CollectiveFeatureStatus
-  SINGLE_RECEIPT_PLATFORM_TIP: CollectiveFeatureStatus
   CONNECTED_ACCOUNTS: CollectiveFeatureStatus
   ALIPAY: CollectiveFeatureStatus
   STRIPE_PAYMENT_INTENT: CollectiveFeatureStatus
@@ -7462,6 +7496,7 @@ type CollectiveFeatures {
   VENDORS: CollectiveFeatureStatus
   ACCOUNT_MANAGEMENT: CollectiveFeatureStatus
   KYC: CollectiveFeatureStatus
+  PUBLIC_PROFILE: CollectiveFeatureStatus
 }
 
 enum CollectiveFeatureStatus {
@@ -7519,7 +7554,11 @@ type Policies {
   COLLECTIVE_MINIMUM_ADMINS: COLLECTIVE_MINIMUM_ADMINS
   MAXIMUM_VIRTUAL_CARD_LIMIT_AMOUNT_FOR_INTERVAL: MAXIMUM_VIRTUAL_CARD_LIMIT_AMOUNT_FOR_INTERVAL
   EXPENSE_CATEGORIZATION: EXPENSE_CATEGORIZATION
-  EXPENSE_PUBLIC_VENDORS: Boolean
+
+  """
+  Default rule for who can attribute financial activities to vendors under this host.
+  """
+  USE_VENDOR_POLICY: UseVendorPolicy
   COLLECTIVE_ADMINS_CAN_SEE_PAYOUT_METHODS: Boolean
 
   """
@@ -7568,6 +7607,26 @@ type MAXIMUM_VIRTUAL_CARD_LIMIT_AMOUNT_FOR_INTERVAL {
 type EXPENSE_CATEGORIZATION {
   requiredForExpenseSubmitters: Boolean
   requiredForCollectiveAdmins: Boolean
+}
+
+"""
+Who can attribute financial activities to a vendor
+"""
+enum UseVendorPolicy {
+  """
+  Only host admins can use this vendor.
+  """
+  HOST_ADMINS
+
+  """
+  Host admins and admins of hosted collectives.
+  """
+  HOST_AND_COLLECTIVE_ADMINS
+
+  """
+  Anyone who can submit an expense.
+  """
+  ALL_SUBMITTERS
 }
 
 type CONTRIBUTOR_INFO_THRESHOLDS {
@@ -8119,51 +8178,81 @@ type HostMetrics {
   Amount collected in host fees for given period
   """
   hostFees: Amount
+    @deprecated(
+      reason: "2026-05-15: Host.hostMetrics is deprecated and unused by the frontend; this field is always 0."
+    )
 
   """
   Amount collected in platform fees for given period
   """
   platformFees: Amount
+    @deprecated(
+      reason: "2026-05-15: Host.hostMetrics is deprecated and unused by the frontend; this field is always 0."
+    )
 
   """
   Amount collected in platform fees requiring settlement
   """
   pendingPlatformFees: Amount
+    @deprecated(
+      reason: "2026-05-15: Host.hostMetrics is deprecated and unused by the frontend; this field is always 0."
+    )
 
   """
   Amount collected in platform tips for given period
   """
   platformTips: Amount
+    @deprecated(
+      reason: "2026-05-15: Host.hostMetrics is deprecated and unused by the frontend; this field is always 0."
+    )
 
   """
   Amount collected in platform tips requiring settlement
   """
   pendingPlatformTips: Amount
+    @deprecated(
+      reason: "2026-05-15: Host.hostMetrics is deprecated and unused by the frontend; this field is always 0."
+    )
 
   """
   Amount in host fee shared with the platform
   """
   hostFeeShare: Amount
+    @deprecated(
+      reason: "2026-05-15: Host.hostMetrics is deprecated and unused by the frontend; this field is always 0."
+    )
 
   """
   Amount in host fee shared  requiring settlement
   """
   pendingHostFeeShare: Amount
+    @deprecated(
+      reason: "2026-05-15: Host.hostMetrics is deprecated and unused by the frontend; this field is always 0."
+    )
 
   """
   Amount in host fee shared not requiring settlement
   """
   settledHostFeeShare: Amount
+    @deprecated(
+      reason: "2026-05-15: Host.hostMetrics is deprecated and unused by the frontend; this field is always 0."
+    )
 
   """
   Total amount managed on behalf of hosted collectives
   """
   totalMoneyManaged: Amount
+    @deprecated(
+      reason: "2026-05-15: Host.hostMetrics is deprecated and unused by the frontend; this field is always 0."
+    )
 
   """
   Host fee sharing percent
   """
   hostFeeSharePercent: Float
+    @deprecated(
+      reason: "2026-05-15: Host.hostMetrics is deprecated and unused by the frontend; this field is always 0."
+    )
 }
 
 """
@@ -8189,6 +8278,9 @@ type HostMetricsTimeSeries {
   History of the collected platform tips
   """
   platformTips: TimeSeriesAmount!
+    @deprecated(
+      reason: "2026-05-15: Unused by the frontend; the platform-tips ledger is now opt-in per host (NEW_PLATFORM_TIPS_LEDGER) and this aggregated series is no longer maintained. Always returns an empty series."
+    )
 
   """
   History of the host fees collected
@@ -8282,6 +8374,430 @@ type TimeSeriesAmountWithKindNode {
   date: DateTime!
   amount: Amount!
   kind: TransactionKind!
+}
+
+"""
+Aggregated metrics for a host
+"""
+type HostMetricsNamespace {
+  """
+  Daily per-collective income and spending under the host.
+  """
+  hostedCollectivesFinancialActivity(
+    input: HostedCollectivesFinancialActivityMetricsInput!
+  ): HostedCollectivesFinancialActivityMetricsResult!
+
+  """
+  Daily join/churn events for hosted collectives.
+  """
+  hostedCollectivesMembership(
+    input: HostedCollectivesMembershipMetricsInput!
+  ): HostedCollectivesMembershipMetricsResult!
+
+  """
+  Distinct collectives hosted by this host in a period.
+  """
+  hostedCollectivesHosting(input: HostedCollectivesHostingMetricsInput!): HostedCollectivesHostingMetricsResult!
+}
+
+type HostedCollectivesFinancialActivityMetricsResult implements MetricsResult {
+  dateFrom: DateTime!
+  dateTo: DateTime!
+  bucket: TimeUnit
+  groupBy: [String!]
+  rows: [HostedCollectivesFinancialActivityMetricsRow!]!
+}
+
+interface MetricsResult {
+  dateFrom: DateTime!
+  dateTo: DateTime!
+  bucket: TimeUnit
+  groupBy: [String!]
+}
+
+type HostedCollectivesFinancialActivityMetricsRow {
+  bucket: String
+  group: HostedCollectivesFinancialActivityMetricsGroup
+  values: HostedCollectivesFinancialActivityMetricsValues!
+}
+
+type HostedCollectivesFinancialActivityMetricsGroup {
+  account: Account
+  parent: Account
+  mainAccount: Account
+  isMainAccount: Boolean
+  accountType: String
+  mainAccountType: String
+  isArchived: Boolean
+  mainAccountIsArchived: Boolean
+  hostCurrency: String
+}
+
+type HostedCollectivesFinancialActivityMetricsValues {
+  """
+  Amount received in host currency, sums credit transactions, excluding refunds, refunded transactions and internal transfers.
+  Matches values returned from hostStats.totalAmountReceived(net: false).
+  """
+  amountReceived: Amount
+
+  """
+  Net amount received in host currency, sums credit transactions with fees and taxes included, excluding refunds, refunded transactions and internal transfers.
+  Matches values returned from hostStats.totalAmountReceived(net: true).
+  """
+  amountReceivedNet: Amount
+
+  """
+  Amount spent in host currency, sums debit transactions, excluding refunds, refunded transactions and internal transfers.Matches values returned from hostStats.totalAmountSpent(net: false).
+  """
+  amountSpent: Amount
+
+  """
+  Net amount spent in host currency, sums debit transactions with fees and taxes included, excluding refunds, refunded transactions and internal transfers.Matches values returned from hostStats.totalAmountSpent(net: true).
+  """
+  amountSpentNet: Amount
+
+  """
+  Total number of transactions in the queried scope.
+  """
+  transactionCount: Int
+
+  """
+  Distinct main accounts with at least one transaction of any kind. Child events/projects roll up to their parent.
+  """
+  activeCollectives: Int
+
+  """
+  Most recent date with any ledger activity, as `YYYY-MM-DD`.
+  """
+  lastActiveDate: Date
+}
+
+"""
+A date string, such as 2007-12-03, compliant with the `full-date` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
+"""
+scalar Date
+
+input HostedCollectivesFinancialActivityMetricsInput {
+  dateRange: MetricsDateRangeInput!
+  measures: [HostedCollectivesFinancialActivityMetricsMeasure!]!
+  filters: HostedCollectivesFinancialActivityMetricsFiltersAllOf
+
+  """
+  Time grain. Omit for a single aggregate over the whole range.
+  """
+  bucket: TimeUnit
+  groupBy: [HostedCollectivesFinancialActivityMetricsDimension!]
+  having: [HostedCollectivesFinancialActivityMetricsHavingInput!]
+  orderBy: [HostedCollectivesFinancialActivityMetricsOrderByInput!]
+  limit: Int
+
+  """
+  IANA timezone applied to `DATE_TRUNC` when bucketing — determines where each month/week/day boundary falls. Independent of `dateRange` (which already carries the absolute window via ISO offsets): two queries with the same dateRange but different timezones can produce different bucket boundaries.
+  """
+  timezone: String = "UTC"
+}
+
+"""
+Date range `[from, to)`.
+"""
+input MetricsDateRangeInput {
+  from: DateTime!
+  to: DateTime!
+}
+
+enum HostedCollectivesFinancialActivityMetricsMeasure {
+  """
+  Amount received in host currency, sums credit transactions, excluding refunds, refunded transactions and internal transfers.
+  Matches values returned from hostStats.totalAmountReceived(net: false).
+  """
+  amountReceived
+
+  """
+  Net amount received in host currency, sums credit transactions with fees and taxes included, excluding refunds, refunded transactions and internal transfers.
+  Matches values returned from hostStats.totalAmountReceived(net: true).
+  """
+  amountReceivedNet
+
+  """
+  Amount spent in host currency, sums debit transactions, excluding refunds, refunded transactions and internal transfers.Matches values returned from hostStats.totalAmountSpent(net: false).
+  """
+  amountSpent
+
+  """
+  Net amount spent in host currency, sums debit transactions with fees and taxes included, excluding refunds, refunded transactions and internal transfers.Matches values returned from hostStats.totalAmountSpent(net: true).
+  """
+  amountSpentNet
+
+  """
+  Total number of transactions in the queried scope.
+  """
+  transactionCount
+
+  """
+  Distinct main accounts with at least one transaction of any kind. Child events/projects roll up to their parent.
+  """
+  activeCollectives
+
+  """
+  Most recent date with any ledger activity, as `YYYY-MM-DD`.
+  """
+  lastActiveDate
+}
+
+input HostedCollectivesFinancialActivityMetricsFiltersAllOf {
+  account: MetricsAccountReferenceFilter
+  parent: MetricsAccountReferenceFilter
+  mainAccount: MetricsAccountReferenceFilter
+  isMainAccount: Boolean
+  accountType: MetricsStringFilter
+  mainAccountType: MetricsStringFilter
+  isArchived: Boolean
+  mainAccountIsArchived: Boolean
+  hostCurrency: MetricsStringFilter
+}
+
+"""
+Filter a metric dimension that references an Account.
+"""
+input MetricsAccountReferenceFilter {
+  eq: AccountReferenceInput
+  in: [AccountReferenceInput!]
+  isNull: Boolean
+}
+
+input MetricsStringFilter {
+  eq: String
+  in: [String!]
+  isNull: Boolean
+}
+
+enum HostedCollectivesFinancialActivityMetricsDimension {
+  account
+  parent
+  mainAccount
+  isMainAccount
+  accountType
+  mainAccountType
+  isArchived
+  mainAccountIsArchived
+  hostCurrency
+}
+
+input HostedCollectivesFinancialActivityMetricsHavingInput {
+  measure: HostedCollectivesFinancialActivityMetricsMeasure!
+  op: MetricsHavingOp!
+  value: Float!
+}
+
+"""
+Comparison operator for HAVING clauses on a measure.
+"""
+enum MetricsHavingOp {
+  """
+  Greater than
+  """
+  gt
+
+  """
+  Greater than or equal
+  """
+  gte
+
+  """
+  Less than
+  """
+  lt
+
+  """
+  Less than or equal
+  """
+  lte
+
+  """
+  Equal
+  """
+  eq
+
+  """
+  Not equal
+  """
+  ne
+}
+
+input HostedCollectivesFinancialActivityMetricsOrderByInput {
+  measure: HostedCollectivesFinancialActivityMetricsMeasure!
+  direction: MetricsOrderByDirection!
+}
+
+enum MetricsOrderByDirection {
+  """
+  Ascending
+  """
+  asc
+
+  """
+  Descending
+  """
+  desc
+}
+
+type HostedCollectivesMembershipMetricsResult implements MetricsResult {
+  dateFrom: DateTime!
+  dateTo: DateTime!
+  bucket: TimeUnit
+  groupBy: [String!]
+  rows: [HostedCollectivesMembershipMetricsRow!]!
+}
+
+type HostedCollectivesMembershipMetricsRow {
+  bucket: String
+  group: HostedCollectivesMembershipMetricsGroup
+  values: HostedCollectivesMembershipMetricsValues!
+}
+
+type HostedCollectivesMembershipMetricsGroup {
+  account: Account
+  accountType: String
+  isArchived: Boolean
+  event: String
+}
+
+type HostedCollectivesMembershipMetricsValues {
+  joinedCount: Int
+  churnedCount: Int
+  joinedDistinctCollectives: Int
+  churnedDistinctCollectives: Int
+}
+
+input HostedCollectivesMembershipMetricsInput {
+  dateRange: MetricsDateRangeInput!
+  measures: [HostedCollectivesMembershipMetricsMeasure!]!
+  filters: HostedCollectivesMembershipMetricsFiltersAllOf
+
+  """
+  Time grain. Omit for a single aggregate over the whole range.
+  """
+  bucket: TimeUnit
+  groupBy: [HostedCollectivesMembershipMetricsDimension!]
+  having: [HostedCollectivesMembershipMetricsHavingInput!]
+  orderBy: [HostedCollectivesMembershipMetricsOrderByInput!]
+  limit: Int
+
+  """
+  IANA timezone applied to `DATE_TRUNC` when bucketing — determines where each month/week/day boundary falls. Independent of `dateRange` (which already carries the absolute window via ISO offsets): two queries with the same dateRange but different timezones can produce different bucket boundaries.
+  """
+  timezone: String = "UTC"
+}
+
+enum HostedCollectivesMembershipMetricsMeasure {
+  joinedCount
+  churnedCount
+  joinedDistinctCollectives
+  churnedDistinctCollectives
+}
+
+input HostedCollectivesMembershipMetricsFiltersAllOf {
+  account: MetricsAccountReferenceFilter
+  accountType: MetricsStringFilter
+  isArchived: Boolean
+  event: MetricsStringFilter
+}
+
+enum HostedCollectivesMembershipMetricsDimension {
+  account
+  accountType
+  isArchived
+  event
+}
+
+input HostedCollectivesMembershipMetricsHavingInput {
+  measure: HostedCollectivesMembershipMetricsMeasure!
+  op: MetricsHavingOp!
+  value: Float!
+}
+
+input HostedCollectivesMembershipMetricsOrderByInput {
+  measure: HostedCollectivesMembershipMetricsMeasure!
+  direction: MetricsOrderByDirection!
+}
+
+type HostedCollectivesHostingMetricsResult implements MetricsResult {
+  dateFrom: DateTime!
+  dateTo: DateTime!
+  bucket: TimeUnit
+  groupBy: [String!]
+  rows: [HostedCollectivesHostingMetricsRow!]!
+}
+
+type HostedCollectivesHostingMetricsRow {
+  bucket: String
+  group: HostedCollectivesHostingMetricsGroup
+  values: HostedCollectivesHostingMetricsValues!
+}
+
+type HostedCollectivesHostingMetricsGroup {
+  account: Account
+  parent: Account
+  accountType: String
+  mainAccountType: String
+  endDate: String
+}
+
+type HostedCollectivesHostingMetricsValues {
+  hostedCollectives: Int
+  daysHostedToDate: Float
+}
+
+input HostedCollectivesHostingMetricsInput {
+  dateRange: MetricsDateRangeInput!
+  measures: [HostedCollectivesHostingMetricsMeasure!]!
+  filters: HostedCollectivesHostingMetricsFiltersAllOf
+
+  """
+  Time grain. Omit for a single aggregate over the whole range.
+  """
+  bucket: TimeUnit
+  groupBy: [HostedCollectivesHostingMetricsDimension!]
+  having: [HostedCollectivesHostingMetricsHavingInput!]
+  orderBy: [HostedCollectivesHostingMetricsOrderByInput!]
+  limit: Int
+
+  """
+  IANA timezone applied to `DATE_TRUNC` when bucketing — determines where each month/week/day boundary falls. Independent of `dateRange` (which already carries the absolute window via ISO offsets): two queries with the same dateRange but different timezones can produce different bucket boundaries.
+  """
+  timezone: String = "UTC"
+}
+
+enum HostedCollectivesHostingMetricsMeasure {
+  hostedCollectives
+  daysHostedToDate
+}
+
+input HostedCollectivesHostingMetricsFiltersAllOf {
+  account: MetricsAccountReferenceFilter
+  parent: MetricsAccountReferenceFilter
+  accountType: MetricsStringFilter
+  mainAccountType: MetricsStringFilter
+  endDate: MetricsStringFilter
+}
+
+enum HostedCollectivesHostingMetricsDimension {
+  account
+  parent
+  accountType
+  mainAccountType
+  endDate
+}
+
+input HostedCollectivesHostingMetricsHavingInput {
+  measure: HostedCollectivesHostingMetricsMeasure!
+  op: MetricsHavingOp!
+  value: Float!
+}
+
+input HostedCollectivesHostingMetricsOrderByInput {
+  measure: HostedCollectivesHostingMetricsMeasure!
+  direction: MetricsOrderByDirection!
 }
 
 """
@@ -9612,6 +10128,16 @@ type OrderPermissions {
   If paused, whether the current user can resume this order
   """
   canResume: Boolean!
+
+  """
+  Whether the current user can cancel this recurring contribution
+  """
+  canCancel: Boolean!
+
+  """
+  Whether the current user can remove the contributor from the collective public profile
+  """
+  canRemoveAsContributor: Boolean!
 }
 
 type PendingOrderData {
@@ -9732,6 +10258,11 @@ type Bot implements Account {
   Defines if the contributors wants to be incognito (name not displayed)
   """
   isIncognito: Boolean!
+
+  """
+  Whether the account is private
+  """
+  isPrivate: Boolean!
 
   """
   For an incognito account, returns the main profile. Only visible to users with the right permissions. Scope: "account".
@@ -10811,6 +11342,11 @@ type Collective implements Account & AccountWithHost & AccountWithContributions 
   Defines if the contributors wants to be incognito (name not displayed)
   """
   isIncognito: Boolean!
+
+  """
+  Whether the account is private
+  """
+  isPrivate: Boolean!
 
   """
   For an incognito account, returns the main profile. Only visible to users with the right permissions. Scope: "account".
@@ -12472,6 +13008,11 @@ type Event implements Account & AccountWithHost & AccountWithContributions & Acc
   isIncognito: Boolean!
 
   """
+  Whether the account is private
+  """
+  isPrivate: Boolean!
+
+  """
   For an incognito account, returns the main profile. Only visible to users with the right permissions. Scope: "account".
   """
   mainProfile: Account
@@ -13848,6 +14389,11 @@ type Individual implements Account {
   Defines if the contributors wants to be incognito (name not displayed)
   """
   isIncognito: Boolean!
+
+  """
+  Whether the account is private
+  """
+  isPrivate: Boolean!
 
   """
   For an incognito account, returns the main profile. Only visible to users with the right permissions. Scope: "account".
@@ -15254,6 +15800,11 @@ type Organization implements Account & AccountWithContributions & AccountWithPla
   isIncognito: Boolean!
 
   """
+  Whether the account is private
+  """
+  isPrivate: Boolean!
+
+  """
   For an incognito account, returns the main profile. Only visible to users with the right permissions. Scope: "account".
   """
   mainProfile: Account
@@ -16416,9 +16967,10 @@ type Organization implements Account & AccountWithContributions & AccountWithPla
     forAccount: AccountReferenceInput
 
     """
-    Only returns vendors that are visible to the given accounts
+    Only return vendors that can be used with the given accounts
     """
-    visibleToAccounts: [AccountReferenceInput]
+    canBeUsedWithAccounts: [AccountReferenceInput]
+    visibleToAccounts: [AccountReferenceInput] @deprecated(reason: "Use canBeUsedWithAccounts instead.")
 
     """
     Filter on archived vendors
@@ -16750,6 +17302,11 @@ type Vendor implements Account & AccountWithContributions {
   Defines if the contributors wants to be incognito (name not displayed)
   """
   isIncognito: Boolean!
+
+  """
+  Whether the account is private
+  """
+  isPrivate: Boolean!
 
   """
   For an incognito account, returns the main profile. Only visible to users with the right permissions. Scope: "account".
@@ -17870,14 +18427,20 @@ type Vendor implements Account & AccountWithContributions {
   hasPayoutMethod: Boolean
 
   """
-  The account who created this order
+  The account who created this vendor
   """
   createdByAccount: Account
 
   """
-  The accounts where this vendor is visible, if empty or null applies to all collectives under the vendor host
+  The accounts this vendor can be used with. If empty, the vendor can be used with any collective under the vendor host.
   """
-  visibleToAccounts: [Account]!
+  canBeUsedWithAccounts: [Account]!
+  visibleToAccounts: [Account]! @deprecated(reason: "Use canBeUsedWithAccounts instead.")
+
+  """
+  Per-vendor override for who can attribute financial activities to this vendor. Null means inherit from host.
+  """
+  useVendorPolicy: UseVendorPolicy
 }
 
 """
@@ -20780,6 +21343,8 @@ enum ActivityAndClassesType {
   HOST_APPLICATION_CONTACT
   HOST_APPLICATION_COMMENT_CREATED
   CONTRIBUTION_REJECTED
+  CONTRIBUTION_REFUNDED
+  CONTRIBUTOR_REMOVED_BY_HOST
   SUBSCRIPTION_ACTIVATED
   SUBSCRIPTION_CANCELED
   SUBSCRIPTION_PAUSED
@@ -20817,6 +21382,7 @@ enum ActivityAndClassesType {
   USER_CREATED
   USER_NEW_TOKEN
   USER_SIGNIN
+  USER_NEW_PASSWORD_SIGNIN
   USER_RESET_PASSWORD
   USER_OTP_REQUESTED
   OAUTH_APPLICATION_AUTHORIZED
@@ -21082,6 +21648,11 @@ type Fund implements Account & AccountWithHost & AccountWithContributions {
   Defines if the contributors wants to be incognito (name not displayed)
   """
   isIncognito: Boolean!
+
+  """
+  Whether the account is private
+  """
+  isPrivate: Boolean!
 
   """
   For an incognito account, returns the main profile. Only visible to users with the right permissions. Scope: "account".
@@ -22318,6 +22889,11 @@ type Project implements Account & AccountWithHost & AccountWithContributions & A
   Defines if the contributors wants to be incognito (name not displayed)
   """
   isIncognito: Boolean!
+
+  """
+  Whether the account is private
+  """
+  isPrivate: Boolean!
 
   """
   For an incognito account, returns the main profile. Only visible to users with the right permissions. Scope: "account".
@@ -25096,6 +25672,16 @@ type Mutation {
     Category for cancelling subscription
     """
     reasonCode: String
+
+    """
+    Remove the contributor from the collective public profile. Host admins only.
+    """
+    removeAsContributor: Boolean = false
+
+    """
+    Optional message to send to the contributor. Host admins only.
+    """
+    messageForContributor: String
   ): Order
 
   """
@@ -25123,9 +25709,14 @@ type Mutation {
     tier: TierReferenceInput
 
     """
-    An Amount to update the order to
+    New amount to charge the contributor, excluding the platform tip. Includes taxes if any.
     """
     amount: AmountInput
+
+    """
+    Platform tip for this order. Omit or pass null to keep the current tip; provide a value (including zero) to update it.
+    """
+    platformTipAmount: AmountInput
   ): Order
 
   """
@@ -25495,6 +26086,41 @@ type Mutation {
   ): GoCardlessConnectAccountResponse!
 
   """
+  Get the Wise (TransferWise) OAuth URL to initiate the account connection flow for a host. Scope: "connectedAccounts".
+  """
+  getTransferwiseOAuthUrl(
+    """
+    The host account to connect Wise to
+    """
+    account: AccountReferenceInput!
+
+    """
+    The URL or path to redirect the user to once the OAuth flow is complete
+    """
+    redirect: String
+  ): URL!
+
+  """
+  Complete the Wise (TransferWise) OAuth flow and connect the account to the host. Scope: "connectedAccounts".
+  """
+  connectTransferwiseAccount(
+    """
+    The authorization code returned by Wise in the OAuth callback
+    """
+    code: NonEmptyString!
+
+    """
+    The Wise profile id returned in the OAuth callback
+    """
+    profileId: NonEmptyString!
+
+    """
+    The OAuth state token that was generated when initiating the connection
+    """
+    state: NonEmptyString!
+  ): TransferwiseConnectAccountResponse!
+
+  """
   [Root only] Edits account flags (deleted, banned, archived, trusted host)
   """
   editAccountFlags(
@@ -25647,6 +26273,21 @@ type Mutation {
     If true, the refund will be processed even if it exceeds the balance of the Collective
     """
     ignoreBalanceCheck: Boolean
+
+    """
+    If true, cancel the associated recurring contribution. Host admins only.
+    """
+    cancelRecurringContribution: Boolean = false
+
+    """
+    If true, remove the contributor from the collective public profile. Host admins only.
+    """
+    removeAsContributor: Boolean = false
+
+    """
+    Optional message to include in the contributor notification email. Host admins only.
+    """
+    messageForContributor: String
   ): Transaction
 
   """
@@ -26520,7 +27161,7 @@ input PoliciesInput {
   COLLECTIVE_ADMINS_CAN_REFUND: Boolean
   COLLECTIVE_MINIMUM_ADMINS: PoliciesCollectiveMinimumAdminsInput
   EXPENSE_CATEGORIZATION: PoliciesExpenseCategorizationInput
-  EXPENSE_PUBLIC_VENDORS: Boolean
+  USE_VENDOR_POLICY: UseVendorPolicy
   COLLECTIVE_ADMINS_CAN_SEE_PAYOUT_METHODS: Boolean
   CONTRIBUTOR_INFO_THRESHOLDS: PoliciesContributorInfoThresholdsInput
 }
@@ -27023,6 +27664,11 @@ input PayoutMethodInput {
   The type of payout method (e.g., PayPal, bank transfer)
   """
   type: PayoutMethodType
+
+  """
+  The currency for this payout method
+  """
+  currency: Currency
 }
 
 input ExpenseItemCreateInput {
@@ -27975,6 +28621,11 @@ input OrderContextInput {
   Whether this order was created using the new platform tip flow
   """
   isNewPlatformTipFlow: Boolean
+
+  """
+  Whether the platform tip was offered to the user in the contribution flow. When explicitly false, the order is persisted as not eligible for platform tips (used by the OSC platform tip A/B).
+  """
+  platformTipOffered: Boolean
 }
 
 input OrderUpdateInput {
@@ -28397,6 +29048,18 @@ type GoCardlessConnectAccountResponse {
   transactionsImport: TransactionsImport!
 }
 
+type TransferwiseConnectAccountResponse {
+  """
+  The connected account that was created
+  """
+  connectedAccount: ConnectedAccount!
+
+  """
+  The URL to redirect the user to once the connection is complete
+  """
+  redirectUrl: URL
+}
+
 enum AccountCacheType {
   CLOUDFLARE
   GRAPHQL_QUERIES
@@ -28618,11 +29281,6 @@ A positive float value between 0 and 100
 """
 scalar StrictPercentage
 
-"""
-A date string, such as 2007-12-03, compliant with the `full-date` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
-"""
-scalar Date
-
 type ExpenseItemParsedFileInfo {
   description: String
   amount: Amount
@@ -28798,6 +29456,9 @@ input PersonalTokenCreateInput {
   The account to use as the owner of the application. Defaults to currently logged in user.
   """
   account: AccountReferenceInput
+    @deprecated(
+      reason: "2026-06-03: This field is ignored, the account will always default to the currently logged in user."
+    )
 }
 
 """
@@ -28860,7 +29521,17 @@ input VendorCreateInput {
   imageUrl: String @deprecated(reason: "2024-11-26: Please use image + backgroundImage fields")
   vendorInfo: VendorInfoInput
   payoutMethod: PayoutMethodInput
-  visibleToAccounts: [AccountReferenceInput]
+
+  """
+  Restrict this vendor to specific accounts under the host. If empty/omitted, the vendor can be used with any hosted account.
+  """
+  canBeUsedWithAccounts: [AccountReferenceInput]
+  visibleToAccounts: [AccountReferenceInput] @deprecated(reason: "Use canBeUsedWithAccounts instead.")
+
+  """
+  Per-vendor override for who can attribute financial activities. Null means inherit from host.
+  """
+  useVendorPolicy: UseVendorPolicy
 
   """
   The profile avatar image
@@ -28915,7 +29586,17 @@ input VendorEditInput {
   imageUrl: String @deprecated(reason: "2024-11-26: Please use image + backgroundImage fields")
   vendorInfo: VendorInfoInput
   payoutMethod: PayoutMethodInput
-  visibleToAccounts: [AccountReferenceInput]
+
+  """
+  Restrict this vendor to specific accounts under the host. If empty/omitted, the vendor can be used with any hosted account.
+  """
+  canBeUsedWithAccounts: [AccountReferenceInput]
+  visibleToAccounts: [AccountReferenceInput] @deprecated(reason: "Use canBeUsedWithAccounts instead.")
+
+  """
+  Per-vendor override for who can attribute financial activities. Null means inherit from host.
+  """
+  useVendorPolicy: UseVendorPolicy
 
   """
   The profile avatar image
@@ -28983,6 +29664,7 @@ input PlatformSubscriptionFeaturesFeatures {
   UPDATES: Boolean!
   RECEIVE_FINANCIAL_CONTRIBUTIONS: Boolean!
   RECEIVE_EXPENSES: Boolean!
+  RECEIVE_GRANTS: Boolean!
   ACCOUNT_MANAGEMENT: Boolean!
   OFF_PLATFORM_TRANSACTIONS: Boolean!
 }

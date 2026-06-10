@@ -98,6 +98,8 @@ export type Account = {
   isHost: Scalars['Boolean']['output'];
   /** Defines if the contributors wants to be incognito (name not displayed) */
   isIncognito: Scalars['Boolean']['output'];
+  /** Whether the account is private */
+  isPrivate: Scalars['Boolean']['output'];
   /** Whether this account is suspended */
   isSuspended: Scalars['Boolean']['output'];
   /** Whether the account is verified */
@@ -1113,7 +1115,9 @@ export enum ActivityAndClassesType {
   CONNECTED_ACCOUNT_ERROR = 'CONNECTED_ACCOUNT_ERROR',
   CONNECTED_ACCOUNT_REMOVED = 'CONNECTED_ACCOUNT_REMOVED',
   CONTRIBUTIONS = 'CONTRIBUTIONS',
+  CONTRIBUTION_REFUNDED = 'CONTRIBUTION_REFUNDED',
   CONTRIBUTION_REJECTED = 'CONTRIBUTION_REJECTED',
+  CONTRIBUTOR_REMOVED_BY_HOST = 'CONTRIBUTOR_REMOVED_BY_HOST',
   CONVERSATION_COMMENT_CREATED = 'CONVERSATION_COMMENT_CREATED',
   DEACTIVATED_COLLECTIVE_AS_HOST = 'DEACTIVATED_COLLECTIVE_AS_HOST',
   DEACTIVATED_HOSTING = 'DEACTIVATED_HOSTING',
@@ -1181,6 +1185,7 @@ export enum ActivityAndClassesType {
   USER_CARD_INVITED = 'USER_CARD_INVITED',
   USER_CHANGE_EMAIL = 'USER_CHANGE_EMAIL',
   USER_CREATED = 'USER_CREATED',
+  USER_NEW_PASSWORD_SIGNIN = 'USER_NEW_PASSWORD_SIGNIN',
   USER_NEW_TOKEN = 'USER_NEW_TOKEN',
   USER_OTP_REQUESTED = 'USER_OTP_REQUESTED',
   USER_PASSWORD_SET = 'USER_PASSWORD_SET',
@@ -1326,7 +1331,9 @@ export enum ActivityType {
   CONNECTED_ACCOUNT_CREATED = 'CONNECTED_ACCOUNT_CREATED',
   CONNECTED_ACCOUNT_ERROR = 'CONNECTED_ACCOUNT_ERROR',
   CONNECTED_ACCOUNT_REMOVED = 'CONNECTED_ACCOUNT_REMOVED',
+  CONTRIBUTION_REFUNDED = 'CONTRIBUTION_REFUNDED',
   CONTRIBUTION_REJECTED = 'CONTRIBUTION_REJECTED',
+  CONTRIBUTOR_REMOVED_BY_HOST = 'CONTRIBUTOR_REMOVED_BY_HOST',
   CONVERSATION_COMMENT_CREATED = 'CONVERSATION_COMMENT_CREATED',
   DEACTIVATED_COLLECTIVE_AS_HOST = 'DEACTIVATED_COLLECTIVE_AS_HOST',
   DEACTIVATED_HOSTING = 'DEACTIVATED_HOSTING',
@@ -1391,6 +1398,7 @@ export enum ActivityType {
   USER_CARD_INVITED = 'USER_CARD_INVITED',
   USER_CHANGE_EMAIL = 'USER_CHANGE_EMAIL',
   USER_CREATED = 'USER_CREATED',
+  USER_NEW_PASSWORD_SIGNIN = 'USER_NEW_PASSWORD_SIGNIN',
   USER_NEW_TOKEN = 'USER_NEW_TOKEN',
   USER_OTP_REQUESTED = 'USER_OTP_REQUESTED',
   USER_PASSWORD_SET = 'USER_PASSWORD_SET',
@@ -1634,6 +1642,8 @@ export type Bot = Account & {
   isHost: Scalars['Boolean']['output'];
   /** Defines if the contributors wants to be incognito (name not displayed) */
   isIncognito: Scalars['Boolean']['output'];
+  /** Whether the account is private */
+  isPrivate: Scalars['Boolean']['output'];
   /** Whether this account is suspended */
   isSuspended: Scalars['Boolean']['output'];
   /** Whether the account is verified */
@@ -2168,6 +2178,8 @@ export type Collective = Account &
     isHost: Scalars['Boolean']['output'];
     /** Defines if the contributors wants to be incognito (name not displayed) */
     isIncognito: Scalars['Boolean']['output'];
+    /** Whether the account is private */
+    isPrivate: Scalars['Boolean']['output'];
     /** Whether this account is suspended */
     isSuspended: Scalars['Boolean']['output'];
     /** Whether the account is verified */
@@ -2695,12 +2707,13 @@ export type CollectiveFeatures = {
   PAYPAL_DONATIONS?: Maybe<CollectiveFeatureStatus>;
   PAYPAL_PAYOUTS?: Maybe<CollectiveFeatureStatus>;
   PROJECTS?: Maybe<CollectiveFeatureStatus>;
+  PUBLIC_PROFILE?: Maybe<CollectiveFeatureStatus>;
   RECEIVE_EXPENSES?: Maybe<CollectiveFeatureStatus>;
   RECEIVE_FINANCIAL_CONTRIBUTIONS?: Maybe<CollectiveFeatureStatus>;
+  RECEIVE_GRANTS?: Maybe<CollectiveFeatureStatus>;
   RECEIVE_HOST_APPLICATIONS?: Maybe<CollectiveFeatureStatus>;
   RECURRING_CONTRIBUTIONS?: Maybe<CollectiveFeatureStatus>;
   REQUEST_VIRTUAL_CARDS?: Maybe<CollectiveFeatureStatus>;
-  SINGLE_RECEIPT_PLATFORM_TIP?: Maybe<CollectiveFeatureStatus>;
   STRIPE_PAYMENT_INTENT?: Maybe<CollectiveFeatureStatus>;
   TAX_FORMS?: Maybe<CollectiveFeatureStatus>;
   TEAM?: Maybe<CollectiveFeatureStatus>;
@@ -4333,6 +4346,8 @@ export type Event = Account &
     isHost: Scalars['Boolean']['output'];
     /** Defines if the contributors wants to be incognito (name not displayed) */
     isIncognito: Scalars['Boolean']['output'];
+    /** Whether the account is private */
+    isPrivate: Scalars['Boolean']['output'];
     /** Whether this account is suspended */
     isSuspended: Scalars['Boolean']['output'];
     /** Whether the account is verified */
@@ -5765,6 +5780,8 @@ export type Fund = Account &
     isHost: Scalars['Boolean']['output'];
     /** Defines if the contributors wants to be incognito (name not displayed) */
     isIncognito: Scalars['Boolean']['output'];
+    /** Whether the account is private */
+    isPrivate: Scalars['Boolean']['output'];
     /** Whether this account is suspended */
     isSuspended: Scalars['Boolean']['output'];
     /** Whether the account is verified */
@@ -6430,6 +6447,8 @@ export type Host = Account &
     /** Defines if the contributors wants to be incognito (name not displayed) */
     isIncognito: Scalars['Boolean']['output'];
     isOpenToApplications?: Maybe<Scalars['Boolean']['output']>;
+    /** Whether the account is private */
+    isPrivate: Scalars['Boolean']['output'];
     /** Whether this account is suspended */
     isSuspended: Scalars['Boolean']['output'];
     /** Returns whether the host is trusted or not */
@@ -6466,6 +6485,8 @@ export type Host = Account &
     memberOf: MemberOfCollection;
     /** Get all members (admins, members, backers, followers) */
     members: MemberCollection;
+    /** Aggregated metrics for this host. */
+    metrics?: Maybe<HostMetricsNamespace>;
     /** Public name */
     name?: Maybe<Scalars['String']['output']>;
     /** The list of applications created by this account. Admin only. Scope: "applications". */
@@ -6805,16 +6826,20 @@ export type HostHostedAccountsArgs = {
   balance?: InputMaybe<AmountRangeInput>;
   consolidatedBalance?: InputMaybe<AmountRangeInput>;
   currencies?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  hadActivityBetween?: InputMaybe<MetricsDateRangeInput>;
   hostFeesStructure?: InputMaybe<HostFeeStructure>;
   isApproved?: InputMaybe<Scalars['Boolean']['input']>;
   isFrozen?: InputMaybe<Scalars['Boolean']['input']>;
   isUnhosted?: InputMaybe<Scalars['Boolean']['input']>;
+  joinedBetween?: InputMaybe<MetricsDateRangeInput>;
   limit?: Scalars['Int']['input'];
+  noActivityBetween?: InputMaybe<MetricsDateRangeInput>;
   offset?: Scalars['Int']['input'];
   orderBy?: InputMaybe<OrderByInput>;
   searchTerm?: InputMaybe<Scalars['String']['input']>;
   startsAtFrom?: InputMaybe<Scalars['DateTime']['input']>;
   startsAtTo?: InputMaybe<Scalars['DateTime']['input']>;
+  unhostedBetween?: InputMaybe<MetricsDateRangeInput>;
 };
 
 /** This represents an Host account */
@@ -7117,6 +7142,7 @@ export type HostUpdatesArgs = {
 
 /** This represents an Host account */
 export type HostVendorsArgs = {
+  canBeUsedWithAccounts?: InputMaybe<Array<InputMaybe<AccountReferenceInput>>>;
   forAccount?: InputMaybe<AccountReferenceInput>;
   isArchived?: InputMaybe<Scalars['Boolean']['input']>;
   limit?: Scalars['Int']['input'];
@@ -7251,26 +7277,82 @@ export enum HostFeeStructure {
 /** Host metrics related to collected and pending fees/tips. */
 export type HostMetrics = {
   __typename?: 'HostMetrics';
-  /** Amount in host fee shared with the platform */
+  /**
+   * Amount in host fee shared with the platform
+   * @deprecated 2026-05-15: Host.hostMetrics is deprecated and unused by the frontend; this field is always 0.
+   */
   hostFeeShare?: Maybe<Amount>;
-  /** Host fee sharing percent */
+  /**
+   * Host fee sharing percent
+   * @deprecated 2026-05-15: Host.hostMetrics is deprecated and unused by the frontend; this field is always 0.
+   */
   hostFeeSharePercent?: Maybe<Scalars['Float']['output']>;
-  /** Amount collected in host fees for given period */
+  /**
+   * Amount collected in host fees for given period
+   * @deprecated 2026-05-15: Host.hostMetrics is deprecated and unused by the frontend; this field is always 0.
+   */
   hostFees?: Maybe<Amount>;
-  /** Amount in host fee shared  requiring settlement */
+  /**
+   * Amount in host fee shared  requiring settlement
+   * @deprecated 2026-05-15: Host.hostMetrics is deprecated and unused by the frontend; this field is always 0.
+   */
   pendingHostFeeShare?: Maybe<Amount>;
-  /** Amount collected in platform fees requiring settlement */
+  /**
+   * Amount collected in platform fees requiring settlement
+   * @deprecated 2026-05-15: Host.hostMetrics is deprecated and unused by the frontend; this field is always 0.
+   */
   pendingPlatformFees?: Maybe<Amount>;
-  /** Amount collected in platform tips requiring settlement */
+  /**
+   * Amount collected in platform tips requiring settlement
+   * @deprecated 2026-05-15: Host.hostMetrics is deprecated and unused by the frontend; this field is always 0.
+   */
   pendingPlatformTips?: Maybe<Amount>;
-  /** Amount collected in platform fees for given period */
+  /**
+   * Amount collected in platform fees for given period
+   * @deprecated 2026-05-15: Host.hostMetrics is deprecated and unused by the frontend; this field is always 0.
+   */
   platformFees?: Maybe<Amount>;
-  /** Amount collected in platform tips for given period */
+  /**
+   * Amount collected in platform tips for given period
+   * @deprecated 2026-05-15: Host.hostMetrics is deprecated and unused by the frontend; this field is always 0.
+   */
   platformTips?: Maybe<Amount>;
-  /** Amount in host fee shared not requiring settlement */
+  /**
+   * Amount in host fee shared not requiring settlement
+   * @deprecated 2026-05-15: Host.hostMetrics is deprecated and unused by the frontend; this field is always 0.
+   */
   settledHostFeeShare?: Maybe<Amount>;
-  /** Total amount managed on behalf of hosted collectives */
+  /**
+   * Total amount managed on behalf of hosted collectives
+   * @deprecated 2026-05-15: Host.hostMetrics is deprecated and unused by the frontend; this field is always 0.
+   */
   totalMoneyManaged?: Maybe<Amount>;
+};
+
+/** Aggregated metrics for a host */
+export type HostMetricsNamespace = {
+  __typename?: 'HostMetricsNamespace';
+  /** Daily per-collective income and spending under the host. */
+  hostedCollectivesFinancialActivity: HostedCollectivesFinancialActivityMetricsResult;
+  /** Distinct collectives hosted by this host in a period. */
+  hostedCollectivesHosting: HostedCollectivesHostingMetricsResult;
+  /** Daily join/churn events for hosted collectives. */
+  hostedCollectivesMembership: HostedCollectivesMembershipMetricsResult;
+};
+
+/** Aggregated metrics for a host */
+export type HostMetricsNamespaceHostedCollectivesFinancialActivityArgs = {
+  input: HostedCollectivesFinancialActivityMetricsInput;
+};
+
+/** Aggregated metrics for a host */
+export type HostMetricsNamespaceHostedCollectivesHostingArgs = {
+  input: HostedCollectivesHostingMetricsInput;
+};
+
+/** Aggregated metrics for a host */
+export type HostMetricsNamespaceHostedCollectivesMembershipArgs = {
+  input: HostedCollectivesMembershipMetricsInput;
 };
 
 /** Host metrics time series */
@@ -7284,7 +7366,10 @@ export type HostMetricsTimeSeries = {
   hostFeeShare: TimeSeriesAmountWithSettlement;
   /** History of the host fees collected */
   hostFees: TimeSeriesAmount;
-  /** History of the collected platform tips */
+  /**
+   * History of the collected platform tips
+   * @deprecated 2026-05-15: Unused by the frontend; the platform-tips ledger is now opt-in per host (NEW_PLATFORM_TIPS_LEDGER) and this aggregated series is no longer maintained. Always returns an empty series.
+   */
   platformTips: TimeSeriesAmount;
   /** The interval between two data points */
   timeUnit: TimeUnit;
@@ -7441,6 +7526,286 @@ export type HostedAccountSummarySpentTotalAverageArgs = {
   period?: InputMaybe<AveragePeriod>;
 };
 
+export enum HostedCollectivesFinancialActivityMetricsDimension {
+  account = 'account',
+  accountType = 'accountType',
+  hostCurrency = 'hostCurrency',
+  isArchived = 'isArchived',
+  isMainAccount = 'isMainAccount',
+  mainAccount = 'mainAccount',
+  mainAccountIsArchived = 'mainAccountIsArchived',
+  mainAccountType = 'mainAccountType',
+  parent = 'parent',
+}
+
+export type HostedCollectivesFinancialActivityMetricsFiltersAllOf = {
+  account?: InputMaybe<MetricsAccountReferenceFilter>;
+  accountType?: InputMaybe<MetricsStringFilter>;
+  hostCurrency?: InputMaybe<MetricsStringFilter>;
+  isArchived?: InputMaybe<Scalars['Boolean']['input']>;
+  isMainAccount?: InputMaybe<Scalars['Boolean']['input']>;
+  mainAccount?: InputMaybe<MetricsAccountReferenceFilter>;
+  mainAccountIsArchived?: InputMaybe<Scalars['Boolean']['input']>;
+  mainAccountType?: InputMaybe<MetricsStringFilter>;
+  parent?: InputMaybe<MetricsAccountReferenceFilter>;
+};
+
+export type HostedCollectivesFinancialActivityMetricsGroup = {
+  __typename?: 'HostedCollectivesFinancialActivityMetricsGroup';
+  account?: Maybe<Account>;
+  accountType?: Maybe<Scalars['String']['output']>;
+  hostCurrency?: Maybe<Scalars['String']['output']>;
+  isArchived?: Maybe<Scalars['Boolean']['output']>;
+  isMainAccount?: Maybe<Scalars['Boolean']['output']>;
+  mainAccount?: Maybe<Account>;
+  mainAccountIsArchived?: Maybe<Scalars['Boolean']['output']>;
+  mainAccountType?: Maybe<Scalars['String']['output']>;
+  parent?: Maybe<Account>;
+};
+
+export type HostedCollectivesFinancialActivityMetricsHavingInput = {
+  measure: HostedCollectivesFinancialActivityMetricsMeasure;
+  op: MetricsHavingOp;
+  value: Scalars['Float']['input'];
+};
+
+export type HostedCollectivesFinancialActivityMetricsInput = {
+  /** Time grain. Omit for a single aggregate over the whole range. */
+  bucket?: InputMaybe<TimeUnit>;
+  dateRange: MetricsDateRangeInput;
+  filters?: InputMaybe<HostedCollectivesFinancialActivityMetricsFiltersAllOf>;
+  groupBy?: InputMaybe<Array<HostedCollectivesFinancialActivityMetricsDimension>>;
+  having?: InputMaybe<Array<HostedCollectivesFinancialActivityMetricsHavingInput>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  measures: Array<HostedCollectivesFinancialActivityMetricsMeasure>;
+  orderBy?: InputMaybe<Array<HostedCollectivesFinancialActivityMetricsOrderByInput>>;
+  /** IANA timezone applied to `DATE_TRUNC` when bucketing — determines where each month/week/day boundary falls. Independent of `dateRange` (which already carries the absolute window via ISO offsets): two queries with the same dateRange but different timezones can produce different bucket boundaries. */
+  timezone?: InputMaybe<Scalars['String']['input']>;
+};
+
+export enum HostedCollectivesFinancialActivityMetricsMeasure {
+  /** Distinct main accounts with at least one transaction of any kind. Child events/projects roll up to their parent. */
+  activeCollectives = 'activeCollectives',
+  /**
+   * Amount received in host currency, sums credit transactions, excluding refunds, refunded transactions and internal transfers.
+   * Matches values returned from hostStats.totalAmountReceived(net: false).
+   */
+  amountReceived = 'amountReceived',
+  /**
+   * Net amount received in host currency, sums credit transactions with fees and taxes included, excluding refunds, refunded transactions and internal transfers.
+   * Matches values returned from hostStats.totalAmountReceived(net: true).
+   */
+  amountReceivedNet = 'amountReceivedNet',
+  /** Amount spent in host currency, sums debit transactions, excluding refunds, refunded transactions and internal transfers.Matches values returned from hostStats.totalAmountSpent(net: false). */
+  amountSpent = 'amountSpent',
+  /** Net amount spent in host currency, sums debit transactions with fees and taxes included, excluding refunds, refunded transactions and internal transfers.Matches values returned from hostStats.totalAmountSpent(net: true). */
+  amountSpentNet = 'amountSpentNet',
+  /** Most recent date with any ledger activity, as `YYYY-MM-DD`. */
+  lastActiveDate = 'lastActiveDate',
+  /** Total number of transactions in the queried scope. */
+  transactionCount = 'transactionCount',
+}
+
+export type HostedCollectivesFinancialActivityMetricsOrderByInput = {
+  direction: MetricsOrderByDirection;
+  measure: HostedCollectivesFinancialActivityMetricsMeasure;
+};
+
+export type HostedCollectivesFinancialActivityMetricsResult = MetricsResult & {
+  __typename?: 'HostedCollectivesFinancialActivityMetricsResult';
+  bucket?: Maybe<TimeUnit>;
+  dateFrom: Scalars['DateTime']['output'];
+  dateTo: Scalars['DateTime']['output'];
+  groupBy?: Maybe<Array<Scalars['String']['output']>>;
+  rows: Array<HostedCollectivesFinancialActivityMetricsRow>;
+};
+
+export type HostedCollectivesFinancialActivityMetricsRow = {
+  __typename?: 'HostedCollectivesFinancialActivityMetricsRow';
+  bucket?: Maybe<Scalars['String']['output']>;
+  group?: Maybe<HostedCollectivesFinancialActivityMetricsGroup>;
+  values: HostedCollectivesFinancialActivityMetricsValues;
+};
+
+export type HostedCollectivesFinancialActivityMetricsValues = {
+  __typename?: 'HostedCollectivesFinancialActivityMetricsValues';
+  /** Distinct main accounts with at least one transaction of any kind. Child events/projects roll up to their parent. */
+  activeCollectives?: Maybe<Scalars['Int']['output']>;
+  /**
+   * Amount received in host currency, sums credit transactions, excluding refunds, refunded transactions and internal transfers.
+   * Matches values returned from hostStats.totalAmountReceived(net: false).
+   */
+  amountReceived?: Maybe<Amount>;
+  /**
+   * Net amount received in host currency, sums credit transactions with fees and taxes included, excluding refunds, refunded transactions and internal transfers.
+   * Matches values returned from hostStats.totalAmountReceived(net: true).
+   */
+  amountReceivedNet?: Maybe<Amount>;
+  /** Amount spent in host currency, sums debit transactions, excluding refunds, refunded transactions and internal transfers.Matches values returned from hostStats.totalAmountSpent(net: false). */
+  amountSpent?: Maybe<Amount>;
+  /** Net amount spent in host currency, sums debit transactions with fees and taxes included, excluding refunds, refunded transactions and internal transfers.Matches values returned from hostStats.totalAmountSpent(net: true). */
+  amountSpentNet?: Maybe<Amount>;
+  /** Most recent date with any ledger activity, as `YYYY-MM-DD`. */
+  lastActiveDate?: Maybe<Scalars['Date']['output']>;
+  /** Total number of transactions in the queried scope. */
+  transactionCount?: Maybe<Scalars['Int']['output']>;
+};
+
+export enum HostedCollectivesHostingMetricsDimension {
+  account = 'account',
+  accountType = 'accountType',
+  endDate = 'endDate',
+  mainAccountType = 'mainAccountType',
+  parent = 'parent',
+}
+
+export type HostedCollectivesHostingMetricsFiltersAllOf = {
+  account?: InputMaybe<MetricsAccountReferenceFilter>;
+  accountType?: InputMaybe<MetricsStringFilter>;
+  endDate?: InputMaybe<MetricsStringFilter>;
+  mainAccountType?: InputMaybe<MetricsStringFilter>;
+  parent?: InputMaybe<MetricsAccountReferenceFilter>;
+};
+
+export type HostedCollectivesHostingMetricsGroup = {
+  __typename?: 'HostedCollectivesHostingMetricsGroup';
+  account?: Maybe<Account>;
+  accountType?: Maybe<Scalars['String']['output']>;
+  endDate?: Maybe<Scalars['String']['output']>;
+  mainAccountType?: Maybe<Scalars['String']['output']>;
+  parent?: Maybe<Account>;
+};
+
+export type HostedCollectivesHostingMetricsHavingInput = {
+  measure: HostedCollectivesHostingMetricsMeasure;
+  op: MetricsHavingOp;
+  value: Scalars['Float']['input'];
+};
+
+export type HostedCollectivesHostingMetricsInput = {
+  /** Time grain. Omit for a single aggregate over the whole range. */
+  bucket?: InputMaybe<TimeUnit>;
+  dateRange: MetricsDateRangeInput;
+  filters?: InputMaybe<HostedCollectivesHostingMetricsFiltersAllOf>;
+  groupBy?: InputMaybe<Array<HostedCollectivesHostingMetricsDimension>>;
+  having?: InputMaybe<Array<HostedCollectivesHostingMetricsHavingInput>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  measures: Array<HostedCollectivesHostingMetricsMeasure>;
+  orderBy?: InputMaybe<Array<HostedCollectivesHostingMetricsOrderByInput>>;
+  /** IANA timezone applied to `DATE_TRUNC` when bucketing — determines where each month/week/day boundary falls. Independent of `dateRange` (which already carries the absolute window via ISO offsets): two queries with the same dateRange but different timezones can produce different bucket boundaries. */
+  timezone?: InputMaybe<Scalars['String']['input']>;
+};
+
+export enum HostedCollectivesHostingMetricsMeasure {
+  daysHostedToDate = 'daysHostedToDate',
+  hostedCollectives = 'hostedCollectives',
+}
+
+export type HostedCollectivesHostingMetricsOrderByInput = {
+  direction: MetricsOrderByDirection;
+  measure: HostedCollectivesHostingMetricsMeasure;
+};
+
+export type HostedCollectivesHostingMetricsResult = MetricsResult & {
+  __typename?: 'HostedCollectivesHostingMetricsResult';
+  bucket?: Maybe<TimeUnit>;
+  dateFrom: Scalars['DateTime']['output'];
+  dateTo: Scalars['DateTime']['output'];
+  groupBy?: Maybe<Array<Scalars['String']['output']>>;
+  rows: Array<HostedCollectivesHostingMetricsRow>;
+};
+
+export type HostedCollectivesHostingMetricsRow = {
+  __typename?: 'HostedCollectivesHostingMetricsRow';
+  bucket?: Maybe<Scalars['String']['output']>;
+  group?: Maybe<HostedCollectivesHostingMetricsGroup>;
+  values: HostedCollectivesHostingMetricsValues;
+};
+
+export type HostedCollectivesHostingMetricsValues = {
+  __typename?: 'HostedCollectivesHostingMetricsValues';
+  daysHostedToDate?: Maybe<Scalars['Float']['output']>;
+  hostedCollectives?: Maybe<Scalars['Int']['output']>;
+};
+
+export enum HostedCollectivesMembershipMetricsDimension {
+  account = 'account',
+  accountType = 'accountType',
+  event = 'event',
+  isArchived = 'isArchived',
+}
+
+export type HostedCollectivesMembershipMetricsFiltersAllOf = {
+  account?: InputMaybe<MetricsAccountReferenceFilter>;
+  accountType?: InputMaybe<MetricsStringFilter>;
+  event?: InputMaybe<MetricsStringFilter>;
+  isArchived?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+export type HostedCollectivesMembershipMetricsGroup = {
+  __typename?: 'HostedCollectivesMembershipMetricsGroup';
+  account?: Maybe<Account>;
+  accountType?: Maybe<Scalars['String']['output']>;
+  event?: Maybe<Scalars['String']['output']>;
+  isArchived?: Maybe<Scalars['Boolean']['output']>;
+};
+
+export type HostedCollectivesMembershipMetricsHavingInput = {
+  measure: HostedCollectivesMembershipMetricsMeasure;
+  op: MetricsHavingOp;
+  value: Scalars['Float']['input'];
+};
+
+export type HostedCollectivesMembershipMetricsInput = {
+  /** Time grain. Omit for a single aggregate over the whole range. */
+  bucket?: InputMaybe<TimeUnit>;
+  dateRange: MetricsDateRangeInput;
+  filters?: InputMaybe<HostedCollectivesMembershipMetricsFiltersAllOf>;
+  groupBy?: InputMaybe<Array<HostedCollectivesMembershipMetricsDimension>>;
+  having?: InputMaybe<Array<HostedCollectivesMembershipMetricsHavingInput>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  measures: Array<HostedCollectivesMembershipMetricsMeasure>;
+  orderBy?: InputMaybe<Array<HostedCollectivesMembershipMetricsOrderByInput>>;
+  /** IANA timezone applied to `DATE_TRUNC` when bucketing — determines where each month/week/day boundary falls. Independent of `dateRange` (which already carries the absolute window via ISO offsets): two queries with the same dateRange but different timezones can produce different bucket boundaries. */
+  timezone?: InputMaybe<Scalars['String']['input']>;
+};
+
+export enum HostedCollectivesMembershipMetricsMeasure {
+  churnedCount = 'churnedCount',
+  churnedDistinctCollectives = 'churnedDistinctCollectives',
+  joinedCount = 'joinedCount',
+  joinedDistinctCollectives = 'joinedDistinctCollectives',
+}
+
+export type HostedCollectivesMembershipMetricsOrderByInput = {
+  direction: MetricsOrderByDirection;
+  measure: HostedCollectivesMembershipMetricsMeasure;
+};
+
+export type HostedCollectivesMembershipMetricsResult = MetricsResult & {
+  __typename?: 'HostedCollectivesMembershipMetricsResult';
+  bucket?: Maybe<TimeUnit>;
+  dateFrom: Scalars['DateTime']['output'];
+  dateTo: Scalars['DateTime']['output'];
+  groupBy?: Maybe<Array<Scalars['String']['output']>>;
+  rows: Array<HostedCollectivesMembershipMetricsRow>;
+};
+
+export type HostedCollectivesMembershipMetricsRow = {
+  __typename?: 'HostedCollectivesMembershipMetricsRow';
+  bucket?: Maybe<Scalars['String']['output']>;
+  group?: Maybe<HostedCollectivesMembershipMetricsGroup>;
+  values: HostedCollectivesMembershipMetricsValues;
+};
+
+export type HostedCollectivesMembershipMetricsValues = {
+  __typename?: 'HostedCollectivesMembershipMetricsValues';
+  churnedCount?: Maybe<Scalars['Int']['output']>;
+  churnedDistinctCollectives?: Maybe<Scalars['Int']['output']>;
+  joinedCount?: Maybe<Scalars['Int']['output']>;
+  joinedDistinctCollectives?: Maybe<Scalars['Int']['output']>;
+};
+
 /** Exposes information about an uploaded image file */
 export type ImageFileInfo = FileInfo & {
   __typename?: 'ImageFileInfo';
@@ -7546,6 +7911,8 @@ export type Individual = Account & {
   isIncognito: Scalars['Boolean']['output'];
   /** Returns true if user account is limited (user can't use any feature) */
   isLimited: Scalars['Boolean']['output'];
+  /** Whether the account is private */
+  isPrivate: Scalars['Boolean']['output'];
   /** Returns true if user is a root user. Only visible to the user themselves. */
   isRoot: Scalars['Boolean']['output'];
   /** Whether this account is suspended */
@@ -8410,6 +8777,55 @@ export type MergeAccountsResponse = {
   message?: Maybe<Scalars['String']['output']>;
 };
 
+/** Filter a metric dimension that references an Account. */
+export type MetricsAccountReferenceFilter = {
+  eq?: InputMaybe<AccountReferenceInput>;
+  in?: InputMaybe<Array<AccountReferenceInput>>;
+  isNull?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+/** Date range `[from, to)`. */
+export type MetricsDateRangeInput = {
+  from: Scalars['DateTime']['input'];
+  to: Scalars['DateTime']['input'];
+};
+
+/** Comparison operator for HAVING clauses on a measure. */
+export enum MetricsHavingOp {
+  /** Equal */
+  eq = 'eq',
+  /** Greater than */
+  gt = 'gt',
+  /** Greater than or equal */
+  gte = 'gte',
+  /** Less than */
+  lt = 'lt',
+  /** Less than or equal */
+  lte = 'lte',
+  /** Not equal */
+  ne = 'ne',
+}
+
+export enum MetricsOrderByDirection {
+  /** Ascending */
+  asc = 'asc',
+  /** Descending */
+  desc = 'desc',
+}
+
+export type MetricsResult = {
+  bucket?: Maybe<TimeUnit>;
+  dateFrom: Scalars['DateTime']['output'];
+  dateTo: Scalars['DateTime']['output'];
+  groupBy?: Maybe<Array<Scalars['String']['output']>>;
+};
+
+export type MetricsStringFilter = {
+  eq?: InputMaybe<Scalars['String']['input']>;
+  in?: InputMaybe<Array<Scalars['String']['input']>>;
+  isNull?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
 /** This is the root mutation */
 export type Mutation = {
   __typename?: 'Mutation';
@@ -8447,6 +8863,8 @@ export type Mutation = {
   connectGoCardlessAccount: GoCardlessConnectAccountResponse;
   /** Connect a Plaid account */
   connectPlaidAccount: PlaidConnectAccountResponse;
+  /** Complete the Wise (TransferWise) OAuth flow and connect the account to the host. Scope: "connectedAccounts". */
+  connectTransferwiseAccount: TransferwiseConnectAccountResponse;
   /** Convert an account to an Organization. Scope: "account". */
   convertAccountToOrganization: Account;
   /** Convert an Organization to a Collective. Scope: "account". */
@@ -8595,6 +9013,8 @@ export type Mutation = {
   generateGoCardlessLink: GoCardlessLink;
   /** Generate a Plaid Link token */
   generatePlaidLinkToken: PlaidLinkTokenCreateResponse;
+  /** Get the Wise (TransferWise) OAuth URL to initiate the account connection flow for a host. Scope: "connectedAccounts". */
+  getTransferwiseOAuthUrl: Scalars['URL']['output'];
   /** Import transactions, manually or from a CSV file */
   importTransactions: TransactionsImport;
   /** Invite a new member to the Collective. Scope: "account". */
@@ -8795,9 +9215,11 @@ export type MutationBanAccountArgs = {
 
 /** This is the root mutation */
 export type MutationCancelOrderArgs = {
+  messageForContributor?: InputMaybe<Scalars['String']['input']>;
   order: OrderReferenceInput;
   reason?: InputMaybe<Scalars['String']['input']>;
   reasonCode?: InputMaybe<Scalars['String']['input']>;
+  removeAsContributor?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** This is the root mutation */
@@ -8843,6 +9265,13 @@ export type MutationConnectPlaidAccountArgs = {
   name?: InputMaybe<Scalars['String']['input']>;
   publicToken: Scalars['String']['input'];
   sourceName?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** This is the root mutation */
+export type MutationConnectTransferwiseAccountArgs = {
+  code: Scalars['NonEmptyString']['input'];
+  profileId: Scalars['NonEmptyString']['input'];
+  state: Scalars['NonEmptyString']['input'];
 };
 
 /** This is the root mutation */
@@ -9349,6 +9778,12 @@ export type MutationGeneratePlaidLinkTokenArgs = {
 };
 
 /** This is the root mutation */
+export type MutationGetTransferwiseOAuthUrlArgs = {
+  account: AccountReferenceInput;
+  redirect?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** This is the root mutation */
 export type MutationImportTransactionsArgs = {
   csvConfig?: InputMaybe<Scalars['JSONObject']['input']>;
   data: Array<TransactionsImportRowCreateInput>;
@@ -9441,7 +9876,10 @@ export type MutationRefreshPlaidAccountArgs = {
 
 /** This is the root mutation */
 export type MutationRefundTransactionArgs = {
+  cancelRecurringContribution?: InputMaybe<Scalars['Boolean']['input']>;
   ignoreBalanceCheck?: InputMaybe<Scalars['Boolean']['input']>;
+  messageForContributor?: InputMaybe<Scalars['String']['input']>;
+  removeAsContributor?: InputMaybe<Scalars['Boolean']['input']>;
   transaction: TransactionReferenceInput;
 };
 
@@ -9690,6 +10128,7 @@ export type MutationUpdateOrderArgs = {
   order: OrderReferenceInput;
   paymentMethod?: InputMaybe<PaymentMethodReferenceInput>;
   paypalSubscriptionId?: InputMaybe<Scalars['String']['input']>;
+  platformTipAmount?: InputMaybe<AmountInput>;
   tier?: InputMaybe<TierReferenceInput>;
 };
 
@@ -10009,6 +10448,8 @@ export type OrderContextInput = {
   isEmbed?: InputMaybe<Scalars['Boolean']['input']>;
   /** Whether this order was created using the new platform tip flow */
   isNewPlatformTipFlow?: InputMaybe<Scalars['Boolean']['input']>;
+  /** Whether the platform tip was offered to the user in the contribution flow. When explicitly false, the order is persisted as not eligible for platform tips (used by the OSC platform tip A/B). */
+  platformTipOffered?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** Input to create a new order */
@@ -10080,6 +10521,8 @@ export enum OrderPausedBy {
 /** Fields for the user permissions on an order */
 export type OrderPermissions = {
   __typename?: 'OrderPermissions';
+  /** Whether the current user can cancel this recurring contribution */
+  canCancel: Scalars['Boolean']['output'];
   /** Whether the current user can comment on this order */
   canComment: Scalars['Boolean']['output'];
   /** Whether the current user can edit this pending order */
@@ -10088,6 +10531,8 @@ export type OrderPermissions = {
   canMarkAsExpired: Scalars['Boolean']['output'];
   /** Whether the current user can mark this order as unpaid */
   canMarkAsPaid: Scalars['Boolean']['output'];
+  /** Whether the current user can remove the contributor from the collective public profile */
+  canRemoveAsContributor: Scalars['Boolean']['output'];
   /** If paused, whether the current user can resume this order */
   canResume: Scalars['Boolean']['output'];
   /** Whether the current user can see private activities for this order */
@@ -10268,6 +10713,8 @@ export type Organization = Account &
     isHost: Scalars['Boolean']['output'];
     /** Defines if the contributors wants to be incognito (name not displayed) */
     isIncognito: Scalars['Boolean']['output'];
+    /** Whether the account is private */
+    isPrivate: Scalars['Boolean']['output'];
     /** Whether this account is suspended */
     isSuspended: Scalars['Boolean']['output'];
     /** Whether the account is verified */
@@ -10786,6 +11233,7 @@ export type OrganizationUpdatesArgs = {
 
 /** This represents an Organization account */
 export type OrganizationVendorsArgs = {
+  canBeUsedWithAccounts?: InputMaybe<Array<InputMaybe<AccountReferenceInput>>>;
   forAccount?: InputMaybe<AccountReferenceInput>;
   isArchived?: InputMaybe<Scalars['Boolean']['input']>;
   limit?: Scalars['Int']['input'];
@@ -11076,6 +11524,8 @@ export type PayoutMethod = {
   canBeEdited?: Maybe<Scalars['Boolean']['output']>;
   /** The date and time this payout method was created */
   createdAt: Scalars['DateTime']['output'];
+  /** The currency of this payout method */
+  currency?: Maybe<Currency>;
   /** The actual data for this payout method. Content depends on the type. */
   data?: Maybe<Scalars['JSON']['output']>;
   /** Unique identifier for this payout method */
@@ -11095,6 +11545,8 @@ export type PayoutMethod = {
 };
 
 export type PayoutMethodInput = {
+  /** The currency for this payout method */
+  currency?: InputMaybe<Currency>;
   /** Additional data specific to the payout method type. For custom payout methods (type=OTHER), must contain only `content` (string) and `currency` fields. For other types, may contain type-specific details (e.g., bank account details, PayPal email) */
   data?: InputMaybe<Scalars['JSON']['input']>;
   /**
@@ -11269,7 +11721,10 @@ export type PersonalTokenCollection = Collection & {
 
 /** Input type for PersonalToken */
 export type PersonalTokenCreateInput = {
-  /** The account to use as the owner of the application. Defaults to currently logged in user. */
+  /**
+   * The account to use as the owner of the application. Defaults to currently logged in user.
+   * @deprecated 2026-06-03: This field is ignored, the account will always default to the currently logged in user.
+   */
   account?: InputMaybe<AccountReferenceInput>;
   expiresAt?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
@@ -11442,6 +11897,7 @@ export type PlatformSubscriptionFeatures = {
   PAYPAL_PAYOUTS: Scalars['Boolean']['output'];
   RECEIVE_EXPENSES: Scalars['Boolean']['output'];
   RECEIVE_FINANCIAL_CONTRIBUTIONS: Scalars['Boolean']['output'];
+  RECEIVE_GRANTS: Scalars['Boolean']['output'];
   RECEIVE_HOST_APPLICATIONS: Scalars['Boolean']['output'];
   TAX_FORMS: Scalars['Boolean']['output'];
   TRANSFERWISE: Scalars['Boolean']['output'];
@@ -11462,6 +11918,7 @@ export type PlatformSubscriptionFeaturesFeatures = {
   PAYPAL_PAYOUTS: Scalars['Boolean']['input'];
   RECEIVE_EXPENSES: Scalars['Boolean']['input'];
   RECEIVE_FINANCIAL_CONTRIBUTIONS: Scalars['Boolean']['input'];
+  RECEIVE_GRANTS: Scalars['Boolean']['input'];
   RECEIVE_HOST_APPLICATIONS: Scalars['Boolean']['input'];
   TAX_FORMS: Scalars['Boolean']['input'];
   TRANSFERWISE: Scalars['Boolean']['input'];
@@ -11548,9 +12005,10 @@ export type Policies = {
   EXPENSE_AUTHOR_CANNOT_APPROVE?: Maybe<Expense_Author_Cannot_Approve>;
   EXPENSE_CATEGORIZATION?: Maybe<Expense_Categorization>;
   EXPENSE_POLICIES?: Maybe<Expense_Policies>;
-  EXPENSE_PUBLIC_VENDORS?: Maybe<Scalars['Boolean']['output']>;
   MAXIMUM_VIRTUAL_CARD_LIMIT_AMOUNT_FOR_INTERVAL?: Maybe<Maximum_Virtual_Card_Limit_Amount_For_Interval>;
   REQUIRE_2FA_FOR_ADMINS?: Maybe<Scalars['Boolean']['output']>;
+  /** Default rule for who can attribute financial activities to vendors under this host. */
+  USE_VENDOR_POLICY?: Maybe<UseVendorPolicy>;
   id?: Maybe<Scalars['String']['output']>;
   /** The resource public id (ie: acc_xxxxxxxx) */
   publicId: Scalars['String']['output'];
@@ -11594,8 +12052,8 @@ export type PoliciesInput = {
   EXPENSE_AUTHOR_CANNOT_APPROVE?: InputMaybe<PoliciesCollectiveExpenseAuthorCannotApprove>;
   EXPENSE_CATEGORIZATION?: InputMaybe<PoliciesExpenseCategorizationInput>;
   EXPENSE_POLICIES?: InputMaybe<PoliciesExpensePolicies>;
-  EXPENSE_PUBLIC_VENDORS?: InputMaybe<Scalars['Boolean']['input']>;
   REQUIRE_2FA_FOR_ADMINS?: InputMaybe<Scalars['Boolean']['input']>;
+  USE_VENDOR_POLICY?: InputMaybe<UseVendorPolicy>;
 };
 
 /** Defines how the policy is applied */
@@ -11743,6 +12201,8 @@ export type Project = Account &
     isHost: Scalars['Boolean']['output'];
     /** Defines if the contributors wants to be incognito (name not displayed) */
     isIncognito: Scalars['Boolean']['output'];
+    /** Whether the account is private */
+    isPrivate: Scalars['Boolean']['output'];
     /** Whether this account is suspended */
     isSuspended: Scalars['Boolean']['output'];
     /** Whether the account is verified */
@@ -13077,9 +13537,11 @@ export type TagStatsCollection = Collection & {
 /** Information about a tax */
 export type TaxInfo = {
   __typename?: 'TaxInfo';
+  /** Whether the tax ID number is available. Contrary to `idNumber`, this field is public. */
+  hasTaxIdNumber: Scalars['Boolean']['output'];
   /** An unique identifier for this tax (GST, VAT, etc) */
   id: Scalars['String']['output'];
-  /** Tax ID number of the 3rd party receiving/paying the tax */
+  /** Tax ID number of the 3rd party receiving/paying the tax. Will be null if not allowed to see it. */
   idNumber?: Maybe<Scalars['String']['output']>;
   /**
    * Percentage applied, between 0-100
@@ -13900,6 +14362,14 @@ export type TransferWiseRequiredField = {
   type?: Maybe<Scalars['String']['output']>;
 };
 
+export type TransferwiseConnectAccountResponse = {
+  __typename?: 'TransferwiseConnectAccountResponse';
+  /** The connected account that was created */
+  connectedAccount: ConnectedAccount;
+  /** The URL to redirect the user to once the connection is complete */
+  redirectUrl?: Maybe<Scalars['URL']['output']>;
+};
+
 /** A two factor authentication method */
 export enum TwoFactorMethod {
   TOTP = 'TOTP',
@@ -14077,6 +14547,16 @@ export enum UploadedFileKind {
   UPDATE = 'UPDATE',
 }
 
+/** Who can attribute financial activities to a vendor */
+export enum UseVendorPolicy {
+  /** Anyone who can submit an expense. */
+  ALL_SUBMITTERS = 'ALL_SUBMITTERS',
+  /** Only host admins can use this vendor. */
+  HOST_ADMINS = 'HOST_ADMINS',
+  /** Host admins and admins of hosted collectives. */
+  HOST_AND_COLLECTIVE_ADMINS = 'HOST_AND_COLLECTIVE_ADMINS',
+}
+
 /** User two factor authentication method */
 export type UserTwoFactorMethod = {
   __typename?: 'UserTwoFactorMethod';
@@ -14106,6 +14586,8 @@ export type Vendor = Account &
     /** List of activities that the logged-in user is subscribed for this collective */
     activitySubscriptions?: Maybe<Array<Maybe<ActivitySubscription>>>;
     backgroundImageUrl?: Maybe<Scalars['String']['output']>;
+    /** The accounts this vendor can be used with. If empty, the vendor can be used with any collective under the vendor host. */
+    canBeUsedWithAccounts: Array<Maybe<Account>>;
     /** Whether this account can have changelog updates */
     canHaveChangelogUpdates: Scalars['Boolean']['output'];
     /** Returns true if the remote user can start the process to resume contributions for account */
@@ -14124,7 +14606,7 @@ export type Vendor = Account &
     conversationsTags?: Maybe<Array<Maybe<TagStat>>>;
     /** The time of creation */
     createdAt?: Maybe<Scalars['DateTime']['output']>;
-    /** The account who created this order */
+    /** The account who created this vendor */
     createdByAccount?: Maybe<Account>;
     /** The currency of the account */
     currency: Currency;
@@ -14168,6 +14650,8 @@ export type Vendor = Account &
     isHost: Scalars['Boolean']['output'];
     /** Defines if the contributors wants to be incognito (name not displayed) */
     isIncognito: Scalars['Boolean']['output'];
+    /** Whether the account is private */
+    isPrivate: Scalars['Boolean']['output'];
     /** Whether this account is suspended */
     isSuspended: Scalars['Boolean']['output'];
     /** Whether the account is verified */
@@ -14241,12 +14725,14 @@ export type Vendor = Account &
     updatedAt?: Maybe<Scalars['DateTime']['output']>;
     /** Updates published by the account. To see unpublished updates, you need to be an admin and have the scope "updates". */
     updates: UpdateCollection;
+    /** Per-vendor override for who can attribute financial activities to this vendor. Null means inherit from host. */
+    useVendorPolicy?: Maybe<UseVendorPolicy>;
     vendorInfo?: Maybe<VendorInfo>;
     /** Virtual Cards Merchants used by the account. Admin only. Scope: "virtualCards". */
     virtualCardMerchants?: Maybe<AccountCollection>;
     /** Virtual Cards attached to the account. Admin only. Scope: "virtualCards". */
     virtualCards?: Maybe<VirtualCardCollection>;
-    /** The accounts where this vendor is visible, if empty or null applies to all collectives under the vendor host */
+    /** @deprecated Use canBeUsedWithAccounts instead. */
     visibleToAccounts: Array<Maybe<Account>>;
     webhooks: WebhookCollection;
     /** @deprecated 2023-01-16: Please use socialLinks */
@@ -14633,6 +15119,8 @@ export type VendorContactInput = {
 export type VendorCreateInput = {
   /** The profile background image, for the banner and social media sharing */
   backgroundImage?: InputMaybe<Scalars['Upload']['input']>;
+  /** Restrict this vendor to specific accounts under the host. If empty/omitted, the vendor can be used with any hosted account. */
+  canBeUsedWithAccounts?: InputMaybe<Array<InputMaybe<AccountReferenceInput>>>;
   /** The profile avatar image */
   image?: InputMaybe<Scalars['Upload']['input']>;
   /** @deprecated 2024-11-26: Please use image + backgroundImage fields */
@@ -14642,13 +15130,18 @@ export type VendorCreateInput = {
   name: Scalars['NonEmptyString']['input'];
   payoutMethod?: InputMaybe<PayoutMethodInput>;
   tags?: InputMaybe<Array<InputMaybe<Scalars['NonEmptyString']['input']>>>;
+  /** Per-vendor override for who can attribute financial activities. Null means inherit from host. */
+  useVendorPolicy?: InputMaybe<UseVendorPolicy>;
   vendorInfo?: InputMaybe<VendorInfoInput>;
+  /** @deprecated Use canBeUsedWithAccounts instead. */
   visibleToAccounts?: InputMaybe<Array<InputMaybe<AccountReferenceInput>>>;
 };
 
 export type VendorEditInput = {
   /** The profile background image, for the banner and social media sharing */
   backgroundImage?: InputMaybe<Scalars['Upload']['input']>;
+  /** Restrict this vendor to specific accounts under the host. If empty/omitted, the vendor can be used with any hosted account. */
+  canBeUsedWithAccounts?: InputMaybe<Array<InputMaybe<AccountReferenceInput>>>;
   /** The public id identifying the account (ie: dgm9bnk8-0437xqry-ejpvzeol-jdayw5re, acc_xxxxxxxx) */
   id?: InputMaybe<Scalars['String']['input']>;
   /** The profile avatar image */
@@ -14667,7 +15160,10 @@ export type VendorEditInput = {
   /** The slug identifying the account (ie: babel for https://opencollective.com/babel) */
   slug?: InputMaybe<Scalars['String']['input']>;
   tags?: InputMaybe<Array<InputMaybe<Scalars['NonEmptyString']['input']>>>;
+  /** Per-vendor override for who can attribute financial activities. Null means inherit from host. */
+  useVendorPolicy?: InputMaybe<UseVendorPolicy>;
   vendorInfo?: InputMaybe<VendorInfoInput>;
+  /** @deprecated Use canBeUsedWithAccounts instead. */
   visibleToAccounts?: InputMaybe<Array<InputMaybe<AccountReferenceInput>>>;
 };
 
@@ -15313,6 +15809,1868 @@ export type ReceiptTransactionHostFieldsFragmentFragment =
   | ReceiptTransactionHostFieldsFragment_Project_Fragment
   | ReceiptTransactionHostFieldsFragment_Vendor_Fragment;
 
+type ReceiptTransactionLineFragment_Credit_Fragment = {
+  __typename?: 'Credit';
+  id: string;
+  type: TransactionType;
+  kind?: TransactionKind | null;
+  createdAt?: any | null;
+  description?: string | null;
+  hostCurrencyFxRate?: number | null;
+  invoiceTemplate?: string | null;
+  isRefund?: boolean | null;
+  host?:
+    | {
+        __typename?: 'Bot';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        currency: Currency;
+        imageUrl?: string | null;
+        website?: string | null;
+        settings: any;
+        type: AccountType;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Collective';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        currency: Currency;
+        imageUrl?: string | null;
+        website?: string | null;
+        settings: any;
+        type: AccountType;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Event';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        currency: Currency;
+        imageUrl?: string | null;
+        website?: string | null;
+        settings: any;
+        type: AccountType;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Fund';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        currency: Currency;
+        imageUrl?: string | null;
+        website?: string | null;
+        settings: any;
+        type: AccountType;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Host';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        currency: Currency;
+        imageUrl?: string | null;
+        website?: string | null;
+        settings: any;
+        type: AccountType;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Individual';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        currency: Currency;
+        imageUrl?: string | null;
+        website?: string | null;
+        settings: any;
+        type: AccountType;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Organization';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        currency: Currency;
+        imageUrl?: string | null;
+        website?: string | null;
+        settings: any;
+        type: AccountType;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Project';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        currency: Currency;
+        imageUrl?: string | null;
+        website?: string | null;
+        settings: any;
+        type: AccountType;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Vendor';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        currency: Currency;
+        imageUrl?: string | null;
+        website?: string | null;
+        settings: any;
+        type: AccountType;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | null;
+  oppositeTransaction?:
+    | {
+        __typename?: 'Credit';
+        host?:
+          | {
+              __typename?: 'Bot';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Collective';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Event';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Fund';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Host';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Individual';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Organization';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Project';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Vendor';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | null;
+      }
+    | {
+        __typename?: 'Debit';
+        host?:
+          | {
+              __typename?: 'Bot';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Collective';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Event';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Fund';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Host';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Individual';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Organization';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Project';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Vendor';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | null;
+      }
+    | null;
+  amount: { __typename?: 'Amount'; valueInCents?: number | null; currency?: Currency | null };
+  amountInHostCurrency: { __typename?: 'Amount'; valueInCents?: number | null; currency?: Currency | null };
+  netAmount: { __typename?: 'Amount'; valueInCents?: number | null; currency?: Currency | null };
+  taxAmount: { __typename?: 'Amount'; valueInCents?: number | null; currency?: Currency | null };
+  taxInfo?: { __typename?: 'TaxInfo'; type: TaxType; rate: number } | null;
+  paymentMethod?: {
+    __typename?: 'PaymentMethod';
+    id?: string | null;
+    type?: PaymentMethodType | null;
+    service?: PaymentMethodService | null;
+    name?: string | null;
+  } | null;
+  fromAccount?:
+    | {
+        __typename?: 'Bot';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        type: AccountType;
+        settings: any;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Collective';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        type: AccountType;
+        settings: any;
+        host?: {
+          __typename?: 'Host';
+          id: string;
+          name?: string | null;
+          legalName?: string | null;
+          slug: string;
+          type: AccountType;
+          expensePolicy?: string | null;
+          settings: any;
+          location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+        } | null;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Event';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        type: AccountType;
+        settings: any;
+        host?: {
+          __typename?: 'Host';
+          id: string;
+          name?: string | null;
+          legalName?: string | null;
+          slug: string;
+          type: AccountType;
+          expensePolicy?: string | null;
+          settings: any;
+          location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+        } | null;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Fund';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        type: AccountType;
+        settings: any;
+        host?: {
+          __typename?: 'Host';
+          id: string;
+          name?: string | null;
+          legalName?: string | null;
+          slug: string;
+          type: AccountType;
+          expensePolicy?: string | null;
+          settings: any;
+          location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+        } | null;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Host';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        type: AccountType;
+        settings: any;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Individual';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        type: AccountType;
+        settings: any;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Organization';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        type: AccountType;
+        settings: any;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Project';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        type: AccountType;
+        settings: any;
+        host?: {
+          __typename?: 'Host';
+          id: string;
+          name?: string | null;
+          legalName?: string | null;
+          slug: string;
+          type: AccountType;
+          expensePolicy?: string | null;
+          settings: any;
+          location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+        } | null;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Vendor';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        type: AccountType;
+        settings: any;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | null;
+  toAccount?:
+    | {
+        __typename?: 'Bot';
+        id: string;
+        slug: string;
+        legalName?: string | null;
+        name?: string | null;
+        type: AccountType;
+        settings: any;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Collective';
+        id: string;
+        slug: string;
+        legalName?: string | null;
+        name?: string | null;
+        type: AccountType;
+        settings: any;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Event';
+        startsAt?: any | null;
+        endsAt?: any | null;
+        timezone?: string | null;
+        id: string;
+        slug: string;
+        legalName?: string | null;
+        name?: string | null;
+        type: AccountType;
+        settings: any;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Fund';
+        id: string;
+        slug: string;
+        legalName?: string | null;
+        name?: string | null;
+        type: AccountType;
+        settings: any;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Host';
+        id: string;
+        slug: string;
+        legalName?: string | null;
+        name?: string | null;
+        type: AccountType;
+        settings: any;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Individual';
+        id: string;
+        slug: string;
+        legalName?: string | null;
+        name?: string | null;
+        type: AccountType;
+        settings: any;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Organization';
+        id: string;
+        slug: string;
+        legalName?: string | null;
+        name?: string | null;
+        type: AccountType;
+        settings: any;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Project';
+        id: string;
+        slug: string;
+        legalName?: string | null;
+        name?: string | null;
+        type: AccountType;
+        settings: any;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Vendor';
+        id: string;
+        slug: string;
+        legalName?: string | null;
+        name?: string | null;
+        type: AccountType;
+        settings: any;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | null;
+  giftCardEmitterAccount?:
+    | {
+        __typename?: 'Bot';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        type: AccountType;
+      }
+    | {
+        __typename?: 'Collective';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        type: AccountType;
+      }
+    | {
+        __typename?: 'Event';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        type: AccountType;
+      }
+    | {
+        __typename?: 'Fund';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        type: AccountType;
+      }
+    | {
+        __typename?: 'Host';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        type: AccountType;
+      }
+    | {
+        __typename?: 'Individual';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        type: AccountType;
+      }
+    | {
+        __typename?: 'Organization';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        type: AccountType;
+      }
+    | {
+        __typename?: 'Project';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        type: AccountType;
+      }
+    | {
+        __typename?: 'Vendor';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        type: AccountType;
+      }
+    | null;
+  refundTransaction?: { __typename?: 'Credit'; id: string } | { __typename?: 'Debit'; id: string } | null;
+  order?: {
+    __typename?: 'Order';
+    id: string;
+    legacyId: number;
+    data?: any | null;
+    quantity?: number | null;
+    tax?: { __typename?: 'TaxInfo'; id: string; type: TaxType; rate: number; percentage: number } | null;
+    tier?: { __typename?: 'Tier'; id: string; type: TierType; invoiceTemplate?: string | null } | null;
+  } | null;
+};
+
+type ReceiptTransactionLineFragment_Debit_Fragment = {
+  __typename?: 'Debit';
+  id: string;
+  type: TransactionType;
+  kind?: TransactionKind | null;
+  createdAt?: any | null;
+  description?: string | null;
+  hostCurrencyFxRate?: number | null;
+  invoiceTemplate?: string | null;
+  isRefund?: boolean | null;
+  host?:
+    | {
+        __typename?: 'Bot';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        currency: Currency;
+        imageUrl?: string | null;
+        website?: string | null;
+        settings: any;
+        type: AccountType;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Collective';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        currency: Currency;
+        imageUrl?: string | null;
+        website?: string | null;
+        settings: any;
+        type: AccountType;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Event';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        currency: Currency;
+        imageUrl?: string | null;
+        website?: string | null;
+        settings: any;
+        type: AccountType;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Fund';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        currency: Currency;
+        imageUrl?: string | null;
+        website?: string | null;
+        settings: any;
+        type: AccountType;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Host';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        currency: Currency;
+        imageUrl?: string | null;
+        website?: string | null;
+        settings: any;
+        type: AccountType;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Individual';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        currency: Currency;
+        imageUrl?: string | null;
+        website?: string | null;
+        settings: any;
+        type: AccountType;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Organization';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        currency: Currency;
+        imageUrl?: string | null;
+        website?: string | null;
+        settings: any;
+        type: AccountType;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Project';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        currency: Currency;
+        imageUrl?: string | null;
+        website?: string | null;
+        settings: any;
+        type: AccountType;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Vendor';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        currency: Currency;
+        imageUrl?: string | null;
+        website?: string | null;
+        settings: any;
+        type: AccountType;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | null;
+  oppositeTransaction?:
+    | {
+        __typename?: 'Credit';
+        host?:
+          | {
+              __typename?: 'Bot';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Collective';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Event';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Fund';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Host';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Individual';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Organization';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Project';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Vendor';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | null;
+      }
+    | {
+        __typename?: 'Debit';
+        host?:
+          | {
+              __typename?: 'Bot';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Collective';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Event';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Fund';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Host';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Individual';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Organization';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Project';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Vendor';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | null;
+      }
+    | null;
+  amount: { __typename?: 'Amount'; valueInCents?: number | null; currency?: Currency | null };
+  amountInHostCurrency: { __typename?: 'Amount'; valueInCents?: number | null; currency?: Currency | null };
+  netAmount: { __typename?: 'Amount'; valueInCents?: number | null; currency?: Currency | null };
+  taxAmount: { __typename?: 'Amount'; valueInCents?: number | null; currency?: Currency | null };
+  taxInfo?: { __typename?: 'TaxInfo'; type: TaxType; rate: number } | null;
+  paymentMethod?: {
+    __typename?: 'PaymentMethod';
+    id?: string | null;
+    type?: PaymentMethodType | null;
+    service?: PaymentMethodService | null;
+    name?: string | null;
+  } | null;
+  fromAccount?:
+    | {
+        __typename?: 'Bot';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        type: AccountType;
+        settings: any;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Collective';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        type: AccountType;
+        settings: any;
+        host?: {
+          __typename?: 'Host';
+          id: string;
+          name?: string | null;
+          legalName?: string | null;
+          slug: string;
+          type: AccountType;
+          expensePolicy?: string | null;
+          settings: any;
+          location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+        } | null;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Event';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        type: AccountType;
+        settings: any;
+        host?: {
+          __typename?: 'Host';
+          id: string;
+          name?: string | null;
+          legalName?: string | null;
+          slug: string;
+          type: AccountType;
+          expensePolicy?: string | null;
+          settings: any;
+          location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+        } | null;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Fund';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        type: AccountType;
+        settings: any;
+        host?: {
+          __typename?: 'Host';
+          id: string;
+          name?: string | null;
+          legalName?: string | null;
+          slug: string;
+          type: AccountType;
+          expensePolicy?: string | null;
+          settings: any;
+          location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+        } | null;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Host';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        type: AccountType;
+        settings: any;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Individual';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        type: AccountType;
+        settings: any;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Organization';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        type: AccountType;
+        settings: any;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Project';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        type: AccountType;
+        settings: any;
+        host?: {
+          __typename?: 'Host';
+          id: string;
+          name?: string | null;
+          legalName?: string | null;
+          slug: string;
+          type: AccountType;
+          expensePolicy?: string | null;
+          settings: any;
+          location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+        } | null;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Vendor';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        type: AccountType;
+        settings: any;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | null;
+  toAccount?:
+    | {
+        __typename?: 'Bot';
+        id: string;
+        slug: string;
+        legalName?: string | null;
+        name?: string | null;
+        type: AccountType;
+        settings: any;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Collective';
+        id: string;
+        slug: string;
+        legalName?: string | null;
+        name?: string | null;
+        type: AccountType;
+        settings: any;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Event';
+        startsAt?: any | null;
+        endsAt?: any | null;
+        timezone?: string | null;
+        id: string;
+        slug: string;
+        legalName?: string | null;
+        name?: string | null;
+        type: AccountType;
+        settings: any;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Fund';
+        id: string;
+        slug: string;
+        legalName?: string | null;
+        name?: string | null;
+        type: AccountType;
+        settings: any;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Host';
+        id: string;
+        slug: string;
+        legalName?: string | null;
+        name?: string | null;
+        type: AccountType;
+        settings: any;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Individual';
+        id: string;
+        slug: string;
+        legalName?: string | null;
+        name?: string | null;
+        type: AccountType;
+        settings: any;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Organization';
+        id: string;
+        slug: string;
+        legalName?: string | null;
+        name?: string | null;
+        type: AccountType;
+        settings: any;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Project';
+        id: string;
+        slug: string;
+        legalName?: string | null;
+        name?: string | null;
+        type: AccountType;
+        settings: any;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Vendor';
+        id: string;
+        slug: string;
+        legalName?: string | null;
+        name?: string | null;
+        type: AccountType;
+        settings: any;
+        location?: {
+          __typename?: 'Location';
+          name?: string | null;
+          address?: string | null;
+          country?: string | null;
+        } | null;
+      }
+    | null;
+  giftCardEmitterAccount?:
+    | {
+        __typename?: 'Bot';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        type: AccountType;
+      }
+    | {
+        __typename?: 'Collective';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        type: AccountType;
+      }
+    | {
+        __typename?: 'Event';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        type: AccountType;
+      }
+    | {
+        __typename?: 'Fund';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        type: AccountType;
+      }
+    | {
+        __typename?: 'Host';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        type: AccountType;
+      }
+    | {
+        __typename?: 'Individual';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        type: AccountType;
+      }
+    | {
+        __typename?: 'Organization';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        type: AccountType;
+      }
+    | {
+        __typename?: 'Project';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        type: AccountType;
+      }
+    | {
+        __typename?: 'Vendor';
+        id: string;
+        slug: string;
+        name?: string | null;
+        legalName?: string | null;
+        type: AccountType;
+      }
+    | null;
+  refundTransaction?: { __typename?: 'Credit'; id: string } | { __typename?: 'Debit'; id: string } | null;
+  order?: {
+    __typename?: 'Order';
+    id: string;
+    legacyId: number;
+    data?: any | null;
+    quantity?: number | null;
+    tax?: { __typename?: 'TaxInfo'; id: string; type: TaxType; rate: number; percentage: number } | null;
+    tier?: { __typename?: 'Tier'; id: string; type: TierType; invoiceTemplate?: string | null } | null;
+  } | null;
+};
+
+export type ReceiptTransactionLineFragmentFragment =
+  | ReceiptTransactionLineFragment_Credit_Fragment
+  | ReceiptTransactionLineFragment_Debit_Fragment;
+
 type ReceiptTransactionFragment_Credit_Fragment = {
   __typename?: 'Credit';
   id: string;
@@ -15323,6 +17681,1865 @@ type ReceiptTransactionFragment_Credit_Fragment = {
   hostCurrencyFxRate?: number | null;
   invoiceTemplate?: string | null;
   isRefund?: boolean | null;
+  relatedTransactions: Array<
+    | {
+        __typename?: 'Credit';
+        id: string;
+        type: TransactionType;
+        kind?: TransactionKind | null;
+        createdAt?: any | null;
+        description?: string | null;
+        hostCurrencyFxRate?: number | null;
+        invoiceTemplate?: string | null;
+        isRefund?: boolean | null;
+        host?:
+          | {
+              __typename?: 'Bot';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Collective';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Event';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Fund';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Host';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Individual';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Organization';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Project';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Vendor';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | null;
+        oppositeTransaction?:
+          | {
+              __typename?: 'Credit';
+              host?:
+                | {
+                    __typename?: 'Bot';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Collective';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Event';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Fund';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Host';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Individual';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Organization';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Project';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Vendor';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | null;
+            }
+          | {
+              __typename?: 'Debit';
+              host?:
+                | {
+                    __typename?: 'Bot';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Collective';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Event';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Fund';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Host';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Individual';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Organization';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Project';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Vendor';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | null;
+            }
+          | null;
+        amount: { __typename?: 'Amount'; valueInCents?: number | null; currency?: Currency | null };
+        amountInHostCurrency: { __typename?: 'Amount'; valueInCents?: number | null; currency?: Currency | null };
+        netAmount: { __typename?: 'Amount'; valueInCents?: number | null; currency?: Currency | null };
+        taxAmount: { __typename?: 'Amount'; valueInCents?: number | null; currency?: Currency | null };
+        taxInfo?: { __typename?: 'TaxInfo'; type: TaxType; rate: number } | null;
+        paymentMethod?: {
+          __typename?: 'PaymentMethod';
+          id?: string | null;
+          type?: PaymentMethodType | null;
+          service?: PaymentMethodService | null;
+          name?: string | null;
+        } | null;
+        fromAccount?:
+          | {
+              __typename?: 'Bot';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+              settings: any;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Collective';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+              settings: any;
+              host?: {
+                __typename?: 'Host';
+                id: string;
+                name?: string | null;
+                legalName?: string | null;
+                slug: string;
+                type: AccountType;
+                expensePolicy?: string | null;
+                settings: any;
+                location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+              } | null;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Event';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+              settings: any;
+              host?: {
+                __typename?: 'Host';
+                id: string;
+                name?: string | null;
+                legalName?: string | null;
+                slug: string;
+                type: AccountType;
+                expensePolicy?: string | null;
+                settings: any;
+                location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+              } | null;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Fund';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+              settings: any;
+              host?: {
+                __typename?: 'Host';
+                id: string;
+                name?: string | null;
+                legalName?: string | null;
+                slug: string;
+                type: AccountType;
+                expensePolicy?: string | null;
+                settings: any;
+                location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+              } | null;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Host';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+              settings: any;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Individual';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+              settings: any;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Organization';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+              settings: any;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Project';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+              settings: any;
+              host?: {
+                __typename?: 'Host';
+                id: string;
+                name?: string | null;
+                legalName?: string | null;
+                slug: string;
+                type: AccountType;
+                expensePolicy?: string | null;
+                settings: any;
+                location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+              } | null;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Vendor';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+              settings: any;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | null;
+        toAccount?:
+          | {
+              __typename?: 'Bot';
+              id: string;
+              slug: string;
+              legalName?: string | null;
+              name?: string | null;
+              type: AccountType;
+              settings: any;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Collective';
+              id: string;
+              slug: string;
+              legalName?: string | null;
+              name?: string | null;
+              type: AccountType;
+              settings: any;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Event';
+              startsAt?: any | null;
+              endsAt?: any | null;
+              timezone?: string | null;
+              id: string;
+              slug: string;
+              legalName?: string | null;
+              name?: string | null;
+              type: AccountType;
+              settings: any;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Fund';
+              id: string;
+              slug: string;
+              legalName?: string | null;
+              name?: string | null;
+              type: AccountType;
+              settings: any;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Host';
+              id: string;
+              slug: string;
+              legalName?: string | null;
+              name?: string | null;
+              type: AccountType;
+              settings: any;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Individual';
+              id: string;
+              slug: string;
+              legalName?: string | null;
+              name?: string | null;
+              type: AccountType;
+              settings: any;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Organization';
+              id: string;
+              slug: string;
+              legalName?: string | null;
+              name?: string | null;
+              type: AccountType;
+              settings: any;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Project';
+              id: string;
+              slug: string;
+              legalName?: string | null;
+              name?: string | null;
+              type: AccountType;
+              settings: any;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Vendor';
+              id: string;
+              slug: string;
+              legalName?: string | null;
+              name?: string | null;
+              type: AccountType;
+              settings: any;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | null;
+        giftCardEmitterAccount?:
+          | {
+              __typename?: 'Bot';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+            }
+          | {
+              __typename?: 'Collective';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+            }
+          | {
+              __typename?: 'Event';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+            }
+          | {
+              __typename?: 'Fund';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+            }
+          | {
+              __typename?: 'Host';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+            }
+          | {
+              __typename?: 'Individual';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+            }
+          | {
+              __typename?: 'Organization';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+            }
+          | {
+              __typename?: 'Project';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+            }
+          | {
+              __typename?: 'Vendor';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+            }
+          | null;
+        refundTransaction?: { __typename?: 'Credit'; id: string } | { __typename?: 'Debit'; id: string } | null;
+        order?: {
+          __typename?: 'Order';
+          id: string;
+          legacyId: number;
+          data?: any | null;
+          quantity?: number | null;
+          tax?: { __typename?: 'TaxInfo'; id: string; type: TaxType; rate: number; percentage: number } | null;
+          tier?: { __typename?: 'Tier'; id: string; type: TierType; invoiceTemplate?: string | null } | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Debit';
+        id: string;
+        type: TransactionType;
+        kind?: TransactionKind | null;
+        createdAt?: any | null;
+        description?: string | null;
+        hostCurrencyFxRate?: number | null;
+        invoiceTemplate?: string | null;
+        isRefund?: boolean | null;
+        host?:
+          | {
+              __typename?: 'Bot';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Collective';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Event';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Fund';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Host';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Individual';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Organization';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Project';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Vendor';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | null;
+        oppositeTransaction?:
+          | {
+              __typename?: 'Credit';
+              host?:
+                | {
+                    __typename?: 'Bot';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Collective';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Event';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Fund';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Host';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Individual';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Organization';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Project';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Vendor';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | null;
+            }
+          | {
+              __typename?: 'Debit';
+              host?:
+                | {
+                    __typename?: 'Bot';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Collective';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Event';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Fund';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Host';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Individual';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Organization';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Project';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Vendor';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | null;
+            }
+          | null;
+        amount: { __typename?: 'Amount'; valueInCents?: number | null; currency?: Currency | null };
+        amountInHostCurrency: { __typename?: 'Amount'; valueInCents?: number | null; currency?: Currency | null };
+        netAmount: { __typename?: 'Amount'; valueInCents?: number | null; currency?: Currency | null };
+        taxAmount: { __typename?: 'Amount'; valueInCents?: number | null; currency?: Currency | null };
+        taxInfo?: { __typename?: 'TaxInfo'; type: TaxType; rate: number } | null;
+        paymentMethod?: {
+          __typename?: 'PaymentMethod';
+          id?: string | null;
+          type?: PaymentMethodType | null;
+          service?: PaymentMethodService | null;
+          name?: string | null;
+        } | null;
+        fromAccount?:
+          | {
+              __typename?: 'Bot';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+              settings: any;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Collective';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+              settings: any;
+              host?: {
+                __typename?: 'Host';
+                id: string;
+                name?: string | null;
+                legalName?: string | null;
+                slug: string;
+                type: AccountType;
+                expensePolicy?: string | null;
+                settings: any;
+                location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+              } | null;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Event';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+              settings: any;
+              host?: {
+                __typename?: 'Host';
+                id: string;
+                name?: string | null;
+                legalName?: string | null;
+                slug: string;
+                type: AccountType;
+                expensePolicy?: string | null;
+                settings: any;
+                location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+              } | null;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Fund';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+              settings: any;
+              host?: {
+                __typename?: 'Host';
+                id: string;
+                name?: string | null;
+                legalName?: string | null;
+                slug: string;
+                type: AccountType;
+                expensePolicy?: string | null;
+                settings: any;
+                location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+              } | null;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Host';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+              settings: any;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Individual';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+              settings: any;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Organization';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+              settings: any;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Project';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+              settings: any;
+              host?: {
+                __typename?: 'Host';
+                id: string;
+                name?: string | null;
+                legalName?: string | null;
+                slug: string;
+                type: AccountType;
+                expensePolicy?: string | null;
+                settings: any;
+                location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+              } | null;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Vendor';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+              settings: any;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | null;
+        toAccount?:
+          | {
+              __typename?: 'Bot';
+              id: string;
+              slug: string;
+              legalName?: string | null;
+              name?: string | null;
+              type: AccountType;
+              settings: any;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Collective';
+              id: string;
+              slug: string;
+              legalName?: string | null;
+              name?: string | null;
+              type: AccountType;
+              settings: any;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Event';
+              startsAt?: any | null;
+              endsAt?: any | null;
+              timezone?: string | null;
+              id: string;
+              slug: string;
+              legalName?: string | null;
+              name?: string | null;
+              type: AccountType;
+              settings: any;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Fund';
+              id: string;
+              slug: string;
+              legalName?: string | null;
+              name?: string | null;
+              type: AccountType;
+              settings: any;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Host';
+              id: string;
+              slug: string;
+              legalName?: string | null;
+              name?: string | null;
+              type: AccountType;
+              settings: any;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Individual';
+              id: string;
+              slug: string;
+              legalName?: string | null;
+              name?: string | null;
+              type: AccountType;
+              settings: any;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Organization';
+              id: string;
+              slug: string;
+              legalName?: string | null;
+              name?: string | null;
+              type: AccountType;
+              settings: any;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Project';
+              id: string;
+              slug: string;
+              legalName?: string | null;
+              name?: string | null;
+              type: AccountType;
+              settings: any;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Vendor';
+              id: string;
+              slug: string;
+              legalName?: string | null;
+              name?: string | null;
+              type: AccountType;
+              settings: any;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | null;
+        giftCardEmitterAccount?:
+          | {
+              __typename?: 'Bot';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+            }
+          | {
+              __typename?: 'Collective';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+            }
+          | {
+              __typename?: 'Event';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+            }
+          | {
+              __typename?: 'Fund';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+            }
+          | {
+              __typename?: 'Host';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+            }
+          | {
+              __typename?: 'Individual';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+            }
+          | {
+              __typename?: 'Organization';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+            }
+          | {
+              __typename?: 'Project';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+            }
+          | {
+              __typename?: 'Vendor';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+            }
+          | null;
+        refundTransaction?: { __typename?: 'Credit'; id: string } | { __typename?: 'Debit'; id: string } | null;
+        order?: {
+          __typename?: 'Order';
+          id: string;
+          legacyId: number;
+          data?: any | null;
+          quantity?: number | null;
+          tax?: { __typename?: 'TaxInfo'; id: string; type: TaxType; rate: number; percentage: number } | null;
+          tier?: { __typename?: 'Tier'; id: string; type: TierType; invoiceTemplate?: string | null } | null;
+        } | null;
+      }
+    | null
+  >;
   host?:
     | {
         __typename?: 'Bot';
@@ -16252,6 +20469,1865 @@ type ReceiptTransactionFragment_Debit_Fragment = {
   hostCurrencyFxRate?: number | null;
   invoiceTemplate?: string | null;
   isRefund?: boolean | null;
+  relatedTransactions: Array<
+    | {
+        __typename?: 'Credit';
+        id: string;
+        type: TransactionType;
+        kind?: TransactionKind | null;
+        createdAt?: any | null;
+        description?: string | null;
+        hostCurrencyFxRate?: number | null;
+        invoiceTemplate?: string | null;
+        isRefund?: boolean | null;
+        host?:
+          | {
+              __typename?: 'Bot';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Collective';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Event';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Fund';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Host';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Individual';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Organization';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Project';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Vendor';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | null;
+        oppositeTransaction?:
+          | {
+              __typename?: 'Credit';
+              host?:
+                | {
+                    __typename?: 'Bot';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Collective';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Event';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Fund';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Host';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Individual';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Organization';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Project';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Vendor';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | null;
+            }
+          | {
+              __typename?: 'Debit';
+              host?:
+                | {
+                    __typename?: 'Bot';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Collective';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Event';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Fund';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Host';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Individual';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Organization';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Project';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Vendor';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | null;
+            }
+          | null;
+        amount: { __typename?: 'Amount'; valueInCents?: number | null; currency?: Currency | null };
+        amountInHostCurrency: { __typename?: 'Amount'; valueInCents?: number | null; currency?: Currency | null };
+        netAmount: { __typename?: 'Amount'; valueInCents?: number | null; currency?: Currency | null };
+        taxAmount: { __typename?: 'Amount'; valueInCents?: number | null; currency?: Currency | null };
+        taxInfo?: { __typename?: 'TaxInfo'; type: TaxType; rate: number } | null;
+        paymentMethod?: {
+          __typename?: 'PaymentMethod';
+          id?: string | null;
+          type?: PaymentMethodType | null;
+          service?: PaymentMethodService | null;
+          name?: string | null;
+        } | null;
+        fromAccount?:
+          | {
+              __typename?: 'Bot';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+              settings: any;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Collective';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+              settings: any;
+              host?: {
+                __typename?: 'Host';
+                id: string;
+                name?: string | null;
+                legalName?: string | null;
+                slug: string;
+                type: AccountType;
+                expensePolicy?: string | null;
+                settings: any;
+                location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+              } | null;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Event';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+              settings: any;
+              host?: {
+                __typename?: 'Host';
+                id: string;
+                name?: string | null;
+                legalName?: string | null;
+                slug: string;
+                type: AccountType;
+                expensePolicy?: string | null;
+                settings: any;
+                location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+              } | null;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Fund';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+              settings: any;
+              host?: {
+                __typename?: 'Host';
+                id: string;
+                name?: string | null;
+                legalName?: string | null;
+                slug: string;
+                type: AccountType;
+                expensePolicy?: string | null;
+                settings: any;
+                location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+              } | null;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Host';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+              settings: any;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Individual';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+              settings: any;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Organization';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+              settings: any;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Project';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+              settings: any;
+              host?: {
+                __typename?: 'Host';
+                id: string;
+                name?: string | null;
+                legalName?: string | null;
+                slug: string;
+                type: AccountType;
+                expensePolicy?: string | null;
+                settings: any;
+                location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+              } | null;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Vendor';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+              settings: any;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | null;
+        toAccount?:
+          | {
+              __typename?: 'Bot';
+              id: string;
+              slug: string;
+              legalName?: string | null;
+              name?: string | null;
+              type: AccountType;
+              settings: any;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Collective';
+              id: string;
+              slug: string;
+              legalName?: string | null;
+              name?: string | null;
+              type: AccountType;
+              settings: any;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Event';
+              startsAt?: any | null;
+              endsAt?: any | null;
+              timezone?: string | null;
+              id: string;
+              slug: string;
+              legalName?: string | null;
+              name?: string | null;
+              type: AccountType;
+              settings: any;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Fund';
+              id: string;
+              slug: string;
+              legalName?: string | null;
+              name?: string | null;
+              type: AccountType;
+              settings: any;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Host';
+              id: string;
+              slug: string;
+              legalName?: string | null;
+              name?: string | null;
+              type: AccountType;
+              settings: any;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Individual';
+              id: string;
+              slug: string;
+              legalName?: string | null;
+              name?: string | null;
+              type: AccountType;
+              settings: any;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Organization';
+              id: string;
+              slug: string;
+              legalName?: string | null;
+              name?: string | null;
+              type: AccountType;
+              settings: any;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Project';
+              id: string;
+              slug: string;
+              legalName?: string | null;
+              name?: string | null;
+              type: AccountType;
+              settings: any;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Vendor';
+              id: string;
+              slug: string;
+              legalName?: string | null;
+              name?: string | null;
+              type: AccountType;
+              settings: any;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | null;
+        giftCardEmitterAccount?:
+          | {
+              __typename?: 'Bot';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+            }
+          | {
+              __typename?: 'Collective';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+            }
+          | {
+              __typename?: 'Event';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+            }
+          | {
+              __typename?: 'Fund';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+            }
+          | {
+              __typename?: 'Host';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+            }
+          | {
+              __typename?: 'Individual';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+            }
+          | {
+              __typename?: 'Organization';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+            }
+          | {
+              __typename?: 'Project';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+            }
+          | {
+              __typename?: 'Vendor';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+            }
+          | null;
+        refundTransaction?: { __typename?: 'Credit'; id: string } | { __typename?: 'Debit'; id: string } | null;
+        order?: {
+          __typename?: 'Order';
+          id: string;
+          legacyId: number;
+          data?: any | null;
+          quantity?: number | null;
+          tax?: { __typename?: 'TaxInfo'; id: string; type: TaxType; rate: number; percentage: number } | null;
+          tier?: { __typename?: 'Tier'; id: string; type: TierType; invoiceTemplate?: string | null } | null;
+        } | null;
+      }
+    | {
+        __typename?: 'Debit';
+        id: string;
+        type: TransactionType;
+        kind?: TransactionKind | null;
+        createdAt?: any | null;
+        description?: string | null;
+        hostCurrencyFxRate?: number | null;
+        invoiceTemplate?: string | null;
+        isRefund?: boolean | null;
+        host?:
+          | {
+              __typename?: 'Bot';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Collective';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Event';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Fund';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Host';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Individual';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Organization';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Project';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Vendor';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              currency: Currency;
+              imageUrl?: string | null;
+              website?: string | null;
+              settings: any;
+              type: AccountType;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | null;
+        oppositeTransaction?:
+          | {
+              __typename?: 'Credit';
+              host?:
+                | {
+                    __typename?: 'Bot';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Collective';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Event';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Fund';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Host';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Individual';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Organization';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Project';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Vendor';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | null;
+            }
+          | {
+              __typename?: 'Debit';
+              host?:
+                | {
+                    __typename?: 'Bot';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Collective';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Event';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Fund';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Host';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Individual';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Organization';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Project';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Vendor';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | null;
+            }
+          | null;
+        amount: { __typename?: 'Amount'; valueInCents?: number | null; currency?: Currency | null };
+        amountInHostCurrency: { __typename?: 'Amount'; valueInCents?: number | null; currency?: Currency | null };
+        netAmount: { __typename?: 'Amount'; valueInCents?: number | null; currency?: Currency | null };
+        taxAmount: { __typename?: 'Amount'; valueInCents?: number | null; currency?: Currency | null };
+        taxInfo?: { __typename?: 'TaxInfo'; type: TaxType; rate: number } | null;
+        paymentMethod?: {
+          __typename?: 'PaymentMethod';
+          id?: string | null;
+          type?: PaymentMethodType | null;
+          service?: PaymentMethodService | null;
+          name?: string | null;
+        } | null;
+        fromAccount?:
+          | {
+              __typename?: 'Bot';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+              settings: any;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Collective';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+              settings: any;
+              host?: {
+                __typename?: 'Host';
+                id: string;
+                name?: string | null;
+                legalName?: string | null;
+                slug: string;
+                type: AccountType;
+                expensePolicy?: string | null;
+                settings: any;
+                location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+              } | null;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Event';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+              settings: any;
+              host?: {
+                __typename?: 'Host';
+                id: string;
+                name?: string | null;
+                legalName?: string | null;
+                slug: string;
+                type: AccountType;
+                expensePolicy?: string | null;
+                settings: any;
+                location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+              } | null;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Fund';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+              settings: any;
+              host?: {
+                __typename?: 'Host';
+                id: string;
+                name?: string | null;
+                legalName?: string | null;
+                slug: string;
+                type: AccountType;
+                expensePolicy?: string | null;
+                settings: any;
+                location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+              } | null;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Host';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+              settings: any;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Individual';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+              settings: any;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Organization';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+              settings: any;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Project';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+              settings: any;
+              host?: {
+                __typename?: 'Host';
+                id: string;
+                name?: string | null;
+                legalName?: string | null;
+                slug: string;
+                type: AccountType;
+                expensePolicy?: string | null;
+                settings: any;
+                location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+              } | null;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Vendor';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+              settings: any;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | null;
+        toAccount?:
+          | {
+              __typename?: 'Bot';
+              id: string;
+              slug: string;
+              legalName?: string | null;
+              name?: string | null;
+              type: AccountType;
+              settings: any;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Collective';
+              id: string;
+              slug: string;
+              legalName?: string | null;
+              name?: string | null;
+              type: AccountType;
+              settings: any;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Event';
+              startsAt?: any | null;
+              endsAt?: any | null;
+              timezone?: string | null;
+              id: string;
+              slug: string;
+              legalName?: string | null;
+              name?: string | null;
+              type: AccountType;
+              settings: any;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Fund';
+              id: string;
+              slug: string;
+              legalName?: string | null;
+              name?: string | null;
+              type: AccountType;
+              settings: any;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Host';
+              id: string;
+              slug: string;
+              legalName?: string | null;
+              name?: string | null;
+              type: AccountType;
+              settings: any;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Individual';
+              id: string;
+              slug: string;
+              legalName?: string | null;
+              name?: string | null;
+              type: AccountType;
+              settings: any;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Organization';
+              id: string;
+              slug: string;
+              legalName?: string | null;
+              name?: string | null;
+              type: AccountType;
+              settings: any;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Project';
+              id: string;
+              slug: string;
+              legalName?: string | null;
+              name?: string | null;
+              type: AccountType;
+              settings: any;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Vendor';
+              id: string;
+              slug: string;
+              legalName?: string | null;
+              name?: string | null;
+              type: AccountType;
+              settings: any;
+              location?: {
+                __typename?: 'Location';
+                name?: string | null;
+                address?: string | null;
+                country?: string | null;
+              } | null;
+            }
+          | null;
+        giftCardEmitterAccount?:
+          | {
+              __typename?: 'Bot';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+            }
+          | {
+              __typename?: 'Collective';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+            }
+          | {
+              __typename?: 'Event';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+            }
+          | {
+              __typename?: 'Fund';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+            }
+          | {
+              __typename?: 'Host';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+            }
+          | {
+              __typename?: 'Individual';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+            }
+          | {
+              __typename?: 'Organization';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+            }
+          | {
+              __typename?: 'Project';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+            }
+          | {
+              __typename?: 'Vendor';
+              id: string;
+              slug: string;
+              name?: string | null;
+              legalName?: string | null;
+              type: AccountType;
+            }
+          | null;
+        refundTransaction?: { __typename?: 'Credit'; id: string } | { __typename?: 'Debit'; id: string } | null;
+        order?: {
+          __typename?: 'Order';
+          id: string;
+          legacyId: number;
+          data?: any | null;
+          quantity?: number | null;
+          tax?: { __typename?: 'TaxInfo'; id: string; type: TaxType; rate: number; percentage: number } | null;
+          tier?: { __typename?: 'Tier'; id: string; type: TierType; invoiceTemplate?: string | null } | null;
+        } | null;
+      }
+    | null
+  >;
   host?:
     | {
         __typename?: 'Bot';
@@ -17193,6 +23269,1865 @@ export type TransactionInvoiceQuery = {
         invoiceTemplate?: string | null;
         isRefund?: boolean | null;
         permissions: { __typename?: 'TransactionPermissions'; canDownloadInvoice: boolean };
+        relatedTransactions: Array<
+          | {
+              __typename?: 'Credit';
+              id: string;
+              type: TransactionType;
+              kind?: TransactionKind | null;
+              createdAt?: any | null;
+              description?: string | null;
+              hostCurrencyFxRate?: number | null;
+              invoiceTemplate?: string | null;
+              isRefund?: boolean | null;
+              host?:
+                | {
+                    __typename?: 'Bot';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Collective';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Event';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Fund';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Host';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Individual';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Organization';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Project';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Vendor';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | null;
+              oppositeTransaction?:
+                | {
+                    __typename?: 'Credit';
+                    host?:
+                      | {
+                          __typename?: 'Bot';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Collective';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Event';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Fund';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Host';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Individual';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Organization';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Project';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Vendor';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | null;
+                  }
+                | {
+                    __typename?: 'Debit';
+                    host?:
+                      | {
+                          __typename?: 'Bot';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Collective';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Event';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Fund';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Host';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Individual';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Organization';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Project';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Vendor';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | null;
+                  }
+                | null;
+              amount: { __typename?: 'Amount'; valueInCents?: number | null; currency?: Currency | null };
+              amountInHostCurrency: { __typename?: 'Amount'; valueInCents?: number | null; currency?: Currency | null };
+              netAmount: { __typename?: 'Amount'; valueInCents?: number | null; currency?: Currency | null };
+              taxAmount: { __typename?: 'Amount'; valueInCents?: number | null; currency?: Currency | null };
+              taxInfo?: { __typename?: 'TaxInfo'; type: TaxType; rate: number } | null;
+              paymentMethod?: {
+                __typename?: 'PaymentMethod';
+                id?: string | null;
+                type?: PaymentMethodType | null;
+                service?: PaymentMethodService | null;
+                name?: string | null;
+              } | null;
+              fromAccount?:
+                | {
+                    __typename?: 'Bot';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Collective';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    host?: {
+                      __typename?: 'Host';
+                      id: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      slug: string;
+                      type: AccountType;
+                      expensePolicy?: string | null;
+                      settings: any;
+                      location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+                    } | null;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Event';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    host?: {
+                      __typename?: 'Host';
+                      id: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      slug: string;
+                      type: AccountType;
+                      expensePolicy?: string | null;
+                      settings: any;
+                      location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+                    } | null;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Fund';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    host?: {
+                      __typename?: 'Host';
+                      id: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      slug: string;
+                      type: AccountType;
+                      expensePolicy?: string | null;
+                      settings: any;
+                      location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+                    } | null;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Host';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Individual';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Organization';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Project';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    host?: {
+                      __typename?: 'Host';
+                      id: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      slug: string;
+                      type: AccountType;
+                      expensePolicy?: string | null;
+                      settings: any;
+                      location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+                    } | null;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Vendor';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | null;
+              toAccount?:
+                | {
+                    __typename?: 'Bot';
+                    id: string;
+                    slug: string;
+                    legalName?: string | null;
+                    name?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Collective';
+                    id: string;
+                    slug: string;
+                    legalName?: string | null;
+                    name?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Event';
+                    startsAt?: any | null;
+                    endsAt?: any | null;
+                    timezone?: string | null;
+                    id: string;
+                    slug: string;
+                    legalName?: string | null;
+                    name?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Fund';
+                    id: string;
+                    slug: string;
+                    legalName?: string | null;
+                    name?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Host';
+                    id: string;
+                    slug: string;
+                    legalName?: string | null;
+                    name?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Individual';
+                    id: string;
+                    slug: string;
+                    legalName?: string | null;
+                    name?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Organization';
+                    id: string;
+                    slug: string;
+                    legalName?: string | null;
+                    name?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Project';
+                    id: string;
+                    slug: string;
+                    legalName?: string | null;
+                    name?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Vendor';
+                    id: string;
+                    slug: string;
+                    legalName?: string | null;
+                    name?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | null;
+              giftCardEmitterAccount?:
+                | {
+                    __typename?: 'Bot';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                  }
+                | {
+                    __typename?: 'Collective';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                  }
+                | {
+                    __typename?: 'Event';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                  }
+                | {
+                    __typename?: 'Fund';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                  }
+                | {
+                    __typename?: 'Host';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                  }
+                | {
+                    __typename?: 'Individual';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                  }
+                | {
+                    __typename?: 'Organization';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                  }
+                | {
+                    __typename?: 'Project';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                  }
+                | {
+                    __typename?: 'Vendor';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                  }
+                | null;
+              refundTransaction?: { __typename?: 'Credit'; id: string } | { __typename?: 'Debit'; id: string } | null;
+              order?: {
+                __typename?: 'Order';
+                id: string;
+                legacyId: number;
+                data?: any | null;
+                quantity?: number | null;
+                tax?: { __typename?: 'TaxInfo'; id: string; type: TaxType; rate: number; percentage: number } | null;
+                tier?: { __typename?: 'Tier'; id: string; type: TierType; invoiceTemplate?: string | null } | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Debit';
+              id: string;
+              type: TransactionType;
+              kind?: TransactionKind | null;
+              createdAt?: any | null;
+              description?: string | null;
+              hostCurrencyFxRate?: number | null;
+              invoiceTemplate?: string | null;
+              isRefund?: boolean | null;
+              host?:
+                | {
+                    __typename?: 'Bot';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Collective';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Event';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Fund';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Host';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Individual';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Organization';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Project';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Vendor';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | null;
+              oppositeTransaction?:
+                | {
+                    __typename?: 'Credit';
+                    host?:
+                      | {
+                          __typename?: 'Bot';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Collective';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Event';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Fund';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Host';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Individual';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Organization';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Project';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Vendor';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | null;
+                  }
+                | {
+                    __typename?: 'Debit';
+                    host?:
+                      | {
+                          __typename?: 'Bot';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Collective';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Event';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Fund';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Host';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Individual';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Organization';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Project';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Vendor';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | null;
+                  }
+                | null;
+              amount: { __typename?: 'Amount'; valueInCents?: number | null; currency?: Currency | null };
+              amountInHostCurrency: { __typename?: 'Amount'; valueInCents?: number | null; currency?: Currency | null };
+              netAmount: { __typename?: 'Amount'; valueInCents?: number | null; currency?: Currency | null };
+              taxAmount: { __typename?: 'Amount'; valueInCents?: number | null; currency?: Currency | null };
+              taxInfo?: { __typename?: 'TaxInfo'; type: TaxType; rate: number } | null;
+              paymentMethod?: {
+                __typename?: 'PaymentMethod';
+                id?: string | null;
+                type?: PaymentMethodType | null;
+                service?: PaymentMethodService | null;
+                name?: string | null;
+              } | null;
+              fromAccount?:
+                | {
+                    __typename?: 'Bot';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Collective';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    host?: {
+                      __typename?: 'Host';
+                      id: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      slug: string;
+                      type: AccountType;
+                      expensePolicy?: string | null;
+                      settings: any;
+                      location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+                    } | null;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Event';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    host?: {
+                      __typename?: 'Host';
+                      id: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      slug: string;
+                      type: AccountType;
+                      expensePolicy?: string | null;
+                      settings: any;
+                      location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+                    } | null;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Fund';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    host?: {
+                      __typename?: 'Host';
+                      id: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      slug: string;
+                      type: AccountType;
+                      expensePolicy?: string | null;
+                      settings: any;
+                      location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+                    } | null;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Host';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Individual';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Organization';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Project';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    host?: {
+                      __typename?: 'Host';
+                      id: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      slug: string;
+                      type: AccountType;
+                      expensePolicy?: string | null;
+                      settings: any;
+                      location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+                    } | null;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Vendor';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | null;
+              toAccount?:
+                | {
+                    __typename?: 'Bot';
+                    id: string;
+                    slug: string;
+                    legalName?: string | null;
+                    name?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Collective';
+                    id: string;
+                    slug: string;
+                    legalName?: string | null;
+                    name?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Event';
+                    startsAt?: any | null;
+                    endsAt?: any | null;
+                    timezone?: string | null;
+                    id: string;
+                    slug: string;
+                    legalName?: string | null;
+                    name?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Fund';
+                    id: string;
+                    slug: string;
+                    legalName?: string | null;
+                    name?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Host';
+                    id: string;
+                    slug: string;
+                    legalName?: string | null;
+                    name?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Individual';
+                    id: string;
+                    slug: string;
+                    legalName?: string | null;
+                    name?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Organization';
+                    id: string;
+                    slug: string;
+                    legalName?: string | null;
+                    name?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Project';
+                    id: string;
+                    slug: string;
+                    legalName?: string | null;
+                    name?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Vendor';
+                    id: string;
+                    slug: string;
+                    legalName?: string | null;
+                    name?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | null;
+              giftCardEmitterAccount?:
+                | {
+                    __typename?: 'Bot';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                  }
+                | {
+                    __typename?: 'Collective';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                  }
+                | {
+                    __typename?: 'Event';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                  }
+                | {
+                    __typename?: 'Fund';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                  }
+                | {
+                    __typename?: 'Host';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                  }
+                | {
+                    __typename?: 'Individual';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                  }
+                | {
+                    __typename?: 'Organization';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                  }
+                | {
+                    __typename?: 'Project';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                  }
+                | {
+                    __typename?: 'Vendor';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                  }
+                | null;
+              refundTransaction?: { __typename?: 'Credit'; id: string } | { __typename?: 'Debit'; id: string } | null;
+              order?: {
+                __typename?: 'Order';
+                id: string;
+                legacyId: number;
+                data?: any | null;
+                quantity?: number | null;
+                tax?: { __typename?: 'TaxInfo'; id: string; type: TaxType; rate: number; percentage: number } | null;
+                tier?: { __typename?: 'Tier'; id: string; type: TierType; invoiceTemplate?: string | null } | null;
+              } | null;
+            }
+          | null
+        >;
         host?:
           | {
               __typename?: 'Bot';
@@ -18297,6 +26232,1933 @@ export type TransactionInvoiceQuery = {
                     } | null;
                   }
                 | null;
+              relatedTransactions: Array<
+                | {
+                    __typename?: 'Credit';
+                    id: string;
+                    type: TransactionType;
+                    kind?: TransactionKind | null;
+                    createdAt?: any | null;
+                    description?: string | null;
+                    hostCurrencyFxRate?: number | null;
+                    invoiceTemplate?: string | null;
+                    isRefund?: boolean | null;
+                    host?:
+                      | {
+                          __typename?: 'Bot';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Collective';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Event';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Fund';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Host';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Individual';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Organization';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Project';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Vendor';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | null;
+                    oppositeTransaction?:
+                      | {
+                          __typename?: 'Credit';
+                          host?:
+                            | {
+                                __typename?: 'Bot';
+                                id: string;
+                                slug: string;
+                                name?: string | null;
+                                legalName?: string | null;
+                                currency: Currency;
+                                imageUrl?: string | null;
+                                website?: string | null;
+                                settings: any;
+                                type: AccountType;
+                                location?: {
+                                  __typename?: 'Location';
+                                  name?: string | null;
+                                  address?: string | null;
+                                  country?: string | null;
+                                } | null;
+                              }
+                            | {
+                                __typename?: 'Collective';
+                                id: string;
+                                slug: string;
+                                name?: string | null;
+                                legalName?: string | null;
+                                currency: Currency;
+                                imageUrl?: string | null;
+                                website?: string | null;
+                                settings: any;
+                                type: AccountType;
+                                location?: {
+                                  __typename?: 'Location';
+                                  name?: string | null;
+                                  address?: string | null;
+                                  country?: string | null;
+                                } | null;
+                              }
+                            | {
+                                __typename?: 'Event';
+                                id: string;
+                                slug: string;
+                                name?: string | null;
+                                legalName?: string | null;
+                                currency: Currency;
+                                imageUrl?: string | null;
+                                website?: string | null;
+                                settings: any;
+                                type: AccountType;
+                                location?: {
+                                  __typename?: 'Location';
+                                  name?: string | null;
+                                  address?: string | null;
+                                  country?: string | null;
+                                } | null;
+                              }
+                            | {
+                                __typename?: 'Fund';
+                                id: string;
+                                slug: string;
+                                name?: string | null;
+                                legalName?: string | null;
+                                currency: Currency;
+                                imageUrl?: string | null;
+                                website?: string | null;
+                                settings: any;
+                                type: AccountType;
+                                location?: {
+                                  __typename?: 'Location';
+                                  name?: string | null;
+                                  address?: string | null;
+                                  country?: string | null;
+                                } | null;
+                              }
+                            | {
+                                __typename?: 'Host';
+                                id: string;
+                                slug: string;
+                                name?: string | null;
+                                legalName?: string | null;
+                                currency: Currency;
+                                imageUrl?: string | null;
+                                website?: string | null;
+                                settings: any;
+                                type: AccountType;
+                                location?: {
+                                  __typename?: 'Location';
+                                  name?: string | null;
+                                  address?: string | null;
+                                  country?: string | null;
+                                } | null;
+                              }
+                            | {
+                                __typename?: 'Individual';
+                                id: string;
+                                slug: string;
+                                name?: string | null;
+                                legalName?: string | null;
+                                currency: Currency;
+                                imageUrl?: string | null;
+                                website?: string | null;
+                                settings: any;
+                                type: AccountType;
+                                location?: {
+                                  __typename?: 'Location';
+                                  name?: string | null;
+                                  address?: string | null;
+                                  country?: string | null;
+                                } | null;
+                              }
+                            | {
+                                __typename?: 'Organization';
+                                id: string;
+                                slug: string;
+                                name?: string | null;
+                                legalName?: string | null;
+                                currency: Currency;
+                                imageUrl?: string | null;
+                                website?: string | null;
+                                settings: any;
+                                type: AccountType;
+                                location?: {
+                                  __typename?: 'Location';
+                                  name?: string | null;
+                                  address?: string | null;
+                                  country?: string | null;
+                                } | null;
+                              }
+                            | {
+                                __typename?: 'Project';
+                                id: string;
+                                slug: string;
+                                name?: string | null;
+                                legalName?: string | null;
+                                currency: Currency;
+                                imageUrl?: string | null;
+                                website?: string | null;
+                                settings: any;
+                                type: AccountType;
+                                location?: {
+                                  __typename?: 'Location';
+                                  name?: string | null;
+                                  address?: string | null;
+                                  country?: string | null;
+                                } | null;
+                              }
+                            | {
+                                __typename?: 'Vendor';
+                                id: string;
+                                slug: string;
+                                name?: string | null;
+                                legalName?: string | null;
+                                currency: Currency;
+                                imageUrl?: string | null;
+                                website?: string | null;
+                                settings: any;
+                                type: AccountType;
+                                location?: {
+                                  __typename?: 'Location';
+                                  name?: string | null;
+                                  address?: string | null;
+                                  country?: string | null;
+                                } | null;
+                              }
+                            | null;
+                        }
+                      | {
+                          __typename?: 'Debit';
+                          host?:
+                            | {
+                                __typename?: 'Bot';
+                                id: string;
+                                slug: string;
+                                name?: string | null;
+                                legalName?: string | null;
+                                currency: Currency;
+                                imageUrl?: string | null;
+                                website?: string | null;
+                                settings: any;
+                                type: AccountType;
+                                location?: {
+                                  __typename?: 'Location';
+                                  name?: string | null;
+                                  address?: string | null;
+                                  country?: string | null;
+                                } | null;
+                              }
+                            | {
+                                __typename?: 'Collective';
+                                id: string;
+                                slug: string;
+                                name?: string | null;
+                                legalName?: string | null;
+                                currency: Currency;
+                                imageUrl?: string | null;
+                                website?: string | null;
+                                settings: any;
+                                type: AccountType;
+                                location?: {
+                                  __typename?: 'Location';
+                                  name?: string | null;
+                                  address?: string | null;
+                                  country?: string | null;
+                                } | null;
+                              }
+                            | {
+                                __typename?: 'Event';
+                                id: string;
+                                slug: string;
+                                name?: string | null;
+                                legalName?: string | null;
+                                currency: Currency;
+                                imageUrl?: string | null;
+                                website?: string | null;
+                                settings: any;
+                                type: AccountType;
+                                location?: {
+                                  __typename?: 'Location';
+                                  name?: string | null;
+                                  address?: string | null;
+                                  country?: string | null;
+                                } | null;
+                              }
+                            | {
+                                __typename?: 'Fund';
+                                id: string;
+                                slug: string;
+                                name?: string | null;
+                                legalName?: string | null;
+                                currency: Currency;
+                                imageUrl?: string | null;
+                                website?: string | null;
+                                settings: any;
+                                type: AccountType;
+                                location?: {
+                                  __typename?: 'Location';
+                                  name?: string | null;
+                                  address?: string | null;
+                                  country?: string | null;
+                                } | null;
+                              }
+                            | {
+                                __typename?: 'Host';
+                                id: string;
+                                slug: string;
+                                name?: string | null;
+                                legalName?: string | null;
+                                currency: Currency;
+                                imageUrl?: string | null;
+                                website?: string | null;
+                                settings: any;
+                                type: AccountType;
+                                location?: {
+                                  __typename?: 'Location';
+                                  name?: string | null;
+                                  address?: string | null;
+                                  country?: string | null;
+                                } | null;
+                              }
+                            | {
+                                __typename?: 'Individual';
+                                id: string;
+                                slug: string;
+                                name?: string | null;
+                                legalName?: string | null;
+                                currency: Currency;
+                                imageUrl?: string | null;
+                                website?: string | null;
+                                settings: any;
+                                type: AccountType;
+                                location?: {
+                                  __typename?: 'Location';
+                                  name?: string | null;
+                                  address?: string | null;
+                                  country?: string | null;
+                                } | null;
+                              }
+                            | {
+                                __typename?: 'Organization';
+                                id: string;
+                                slug: string;
+                                name?: string | null;
+                                legalName?: string | null;
+                                currency: Currency;
+                                imageUrl?: string | null;
+                                website?: string | null;
+                                settings: any;
+                                type: AccountType;
+                                location?: {
+                                  __typename?: 'Location';
+                                  name?: string | null;
+                                  address?: string | null;
+                                  country?: string | null;
+                                } | null;
+                              }
+                            | {
+                                __typename?: 'Project';
+                                id: string;
+                                slug: string;
+                                name?: string | null;
+                                legalName?: string | null;
+                                currency: Currency;
+                                imageUrl?: string | null;
+                                website?: string | null;
+                                settings: any;
+                                type: AccountType;
+                                location?: {
+                                  __typename?: 'Location';
+                                  name?: string | null;
+                                  address?: string | null;
+                                  country?: string | null;
+                                } | null;
+                              }
+                            | {
+                                __typename?: 'Vendor';
+                                id: string;
+                                slug: string;
+                                name?: string | null;
+                                legalName?: string | null;
+                                currency: Currency;
+                                imageUrl?: string | null;
+                                website?: string | null;
+                                settings: any;
+                                type: AccountType;
+                                location?: {
+                                  __typename?: 'Location';
+                                  name?: string | null;
+                                  address?: string | null;
+                                  country?: string | null;
+                                } | null;
+                              }
+                            | null;
+                        }
+                      | null;
+                    amount: { __typename?: 'Amount'; valueInCents?: number | null; currency?: Currency | null };
+                    amountInHostCurrency: {
+                      __typename?: 'Amount';
+                      valueInCents?: number | null;
+                      currency?: Currency | null;
+                    };
+                    netAmount: { __typename?: 'Amount'; valueInCents?: number | null; currency?: Currency | null };
+                    taxAmount: { __typename?: 'Amount'; valueInCents?: number | null; currency?: Currency | null };
+                    taxInfo?: { __typename?: 'TaxInfo'; type: TaxType; rate: number } | null;
+                    paymentMethod?: {
+                      __typename?: 'PaymentMethod';
+                      id?: string | null;
+                      type?: PaymentMethodType | null;
+                      service?: PaymentMethodService | null;
+                      name?: string | null;
+                    } | null;
+                    fromAccount?:
+                      | {
+                          __typename?: 'Bot';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          type: AccountType;
+                          settings: any;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Collective';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          type: AccountType;
+                          settings: any;
+                          host?: {
+                            __typename?: 'Host';
+                            id: string;
+                            name?: string | null;
+                            legalName?: string | null;
+                            slug: string;
+                            type: AccountType;
+                            expensePolicy?: string | null;
+                            settings: any;
+                            location?: {
+                              __typename?: 'Location';
+                              address?: string | null;
+                              country?: string | null;
+                            } | null;
+                          } | null;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Event';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          type: AccountType;
+                          settings: any;
+                          host?: {
+                            __typename?: 'Host';
+                            id: string;
+                            name?: string | null;
+                            legalName?: string | null;
+                            slug: string;
+                            type: AccountType;
+                            expensePolicy?: string | null;
+                            settings: any;
+                            location?: {
+                              __typename?: 'Location';
+                              address?: string | null;
+                              country?: string | null;
+                            } | null;
+                          } | null;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Fund';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          type: AccountType;
+                          settings: any;
+                          host?: {
+                            __typename?: 'Host';
+                            id: string;
+                            name?: string | null;
+                            legalName?: string | null;
+                            slug: string;
+                            type: AccountType;
+                            expensePolicy?: string | null;
+                            settings: any;
+                            location?: {
+                              __typename?: 'Location';
+                              address?: string | null;
+                              country?: string | null;
+                            } | null;
+                          } | null;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Host';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          type: AccountType;
+                          settings: any;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Individual';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          type: AccountType;
+                          settings: any;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Organization';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          type: AccountType;
+                          settings: any;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Project';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          type: AccountType;
+                          settings: any;
+                          host?: {
+                            __typename?: 'Host';
+                            id: string;
+                            name?: string | null;
+                            legalName?: string | null;
+                            slug: string;
+                            type: AccountType;
+                            expensePolicy?: string | null;
+                            settings: any;
+                            location?: {
+                              __typename?: 'Location';
+                              address?: string | null;
+                              country?: string | null;
+                            } | null;
+                          } | null;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Vendor';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          type: AccountType;
+                          settings: any;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | null;
+                    toAccount?:
+                      | {
+                          __typename?: 'Bot';
+                          id: string;
+                          slug: string;
+                          legalName?: string | null;
+                          name?: string | null;
+                          type: AccountType;
+                          settings: any;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Collective';
+                          id: string;
+                          slug: string;
+                          legalName?: string | null;
+                          name?: string | null;
+                          type: AccountType;
+                          settings: any;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Event';
+                          startsAt?: any | null;
+                          endsAt?: any | null;
+                          timezone?: string | null;
+                          id: string;
+                          slug: string;
+                          legalName?: string | null;
+                          name?: string | null;
+                          type: AccountType;
+                          settings: any;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Fund';
+                          id: string;
+                          slug: string;
+                          legalName?: string | null;
+                          name?: string | null;
+                          type: AccountType;
+                          settings: any;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Host';
+                          id: string;
+                          slug: string;
+                          legalName?: string | null;
+                          name?: string | null;
+                          type: AccountType;
+                          settings: any;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Individual';
+                          id: string;
+                          slug: string;
+                          legalName?: string | null;
+                          name?: string | null;
+                          type: AccountType;
+                          settings: any;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Organization';
+                          id: string;
+                          slug: string;
+                          legalName?: string | null;
+                          name?: string | null;
+                          type: AccountType;
+                          settings: any;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Project';
+                          id: string;
+                          slug: string;
+                          legalName?: string | null;
+                          name?: string | null;
+                          type: AccountType;
+                          settings: any;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Vendor';
+                          id: string;
+                          slug: string;
+                          legalName?: string | null;
+                          name?: string | null;
+                          type: AccountType;
+                          settings: any;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | null;
+                    giftCardEmitterAccount?:
+                      | {
+                          __typename?: 'Bot';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          type: AccountType;
+                        }
+                      | {
+                          __typename?: 'Collective';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          type: AccountType;
+                        }
+                      | {
+                          __typename?: 'Event';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          type: AccountType;
+                        }
+                      | {
+                          __typename?: 'Fund';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          type: AccountType;
+                        }
+                      | {
+                          __typename?: 'Host';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          type: AccountType;
+                        }
+                      | {
+                          __typename?: 'Individual';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          type: AccountType;
+                        }
+                      | {
+                          __typename?: 'Organization';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          type: AccountType;
+                        }
+                      | {
+                          __typename?: 'Project';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          type: AccountType;
+                        }
+                      | {
+                          __typename?: 'Vendor';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          type: AccountType;
+                        }
+                      | null;
+                    refundTransaction?:
+                      | { __typename?: 'Credit'; id: string }
+                      | { __typename?: 'Debit'; id: string }
+                      | null;
+                    order?: {
+                      __typename?: 'Order';
+                      id: string;
+                      legacyId: number;
+                      data?: any | null;
+                      quantity?: number | null;
+                      tax?: {
+                        __typename?: 'TaxInfo';
+                        id: string;
+                        type: TaxType;
+                        rate: number;
+                        percentage: number;
+                      } | null;
+                      tier?: {
+                        __typename?: 'Tier';
+                        id: string;
+                        type: TierType;
+                        invoiceTemplate?: string | null;
+                      } | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Debit';
+                    id: string;
+                    type: TransactionType;
+                    kind?: TransactionKind | null;
+                    createdAt?: any | null;
+                    description?: string | null;
+                    hostCurrencyFxRate?: number | null;
+                    invoiceTemplate?: string | null;
+                    isRefund?: boolean | null;
+                    host?:
+                      | {
+                          __typename?: 'Bot';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Collective';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Event';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Fund';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Host';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Individual';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Organization';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Project';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Vendor';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | null;
+                    oppositeTransaction?:
+                      | {
+                          __typename?: 'Credit';
+                          host?:
+                            | {
+                                __typename?: 'Bot';
+                                id: string;
+                                slug: string;
+                                name?: string | null;
+                                legalName?: string | null;
+                                currency: Currency;
+                                imageUrl?: string | null;
+                                website?: string | null;
+                                settings: any;
+                                type: AccountType;
+                                location?: {
+                                  __typename?: 'Location';
+                                  name?: string | null;
+                                  address?: string | null;
+                                  country?: string | null;
+                                } | null;
+                              }
+                            | {
+                                __typename?: 'Collective';
+                                id: string;
+                                slug: string;
+                                name?: string | null;
+                                legalName?: string | null;
+                                currency: Currency;
+                                imageUrl?: string | null;
+                                website?: string | null;
+                                settings: any;
+                                type: AccountType;
+                                location?: {
+                                  __typename?: 'Location';
+                                  name?: string | null;
+                                  address?: string | null;
+                                  country?: string | null;
+                                } | null;
+                              }
+                            | {
+                                __typename?: 'Event';
+                                id: string;
+                                slug: string;
+                                name?: string | null;
+                                legalName?: string | null;
+                                currency: Currency;
+                                imageUrl?: string | null;
+                                website?: string | null;
+                                settings: any;
+                                type: AccountType;
+                                location?: {
+                                  __typename?: 'Location';
+                                  name?: string | null;
+                                  address?: string | null;
+                                  country?: string | null;
+                                } | null;
+                              }
+                            | {
+                                __typename?: 'Fund';
+                                id: string;
+                                slug: string;
+                                name?: string | null;
+                                legalName?: string | null;
+                                currency: Currency;
+                                imageUrl?: string | null;
+                                website?: string | null;
+                                settings: any;
+                                type: AccountType;
+                                location?: {
+                                  __typename?: 'Location';
+                                  name?: string | null;
+                                  address?: string | null;
+                                  country?: string | null;
+                                } | null;
+                              }
+                            | {
+                                __typename?: 'Host';
+                                id: string;
+                                slug: string;
+                                name?: string | null;
+                                legalName?: string | null;
+                                currency: Currency;
+                                imageUrl?: string | null;
+                                website?: string | null;
+                                settings: any;
+                                type: AccountType;
+                                location?: {
+                                  __typename?: 'Location';
+                                  name?: string | null;
+                                  address?: string | null;
+                                  country?: string | null;
+                                } | null;
+                              }
+                            | {
+                                __typename?: 'Individual';
+                                id: string;
+                                slug: string;
+                                name?: string | null;
+                                legalName?: string | null;
+                                currency: Currency;
+                                imageUrl?: string | null;
+                                website?: string | null;
+                                settings: any;
+                                type: AccountType;
+                                location?: {
+                                  __typename?: 'Location';
+                                  name?: string | null;
+                                  address?: string | null;
+                                  country?: string | null;
+                                } | null;
+                              }
+                            | {
+                                __typename?: 'Organization';
+                                id: string;
+                                slug: string;
+                                name?: string | null;
+                                legalName?: string | null;
+                                currency: Currency;
+                                imageUrl?: string | null;
+                                website?: string | null;
+                                settings: any;
+                                type: AccountType;
+                                location?: {
+                                  __typename?: 'Location';
+                                  name?: string | null;
+                                  address?: string | null;
+                                  country?: string | null;
+                                } | null;
+                              }
+                            | {
+                                __typename?: 'Project';
+                                id: string;
+                                slug: string;
+                                name?: string | null;
+                                legalName?: string | null;
+                                currency: Currency;
+                                imageUrl?: string | null;
+                                website?: string | null;
+                                settings: any;
+                                type: AccountType;
+                                location?: {
+                                  __typename?: 'Location';
+                                  name?: string | null;
+                                  address?: string | null;
+                                  country?: string | null;
+                                } | null;
+                              }
+                            | {
+                                __typename?: 'Vendor';
+                                id: string;
+                                slug: string;
+                                name?: string | null;
+                                legalName?: string | null;
+                                currency: Currency;
+                                imageUrl?: string | null;
+                                website?: string | null;
+                                settings: any;
+                                type: AccountType;
+                                location?: {
+                                  __typename?: 'Location';
+                                  name?: string | null;
+                                  address?: string | null;
+                                  country?: string | null;
+                                } | null;
+                              }
+                            | null;
+                        }
+                      | {
+                          __typename?: 'Debit';
+                          host?:
+                            | {
+                                __typename?: 'Bot';
+                                id: string;
+                                slug: string;
+                                name?: string | null;
+                                legalName?: string | null;
+                                currency: Currency;
+                                imageUrl?: string | null;
+                                website?: string | null;
+                                settings: any;
+                                type: AccountType;
+                                location?: {
+                                  __typename?: 'Location';
+                                  name?: string | null;
+                                  address?: string | null;
+                                  country?: string | null;
+                                } | null;
+                              }
+                            | {
+                                __typename?: 'Collective';
+                                id: string;
+                                slug: string;
+                                name?: string | null;
+                                legalName?: string | null;
+                                currency: Currency;
+                                imageUrl?: string | null;
+                                website?: string | null;
+                                settings: any;
+                                type: AccountType;
+                                location?: {
+                                  __typename?: 'Location';
+                                  name?: string | null;
+                                  address?: string | null;
+                                  country?: string | null;
+                                } | null;
+                              }
+                            | {
+                                __typename?: 'Event';
+                                id: string;
+                                slug: string;
+                                name?: string | null;
+                                legalName?: string | null;
+                                currency: Currency;
+                                imageUrl?: string | null;
+                                website?: string | null;
+                                settings: any;
+                                type: AccountType;
+                                location?: {
+                                  __typename?: 'Location';
+                                  name?: string | null;
+                                  address?: string | null;
+                                  country?: string | null;
+                                } | null;
+                              }
+                            | {
+                                __typename?: 'Fund';
+                                id: string;
+                                slug: string;
+                                name?: string | null;
+                                legalName?: string | null;
+                                currency: Currency;
+                                imageUrl?: string | null;
+                                website?: string | null;
+                                settings: any;
+                                type: AccountType;
+                                location?: {
+                                  __typename?: 'Location';
+                                  name?: string | null;
+                                  address?: string | null;
+                                  country?: string | null;
+                                } | null;
+                              }
+                            | {
+                                __typename?: 'Host';
+                                id: string;
+                                slug: string;
+                                name?: string | null;
+                                legalName?: string | null;
+                                currency: Currency;
+                                imageUrl?: string | null;
+                                website?: string | null;
+                                settings: any;
+                                type: AccountType;
+                                location?: {
+                                  __typename?: 'Location';
+                                  name?: string | null;
+                                  address?: string | null;
+                                  country?: string | null;
+                                } | null;
+                              }
+                            | {
+                                __typename?: 'Individual';
+                                id: string;
+                                slug: string;
+                                name?: string | null;
+                                legalName?: string | null;
+                                currency: Currency;
+                                imageUrl?: string | null;
+                                website?: string | null;
+                                settings: any;
+                                type: AccountType;
+                                location?: {
+                                  __typename?: 'Location';
+                                  name?: string | null;
+                                  address?: string | null;
+                                  country?: string | null;
+                                } | null;
+                              }
+                            | {
+                                __typename?: 'Organization';
+                                id: string;
+                                slug: string;
+                                name?: string | null;
+                                legalName?: string | null;
+                                currency: Currency;
+                                imageUrl?: string | null;
+                                website?: string | null;
+                                settings: any;
+                                type: AccountType;
+                                location?: {
+                                  __typename?: 'Location';
+                                  name?: string | null;
+                                  address?: string | null;
+                                  country?: string | null;
+                                } | null;
+                              }
+                            | {
+                                __typename?: 'Project';
+                                id: string;
+                                slug: string;
+                                name?: string | null;
+                                legalName?: string | null;
+                                currency: Currency;
+                                imageUrl?: string | null;
+                                website?: string | null;
+                                settings: any;
+                                type: AccountType;
+                                location?: {
+                                  __typename?: 'Location';
+                                  name?: string | null;
+                                  address?: string | null;
+                                  country?: string | null;
+                                } | null;
+                              }
+                            | {
+                                __typename?: 'Vendor';
+                                id: string;
+                                slug: string;
+                                name?: string | null;
+                                legalName?: string | null;
+                                currency: Currency;
+                                imageUrl?: string | null;
+                                website?: string | null;
+                                settings: any;
+                                type: AccountType;
+                                location?: {
+                                  __typename?: 'Location';
+                                  name?: string | null;
+                                  address?: string | null;
+                                  country?: string | null;
+                                } | null;
+                              }
+                            | null;
+                        }
+                      | null;
+                    amount: { __typename?: 'Amount'; valueInCents?: number | null; currency?: Currency | null };
+                    amountInHostCurrency: {
+                      __typename?: 'Amount';
+                      valueInCents?: number | null;
+                      currency?: Currency | null;
+                    };
+                    netAmount: { __typename?: 'Amount'; valueInCents?: number | null; currency?: Currency | null };
+                    taxAmount: { __typename?: 'Amount'; valueInCents?: number | null; currency?: Currency | null };
+                    taxInfo?: { __typename?: 'TaxInfo'; type: TaxType; rate: number } | null;
+                    paymentMethod?: {
+                      __typename?: 'PaymentMethod';
+                      id?: string | null;
+                      type?: PaymentMethodType | null;
+                      service?: PaymentMethodService | null;
+                      name?: string | null;
+                    } | null;
+                    fromAccount?:
+                      | {
+                          __typename?: 'Bot';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          type: AccountType;
+                          settings: any;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Collective';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          type: AccountType;
+                          settings: any;
+                          host?: {
+                            __typename?: 'Host';
+                            id: string;
+                            name?: string | null;
+                            legalName?: string | null;
+                            slug: string;
+                            type: AccountType;
+                            expensePolicy?: string | null;
+                            settings: any;
+                            location?: {
+                              __typename?: 'Location';
+                              address?: string | null;
+                              country?: string | null;
+                            } | null;
+                          } | null;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Event';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          type: AccountType;
+                          settings: any;
+                          host?: {
+                            __typename?: 'Host';
+                            id: string;
+                            name?: string | null;
+                            legalName?: string | null;
+                            slug: string;
+                            type: AccountType;
+                            expensePolicy?: string | null;
+                            settings: any;
+                            location?: {
+                              __typename?: 'Location';
+                              address?: string | null;
+                              country?: string | null;
+                            } | null;
+                          } | null;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Fund';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          type: AccountType;
+                          settings: any;
+                          host?: {
+                            __typename?: 'Host';
+                            id: string;
+                            name?: string | null;
+                            legalName?: string | null;
+                            slug: string;
+                            type: AccountType;
+                            expensePolicy?: string | null;
+                            settings: any;
+                            location?: {
+                              __typename?: 'Location';
+                              address?: string | null;
+                              country?: string | null;
+                            } | null;
+                          } | null;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Host';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          type: AccountType;
+                          settings: any;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Individual';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          type: AccountType;
+                          settings: any;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Organization';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          type: AccountType;
+                          settings: any;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Project';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          type: AccountType;
+                          settings: any;
+                          host?: {
+                            __typename?: 'Host';
+                            id: string;
+                            name?: string | null;
+                            legalName?: string | null;
+                            slug: string;
+                            type: AccountType;
+                            expensePolicy?: string | null;
+                            settings: any;
+                            location?: {
+                              __typename?: 'Location';
+                              address?: string | null;
+                              country?: string | null;
+                            } | null;
+                          } | null;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Vendor';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          type: AccountType;
+                          settings: any;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | null;
+                    toAccount?:
+                      | {
+                          __typename?: 'Bot';
+                          id: string;
+                          slug: string;
+                          legalName?: string | null;
+                          name?: string | null;
+                          type: AccountType;
+                          settings: any;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Collective';
+                          id: string;
+                          slug: string;
+                          legalName?: string | null;
+                          name?: string | null;
+                          type: AccountType;
+                          settings: any;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Event';
+                          startsAt?: any | null;
+                          endsAt?: any | null;
+                          timezone?: string | null;
+                          id: string;
+                          slug: string;
+                          legalName?: string | null;
+                          name?: string | null;
+                          type: AccountType;
+                          settings: any;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Fund';
+                          id: string;
+                          slug: string;
+                          legalName?: string | null;
+                          name?: string | null;
+                          type: AccountType;
+                          settings: any;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Host';
+                          id: string;
+                          slug: string;
+                          legalName?: string | null;
+                          name?: string | null;
+                          type: AccountType;
+                          settings: any;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Individual';
+                          id: string;
+                          slug: string;
+                          legalName?: string | null;
+                          name?: string | null;
+                          type: AccountType;
+                          settings: any;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Organization';
+                          id: string;
+                          slug: string;
+                          legalName?: string | null;
+                          name?: string | null;
+                          type: AccountType;
+                          settings: any;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Project';
+                          id: string;
+                          slug: string;
+                          legalName?: string | null;
+                          name?: string | null;
+                          type: AccountType;
+                          settings: any;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Vendor';
+                          id: string;
+                          slug: string;
+                          legalName?: string | null;
+                          name?: string | null;
+                          type: AccountType;
+                          settings: any;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | null;
+                    giftCardEmitterAccount?:
+                      | {
+                          __typename?: 'Bot';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          type: AccountType;
+                        }
+                      | {
+                          __typename?: 'Collective';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          type: AccountType;
+                        }
+                      | {
+                          __typename?: 'Event';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          type: AccountType;
+                        }
+                      | {
+                          __typename?: 'Fund';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          type: AccountType;
+                        }
+                      | {
+                          __typename?: 'Host';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          type: AccountType;
+                        }
+                      | {
+                          __typename?: 'Individual';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          type: AccountType;
+                        }
+                      | {
+                          __typename?: 'Organization';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          type: AccountType;
+                        }
+                      | {
+                          __typename?: 'Project';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          type: AccountType;
+                        }
+                      | {
+                          __typename?: 'Vendor';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          type: AccountType;
+                        }
+                      | null;
+                    refundTransaction?:
+                      | { __typename?: 'Credit'; id: string }
+                      | { __typename?: 'Debit'; id: string }
+                      | null;
+                    order?: {
+                      __typename?: 'Order';
+                      id: string;
+                      legacyId: number;
+                      data?: any | null;
+                      quantity?: number | null;
+                      tax?: {
+                        __typename?: 'TaxInfo';
+                        id: string;
+                        type: TaxType;
+                        rate: number;
+                        percentage: number;
+                      } | null;
+                      tier?: {
+                        __typename?: 'Tier';
+                        id: string;
+                        type: TierType;
+                        invoiceTemplate?: string | null;
+                      } | null;
+                    } | null;
+                  }
+                | null
+              >;
               oppositeTransaction?:
                 | {
                     __typename?: 'Credit';
@@ -19226,6 +29088,1933 @@ export type TransactionInvoiceQuery = {
                     } | null;
                   }
                 | null;
+              relatedTransactions: Array<
+                | {
+                    __typename?: 'Credit';
+                    id: string;
+                    type: TransactionType;
+                    kind?: TransactionKind | null;
+                    createdAt?: any | null;
+                    description?: string | null;
+                    hostCurrencyFxRate?: number | null;
+                    invoiceTemplate?: string | null;
+                    isRefund?: boolean | null;
+                    host?:
+                      | {
+                          __typename?: 'Bot';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Collective';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Event';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Fund';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Host';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Individual';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Organization';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Project';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Vendor';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | null;
+                    oppositeTransaction?:
+                      | {
+                          __typename?: 'Credit';
+                          host?:
+                            | {
+                                __typename?: 'Bot';
+                                id: string;
+                                slug: string;
+                                name?: string | null;
+                                legalName?: string | null;
+                                currency: Currency;
+                                imageUrl?: string | null;
+                                website?: string | null;
+                                settings: any;
+                                type: AccountType;
+                                location?: {
+                                  __typename?: 'Location';
+                                  name?: string | null;
+                                  address?: string | null;
+                                  country?: string | null;
+                                } | null;
+                              }
+                            | {
+                                __typename?: 'Collective';
+                                id: string;
+                                slug: string;
+                                name?: string | null;
+                                legalName?: string | null;
+                                currency: Currency;
+                                imageUrl?: string | null;
+                                website?: string | null;
+                                settings: any;
+                                type: AccountType;
+                                location?: {
+                                  __typename?: 'Location';
+                                  name?: string | null;
+                                  address?: string | null;
+                                  country?: string | null;
+                                } | null;
+                              }
+                            | {
+                                __typename?: 'Event';
+                                id: string;
+                                slug: string;
+                                name?: string | null;
+                                legalName?: string | null;
+                                currency: Currency;
+                                imageUrl?: string | null;
+                                website?: string | null;
+                                settings: any;
+                                type: AccountType;
+                                location?: {
+                                  __typename?: 'Location';
+                                  name?: string | null;
+                                  address?: string | null;
+                                  country?: string | null;
+                                } | null;
+                              }
+                            | {
+                                __typename?: 'Fund';
+                                id: string;
+                                slug: string;
+                                name?: string | null;
+                                legalName?: string | null;
+                                currency: Currency;
+                                imageUrl?: string | null;
+                                website?: string | null;
+                                settings: any;
+                                type: AccountType;
+                                location?: {
+                                  __typename?: 'Location';
+                                  name?: string | null;
+                                  address?: string | null;
+                                  country?: string | null;
+                                } | null;
+                              }
+                            | {
+                                __typename?: 'Host';
+                                id: string;
+                                slug: string;
+                                name?: string | null;
+                                legalName?: string | null;
+                                currency: Currency;
+                                imageUrl?: string | null;
+                                website?: string | null;
+                                settings: any;
+                                type: AccountType;
+                                location?: {
+                                  __typename?: 'Location';
+                                  name?: string | null;
+                                  address?: string | null;
+                                  country?: string | null;
+                                } | null;
+                              }
+                            | {
+                                __typename?: 'Individual';
+                                id: string;
+                                slug: string;
+                                name?: string | null;
+                                legalName?: string | null;
+                                currency: Currency;
+                                imageUrl?: string | null;
+                                website?: string | null;
+                                settings: any;
+                                type: AccountType;
+                                location?: {
+                                  __typename?: 'Location';
+                                  name?: string | null;
+                                  address?: string | null;
+                                  country?: string | null;
+                                } | null;
+                              }
+                            | {
+                                __typename?: 'Organization';
+                                id: string;
+                                slug: string;
+                                name?: string | null;
+                                legalName?: string | null;
+                                currency: Currency;
+                                imageUrl?: string | null;
+                                website?: string | null;
+                                settings: any;
+                                type: AccountType;
+                                location?: {
+                                  __typename?: 'Location';
+                                  name?: string | null;
+                                  address?: string | null;
+                                  country?: string | null;
+                                } | null;
+                              }
+                            | {
+                                __typename?: 'Project';
+                                id: string;
+                                slug: string;
+                                name?: string | null;
+                                legalName?: string | null;
+                                currency: Currency;
+                                imageUrl?: string | null;
+                                website?: string | null;
+                                settings: any;
+                                type: AccountType;
+                                location?: {
+                                  __typename?: 'Location';
+                                  name?: string | null;
+                                  address?: string | null;
+                                  country?: string | null;
+                                } | null;
+                              }
+                            | {
+                                __typename?: 'Vendor';
+                                id: string;
+                                slug: string;
+                                name?: string | null;
+                                legalName?: string | null;
+                                currency: Currency;
+                                imageUrl?: string | null;
+                                website?: string | null;
+                                settings: any;
+                                type: AccountType;
+                                location?: {
+                                  __typename?: 'Location';
+                                  name?: string | null;
+                                  address?: string | null;
+                                  country?: string | null;
+                                } | null;
+                              }
+                            | null;
+                        }
+                      | {
+                          __typename?: 'Debit';
+                          host?:
+                            | {
+                                __typename?: 'Bot';
+                                id: string;
+                                slug: string;
+                                name?: string | null;
+                                legalName?: string | null;
+                                currency: Currency;
+                                imageUrl?: string | null;
+                                website?: string | null;
+                                settings: any;
+                                type: AccountType;
+                                location?: {
+                                  __typename?: 'Location';
+                                  name?: string | null;
+                                  address?: string | null;
+                                  country?: string | null;
+                                } | null;
+                              }
+                            | {
+                                __typename?: 'Collective';
+                                id: string;
+                                slug: string;
+                                name?: string | null;
+                                legalName?: string | null;
+                                currency: Currency;
+                                imageUrl?: string | null;
+                                website?: string | null;
+                                settings: any;
+                                type: AccountType;
+                                location?: {
+                                  __typename?: 'Location';
+                                  name?: string | null;
+                                  address?: string | null;
+                                  country?: string | null;
+                                } | null;
+                              }
+                            | {
+                                __typename?: 'Event';
+                                id: string;
+                                slug: string;
+                                name?: string | null;
+                                legalName?: string | null;
+                                currency: Currency;
+                                imageUrl?: string | null;
+                                website?: string | null;
+                                settings: any;
+                                type: AccountType;
+                                location?: {
+                                  __typename?: 'Location';
+                                  name?: string | null;
+                                  address?: string | null;
+                                  country?: string | null;
+                                } | null;
+                              }
+                            | {
+                                __typename?: 'Fund';
+                                id: string;
+                                slug: string;
+                                name?: string | null;
+                                legalName?: string | null;
+                                currency: Currency;
+                                imageUrl?: string | null;
+                                website?: string | null;
+                                settings: any;
+                                type: AccountType;
+                                location?: {
+                                  __typename?: 'Location';
+                                  name?: string | null;
+                                  address?: string | null;
+                                  country?: string | null;
+                                } | null;
+                              }
+                            | {
+                                __typename?: 'Host';
+                                id: string;
+                                slug: string;
+                                name?: string | null;
+                                legalName?: string | null;
+                                currency: Currency;
+                                imageUrl?: string | null;
+                                website?: string | null;
+                                settings: any;
+                                type: AccountType;
+                                location?: {
+                                  __typename?: 'Location';
+                                  name?: string | null;
+                                  address?: string | null;
+                                  country?: string | null;
+                                } | null;
+                              }
+                            | {
+                                __typename?: 'Individual';
+                                id: string;
+                                slug: string;
+                                name?: string | null;
+                                legalName?: string | null;
+                                currency: Currency;
+                                imageUrl?: string | null;
+                                website?: string | null;
+                                settings: any;
+                                type: AccountType;
+                                location?: {
+                                  __typename?: 'Location';
+                                  name?: string | null;
+                                  address?: string | null;
+                                  country?: string | null;
+                                } | null;
+                              }
+                            | {
+                                __typename?: 'Organization';
+                                id: string;
+                                slug: string;
+                                name?: string | null;
+                                legalName?: string | null;
+                                currency: Currency;
+                                imageUrl?: string | null;
+                                website?: string | null;
+                                settings: any;
+                                type: AccountType;
+                                location?: {
+                                  __typename?: 'Location';
+                                  name?: string | null;
+                                  address?: string | null;
+                                  country?: string | null;
+                                } | null;
+                              }
+                            | {
+                                __typename?: 'Project';
+                                id: string;
+                                slug: string;
+                                name?: string | null;
+                                legalName?: string | null;
+                                currency: Currency;
+                                imageUrl?: string | null;
+                                website?: string | null;
+                                settings: any;
+                                type: AccountType;
+                                location?: {
+                                  __typename?: 'Location';
+                                  name?: string | null;
+                                  address?: string | null;
+                                  country?: string | null;
+                                } | null;
+                              }
+                            | {
+                                __typename?: 'Vendor';
+                                id: string;
+                                slug: string;
+                                name?: string | null;
+                                legalName?: string | null;
+                                currency: Currency;
+                                imageUrl?: string | null;
+                                website?: string | null;
+                                settings: any;
+                                type: AccountType;
+                                location?: {
+                                  __typename?: 'Location';
+                                  name?: string | null;
+                                  address?: string | null;
+                                  country?: string | null;
+                                } | null;
+                              }
+                            | null;
+                        }
+                      | null;
+                    amount: { __typename?: 'Amount'; valueInCents?: number | null; currency?: Currency | null };
+                    amountInHostCurrency: {
+                      __typename?: 'Amount';
+                      valueInCents?: number | null;
+                      currency?: Currency | null;
+                    };
+                    netAmount: { __typename?: 'Amount'; valueInCents?: number | null; currency?: Currency | null };
+                    taxAmount: { __typename?: 'Amount'; valueInCents?: number | null; currency?: Currency | null };
+                    taxInfo?: { __typename?: 'TaxInfo'; type: TaxType; rate: number } | null;
+                    paymentMethod?: {
+                      __typename?: 'PaymentMethod';
+                      id?: string | null;
+                      type?: PaymentMethodType | null;
+                      service?: PaymentMethodService | null;
+                      name?: string | null;
+                    } | null;
+                    fromAccount?:
+                      | {
+                          __typename?: 'Bot';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          type: AccountType;
+                          settings: any;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Collective';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          type: AccountType;
+                          settings: any;
+                          host?: {
+                            __typename?: 'Host';
+                            id: string;
+                            name?: string | null;
+                            legalName?: string | null;
+                            slug: string;
+                            type: AccountType;
+                            expensePolicy?: string | null;
+                            settings: any;
+                            location?: {
+                              __typename?: 'Location';
+                              address?: string | null;
+                              country?: string | null;
+                            } | null;
+                          } | null;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Event';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          type: AccountType;
+                          settings: any;
+                          host?: {
+                            __typename?: 'Host';
+                            id: string;
+                            name?: string | null;
+                            legalName?: string | null;
+                            slug: string;
+                            type: AccountType;
+                            expensePolicy?: string | null;
+                            settings: any;
+                            location?: {
+                              __typename?: 'Location';
+                              address?: string | null;
+                              country?: string | null;
+                            } | null;
+                          } | null;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Fund';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          type: AccountType;
+                          settings: any;
+                          host?: {
+                            __typename?: 'Host';
+                            id: string;
+                            name?: string | null;
+                            legalName?: string | null;
+                            slug: string;
+                            type: AccountType;
+                            expensePolicy?: string | null;
+                            settings: any;
+                            location?: {
+                              __typename?: 'Location';
+                              address?: string | null;
+                              country?: string | null;
+                            } | null;
+                          } | null;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Host';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          type: AccountType;
+                          settings: any;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Individual';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          type: AccountType;
+                          settings: any;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Organization';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          type: AccountType;
+                          settings: any;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Project';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          type: AccountType;
+                          settings: any;
+                          host?: {
+                            __typename?: 'Host';
+                            id: string;
+                            name?: string | null;
+                            legalName?: string | null;
+                            slug: string;
+                            type: AccountType;
+                            expensePolicy?: string | null;
+                            settings: any;
+                            location?: {
+                              __typename?: 'Location';
+                              address?: string | null;
+                              country?: string | null;
+                            } | null;
+                          } | null;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Vendor';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          type: AccountType;
+                          settings: any;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | null;
+                    toAccount?:
+                      | {
+                          __typename?: 'Bot';
+                          id: string;
+                          slug: string;
+                          legalName?: string | null;
+                          name?: string | null;
+                          type: AccountType;
+                          settings: any;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Collective';
+                          id: string;
+                          slug: string;
+                          legalName?: string | null;
+                          name?: string | null;
+                          type: AccountType;
+                          settings: any;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Event';
+                          startsAt?: any | null;
+                          endsAt?: any | null;
+                          timezone?: string | null;
+                          id: string;
+                          slug: string;
+                          legalName?: string | null;
+                          name?: string | null;
+                          type: AccountType;
+                          settings: any;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Fund';
+                          id: string;
+                          slug: string;
+                          legalName?: string | null;
+                          name?: string | null;
+                          type: AccountType;
+                          settings: any;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Host';
+                          id: string;
+                          slug: string;
+                          legalName?: string | null;
+                          name?: string | null;
+                          type: AccountType;
+                          settings: any;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Individual';
+                          id: string;
+                          slug: string;
+                          legalName?: string | null;
+                          name?: string | null;
+                          type: AccountType;
+                          settings: any;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Organization';
+                          id: string;
+                          slug: string;
+                          legalName?: string | null;
+                          name?: string | null;
+                          type: AccountType;
+                          settings: any;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Project';
+                          id: string;
+                          slug: string;
+                          legalName?: string | null;
+                          name?: string | null;
+                          type: AccountType;
+                          settings: any;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Vendor';
+                          id: string;
+                          slug: string;
+                          legalName?: string | null;
+                          name?: string | null;
+                          type: AccountType;
+                          settings: any;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | null;
+                    giftCardEmitterAccount?:
+                      | {
+                          __typename?: 'Bot';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          type: AccountType;
+                        }
+                      | {
+                          __typename?: 'Collective';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          type: AccountType;
+                        }
+                      | {
+                          __typename?: 'Event';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          type: AccountType;
+                        }
+                      | {
+                          __typename?: 'Fund';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          type: AccountType;
+                        }
+                      | {
+                          __typename?: 'Host';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          type: AccountType;
+                        }
+                      | {
+                          __typename?: 'Individual';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          type: AccountType;
+                        }
+                      | {
+                          __typename?: 'Organization';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          type: AccountType;
+                        }
+                      | {
+                          __typename?: 'Project';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          type: AccountType;
+                        }
+                      | {
+                          __typename?: 'Vendor';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          type: AccountType;
+                        }
+                      | null;
+                    refundTransaction?:
+                      | { __typename?: 'Credit'; id: string }
+                      | { __typename?: 'Debit'; id: string }
+                      | null;
+                    order?: {
+                      __typename?: 'Order';
+                      id: string;
+                      legacyId: number;
+                      data?: any | null;
+                      quantity?: number | null;
+                      tax?: {
+                        __typename?: 'TaxInfo';
+                        id: string;
+                        type: TaxType;
+                        rate: number;
+                        percentage: number;
+                      } | null;
+                      tier?: {
+                        __typename?: 'Tier';
+                        id: string;
+                        type: TierType;
+                        invoiceTemplate?: string | null;
+                      } | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Debit';
+                    id: string;
+                    type: TransactionType;
+                    kind?: TransactionKind | null;
+                    createdAt?: any | null;
+                    description?: string | null;
+                    hostCurrencyFxRate?: number | null;
+                    invoiceTemplate?: string | null;
+                    isRefund?: boolean | null;
+                    host?:
+                      | {
+                          __typename?: 'Bot';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Collective';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Event';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Fund';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Host';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Individual';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Organization';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Project';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Vendor';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | null;
+                    oppositeTransaction?:
+                      | {
+                          __typename?: 'Credit';
+                          host?:
+                            | {
+                                __typename?: 'Bot';
+                                id: string;
+                                slug: string;
+                                name?: string | null;
+                                legalName?: string | null;
+                                currency: Currency;
+                                imageUrl?: string | null;
+                                website?: string | null;
+                                settings: any;
+                                type: AccountType;
+                                location?: {
+                                  __typename?: 'Location';
+                                  name?: string | null;
+                                  address?: string | null;
+                                  country?: string | null;
+                                } | null;
+                              }
+                            | {
+                                __typename?: 'Collective';
+                                id: string;
+                                slug: string;
+                                name?: string | null;
+                                legalName?: string | null;
+                                currency: Currency;
+                                imageUrl?: string | null;
+                                website?: string | null;
+                                settings: any;
+                                type: AccountType;
+                                location?: {
+                                  __typename?: 'Location';
+                                  name?: string | null;
+                                  address?: string | null;
+                                  country?: string | null;
+                                } | null;
+                              }
+                            | {
+                                __typename?: 'Event';
+                                id: string;
+                                slug: string;
+                                name?: string | null;
+                                legalName?: string | null;
+                                currency: Currency;
+                                imageUrl?: string | null;
+                                website?: string | null;
+                                settings: any;
+                                type: AccountType;
+                                location?: {
+                                  __typename?: 'Location';
+                                  name?: string | null;
+                                  address?: string | null;
+                                  country?: string | null;
+                                } | null;
+                              }
+                            | {
+                                __typename?: 'Fund';
+                                id: string;
+                                slug: string;
+                                name?: string | null;
+                                legalName?: string | null;
+                                currency: Currency;
+                                imageUrl?: string | null;
+                                website?: string | null;
+                                settings: any;
+                                type: AccountType;
+                                location?: {
+                                  __typename?: 'Location';
+                                  name?: string | null;
+                                  address?: string | null;
+                                  country?: string | null;
+                                } | null;
+                              }
+                            | {
+                                __typename?: 'Host';
+                                id: string;
+                                slug: string;
+                                name?: string | null;
+                                legalName?: string | null;
+                                currency: Currency;
+                                imageUrl?: string | null;
+                                website?: string | null;
+                                settings: any;
+                                type: AccountType;
+                                location?: {
+                                  __typename?: 'Location';
+                                  name?: string | null;
+                                  address?: string | null;
+                                  country?: string | null;
+                                } | null;
+                              }
+                            | {
+                                __typename?: 'Individual';
+                                id: string;
+                                slug: string;
+                                name?: string | null;
+                                legalName?: string | null;
+                                currency: Currency;
+                                imageUrl?: string | null;
+                                website?: string | null;
+                                settings: any;
+                                type: AccountType;
+                                location?: {
+                                  __typename?: 'Location';
+                                  name?: string | null;
+                                  address?: string | null;
+                                  country?: string | null;
+                                } | null;
+                              }
+                            | {
+                                __typename?: 'Organization';
+                                id: string;
+                                slug: string;
+                                name?: string | null;
+                                legalName?: string | null;
+                                currency: Currency;
+                                imageUrl?: string | null;
+                                website?: string | null;
+                                settings: any;
+                                type: AccountType;
+                                location?: {
+                                  __typename?: 'Location';
+                                  name?: string | null;
+                                  address?: string | null;
+                                  country?: string | null;
+                                } | null;
+                              }
+                            | {
+                                __typename?: 'Project';
+                                id: string;
+                                slug: string;
+                                name?: string | null;
+                                legalName?: string | null;
+                                currency: Currency;
+                                imageUrl?: string | null;
+                                website?: string | null;
+                                settings: any;
+                                type: AccountType;
+                                location?: {
+                                  __typename?: 'Location';
+                                  name?: string | null;
+                                  address?: string | null;
+                                  country?: string | null;
+                                } | null;
+                              }
+                            | {
+                                __typename?: 'Vendor';
+                                id: string;
+                                slug: string;
+                                name?: string | null;
+                                legalName?: string | null;
+                                currency: Currency;
+                                imageUrl?: string | null;
+                                website?: string | null;
+                                settings: any;
+                                type: AccountType;
+                                location?: {
+                                  __typename?: 'Location';
+                                  name?: string | null;
+                                  address?: string | null;
+                                  country?: string | null;
+                                } | null;
+                              }
+                            | null;
+                        }
+                      | {
+                          __typename?: 'Debit';
+                          host?:
+                            | {
+                                __typename?: 'Bot';
+                                id: string;
+                                slug: string;
+                                name?: string | null;
+                                legalName?: string | null;
+                                currency: Currency;
+                                imageUrl?: string | null;
+                                website?: string | null;
+                                settings: any;
+                                type: AccountType;
+                                location?: {
+                                  __typename?: 'Location';
+                                  name?: string | null;
+                                  address?: string | null;
+                                  country?: string | null;
+                                } | null;
+                              }
+                            | {
+                                __typename?: 'Collective';
+                                id: string;
+                                slug: string;
+                                name?: string | null;
+                                legalName?: string | null;
+                                currency: Currency;
+                                imageUrl?: string | null;
+                                website?: string | null;
+                                settings: any;
+                                type: AccountType;
+                                location?: {
+                                  __typename?: 'Location';
+                                  name?: string | null;
+                                  address?: string | null;
+                                  country?: string | null;
+                                } | null;
+                              }
+                            | {
+                                __typename?: 'Event';
+                                id: string;
+                                slug: string;
+                                name?: string | null;
+                                legalName?: string | null;
+                                currency: Currency;
+                                imageUrl?: string | null;
+                                website?: string | null;
+                                settings: any;
+                                type: AccountType;
+                                location?: {
+                                  __typename?: 'Location';
+                                  name?: string | null;
+                                  address?: string | null;
+                                  country?: string | null;
+                                } | null;
+                              }
+                            | {
+                                __typename?: 'Fund';
+                                id: string;
+                                slug: string;
+                                name?: string | null;
+                                legalName?: string | null;
+                                currency: Currency;
+                                imageUrl?: string | null;
+                                website?: string | null;
+                                settings: any;
+                                type: AccountType;
+                                location?: {
+                                  __typename?: 'Location';
+                                  name?: string | null;
+                                  address?: string | null;
+                                  country?: string | null;
+                                } | null;
+                              }
+                            | {
+                                __typename?: 'Host';
+                                id: string;
+                                slug: string;
+                                name?: string | null;
+                                legalName?: string | null;
+                                currency: Currency;
+                                imageUrl?: string | null;
+                                website?: string | null;
+                                settings: any;
+                                type: AccountType;
+                                location?: {
+                                  __typename?: 'Location';
+                                  name?: string | null;
+                                  address?: string | null;
+                                  country?: string | null;
+                                } | null;
+                              }
+                            | {
+                                __typename?: 'Individual';
+                                id: string;
+                                slug: string;
+                                name?: string | null;
+                                legalName?: string | null;
+                                currency: Currency;
+                                imageUrl?: string | null;
+                                website?: string | null;
+                                settings: any;
+                                type: AccountType;
+                                location?: {
+                                  __typename?: 'Location';
+                                  name?: string | null;
+                                  address?: string | null;
+                                  country?: string | null;
+                                } | null;
+                              }
+                            | {
+                                __typename?: 'Organization';
+                                id: string;
+                                slug: string;
+                                name?: string | null;
+                                legalName?: string | null;
+                                currency: Currency;
+                                imageUrl?: string | null;
+                                website?: string | null;
+                                settings: any;
+                                type: AccountType;
+                                location?: {
+                                  __typename?: 'Location';
+                                  name?: string | null;
+                                  address?: string | null;
+                                  country?: string | null;
+                                } | null;
+                              }
+                            | {
+                                __typename?: 'Project';
+                                id: string;
+                                slug: string;
+                                name?: string | null;
+                                legalName?: string | null;
+                                currency: Currency;
+                                imageUrl?: string | null;
+                                website?: string | null;
+                                settings: any;
+                                type: AccountType;
+                                location?: {
+                                  __typename?: 'Location';
+                                  name?: string | null;
+                                  address?: string | null;
+                                  country?: string | null;
+                                } | null;
+                              }
+                            | {
+                                __typename?: 'Vendor';
+                                id: string;
+                                slug: string;
+                                name?: string | null;
+                                legalName?: string | null;
+                                currency: Currency;
+                                imageUrl?: string | null;
+                                website?: string | null;
+                                settings: any;
+                                type: AccountType;
+                                location?: {
+                                  __typename?: 'Location';
+                                  name?: string | null;
+                                  address?: string | null;
+                                  country?: string | null;
+                                } | null;
+                              }
+                            | null;
+                        }
+                      | null;
+                    amount: { __typename?: 'Amount'; valueInCents?: number | null; currency?: Currency | null };
+                    amountInHostCurrency: {
+                      __typename?: 'Amount';
+                      valueInCents?: number | null;
+                      currency?: Currency | null;
+                    };
+                    netAmount: { __typename?: 'Amount'; valueInCents?: number | null; currency?: Currency | null };
+                    taxAmount: { __typename?: 'Amount'; valueInCents?: number | null; currency?: Currency | null };
+                    taxInfo?: { __typename?: 'TaxInfo'; type: TaxType; rate: number } | null;
+                    paymentMethod?: {
+                      __typename?: 'PaymentMethod';
+                      id?: string | null;
+                      type?: PaymentMethodType | null;
+                      service?: PaymentMethodService | null;
+                      name?: string | null;
+                    } | null;
+                    fromAccount?:
+                      | {
+                          __typename?: 'Bot';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          type: AccountType;
+                          settings: any;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Collective';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          type: AccountType;
+                          settings: any;
+                          host?: {
+                            __typename?: 'Host';
+                            id: string;
+                            name?: string | null;
+                            legalName?: string | null;
+                            slug: string;
+                            type: AccountType;
+                            expensePolicy?: string | null;
+                            settings: any;
+                            location?: {
+                              __typename?: 'Location';
+                              address?: string | null;
+                              country?: string | null;
+                            } | null;
+                          } | null;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Event';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          type: AccountType;
+                          settings: any;
+                          host?: {
+                            __typename?: 'Host';
+                            id: string;
+                            name?: string | null;
+                            legalName?: string | null;
+                            slug: string;
+                            type: AccountType;
+                            expensePolicy?: string | null;
+                            settings: any;
+                            location?: {
+                              __typename?: 'Location';
+                              address?: string | null;
+                              country?: string | null;
+                            } | null;
+                          } | null;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Fund';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          type: AccountType;
+                          settings: any;
+                          host?: {
+                            __typename?: 'Host';
+                            id: string;
+                            name?: string | null;
+                            legalName?: string | null;
+                            slug: string;
+                            type: AccountType;
+                            expensePolicy?: string | null;
+                            settings: any;
+                            location?: {
+                              __typename?: 'Location';
+                              address?: string | null;
+                              country?: string | null;
+                            } | null;
+                          } | null;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Host';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          type: AccountType;
+                          settings: any;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Individual';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          type: AccountType;
+                          settings: any;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Organization';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          type: AccountType;
+                          settings: any;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Project';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          type: AccountType;
+                          settings: any;
+                          host?: {
+                            __typename?: 'Host';
+                            id: string;
+                            name?: string | null;
+                            legalName?: string | null;
+                            slug: string;
+                            type: AccountType;
+                            expensePolicy?: string | null;
+                            settings: any;
+                            location?: {
+                              __typename?: 'Location';
+                              address?: string | null;
+                              country?: string | null;
+                            } | null;
+                          } | null;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Vendor';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          type: AccountType;
+                          settings: any;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | null;
+                    toAccount?:
+                      | {
+                          __typename?: 'Bot';
+                          id: string;
+                          slug: string;
+                          legalName?: string | null;
+                          name?: string | null;
+                          type: AccountType;
+                          settings: any;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Collective';
+                          id: string;
+                          slug: string;
+                          legalName?: string | null;
+                          name?: string | null;
+                          type: AccountType;
+                          settings: any;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Event';
+                          startsAt?: any | null;
+                          endsAt?: any | null;
+                          timezone?: string | null;
+                          id: string;
+                          slug: string;
+                          legalName?: string | null;
+                          name?: string | null;
+                          type: AccountType;
+                          settings: any;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Fund';
+                          id: string;
+                          slug: string;
+                          legalName?: string | null;
+                          name?: string | null;
+                          type: AccountType;
+                          settings: any;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Host';
+                          id: string;
+                          slug: string;
+                          legalName?: string | null;
+                          name?: string | null;
+                          type: AccountType;
+                          settings: any;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Individual';
+                          id: string;
+                          slug: string;
+                          legalName?: string | null;
+                          name?: string | null;
+                          type: AccountType;
+                          settings: any;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Organization';
+                          id: string;
+                          slug: string;
+                          legalName?: string | null;
+                          name?: string | null;
+                          type: AccountType;
+                          settings: any;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Project';
+                          id: string;
+                          slug: string;
+                          legalName?: string | null;
+                          name?: string | null;
+                          type: AccountType;
+                          settings: any;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Vendor';
+                          id: string;
+                          slug: string;
+                          legalName?: string | null;
+                          name?: string | null;
+                          type: AccountType;
+                          settings: any;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | null;
+                    giftCardEmitterAccount?:
+                      | {
+                          __typename?: 'Bot';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          type: AccountType;
+                        }
+                      | {
+                          __typename?: 'Collective';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          type: AccountType;
+                        }
+                      | {
+                          __typename?: 'Event';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          type: AccountType;
+                        }
+                      | {
+                          __typename?: 'Fund';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          type: AccountType;
+                        }
+                      | {
+                          __typename?: 'Host';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          type: AccountType;
+                        }
+                      | {
+                          __typename?: 'Individual';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          type: AccountType;
+                        }
+                      | {
+                          __typename?: 'Organization';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          type: AccountType;
+                        }
+                      | {
+                          __typename?: 'Project';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          type: AccountType;
+                        }
+                      | {
+                          __typename?: 'Vendor';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          type: AccountType;
+                        }
+                      | null;
+                    refundTransaction?:
+                      | { __typename?: 'Credit'; id: string }
+                      | { __typename?: 'Debit'; id: string }
+                      | null;
+                    order?: {
+                      __typename?: 'Order';
+                      id: string;
+                      legacyId: number;
+                      data?: any | null;
+                      quantity?: number | null;
+                      tax?: {
+                        __typename?: 'TaxInfo';
+                        id: string;
+                        type: TaxType;
+                        rate: number;
+                        percentage: number;
+                      } | null;
+                      tier?: {
+                        __typename?: 'Tier';
+                        id: string;
+                        type: TierType;
+                        invoiceTemplate?: string | null;
+                      } | null;
+                    } | null;
+                  }
+                | null
+              >;
               oppositeTransaction?:
                 | {
                     __typename?: 'Credit';
@@ -19982,6 +31771,1865 @@ export type TransactionInvoiceQuery = {
             }
           | null;
         permissions: { __typename?: 'TransactionPermissions'; canDownloadInvoice: boolean };
+        relatedTransactions: Array<
+          | {
+              __typename?: 'Credit';
+              id: string;
+              type: TransactionType;
+              kind?: TransactionKind | null;
+              createdAt?: any | null;
+              description?: string | null;
+              hostCurrencyFxRate?: number | null;
+              invoiceTemplate?: string | null;
+              isRefund?: boolean | null;
+              host?:
+                | {
+                    __typename?: 'Bot';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Collective';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Event';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Fund';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Host';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Individual';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Organization';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Project';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Vendor';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | null;
+              oppositeTransaction?:
+                | {
+                    __typename?: 'Credit';
+                    host?:
+                      | {
+                          __typename?: 'Bot';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Collective';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Event';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Fund';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Host';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Individual';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Organization';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Project';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Vendor';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | null;
+                  }
+                | {
+                    __typename?: 'Debit';
+                    host?:
+                      | {
+                          __typename?: 'Bot';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Collective';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Event';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Fund';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Host';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Individual';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Organization';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Project';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Vendor';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | null;
+                  }
+                | null;
+              amount: { __typename?: 'Amount'; valueInCents?: number | null; currency?: Currency | null };
+              amountInHostCurrency: { __typename?: 'Amount'; valueInCents?: number | null; currency?: Currency | null };
+              netAmount: { __typename?: 'Amount'; valueInCents?: number | null; currency?: Currency | null };
+              taxAmount: { __typename?: 'Amount'; valueInCents?: number | null; currency?: Currency | null };
+              taxInfo?: { __typename?: 'TaxInfo'; type: TaxType; rate: number } | null;
+              paymentMethod?: {
+                __typename?: 'PaymentMethod';
+                id?: string | null;
+                type?: PaymentMethodType | null;
+                service?: PaymentMethodService | null;
+                name?: string | null;
+              } | null;
+              fromAccount?:
+                | {
+                    __typename?: 'Bot';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Collective';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    host?: {
+                      __typename?: 'Host';
+                      id: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      slug: string;
+                      type: AccountType;
+                      expensePolicy?: string | null;
+                      settings: any;
+                      location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+                    } | null;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Event';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    host?: {
+                      __typename?: 'Host';
+                      id: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      slug: string;
+                      type: AccountType;
+                      expensePolicy?: string | null;
+                      settings: any;
+                      location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+                    } | null;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Fund';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    host?: {
+                      __typename?: 'Host';
+                      id: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      slug: string;
+                      type: AccountType;
+                      expensePolicy?: string | null;
+                      settings: any;
+                      location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+                    } | null;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Host';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Individual';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Organization';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Project';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    host?: {
+                      __typename?: 'Host';
+                      id: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      slug: string;
+                      type: AccountType;
+                      expensePolicy?: string | null;
+                      settings: any;
+                      location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+                    } | null;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Vendor';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | null;
+              toAccount?:
+                | {
+                    __typename?: 'Bot';
+                    id: string;
+                    slug: string;
+                    legalName?: string | null;
+                    name?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Collective';
+                    id: string;
+                    slug: string;
+                    legalName?: string | null;
+                    name?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Event';
+                    startsAt?: any | null;
+                    endsAt?: any | null;
+                    timezone?: string | null;
+                    id: string;
+                    slug: string;
+                    legalName?: string | null;
+                    name?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Fund';
+                    id: string;
+                    slug: string;
+                    legalName?: string | null;
+                    name?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Host';
+                    id: string;
+                    slug: string;
+                    legalName?: string | null;
+                    name?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Individual';
+                    id: string;
+                    slug: string;
+                    legalName?: string | null;
+                    name?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Organization';
+                    id: string;
+                    slug: string;
+                    legalName?: string | null;
+                    name?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Project';
+                    id: string;
+                    slug: string;
+                    legalName?: string | null;
+                    name?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Vendor';
+                    id: string;
+                    slug: string;
+                    legalName?: string | null;
+                    name?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | null;
+              giftCardEmitterAccount?:
+                | {
+                    __typename?: 'Bot';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                  }
+                | {
+                    __typename?: 'Collective';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                  }
+                | {
+                    __typename?: 'Event';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                  }
+                | {
+                    __typename?: 'Fund';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                  }
+                | {
+                    __typename?: 'Host';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                  }
+                | {
+                    __typename?: 'Individual';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                  }
+                | {
+                    __typename?: 'Organization';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                  }
+                | {
+                    __typename?: 'Project';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                  }
+                | {
+                    __typename?: 'Vendor';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                  }
+                | null;
+              refundTransaction?: { __typename?: 'Credit'; id: string } | { __typename?: 'Debit'; id: string } | null;
+              order?: {
+                __typename?: 'Order';
+                id: string;
+                legacyId: number;
+                data?: any | null;
+                quantity?: number | null;
+                tax?: { __typename?: 'TaxInfo'; id: string; type: TaxType; rate: number; percentage: number } | null;
+                tier?: { __typename?: 'Tier'; id: string; type: TierType; invoiceTemplate?: string | null } | null;
+              } | null;
+            }
+          | {
+              __typename?: 'Debit';
+              id: string;
+              type: TransactionType;
+              kind?: TransactionKind | null;
+              createdAt?: any | null;
+              description?: string | null;
+              hostCurrencyFxRate?: number | null;
+              invoiceTemplate?: string | null;
+              isRefund?: boolean | null;
+              host?:
+                | {
+                    __typename?: 'Bot';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Collective';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Event';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Fund';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Host';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Individual';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Organization';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Project';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Vendor';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    currency: Currency;
+                    imageUrl?: string | null;
+                    website?: string | null;
+                    settings: any;
+                    type: AccountType;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | null;
+              oppositeTransaction?:
+                | {
+                    __typename?: 'Credit';
+                    host?:
+                      | {
+                          __typename?: 'Bot';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Collective';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Event';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Fund';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Host';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Individual';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Organization';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Project';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Vendor';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | null;
+                  }
+                | {
+                    __typename?: 'Debit';
+                    host?:
+                      | {
+                          __typename?: 'Bot';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Collective';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Event';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Fund';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Host';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Individual';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Organization';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Project';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | {
+                          __typename?: 'Vendor';
+                          id: string;
+                          slug: string;
+                          name?: string | null;
+                          legalName?: string | null;
+                          currency: Currency;
+                          imageUrl?: string | null;
+                          website?: string | null;
+                          settings: any;
+                          type: AccountType;
+                          location?: {
+                            __typename?: 'Location';
+                            name?: string | null;
+                            address?: string | null;
+                            country?: string | null;
+                          } | null;
+                        }
+                      | null;
+                  }
+                | null;
+              amount: { __typename?: 'Amount'; valueInCents?: number | null; currency?: Currency | null };
+              amountInHostCurrency: { __typename?: 'Amount'; valueInCents?: number | null; currency?: Currency | null };
+              netAmount: { __typename?: 'Amount'; valueInCents?: number | null; currency?: Currency | null };
+              taxAmount: { __typename?: 'Amount'; valueInCents?: number | null; currency?: Currency | null };
+              taxInfo?: { __typename?: 'TaxInfo'; type: TaxType; rate: number } | null;
+              paymentMethod?: {
+                __typename?: 'PaymentMethod';
+                id?: string | null;
+                type?: PaymentMethodType | null;
+                service?: PaymentMethodService | null;
+                name?: string | null;
+              } | null;
+              fromAccount?:
+                | {
+                    __typename?: 'Bot';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Collective';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    host?: {
+                      __typename?: 'Host';
+                      id: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      slug: string;
+                      type: AccountType;
+                      expensePolicy?: string | null;
+                      settings: any;
+                      location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+                    } | null;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Event';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    host?: {
+                      __typename?: 'Host';
+                      id: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      slug: string;
+                      type: AccountType;
+                      expensePolicy?: string | null;
+                      settings: any;
+                      location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+                    } | null;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Fund';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    host?: {
+                      __typename?: 'Host';
+                      id: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      slug: string;
+                      type: AccountType;
+                      expensePolicy?: string | null;
+                      settings: any;
+                      location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+                    } | null;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Host';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Individual';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Organization';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Project';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    host?: {
+                      __typename?: 'Host';
+                      id: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      slug: string;
+                      type: AccountType;
+                      expensePolicy?: string | null;
+                      settings: any;
+                      location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+                    } | null;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Vendor';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | null;
+              toAccount?:
+                | {
+                    __typename?: 'Bot';
+                    id: string;
+                    slug: string;
+                    legalName?: string | null;
+                    name?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Collective';
+                    id: string;
+                    slug: string;
+                    legalName?: string | null;
+                    name?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Event';
+                    startsAt?: any | null;
+                    endsAt?: any | null;
+                    timezone?: string | null;
+                    id: string;
+                    slug: string;
+                    legalName?: string | null;
+                    name?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Fund';
+                    id: string;
+                    slug: string;
+                    legalName?: string | null;
+                    name?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Host';
+                    id: string;
+                    slug: string;
+                    legalName?: string | null;
+                    name?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Individual';
+                    id: string;
+                    slug: string;
+                    legalName?: string | null;
+                    name?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Organization';
+                    id: string;
+                    slug: string;
+                    legalName?: string | null;
+                    name?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Project';
+                    id: string;
+                    slug: string;
+                    legalName?: string | null;
+                    name?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | {
+                    __typename?: 'Vendor';
+                    id: string;
+                    slug: string;
+                    legalName?: string | null;
+                    name?: string | null;
+                    type: AccountType;
+                    settings: any;
+                    location?: {
+                      __typename?: 'Location';
+                      name?: string | null;
+                      address?: string | null;
+                      country?: string | null;
+                    } | null;
+                  }
+                | null;
+              giftCardEmitterAccount?:
+                | {
+                    __typename?: 'Bot';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                  }
+                | {
+                    __typename?: 'Collective';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                  }
+                | {
+                    __typename?: 'Event';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                  }
+                | {
+                    __typename?: 'Fund';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                  }
+                | {
+                    __typename?: 'Host';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                  }
+                | {
+                    __typename?: 'Individual';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                  }
+                | {
+                    __typename?: 'Organization';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                  }
+                | {
+                    __typename?: 'Project';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                  }
+                | {
+                    __typename?: 'Vendor';
+                    id: string;
+                    slug: string;
+                    name?: string | null;
+                    legalName?: string | null;
+                    type: AccountType;
+                  }
+                | null;
+              refundTransaction?: { __typename?: 'Credit'; id: string } | { __typename?: 'Debit'; id: string } | null;
+              order?: {
+                __typename?: 'Order';
+                id: string;
+                legacyId: number;
+                data?: any | null;
+                quantity?: number | null;
+                tax?: { __typename?: 'TaxInfo'; id: string; type: TaxType; rate: number; percentage: number } | null;
+                tier?: { __typename?: 'Tier'; id: string; type: TierType; invoiceTemplate?: string | null } | null;
+              } | null;
+            }
+          | null
+        >;
         host?:
           | {
               __typename?: 'Bot';
@@ -20791,6 +34439,1873 @@ export type InvoiceByDateRangeQuery = {
           hostCurrencyFxRate?: number | null;
           invoiceTemplate?: string | null;
           isRefund?: boolean | null;
+          relatedTransactions: Array<
+            | {
+                __typename?: 'Credit';
+                id: string;
+                type: TransactionType;
+                kind?: TransactionKind | null;
+                createdAt?: any | null;
+                description?: string | null;
+                hostCurrencyFxRate?: number | null;
+                invoiceTemplate?: string | null;
+                isRefund?: boolean | null;
+                host?:
+                  | {
+                      __typename?: 'Bot';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      currency: Currency;
+                      imageUrl?: string | null;
+                      website?: string | null;
+                      settings: any;
+                      type: AccountType;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Collective';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      currency: Currency;
+                      imageUrl?: string | null;
+                      website?: string | null;
+                      settings: any;
+                      type: AccountType;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Event';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      currency: Currency;
+                      imageUrl?: string | null;
+                      website?: string | null;
+                      settings: any;
+                      type: AccountType;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Fund';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      currency: Currency;
+                      imageUrl?: string | null;
+                      website?: string | null;
+                      settings: any;
+                      type: AccountType;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Host';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      currency: Currency;
+                      imageUrl?: string | null;
+                      website?: string | null;
+                      settings: any;
+                      type: AccountType;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Individual';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      currency: Currency;
+                      imageUrl?: string | null;
+                      website?: string | null;
+                      settings: any;
+                      type: AccountType;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Organization';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      currency: Currency;
+                      imageUrl?: string | null;
+                      website?: string | null;
+                      settings: any;
+                      type: AccountType;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Project';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      currency: Currency;
+                      imageUrl?: string | null;
+                      website?: string | null;
+                      settings: any;
+                      type: AccountType;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Vendor';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      currency: Currency;
+                      imageUrl?: string | null;
+                      website?: string | null;
+                      settings: any;
+                      type: AccountType;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | null;
+                oppositeTransaction?:
+                  | {
+                      __typename?: 'Credit';
+                      host?:
+                        | {
+                            __typename?: 'Bot';
+                            id: string;
+                            slug: string;
+                            name?: string | null;
+                            legalName?: string | null;
+                            currency: Currency;
+                            imageUrl?: string | null;
+                            website?: string | null;
+                            settings: any;
+                            type: AccountType;
+                            location?: {
+                              __typename?: 'Location';
+                              name?: string | null;
+                              address?: string | null;
+                              country?: string | null;
+                            } | null;
+                          }
+                        | {
+                            __typename?: 'Collective';
+                            id: string;
+                            slug: string;
+                            name?: string | null;
+                            legalName?: string | null;
+                            currency: Currency;
+                            imageUrl?: string | null;
+                            website?: string | null;
+                            settings: any;
+                            type: AccountType;
+                            location?: {
+                              __typename?: 'Location';
+                              name?: string | null;
+                              address?: string | null;
+                              country?: string | null;
+                            } | null;
+                          }
+                        | {
+                            __typename?: 'Event';
+                            id: string;
+                            slug: string;
+                            name?: string | null;
+                            legalName?: string | null;
+                            currency: Currency;
+                            imageUrl?: string | null;
+                            website?: string | null;
+                            settings: any;
+                            type: AccountType;
+                            location?: {
+                              __typename?: 'Location';
+                              name?: string | null;
+                              address?: string | null;
+                              country?: string | null;
+                            } | null;
+                          }
+                        | {
+                            __typename?: 'Fund';
+                            id: string;
+                            slug: string;
+                            name?: string | null;
+                            legalName?: string | null;
+                            currency: Currency;
+                            imageUrl?: string | null;
+                            website?: string | null;
+                            settings: any;
+                            type: AccountType;
+                            location?: {
+                              __typename?: 'Location';
+                              name?: string | null;
+                              address?: string | null;
+                              country?: string | null;
+                            } | null;
+                          }
+                        | {
+                            __typename?: 'Host';
+                            id: string;
+                            slug: string;
+                            name?: string | null;
+                            legalName?: string | null;
+                            currency: Currency;
+                            imageUrl?: string | null;
+                            website?: string | null;
+                            settings: any;
+                            type: AccountType;
+                            location?: {
+                              __typename?: 'Location';
+                              name?: string | null;
+                              address?: string | null;
+                              country?: string | null;
+                            } | null;
+                          }
+                        | {
+                            __typename?: 'Individual';
+                            id: string;
+                            slug: string;
+                            name?: string | null;
+                            legalName?: string | null;
+                            currency: Currency;
+                            imageUrl?: string | null;
+                            website?: string | null;
+                            settings: any;
+                            type: AccountType;
+                            location?: {
+                              __typename?: 'Location';
+                              name?: string | null;
+                              address?: string | null;
+                              country?: string | null;
+                            } | null;
+                          }
+                        | {
+                            __typename?: 'Organization';
+                            id: string;
+                            slug: string;
+                            name?: string | null;
+                            legalName?: string | null;
+                            currency: Currency;
+                            imageUrl?: string | null;
+                            website?: string | null;
+                            settings: any;
+                            type: AccountType;
+                            location?: {
+                              __typename?: 'Location';
+                              name?: string | null;
+                              address?: string | null;
+                              country?: string | null;
+                            } | null;
+                          }
+                        | {
+                            __typename?: 'Project';
+                            id: string;
+                            slug: string;
+                            name?: string | null;
+                            legalName?: string | null;
+                            currency: Currency;
+                            imageUrl?: string | null;
+                            website?: string | null;
+                            settings: any;
+                            type: AccountType;
+                            location?: {
+                              __typename?: 'Location';
+                              name?: string | null;
+                              address?: string | null;
+                              country?: string | null;
+                            } | null;
+                          }
+                        | {
+                            __typename?: 'Vendor';
+                            id: string;
+                            slug: string;
+                            name?: string | null;
+                            legalName?: string | null;
+                            currency: Currency;
+                            imageUrl?: string | null;
+                            website?: string | null;
+                            settings: any;
+                            type: AccountType;
+                            location?: {
+                              __typename?: 'Location';
+                              name?: string | null;
+                              address?: string | null;
+                              country?: string | null;
+                            } | null;
+                          }
+                        | null;
+                    }
+                  | {
+                      __typename?: 'Debit';
+                      host?:
+                        | {
+                            __typename?: 'Bot';
+                            id: string;
+                            slug: string;
+                            name?: string | null;
+                            legalName?: string | null;
+                            currency: Currency;
+                            imageUrl?: string | null;
+                            website?: string | null;
+                            settings: any;
+                            type: AccountType;
+                            location?: {
+                              __typename?: 'Location';
+                              name?: string | null;
+                              address?: string | null;
+                              country?: string | null;
+                            } | null;
+                          }
+                        | {
+                            __typename?: 'Collective';
+                            id: string;
+                            slug: string;
+                            name?: string | null;
+                            legalName?: string | null;
+                            currency: Currency;
+                            imageUrl?: string | null;
+                            website?: string | null;
+                            settings: any;
+                            type: AccountType;
+                            location?: {
+                              __typename?: 'Location';
+                              name?: string | null;
+                              address?: string | null;
+                              country?: string | null;
+                            } | null;
+                          }
+                        | {
+                            __typename?: 'Event';
+                            id: string;
+                            slug: string;
+                            name?: string | null;
+                            legalName?: string | null;
+                            currency: Currency;
+                            imageUrl?: string | null;
+                            website?: string | null;
+                            settings: any;
+                            type: AccountType;
+                            location?: {
+                              __typename?: 'Location';
+                              name?: string | null;
+                              address?: string | null;
+                              country?: string | null;
+                            } | null;
+                          }
+                        | {
+                            __typename?: 'Fund';
+                            id: string;
+                            slug: string;
+                            name?: string | null;
+                            legalName?: string | null;
+                            currency: Currency;
+                            imageUrl?: string | null;
+                            website?: string | null;
+                            settings: any;
+                            type: AccountType;
+                            location?: {
+                              __typename?: 'Location';
+                              name?: string | null;
+                              address?: string | null;
+                              country?: string | null;
+                            } | null;
+                          }
+                        | {
+                            __typename?: 'Host';
+                            id: string;
+                            slug: string;
+                            name?: string | null;
+                            legalName?: string | null;
+                            currency: Currency;
+                            imageUrl?: string | null;
+                            website?: string | null;
+                            settings: any;
+                            type: AccountType;
+                            location?: {
+                              __typename?: 'Location';
+                              name?: string | null;
+                              address?: string | null;
+                              country?: string | null;
+                            } | null;
+                          }
+                        | {
+                            __typename?: 'Individual';
+                            id: string;
+                            slug: string;
+                            name?: string | null;
+                            legalName?: string | null;
+                            currency: Currency;
+                            imageUrl?: string | null;
+                            website?: string | null;
+                            settings: any;
+                            type: AccountType;
+                            location?: {
+                              __typename?: 'Location';
+                              name?: string | null;
+                              address?: string | null;
+                              country?: string | null;
+                            } | null;
+                          }
+                        | {
+                            __typename?: 'Organization';
+                            id: string;
+                            slug: string;
+                            name?: string | null;
+                            legalName?: string | null;
+                            currency: Currency;
+                            imageUrl?: string | null;
+                            website?: string | null;
+                            settings: any;
+                            type: AccountType;
+                            location?: {
+                              __typename?: 'Location';
+                              name?: string | null;
+                              address?: string | null;
+                              country?: string | null;
+                            } | null;
+                          }
+                        | {
+                            __typename?: 'Project';
+                            id: string;
+                            slug: string;
+                            name?: string | null;
+                            legalName?: string | null;
+                            currency: Currency;
+                            imageUrl?: string | null;
+                            website?: string | null;
+                            settings: any;
+                            type: AccountType;
+                            location?: {
+                              __typename?: 'Location';
+                              name?: string | null;
+                              address?: string | null;
+                              country?: string | null;
+                            } | null;
+                          }
+                        | {
+                            __typename?: 'Vendor';
+                            id: string;
+                            slug: string;
+                            name?: string | null;
+                            legalName?: string | null;
+                            currency: Currency;
+                            imageUrl?: string | null;
+                            website?: string | null;
+                            settings: any;
+                            type: AccountType;
+                            location?: {
+                              __typename?: 'Location';
+                              name?: string | null;
+                              address?: string | null;
+                              country?: string | null;
+                            } | null;
+                          }
+                        | null;
+                    }
+                  | null;
+                amount: { __typename?: 'Amount'; valueInCents?: number | null; currency?: Currency | null };
+                amountInHostCurrency: {
+                  __typename?: 'Amount';
+                  valueInCents?: number | null;
+                  currency?: Currency | null;
+                };
+                netAmount: { __typename?: 'Amount'; valueInCents?: number | null; currency?: Currency | null };
+                taxAmount: { __typename?: 'Amount'; valueInCents?: number | null; currency?: Currency | null };
+                taxInfo?: { __typename?: 'TaxInfo'; type: TaxType; rate: number } | null;
+                paymentMethod?: {
+                  __typename?: 'PaymentMethod';
+                  id?: string | null;
+                  type?: PaymentMethodType | null;
+                  service?: PaymentMethodService | null;
+                  name?: string | null;
+                } | null;
+                fromAccount?:
+                  | {
+                      __typename?: 'Bot';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      type: AccountType;
+                      settings: any;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Collective';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      type: AccountType;
+                      settings: any;
+                      host?: {
+                        __typename?: 'Host';
+                        id: string;
+                        name?: string | null;
+                        legalName?: string | null;
+                        slug: string;
+                        type: AccountType;
+                        expensePolicy?: string | null;
+                        settings: any;
+                        location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+                      } | null;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Event';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      type: AccountType;
+                      settings: any;
+                      host?: {
+                        __typename?: 'Host';
+                        id: string;
+                        name?: string | null;
+                        legalName?: string | null;
+                        slug: string;
+                        type: AccountType;
+                        expensePolicy?: string | null;
+                        settings: any;
+                        location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+                      } | null;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Fund';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      type: AccountType;
+                      settings: any;
+                      host?: {
+                        __typename?: 'Host';
+                        id: string;
+                        name?: string | null;
+                        legalName?: string | null;
+                        slug: string;
+                        type: AccountType;
+                        expensePolicy?: string | null;
+                        settings: any;
+                        location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+                      } | null;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Host';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      type: AccountType;
+                      settings: any;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Individual';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      type: AccountType;
+                      settings: any;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Organization';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      type: AccountType;
+                      settings: any;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Project';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      type: AccountType;
+                      settings: any;
+                      host?: {
+                        __typename?: 'Host';
+                        id: string;
+                        name?: string | null;
+                        legalName?: string | null;
+                        slug: string;
+                        type: AccountType;
+                        expensePolicy?: string | null;
+                        settings: any;
+                        location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+                      } | null;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Vendor';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      type: AccountType;
+                      settings: any;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | null;
+                toAccount?:
+                  | {
+                      __typename?: 'Bot';
+                      id: string;
+                      slug: string;
+                      legalName?: string | null;
+                      name?: string | null;
+                      type: AccountType;
+                      settings: any;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Collective';
+                      id: string;
+                      slug: string;
+                      legalName?: string | null;
+                      name?: string | null;
+                      type: AccountType;
+                      settings: any;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Event';
+                      startsAt?: any | null;
+                      endsAt?: any | null;
+                      timezone?: string | null;
+                      id: string;
+                      slug: string;
+                      legalName?: string | null;
+                      name?: string | null;
+                      type: AccountType;
+                      settings: any;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Fund';
+                      id: string;
+                      slug: string;
+                      legalName?: string | null;
+                      name?: string | null;
+                      type: AccountType;
+                      settings: any;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Host';
+                      id: string;
+                      slug: string;
+                      legalName?: string | null;
+                      name?: string | null;
+                      type: AccountType;
+                      settings: any;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Individual';
+                      id: string;
+                      slug: string;
+                      legalName?: string | null;
+                      name?: string | null;
+                      type: AccountType;
+                      settings: any;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Organization';
+                      id: string;
+                      slug: string;
+                      legalName?: string | null;
+                      name?: string | null;
+                      type: AccountType;
+                      settings: any;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Project';
+                      id: string;
+                      slug: string;
+                      legalName?: string | null;
+                      name?: string | null;
+                      type: AccountType;
+                      settings: any;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Vendor';
+                      id: string;
+                      slug: string;
+                      legalName?: string | null;
+                      name?: string | null;
+                      type: AccountType;
+                      settings: any;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | null;
+                giftCardEmitterAccount?:
+                  | {
+                      __typename?: 'Bot';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      type: AccountType;
+                    }
+                  | {
+                      __typename?: 'Collective';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      type: AccountType;
+                    }
+                  | {
+                      __typename?: 'Event';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      type: AccountType;
+                    }
+                  | {
+                      __typename?: 'Fund';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      type: AccountType;
+                    }
+                  | {
+                      __typename?: 'Host';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      type: AccountType;
+                    }
+                  | {
+                      __typename?: 'Individual';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      type: AccountType;
+                    }
+                  | {
+                      __typename?: 'Organization';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      type: AccountType;
+                    }
+                  | {
+                      __typename?: 'Project';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      type: AccountType;
+                    }
+                  | {
+                      __typename?: 'Vendor';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      type: AccountType;
+                    }
+                  | null;
+                refundTransaction?: { __typename?: 'Credit'; id: string } | { __typename?: 'Debit'; id: string } | null;
+                order?: {
+                  __typename?: 'Order';
+                  id: string;
+                  legacyId: number;
+                  data?: any | null;
+                  quantity?: number | null;
+                  tax?: { __typename?: 'TaxInfo'; id: string; type: TaxType; rate: number; percentage: number } | null;
+                  tier?: { __typename?: 'Tier'; id: string; type: TierType; invoiceTemplate?: string | null } | null;
+                } | null;
+              }
+            | {
+                __typename?: 'Debit';
+                id: string;
+                type: TransactionType;
+                kind?: TransactionKind | null;
+                createdAt?: any | null;
+                description?: string | null;
+                hostCurrencyFxRate?: number | null;
+                invoiceTemplate?: string | null;
+                isRefund?: boolean | null;
+                host?:
+                  | {
+                      __typename?: 'Bot';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      currency: Currency;
+                      imageUrl?: string | null;
+                      website?: string | null;
+                      settings: any;
+                      type: AccountType;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Collective';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      currency: Currency;
+                      imageUrl?: string | null;
+                      website?: string | null;
+                      settings: any;
+                      type: AccountType;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Event';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      currency: Currency;
+                      imageUrl?: string | null;
+                      website?: string | null;
+                      settings: any;
+                      type: AccountType;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Fund';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      currency: Currency;
+                      imageUrl?: string | null;
+                      website?: string | null;
+                      settings: any;
+                      type: AccountType;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Host';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      currency: Currency;
+                      imageUrl?: string | null;
+                      website?: string | null;
+                      settings: any;
+                      type: AccountType;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Individual';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      currency: Currency;
+                      imageUrl?: string | null;
+                      website?: string | null;
+                      settings: any;
+                      type: AccountType;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Organization';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      currency: Currency;
+                      imageUrl?: string | null;
+                      website?: string | null;
+                      settings: any;
+                      type: AccountType;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Project';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      currency: Currency;
+                      imageUrl?: string | null;
+                      website?: string | null;
+                      settings: any;
+                      type: AccountType;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Vendor';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      currency: Currency;
+                      imageUrl?: string | null;
+                      website?: string | null;
+                      settings: any;
+                      type: AccountType;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | null;
+                oppositeTransaction?:
+                  | {
+                      __typename?: 'Credit';
+                      host?:
+                        | {
+                            __typename?: 'Bot';
+                            id: string;
+                            slug: string;
+                            name?: string | null;
+                            legalName?: string | null;
+                            currency: Currency;
+                            imageUrl?: string | null;
+                            website?: string | null;
+                            settings: any;
+                            type: AccountType;
+                            location?: {
+                              __typename?: 'Location';
+                              name?: string | null;
+                              address?: string | null;
+                              country?: string | null;
+                            } | null;
+                          }
+                        | {
+                            __typename?: 'Collective';
+                            id: string;
+                            slug: string;
+                            name?: string | null;
+                            legalName?: string | null;
+                            currency: Currency;
+                            imageUrl?: string | null;
+                            website?: string | null;
+                            settings: any;
+                            type: AccountType;
+                            location?: {
+                              __typename?: 'Location';
+                              name?: string | null;
+                              address?: string | null;
+                              country?: string | null;
+                            } | null;
+                          }
+                        | {
+                            __typename?: 'Event';
+                            id: string;
+                            slug: string;
+                            name?: string | null;
+                            legalName?: string | null;
+                            currency: Currency;
+                            imageUrl?: string | null;
+                            website?: string | null;
+                            settings: any;
+                            type: AccountType;
+                            location?: {
+                              __typename?: 'Location';
+                              name?: string | null;
+                              address?: string | null;
+                              country?: string | null;
+                            } | null;
+                          }
+                        | {
+                            __typename?: 'Fund';
+                            id: string;
+                            slug: string;
+                            name?: string | null;
+                            legalName?: string | null;
+                            currency: Currency;
+                            imageUrl?: string | null;
+                            website?: string | null;
+                            settings: any;
+                            type: AccountType;
+                            location?: {
+                              __typename?: 'Location';
+                              name?: string | null;
+                              address?: string | null;
+                              country?: string | null;
+                            } | null;
+                          }
+                        | {
+                            __typename?: 'Host';
+                            id: string;
+                            slug: string;
+                            name?: string | null;
+                            legalName?: string | null;
+                            currency: Currency;
+                            imageUrl?: string | null;
+                            website?: string | null;
+                            settings: any;
+                            type: AccountType;
+                            location?: {
+                              __typename?: 'Location';
+                              name?: string | null;
+                              address?: string | null;
+                              country?: string | null;
+                            } | null;
+                          }
+                        | {
+                            __typename?: 'Individual';
+                            id: string;
+                            slug: string;
+                            name?: string | null;
+                            legalName?: string | null;
+                            currency: Currency;
+                            imageUrl?: string | null;
+                            website?: string | null;
+                            settings: any;
+                            type: AccountType;
+                            location?: {
+                              __typename?: 'Location';
+                              name?: string | null;
+                              address?: string | null;
+                              country?: string | null;
+                            } | null;
+                          }
+                        | {
+                            __typename?: 'Organization';
+                            id: string;
+                            slug: string;
+                            name?: string | null;
+                            legalName?: string | null;
+                            currency: Currency;
+                            imageUrl?: string | null;
+                            website?: string | null;
+                            settings: any;
+                            type: AccountType;
+                            location?: {
+                              __typename?: 'Location';
+                              name?: string | null;
+                              address?: string | null;
+                              country?: string | null;
+                            } | null;
+                          }
+                        | {
+                            __typename?: 'Project';
+                            id: string;
+                            slug: string;
+                            name?: string | null;
+                            legalName?: string | null;
+                            currency: Currency;
+                            imageUrl?: string | null;
+                            website?: string | null;
+                            settings: any;
+                            type: AccountType;
+                            location?: {
+                              __typename?: 'Location';
+                              name?: string | null;
+                              address?: string | null;
+                              country?: string | null;
+                            } | null;
+                          }
+                        | {
+                            __typename?: 'Vendor';
+                            id: string;
+                            slug: string;
+                            name?: string | null;
+                            legalName?: string | null;
+                            currency: Currency;
+                            imageUrl?: string | null;
+                            website?: string | null;
+                            settings: any;
+                            type: AccountType;
+                            location?: {
+                              __typename?: 'Location';
+                              name?: string | null;
+                              address?: string | null;
+                              country?: string | null;
+                            } | null;
+                          }
+                        | null;
+                    }
+                  | {
+                      __typename?: 'Debit';
+                      host?:
+                        | {
+                            __typename?: 'Bot';
+                            id: string;
+                            slug: string;
+                            name?: string | null;
+                            legalName?: string | null;
+                            currency: Currency;
+                            imageUrl?: string | null;
+                            website?: string | null;
+                            settings: any;
+                            type: AccountType;
+                            location?: {
+                              __typename?: 'Location';
+                              name?: string | null;
+                              address?: string | null;
+                              country?: string | null;
+                            } | null;
+                          }
+                        | {
+                            __typename?: 'Collective';
+                            id: string;
+                            slug: string;
+                            name?: string | null;
+                            legalName?: string | null;
+                            currency: Currency;
+                            imageUrl?: string | null;
+                            website?: string | null;
+                            settings: any;
+                            type: AccountType;
+                            location?: {
+                              __typename?: 'Location';
+                              name?: string | null;
+                              address?: string | null;
+                              country?: string | null;
+                            } | null;
+                          }
+                        | {
+                            __typename?: 'Event';
+                            id: string;
+                            slug: string;
+                            name?: string | null;
+                            legalName?: string | null;
+                            currency: Currency;
+                            imageUrl?: string | null;
+                            website?: string | null;
+                            settings: any;
+                            type: AccountType;
+                            location?: {
+                              __typename?: 'Location';
+                              name?: string | null;
+                              address?: string | null;
+                              country?: string | null;
+                            } | null;
+                          }
+                        | {
+                            __typename?: 'Fund';
+                            id: string;
+                            slug: string;
+                            name?: string | null;
+                            legalName?: string | null;
+                            currency: Currency;
+                            imageUrl?: string | null;
+                            website?: string | null;
+                            settings: any;
+                            type: AccountType;
+                            location?: {
+                              __typename?: 'Location';
+                              name?: string | null;
+                              address?: string | null;
+                              country?: string | null;
+                            } | null;
+                          }
+                        | {
+                            __typename?: 'Host';
+                            id: string;
+                            slug: string;
+                            name?: string | null;
+                            legalName?: string | null;
+                            currency: Currency;
+                            imageUrl?: string | null;
+                            website?: string | null;
+                            settings: any;
+                            type: AccountType;
+                            location?: {
+                              __typename?: 'Location';
+                              name?: string | null;
+                              address?: string | null;
+                              country?: string | null;
+                            } | null;
+                          }
+                        | {
+                            __typename?: 'Individual';
+                            id: string;
+                            slug: string;
+                            name?: string | null;
+                            legalName?: string | null;
+                            currency: Currency;
+                            imageUrl?: string | null;
+                            website?: string | null;
+                            settings: any;
+                            type: AccountType;
+                            location?: {
+                              __typename?: 'Location';
+                              name?: string | null;
+                              address?: string | null;
+                              country?: string | null;
+                            } | null;
+                          }
+                        | {
+                            __typename?: 'Organization';
+                            id: string;
+                            slug: string;
+                            name?: string | null;
+                            legalName?: string | null;
+                            currency: Currency;
+                            imageUrl?: string | null;
+                            website?: string | null;
+                            settings: any;
+                            type: AccountType;
+                            location?: {
+                              __typename?: 'Location';
+                              name?: string | null;
+                              address?: string | null;
+                              country?: string | null;
+                            } | null;
+                          }
+                        | {
+                            __typename?: 'Project';
+                            id: string;
+                            slug: string;
+                            name?: string | null;
+                            legalName?: string | null;
+                            currency: Currency;
+                            imageUrl?: string | null;
+                            website?: string | null;
+                            settings: any;
+                            type: AccountType;
+                            location?: {
+                              __typename?: 'Location';
+                              name?: string | null;
+                              address?: string | null;
+                              country?: string | null;
+                            } | null;
+                          }
+                        | {
+                            __typename?: 'Vendor';
+                            id: string;
+                            slug: string;
+                            name?: string | null;
+                            legalName?: string | null;
+                            currency: Currency;
+                            imageUrl?: string | null;
+                            website?: string | null;
+                            settings: any;
+                            type: AccountType;
+                            location?: {
+                              __typename?: 'Location';
+                              name?: string | null;
+                              address?: string | null;
+                              country?: string | null;
+                            } | null;
+                          }
+                        | null;
+                    }
+                  | null;
+                amount: { __typename?: 'Amount'; valueInCents?: number | null; currency?: Currency | null };
+                amountInHostCurrency: {
+                  __typename?: 'Amount';
+                  valueInCents?: number | null;
+                  currency?: Currency | null;
+                };
+                netAmount: { __typename?: 'Amount'; valueInCents?: number | null; currency?: Currency | null };
+                taxAmount: { __typename?: 'Amount'; valueInCents?: number | null; currency?: Currency | null };
+                taxInfo?: { __typename?: 'TaxInfo'; type: TaxType; rate: number } | null;
+                paymentMethod?: {
+                  __typename?: 'PaymentMethod';
+                  id?: string | null;
+                  type?: PaymentMethodType | null;
+                  service?: PaymentMethodService | null;
+                  name?: string | null;
+                } | null;
+                fromAccount?:
+                  | {
+                      __typename?: 'Bot';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      type: AccountType;
+                      settings: any;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Collective';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      type: AccountType;
+                      settings: any;
+                      host?: {
+                        __typename?: 'Host';
+                        id: string;
+                        name?: string | null;
+                        legalName?: string | null;
+                        slug: string;
+                        type: AccountType;
+                        expensePolicy?: string | null;
+                        settings: any;
+                        location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+                      } | null;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Event';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      type: AccountType;
+                      settings: any;
+                      host?: {
+                        __typename?: 'Host';
+                        id: string;
+                        name?: string | null;
+                        legalName?: string | null;
+                        slug: string;
+                        type: AccountType;
+                        expensePolicy?: string | null;
+                        settings: any;
+                        location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+                      } | null;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Fund';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      type: AccountType;
+                      settings: any;
+                      host?: {
+                        __typename?: 'Host';
+                        id: string;
+                        name?: string | null;
+                        legalName?: string | null;
+                        slug: string;
+                        type: AccountType;
+                        expensePolicy?: string | null;
+                        settings: any;
+                        location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+                      } | null;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Host';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      type: AccountType;
+                      settings: any;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Individual';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      type: AccountType;
+                      settings: any;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Organization';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      type: AccountType;
+                      settings: any;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Project';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      type: AccountType;
+                      settings: any;
+                      host?: {
+                        __typename?: 'Host';
+                        id: string;
+                        name?: string | null;
+                        legalName?: string | null;
+                        slug: string;
+                        type: AccountType;
+                        expensePolicy?: string | null;
+                        settings: any;
+                        location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+                      } | null;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Vendor';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      type: AccountType;
+                      settings: any;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | null;
+                toAccount?:
+                  | {
+                      __typename?: 'Bot';
+                      id: string;
+                      slug: string;
+                      legalName?: string | null;
+                      name?: string | null;
+                      type: AccountType;
+                      settings: any;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Collective';
+                      id: string;
+                      slug: string;
+                      legalName?: string | null;
+                      name?: string | null;
+                      type: AccountType;
+                      settings: any;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Event';
+                      startsAt?: any | null;
+                      endsAt?: any | null;
+                      timezone?: string | null;
+                      id: string;
+                      slug: string;
+                      legalName?: string | null;
+                      name?: string | null;
+                      type: AccountType;
+                      settings: any;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Fund';
+                      id: string;
+                      slug: string;
+                      legalName?: string | null;
+                      name?: string | null;
+                      type: AccountType;
+                      settings: any;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Host';
+                      id: string;
+                      slug: string;
+                      legalName?: string | null;
+                      name?: string | null;
+                      type: AccountType;
+                      settings: any;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Individual';
+                      id: string;
+                      slug: string;
+                      legalName?: string | null;
+                      name?: string | null;
+                      type: AccountType;
+                      settings: any;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Organization';
+                      id: string;
+                      slug: string;
+                      legalName?: string | null;
+                      name?: string | null;
+                      type: AccountType;
+                      settings: any;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Project';
+                      id: string;
+                      slug: string;
+                      legalName?: string | null;
+                      name?: string | null;
+                      type: AccountType;
+                      settings: any;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Vendor';
+                      id: string;
+                      slug: string;
+                      legalName?: string | null;
+                      name?: string | null;
+                      type: AccountType;
+                      settings: any;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | null;
+                giftCardEmitterAccount?:
+                  | {
+                      __typename?: 'Bot';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      type: AccountType;
+                    }
+                  | {
+                      __typename?: 'Collective';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      type: AccountType;
+                    }
+                  | {
+                      __typename?: 'Event';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      type: AccountType;
+                    }
+                  | {
+                      __typename?: 'Fund';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      type: AccountType;
+                    }
+                  | {
+                      __typename?: 'Host';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      type: AccountType;
+                    }
+                  | {
+                      __typename?: 'Individual';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      type: AccountType;
+                    }
+                  | {
+                      __typename?: 'Organization';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      type: AccountType;
+                    }
+                  | {
+                      __typename?: 'Project';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      type: AccountType;
+                    }
+                  | {
+                      __typename?: 'Vendor';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      type: AccountType;
+                    }
+                  | null;
+                refundTransaction?: { __typename?: 'Credit'; id: string } | { __typename?: 'Debit'; id: string } | null;
+                order?: {
+                  __typename?: 'Order';
+                  id: string;
+                  legacyId: number;
+                  data?: any | null;
+                  quantity?: number | null;
+                  tax?: { __typename?: 'TaxInfo'; id: string; type: TaxType; rate: number; percentage: number } | null;
+                  tier?: { __typename?: 'Tier'; id: string; type: TierType; invoiceTemplate?: string | null } | null;
+                } | null;
+              }
+            | null
+          >;
           host?:
             | {
                 __typename?: 'Bot';
@@ -21719,6 +37234,1873 @@ export type InvoiceByDateRangeQuery = {
           hostCurrencyFxRate?: number | null;
           invoiceTemplate?: string | null;
           isRefund?: boolean | null;
+          relatedTransactions: Array<
+            | {
+                __typename?: 'Credit';
+                id: string;
+                type: TransactionType;
+                kind?: TransactionKind | null;
+                createdAt?: any | null;
+                description?: string | null;
+                hostCurrencyFxRate?: number | null;
+                invoiceTemplate?: string | null;
+                isRefund?: boolean | null;
+                host?:
+                  | {
+                      __typename?: 'Bot';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      currency: Currency;
+                      imageUrl?: string | null;
+                      website?: string | null;
+                      settings: any;
+                      type: AccountType;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Collective';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      currency: Currency;
+                      imageUrl?: string | null;
+                      website?: string | null;
+                      settings: any;
+                      type: AccountType;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Event';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      currency: Currency;
+                      imageUrl?: string | null;
+                      website?: string | null;
+                      settings: any;
+                      type: AccountType;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Fund';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      currency: Currency;
+                      imageUrl?: string | null;
+                      website?: string | null;
+                      settings: any;
+                      type: AccountType;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Host';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      currency: Currency;
+                      imageUrl?: string | null;
+                      website?: string | null;
+                      settings: any;
+                      type: AccountType;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Individual';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      currency: Currency;
+                      imageUrl?: string | null;
+                      website?: string | null;
+                      settings: any;
+                      type: AccountType;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Organization';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      currency: Currency;
+                      imageUrl?: string | null;
+                      website?: string | null;
+                      settings: any;
+                      type: AccountType;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Project';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      currency: Currency;
+                      imageUrl?: string | null;
+                      website?: string | null;
+                      settings: any;
+                      type: AccountType;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Vendor';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      currency: Currency;
+                      imageUrl?: string | null;
+                      website?: string | null;
+                      settings: any;
+                      type: AccountType;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | null;
+                oppositeTransaction?:
+                  | {
+                      __typename?: 'Credit';
+                      host?:
+                        | {
+                            __typename?: 'Bot';
+                            id: string;
+                            slug: string;
+                            name?: string | null;
+                            legalName?: string | null;
+                            currency: Currency;
+                            imageUrl?: string | null;
+                            website?: string | null;
+                            settings: any;
+                            type: AccountType;
+                            location?: {
+                              __typename?: 'Location';
+                              name?: string | null;
+                              address?: string | null;
+                              country?: string | null;
+                            } | null;
+                          }
+                        | {
+                            __typename?: 'Collective';
+                            id: string;
+                            slug: string;
+                            name?: string | null;
+                            legalName?: string | null;
+                            currency: Currency;
+                            imageUrl?: string | null;
+                            website?: string | null;
+                            settings: any;
+                            type: AccountType;
+                            location?: {
+                              __typename?: 'Location';
+                              name?: string | null;
+                              address?: string | null;
+                              country?: string | null;
+                            } | null;
+                          }
+                        | {
+                            __typename?: 'Event';
+                            id: string;
+                            slug: string;
+                            name?: string | null;
+                            legalName?: string | null;
+                            currency: Currency;
+                            imageUrl?: string | null;
+                            website?: string | null;
+                            settings: any;
+                            type: AccountType;
+                            location?: {
+                              __typename?: 'Location';
+                              name?: string | null;
+                              address?: string | null;
+                              country?: string | null;
+                            } | null;
+                          }
+                        | {
+                            __typename?: 'Fund';
+                            id: string;
+                            slug: string;
+                            name?: string | null;
+                            legalName?: string | null;
+                            currency: Currency;
+                            imageUrl?: string | null;
+                            website?: string | null;
+                            settings: any;
+                            type: AccountType;
+                            location?: {
+                              __typename?: 'Location';
+                              name?: string | null;
+                              address?: string | null;
+                              country?: string | null;
+                            } | null;
+                          }
+                        | {
+                            __typename?: 'Host';
+                            id: string;
+                            slug: string;
+                            name?: string | null;
+                            legalName?: string | null;
+                            currency: Currency;
+                            imageUrl?: string | null;
+                            website?: string | null;
+                            settings: any;
+                            type: AccountType;
+                            location?: {
+                              __typename?: 'Location';
+                              name?: string | null;
+                              address?: string | null;
+                              country?: string | null;
+                            } | null;
+                          }
+                        | {
+                            __typename?: 'Individual';
+                            id: string;
+                            slug: string;
+                            name?: string | null;
+                            legalName?: string | null;
+                            currency: Currency;
+                            imageUrl?: string | null;
+                            website?: string | null;
+                            settings: any;
+                            type: AccountType;
+                            location?: {
+                              __typename?: 'Location';
+                              name?: string | null;
+                              address?: string | null;
+                              country?: string | null;
+                            } | null;
+                          }
+                        | {
+                            __typename?: 'Organization';
+                            id: string;
+                            slug: string;
+                            name?: string | null;
+                            legalName?: string | null;
+                            currency: Currency;
+                            imageUrl?: string | null;
+                            website?: string | null;
+                            settings: any;
+                            type: AccountType;
+                            location?: {
+                              __typename?: 'Location';
+                              name?: string | null;
+                              address?: string | null;
+                              country?: string | null;
+                            } | null;
+                          }
+                        | {
+                            __typename?: 'Project';
+                            id: string;
+                            slug: string;
+                            name?: string | null;
+                            legalName?: string | null;
+                            currency: Currency;
+                            imageUrl?: string | null;
+                            website?: string | null;
+                            settings: any;
+                            type: AccountType;
+                            location?: {
+                              __typename?: 'Location';
+                              name?: string | null;
+                              address?: string | null;
+                              country?: string | null;
+                            } | null;
+                          }
+                        | {
+                            __typename?: 'Vendor';
+                            id: string;
+                            slug: string;
+                            name?: string | null;
+                            legalName?: string | null;
+                            currency: Currency;
+                            imageUrl?: string | null;
+                            website?: string | null;
+                            settings: any;
+                            type: AccountType;
+                            location?: {
+                              __typename?: 'Location';
+                              name?: string | null;
+                              address?: string | null;
+                              country?: string | null;
+                            } | null;
+                          }
+                        | null;
+                    }
+                  | {
+                      __typename?: 'Debit';
+                      host?:
+                        | {
+                            __typename?: 'Bot';
+                            id: string;
+                            slug: string;
+                            name?: string | null;
+                            legalName?: string | null;
+                            currency: Currency;
+                            imageUrl?: string | null;
+                            website?: string | null;
+                            settings: any;
+                            type: AccountType;
+                            location?: {
+                              __typename?: 'Location';
+                              name?: string | null;
+                              address?: string | null;
+                              country?: string | null;
+                            } | null;
+                          }
+                        | {
+                            __typename?: 'Collective';
+                            id: string;
+                            slug: string;
+                            name?: string | null;
+                            legalName?: string | null;
+                            currency: Currency;
+                            imageUrl?: string | null;
+                            website?: string | null;
+                            settings: any;
+                            type: AccountType;
+                            location?: {
+                              __typename?: 'Location';
+                              name?: string | null;
+                              address?: string | null;
+                              country?: string | null;
+                            } | null;
+                          }
+                        | {
+                            __typename?: 'Event';
+                            id: string;
+                            slug: string;
+                            name?: string | null;
+                            legalName?: string | null;
+                            currency: Currency;
+                            imageUrl?: string | null;
+                            website?: string | null;
+                            settings: any;
+                            type: AccountType;
+                            location?: {
+                              __typename?: 'Location';
+                              name?: string | null;
+                              address?: string | null;
+                              country?: string | null;
+                            } | null;
+                          }
+                        | {
+                            __typename?: 'Fund';
+                            id: string;
+                            slug: string;
+                            name?: string | null;
+                            legalName?: string | null;
+                            currency: Currency;
+                            imageUrl?: string | null;
+                            website?: string | null;
+                            settings: any;
+                            type: AccountType;
+                            location?: {
+                              __typename?: 'Location';
+                              name?: string | null;
+                              address?: string | null;
+                              country?: string | null;
+                            } | null;
+                          }
+                        | {
+                            __typename?: 'Host';
+                            id: string;
+                            slug: string;
+                            name?: string | null;
+                            legalName?: string | null;
+                            currency: Currency;
+                            imageUrl?: string | null;
+                            website?: string | null;
+                            settings: any;
+                            type: AccountType;
+                            location?: {
+                              __typename?: 'Location';
+                              name?: string | null;
+                              address?: string | null;
+                              country?: string | null;
+                            } | null;
+                          }
+                        | {
+                            __typename?: 'Individual';
+                            id: string;
+                            slug: string;
+                            name?: string | null;
+                            legalName?: string | null;
+                            currency: Currency;
+                            imageUrl?: string | null;
+                            website?: string | null;
+                            settings: any;
+                            type: AccountType;
+                            location?: {
+                              __typename?: 'Location';
+                              name?: string | null;
+                              address?: string | null;
+                              country?: string | null;
+                            } | null;
+                          }
+                        | {
+                            __typename?: 'Organization';
+                            id: string;
+                            slug: string;
+                            name?: string | null;
+                            legalName?: string | null;
+                            currency: Currency;
+                            imageUrl?: string | null;
+                            website?: string | null;
+                            settings: any;
+                            type: AccountType;
+                            location?: {
+                              __typename?: 'Location';
+                              name?: string | null;
+                              address?: string | null;
+                              country?: string | null;
+                            } | null;
+                          }
+                        | {
+                            __typename?: 'Project';
+                            id: string;
+                            slug: string;
+                            name?: string | null;
+                            legalName?: string | null;
+                            currency: Currency;
+                            imageUrl?: string | null;
+                            website?: string | null;
+                            settings: any;
+                            type: AccountType;
+                            location?: {
+                              __typename?: 'Location';
+                              name?: string | null;
+                              address?: string | null;
+                              country?: string | null;
+                            } | null;
+                          }
+                        | {
+                            __typename?: 'Vendor';
+                            id: string;
+                            slug: string;
+                            name?: string | null;
+                            legalName?: string | null;
+                            currency: Currency;
+                            imageUrl?: string | null;
+                            website?: string | null;
+                            settings: any;
+                            type: AccountType;
+                            location?: {
+                              __typename?: 'Location';
+                              name?: string | null;
+                              address?: string | null;
+                              country?: string | null;
+                            } | null;
+                          }
+                        | null;
+                    }
+                  | null;
+                amount: { __typename?: 'Amount'; valueInCents?: number | null; currency?: Currency | null };
+                amountInHostCurrency: {
+                  __typename?: 'Amount';
+                  valueInCents?: number | null;
+                  currency?: Currency | null;
+                };
+                netAmount: { __typename?: 'Amount'; valueInCents?: number | null; currency?: Currency | null };
+                taxAmount: { __typename?: 'Amount'; valueInCents?: number | null; currency?: Currency | null };
+                taxInfo?: { __typename?: 'TaxInfo'; type: TaxType; rate: number } | null;
+                paymentMethod?: {
+                  __typename?: 'PaymentMethod';
+                  id?: string | null;
+                  type?: PaymentMethodType | null;
+                  service?: PaymentMethodService | null;
+                  name?: string | null;
+                } | null;
+                fromAccount?:
+                  | {
+                      __typename?: 'Bot';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      type: AccountType;
+                      settings: any;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Collective';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      type: AccountType;
+                      settings: any;
+                      host?: {
+                        __typename?: 'Host';
+                        id: string;
+                        name?: string | null;
+                        legalName?: string | null;
+                        slug: string;
+                        type: AccountType;
+                        expensePolicy?: string | null;
+                        settings: any;
+                        location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+                      } | null;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Event';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      type: AccountType;
+                      settings: any;
+                      host?: {
+                        __typename?: 'Host';
+                        id: string;
+                        name?: string | null;
+                        legalName?: string | null;
+                        slug: string;
+                        type: AccountType;
+                        expensePolicy?: string | null;
+                        settings: any;
+                        location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+                      } | null;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Fund';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      type: AccountType;
+                      settings: any;
+                      host?: {
+                        __typename?: 'Host';
+                        id: string;
+                        name?: string | null;
+                        legalName?: string | null;
+                        slug: string;
+                        type: AccountType;
+                        expensePolicy?: string | null;
+                        settings: any;
+                        location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+                      } | null;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Host';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      type: AccountType;
+                      settings: any;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Individual';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      type: AccountType;
+                      settings: any;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Organization';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      type: AccountType;
+                      settings: any;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Project';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      type: AccountType;
+                      settings: any;
+                      host?: {
+                        __typename?: 'Host';
+                        id: string;
+                        name?: string | null;
+                        legalName?: string | null;
+                        slug: string;
+                        type: AccountType;
+                        expensePolicy?: string | null;
+                        settings: any;
+                        location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+                      } | null;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Vendor';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      type: AccountType;
+                      settings: any;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | null;
+                toAccount?:
+                  | {
+                      __typename?: 'Bot';
+                      id: string;
+                      slug: string;
+                      legalName?: string | null;
+                      name?: string | null;
+                      type: AccountType;
+                      settings: any;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Collective';
+                      id: string;
+                      slug: string;
+                      legalName?: string | null;
+                      name?: string | null;
+                      type: AccountType;
+                      settings: any;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Event';
+                      startsAt?: any | null;
+                      endsAt?: any | null;
+                      timezone?: string | null;
+                      id: string;
+                      slug: string;
+                      legalName?: string | null;
+                      name?: string | null;
+                      type: AccountType;
+                      settings: any;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Fund';
+                      id: string;
+                      slug: string;
+                      legalName?: string | null;
+                      name?: string | null;
+                      type: AccountType;
+                      settings: any;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Host';
+                      id: string;
+                      slug: string;
+                      legalName?: string | null;
+                      name?: string | null;
+                      type: AccountType;
+                      settings: any;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Individual';
+                      id: string;
+                      slug: string;
+                      legalName?: string | null;
+                      name?: string | null;
+                      type: AccountType;
+                      settings: any;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Organization';
+                      id: string;
+                      slug: string;
+                      legalName?: string | null;
+                      name?: string | null;
+                      type: AccountType;
+                      settings: any;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Project';
+                      id: string;
+                      slug: string;
+                      legalName?: string | null;
+                      name?: string | null;
+                      type: AccountType;
+                      settings: any;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Vendor';
+                      id: string;
+                      slug: string;
+                      legalName?: string | null;
+                      name?: string | null;
+                      type: AccountType;
+                      settings: any;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | null;
+                giftCardEmitterAccount?:
+                  | {
+                      __typename?: 'Bot';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      type: AccountType;
+                    }
+                  | {
+                      __typename?: 'Collective';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      type: AccountType;
+                    }
+                  | {
+                      __typename?: 'Event';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      type: AccountType;
+                    }
+                  | {
+                      __typename?: 'Fund';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      type: AccountType;
+                    }
+                  | {
+                      __typename?: 'Host';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      type: AccountType;
+                    }
+                  | {
+                      __typename?: 'Individual';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      type: AccountType;
+                    }
+                  | {
+                      __typename?: 'Organization';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      type: AccountType;
+                    }
+                  | {
+                      __typename?: 'Project';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      type: AccountType;
+                    }
+                  | {
+                      __typename?: 'Vendor';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      type: AccountType;
+                    }
+                  | null;
+                refundTransaction?: { __typename?: 'Credit'; id: string } | { __typename?: 'Debit'; id: string } | null;
+                order?: {
+                  __typename?: 'Order';
+                  id: string;
+                  legacyId: number;
+                  data?: any | null;
+                  quantity?: number | null;
+                  tax?: { __typename?: 'TaxInfo'; id: string; type: TaxType; rate: number; percentage: number } | null;
+                  tier?: { __typename?: 'Tier'; id: string; type: TierType; invoiceTemplate?: string | null } | null;
+                } | null;
+              }
+            | {
+                __typename?: 'Debit';
+                id: string;
+                type: TransactionType;
+                kind?: TransactionKind | null;
+                createdAt?: any | null;
+                description?: string | null;
+                hostCurrencyFxRate?: number | null;
+                invoiceTemplate?: string | null;
+                isRefund?: boolean | null;
+                host?:
+                  | {
+                      __typename?: 'Bot';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      currency: Currency;
+                      imageUrl?: string | null;
+                      website?: string | null;
+                      settings: any;
+                      type: AccountType;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Collective';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      currency: Currency;
+                      imageUrl?: string | null;
+                      website?: string | null;
+                      settings: any;
+                      type: AccountType;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Event';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      currency: Currency;
+                      imageUrl?: string | null;
+                      website?: string | null;
+                      settings: any;
+                      type: AccountType;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Fund';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      currency: Currency;
+                      imageUrl?: string | null;
+                      website?: string | null;
+                      settings: any;
+                      type: AccountType;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Host';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      currency: Currency;
+                      imageUrl?: string | null;
+                      website?: string | null;
+                      settings: any;
+                      type: AccountType;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Individual';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      currency: Currency;
+                      imageUrl?: string | null;
+                      website?: string | null;
+                      settings: any;
+                      type: AccountType;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Organization';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      currency: Currency;
+                      imageUrl?: string | null;
+                      website?: string | null;
+                      settings: any;
+                      type: AccountType;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Project';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      currency: Currency;
+                      imageUrl?: string | null;
+                      website?: string | null;
+                      settings: any;
+                      type: AccountType;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Vendor';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      currency: Currency;
+                      imageUrl?: string | null;
+                      website?: string | null;
+                      settings: any;
+                      type: AccountType;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | null;
+                oppositeTransaction?:
+                  | {
+                      __typename?: 'Credit';
+                      host?:
+                        | {
+                            __typename?: 'Bot';
+                            id: string;
+                            slug: string;
+                            name?: string | null;
+                            legalName?: string | null;
+                            currency: Currency;
+                            imageUrl?: string | null;
+                            website?: string | null;
+                            settings: any;
+                            type: AccountType;
+                            location?: {
+                              __typename?: 'Location';
+                              name?: string | null;
+                              address?: string | null;
+                              country?: string | null;
+                            } | null;
+                          }
+                        | {
+                            __typename?: 'Collective';
+                            id: string;
+                            slug: string;
+                            name?: string | null;
+                            legalName?: string | null;
+                            currency: Currency;
+                            imageUrl?: string | null;
+                            website?: string | null;
+                            settings: any;
+                            type: AccountType;
+                            location?: {
+                              __typename?: 'Location';
+                              name?: string | null;
+                              address?: string | null;
+                              country?: string | null;
+                            } | null;
+                          }
+                        | {
+                            __typename?: 'Event';
+                            id: string;
+                            slug: string;
+                            name?: string | null;
+                            legalName?: string | null;
+                            currency: Currency;
+                            imageUrl?: string | null;
+                            website?: string | null;
+                            settings: any;
+                            type: AccountType;
+                            location?: {
+                              __typename?: 'Location';
+                              name?: string | null;
+                              address?: string | null;
+                              country?: string | null;
+                            } | null;
+                          }
+                        | {
+                            __typename?: 'Fund';
+                            id: string;
+                            slug: string;
+                            name?: string | null;
+                            legalName?: string | null;
+                            currency: Currency;
+                            imageUrl?: string | null;
+                            website?: string | null;
+                            settings: any;
+                            type: AccountType;
+                            location?: {
+                              __typename?: 'Location';
+                              name?: string | null;
+                              address?: string | null;
+                              country?: string | null;
+                            } | null;
+                          }
+                        | {
+                            __typename?: 'Host';
+                            id: string;
+                            slug: string;
+                            name?: string | null;
+                            legalName?: string | null;
+                            currency: Currency;
+                            imageUrl?: string | null;
+                            website?: string | null;
+                            settings: any;
+                            type: AccountType;
+                            location?: {
+                              __typename?: 'Location';
+                              name?: string | null;
+                              address?: string | null;
+                              country?: string | null;
+                            } | null;
+                          }
+                        | {
+                            __typename?: 'Individual';
+                            id: string;
+                            slug: string;
+                            name?: string | null;
+                            legalName?: string | null;
+                            currency: Currency;
+                            imageUrl?: string | null;
+                            website?: string | null;
+                            settings: any;
+                            type: AccountType;
+                            location?: {
+                              __typename?: 'Location';
+                              name?: string | null;
+                              address?: string | null;
+                              country?: string | null;
+                            } | null;
+                          }
+                        | {
+                            __typename?: 'Organization';
+                            id: string;
+                            slug: string;
+                            name?: string | null;
+                            legalName?: string | null;
+                            currency: Currency;
+                            imageUrl?: string | null;
+                            website?: string | null;
+                            settings: any;
+                            type: AccountType;
+                            location?: {
+                              __typename?: 'Location';
+                              name?: string | null;
+                              address?: string | null;
+                              country?: string | null;
+                            } | null;
+                          }
+                        | {
+                            __typename?: 'Project';
+                            id: string;
+                            slug: string;
+                            name?: string | null;
+                            legalName?: string | null;
+                            currency: Currency;
+                            imageUrl?: string | null;
+                            website?: string | null;
+                            settings: any;
+                            type: AccountType;
+                            location?: {
+                              __typename?: 'Location';
+                              name?: string | null;
+                              address?: string | null;
+                              country?: string | null;
+                            } | null;
+                          }
+                        | {
+                            __typename?: 'Vendor';
+                            id: string;
+                            slug: string;
+                            name?: string | null;
+                            legalName?: string | null;
+                            currency: Currency;
+                            imageUrl?: string | null;
+                            website?: string | null;
+                            settings: any;
+                            type: AccountType;
+                            location?: {
+                              __typename?: 'Location';
+                              name?: string | null;
+                              address?: string | null;
+                              country?: string | null;
+                            } | null;
+                          }
+                        | null;
+                    }
+                  | {
+                      __typename?: 'Debit';
+                      host?:
+                        | {
+                            __typename?: 'Bot';
+                            id: string;
+                            slug: string;
+                            name?: string | null;
+                            legalName?: string | null;
+                            currency: Currency;
+                            imageUrl?: string | null;
+                            website?: string | null;
+                            settings: any;
+                            type: AccountType;
+                            location?: {
+                              __typename?: 'Location';
+                              name?: string | null;
+                              address?: string | null;
+                              country?: string | null;
+                            } | null;
+                          }
+                        | {
+                            __typename?: 'Collective';
+                            id: string;
+                            slug: string;
+                            name?: string | null;
+                            legalName?: string | null;
+                            currency: Currency;
+                            imageUrl?: string | null;
+                            website?: string | null;
+                            settings: any;
+                            type: AccountType;
+                            location?: {
+                              __typename?: 'Location';
+                              name?: string | null;
+                              address?: string | null;
+                              country?: string | null;
+                            } | null;
+                          }
+                        | {
+                            __typename?: 'Event';
+                            id: string;
+                            slug: string;
+                            name?: string | null;
+                            legalName?: string | null;
+                            currency: Currency;
+                            imageUrl?: string | null;
+                            website?: string | null;
+                            settings: any;
+                            type: AccountType;
+                            location?: {
+                              __typename?: 'Location';
+                              name?: string | null;
+                              address?: string | null;
+                              country?: string | null;
+                            } | null;
+                          }
+                        | {
+                            __typename?: 'Fund';
+                            id: string;
+                            slug: string;
+                            name?: string | null;
+                            legalName?: string | null;
+                            currency: Currency;
+                            imageUrl?: string | null;
+                            website?: string | null;
+                            settings: any;
+                            type: AccountType;
+                            location?: {
+                              __typename?: 'Location';
+                              name?: string | null;
+                              address?: string | null;
+                              country?: string | null;
+                            } | null;
+                          }
+                        | {
+                            __typename?: 'Host';
+                            id: string;
+                            slug: string;
+                            name?: string | null;
+                            legalName?: string | null;
+                            currency: Currency;
+                            imageUrl?: string | null;
+                            website?: string | null;
+                            settings: any;
+                            type: AccountType;
+                            location?: {
+                              __typename?: 'Location';
+                              name?: string | null;
+                              address?: string | null;
+                              country?: string | null;
+                            } | null;
+                          }
+                        | {
+                            __typename?: 'Individual';
+                            id: string;
+                            slug: string;
+                            name?: string | null;
+                            legalName?: string | null;
+                            currency: Currency;
+                            imageUrl?: string | null;
+                            website?: string | null;
+                            settings: any;
+                            type: AccountType;
+                            location?: {
+                              __typename?: 'Location';
+                              name?: string | null;
+                              address?: string | null;
+                              country?: string | null;
+                            } | null;
+                          }
+                        | {
+                            __typename?: 'Organization';
+                            id: string;
+                            slug: string;
+                            name?: string | null;
+                            legalName?: string | null;
+                            currency: Currency;
+                            imageUrl?: string | null;
+                            website?: string | null;
+                            settings: any;
+                            type: AccountType;
+                            location?: {
+                              __typename?: 'Location';
+                              name?: string | null;
+                              address?: string | null;
+                              country?: string | null;
+                            } | null;
+                          }
+                        | {
+                            __typename?: 'Project';
+                            id: string;
+                            slug: string;
+                            name?: string | null;
+                            legalName?: string | null;
+                            currency: Currency;
+                            imageUrl?: string | null;
+                            website?: string | null;
+                            settings: any;
+                            type: AccountType;
+                            location?: {
+                              __typename?: 'Location';
+                              name?: string | null;
+                              address?: string | null;
+                              country?: string | null;
+                            } | null;
+                          }
+                        | {
+                            __typename?: 'Vendor';
+                            id: string;
+                            slug: string;
+                            name?: string | null;
+                            legalName?: string | null;
+                            currency: Currency;
+                            imageUrl?: string | null;
+                            website?: string | null;
+                            settings: any;
+                            type: AccountType;
+                            location?: {
+                              __typename?: 'Location';
+                              name?: string | null;
+                              address?: string | null;
+                              country?: string | null;
+                            } | null;
+                          }
+                        | null;
+                    }
+                  | null;
+                amount: { __typename?: 'Amount'; valueInCents?: number | null; currency?: Currency | null };
+                amountInHostCurrency: {
+                  __typename?: 'Amount';
+                  valueInCents?: number | null;
+                  currency?: Currency | null;
+                };
+                netAmount: { __typename?: 'Amount'; valueInCents?: number | null; currency?: Currency | null };
+                taxAmount: { __typename?: 'Amount'; valueInCents?: number | null; currency?: Currency | null };
+                taxInfo?: { __typename?: 'TaxInfo'; type: TaxType; rate: number } | null;
+                paymentMethod?: {
+                  __typename?: 'PaymentMethod';
+                  id?: string | null;
+                  type?: PaymentMethodType | null;
+                  service?: PaymentMethodService | null;
+                  name?: string | null;
+                } | null;
+                fromAccount?:
+                  | {
+                      __typename?: 'Bot';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      type: AccountType;
+                      settings: any;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Collective';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      type: AccountType;
+                      settings: any;
+                      host?: {
+                        __typename?: 'Host';
+                        id: string;
+                        name?: string | null;
+                        legalName?: string | null;
+                        slug: string;
+                        type: AccountType;
+                        expensePolicy?: string | null;
+                        settings: any;
+                        location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+                      } | null;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Event';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      type: AccountType;
+                      settings: any;
+                      host?: {
+                        __typename?: 'Host';
+                        id: string;
+                        name?: string | null;
+                        legalName?: string | null;
+                        slug: string;
+                        type: AccountType;
+                        expensePolicy?: string | null;
+                        settings: any;
+                        location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+                      } | null;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Fund';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      type: AccountType;
+                      settings: any;
+                      host?: {
+                        __typename?: 'Host';
+                        id: string;
+                        name?: string | null;
+                        legalName?: string | null;
+                        slug: string;
+                        type: AccountType;
+                        expensePolicy?: string | null;
+                        settings: any;
+                        location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+                      } | null;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Host';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      type: AccountType;
+                      settings: any;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Individual';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      type: AccountType;
+                      settings: any;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Organization';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      type: AccountType;
+                      settings: any;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Project';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      type: AccountType;
+                      settings: any;
+                      host?: {
+                        __typename?: 'Host';
+                        id: string;
+                        name?: string | null;
+                        legalName?: string | null;
+                        slug: string;
+                        type: AccountType;
+                        expensePolicy?: string | null;
+                        settings: any;
+                        location?: { __typename?: 'Location'; address?: string | null; country?: string | null } | null;
+                      } | null;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Vendor';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      type: AccountType;
+                      settings: any;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | null;
+                toAccount?:
+                  | {
+                      __typename?: 'Bot';
+                      id: string;
+                      slug: string;
+                      legalName?: string | null;
+                      name?: string | null;
+                      type: AccountType;
+                      settings: any;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Collective';
+                      id: string;
+                      slug: string;
+                      legalName?: string | null;
+                      name?: string | null;
+                      type: AccountType;
+                      settings: any;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Event';
+                      startsAt?: any | null;
+                      endsAt?: any | null;
+                      timezone?: string | null;
+                      id: string;
+                      slug: string;
+                      legalName?: string | null;
+                      name?: string | null;
+                      type: AccountType;
+                      settings: any;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Fund';
+                      id: string;
+                      slug: string;
+                      legalName?: string | null;
+                      name?: string | null;
+                      type: AccountType;
+                      settings: any;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Host';
+                      id: string;
+                      slug: string;
+                      legalName?: string | null;
+                      name?: string | null;
+                      type: AccountType;
+                      settings: any;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Individual';
+                      id: string;
+                      slug: string;
+                      legalName?: string | null;
+                      name?: string | null;
+                      type: AccountType;
+                      settings: any;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Organization';
+                      id: string;
+                      slug: string;
+                      legalName?: string | null;
+                      name?: string | null;
+                      type: AccountType;
+                      settings: any;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Project';
+                      id: string;
+                      slug: string;
+                      legalName?: string | null;
+                      name?: string | null;
+                      type: AccountType;
+                      settings: any;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | {
+                      __typename?: 'Vendor';
+                      id: string;
+                      slug: string;
+                      legalName?: string | null;
+                      name?: string | null;
+                      type: AccountType;
+                      settings: any;
+                      location?: {
+                        __typename?: 'Location';
+                        name?: string | null;
+                        address?: string | null;
+                        country?: string | null;
+                      } | null;
+                    }
+                  | null;
+                giftCardEmitterAccount?:
+                  | {
+                      __typename?: 'Bot';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      type: AccountType;
+                    }
+                  | {
+                      __typename?: 'Collective';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      type: AccountType;
+                    }
+                  | {
+                      __typename?: 'Event';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      type: AccountType;
+                    }
+                  | {
+                      __typename?: 'Fund';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      type: AccountType;
+                    }
+                  | {
+                      __typename?: 'Host';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      type: AccountType;
+                    }
+                  | {
+                      __typename?: 'Individual';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      type: AccountType;
+                    }
+                  | {
+                      __typename?: 'Organization';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      type: AccountType;
+                    }
+                  | {
+                      __typename?: 'Project';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      type: AccountType;
+                    }
+                  | {
+                      __typename?: 'Vendor';
+                      id: string;
+                      slug: string;
+                      name?: string | null;
+                      legalName?: string | null;
+                      type: AccountType;
+                    }
+                  | null;
+                refundTransaction?: { __typename?: 'Credit'; id: string } | { __typename?: 'Debit'; id: string } | null;
+                order?: {
+                  __typename?: 'Order';
+                  id: string;
+                  legacyId: number;
+                  data?: any | null;
+                  quantity?: number | null;
+                  tax?: { __typename?: 'TaxInfo'; id: string; type: TaxType; rate: number; percentage: number } | null;
+                  tier?: { __typename?: 'Tier'; id: string; type: TierType; invoiceTemplate?: string | null } | null;
+                } | null;
+              }
+            | null
+          >;
           host?:
             | {
                 __typename?: 'Bot';
@@ -22684,12 +40066,12 @@ export const ReceiptTransactionHostFieldsFragmentFragmentDoc = {
     },
   ],
 } as unknown as DocumentNode<ReceiptTransactionHostFieldsFragmentFragment, unknown>;
-export const ReceiptTransactionFragmentFragmentDoc = {
+export const ReceiptTransactionLineFragmentFragmentDoc = {
   kind: 'Document',
   definitions: [
     {
       kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'ReceiptTransactionFragment' },
+      name: { kind: 'Name', value: 'ReceiptTransactionLineFragment' },
       typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Transaction' } },
       selectionSet: {
         kind: 'SelectionSet',
@@ -22997,6 +40379,359 @@ export const ReceiptTransactionFragmentFragmentDoc = {
                 { kind: 'Field', name: { kind: 'Name', value: 'name' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'address' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'country' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<ReceiptTransactionLineFragmentFragment, unknown>;
+export const ReceiptTransactionFragmentFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'ReceiptTransactionFragment' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Transaction' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'FragmentSpread', name: { kind: 'Name', value: 'ReceiptTransactionLineFragment' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'relatedTransactions' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'kind' },
+                value: {
+                  kind: 'ListValue',
+                  values: [
+                    { kind: 'EnumValue', value: 'CONTRIBUTION' },
+                    { kind: 'EnumValue', value: 'PLATFORM_TIP' },
+                  ],
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'ReceiptTransactionLineFragment' } }],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'ReceiptTransactionHostFieldsFragment' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Account' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'slug' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'legalName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'currency' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'imageUrl' },
+            arguments: [
+              { kind: 'Argument', name: { kind: 'Name', value: 'height' }, value: { kind: 'IntValue', value: '200' } },
+            ],
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'website' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'settings' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'location' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'address' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'country' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'ReceiptTransactionLineFragment' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Transaction' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'kind' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'hostCurrencyFxRate' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'invoiceTemplate' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'isRefund' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'host' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'ReceiptTransactionHostFieldsFragment' } },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'oppositeTransaction' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'host' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'FragmentSpread', name: { kind: 'Name', value: 'ReceiptTransactionHostFieldsFragment' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'amount' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'valueInCents' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'currency' } },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'amountInHostCurrency' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'valueInCents' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'currency' } },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'netAmount' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'valueInCents' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'currency' } },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'taxAmount' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'valueInCents' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'currency' } },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'taxInfo' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'rate' } },
+              ],
+            },
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'paymentMethod' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'service' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'fromAccount' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'slug' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'legalName' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'settings' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'location' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'address' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'country' } },
+                    ],
+                  },
+                },
+                {
+                  kind: 'InlineFragment',
+                  typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'AccountWithHost' } },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'host' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'legalName' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'slug' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'expensePolicy' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'settings' } },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'location' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  { kind: 'Field', name: { kind: 'Name', value: 'address' } },
+                                  { kind: 'Field', name: { kind: 'Name', value: 'country' } },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'toAccount' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'slug' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'legalName' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'settings' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'location' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'address' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'country' } },
+                    ],
+                  },
+                },
+                {
+                  kind: 'InlineFragment',
+                  typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Event' } },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'startsAt' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'endsAt' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'timezone' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'giftCardEmitterAccount' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'slug' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'legalName' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+              ],
+            },
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'isRefund' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'refundTransaction' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'order' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'legacyId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'data' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'tax' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'rate' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'percentage' } },
+                    ],
+                  },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'quantity' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'tier' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'invoiceTemplate' } },
+                    ],
+                  },
+                },
               ],
             },
           },
@@ -23362,7 +41097,7 @@ export const TransactionInvoiceDocument = {
     },
     {
       kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'ReceiptTransactionFragment' },
+      name: { kind: 'Name', value: 'ReceiptTransactionLineFragment' },
       typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Transaction' } },
       selectionSet: {
         kind: 'SelectionSet',
@@ -23634,6 +41369,38 @@ export const TransactionInvoiceDocument = {
                   },
                 },
               ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'ReceiptTransactionFragment' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Transaction' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'FragmentSpread', name: { kind: 'Name', value: 'ReceiptTransactionLineFragment' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'relatedTransactions' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'kind' },
+                value: {
+                  kind: 'ListValue',
+                  values: [
+                    { kind: 'EnumValue', value: 'CONTRIBUTION' },
+                    { kind: 'EnumValue', value: 'PLATFORM_TIP' },
+                  ],
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'ReceiptTransactionLineFragment' } }],
             },
           },
         ],
@@ -23877,7 +41644,7 @@ export const InvoiceByDateRangeDocument = {
     },
     {
       kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'ReceiptTransactionFragment' },
+      name: { kind: 'Name', value: 'ReceiptTransactionLineFragment' },
       typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Transaction' } },
       selectionSet: {
         kind: 'SelectionSet',
@@ -24149,6 +41916,38 @@ export const InvoiceByDateRangeDocument = {
                   },
                 },
               ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'ReceiptTransactionFragment' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Transaction' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'FragmentSpread', name: { kind: 'Name', value: 'ReceiptTransactionLineFragment' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'relatedTransactions' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'kind' },
+                value: {
+                  kind: 'ListValue',
+                  values: [
+                    { kind: 'EnumValue', value: 'CONTRIBUTION' },
+                    { kind: 'EnumValue', value: 'PLATFORM_TIP' },
+                  ],
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'ReceiptTransactionLineFragment' } }],
             },
           },
         ],

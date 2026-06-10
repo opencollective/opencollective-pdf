@@ -16,13 +16,12 @@ const router = express.Router();
 const CONTRIBUTION_KIND = 'CONTRIBUTION';
 const PLATFORM_TIP_KIND = 'PLATFORM_TIP';
 const CREDIT_TYPE = 'CREDIT';
-const ENABLED_FEATURE_STATUSES = ['ACTIVE', 'AVAILABLE'];
 
 type ReceiptTransaction = React.ComponentProps<typeof Receipt>['receipt']['transactions'][number] & {
   type?: string;
   host?: {
-    features?: {
-      SINGLE_RECEIPT_PLATFORM_TIP?: string | null;
+    settings?: {
+      singleReceiptPlatformTip?: boolean | null;
     } | null;
   } | null;
   relatedTransactions?: Array<ReceiptTransaction | null> | null;
@@ -43,10 +42,6 @@ const receiptTransactionHostFieldsFragment = gql`
     imageUrl(height: 200)
     website
     settings
-    features {
-      id
-      SINGLE_RECEIPT_PLATFORM_TIP
-    }
     type
     location {
       name
@@ -256,7 +251,7 @@ const findRelatedPlatformTip = (transaction: ReceiptTransaction) => {
 };
 
 const hasSingleReceiptPlatformTipFeature = (transaction: ReceiptTransaction) => {
-  return ENABLED_FEATURE_STATUSES.includes(transaction.host?.features?.SINGLE_RECEIPT_PLATFORM_TIP || '');
+  return transaction.host?.settings?.singleReceiptPlatformTip === true;
 };
 
 const getPlatformTipLineItem = (
