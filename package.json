@@ -46,7 +46,7 @@
   "devDependencies": {
     "@eslint/compat": "^2.0.0",
     "@eslint/js": "^9.23.0",
-    "@graphql-codegen/cli": "^6.0.0",
+    "@graphql-codegen/cli": "^7.0.0",
     "@types/express": "^5.0.0",
     "@types/lodash-es": "^4.17.12",
     "@types/node": "^24.0.0",
