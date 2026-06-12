@@ -312,7 +312,7 @@ async function fetchInvoiceByDateRange(
         includeIncognitoTransactions: true
         includeGiftCardTransactions: true
         hasExpense: $hasExpense
-        kind: [CONTRIBUTION, PLATFORM_TIP]
+        kind: [CONTRIBUTION, PLATFORM_TIP, ADDED_FUNDS]
       ) {
         totalCount
         nodes {
