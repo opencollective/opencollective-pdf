@@ -53,7 +53,7 @@
     "@types/qrcode": "^1.5.5",
     "@types/react": "^19.0.8",
     "@types/supertest": "^7.0.0",
-    "@vitest/coverage-v8": "^4.0.0",
+    "@vitest/coverage-v8": "^4.1.8",
     "eslint": "^9.23.0",
     "eslint-plugin-formatjs": "^5.3.1",
     "eslint-plugin-react": "^7.37.5",
@@ -65,11 +65,11 @@
     "pdf-visual-diff": "^0.14.0",
     "prettier": "3.8.4",
     "supertest": "^7.0.0",
-    "tsx": "^4.20.5",
+    "tsx": "^4.22.4",
     "typescript": "^5.3.3",
     "typescript-eslint": "^8.29.0",
     "vite": "^8.0.0",
-    "vitest": "^4.0.0"
+    "vitest": "^4.1.8"
   },
   "engines": {
     "node": ">=18.0.0"
