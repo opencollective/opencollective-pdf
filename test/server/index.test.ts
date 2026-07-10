@@ -13,6 +13,21 @@ describe('Tax forms', () => {
     expect(response.body.message).toBe('Route not found');
   });
 
+  test('returns a 400 when tax form values are missing', async () => {
+    const response = await request(app).get('/tax-forms/W9.pdf?formType=W9');
+    expect(response.status).toBe(400);
+    expect(response.text).toBe('Missing values');
+  });
+
+  test('returns a 400 when tax form values are invalid JSON', async () => {
+    const invalidValues = Buffer.from('{').toString('base64');
+    const response = await request(app).get(
+      `/tax-forms/W9.pdf?formType=W9&values=${encodeURIComponent(invalidValues)}`,
+    );
+    expect(response.status).toBe(400);
+    expect(response.text).toBe('Invalid values');
+  });
+
   describe('PDF Field Visualization', () => {
     for (const [formType, formConfig] of Object.entries(TAX_FORMS)) {
       test(`Show fields for ${formType}`, async () => {
