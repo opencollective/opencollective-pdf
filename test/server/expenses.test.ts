@@ -123,6 +123,28 @@ describe('Expenses Routes', () => {
       expect(response.status).toBe(404);
     });
 
+    test('should return 403 when user cannot see invoice info', async () => {
+      // Mock GraphQL API call with expense without permission
+      const noPermissionData = {
+        data: {
+          expense: {
+            ...mockExpenseData.data.expense,
+            permissions: { canSeeInvoiceInfo: false },
+          },
+        },
+      };
+
+      nock(API_URL)
+        .post(/\/graphql\/v2/)
+        .reply(200, JSON.stringify(noPermissionData));
+
+      const response = await request(app)
+        .get('/expenses/test-expense/expense.pdf')
+        .set('Authorization', 'Bearer test-token');
+
+      expect(response.status).toBe(403);
+    });
+
     test('should handle GraphQL errors', async () => {
       // Mock GraphQL API call with error
       nock(API_URL)
