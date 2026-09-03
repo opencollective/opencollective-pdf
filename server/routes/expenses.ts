@@ -6,7 +6,7 @@ import { createClient } from '../lib/apollo-client.js';
 import { adaptApolloError } from '../lib/apollo-client.js';
 import ExpenseInvoice from '../components/expenses/ExpenseInvoice.js';
 import { ExpenseInvoiceQuery } from '../graphql/types/v2/graphql.js';
-import { NotFoundError } from '../lib/errors.js';
+import { ForbiddenError, NotFoundError } from '../lib/errors.js';
 
 const router = express.Router();
 
@@ -131,6 +131,8 @@ router.get('/:id/:filename.pdf', async (req: express.Request, res: express.Respo
   const expense = await fetchExpenseInvoiceData(id, authorizationHeaders);
   if (expense === null || expense === undefined) {
     throw new NotFoundError(`Expense not found`);
+  } else if (!expense.permissions?.canSeeInvoiceInfo) {
+    throw new ForbiddenError(`You don't have permission to download this expense's invoice`);
   } else {
     await sendPDFResponse(res, ExpenseInvoice, { expense });
   }
