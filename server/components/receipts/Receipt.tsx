@@ -42,6 +42,9 @@ const styles = StyleSheet.create({
     marginBottom: 2,
     color: '#2C3135',
   },
+  cjkText: {
+    fontFamily: FontFamily.NanumGothic,
+  },
   addressBlock: {
     marginBottom: 2,
   },
@@ -241,6 +244,15 @@ const TableWeighting = {
 };
 
 const CustomIntlDate = ({ date }: { date: Date }) => dayjs(date).format('YYYY-MM-DD');
+
+const containsCJKCharacters = (value: string | null | undefined) =>
+  Boolean(value && /[\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}\p{Script=Hangul}]/u.test(value));
+
+const accountContainsCJKCharacters = (account: {
+  legalName?: string | null;
+  name?: string | null;
+  location?: { name?: string | null; address?: string | null } | null;
+}) => [account.legalName, account.name, account.location?.name, account.location?.address].some(containsCJKCharacters);
 
 // Event description component
 const EventDescription = ({ event }: { event: Event }) => (
@@ -592,11 +604,16 @@ export class Receipt extends React.Component<Props> {
                 <View style={[styles.flexRow, styles.flexWrap, styles.alignStart]}>
                   <View style={[styles.flexGrow, styles.mb3]}>
                     <Link src={`https://opencollective.com/${receipt.host.slug}`} style={styles.link}>
-                      <Text style={styles.accountName}>
+                      <Text
+                        style={[
+                          styles.accountName,
+                          accountContainsCJKCharacters(receipt.host) ? styles.cjkText : undefined,
+                        ]}
+                      >
                         {receipt.host.legalName || receipt.host.name || receipt.host.slug}
                       </Text>
                     </Link>
-                    <View style={styles.my2}>
+                    <View style={[styles.my2, accountContainsCJKCharacters(receipt.host) ? styles.cjkText : undefined]}>
                       <LocationParagraph collective={receipt.host as Account} />
                     </View>
                     <Link src={`https://opencollective.com/${receipt.host.slug}`} style={styles.link}>
@@ -612,7 +629,7 @@ export class Receipt extends React.Component<Props> {
                         <FormattedMessage id="gSv0eP" defaultMessage="Bill to" />
                       )}
                     </Text>
-                    <View style={styles.my2}>
+                    <View style={[styles.my2, accountContainsCJKCharacters(billTo) ? styles.cjkText : undefined]}>
                       <Text>{billTo.legalName || billTo.name || billTo.slug}</Text>
                       <LocationParagraph collective={billTo as Account} />
                       {this.renderBillToTaxIdNumbers()}
