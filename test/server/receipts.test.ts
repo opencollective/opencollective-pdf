@@ -206,6 +206,31 @@ describe('Receipts Routes', () => {
         await snapshotPDF(pdfBuffer, 'transaction_receipt.pdf');
       });
 
+      test('should render CJK contributor details', async () => {
+        const cjkTransactionData = cloneDeep(mockTransactionData);
+        cjkTransactionData.data.transaction.fromAccount.legalName =
+          'Code for Japan (一般社団法人 コード・フォー・ジャパン)';
+        cjkTransactionData.data.transaction.fromAccount.location = {
+          name: '東京都',
+          address: '〒100073 東京都千代田区九段北3-26',
+          country: 'JP',
+        };
+
+        nock(API_URL)
+          .post(/\/graphql\/v2/)
+          .reply(200, JSON.stringify(cjkTransactionData));
+
+        const response = await request(app)
+          .get('/receipts/transaction/txn1/receipt.pdf')
+          .set('Authorization', 'Bearer test-token');
+
+        expect(response.status).toBe(200);
+        expect(response.headers['content-type']).toBe('application/pdf');
+        expect(response.body).toBeInstanceOf(Buffer);
+        expect(response.body.length).toBeGreaterThan(0);
+        expect(response.body.toString('latin1')).toContain('NanumGothic');
+      });
+
       test('should generate a PDF for a valid ticket transaction', async () => {
         const ticketData = cloneDeep(mockTransactionData);
         ticketData.data.transaction.order['tier'] = { type: 'TICKET' };

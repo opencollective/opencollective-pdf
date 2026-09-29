@@ -4,7 +4,7 @@ import { GraphQLV1Collective } from '../../server/graphql/types/custom-types.js'
 import { Account } from '../../server/graphql/types/v2/graphql.js';
 import { imagePreview } from '../../server/lib/images.js';
 import LocationParagraph from './LocationParagraph.js';
-import { FontFamily } from '../../server/lib/pdf.js';
+import { FontFamily, getFontStyleForText } from '../../server/lib/pdf.js';
 
 const styles = StyleSheet.create({
   container: {
@@ -49,8 +49,10 @@ const CollectiveFooter = ({ collective }: { collective: Account | GraphQLV1Colle
         </View>
       )}
       <View>
-        <Text style={styles.collectiveName}>{collective.legalName || collective.name || collective.slug}</Text>
-        <View style={styles.address}>
+        <Text style={[styles.collectiveName, getFontStyleForText(collective.legalName, collective.name)]}>
+          {collective.legalName || collective.name || collective.slug}
+        </Text>
+        <View style={[styles.address, getFontStyleForText((collective as Account).location?.address)]}>
           <LocationParagraph collective={collective} />
         </View>
       </View>

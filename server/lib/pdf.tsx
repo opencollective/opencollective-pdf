@@ -7,6 +7,7 @@ export enum FontFamily {
   InterRegular = 'Inter-Regular',
   InterBold = 'Inter-Bold',
   InterItalic = 'Inter-Italic',
+  NanumGothic = 'NanumGothic',
 }
 
 Font.register({
@@ -23,6 +24,16 @@ Font.register({
   family: FontFamily.InterItalic,
   src: './public/static/fonts/Inter-Italic.otf',
 });
+
+Font.register({
+  family: FontFamily.NanumGothic,
+  src: './public/static/fonts/NanumGothic-Regular.ttf',
+});
+
+export const getFontStyleForText = (...values: Array<string | null | undefined>) =>
+  values.some(value => /[\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}\p{Script=Hangul}]/u.test(value || ''))
+    ? { fontFamily: FontFamily.NanumGothic }
+    : undefined;
 
 export async function sendPDFResponse<PropTypes extends object>(
   res: Response,

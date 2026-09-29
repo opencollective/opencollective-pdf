@@ -14,7 +14,7 @@ import {
   getTaxInfoFromTransaction,
   getTransactionUrl,
 } from '../../lib/transactions.js';
-import { FontFamily } from '../../lib/pdf.js';
+import { FontFamily, getFontStyleForText } from '../../lib/pdf.js';
 import { TimeRange } from '../TimeRange.js';
 import CollectiveFooter from '../CollectiveFooter.js';
 import { formatCurrency } from '../../../server/lib/currency.js';
@@ -242,6 +242,12 @@ const TableWeighting = {
 
 const CustomIntlDate = ({ date }: { date: Date }) => dayjs(date).format('YYYY-MM-DD');
 
+const getAccountFontStyle = (account: {
+  legalName?: string | null;
+  name?: string | null;
+  location?: { name?: string | null; address?: string | null } | null;
+}) => getFontStyleForText(account.legalName, account.name, account.location?.name, account.location?.address);
+
 // Event description component
 const EventDescription = ({ event }: { event: Event }) => (
   <React.Fragment>
@@ -407,11 +413,11 @@ export class Receipt extends React.Component<Props> {
     const transactionDescription = transaction.description || targetCollective.name || targetCollective.slug;
 
     return !transaction.giftCardEmitterAccount ? (
-      <Text>{transactionDescription}</Text>
+      <Text style={getFontStyleForText(transactionDescription)}>{transactionDescription}</Text>
     ) : (
       <React.Fragment>
         <Image src="./public/static/images/giftcard.png" style={styles.giftCardImage} />
-        <Text>{transactionDescription}</Text>
+        <Text style={getFontStyleForText(transactionDescription)}>{transactionDescription}</Text>
       </React.Fragment>
     );
   }
@@ -592,11 +598,11 @@ export class Receipt extends React.Component<Props> {
                 <View style={[styles.flexRow, styles.flexWrap, styles.alignStart]}>
                   <View style={[styles.flexGrow, styles.mb3]}>
                     <Link src={`https://opencollective.com/${receipt.host.slug}`} style={styles.link}>
-                      <Text style={styles.accountName}>
+                      <Text style={[styles.accountName, getAccountFontStyle(receipt.host)]}>
                         {receipt.host.legalName || receipt.host.name || receipt.host.slug}
                       </Text>
                     </Link>
-                    <View style={styles.my2}>
+                    <View style={[styles.my2, getAccountFontStyle(receipt.host)]}>
                       <LocationParagraph collective={receipt.host as Account} />
                     </View>
                     <Link src={`https://opencollective.com/${receipt.host.slug}`} style={styles.link}>
@@ -612,7 +618,7 @@ export class Receipt extends React.Component<Props> {
                         <FormattedMessage id="gSv0eP" defaultMessage="Bill to" />
                       )}
                     </Text>
-                    <View style={styles.my2}>
+                    <View style={[styles.my2, getAccountFontStyle(billTo)]}>
                       <Text>{billTo.legalName || billTo.name || billTo.slug}</Text>
                       <LocationParagraph collective={billTo as Account} />
                       {this.renderBillToTaxIdNumbers()}
@@ -622,7 +628,7 @@ export class Receipt extends React.Component<Props> {
 
                 <View style={[styles.flexRow, styles.justifyBetween]}>
                   <View>
-                    <Text style={styles.receiptTitle}>
+                    <Text style={[styles.receiptTitle, getFontStyleForText(receipt.template?.title)]}>
                       {receipt.template?.title ||
                         (receipt.isRefundOnly ? (
                           <FormattedMessage defaultMessage="Payment refund" id="avT1MX" />
@@ -659,7 +665,7 @@ export class Receipt extends React.Component<Props> {
             )}
 
             {Boolean(isTicketOrder && receipt.transactions[0].toAccount?.type === 'EVENT') && (
-              <Text style={styles.eventDescription}>
+              <Text style={[styles.eventDescription, getFontStyleForText(receipt.transactions[0].toAccount?.name)]}>
                 <EventDescription event={receipt.transactions[0].toAccount as Event} />
               </Text>
             )}
@@ -724,7 +730,11 @@ export class Receipt extends React.Component<Props> {
 
             {pageNumber === chunkedTransactions.length - 1 && (
               <React.Fragment>
-                {receipt.template?.info && <Text style={styles.footerInfo}>{receipt.template?.info}</Text>}
+                {receipt.template?.info && (
+                  <Text style={[styles.footerInfo, getFontStyleForText(receipt.template.info)]}>
+                    {receipt.template.info}
+                  </Text>
+                )}
                 {receipt.template?.embeddedImage && (
                   <Image src={receipt.template.embeddedImage} style={styles.embeddedImage} />
                 )}
