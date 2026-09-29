@@ -5,7 +5,7 @@ import QRCode from 'qrcode';
 import { chunk } from 'lodash-es';
 import { formatCurrency } from '../../lib/currency.js';
 import { LinkIcon } from '../icons/Link.js';
-import { FontFamily } from '../../../server/lib/pdf.js';
+import { FontFamily, getFontStyleForText } from '../../../server/lib/pdf.js';
 
 const styles = StyleSheet.create({
   page: {
@@ -207,7 +207,7 @@ const GiftCardsPage = ({ cards }: { cards: GiftCard[] }) => {
 
                         {/** Description & expiry date */}
                         <View style={styles.cardDescription}>
-                          <Text style={styles.cardName}>{card.name}</Text>
+                          <Text style={[styles.cardName, getFontStyleForText(card.name)]}>{card.name}</Text>
                           <Text style={styles.expiryText}>
                             Expires on {dayjs(card.expiryDate).format('MMM D, YYYY')}
                           </Text>

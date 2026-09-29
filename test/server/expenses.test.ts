@@ -4,6 +4,7 @@ import request from 'supertest';
 import nock from 'nock';
 import appRouter from '../../server/index.js';
 import { snapshotPDF } from '../utils.js';
+import { cloneDeep } from 'lodash-es';
 
 // Test expense data
 const mockExpenseData = {
@@ -108,6 +109,29 @@ describe('Expenses Routes', () => {
       expect(pdfBuffer).toBeInstanceOf(Buffer);
       expect(pdfBuffer.length).toBeGreaterThan(0);
       await snapshotPDF(pdfBuffer, 'expense_invoice.pdf');
+    });
+
+    test('should render CJK expense details with a compatible font', async () => {
+      const cjkExpenseData = cloneDeep(mockExpenseData);
+      cjkExpenseData.data.expense.description = '翻訳サービス';
+      cjkExpenseData.data.expense.invoiceInfo = 'お支払いありがとうございます';
+      cjkExpenseData.data.expense.payee.legalName = '一般社団法人 コード・フォー・ジャパン';
+      cjkExpenseData.data.expense.payeeLocation.address = '東京都千代田区九段北3-26';
+      cjkExpenseData.data.expense.items[0].description = 'イベント費用';
+
+      nock(API_URL)
+        .post(/\/graphql\/v2/)
+        .reply(200, JSON.stringify(cjkExpenseData));
+
+      const response = await request(app)
+        .get('/expenses/test-expense/expense.pdf')
+        .set('Authorization', 'Bearer test-token');
+
+      expect(response.status).toBe(200);
+      expect(response.headers['content-type']).toBe('application/pdf');
+      expect(response.body).toBeInstanceOf(Buffer);
+      expect(response.body.length).toBeGreaterThan(0);
+      expect(response.body.toString('latin1')).toContain('NanumGothic');
     });
 
     test('should return 404 for non-existent expense', async () => {

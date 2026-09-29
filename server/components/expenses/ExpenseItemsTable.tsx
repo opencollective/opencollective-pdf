@@ -6,7 +6,7 @@ import { round, sumBy, uniq } from 'lodash-es';
 import { getCurrencyPrecision } from '../../lib/currency.js';
 import { formatAmount } from '../../lib/currency.js';
 import { formatCurrency } from '../../lib/currency.js';
-import { FontFamily } from '../../lib/pdf.js';
+import { FontFamily, getFontStyleForText } from '../../lib/pdf.js';
 import { Expense, ExpenseItem } from '../../../server/graphql/types/v2/graphql.js';
 import dayjs from 'dayjs';
 
@@ -87,7 +87,7 @@ const ExpenseItemsTable = ({
               <Text>{dayjs(item.incurredAt).format('YYYY-MM-DD')}</Text>
             </TD>
             <TD style={styles.cell}>
-              <Text>
+              <Text style={getFontStyleForText(item.description)}>
                 {item.description || <FormattedMessage id="TOxNpA" defaultMessage="No description provided" />}
               </Text>
             </TD>

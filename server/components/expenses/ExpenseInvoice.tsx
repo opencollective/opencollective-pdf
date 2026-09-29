@@ -9,7 +9,7 @@ import ExpenseItemsTable from './ExpenseItemsTable.js';
 import { QueryResult } from '@apollo/client/index.js';
 import { AccountWithHost, ExpenseInvoiceQuery } from '../../../server/graphql/types/v2/graphql.js';
 import { Account } from '../../../server/graphql/types/v2/graphql.js';
-import { FontFamily } from '../../../server/lib/pdf.js';
+import { FontFamily, getFontStyleForText } from '../../../server/lib/pdf.js';
 import dayjs from 'dayjs';
 
 type ExpenseFromQuery = NonNullable<NonNullable<QueryResult<ExpenseInvoiceQuery>['data']>['expense']>;
@@ -171,8 +171,14 @@ const ExpenseInvoice = ({
                   <Text style={styles.addressTitle}>
                     <FormattedMessage id="dM+p3/" defaultMessage="From" />
                   </Text>
-                  <Text style={styles.addressText}>{payee.legalName || payee.name || payee.slug}</Text>
-                  {payeeLocation?.address && <Text style={styles.addressText}>{payeeLocation.address}</Text>}
+                  <Text style={[styles.addressText, getFontStyleForText(payee.legalName, payee.name)]}>
+                    {payee.legalName || payee.name || payee.slug}
+                  </Text>
+                  {payeeLocation?.address && (
+                    <Text style={[styles.addressText, getFontStyleForText(payeeLocation.address)]}>
+                      {payeeLocation.address}
+                    </Text>
+                  )}
                   {payeeLocation?.country && <Text style={styles.addressText}>{payeeLocation.country}</Text>}
                 </View>
 
@@ -180,11 +186,13 @@ const ExpenseInvoice = ({
                   <Text style={styles.addressTitle}>
                     <FormattedMessage id="gSv0eP" defaultMessage="Bill to" />
                   </Text>
-                  <Text style={styles.addressText}>
+                  <Text style={[styles.addressText, getFontStyleForText(billToAccount.legalName, billToAccount.name)]}>
                     {billToAccount.legalName || billToAccount.name || billToAccount.slug}
                   </Text>
                   {billToAccount.location?.address && (
-                    <Text style={styles.addressText}>{billToAccount.location.address}</Text>
+                    <Text style={[styles.addressText, getFontStyleForText(billToAccount.location.address)]}>
+                      {billToAccount.location.address}
+                    </Text>
                   )}
                   {billToAccount.location?.country && (
                     <Text style={styles.addressText}>{billToAccount.location.country}</Text>
@@ -195,7 +203,7 @@ const ExpenseInvoice = ({
               <View style={styles.expenseDetails}>
                 <Link
                   src={`${process.env.WEBSITE_URL}/${expense.account.slug}/expenses/${expense.legacyId}`}
-                  style={styles.expenseLink}
+                  style={[styles.expenseLink, getFontStyleForText(expense.description)]}
                 >
                   <FormattedMessage
                     id="GGuO8S"
@@ -207,7 +215,7 @@ const ExpenseInvoice = ({
                   />
                 </Link>
                 {expense.reference && (
-                  <Text style={styles.expenseInfo}>
+                  <Text style={[styles.expenseInfo, getFontStyleForText(expense.reference)]}>
                     <FormattedMessage
                       id="qdYmyV"
                       defaultMessage="Reference: {reference}"
@@ -215,7 +223,7 @@ const ExpenseInvoice = ({
                     />
                   </Text>
                 )}
-                <Text style={styles.expenseInfo}>
+                <Text style={[styles.expenseInfo, getFontStyleForText(account.legalName, account.name)]}>
                   <FormattedMessage
                     id="AJ6aIN"
                     defaultMessage="Collective: {collectiveName}"
@@ -274,7 +282,11 @@ const ExpenseInvoice = ({
                 </View>
               </View>
 
-              {expense.invoiceInfo && <Text style={styles.invoiceInfo}>{expense.invoiceInfo}</Text>}
+              {expense.invoiceInfo && (
+                <Text style={[styles.invoiceInfo, getFontStyleForText(expense.invoiceInfo)]}>
+                  {expense.invoiceInfo}
+                </Text>
+              )}
             </View>
           )}
         </Page>
