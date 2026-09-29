@@ -13,6 +13,22 @@ import { InvoiceByDateRangeQuery, TransactionInvoiceQuery } from '../graphql/typ
 import { parseToBoolean } from '../lib/env.js';
 
 const router = express.Router();
+const CONTRIBUTION_KIND = 'CONTRIBUTION';
+const PLATFORM_TIP_KIND = 'PLATFORM_TIP';
+const CREDIT_TYPE = 'CREDIT';
+
+type ReceiptTransaction = React.ComponentProps<typeof Receipt>['receipt']['transactions'][number] & {
+  type?: string;
+  host?: {
+    settings?: {
+      singleReceiptPlatformTip?: boolean | null;
+    } | null;
+  } | null;
+  relatedTransactions?: Array<ReceiptTransaction | null> | null;
+  fromAccount?: unknown;
+  taxInfo?: unknown;
+  data?: Record<string, unknown>;
+};
 
 // ---- By transaction ID ----
 
@@ -35,8 +51,8 @@ const receiptTransactionHostFieldsFragment = gql`
   }
 `;
 
-const receiptTransactionFragment = gql`
-  fragment ReceiptTransactionFragment on Transaction {
+const receiptTransactionLineFragment = gql`
+  fragment ReceiptTransactionLineFragment on Transaction {
     id
     type
     kind
@@ -158,6 +174,16 @@ const receiptTransactionFragment = gql`
   ${receiptTransactionHostFieldsFragment}
 `;
 
+const receiptTransactionFragment = gql`
+  fragment ReceiptTransactionFragment on Transaction {
+    ...ReceiptTransactionLineFragment
+    relatedTransactions(kind: [CONTRIBUTION, PLATFORM_TIP]) {
+      ...ReceiptTransactionLineFragment
+    }
+  }
+  ${receiptTransactionLineFragment}
+`;
+
 async function fetchTransactionInvoice(transactionId: string, authorizationHeaders: AuthorizationHeaders) {
   const query = gql`
     query TransactionInvoice($transactionId: String!) {
@@ -216,6 +242,77 @@ async function fetchTransactionInvoice(transactionId: string, authorizationHeade
   return response.data.transaction as QueryResult<TransactionInvoiceQuery>['data']['transaction'];
 }
 
+const findRelatedContribution = (transaction: ReceiptTransaction) => {
+  return transaction.relatedTransactions?.find(t => t?.kind === CONTRIBUTION_KIND && t.type === transaction.type);
+};
+
+const findRelatedPlatformTip = (transaction: ReceiptTransaction) => {
+  return transaction.relatedTransactions?.find(t => t?.kind === PLATFORM_TIP_KIND && t.type === CREDIT_TYPE);
+};
+
+const hasSingleReceiptPlatformTipFeature = (transaction: ReceiptTransaction) => {
+  return transaction.host?.settings?.singleReceiptPlatformTip === true;
+};
+
+const getPlatformTipLineItem = (
+  transaction: ReceiptTransaction,
+  platformTip = findRelatedPlatformTip(transaction),
+): ReceiptTransaction | null => {
+  if (transaction.kind !== CONTRIBUTION_KIND || !platformTip) {
+    return null;
+  }
+
+  return {
+    ...platformTip,
+    description: 'Contribution to the Open Collective platform',
+    host: transaction.host,
+    fromAccount: transaction.fromAccount,
+    amountInHostCurrency: {
+      valueInCents: Math.round(platformTip.amount.valueInCents * (transaction.hostCurrencyFxRate || 1)),
+      currency: transaction.amountInHostCurrency.currency,
+    },
+    hostCurrency: transaction.amountInHostCurrency.currency,
+    taxAmount: {
+      valueInCents: 0,
+      currency: transaction.amountInHostCurrency.currency,
+    },
+    taxInfo: null,
+    hostCurrencyFxRate: transaction.hostCurrencyFxRate,
+    order: {
+      ...platformTip.order,
+      quantity: 1,
+    },
+    data: {
+      ...platformTip.data,
+      isReceiptPlatformTip: true,
+    },
+  };
+};
+
+const getReceiptTransactions = (transactions: ReceiptTransaction[]) => {
+  return transactions.flatMap(transaction => {
+    if (transaction.kind === PLATFORM_TIP_KIND) {
+      const relatedContribution = findRelatedContribution(transaction);
+      if (!relatedContribution || !hasSingleReceiptPlatformTipFeature(relatedContribution)) {
+        return [transaction];
+      }
+
+      // For opted-in hosts, direct tip receipt downloads should render the same host-issued
+      // receipt as the contribution download, with the tip moved into its own line item.
+      return [relatedContribution, getPlatformTipLineItem(relatedContribution, transaction)].filter(Boolean);
+    } else if (transaction.kind === CONTRIBUTION_KIND && hasSingleReceiptPlatformTipFeature(transaction)) {
+      return [transaction, getPlatformTipLineItem(transaction)].filter(Boolean);
+    } else {
+      // Keep legacy standalone platform-tip receipts for hosts that have not opted in yet.
+      return [transaction];
+    }
+  }) as ReceiptTransaction[];
+};
+
+const getReceiptTotalAmount = (transactions: ReceiptTransaction[]) => {
+  return transactions.reduce((total, transaction) => total + (transaction.amountInHostCurrency.valueInCents || 0), 0);
+};
+
 function getReceiptFromTransactionData(
   originalTransaction: NonNullable<NonNullable<QueryResult<TransactionInvoiceQuery>['data']>['transaction']>,
 ): React.ComponentProps<typeof Receipt>['receipt'] {
@@ -223,6 +320,16 @@ function getReceiptFromTransactionData(
   if (transaction.type === 'DEBIT' && transaction.oppositeTransaction && !transaction.isRefund) {
     transaction = transaction.oppositeTransaction as typeof transaction;
   }
+
+  const receiptTransactions = getReceiptTransactions([transaction as unknown as ReceiptTransaction]);
+  const primaryTransaction = receiptTransactions[0];
+  if (!primaryTransaction) {
+    throw new Error('Could not find transaction for this receipt');
+  }
+
+  // When a platform-tip URL resolves to a combined receipt, the contribution becomes the
+  // primary transaction so the receipt is issued by the contribution host, not OFiTech.
+  transaction = primaryTransaction as unknown as typeof transaction;
 
   const host = transaction.host;
   if (!host) {
@@ -235,8 +342,8 @@ function getReceiptFromTransactionData(
   return {
     isRefundOnly: transaction.isRefund,
     currency: transaction.amountInHostCurrency.currency as NonNullable<string>,
-    totalAmount: transaction.amountInHostCurrency.valueInCents as NonNullable<number>,
-    transactions: [transaction] as unknown as React.ComponentProps<typeof Receipt>['receipt']['transactions'],
+    totalAmount: getReceiptTotalAmount(receiptTransactions),
+    transactions: receiptTransactions,
     host,
     fromAccount: fromAccount as NonNullable<typeof fromAccount>,
     fromAccountHost: (fromAccount as unknown as AccountWithHost)?.host,
@@ -394,16 +501,12 @@ router.get(
       ];
 
     const template = invoiceTemplateObj || response.host.settings?.invoice?.templates?.default;
+    const receiptTransactions = getReceiptTransactions(response.transactions.nodes as unknown as ReceiptTransaction[]);
     await sendPDFResponse(res, Receipt, {
       receipt: {
-        totalAmount: response.transactions.nodes.reduce(
-          (total, t) => total + (t.amountInHostCurrency.valueInCents || 0),
-          0,
-        ),
+        totalAmount: getReceiptTotalAmount(receiptTransactions),
         currency: response.host.currency,
-        transactions: response.transactions.nodes as unknown as React.ComponentProps<
-          typeof Receipt
-        >['receipt']['transactions'],
+        transactions: receiptTransactions,
         host: response.host,
         fromAccount: response.fromAccount,
         fromAccountHost: (response.fromAccount as unknown as AccountWithHost).host,
