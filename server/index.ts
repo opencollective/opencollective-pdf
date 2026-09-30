@@ -4,7 +4,6 @@ import express from 'express';
 import rateLimit from 'express-rate-limit';
 
 import expensesRouter from './routes/expenses.js';
-import giftCardsRouter from './routes/gift-cards.js';
 import receiptsRouter from './routes/receipts.js';
 import taxFormsRouter from './routes/tax-forms.js';
 import { PDFServiceError } from './lib/errors.js';
@@ -94,7 +93,6 @@ app.get('/', (req: express.Request, res: express.Response) => {
 });
 
 app.use('/expenses', expensesRouter);
-app.use('/gift-cards', giftCardsRouter);
 app.use('/receipts', receiptsRouter);
 app.use('/tax-forms', taxFormsRouter);
 
