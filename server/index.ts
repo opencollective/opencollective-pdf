@@ -1,4 +1,7 @@
-import dotenv from 'dotenv';
+// Import order matters: dotenv first (loads `.env*` files), then Sentry (initializes
+// Express instrumentation before `express` and the routes below are loaded).
+import './lib/dotenv.js';
+import './lib/sentry.js';
 
 import express from 'express';
 import rateLimit from 'express-rate-limit';
@@ -8,27 +11,9 @@ import giftCardsRouter from './routes/gift-cards.js';
 import receiptsRouter from './routes/receipts.js';
 import taxFormsRouter from './routes/tax-forms.js';
 import { PDFServiceError } from './lib/errors.js';
-import path from 'path';
-
-import { last } from 'lodash-es';
 
 import cloudflareIps from 'cloudflare-ip/ips.json' with { type: 'json' };
-import fs from 'fs';
-import { fileURLToPath } from 'url';
-import { dirname } from 'path';
 import { parseToBooleanDefaultTrue } from './lib/env.js';
-
-if (process.env.EXTRA_ENV || process.env.NODE_ENV === 'development' || !process.env.NODE_ENV) {
-  const extraEnv = process.env.EXTRA_ENV || last(process.argv);
-  const __filename = fileURLToPath(import.meta.url);
-  const __dirname = dirname(__filename);
-  const extraEnvPath = path.join(__dirname, '..', `.env.${extraEnv}`);
-  if (fs.existsSync(extraEnvPath)) {
-    dotenv.config({ path: extraEnvPath });
-  }
-}
-
-dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 3002;
@@ -105,7 +90,9 @@ app.use((req: express.Request, res: express.Response) => {
   });
 });
 
-// Error handling
+// Error handling. Request errors are reported to Sentry automatically by
+// `Sentry.expressIntegration` (see `server/lib/sentry.ts`), so this middleware only shapes
+// the HTTP response and must not capture again to avoid duplicate events.
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 app.use((err: Error, req: express.Request, res: express.Response, _next: express.NextFunction) => {
   // Node loses the error type when passing it around, we use the `isPDFServiceError` property to circumvent this
