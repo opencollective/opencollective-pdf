@@ -3,9 +3,10 @@ import https from 'https';
 
 import { ApolloClient, HttpLink, ApolloLink, InMemoryCache } from '@apollo/client/index.js';
 import { setContext } from '@apollo/client/link/context/index.js';
+import { CombinedGraphQLErrors, ServerError, ServerParseError } from '@apollo/client/errors/index.js';
 import { parseToBooleanDefaultTrue } from './env.js';
 
-import { get, has } from 'lodash-es';
+import { get } from 'lodash-es';
 import { AuthorizationHeaders } from './authentication.js';
 import {
   BadRequestError,
@@ -21,16 +22,26 @@ export const adaptApolloError = (error: unknown) => {
     return error;
   }
 
-  const status: string | number | undefined =
-    get(error, 'networkError.statusCode') || get(error, 'graphQLErrors[0].extensions.code');
-  const message = get(error, 'networkError.result.error.message') || get(error, 'graphQLErrors[0].message');
+  let status: string | number | undefined;
+  let message: string | undefined;
+  if (CombinedGraphQLErrors.is(error)) {
+    status = get(error, 'errors[0].extensions.code') as string | undefined;
+    message = get(error, 'errors[0].message');
+  } else if (ServerError.is(error) || ServerParseError.is(error)) {
+    // Non-2xx responses: the body is kept as text, e.g. `{ "error": { "message": "..." } }`
+    status = error.statusCode;
+    try {
+      message = get(JSON.parse(error.bodyText), 'error.message');
+    } catch {
+      message = undefined;
+    }
+  } else {
+    // Network failures (e.g. `fetch` rejecting) reach us as the raw error
+    return new InternalServerError(error instanceof TypeError ? 'Connection error' : 'Unknown error');
+  }
 
   if (status === undefined || (!status && !message)) {
-    if (has(error, 'networkError')) {
-      return new InternalServerError('Connection error');
-    } else {
-      return new InternalServerError('Unknown error');
-    }
+    return new InternalServerError('Unknown error');
   }
 
   switch (status) {
