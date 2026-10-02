@@ -1,0 +1,295 @@
+name: E2E
+
+on: [push]
+
+env:
+  TZ: UTC
+  OC_ENV: ci
+  NODE_ENV: test
+  WEBSITE_URL: http://localhost:3000
+  IMAGES_URL: http://localhost:3001
+  PDF_SERVICE_URL: http://localhost:3002
+  API_URL: http://localhost:3060
+  API_KEY: dvl-1510egmf4a23d80342403fb599qd
+  CI: true
+
+  E2E_TEST: 1
+  PGHOST: localhost
+  PGUSER: postgres
+  CYPRESS_RECORD: false
+  CYPRESS_VIDEO: false
+  CYPRESS_VIDEO_UPLOAD_ON_PASSES: false
+  CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+  GITHUB_CLIENT_ID: ${{ secrets.GH_CLIENT_ID }}
+  GITHUB_CLIENT_SECRET: ${{ secrets.GH_CLIENT_SECRET }}
+  FRONTEND_FOLDER: /home/runner/work/opencollective-pdf/opencollective-pdf/opencollective-frontend
+  API_FOLDER: /home/runner/work/opencollective-pdf/opencollective-pdf/opencollective-api
+  IMAGES_FOLDER: /home/runner/work/opencollective-pdf/opencollective-pdf/opencollective-images
+  PDF_FOLDER: /home/runner/work/opencollective-pdf/opencollective-pdf
+  TERM: xterm
+  CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+  STRIPE_WEBHOOK_KEY: ${{ secrets.STRIPE_WEBHOOK_KEY }}
+  STRIPE_WEBHOOK_SIGNING_SECRET: ${{ secrets.STRIPE_WEBHOOK_SIGNING_SECRET }}
+  AWS_KEY: ${{ secrets.AWS_KEY }}
+  AWS_SECRET: ${{ secrets.AWS_SECRET }}
+
+jobs:
+  e2e:
+    runs-on: ubuntu-latest
+
+    timeout-minutes: 30
+
+    strategy:
+      fail-fast: false
+      matrix:
+        files: ['0*.js', '1*.js', '2*.js', '3*.js']
+
+    services:
+      redis:
+        image: redis
+        ports:
+          - 6379:6379
+        options: --entrypoint redis-server
+      postgres:
+        image: postgres:13.13
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_DB: postgres
+          POSTGRES_HOST_AUTH_METHOD: trust
+        ports:
+          - 5432:5432
+        # needed because the postgres container does not provide a healthcheck
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+    steps:
+      - name: Update apt
+        run: sudo apt-get update || exit 0
+
+      - name: Install Cypress dependencies
+        run: sudo apt-get install --no-install-recommends -y libgtk2.0-0 libgtk-3-0 libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libxtst6 xauth xvfb fonts-arphic-bkai00mp fonts-arphic-bsmi00lp fonts-arphic-gbsn00lp fonts-arphic-gkai00mp fonts-arphic-ukai fonts-arphic-uming ttf-wqy-zenhei ttf-wqy-microhei xfonts-wqy
+
+      - name: Install postgresql-client
+        run: sudo apt-get install -y postgresql-client
+
+      - name: Install graphicsmagick
+        run: sudo apt-get install -y graphicsmagick
+
+      - name: Install stripe-cli
+        run: |
+          sudo apt-get install -y wget
+          wget https://github.com/stripe/stripe-cli/releases/download/v1.13.9/stripe_1.13.9_linux_x86_64.tar.gz -O /tmp/stripe_1.13.9_linux_x86_64.tar.gz
+          sudo tar xzvf /tmp/stripe_1.13.9_linux_x86_64.tar.gz -C /bin/
+
+      - name: Checkout (PDF)
+        uses: actions/checkout@v4
+
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: 'package.json'
+          cache: 'npm'
+
+      # Checkouts
+
+      - name: Set REF in env, removing the `refs/` part
+        run: |
+          echo "MATCHING_BRANCH_REF=${GITHUB_HEAD_REF-${GITHUB_REF##*/}}" >> $GITHUB_ENV
+
+      - name: Check matching branch (frontend)
+        id: check-matching-branch-frontend
+        uses: octokit/request-action@v2.x
+        with:
+          route: GET /repos/{owner}/{repo}/git/ref/{ref}
+          owner: opencollective
+          repo: opencollective-frontend
+          ref: ${{ env.MATCHING_BRANCH_REF }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        continue-on-error: true
+
+      - name: Checkout (frontend - matching branch)
+        if: steps.check-matching-branch-frontend.outputs.status == 200
+        uses: actions/checkout@v4
+        with:
+          repository: opencollective/opencollective-frontend
+          path: opencollective-frontend
+          ref: ${{ github.ref }}
+
+      - name: Checkout (frontend - main)
+        if: steps.check-matching-branch-frontend.outputs.status != 200
+        uses: actions/checkout@v4
+        with:
+          repository: opencollective/opencollective-frontend
+          path: opencollective-frontend
+
+      # Checkout API
+
+      - name: Check matching branch
+        id: check-matching-branch-api-api
+        uses: octokit/request-action@v2.x
+        with:
+          route: GET /repos/{owner}/{repo}/git/ref/{ref}
+          owner: opencollective
+          repo: opencollective-api
+          ref: heads/${{ env.MATCHING_BRANCH_REF }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        continue-on-error: true
+
+      - name: Checkout (api - matching branch)
+        if: steps.check-matching-branch.outputs.status == 200
+        uses: actions/checkout@v4
+        with:
+          repository: opencollective/opencollective-api
+          path: opencollective-api
+          ref: ${{ env.MATCHING_BRANCH_REF }}
+
+      - name: Checkout (api - main)
+        if: steps.check-matching-branch.outputs.status != 200
+        uses: actions/checkout@v4
+        with:
+          repository: opencollective/opencollective-api
+          path: opencollective-api
+
+      - name: Checkout (images)
+        uses: actions/checkout@v4
+        with:
+          repository: opencollective/opencollective-images
+          path: opencollective-images
+
+      # Prepare API
+
+      - name: Restore node_modules (api)
+        uses: actions/cache@v3
+        id: api-node-modules
+        with:
+          path: opencollective-api/node_modules
+          key: ${{ runner.os }}-api-node-modules-${{ hashFiles('opencollective-api/package-lock.json') }}
+
+      - name: Install dependencies (api)
+        working-directory: opencollective-api
+        if: steps.api-node-modules.outputs.cache-hit != 'true'
+        run: npm ci --prefer-offline --no-audit
+
+      - name: Restore build (api)
+        uses: actions/cache@v3
+        id: api-build
+        with:
+          path: opencollective-api/dist
+          key: ${{ runner.os }}-api-build-${{ github.sha }}
+
+      - name: Build (api)
+        if: steps.api-build.outputs.cache-hit != 'true'
+        working-directory: opencollective-api
+        run: npm run build
+
+      # Prepare Frontend
+
+      - name: Restore node_modules (frontend)
+        uses: actions/cache@v3
+        id: frontend-node-modules
+        with:
+          path: opencollective-frontend/node_modules
+          key: ${{ runner.os }}-frontend-node-modules-${{ hashFiles('opencollective-frontend/package-lock.json') }}
+
+      - name: Install dependencies (frontend)
+        if: steps.frontend-node-modules.outputs.cache-hit != 'true'
+        working-directory: opencollective-frontend
+        run: CYPRESS_INSTALL_BINARY=0 npm ci --prefer-offline --no-audit
+
+      - name: Set commit hash (frontend)
+        working-directory: opencollective-frontend
+        run: echo "FRONTEND_COMMIT_HASH=$(git rev-parse HEAD)" >> $GITHUB_ENV
+
+      - name: Restore .next build (frontend)
+        uses: actions/cache@v3
+        id: next-build
+        with:
+          path: opencollective-frontend/.next
+          key: ${{ runner.os }}-next-build-${{ env.FRONTEND_COMMIT_HASH }}
+
+      - name: Restore .next cache (frontend)
+        if: steps.next-build.outputs.cache-hit != 'true'
+        uses: actions/cache@v3
+        with:
+          path: opencollective-frontend/.next/cache
+          key: ${{ runner.os }}-next-cache-${{ env.FRONTEND_COMMIT_HASH }}
+          restore-keys: |
+            ${{ runner.os }}-next-cache-${{ env.FRONTEND_COMMIT_HASH }}
+            ${{ runner.os }}-next-cache-
+
+      - name: Build (frontend)
+        if: steps.next-build.outputs.cache-hit != 'true'
+        working-directory: opencollective-frontend
+        run: npm run build
+
+      # Prepare Images
+
+      - name: Restore node_modules (images)
+        uses: actions/cache@v3
+        id: images-node-modules
+        with:
+          path: opencollective-images/node_modules
+          key: ${{ runner.os }}-images-node-modules-${{ hashFiles('opencollective-images/package-lock.json') }}
+
+      - name: Install dependencies (images)
+        working-directory: opencollective-images
+        if: steps.images-node-modules.outputs.cache-hit != 'true'
+        run: npm ci --prefer-offline --no-audit
+
+      - name: Build (images)
+        working-directory: opencollective-images
+        run: npm run build
+
+      # Prepare PDF
+      - name: Restore node_modules (pdf)
+        uses: actions/cache@v3
+        id: pdf-node-modules
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-pdf-node-modules-${{ hashFiles('opencollective-pdf/package-lock.json') }}
+
+      - name: Install dependencies (pdf)
+        if: steps.pdf-node-modules.outputs.cache-hit != 'true'
+        run: npm ci --prefer-offline --no-audit
+
+      - name: Build (pdf)
+        run: npm run build
+
+      # Setup Cypress
+
+      - name: Restore Cypress
+        uses: actions/cache@v3
+        id: cypress
+        with:
+          path: ~/.cache/Cypress
+          key: ${{ runner.os }}-cypress-${{ hashFiles('opencollective-frontend/node_modules/cypress/package.json') }}
+
+      - name: Install Cypress
+        if: steps.cypress.outputs.cache-hit != 'true'
+        working-directory: opencollective-frontend
+        run: npx cypress install
+
+      # Seed DB
+
+      - name: Setup DB
+        working-directory: opencollective-frontend
+        run: ./scripts/setup_db.sh
+
+      # Run tests
+
+      - name: Archive test recordings
+        uses: actions/upload-artifact@v3
+        with:
+          name: cypress-recordings
+          path: |
+           opencollective-frontend/test/cypress/screenshots
+           opencollective-frontend/test/cypress/videos
+        if: ${{ failure() }}
+
+      - name: Archive download folder
+        uses: actions/upload-artifact@v3
+        with:
+          name: downloads
+          path: opencollective-frontend/test/cypress/downloads
+        if: ${{ failure() }}
