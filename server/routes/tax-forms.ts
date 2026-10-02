@@ -11,7 +11,7 @@ const router = express.Router();
 
 const getValuesFromRequest = (req: express.Request, res: express.Response) => {
   const { formType: rawFormType, values: base64Values, isFinal } = req.query;
-  const formType = (rawFormType as string | undefined)?.toUpperCase();
+  const formType = ((rawFormType as string | undefined) || req.params.formType)?.toUpperCase();
   if (!formType) {
     res.status(400).send('Missing form type');
     return;
@@ -20,6 +20,10 @@ const getValuesFromRequest = (req: express.Request, res: express.Response) => {
     return;
   }
 
+  if (!base64Values) {
+    res.status(400).send('Missing values');
+    return;
+  }
   const rawValues = (typeof base64Values === 'string' && Buffer.from(base64Values, 'base64').toString()) || '{}';
   try {
     const values = JSON.parse(rawValues);

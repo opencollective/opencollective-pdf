@@ -11,6 +11,7 @@ import giftCardsRouter from './routes/gift-cards.js';
 import receiptsRouter from './routes/receipts.js';
 import taxFormsRouter from './routes/tax-forms.js';
 import { PDFServiceError } from './lib/errors.js';
+import { isValidDebugSentryKey } from './lib/sentry.js';
 
 import cloudflareIps from 'cloudflare-ip/ips.json' with { type: 'json' };
 import { parseToBooleanDefaultTrue } from './lib/env.js';
@@ -76,6 +77,17 @@ app.get('/', (req: express.Request, res: express.Response) => {
   res.status(200).json({
     status: 'ok',
   });
+});
+
+// Debug endpoint to verify Sentry reporting end-to-end. Protected by the `DEBUG_SENTRY_KEY`
+// shared secret (compared against the `key` query parameter); behaves like an unknown route
+// when the key is not configured or does not match, so scanners learn nothing.
+app.get('/debug-sentry', (req: express.Request, res: express.Response, next: express.NextFunction) => {
+  if (!isValidDebugSentryKey(req.query.key)) {
+    next();
+    return;
+  }
+  throw new Error('Sentry debug error triggered via /debug-sentry');
 });
 
 app.use('/expenses', expensesRouter);
