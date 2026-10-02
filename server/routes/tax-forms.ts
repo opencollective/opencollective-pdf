@@ -20,9 +20,15 @@ const getValuesFromRequest = (req: express.Request, res: express.Response) => {
     return;
   }
 
-  const rawValues = Buffer.from(base64Values as string, 'base64').toString() || '{}';
+  const rawValues =
+    (typeof base64Values === 'string' && Buffer.from(base64Values, 'base64').toString()) || '{}';
   try {
     const values = JSON.parse(rawValues);
+    if (!values || typeof values !== 'object' || Array.isArray(values)) {
+      res.status(400).send('Invalid values');
+      return;
+    }
+
     return { formType, rawValues, values, isFinal: isFinal?.toString() };
   } catch (e) {
     console.error('Error parsing values:', e);
@@ -42,7 +48,9 @@ const MAIN_FONT_BYTES = readFileSyncFromPublicStaticFolder('fonts/NanumGothic-Re
 router.get('/:formType.pdf', async (req: express.Request, res: express.Response) => {
   const parsedRequest = getValuesFromRequest(req, res);
   if (!parsedRequest) {
-    res.status(400).send('Invalid request');
+    if (!res.headersSent) {
+      res.status(400).send('Invalid request');
+    }
     return;
   }
 
