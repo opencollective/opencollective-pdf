@@ -1,5 +1,6 @@
 import * as Sentry from '@sentry/node';
 import { nodeProfilingIntegration } from '@sentry/profiling-node';
+import crypto from 'crypto';
 import type { Request } from 'express';
 
 const getSampleRate = (value: string | undefined): number => {
@@ -15,6 +16,21 @@ export const getTracesSampleRate = (): number => getSampleRate(process.env.SENTR
 export const getProfileSessionSampleRate = (): number => getSampleRate(process.env.SENTRY_PROFILES_SAMPLE_RATE);
 
 export const checkIfSentryConfigured = (): boolean => Boolean(process.env.SENTRY_DSN);
+
+/**
+ * Validates the shared secret protecting the `/debug-sentry` endpoint. Returns false when
+ * no key is configured, so the endpoint stays disabled by default. Uses a constant-time
+ * comparison to avoid leaking the key through timing.
+ */
+export const isValidDebugSentryKey = (provided: unknown): boolean => {
+  const expected = process.env.DEBUG_SENTRY_KEY;
+  if (!expected || typeof provided !== 'string' || !provided) {
+    return false;
+  }
+  const providedBuffer = Buffer.from(provided);
+  const expectedBuffer = Buffer.from(expected);
+  return providedBuffer.length === expectedBuffer.length && crypto.timingSafeEqual(providedBuffer, expectedBuffer);
+};
 
 type ErrorWithStatus = {
   status?: unknown;

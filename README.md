@@ -76,3 +76,10 @@ Set these as Heroku config vars on staging/production. Expected client errors (3
 including `PDFServiceError` with a status below 500) are not reported; 5xx and status-less
 errors are. `Authorization` / API-key headers, cookies, and token query params are redacted
 before sending (see `server/lib/sentry.ts`).
+
+### Verifying Sentry end-to-end
+
+`GET /debug-sentry?key=<DEBUG_SENTRY_KEY>` throws a test error that Sentry captures.
+It behaves like an unknown route (404) unless `DEBUG_SENTRY_KEY` is configured and the
+`key` query parameter matches it. Set `DEBUG_SENTRY_KEY` only where you need to verify
+(e.g. staging), never as a long-lived production secret.
