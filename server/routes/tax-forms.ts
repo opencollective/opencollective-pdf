@@ -20,8 +20,7 @@ const getValuesFromRequest = (req: express.Request, res: express.Response) => {
     return;
   }
 
-  const rawValues =
-    (typeof base64Values === 'string' && Buffer.from(base64Values, 'base64').toString()) || '{}';
+  const rawValues = (typeof base64Values === 'string' && Buffer.from(base64Values, 'base64').toString()) || '{}';
   try {
     const values = JSON.parse(rawValues);
     if (!values || typeof values !== 'object' || Array.isArray(values)) {
