@@ -101,8 +101,7 @@ const redactQueryString = (query: unknown): unknown => {
 
 export const redactEventRequest = <T>(event: T): T => {
   const request = (event as { request?: unknown })?.request as
-    | { headers?: unknown; cookies?: unknown; query_string?: unknown }
-    | undefined;
+    { headers?: unknown; cookies?: unknown; query_string?: unknown } | undefined;
   if (!request || typeof request !== 'object') {
     return event;
   }

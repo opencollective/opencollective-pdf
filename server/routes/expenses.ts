@@ -125,7 +125,7 @@ router.options('/:id/:filename.pdf', (req, res) => {
   res.sendStatus(204);
 });
 
-router.get('/:id/:filename.pdf', async (req: express.Request, res: express.Response) => {
+router.get('/:id/:filename.pdf', async (req, res) => {
   const { id } = req.params;
   const authorizationHeaders = authenticateRequest(req);
   const expense = await fetchExpenseInvoiceData(id, authorizationHeaders);
