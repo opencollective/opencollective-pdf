@@ -11,7 +11,7 @@ const router = express.Router();
 
 const getValuesFromRequest = (req: express.Request, res: express.Response) => {
   const { formType: rawFormType, values: base64Values, isFinal } = req.query;
-  const formType = (rawFormType as string | undefined)?.toUpperCase();
+  const formType = ((rawFormType as string | undefined) || req.params.formType)?.toUpperCase();
   if (!formType) {
     res.status(400).send('Missing form type');
     return;
@@ -25,7 +25,7 @@ const getValuesFromRequest = (req: express.Request, res: express.Response) => {
     return;
   }
 
-  const rawValues = Buffer.from(base64Values as string, 'base64').toString() || '{}';
+  const rawValues = (typeof base64Values === 'string' && Buffer.from(base64Values, 'base64').toString()) || '{}';
   try {
     const values = JSON.parse(rawValues);
     return { formType, rawValues, values, isFinal: isFinal?.toString() };
@@ -47,8 +47,7 @@ const MAIN_FONT_BYTES = readFileSyncFromPublicStaticFolder('fonts/NanumGothic-Re
 router.get('/:formType.pdf', async (req: express.Request, res: express.Response) => {
   const parsedRequest = getValuesFromRequest(req, res);
   if (!parsedRequest) {
-    res.status(400).send('Invalid request');
-    return;
+    return; // Response already sent by getValuesFromRequest
   }
 
   const { formType, rawValues, values, isFinal } = parsedRequest;
