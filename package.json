@@ -5,7 +5,7 @@
   "main": "dist/server/index.js",
   "type": "module",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && tsx scripts/update-cloudflare-ips.ts dist/server/cloudflare-ips.json",
     "start": "node --import ./dist/instrument.js dist/server/index.js",
     "test": "START_SERVER=false vitest --run",
     "test:watch": "vitest --watch",
@@ -31,7 +31,6 @@
     "@react-pdf/renderer": "4.9.0",
     "@sentry/node": "11.2.0",
     "@sentry/profiling-node": "11.2.0",
-    "cloudflare-ip": "^0.0.7",
     "dayjs": "1.11.23",
     "dotenv": "17.4.2",
     "express": "5.2.1",

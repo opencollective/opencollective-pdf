@@ -15,7 +15,7 @@ import taxFormsRouter from './routes/tax-forms.js';
 import { PDFServiceError } from './lib/errors.js';
 import { isValidDebugSentryKey } from './lib/sentry.js';
 
-import cloudflareIps from 'cloudflare-ip/ips.json' with { type: 'json' };
+import cloudflareIps from './cloudflare-ips.json' with { type: 'json' };
 import { parseToBooleanDefaultTrue } from './lib/env.js';
 
 const app = express();
