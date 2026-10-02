@@ -19,6 +19,6 @@
       "*": ["node_modules/*"]
     }
   },
-  "include": ["server/**/*"],
+  "include": ["server/**/*", "instrument.ts"],
   "exclude": ["node_modules", "dist"]
 }

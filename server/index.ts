@@ -1,5 +1,7 @@
-// Import order matters: dotenv first (loads `.env*` files), then Sentry (initializes
-// Express instrumentation before `express` and the routes below are loaded).
+// Sentry is primarily initialized via `instrument.ts` (loaded with `node --import`),
+// which runs before this module. These imports are kept as a fallback so Sentry still
+// initializes when running without the `--import` flag (e.g. tests); modules are cached,
+// so `Sentry.init` in `server/lib/sentry.ts` only ever runs once per process.
 import './lib/dotenv.js';
 import './lib/sentry.js';
 

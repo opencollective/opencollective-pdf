@@ -64,6 +64,8 @@ Merging to `main` branch will auto-deploy the pdf service to Heroku.
 
 Errors (including uncaught exceptions and unhandled rejections), traces, and profiles are
 reported to Sentry with `@sentry/node` when `SENTRY_DSN` is set. Sampling is off by default.
+The SDK is initialized in `instrument.ts`, loaded before the app via `node --import`
+(see https://docs.sentry.io/platforms/javascript/guides/express/).
 
 | Variable                      | Default               | Description                                             |
 | ----------------------------- | --------------------- | ------------------------------------------------------- |
