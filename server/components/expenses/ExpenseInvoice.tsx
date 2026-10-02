@@ -6,13 +6,12 @@ import { FormattedMessage } from 'react-intl';
 import { formatCurrency } from '../../lib/currency.js';
 import { getCurrencyPrecision } from '../../lib/currency.js';
 import ExpenseItemsTable from './ExpenseItemsTable.js';
-import { QueryResult } from '@apollo/client/index.js';
 import { AccountWithHost, ExpenseInvoiceQuery } from '../../../server/graphql/types/v2/graphql.js';
 import { Account } from '../../../server/graphql/types/v2/graphql.js';
 import { FontFamily, getFontStyleForText } from '../../../server/lib/pdf.js';
 import dayjs from 'dayjs';
 
-type ExpenseFromQuery = NonNullable<NonNullable<QueryResult<ExpenseInvoiceQuery>['data']>['expense']>;
+type ExpenseFromQuery = NonNullable<ExpenseInvoiceQuery['expense']>;
 
 const styles: Styles = StyleSheet.create({
   page: {
@@ -150,11 +149,7 @@ const getBillTo = (expense: ExpenseFromQuery) => {
   }
 };
 
-const ExpenseInvoice = ({
-  expense,
-}: {
-  expense: NonNullable<NonNullable<QueryResult<ExpenseInvoiceQuery>['data']>['expense']>;
-}) => {
+const ExpenseInvoice = ({ expense }: { expense: NonNullable<ExpenseInvoiceQuery['expense']> }) => {
   const { account, payee, payeeLocation } = expense;
   const billToAccount = getBillTo(expense);
   const chunkedItems = chunkItems(expense, billToAccount);
