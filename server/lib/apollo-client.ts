@@ -67,7 +67,9 @@ async function customFetch(url: URL | RequestInfo, options: any = {}) {
   // Add headers to help the API identify origin of requests
   options.headers = options.headers || {};
   options.headers['oc-env'] = process.env.OC_ENV || process.env.NODE_ENV || 'development';
-  // options.headers['oc-secret'] = process.env.OC_SECRET; // TODO
+  if (process.env.OC_SECRET) {
+    options.headers['oc-secret'] = process.env.OC_SECRET;
+  }
   options.headers['oc-application'] = 'pdf';
   options.headers['user-agent'] = 'opencollective-pdf/1.0 node-fetch/1.0';
 

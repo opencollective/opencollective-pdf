@@ -59,7 +59,8 @@ export const shouldHandleError = (error: Error): boolean => {
 
 // Auth material flows through this service: `Authorization` / `Api-Key` / `Personal-Token`
 // headers and `apiKey` / `personalToken` / `app_key` query params (see `authentication.ts`).
-const SENSITIVE_KEYS = new Set([
+// Also used to redact the access logs sent to Hyperwatch (see `hyperwatch.ts`).
+export const SENSITIVE_KEYS = new Set([
   'cookie',
   'authorization',
   'api-key',
@@ -70,9 +71,11 @@ const SENSITIVE_KEYS = new Set([
   'app-key',
   'oc-secret',
   'x-api-key',
+  // `/debug-sentry?key=`
+  'key',
 ]);
 
-const redactQueryString = (query: unknown): unknown => {
+export const redactQueryString = (query: unknown): unknown => {
   if (typeof query === 'string') {
     return query
       .split('&')
