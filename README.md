@@ -85,3 +85,17 @@ before sending (see `server/lib/sentry.ts`).
 It behaves like an unknown route (404) unless `DEBUG_SENTRY_KEY` is configured and the
 `key` query parameter matches it. Set `DEBUG_SENTRY_KEY` only where you need to verify
 (e.g. staging), never as a long-lived production secret.
+
+## Monitoring (Hyperwatch)
+
+Access logs can be followed by [Watch](https://github.com/opencollective/opencollective-watch) with
+[Hyperwatch](https://github.com/hyperwatch/hyperwatch). Off by default. Credentials (auth and API-key
+headers, cookies, token query params) are redacted from the logs.
+
+| Variable              | Default          | Description                                                   |
+| --------------------- | ---------------- | ------------------------------------------------------------- |
+| `HYPERWATCH_ENABLED`  | (unset = off)    | Record access logs                                            |
+| `HYPERWATCH_PATH`     | `/_hyperwatch`   | Where the Hyperwatch API and WebSocket streams are mounted    |
+| `HYPERWATCH_USERNAME` | `opencollective` | Basic auth username                                           |
+| `HYPERWATCH_SECRET`   | (unset)          | Basic auth password; nothing is mounted without it            |
+| `OC_SECRET`           | (unset)          | Sent to the API as `oc-secret`, so Watch can verify our calls |
