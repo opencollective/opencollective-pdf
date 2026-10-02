@@ -13,6 +13,7 @@ import {
   InternalServerError,
   NotFoundError,
   PDFServiceError,
+  ServiceUnavailableError,
   UnauthorizedError,
 } from './errors.js';
 
@@ -45,6 +46,10 @@ export const adaptApolloError = (error: unknown) => {
       return new NotFoundError(message);
     case 500:
       return new InternalServerError(message);
+    case 502:
+    case 503:
+    case 504:
+      return new ServiceUnavailableError('API temporarily unavailable');
     default:
       return new InternalServerError(message);
   }
@@ -61,6 +66,9 @@ const getGraphqlUrl = (apiVersion: 'v1' | 'v2') => {
   return `${baseApiUrl}/graphql/${apiVersion}${apiKey ? `?api_key=${apiKey}` : ''}`;
 };
 
+const RETRY_STATUS_CODES = new Set([502, 503, 504]);
+const MAX_RETRIES = 2;
+
 async function customFetch(url: URL | RequestInfo, options: any = {}) {
   options.agent = getCustomAgent();
 
@@ -71,7 +79,16 @@ async function customFetch(url: URL | RequestInfo, options: any = {}) {
   options.headers['oc-application'] = 'pdf';
   options.headers['user-agent'] = 'opencollective-pdf/1.0 node-fetch/1.0';
 
-  const result = await fetch(url, options);
+  let attempt = 0;
+  let result: Response;
+  do {
+    if (attempt > 0) {
+      await new Promise(resolve => setTimeout(resolve, 500 * attempt));
+    }
+    result = await fetch(url, options);
+    attempt++;
+  } while (RETRY_STATUS_CODES.has(result.status) && attempt <= MAX_RETRIES);
+
   return result;
 }
 

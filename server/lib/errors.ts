@@ -48,3 +48,9 @@ export class InternalServerError extends PDFServiceError {
     super(message, 500, 'InternalServerError');
   }
 }
+
+export class ServiceUnavailableError extends PDFServiceError {
+  constructor(message = 'Service temporarily unavailable') {
+    super(message, 503, 'ServiceUnavailableError');
+  }
+}
