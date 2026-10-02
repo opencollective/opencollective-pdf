@@ -46,7 +46,7 @@
   },
   "devDependencies": {
     "@eslint/compat": "^2.1.1",
-    "@eslint/js": "^9.39.5",
+    "@eslint/js": "^10.0.0",
     "@graphql-codegen/cli": "^7.4.3",
     "@types/express": "^5.0.6",
     "@types/lodash-es": "^4.17.12",
@@ -55,7 +55,7 @@
     "@types/react": "^19.3.0",
     "@types/supertest": "^7.2.1",
     "@vitest/coverage-v8": "^5.0.3",
-    "eslint": "^9.39.5",
+    "eslint": "^10.0.0",
     "eslint-plugin-formatjs": "^8.1.0",
     "eslint-plugin-react": "^7.37.5",
     "globals": "^17.13.0",
