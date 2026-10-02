@@ -5,6 +5,8 @@
 import './lib/dotenv.js';
 import './lib/sentry.js';
 
+import http from 'http';
+
 import express from 'express';
 import rateLimit from 'express-rate-limit';
 
@@ -14,6 +16,7 @@ import receiptsRouter from './routes/receipts.js';
 import taxFormsRouter from './routes/tax-forms.js';
 import { PDFServiceError } from './lib/errors.js';
 import { isValidDebugSentryKey } from './lib/sentry.js';
+import hyperwatch, { isHyperwatchEnabled } from './lib/hyperwatch.js';
 
 import cloudflareIps from './cloudflare-ips.json' with { type: 'json' };
 import { parseToBooleanDefaultTrue } from './lib/env.js';
@@ -21,7 +24,15 @@ import { parseToBooleanDefaultTrue } from './lib/env.js';
 const app = express();
 const port = process.env.PORT || 3002;
 
+// Created here rather than with `app.listen()` so Hyperwatch can handle WebSocket upgrades on it
+export const server = http.createServer(app);
+
 app.set('trust proxy', ['loopback', 'linklocal', 'uniquelocal'].concat(cloudflareIps));
+
+// After `trust proxy`, so the logs have the client IP. Before the rate limiter, so it doesn't apply to Hyperwatch.
+if (isHyperwatchEnabled()) {
+  hyperwatch(app, server);
+}
 
 if (process.env.VERBOSE) {
   app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
@@ -126,7 +137,7 @@ app.use((err: Error, req: express.Request, res: express.Response, _next: express
 });
 
 if (parseToBooleanDefaultTrue(process.env.START_SERVER)) {
-  app.listen(port, () => {
+  server.listen(port, () => {
     console.log(`Server is running on port ${port}`);
   });
 }
