@@ -59,7 +59,7 @@
     "eslint-plugin-formatjs": "^8.1.0",
     "eslint-plugin-react": "^7.37.5",
     "globals": "^17.13.0",
-    "graphql": "^16.14.2",
+    "graphql": "^17.0.0",
     "nock": "^14.0.17",
     "node-fetch": "^3.3.2",
     "npm-run-all2": "^9.0.3",
