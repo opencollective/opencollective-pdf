@@ -248,7 +248,7 @@ router.options('/transaction/:id/:filename.pdf', (req, res) => {
   res.sendStatus(204);
 });
 
-router.get('/transaction/:id/:filename.pdf', async (req: express.Request, res: express.Response) => {
+router.get('/transaction/:id/:filename.pdf', async (req, res) => {
   const { id } = req.params;
   const authorizationHeaders = authenticateRequest(req);
   const transaction = await fetchTransactionInvoice(id, authorizationHeaders);
@@ -350,7 +350,9 @@ async function fetchInvoiceByDateRange(
   return response.data as QueryResult<InvoiceByDateRangeQuery>['data'];
 }
 
-const validateReceiptPeriodParams = (req: express.Request) => {
+const validateReceiptPeriodParams = (
+  req: express.Request<{ contributorSlug: string; hostSlug: string; dateFrom: string; dateTo: string }>,
+) => {
   const { contributorSlug, hostSlug, dateFrom, dateTo } = req.params;
   if (!contributorSlug) {
     throw new BadRequestError('Contributor slug is required');
@@ -368,51 +370,48 @@ router.options('/period/:contributorSlug/:hostSlug/:dateFrom/:dateTo/:filename.p
   res.sendStatus(204);
 });
 
-router.get(
-  '/period/:contributorSlug/:hostSlug/:dateFrom/:dateTo/:filename.pdf',
-  async (req: express.Request, res: express.Response) => {
-    validateReceiptPeriodParams(req);
-    const { contributorSlug, hostSlug, dateFrom, dateTo } = req.params;
-    const authorizationHeaders = authenticateRequest(req);
-    const response = await fetchInvoiceByDateRange(
-      {
-        fromCollectiveSlug: contributorSlug,
-        hostSlug,
-        dateFrom,
-        dateTo,
-      },
-      authorizationHeaders,
-    );
+router.get('/period/:contributorSlug/:hostSlug/:dateFrom/:dateTo/:filename.pdf', async (req, res) => {
+  validateReceiptPeriodParams(req);
+  const { contributorSlug, hostSlug, dateFrom, dateTo } = req.params;
+  const authorizationHeaders = authenticateRequest(req);
+  const response = await fetchInvoiceByDateRange(
+    {
+      fromCollectiveSlug: contributorSlug,
+      hostSlug,
+      dateFrom,
+      dateTo,
+    },
+    authorizationHeaders,
+  );
 
-    if (response.transactions.totalCount > response.transactions.nodes.length) {
-      throw new InternalServerError('Too many transactions. Please contact support');
-    }
+  if (response.transactions.totalCount > response.transactions.nodes.length) {
+    throw new InternalServerError('Too many transactions. Please contact support');
+  }
 
-    const invoiceTemplateObj =
-      await response.host?.settings?.invoice?.templates?.[
-        response.transactions[0]?.invoiceTemplate || response.transactions[0]?.order?.tier?.invoiceTemplate
-      ];
+  const invoiceTemplateObj =
+    await response.host?.settings?.invoice?.templates?.[
+      response.transactions[0]?.invoiceTemplate || response.transactions[0]?.order?.tier?.invoiceTemplate
+    ];
 
-    const template = invoiceTemplateObj || response.host.settings?.invoice?.templates?.default;
-    await sendPDFResponse(res, Receipt, {
-      receipt: {
-        totalAmount: response.transactions.nodes.reduce(
-          (total, t) => total + (t.amountInHostCurrency.valueInCents || 0),
-          0,
-        ),
-        currency: response.host.currency,
-        transactions: response.transactions.nodes as unknown as React.ComponentProps<
-          typeof Receipt
-        >['receipt']['transactions'],
-        host: response.host,
-        fromAccount: response.fromAccount,
-        fromAccountHost: (response.fromAccount as unknown as AccountWithHost).host,
-        dateFrom,
-        dateTo,
-        template,
-      },
-    });
-  },
-);
+  const template = invoiceTemplateObj || response.host.settings?.invoice?.templates?.default;
+  await sendPDFResponse(res, Receipt, {
+    receipt: {
+      totalAmount: response.transactions.nodes.reduce(
+        (total, t) => total + (t.amountInHostCurrency.valueInCents || 0),
+        0,
+      ),
+      currency: response.host.currency,
+      transactions: response.transactions.nodes as unknown as React.ComponentProps<
+        typeof Receipt
+      >['receipt']['transactions'],
+      host: response.host,
+      fromAccount: response.fromAccount,
+      fromAccountHost: (response.fromAccount as unknown as AccountWithHost).host,
+      dateFrom,
+      dateTo,
+      template,
+    },
+  });
+});
 
 export default router;

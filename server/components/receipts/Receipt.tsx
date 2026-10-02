@@ -276,8 +276,7 @@ type Props = {
       settings?: { VAT?: { number?: string } };
     };
     fromAccountHost?:
-      | (Pick<Account, 'name' | 'slug' | 'legalName'> & { settings?: { VAT?: { number?: string } } })
-      | null;
+      (Pick<Account, 'name' | 'slug' | 'legalName'> & { settings?: { VAT?: { number?: string } } }) | null;
     host: Pick<Account, 'name' | 'slug' | 'legalName' | 'location'>;
     transactions: Array<
       Pick<

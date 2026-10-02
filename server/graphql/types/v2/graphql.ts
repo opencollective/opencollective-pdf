@@ -17171,8 +17171,7 @@ type ReceiptTransactionFragment_Debit_Fragment = {
 };
 
 export type ReceiptTransactionFragmentFragment =
-  | ReceiptTransactionFragment_Credit_Fragment
-  | ReceiptTransactionFragment_Debit_Fragment;
+  ReceiptTransactionFragment_Credit_Fragment | ReceiptTransactionFragment_Debit_Fragment;
 
 export type TransactionInvoiceQueryVariables = Exact<{
   transactionId: Scalars['String']['input'];

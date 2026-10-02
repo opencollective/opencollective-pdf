@@ -9,7 +9,7 @@ import { getFullName } from '../lib/tax-forms/utils.js';
 
 const router = express.Router();
 
-const getValuesFromRequest = (req: express.Request, res: express.Response) => {
+const getValuesFromRequest = (req: express.Request<{ formType: string }>, res: express.Response) => {
   const { formType: rawFormType, values: base64Values, isFinal } = req.query;
   const formType = ((rawFormType as string | undefined) || req.params.formType)?.toUpperCase();
   if (!formType) {
@@ -48,7 +48,7 @@ router.options('/:formType.pdf', (req, res) => {
 
 const MAIN_FONT_BYTES = readFileSyncFromPublicStaticFolder('fonts/NanumGothic-Regular.ttf');
 
-router.get('/:formType.pdf', async (req: express.Request, res: express.Response) => {
+router.get('/:formType.pdf', async (req, res) => {
   const parsedRequest = getValuesFromRequest(req, res);
   if (!parsedRequest) {
     if (!res.headersSent) {
