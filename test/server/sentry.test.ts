@@ -5,6 +5,7 @@ import {
   checkIfSentryConfigured,
   getProfileSessionSampleRate,
   getTracesSampleRate,
+  isValidDebugSentryKey,
   redactEventRequest,
   reportErrorToSentry,
   reportMessageToSentry,
@@ -100,6 +101,26 @@ describe('sentry', () => {
       });
       expect(redactEventRequest({}).request).toBeUndefined();
       expect(redactEventRequest(null)).toBeNull();
+    });
+  });
+
+  describe('isValidDebugSentryKey', () => {
+    test('is disabled without a configured key', () => {
+      vi.stubEnv('DEBUG_SENTRY_KEY', '');
+      expect(isValidDebugSentryKey('anything')).toBe(false);
+      vi.unstubAllEnvs();
+      expect(isValidDebugSentryKey('anything')).toBe(false);
+    });
+
+    test('accepts only the exact key', () => {
+      vi.stubEnv('DEBUG_SENTRY_KEY', 'test-secret');
+      expect(isValidDebugSentryKey('test-secret')).toBe(true);
+      expect(isValidDebugSentryKey('wrong-secret')).toBe(false);
+      expect(isValidDebugSentryKey('test-secre')).toBe(false);
+      expect(isValidDebugSentryKey('')).toBe(false);
+      expect(isValidDebugSentryKey(undefined)).toBe(false);
+      expect(isValidDebugSentryKey(['test-secret'])).toBe(false);
+      vi.unstubAllEnvs();
     });
   });
 
