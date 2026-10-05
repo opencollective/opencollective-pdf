@@ -52,7 +52,7 @@ describe('Gift Cards Routes', () => {
         expect(pdfBuffer).toBeInstanceOf(Buffer);
         expect(pdfBuffer.length).toBeGreaterThan(0);
         await snapshotPDF(pdfBuffer, 'gift-cards_multi-page.pdf');
-      });
+      }, 60_000); // 20 cards: about 16s with coverage instrumentation, over the default 15s timeout
     });
   });
 
