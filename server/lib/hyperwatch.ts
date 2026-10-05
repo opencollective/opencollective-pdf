@@ -16,6 +16,14 @@ const {
 
 export const isHyperwatchEnabled = (): boolean => parseToBoolean(enabled) === true;
 
+const redactUrl = (url: string): string => {
+  const separatorIndex = typeof url === 'string' ? url.indexOf('?') : -1;
+  if (separatorIndex === -1) {
+    return url;
+  }
+  return `${url.slice(0, separatorIndex)}?${redactQueryString(url.slice(separatorIndex + 1))}`;
+};
+
 /**
  * Keeps credentials (auth headers, cookies, token query params) out of the logs sent to Hyperwatch.
  */
@@ -26,11 +34,13 @@ export const redactLog = log => {
     }
   }
 
-  const url: string = log.getIn(['request', 'url']);
-  const separatorIndex = url.indexOf('?');
-  if (separatorIndex !== -1) {
-    const queryString = redactQueryString(url.slice(separatorIndex + 1));
-    log = log.setIn(['request', 'url'], `${url.slice(0, separatorIndex)}?${queryString}`);
+  log = log.setIn(['request', 'url'], redactUrl(log.getIn(['request', 'url'])));
+
+  // The page the request comes from can carry tokens in its query string too
+  for (const name of log.getIn(['request', 'headers']).keys()) {
+    if (name.toLowerCase() === 'referer') {
+      log = log.setIn(['request', 'headers', name], redactUrl(log.getIn(['request', 'headers', name])));
+    }
   }
 
   return log;

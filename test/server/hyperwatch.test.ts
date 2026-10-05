@@ -43,6 +43,22 @@ describe('hyperwatch', () => {
     });
   });
 
+  describe('redactLog: referer', () => {
+    test('redacts sensitive query params in the Referer header', () => {
+      const log = redactLog(
+        createLog('/expenses/1/invoice.pdf', {
+          referer: 'https://opencollective.com/babel/expenses/1?personalToken=secret&lang=fr',
+        }),
+      );
+      expect(log.getIn(['request', 'headers', 'referer'])).toBe(
+        'https://opencollective.com/babel/expenses/1?personalToken=[Filtered]&lang=fr',
+      );
+      expect(
+        redactLog(createLog('/', { referer: 'https://opencollective.com/' })).getIn(['request', 'headers', 'referer']),
+      ).toBe('https://opencollective.com/');
+    });
+  });
+
   describe('load', () => {
     test('without HYPERWATCH_SECRET, does nothing: no logging, no API', async () => {
       vi.resetModules();
