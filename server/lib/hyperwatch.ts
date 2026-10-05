@@ -40,6 +40,12 @@ export const redactLog = log => {
  * @param server The HTTP server of the app, needed to serve the Hyperwatch WebSocket streams
  */
 export function load(app: express.Application, server: http.Server) {
+  // Never expose Hyperwatch (logs with client IPs and URLs) without authentication
+  if (!secret) {
+    console.warn('Hyperwatch: HYPERWATCH_SECRET is not set, Hyperwatch is disabled');
+    return;
+  }
+
   const { input, modules, pipeline } = hyperwatch;
 
   // Init
@@ -53,19 +59,17 @@ export function load(app: express.Application, server: http.Server) {
   });
 
   // Mount Hyperwatch API and WebSocket streams
-  if (secret) {
-    const hyperwatchBasicAuth = expressBasicAuth({
-      users: { [username || 'opencollective']: secret },
-      challenge: true,
-    });
-    hyperwatch.app.mount(app, {
-      server,
-      path: path || '/_hyperwatch',
-      // The WebSocket upgrades go through the app like HTTP requests, so basic auth applies to both
-      middleware: hyperwatchBasicAuth,
-      // No fallback: Hyperwatch answers 404 to the upgrades it doesn't own, as we serve no other WebSocket
-    });
-  }
+  const hyperwatchBasicAuth = expressBasicAuth({
+    users: { [username || 'opencollective']: secret },
+    challenge: true,
+  });
+  hyperwatch.app.mount(app, {
+    server,
+    path: path || '/_hyperwatch',
+    // The WebSocket upgrades go through the app like HTTP requests, so basic auth applies to both
+    middleware: hyperwatchBasicAuth,
+    // No fallback: Hyperwatch answers 404 to the upgrades it doesn't own, as we serve no other WebSocket
+  });
 
   // Configure input
 

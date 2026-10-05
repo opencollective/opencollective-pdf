@@ -1,4 +1,4 @@
-import { describe, expect, test } from 'vitest';
+import { describe, expect, test, vi } from 'vitest';
 import hyperwatch from '@hyperwatch/hyperwatch';
 
 import { redactLog } from '../../server/lib/hyperwatch.js';
@@ -40,6 +40,24 @@ describe('hyperwatch', () => {
         '/debug-sentry?key=[Filtered]',
       );
       expect(redactLog(createLog('/', {})).getIn(['request', 'url'])).toBe('/');
+    });
+  });
+
+  describe('load', () => {
+    test('without HYPERWATCH_SECRET, does nothing: no logging, no API', async () => {
+      vi.resetModules();
+      vi.stubEnv('HYPERWATCH_ENABLED', 'true');
+      vi.stubEnv('HYPERWATCH_SECRET', '');
+      const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
+      const { load } = await import('../../server/lib/hyperwatch.js');
+      const app = { use: vi.fn() };
+      const server = { on: vi.fn() };
+      load(app as never, server as never);
+      expect(app.use).not.toHaveBeenCalled();
+      expect(server.on).not.toHaveBeenCalled();
+      expect(warn).toHaveBeenCalledWith('Hyperwatch: HYPERWATCH_SECRET is not set, Hyperwatch is disabled');
+      warn.mockRestore();
+      vi.unstubAllEnvs();
     });
   });
 });
