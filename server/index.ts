@@ -1,4 +1,11 @@
-import dotenv from 'dotenv';
+// Sentry is primarily initialized via `instrument.ts` (loaded with `node --import`),
+// which runs before this module. These imports are kept as a fallback so Sentry still
+// initializes when running without the `--import` flag (e.g. tests); modules are cached,
+// so `Sentry.init` in `server/lib/sentry.ts` only ever runs once per process.
+import './lib/dotenv.js';
+import './lib/sentry.js';
+
+import http from 'http';
 
 import express from 'express';
 import rateLimit from 'express-rate-limit';
@@ -7,32 +14,24 @@ import expensesRouter from './routes/expenses.js';
 import receiptsRouter from './routes/receipts.js';
 import taxFormsRouter from './routes/tax-forms.js';
 import { PDFServiceError } from './lib/errors.js';
-import path from 'path';
+import { isValidDebugSentryKey } from './lib/sentry.js';
+import hyperwatch, { isHyperwatchEnabled } from './lib/hyperwatch.js';
 
-import { last } from 'lodash-es';
-
-import cloudflareIps from 'cloudflare-ip/ips.json' with { type: 'json' };
-import fs from 'fs';
-import { fileURLToPath } from 'url';
-import { dirname } from 'path';
+import cloudflareIps from './cloudflare-ips.json' with { type: 'json' };
 import { parseToBooleanDefaultTrue } from './lib/env.js';
-
-if (process.env.EXTRA_ENV || process.env.NODE_ENV === 'development' || !process.env.NODE_ENV) {
-  const extraEnv = process.env.EXTRA_ENV || last(process.argv);
-  const __filename = fileURLToPath(import.meta.url);
-  const __dirname = dirname(__filename);
-  const extraEnvPath = path.join(__dirname, '..', `.env.${extraEnv}`);
-  if (fs.existsSync(extraEnvPath)) {
-    dotenv.config({ path: extraEnvPath });
-  }
-}
-
-dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 3002;
 
+// Created here rather than with `app.listen()` so Hyperwatch can handle WebSocket upgrades on it
+export const server = http.createServer(app);
+
 app.set('trust proxy', ['loopback', 'linklocal', 'uniquelocal'].concat(cloudflareIps));
+
+// After `trust proxy`, so the logs have the client IP. Before the rate limiter, so it doesn't apply to Hyperwatch.
+if (isHyperwatchEnabled()) {
+  hyperwatch(app, server);
+}
 
 if (process.env.VERBOSE) {
   app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
@@ -92,6 +91,17 @@ app.get('/', (req: express.Request, res: express.Response) => {
   });
 });
 
+// Debug endpoint to verify Sentry reporting end-to-end. Protected by the `DEBUG_SENTRY_KEY`
+// shared secret (compared against the `key` query parameter); behaves like an unknown route
+// when the key is not configured or does not match, so scanners learn nothing.
+app.get('/debug-sentry', (req: express.Request, res: express.Response, next: express.NextFunction) => {
+  if (!isValidDebugSentryKey(req.query.key)) {
+    next();
+    return;
+  }
+  throw new Error('Sentry debug error triggered via /debug-sentry');
+});
+
 app.use('/expenses', expensesRouter);
 app.use('/receipts', receiptsRouter);
 app.use('/tax-forms', taxFormsRouter);
@@ -103,7 +113,9 @@ app.use((req: express.Request, res: express.Response) => {
   });
 });
 
-// Error handling
+// Error handling. Request errors are reported to Sentry automatically by
+// `Sentry.expressIntegration` (see `server/lib/sentry.ts`), so this middleware only shapes
+// the HTTP response and must not capture again to avoid duplicate events.
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 app.use((err: Error, req: express.Request, res: express.Response, _next: express.NextFunction) => {
   // Node loses the error type when passing it around, we use the `isPDFServiceError` property to circumvent this
@@ -123,7 +135,7 @@ app.use((err: Error, req: express.Request, res: express.Response, _next: express
 });
 
 if (parseToBooleanDefaultTrue(process.env.START_SERVER)) {
-  app.listen(port, () => {
+  server.listen(port, () => {
     console.log(`Server is running on port ${port}`);
   });
 }

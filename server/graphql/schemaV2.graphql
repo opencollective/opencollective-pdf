@@ -40,7 +40,7 @@ enum ApplicationType {
 }
 
 """
-A field whose value conforms to the standard URL format as specified in RFC3986: https://www.ietf.org/rfc/rfc3986.txt.
+A field whose value is an HTTP or HTTPS URL as specified in RFC3986: https://www.ietf.org/rfc/rfc3986.txt.
 """
 scalar URL
 
@@ -237,6 +237,11 @@ interface Account {
   isIncognito: Boolean!
 
   """
+  Whether the account is private
+  """
+  isPrivate: Boolean!
+
+  """
   For an incognito account, returns the main profile. Only visible to users with the right permissions. Scope: "account".
   """
   mainProfile: Account
@@ -277,6 +282,11 @@ interface Account {
   Whether this account is suspended
   """
   isSuspended: Boolean!
+
+  """
+  Whether this account has a public profile that can be linked to
+  """
+  hasPublicProfile: Boolean!
 
   """
   Returns whether the account accepts financial contributions.
@@ -373,12 +383,12 @@ interface Account {
   ): MemberOfCollection
 
   """
-  Returns the emails of the account. Individuals only have one, but organizations can have multiple emails.
+  Returns the emails of the account. Individuals only have one, but organizations can have multiple emails. Scope: "email".
   """
   emails: [EmailAddress!]
   transactions(
     """
-    The number of results to fetch (default 10, max 1000)
+    The number of results to fetch (default 100, max 1000)
     """
     limit: Int! = 100
 
@@ -575,7 +585,7 @@ interface Account {
   ): TransactionCollection!
   orders(
     """
-    The number of results to fetch (default 10, max 1000)
+    The number of results to fetch (default 100, max 1000)
     """
     limit: Int! = 100
 
@@ -895,7 +905,7 @@ interface Account {
     virtualCards: [VirtualCardReferenceInput]
 
     """
-    Filter expenses by the last user-role who replied to them
+    Filter expenses by the last user-role who replied to them. Requires some admin permissions on expenses.
     """
     lastCommentBy: [LastCommentBy]
 
@@ -1050,6 +1060,11 @@ interface Account {
     onlyChangelogUpdates: Boolean
     orderBy: UpdateChronologicalOrderInput! = { field: CREATED_AT, direction: DESC }
     searchTerm: String
+
+    """
+    Include updates from children accounts (events/projects).
+    """
+    includeChildren: Boolean! = false
   ): UpdateCollection!
 
   """
@@ -1091,9 +1106,9 @@ interface Account {
     searchTerm: String
 
     """
-    Order of the results. Defaults to createdAt DESC.
+    Order of the results. When not provided, children are grouped by type (Collectives/Organizations, then Projects, then Events, then internal Platform accounts) and sorted by createdAt DESC within each group.
     """
-    orderBy: OrderByInput! = { field: CREATED_AT, direction: DESC }
+    orderBy: OrderByInput
   ): AccountCollection!
 
   """
@@ -1112,7 +1127,7 @@ interface Account {
   permissions: AccountPermissions!
 
   """
-  Host application requests
+  Host application requests. Scope: "host".
   """
   hostApplicationRequests(
     """
@@ -1144,7 +1159,7 @@ interface Account {
     """
     Number of activities to retrieve
     """
-    limit: Int
+    limit: Int = 20
 
     """
     The classes of activity types to filter for
@@ -1161,41 +1176,6 @@ interface Account {
   If this account was duplicated, the accounts that were created from it
   """
   duplicatedAccounts(limit: Int! = 100, offset: Int! = 0): AccountCollection!
-
-  """
-  [!] Warning: this query is currently in beta and the API might change
-  """
-  transactionGroups(
-    """
-    The number of results to fetch (default 10, max 1000)
-    """
-    limit: Int! = 100
-
-    """
-    The offset to use to fetch
-    """
-    offset: Int! = 0
-
-    """
-    Filter transaction groups by the type of the primary transaction
-    """
-    type: TransactionType
-
-    """
-    Filter transaction groups by the kind of the primary transaction
-    """
-    kind: TransactionKind
-
-    """
-    Only return transaction groups that were created after this date
-    """
-    dateFrom: DateTime
-
-    """
-    Only return transaction groups that were created before this date
-    """
-    dateTo: DateTime
-  ): TransactionGroupCollection!
 
   """
   EXPERIMENTAL (this may change or be removed)
@@ -1243,6 +1223,7 @@ enum AccountType {
   FUND
   INDIVIDUAL
   ORGANIZATION
+  PLATFORM
   PROJECT
   VENDOR
 }
@@ -2022,7 +2003,6 @@ enum MemberRole {
   MEMBER
   COMMUNITY_MANAGER
   FUNDRAISER @deprecated(reason: "2022-09-12: This role does not exist anymore")
-  FOLLOWER
   ACCOUNTANT
   CONNECTED_ACCOUNT
 }
@@ -2147,7 +2127,7 @@ type Tier {
   videoUrl: String
 
   """
-  Get all orders
+  Get all orders. Scope: "orders".
   """
   orders(limit: Int! = 100, offset: Int! = 0, status: [OrderStatus]): OrderCollection!
   amount: Amount!
@@ -2178,7 +2158,7 @@ type Tier {
   """
   contributors(
     """
-    The number of results to fetch (default 10, max 1000)
+    The number of results to fetch (default 100, max 1000)
     """
     limit: Int! = 100
 
@@ -2257,7 +2237,7 @@ type Order {
   toAccount: Account
 
   """
-  Transactions for this order ordered by createdAt ASC
+  Transactions for this order ordered by createdAt ASC. Scope: "transactions".
   """
   transactions: [Transaction]!
   createdAt: DateTime
@@ -2309,6 +2289,11 @@ type Order {
   The accounting category attached to this order
   """
   accountingCategory: AccountingCategory
+
+  """
+  The balance/clearing accounting category the funds were received through (only visible to host admins and accountants)
+  """
+  balanceAccountingCategory: AccountingCategory
 
   """
   The list of activities (ie. approved, edited, etc) for this Order ordered by date ascending
@@ -2509,6 +2494,11 @@ interface Transaction {
   clearedAt: DateTime
   expense: Expense
   order: Order
+
+  """
+  The balance/clearing accounting category the funds moved through, inherited from the related order or expense (only visible to host admins and accountants)
+  """
+  balanceAccountingCategory: AccountingCategory
   isRefunded: Boolean
   isRefund: Boolean
   isDisputed: Boolean
@@ -2552,6 +2542,7 @@ enum TransactionType {
 
 enum TransactionKind {
   ADDED_FUNDS
+  APPLICATION_FEE
   BALANCE_TRANSFER
   CONTRIBUTION
   EXPENSE
@@ -2620,9 +2611,14 @@ type TaxInfo {
   rate: Float!
 
   """
-  Tax ID number of the 3rd party receiving/paying the tax
+  Tax ID number of the 3rd party receiving/paying the tax. Will be null if not allowed to see it.
   """
   idNumber: String
+
+  """
+  Whether the tax ID number is available. Contrary to `idNumber`, this field is public.
+  """
+  hasTaxIdNumber: Boolean!
 }
 
 """
@@ -2700,6 +2696,11 @@ type Expense {
   The accounting category attached to this expense
   """
   accountingCategory: AccountingCategory
+
+  """
+  The balance/clearing accounting category the expense was paid from
+  """
+  balanceAccountingCategory: AccountingCategory
 
   """
   If available, this field will contain a breakdown of the expense values depending on who edited it
@@ -3071,6 +3072,11 @@ type Host implements Account & AccountWithContributions & AccountWithPlatformSub
   isIncognito: Boolean!
 
   """
+  Whether the account is private
+  """
+  isPrivate: Boolean!
+
+  """
   For an incognito account, returns the main profile. Only visible to users with the right permissions. Scope: "account".
   """
   mainProfile: Account
@@ -3109,6 +3115,11 @@ type Host implements Account & AccountWithContributions & AccountWithPlatformSub
   isSuspended: Boolean!
 
   """
+  Whether this account has a public profile that can be linked to
+  """
+  hasPublicProfile: Boolean!
+
+  """
   Returns whether the account accepts financial contributions.
   """
   isActive: Boolean
@@ -3126,7 +3137,7 @@ type Host implements Account & AccountWithContributions & AccountWithPlatformSub
   parentAccount: Account @deprecated(reason: "2022-12-16: use parent on AccountWithParent instead")
 
   """
-  Get all members (admins, members, backers, followers)
+  Get all members (admins, members, backers)
   """
   members(
     limit: Int! = 100
@@ -3240,12 +3251,12 @@ type Host implements Account & AccountWithContributions & AccountWithPlatformSub
   ): MemberOfCollection!
 
   """
-  Returns the emails of the account. Individuals only have one, but organizations can have multiple emails.
+  Returns the emails of the account. Individuals only have one, but organizations can have multiple emails. Scope: "email".
   """
   emails: [EmailAddress!]
   transactions(
     """
-    The number of results to fetch (default 10, max 1000)
+    The number of results to fetch (default 100, max 1000)
     """
     limit: Int! = 100
 
@@ -3442,7 +3453,7 @@ type Host implements Account & AccountWithContributions & AccountWithPlatformSub
   ): TransactionCollection!
   orders(
     """
-    The number of results to fetch (default 10, max 1000)
+    The number of results to fetch (default 100, max 1000)
     """
     limit: Int! = 100
 
@@ -3764,7 +3775,7 @@ type Host implements Account & AccountWithContributions & AccountWithPlatformSub
     virtualCards: [VirtualCardReferenceInput]
 
     """
-    Filter expenses by the last user-role who replied to them
+    Filter expenses by the last user-role who replied to them. Requires some admin permissions on expenses.
     """
     lastCommentBy: [LastCommentBy]
 
@@ -3870,7 +3881,7 @@ type Host implements Account & AccountWithContributions & AccountWithPlatformSub
   ): OAuthApplicationCollection
 
   "\n      Address. This field is public for hosts, otherwise:\n        - Users can see the addresses of the collectives they're admin of; if they are not an admin they can only see the country that the org belong to.\n        - Hosts can see the address of organizations submitting expenses to their collectives.\n    "
-  location: Location @deprecated(reason: "2026-04-22: This field has moved to the Organization type")
+  location: Location
   categories: [String]!
   stats: AccountStats
 
@@ -3901,6 +3912,11 @@ type Host implements Account & AccountWithContributions & AccountWithPlatformSub
     onlyChangelogUpdates: Boolean
     orderBy: UpdateChronologicalOrderInput! = { field: CREATED_AT, direction: DESC }
     searchTerm: String
+
+    """
+    Include updates from children accounts (events/projects).
+    """
+    includeChildren: Boolean! = false
   ): UpdateCollection!
 
   """
@@ -3942,9 +3958,9 @@ type Host implements Account & AccountWithContributions & AccountWithPlatformSub
     searchTerm: String
 
     """
-    Order of the results. Defaults to createdAt DESC.
+    Order of the results. When not provided, children are grouped by type (Collectives/Organizations, then Projects, then Events, then internal Platform accounts) and sorted by createdAt DESC within each group.
     """
-    orderBy: OrderByInput! = { field: CREATED_AT, direction: DESC }
+    orderBy: OrderByInput
   ): AccountCollection!
 
   """
@@ -3963,7 +3979,7 @@ type Host implements Account & AccountWithContributions & AccountWithPlatformSub
   permissions: AccountPermissions!
 
   """
-  Host application requests
+  Host application requests. Scope: "host".
   """
   hostApplicationRequests(
     """
@@ -3995,7 +4011,7 @@ type Host implements Account & AccountWithContributions & AccountWithPlatformSub
     """
     Number of activities to retrieve
     """
-    limit: Int
+    limit: Int = 20
 
     """
     The classes of activity types to filter for
@@ -4012,41 +4028,6 @@ type Host implements Account & AccountWithContributions & AccountWithPlatformSub
   If this account was duplicated, the accounts that were created from it
   """
   duplicatedAccounts(limit: Int! = 100, offset: Int! = 0): AccountCollection!
-
-  """
-  [!] Warning: this query is currently in beta and the API might change
-  """
-  transactionGroups(
-    """
-    The number of results to fetch (default 10, max 1000)
-    """
-    limit: Int! = 100
-
-    """
-    The offset to use to fetch
-    """
-    offset: Int! = 0
-
-    """
-    Filter transaction groups by the type of the primary transaction
-    """
-    type: TransactionType
-
-    """
-    Filter transaction groups by the kind of the primary transaction
-    """
-    kind: TransactionKind
-
-    """
-    Only return transaction groups that were created after this date
-    """
-    dateFrom: DateTime
-
-    """
-    Only return transaction groups that were created before this date
-    """
-    dateTo: DateTime
-  ): TransactionGroupCollection!
 
   """
   EXPERIMENTAL (this may change or be removed)
@@ -4105,7 +4086,7 @@ type Host implements Account & AccountWithContributions & AccountWithPlatformSub
   ): Int!
   tiers(
     """
-    The number of results to fetch
+    The number of results to fetch (default 100, max 1000)
     """
     limit: Int! = 100
 
@@ -4142,7 +4123,7 @@ type Host implements Account & AccountWithContributions & AccountWithPlatformSub
   ): ContributorCollection!
 
   """
-  [!] Warning: this query is currently in beta and the API might change
+  [!] Warning: this query is currently in beta and the API might change. Does not include private accounts.
   """
   activeContributors(
     """
@@ -4184,7 +4165,7 @@ type Host implements Account & AccountWithContributions & AccountWithPlatformSub
   Returns the current platform subscription
   """
   platformSubscription: PlatformSubscription
-  platformBilling(billingPeriod: PlatformBillingPeriodInput): PlatformBilling!
+  platformBilling(billingPeriod: PlatformBillingPeriodInput): PlatformBilling
   legacyPlan: HostPlan!
   hostFeePercent: Float
   totalHostedCollectives: Int @deprecated(reason: "2023-03-20: Renamed to totalHostedAccounts")
@@ -4235,6 +4216,11 @@ type Host implements Account & AccountWithContributions & AccountWithPlatformSub
     """
     timeUnit: TimeUnit
   ): HostMetricsTimeSeries!
+
+  """
+  Aggregated metrics for this host.
+  """
+  metrics: HostMetricsNamespace
 
   """
   EXPERIMENTAL (this may change or be removed)
@@ -4375,6 +4361,11 @@ type Host implements Account & AccountWithContributions & AccountWithPlatformSub
     Filter by accounts participating in the agreement
     """
     accounts: [AccountReferenceInput]
+
+    """
+    Include agreements from the children of the provided accounts (events/projects).
+    """
+    includeChildren: Boolean! = false
   ): AgreementCollection!
 
   """
@@ -4382,7 +4373,7 @@ type Host implements Account & AccountWithContributions & AccountWithPlatformSub
   """
   hostedAccounts(
     """
-    The number of results to fetch (default 10, max 1000)
+    The number of results to fetch (default 100, max 1000)
     """
     limit: Int! = 100
 
@@ -4446,6 +4437,10 @@ type Host implements Account & AccountWithContributions & AccountWithPlatformSub
     Filter for accounts (Events) that started at a specific date range
     """
     startsAtTo: DateTime
+    joinedBetween: MetricsDateRangeInput
+    unhostedBetween: MetricsDateRangeInput
+    hadActivityBetween: MetricsDateRangeInput
+    noActivityBetween: MetricsDateRangeInput
   ): HostedAccountCollection!
 
   """
@@ -4512,6 +4507,26 @@ type Host implements Account & AccountWithContributions & AccountWithPlatformSub
     """
     account: AccountReferenceInput
   ): AccountingCategoryCollection! @deprecated(reason: "2026-04-22: This field has moved to the Organization type")
+
+  """
+  Suggested balance/clearing accounting categories for a context: the rail the money moved through, then the bank accounts assigned to the account. Only computed for host admins and accountants.
+  """
+  suggestedBalanceAccountingCategories(
+    """
+    Suggest from the bank accounts assigned to this account
+    """
+    account: AccountReferenceInput
+
+    """
+    Suggest from the payment rail of this order
+    """
+    order: OrderReferenceInput
+
+    """
+    Suggest from the payout rail of this expense
+    """
+    expense: ExpenseReferenceInput
+  ): [AccountingCategory!]! @deprecated(reason: "2026-04-22: This field has moved to the Organization type")
   contributionAccountingCategoryRules: [ContributionAccountingCategoryRule!]
     @deprecated(reason: "2026-04-22: This field has moved to the Organization type")
 
@@ -4620,7 +4635,7 @@ type Host implements Account & AccountWithContributions & AccountWithPlatformSub
   """
   vendors(
     """
-    The number of results to fetch (default 10, max 1000)
+    The number of results to fetch (default 100, max 1000)
     """
     limit: Int! = 100
 
@@ -4635,9 +4650,10 @@ type Host implements Account & AccountWithContributions & AccountWithPlatformSub
     forAccount: AccountReferenceInput
 
     """
-    Only returns vendors that are visible to the given accounts
+    Only return vendors that can be used with the given accounts
     """
-    visibleToAccounts: [AccountReferenceInput]
+    canBeUsedWithAccounts: [AccountReferenceInput]
+    visibleToAccounts: [AccountReferenceInput] @deprecated(reason: "Use canBeUsedWithAccounts instead.")
 
     """
     Filter on archived vendors
@@ -4670,7 +4686,7 @@ type Host implements Account & AccountWithContributions & AccountWithPlatformSub
   """
   potentialVendors(
     """
-    The number of results to fetch (default 10, max 1000)
+    The number of results to fetch (default 100, max 1000)
     """
     limit: Int! = 100
 
@@ -4727,7 +4743,7 @@ type Host implements Account & AccountWithContributions & AccountWithPlatformSub
   ): [NonEmptyString]! @deprecated(reason: "2026-04-22: This field has moved to the Organization type")
   offPlatformTransactions(
     """
-    The number of results to fetch (default 10, max 1000)
+    The number of results to fetch (default 100, max 1000)
     """
     limit: Int! = 100
 
@@ -4789,7 +4805,7 @@ interface AccountWithContributions {
   ): Int!
   tiers(
     """
-    The number of results to fetch
+    The number of results to fetch (default 100, max 1000)
     """
     limit: Int! = 100
 
@@ -4826,7 +4842,7 @@ interface AccountWithContributions {
   ): ContributorCollection!
 
   """
-  [!] Warning: this query is currently in beta and the API might change
+  [!] Warning: this query is currently in beta and the API might change. Does not include private accounts.
   """
   activeContributors(
     """
@@ -4971,6 +4987,11 @@ type Contributor {
   A public message from contributors to describe their contributions
   """
   publicMessage: String
+
+  """
+  Whether this contributor has a public profile that can be linked to
+  """
+  hasPublicProfile: Boolean!
 }
 
 """
@@ -4991,7 +5012,7 @@ interface AccountWithPlatformSubscription {
   Returns the current platform subscription
   """
   platformSubscription: PlatformSubscription
-  platformBilling(billingPeriod: PlatformBillingPeriodInput): PlatformBilling!
+  platformBilling(billingPeriod: PlatformBillingPeriodInput): PlatformBilling
   legacyPlan: HostPlan!
 }
 
@@ -5006,6 +5027,11 @@ type PlatformSubscription {
   """
   endDate: DateTime
   isCurrent: Boolean!
+
+  """
+  Whether the subscription account is on hold.
+  """
+  isAccountOnHold: Boolean
   plan: PlatformSubscriptionTier!
 }
 
@@ -5866,6 +5892,11 @@ enum LastCommentBy {
   USER
 
   """
+  Last comment author is not an admin of the expense payee (FromCollectiveId)
+  """
+  NON_FROM_ACCOUNT_ADMIN
+
+  """
   Fiscal Host Admin
   """
   HOST_ADMIN
@@ -5906,6 +5937,7 @@ enum ActivityType {
   COLLECTIVE_CREATED
   COLLECTIVE_EDITED
   COLLECTIVE_DELETED
+  COLLECTIVE_ARCHIVED
   COLLECTIVE_UNHOSTED
   COLLECTIVE_BALANCE_TRANSFERRED
   COLLECTIVE_CONVERTED_TO_ORGANIZATION
@@ -5918,6 +5950,7 @@ enum ActivityType {
   EXPENSE_COMMENT_CREATED
   CONVERSATION_COMMENT_CREATED
   ORDER_COMMENT_CREATED
+  HOST_APPLICATION_COMMENT_CREATED
   COLLECTIVE_EXPENSE_CREATED
   COLLECTIVE_EXPENSE_DELETED
   COLLECTIVE_EXPENSE_UPDATED
@@ -5936,6 +5969,7 @@ enum ActivityType {
   COLLECTIVE_EXPENSE_SCHEDULED_FOR_PAYMENT
   COLLECTIVE_EXPENSE_UNSCHEDULED_FOR_PAYMENT
   COLLECTIVE_EXPENSE_ERROR
+  COLLECTIVE_EXPENSE_PAYMENT_ERROR
   COLLECTIVE_EXPENSE_INVITE_DRAFTED
   COLLECTIVE_EXPENSE_INVITE_DECLINED
   COLLECTIVE_EXPENSE_RECURRING_DRAFTED
@@ -5974,8 +6008,9 @@ enum ActivityType {
   COLLECTIVE_UPDATE_PUBLISHED
   COLLECTIVE_CONTACT
   HOST_APPLICATION_CONTACT
-  HOST_APPLICATION_COMMENT_CREATED
   CONTRIBUTION_REJECTED
+  CONTRIBUTION_REFUNDED
+  CONTRIBUTOR_REMOVED_BY_HOST
   SUBSCRIPTION_ACTIVATED
   SUBSCRIPTION_CANCELED
   SUBSCRIPTION_PAUSED
@@ -6013,6 +6048,7 @@ enum ActivityType {
   USER_CREATED
   USER_NEW_TOKEN
   USER_SIGNIN
+  USER_NEW_PASSWORD_SIGNIN
   USER_RESET_PASSWORD
   USER_OTP_REQUESTED
   OAUTH_APPLICATION_AUTHORIZED
@@ -6378,6 +6414,11 @@ type PayoutMethod {
   type: PayoutMethodType
 
   """
+  The currency of this payout method
+  """
+  currency: Currency
+
+  """
   A friendly name for users to easily find their payout methods
   """
   name: String
@@ -6477,7 +6518,7 @@ type PaymentMethod {
   """
   orders(
     """
-    The number of results to fetch (default 10, max 1000)
+    The number of results to fetch (default 100, max 1000)
     """
     limit: Int! = 100
 
@@ -6686,8 +6727,18 @@ type ConnectedAccount {
   The date on which the ConnectedAccount was last updated
   """
   updatedAt: DateTime!
+
+  """
+  For when the authorization expires after a certain time
+  """
+  authorizationExpiresAt: DateTime
   settings: JSON
   service: ConnectedAccountService!
+
+  """
+  The balance/clearing accounting category used to attribute payments processed through this connected account
+  """
+  balanceAccountingCategory: AccountingCategory
 
   """
   The accounts that are mirroring this connected account
@@ -7461,6 +7512,7 @@ type CollectiveFeatures {
   VENDORS: CollectiveFeatureStatus
   ACCOUNT_MANAGEMENT: CollectiveFeatureStatus
   KYC: CollectiveFeatureStatus
+  PUBLIC_PROFILE: CollectiveFeatureStatus
 }
 
 enum CollectiveFeatureStatus {
@@ -7518,7 +7570,11 @@ type Policies {
   COLLECTIVE_MINIMUM_ADMINS: COLLECTIVE_MINIMUM_ADMINS
   MAXIMUM_VIRTUAL_CARD_LIMIT_AMOUNT_FOR_INTERVAL: MAXIMUM_VIRTUAL_CARD_LIMIT_AMOUNT_FOR_INTERVAL
   EXPENSE_CATEGORIZATION: EXPENSE_CATEGORIZATION
-  EXPENSE_PUBLIC_VENDORS: Boolean
+
+  """
+  Default rule for who can attribute financial activities to vendors under this host.
+  """
+  USE_VENDOR_POLICY: UseVendorPolicy
   COLLECTIVE_ADMINS_CAN_SEE_PAYOUT_METHODS: Boolean
 
   """
@@ -7567,6 +7623,26 @@ type MAXIMUM_VIRTUAL_CARD_LIMIT_AMOUNT_FOR_INTERVAL {
 type EXPENSE_CATEGORIZATION {
   requiredForExpenseSubmitters: Boolean
   requiredForCollectiveAdmins: Boolean
+}
+
+"""
+Who can attribute financial activities to a vendor
+"""
+enum UseVendorPolicy {
+  """
+  Only host admins can use this vendor.
+  """
+  HOST_ADMINS
+
+  """
+  Host admins and admins of hosted collectives.
+  """
+  HOST_AND_COLLECTIVE_ADMINS
+
+  """
+  Anyone who can submit an expense.
+  """
+  ALL_SUBMITTERS
 }
 
 type CONTRIBUTOR_INFO_THRESHOLDS {
@@ -7761,41 +7837,6 @@ enum ActivityClassType {
 }
 
 """
-A collection of Transactions groups
-"""
-type TransactionGroupCollection implements Collection {
-  offset: Int
-  limit: Int
-  totalCount: Int
-  nodes: [TransactionGroup!]!
-}
-
-"""
-Transaction group
-"""
-type TransactionGroup {
-  id: String!
-  totalAmount: Amount!
-  host: Account
-
-  """
-  The account on the main side of the transaction (CREDIT -> recipient, DEBIT -> sender)
-  """
-  account: Account
-
-  """
-  The primary transaction in the group
-  """
-  primaryTransaction: Transaction
-
-  """
-  The transactions in the group
-  """
-  transactions: [Transaction]
-  createdAt: DateTime
-}
-
-"""
 EXPERIMENTAL (this may change or be deleted): Host transaction report
 """
 type TransactionReports {
@@ -7854,8 +7895,6 @@ type CommunityStats {
     """
     type: CommunityTransactionType!
   ): TimeSeriesAmount!
-  lastInteractionAt: DateTime
-  firstInteractionAt: DateTime
   activities(
     """
     The number of results to fetch (default 10, max 1000)
@@ -7944,7 +7983,7 @@ type KYCVerification {
   """
   The user who added this account to the KYC verification list
   """
-  createdByUser: Account
+  createdByUser: Individual
 
   """
   Provider specific data
@@ -8118,51 +8157,81 @@ type HostMetrics {
   Amount collected in host fees for given period
   """
   hostFees: Amount
+    @deprecated(
+      reason: "2026-05-15: Host.hostMetrics is deprecated and unused by the frontend; this field is always 0."
+    )
 
   """
   Amount collected in platform fees for given period
   """
   platformFees: Amount
+    @deprecated(
+      reason: "2026-05-15: Host.hostMetrics is deprecated and unused by the frontend; this field is always 0."
+    )
 
   """
   Amount collected in platform fees requiring settlement
   """
   pendingPlatformFees: Amount
+    @deprecated(
+      reason: "2026-05-15: Host.hostMetrics is deprecated and unused by the frontend; this field is always 0."
+    )
 
   """
   Amount collected in platform tips for given period
   """
   platformTips: Amount
+    @deprecated(
+      reason: "2026-05-15: Host.hostMetrics is deprecated and unused by the frontend; this field is always 0."
+    )
 
   """
   Amount collected in platform tips requiring settlement
   """
   pendingPlatformTips: Amount
+    @deprecated(
+      reason: "2026-05-15: Host.hostMetrics is deprecated and unused by the frontend; this field is always 0."
+    )
 
   """
   Amount in host fee shared with the platform
   """
   hostFeeShare: Amount
+    @deprecated(
+      reason: "2026-05-15: Host.hostMetrics is deprecated and unused by the frontend; this field is always 0."
+    )
 
   """
   Amount in host fee shared  requiring settlement
   """
   pendingHostFeeShare: Amount
+    @deprecated(
+      reason: "2026-05-15: Host.hostMetrics is deprecated and unused by the frontend; this field is always 0."
+    )
 
   """
   Amount in host fee shared not requiring settlement
   """
   settledHostFeeShare: Amount
+    @deprecated(
+      reason: "2026-05-15: Host.hostMetrics is deprecated and unused by the frontend; this field is always 0."
+    )
 
   """
   Total amount managed on behalf of hosted collectives
   """
   totalMoneyManaged: Amount
+    @deprecated(
+      reason: "2026-05-15: Host.hostMetrics is deprecated and unused by the frontend; this field is always 0."
+    )
 
   """
   Host fee sharing percent
   """
   hostFeeSharePercent: Float
+    @deprecated(
+      reason: "2026-05-15: Host.hostMetrics is deprecated and unused by the frontend; this field is always 0."
+    )
 }
 
 """
@@ -8188,6 +8257,9 @@ type HostMetricsTimeSeries {
   History of the collected platform tips
   """
   platformTips: TimeSeriesAmount!
+    @deprecated(
+      reason: "2026-05-15: Unused by the frontend; the platform-tips ledger is now opt-in per host (NEW_PLATFORM_TIPS_LEDGER) and this aggregated series is no longer maintained. Always returns an empty series."
+    )
 
   """
   History of the host fees collected
@@ -8281,6 +8353,736 @@ type TimeSeriesAmountWithKindNode {
   date: DateTime!
   amount: Amount!
   kind: TransactionKind!
+}
+
+"""
+Aggregated metrics for a host
+"""
+type HostMetricsNamespace {
+  """
+  Daily per-collective income and spending under the host.
+  """
+  hostedCollectivesFinancialActivity(
+    input: HostedCollectivesFinancialActivityMetricsInput!
+  ): HostedCollectivesFinancialActivityMetricsResult!
+
+  """
+  Daily join/churn events for hosted collectives.
+  """
+  hostedCollectivesMembership(
+    input: HostedCollectivesMembershipMetricsInput!
+  ): HostedCollectivesMembershipMetricsResult!
+
+  """
+  Distinct collectives hosted by this host in a period.
+  """
+  hostedCollectivesHosting(input: HostedCollectivesHostingMetricsInput!): HostedCollectivesHostingMetricsResult!
+
+  """
+  Contribution/payout transactions bucketed by amount band, for size-distribution histograms.
+  """
+  hostedCollectivesTransactionSizes(
+    input: HostedCollectivesTransactionSizesMetricsInput!
+  ): HostedCollectivesTransactionSizesMetricsResult!
+}
+
+type HostedCollectivesFinancialActivityMetricsResult implements MetricsResult {
+  dateFrom: DateTime!
+  dateTo: DateTime!
+  bucket: TimeUnit
+  groupBy: [String!]
+  rows: [HostedCollectivesFinancialActivityMetricsRow!]!
+}
+
+interface MetricsResult {
+  dateFrom: DateTime!
+  dateTo: DateTime!
+  bucket: TimeUnit
+  groupBy: [String!]
+}
+
+type HostedCollectivesFinancialActivityMetricsRow {
+  bucket: String
+  group: HostedCollectivesFinancialActivityMetricsGroup
+  values: HostedCollectivesFinancialActivityMetricsValues!
+}
+
+type HostedCollectivesFinancialActivityMetricsGroup {
+  account: Account
+  parent: Account
+  mainAccount: Account
+  isMainAccount: Boolean
+  accountType: String
+  mainAccountType: String
+  isArchived: Boolean
+  mainAccountIsArchived: Boolean
+  contributionFrequency: HostedCollectivesFinancialActivityContributionFrequency
+  hostCurrency: String
+}
+
+enum HostedCollectivesFinancialActivityContributionFrequency {
+  """
+  One-time contribution (no recurring order).
+  """
+  ONE_TIME
+
+  """
+  Recurring contribution (the order has a monthly/yearly interval).
+  """
+  RECURRING
+
+  """
+  Funds added by the host.
+  """
+  ADDED_FUNDS
+
+  """
+  Everything else.
+  """
+  OTHER
+}
+
+type HostedCollectivesFinancialActivityMetricsValues {
+  """
+  Amount received in host currency, sums credit transactions, excluding refunds, refunded transactions and internal transfers.
+  Matches values returned from hostStats.totalAmountReceived(net: false).
+  """
+  amountReceived: Amount
+
+  """
+  Net amount received in host currency, sums credit transactions with fees and taxes included, excluding refunds, refunded transactions and internal transfers.
+  Matches values returned from hostStats.totalAmountReceived(net: true).
+  """
+  amountReceivedNet: Amount
+
+  """
+  Amount spent in host currency, sums debit transactions, excluding refunds, refunded transactions and internal transfers.Matches values returned from hostStats.totalAmountSpent(net: false).
+  """
+  amountSpent: Amount
+
+  """
+  Net amount spent in host currency, sums debit transactions with fees and taxes included, excluding refunds, refunded transactions and internal transfers.Matches values returned from hostStats.totalAmountSpent(net: true).
+  """
+  amountSpentNet: Amount
+
+  """
+  Total number of transactions in the queried scope.
+  """
+  transactionCount: Int
+
+  """
+  Number of contribution (CREDIT) transactions, excluding refunds, refunded transactions and internal transfers.
+  Matches the count behind `amountReceived`.
+  """
+  contributionsCount: Int
+
+  """
+  Number of payout (DEBIT) transactions, excluding host/processor fees, refunds, refunded transactions and internal transfers.
+  Matches the count behind `amountSpent`.
+  """
+  payoutsCount: Int
+
+  """
+  Distinct main accounts with at least one transaction of any kind. Child events/projects roll up to their parent.
+  """
+  activeCollectives: Int
+
+  """
+  Most recent date with any ledger activity, as `YYYY-MM-DD`.
+  """
+  lastActiveDate: Date
+}
+
+"""
+A date string, such as 2007-12-03, compliant with the `full-date` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
+"""
+scalar Date
+
+input HostedCollectivesFinancialActivityMetricsInput {
+  dateRange: MetricsDateRangeInput!
+  measures: [HostedCollectivesFinancialActivityMetricsMeasure!]!
+  filters: HostedCollectivesFinancialActivityMetricsFiltersAllOf
+
+  """
+  Time grain. Omit for a single aggregate over the whole range.
+  """
+  bucket: TimeUnit
+  groupBy: [HostedCollectivesFinancialActivityMetricsDimension!]
+  having: [HostedCollectivesFinancialActivityMetricsHavingInput!]
+  orderBy: [HostedCollectivesFinancialActivityMetricsOrderByInput!]
+  limit: Int
+
+  """
+  IANA timezone applied to `DATE_TRUNC` when bucketing — determines where each month/week/day boundary falls. Independent of `dateRange` (which already carries the absolute window via ISO offsets): two queries with the same dateRange but different timezones can produce different bucket boundaries.
+  """
+  timezone: String = "UTC"
+}
+
+"""
+Date range `[from, to)`.
+"""
+input MetricsDateRangeInput {
+  from: DateTime!
+  to: DateTime!
+}
+
+enum HostedCollectivesFinancialActivityMetricsMeasure {
+  """
+  Amount received in host currency, sums credit transactions, excluding refunds, refunded transactions and internal transfers.
+  Matches values returned from hostStats.totalAmountReceived(net: false).
+  """
+  amountReceived
+
+  """
+  Net amount received in host currency, sums credit transactions with fees and taxes included, excluding refunds, refunded transactions and internal transfers.
+  Matches values returned from hostStats.totalAmountReceived(net: true).
+  """
+  amountReceivedNet
+
+  """
+  Amount spent in host currency, sums debit transactions, excluding refunds, refunded transactions and internal transfers.Matches values returned from hostStats.totalAmountSpent(net: false).
+  """
+  amountSpent
+
+  """
+  Net amount spent in host currency, sums debit transactions with fees and taxes included, excluding refunds, refunded transactions and internal transfers.Matches values returned from hostStats.totalAmountSpent(net: true).
+  """
+  amountSpentNet
+
+  """
+  Total number of transactions in the queried scope.
+  """
+  transactionCount
+
+  """
+  Number of contribution (CREDIT) transactions, excluding refunds, refunded transactions and internal transfers.
+  Matches the count behind `amountReceived`.
+  """
+  contributionsCount
+
+  """
+  Number of payout (DEBIT) transactions, excluding host/processor fees, refunds, refunded transactions and internal transfers.
+  Matches the count behind `amountSpent`.
+  """
+  payoutsCount
+
+  """
+  Distinct main accounts with at least one transaction of any kind. Child events/projects roll up to their parent.
+  """
+  activeCollectives
+
+  """
+  Most recent date with any ledger activity, as `YYYY-MM-DD`.
+  """
+  lastActiveDate
+}
+
+input HostedCollectivesFinancialActivityMetricsFiltersAllOf {
+  account: MetricsAccountReferenceFilter
+  parent: MetricsAccountReferenceFilter
+  mainAccount: MetricsAccountReferenceFilter
+  isMainAccount: Boolean
+  accountType: MetricsStringFilter
+  mainAccountType: MetricsStringFilter
+  isArchived: Boolean
+  mainAccountIsArchived: Boolean
+  contributionFrequency: HostedCollectivesFinancialActivityContributionFrequencyFilter
+  hostCurrency: MetricsStringFilter
+}
+
+"""
+Filter a metric dimension that references an Account.
+"""
+input MetricsAccountReferenceFilter {
+  eq: AccountReferenceInput
+  in: [AccountReferenceInput!]
+  isNull: Boolean
+}
+
+input MetricsStringFilter {
+  eq: String
+  in: [String!]
+  isNull: Boolean
+}
+
+input HostedCollectivesFinancialActivityContributionFrequencyFilter {
+  eq: HostedCollectivesFinancialActivityContributionFrequency
+  in: [HostedCollectivesFinancialActivityContributionFrequency!]
+  isNull: Boolean
+}
+
+enum HostedCollectivesFinancialActivityMetricsDimension {
+  account
+  parent
+  mainAccount
+  isMainAccount
+  accountType
+  mainAccountType
+  isArchived
+  mainAccountIsArchived
+  contributionFrequency
+  hostCurrency
+}
+
+input HostedCollectivesFinancialActivityMetricsHavingInput {
+  measure: HostedCollectivesFinancialActivityMetricsMeasure!
+  op: MetricsHavingOp!
+  value: Float!
+}
+
+"""
+Comparison operator for HAVING clauses on a measure.
+"""
+enum MetricsHavingOp {
+  """
+  Greater than
+  """
+  gt
+
+  """
+  Greater than or equal
+  """
+  gte
+
+  """
+  Less than
+  """
+  lt
+
+  """
+  Less than or equal
+  """
+  lte
+
+  """
+  Equal
+  """
+  eq
+
+  """
+  Not equal
+  """
+  ne
+}
+
+input HostedCollectivesFinancialActivityMetricsOrderByInput {
+  measure: HostedCollectivesFinancialActivityMetricsMeasure!
+  direction: MetricsOrderByDirection!
+}
+
+enum MetricsOrderByDirection {
+  """
+  Ascending
+  """
+  asc
+
+  """
+  Descending
+  """
+  desc
+}
+
+type HostedCollectivesMembershipMetricsResult implements MetricsResult {
+  dateFrom: DateTime!
+  dateTo: DateTime!
+  bucket: TimeUnit
+  groupBy: [String!]
+  rows: [HostedCollectivesMembershipMetricsRow!]!
+}
+
+type HostedCollectivesMembershipMetricsRow {
+  bucket: String
+  group: HostedCollectivesMembershipMetricsGroup
+  values: HostedCollectivesMembershipMetricsValues!
+}
+
+type HostedCollectivesMembershipMetricsGroup {
+  account: Account
+  accountType: String
+  isArchived: Boolean
+  event: String
+}
+
+type HostedCollectivesMembershipMetricsValues {
+  joinedCount: Int
+  churnedCount: Int
+  joinedDistinctCollectives: Int
+  churnedDistinctCollectives: Int
+}
+
+input HostedCollectivesMembershipMetricsInput {
+  dateRange: MetricsDateRangeInput!
+  measures: [HostedCollectivesMembershipMetricsMeasure!]!
+  filters: HostedCollectivesMembershipMetricsFiltersAllOf
+
+  """
+  Time grain. Omit for a single aggregate over the whole range.
+  """
+  bucket: TimeUnit
+  groupBy: [HostedCollectivesMembershipMetricsDimension!]
+  having: [HostedCollectivesMembershipMetricsHavingInput!]
+  orderBy: [HostedCollectivesMembershipMetricsOrderByInput!]
+  limit: Int
+
+  """
+  IANA timezone applied to `DATE_TRUNC` when bucketing — determines where each month/week/day boundary falls. Independent of `dateRange` (which already carries the absolute window via ISO offsets): two queries with the same dateRange but different timezones can produce different bucket boundaries.
+  """
+  timezone: String = "UTC"
+}
+
+enum HostedCollectivesMembershipMetricsMeasure {
+  joinedCount
+  churnedCount
+  joinedDistinctCollectives
+  churnedDistinctCollectives
+}
+
+input HostedCollectivesMembershipMetricsFiltersAllOf {
+  account: MetricsAccountReferenceFilter
+  accountType: MetricsStringFilter
+  isArchived: Boolean
+  event: MetricsStringFilter
+}
+
+enum HostedCollectivesMembershipMetricsDimension {
+  account
+  accountType
+  isArchived
+  event
+}
+
+input HostedCollectivesMembershipMetricsHavingInput {
+  measure: HostedCollectivesMembershipMetricsMeasure!
+  op: MetricsHavingOp!
+  value: Float!
+}
+
+input HostedCollectivesMembershipMetricsOrderByInput {
+  measure: HostedCollectivesMembershipMetricsMeasure!
+  direction: MetricsOrderByDirection!
+}
+
+type HostedCollectivesHostingMetricsResult implements MetricsResult {
+  dateFrom: DateTime!
+  dateTo: DateTime!
+  bucket: TimeUnit
+  groupBy: [String!]
+  rows: [HostedCollectivesHostingMetricsRow!]!
+}
+
+type HostedCollectivesHostingMetricsRow {
+  bucket: String
+  group: HostedCollectivesHostingMetricsGroup
+  values: HostedCollectivesHostingMetricsValues!
+}
+
+type HostedCollectivesHostingMetricsGroup {
+  account: Account
+  parent: Account
+  accountType: String
+  mainAccountType: String
+  endDate: String
+}
+
+type HostedCollectivesHostingMetricsValues {
+  hostedCollectives: Int
+  daysHostedToDate: Float
+}
+
+input HostedCollectivesHostingMetricsInput {
+  dateRange: MetricsDateRangeInput!
+  measures: [HostedCollectivesHostingMetricsMeasure!]!
+  filters: HostedCollectivesHostingMetricsFiltersAllOf
+
+  """
+  Time grain. Omit for a single aggregate over the whole range.
+  """
+  bucket: TimeUnit
+  groupBy: [HostedCollectivesHostingMetricsDimension!]
+  having: [HostedCollectivesHostingMetricsHavingInput!]
+  orderBy: [HostedCollectivesHostingMetricsOrderByInput!]
+  limit: Int
+
+  """
+  IANA timezone applied to `DATE_TRUNC` when bucketing — determines where each month/week/day boundary falls. Independent of `dateRange` (which already carries the absolute window via ISO offsets): two queries with the same dateRange but different timezones can produce different bucket boundaries.
+  """
+  timezone: String = "UTC"
+}
+
+enum HostedCollectivesHostingMetricsMeasure {
+  hostedCollectives
+  daysHostedToDate
+}
+
+input HostedCollectivesHostingMetricsFiltersAllOf {
+  account: MetricsAccountReferenceFilter
+  parent: MetricsAccountReferenceFilter
+  accountType: MetricsStringFilter
+  mainAccountType: MetricsStringFilter
+  endDate: MetricsStringFilter
+}
+
+enum HostedCollectivesHostingMetricsDimension {
+  account
+  parent
+  accountType
+  mainAccountType
+  endDate
+}
+
+input HostedCollectivesHostingMetricsHavingInput {
+  measure: HostedCollectivesHostingMetricsMeasure!
+  op: MetricsHavingOp!
+  value: Float!
+}
+
+input HostedCollectivesHostingMetricsOrderByInput {
+  measure: HostedCollectivesHostingMetricsMeasure!
+  direction: MetricsOrderByDirection!
+}
+
+type HostedCollectivesTransactionSizesMetricsResult implements MetricsResult {
+  dateFrom: DateTime!
+  dateTo: DateTime!
+  bucket: TimeUnit
+  groupBy: [String!]
+  rows: [HostedCollectivesTransactionSizesMetricsRow!]!
+}
+
+type HostedCollectivesTransactionSizesMetricsRow {
+  bucket: String
+  group: HostedCollectivesTransactionSizesMetricsGroup
+  values: HostedCollectivesTransactionSizesMetricsValues!
+}
+
+type HostedCollectivesTransactionSizesMetricsGroup {
+  account: Account
+  parent: Account
+  mainAccount: Account
+  isMainAccount: Boolean
+  accountType: String
+  kindClass: HostedCollectivesTransactionSizesKindClass
+  contributionFrequency: HostedCollectivesTransactionSizesContributionFrequency
+  amountBand: HostedCollectivesTransactionSizesAmountBand
+  hostCurrency: String
+}
+
+enum HostedCollectivesTransactionSizesKindClass {
+  """
+  Incoming contribution (credit).
+  """
+  CONTRIBUTION
+
+  """
+  Outgoing payout / expense (debit).
+  """
+  PAYOUT
+}
+
+enum HostedCollectivesTransactionSizesContributionFrequency {
+  """
+  One-time contribution (no recurring order).
+  """
+  ONE_TIME
+
+  """
+  Recurring contribution (the order has a monthly/yearly interval).
+  """
+  RECURRING
+
+  """
+  Funds added by the host.
+  """
+  ADDED_FUNDS
+
+  """
+  Everything else.
+  """
+  OTHER
+}
+
+enum HostedCollectivesTransactionSizesAmountBand {
+  """
+  Up to and including 5.
+  """
+  GT_0_LTE_5
+
+  """
+  Over 5, up to and including 10.
+  """
+  GT_5_LTE_10
+
+  """
+  Over 10, up to and including 25.
+  """
+  GT_10_LTE_25
+
+  """
+  Over 25, up to and including 50.
+  """
+  GT_25_LTE_50
+
+  """
+  Over 50, up to and including 75.
+  """
+  GT_50_LTE_75
+
+  """
+  Over 75, up to and including 100.
+  """
+  GT_75_LTE_100
+
+  """
+  Over 100, up to and including 150.
+  """
+  GT_100_LTE_150
+
+  """
+  Over 150, up to and including 200.
+  """
+  GT_150_LTE_200
+
+  """
+  Over 200, up to and including 250.
+  """
+  GT_200_LTE_250
+
+  """
+  Over 250, up to and including 500.
+  """
+  GT_250_LTE_500
+
+  """
+  Over 500, up to and including 1,000.
+  """
+  GT_500_LTE_1000
+
+  """
+  Over 1,000, up to and including 2,000.
+  """
+  GT_1000_LTE_2000
+
+  """
+  Over 2,000, up to and including 5,000.
+  """
+  GT_2000_LTE_5000
+
+  """
+  Over 5,000, up to and including 10,000.
+  """
+  GT_5000_LTE_10000
+
+  """
+  Over 10,000, up to and including 25,000.
+  """
+  GT_10000_LTE_25000
+
+  """
+  Over 25,000, up to and including 50,000.
+  """
+  GT_25000_LTE_50000
+
+  """
+  Over 50,000.
+  """
+  GT_50000
+}
+
+type HostedCollectivesTransactionSizesMetricsValues {
+  """
+  Number of contribution/payout transactions in the band.
+  """
+  transactionCount: Int
+
+  """
+  Total absolute amount (host currency) of the transactions in the band.
+  """
+  amount: Amount
+}
+
+input HostedCollectivesTransactionSizesMetricsInput {
+  dateRange: MetricsDateRangeInput!
+  measures: [HostedCollectivesTransactionSizesMetricsMeasure!]!
+  filters: HostedCollectivesTransactionSizesMetricsFiltersAllOf
+
+  """
+  Time grain. Omit for a single aggregate over the whole range.
+  """
+  bucket: TimeUnit
+  groupBy: [HostedCollectivesTransactionSizesMetricsDimension!]
+  having: [HostedCollectivesTransactionSizesMetricsHavingInput!]
+  orderBy: [HostedCollectivesTransactionSizesMetricsOrderByInput!]
+  limit: Int
+
+  """
+  IANA timezone applied to `DATE_TRUNC` when bucketing — determines where each month/week/day boundary falls. Independent of `dateRange` (which already carries the absolute window via ISO offsets): two queries with the same dateRange but different timezones can produce different bucket boundaries.
+  """
+  timezone: String = "UTC"
+}
+
+enum HostedCollectivesTransactionSizesMetricsMeasure {
+  """
+  Number of contribution/payout transactions in the band.
+  """
+  transactionCount
+
+  """
+  Total absolute amount (host currency) of the transactions in the band.
+  """
+  amount
+}
+
+input HostedCollectivesTransactionSizesMetricsFiltersAllOf {
+  account: MetricsAccountReferenceFilter
+  parent: MetricsAccountReferenceFilter
+  mainAccount: MetricsAccountReferenceFilter
+  isMainAccount: Boolean
+  accountType: MetricsStringFilter
+  kindClass: HostedCollectivesTransactionSizesKindClassFilter
+  contributionFrequency: HostedCollectivesTransactionSizesContributionFrequencyFilter
+  amountBand: HostedCollectivesTransactionSizesAmountBandFilter
+  hostCurrency: MetricsStringFilter
+}
+
+input HostedCollectivesTransactionSizesKindClassFilter {
+  eq: HostedCollectivesTransactionSizesKindClass
+  in: [HostedCollectivesTransactionSizesKindClass!]
+  isNull: Boolean
+}
+
+input HostedCollectivesTransactionSizesContributionFrequencyFilter {
+  eq: HostedCollectivesTransactionSizesContributionFrequency
+  in: [HostedCollectivesTransactionSizesContributionFrequency!]
+  isNull: Boolean
+}
+
+input HostedCollectivesTransactionSizesAmountBandFilter {
+  eq: HostedCollectivesTransactionSizesAmountBand
+  in: [HostedCollectivesTransactionSizesAmountBand!]
+  isNull: Boolean
+}
+
+enum HostedCollectivesTransactionSizesMetricsDimension {
+  account
+  parent
+  mainAccount
+  isMainAccount
+  accountType
+  kindClass
+  contributionFrequency
+  amountBand
+  hostCurrency
+}
+
+input HostedCollectivesTransactionSizesMetricsHavingInput {
+  measure: HostedCollectivesTransactionSizesMetricsMeasure!
+  op: MetricsHavingOp!
+  value: Float!
+}
+
+input HostedCollectivesTransactionSizesMetricsOrderByInput {
+  measure: HostedCollectivesTransactionSizesMetricsMeasure!
+  direction: MetricsOrderByDirection!
 }
 
 """
@@ -8389,6 +9191,8 @@ enum AccountingCategoryKind {
   ADDED_FUNDS
   CONTRIBUTION
   EXPENSE
+  BALANCE_ACCOUNT
+  CLEARING_ACCOUNT
 }
 
 """
@@ -8452,6 +9256,11 @@ type ManualPaymentProvider {
   Bank account details for BANK_TRANSFER type providers
   """
   accountDetails: JSON
+
+  """
+  The balance/clearing accounting category used to attribute payments through this provider
+  """
+  balanceAccountingCategory: AccountingCategory
 
   """
   Whether this provider has been archived
@@ -8656,7 +9465,7 @@ type TransactionsImport {
   """
   rows(
     """
-    The number of results to fetch (default 10, max 1000)
+    The number of results to fetch (default 100, max 1000)
     """
     limit: Int! = 100
 
@@ -8762,6 +9571,11 @@ type TransactionsImportAccount {
   The mask of the account (Plaid only)
   """
   mask: String
+
+  """
+  The balance/clearing accounting category used to attribute activity matched from this bank sub-account (only visible to host admins)
+  """
+  balanceAccountingCategory: AccountingCategory
 }
 
 type TransactionsImportAssignment {
@@ -9162,7 +9976,7 @@ type ExpensePermissions {
   """
   Whether the current user can edit the expense
   """
-  canEdit: Boolean!
+  canEdit: Boolean! @deprecated(reason: "2026-09-15: Use the granular permissions instead.")
 
   """
   Whether the current user can edit the expense title
@@ -9611,6 +10425,16 @@ type OrderPermissions {
   If paused, whether the current user can resume this order
   """
   canResume: Boolean!
+
+  """
+  Whether the current user can cancel this recurring contribution
+  """
+  canCancel: Boolean!
+
+  """
+  Whether the current user can remove the contributor from the collective public profile
+  """
+  canRemoveAsContributor: Boolean!
 }
 
 type PendingOrderData {
@@ -9733,6 +10557,11 @@ type Bot implements Account {
   isIncognito: Boolean!
 
   """
+  Whether the account is private
+  """
+  isPrivate: Boolean!
+
+  """
   For an incognito account, returns the main profile. Only visible to users with the right permissions. Scope: "account".
   """
   mainProfile: Account
@@ -9771,6 +10600,11 @@ type Bot implements Account {
   isSuspended: Boolean!
 
   """
+  Whether this account has a public profile that can be linked to
+  """
+  hasPublicProfile: Boolean!
+
+  """
   Returns whether the account accepts financial contributions.
   """
   isActive: Boolean
@@ -9788,7 +10622,7 @@ type Bot implements Account {
   parentAccount: Account @deprecated(reason: "2022-12-16: use parent on AccountWithParent instead")
 
   """
-  Get all members (admins, members, backers, followers)
+  Get all members (admins, members, backers)
   """
   members(
     limit: Int! = 100
@@ -9902,12 +10736,12 @@ type Bot implements Account {
   ): MemberOfCollection!
 
   """
-  Returns the emails of the account. Individuals only have one, but organizations can have multiple emails.
+  Returns the emails of the account. Individuals only have one, but organizations can have multiple emails. Scope: "email".
   """
   emails: [EmailAddress!]
   transactions(
     """
-    The number of results to fetch (default 10, max 1000)
+    The number of results to fetch (default 100, max 1000)
     """
     limit: Int! = 100
 
@@ -10104,7 +10938,7 @@ type Bot implements Account {
   ): TransactionCollection!
   orders(
     """
-    The number of results to fetch (default 10, max 1000)
+    The number of results to fetch (default 100, max 1000)
     """
     limit: Int! = 100
 
@@ -10426,7 +11260,7 @@ type Bot implements Account {
     virtualCards: [VirtualCardReferenceInput]
 
     """
-    Filter expenses by the last user-role who replied to them
+    Filter expenses by the last user-role who replied to them. Requires some admin permissions on expenses.
     """
     lastCommentBy: [LastCommentBy]
 
@@ -10565,6 +11399,11 @@ type Bot implements Account {
     onlyChangelogUpdates: Boolean
     orderBy: UpdateChronologicalOrderInput! = { field: CREATED_AT, direction: DESC }
     searchTerm: String
+
+    """
+    Include updates from children accounts (events/projects).
+    """
+    includeChildren: Boolean! = false
   ): UpdateCollection!
 
   """
@@ -10606,9 +11445,9 @@ type Bot implements Account {
     searchTerm: String
 
     """
-    Order of the results. Defaults to createdAt DESC.
+    Order of the results. When not provided, children are grouped by type (Collectives/Organizations, then Projects, then Events, then internal Platform accounts) and sorted by createdAt DESC within each group.
     """
-    orderBy: OrderByInput! = { field: CREATED_AT, direction: DESC }
+    orderBy: OrderByInput
   ): AccountCollection!
 
   """
@@ -10627,7 +11466,7 @@ type Bot implements Account {
   permissions: AccountPermissions!
 
   """
-  Host application requests
+  Host application requests. Scope: "host".
   """
   hostApplicationRequests(
     """
@@ -10659,7 +11498,7 @@ type Bot implements Account {
     """
     Number of activities to retrieve
     """
-    limit: Int
+    limit: Int = 20
 
     """
     The classes of activity types to filter for
@@ -10676,41 +11515,6 @@ type Bot implements Account {
   If this account was duplicated, the accounts that were created from it
   """
   duplicatedAccounts(limit: Int! = 100, offset: Int! = 0): AccountCollection!
-
-  """
-  [!] Warning: this query is currently in beta and the API might change
-  """
-  transactionGroups(
-    """
-    The number of results to fetch (default 10, max 1000)
-    """
-    limit: Int! = 100
-
-    """
-    The offset to use to fetch
-    """
-    offset: Int! = 0
-
-    """
-    Filter transaction groups by the type of the primary transaction
-    """
-    type: TransactionType
-
-    """
-    Filter transaction groups by the kind of the primary transaction
-    """
-    kind: TransactionKind
-
-    """
-    Only return transaction groups that were created after this date
-    """
-    dateFrom: DateTime
-
-    """
-    Only return transaction groups that were created before this date
-    """
-    dateTo: DateTime
-  ): TransactionGroupCollection!
 
   """
   EXPERIMENTAL (this may change or be removed)
@@ -10812,6 +11616,11 @@ type Collective implements Account & AccountWithHost & AccountWithContributions 
   isIncognito: Boolean!
 
   """
+  Whether the account is private
+  """
+  isPrivate: Boolean!
+
+  """
   For an incognito account, returns the main profile. Only visible to users with the right permissions. Scope: "account".
   """
   mainProfile: Account
@@ -10850,6 +11659,11 @@ type Collective implements Account & AccountWithHost & AccountWithContributions 
   isSuspended: Boolean!
 
   """
+  Whether this account has a public profile that can be linked to
+  """
+  hasPublicProfile: Boolean!
+
+  """
   Returns whether it's active: can accept financial contributions and pay expenses.
   """
   isActive: Boolean!
@@ -10867,7 +11681,7 @@ type Collective implements Account & AccountWithHost & AccountWithContributions 
   parentAccount: Account @deprecated(reason: "2022-12-16: use parent on AccountWithParent instead")
 
   """
-  Get all members (admins, members, backers, followers)
+  Get all members (admins, members, backers)
   """
   members(
     limit: Int! = 100
@@ -10981,12 +11795,12 @@ type Collective implements Account & AccountWithHost & AccountWithContributions 
   ): MemberOfCollection!
 
   """
-  Returns the emails of the account. Individuals only have one, but organizations can have multiple emails.
+  Returns the emails of the account. Individuals only have one, but organizations can have multiple emails. Scope: "email".
   """
   emails: [EmailAddress!]
   transactions(
     """
-    The number of results to fetch (default 10, max 1000)
+    The number of results to fetch (default 100, max 1000)
     """
     limit: Int! = 100
 
@@ -11183,7 +11997,7 @@ type Collective implements Account & AccountWithHost & AccountWithContributions 
   ): TransactionCollection!
   orders(
     """
-    The number of results to fetch (default 10, max 1000)
+    The number of results to fetch (default 100, max 1000)
     """
     limit: Int! = 100
 
@@ -11505,7 +12319,7 @@ type Collective implements Account & AccountWithHost & AccountWithContributions 
     virtualCards: [VirtualCardReferenceInput]
 
     """
-    Filter expenses by the last user-role who replied to them
+    Filter expenses by the last user-role who replied to them. Requires some admin permissions on expenses.
     """
     lastCommentBy: [LastCommentBy]
 
@@ -11644,6 +12458,11 @@ type Collective implements Account & AccountWithHost & AccountWithContributions 
     onlyChangelogUpdates: Boolean
     orderBy: UpdateChronologicalOrderInput! = { field: CREATED_AT, direction: DESC }
     searchTerm: String
+
+    """
+    Include updates from children accounts (events/projects).
+    """
+    includeChildren: Boolean! = false
   ): UpdateCollection!
 
   """
@@ -11685,9 +12504,9 @@ type Collective implements Account & AccountWithHost & AccountWithContributions 
     searchTerm: String
 
     """
-    Order of the results. Defaults to createdAt DESC.
+    Order of the results. When not provided, children are grouped by type (Collectives/Organizations, then Projects, then Events, then internal Platform accounts) and sorted by createdAt DESC within each group.
     """
-    orderBy: OrderByInput! = { field: CREATED_AT, direction: DESC }
+    orderBy: OrderByInput
   ): AccountCollection!
 
   """
@@ -11706,7 +12525,7 @@ type Collective implements Account & AccountWithHost & AccountWithContributions 
   permissions: AccountPermissions!
 
   """
-  Host application requests
+  Host application requests. Scope: "host".
   """
   hostApplicationRequests(
     """
@@ -11738,7 +12557,7 @@ type Collective implements Account & AccountWithHost & AccountWithContributions 
     """
     Number of activities to retrieve
     """
-    limit: Int
+    limit: Int = 20
 
     """
     The classes of activity types to filter for
@@ -11755,41 +12574,6 @@ type Collective implements Account & AccountWithHost & AccountWithContributions 
   If this account was duplicated, the accounts that were created from it
   """
   duplicatedAccounts(limit: Int! = 100, offset: Int! = 0): AccountCollection!
-
-  """
-  [!] Warning: this query is currently in beta and the API might change
-  """
-  transactionGroups(
-    """
-    The number of results to fetch (default 10, max 1000)
-    """
-    limit: Int! = 100
-
-    """
-    The offset to use to fetch
-    """
-    offset: Int! = 0
-
-    """
-    Filter transaction groups by the type of the primary transaction
-    """
-    type: TransactionType
-
-    """
-    Filter transaction groups by the kind of the primary transaction
-    """
-    kind: TransactionKind
-
-    """
-    Only return transaction groups that were created after this date
-    """
-    dateFrom: DateTime
-
-    """
-    Only return transaction groups that were created before this date
-    """
-    dateTo: DateTime
-  ): TransactionGroupCollection!
 
   """
   EXPERIMENTAL (this may change or be removed)
@@ -11882,7 +12666,7 @@ type Collective implements Account & AccountWithHost & AccountWithContributions 
   """
   hostAgreements(
     """
-    The number of results to fetch (default 10, max 1000)
+    The number of results to fetch (default 30, max 1000)
     """
     limit: Int! = 30
 
@@ -11914,7 +12698,7 @@ type Collective implements Account & AccountWithHost & AccountWithContributions 
   ): Int!
   tiers(
     """
-    The number of results to fetch
+    The number of results to fetch (default 100, max 1000)
     """
     limit: Int! = 100
 
@@ -11951,7 +12735,7 @@ type Collective implements Account & AccountWithHost & AccountWithContributions 
   ): ContributorCollection!
 
   """
-  [!] Warning: this query is currently in beta and the API might change
+  [!] Warning: this query is currently in beta and the API might change. Does not include private accounts.
   """
   activeContributors(
     """
@@ -11988,7 +12772,7 @@ type Collective implements Account & AccountWithHost & AccountWithContributions 
   Returns the current platform subscription
   """
   platformSubscription: PlatformSubscription
-  platformBilling(billingPeriod: PlatformBillingPeriodInput): PlatformBilling!
+  platformBilling(billingPeriod: PlatformBillingPeriodInput): PlatformBilling
   legacyPlan: HostPlan!
 }
 
@@ -12046,7 +12830,7 @@ interface AccountWithHost {
   """
   hostAgreements(
     """
-    The number of results to fetch (default 10, max 1000)
+    The number of results to fetch (default 30, max 1000)
     """
     limit: Int! = 30
 
@@ -12233,6 +13017,11 @@ type Credit implements Transaction {
   clearedAt: DateTime
   expense: Expense
   order: Order
+
+  """
+  The balance/clearing accounting category the funds moved through, inherited from the related order or expense (only visible to host admins and accountants)
+  """
+  balanceAccountingCategory: AccountingCategory
   isRefunded: Boolean
   isRefund: Boolean
   isDisputed: Boolean
@@ -12385,6 +13174,11 @@ type Debit implements Transaction {
   clearedAt: DateTime
   expense: Expense
   order: Order
+
+  """
+  The balance/clearing accounting category the funds moved through, inherited from the related order or expense (only visible to host admins and accountants)
+  """
+  balanceAccountingCategory: AccountingCategory
   isRefunded: Boolean
   isRefund: Boolean
   isDisputed: Boolean
@@ -12471,6 +13265,11 @@ type Event implements Account & AccountWithHost & AccountWithContributions & Acc
   isIncognito: Boolean!
 
   """
+  Whether the account is private
+  """
+  isPrivate: Boolean!
+
+  """
   For an incognito account, returns the main profile. Only visible to users with the right permissions. Scope: "account".
   """
   mainProfile: Account
@@ -12509,6 +13308,11 @@ type Event implements Account & AccountWithHost & AccountWithContributions & Acc
   isSuspended: Boolean!
 
   """
+  Whether this account has a public profile that can be linked to
+  """
+  hasPublicProfile: Boolean!
+
+  """
   Returns whether it's active: can accept financial contributions and pay expenses.
   """
   isActive: Boolean!
@@ -12526,7 +13330,7 @@ type Event implements Account & AccountWithHost & AccountWithContributions & Acc
   parentAccount: Account @deprecated(reason: "2022-12-16: use parent on AccountWithParent instead")
 
   """
-  Get all members (admins, members, backers, followers)
+  Get all members (admins, members, backers)
   """
   members(
     limit: Int! = 100
@@ -12640,12 +13444,12 @@ type Event implements Account & AccountWithHost & AccountWithContributions & Acc
   ): MemberOfCollection!
 
   """
-  Returns the emails of the account. Individuals only have one, but organizations can have multiple emails.
+  Returns the emails of the account. Individuals only have one, but organizations can have multiple emails. Scope: "email".
   """
   emails: [EmailAddress!]
   transactions(
     """
-    The number of results to fetch (default 10, max 1000)
+    The number of results to fetch (default 100, max 1000)
     """
     limit: Int! = 100
 
@@ -12842,7 +13646,7 @@ type Event implements Account & AccountWithHost & AccountWithContributions & Acc
   ): TransactionCollection!
   orders(
     """
-    The number of results to fetch (default 10, max 1000)
+    The number of results to fetch (default 100, max 1000)
     """
     limit: Int! = 100
 
@@ -13164,7 +13968,7 @@ type Event implements Account & AccountWithHost & AccountWithContributions & Acc
     virtualCards: [VirtualCardReferenceInput]
 
     """
-    Filter expenses by the last user-role who replied to them
+    Filter expenses by the last user-role who replied to them. Requires some admin permissions on expenses.
     """
     lastCommentBy: [LastCommentBy]
 
@@ -13303,6 +14107,11 @@ type Event implements Account & AccountWithHost & AccountWithContributions & Acc
     onlyChangelogUpdates: Boolean
     orderBy: UpdateChronologicalOrderInput! = { field: CREATED_AT, direction: DESC }
     searchTerm: String
+
+    """
+    Include updates from children accounts (events/projects).
+    """
+    includeChildren: Boolean! = false
   ): UpdateCollection!
 
   """
@@ -13344,9 +14153,9 @@ type Event implements Account & AccountWithHost & AccountWithContributions & Acc
     searchTerm: String
 
     """
-    Order of the results. Defaults to createdAt DESC.
+    Order of the results. When not provided, children are grouped by type (Collectives/Organizations, then Projects, then Events, then internal Platform accounts) and sorted by createdAt DESC within each group.
     """
-    orderBy: OrderByInput! = { field: CREATED_AT, direction: DESC }
+    orderBy: OrderByInput
   ): AccountCollection!
 
   """
@@ -13365,7 +14174,7 @@ type Event implements Account & AccountWithHost & AccountWithContributions & Acc
   permissions: AccountPermissions!
 
   """
-  Host application requests
+  Host application requests. Scope: "host".
   """
   hostApplicationRequests(
     """
@@ -13397,7 +14206,7 @@ type Event implements Account & AccountWithHost & AccountWithContributions & Acc
     """
     Number of activities to retrieve
     """
-    limit: Int
+    limit: Int = 20
 
     """
     The classes of activity types to filter for
@@ -13414,41 +14223,6 @@ type Event implements Account & AccountWithHost & AccountWithContributions & Acc
   If this account was duplicated, the accounts that were created from it
   """
   duplicatedAccounts(limit: Int! = 100, offset: Int! = 0): AccountCollection!
-
-  """
-  [!] Warning: this query is currently in beta and the API might change
-  """
-  transactionGroups(
-    """
-    The number of results to fetch (default 10, max 1000)
-    """
-    limit: Int! = 100
-
-    """
-    The offset to use to fetch
-    """
-    offset: Int! = 0
-
-    """
-    Filter transaction groups by the type of the primary transaction
-    """
-    type: TransactionType
-
-    """
-    Filter transaction groups by the kind of the primary transaction
-    """
-    kind: TransactionKind
-
-    """
-    Only return transaction groups that were created after this date
-    """
-    dateFrom: DateTime
-
-    """
-    Only return transaction groups that were created before this date
-    """
-    dateTo: DateTime
-  ): TransactionGroupCollection!
 
   """
   EXPERIMENTAL (this may change or be removed)
@@ -13541,7 +14315,7 @@ type Event implements Account & AccountWithHost & AccountWithContributions & Acc
   """
   hostAgreements(
     """
-    The number of results to fetch (default 10, max 1000)
+    The number of results to fetch (default 30, max 1000)
     """
     limit: Int! = 30
 
@@ -13573,7 +14347,7 @@ type Event implements Account & AccountWithHost & AccountWithContributions & Acc
   ): Int!
   tiers(
     """
-    The number of results to fetch
+    The number of results to fetch (default 100, max 1000)
     """
     limit: Int! = 100
 
@@ -13610,7 +14384,7 @@ type Event implements Account & AccountWithHost & AccountWithContributions & Acc
   ): ContributorCollection!
 
   """
-  [!] Warning: this query is currently in beta and the API might change
+  [!] Warning: this query is currently in beta and the API might change. Does not include private accounts.
   """
   activeContributors(
     """
@@ -13849,6 +14623,11 @@ type Individual implements Account {
   isIncognito: Boolean!
 
   """
+  Whether the account is private
+  """
+  isPrivate: Boolean!
+
+  """
   For an incognito account, returns the main profile. Only visible to users with the right permissions. Scope: "account".
   """
   mainProfile: Account
@@ -13887,6 +14666,11 @@ type Individual implements Account {
   isSuspended: Boolean!
 
   """
+  Whether this account has a public profile that can be linked to
+  """
+  hasPublicProfile: Boolean!
+
+  """
   Returns whether the account accepts financial contributions.
   """
   isActive: Boolean
@@ -13904,7 +14688,7 @@ type Individual implements Account {
   parentAccount: Account @deprecated(reason: "2022-12-16: use parent on AccountWithParent instead")
 
   """
-  Get all members (admins, members, backers, followers)
+  Get all members (admins, members, backers)
   """
   members(
     limit: Int! = 100
@@ -14018,12 +14802,12 @@ type Individual implements Account {
   ): MemberOfCollection!
 
   """
-  Returns the emails of the account. Individuals only have one, but organizations can have multiple emails.
+  Returns the emails of the account. Individuals only have one, but organizations can have multiple emails. Scope: "email".
   """
   emails: [EmailAddress!]
   transactions(
     """
-    The number of results to fetch (default 10, max 1000)
+    The number of results to fetch (default 100, max 1000)
     """
     limit: Int! = 100
 
@@ -14220,7 +15004,7 @@ type Individual implements Account {
   ): TransactionCollection!
   orders(
     """
-    The number of results to fetch (default 10, max 1000)
+    The number of results to fetch (default 100, max 1000)
     """
     limit: Int! = 100
 
@@ -14542,7 +15326,7 @@ type Individual implements Account {
     virtualCards: [VirtualCardReferenceInput]
 
     """
-    Filter expenses by the last user-role who replied to them
+    Filter expenses by the last user-role who replied to them. Requires some admin permissions on expenses.
     """
     lastCommentBy: [LastCommentBy]
 
@@ -14679,6 +15463,11 @@ type Individual implements Account {
     onlyChangelogUpdates: Boolean
     orderBy: UpdateChronologicalOrderInput! = { field: CREATED_AT, direction: DESC }
     searchTerm: String
+
+    """
+    Include updates from children accounts (events/projects).
+    """
+    includeChildren: Boolean! = false
   ): UpdateCollection!
 
   """
@@ -14720,9 +15509,9 @@ type Individual implements Account {
     searchTerm: String
 
     """
-    Order of the results. Defaults to createdAt DESC.
+    Order of the results. When not provided, children are grouped by type (Collectives/Organizations, then Projects, then Events, then internal Platform accounts) and sorted by createdAt DESC within each group.
     """
-    orderBy: OrderByInput! = { field: CREATED_AT, direction: DESC }
+    orderBy: OrderByInput
   ): AccountCollection!
 
   """
@@ -14741,7 +15530,7 @@ type Individual implements Account {
   permissions: AccountPermissions!
 
   """
-  Host application requests
+  Host application requests. Scope: "host".
   """
   hostApplicationRequests(
     """
@@ -14773,7 +15562,7 @@ type Individual implements Account {
     """
     Number of activities to retrieve
     """
-    limit: Int
+    limit: Int = 20
 
     """
     The classes of activity types to filter for
@@ -14790,41 +15579,6 @@ type Individual implements Account {
   If this account was duplicated, the accounts that were created from it
   """
   duplicatedAccounts(limit: Int! = 100, offset: Int! = 0): AccountCollection!
-
-  """
-  [!] Warning: this query is currently in beta and the API might change
-  """
-  transactionGroups(
-    """
-    The number of results to fetch (default 10, max 1000)
-    """
-    limit: Int! = 100
-
-    """
-    The offset to use to fetch
-    """
-    offset: Int! = 0
-
-    """
-    Filter transaction groups by the type of the primary transaction
-    """
-    type: TransactionType
-
-    """
-    Filter transaction groups by the kind of the primary transaction
-    """
-    kind: TransactionKind
-
-    """
-    Only return transaction groups that were created after this date
-    """
-    dateFrom: DateTime
-
-    """
-    Only return transaction groups that were created before this date
-    """
-    dateTo: DateTime
-  ): TransactionGroupCollection!
 
   """
   EXPERIMENTAL (this may change or be removed)
@@ -15253,6 +16007,11 @@ type Organization implements Account & AccountWithContributions & AccountWithPla
   isIncognito: Boolean!
 
   """
+  Whether the account is private
+  """
+  isPrivate: Boolean!
+
+  """
   For an incognito account, returns the main profile. Only visible to users with the right permissions. Scope: "account".
   """
   mainProfile: Account
@@ -15291,6 +16050,11 @@ type Organization implements Account & AccountWithContributions & AccountWithPla
   isSuspended: Boolean!
 
   """
+  Whether this account has a public profile that can be linked to
+  """
+  hasPublicProfile: Boolean!
+
+  """
   Returns whether the account accepts financial contributions.
   """
   isActive: Boolean
@@ -15308,7 +16072,7 @@ type Organization implements Account & AccountWithContributions & AccountWithPla
   parentAccount: Account @deprecated(reason: "2022-12-16: use parent on AccountWithParent instead")
 
   """
-  Get all members (admins, members, backers, followers)
+  Get all members (admins, members, backers)
   """
   members(
     limit: Int! = 100
@@ -15422,12 +16186,12 @@ type Organization implements Account & AccountWithContributions & AccountWithPla
   ): MemberOfCollection!
 
   """
-  Returns the emails of the account. Individuals only have one, but organizations can have multiple emails.
+  Returns the emails of the account. Individuals only have one, but organizations can have multiple emails. Scope: "email".
   """
   emails: [EmailAddress!]
   transactions(
     """
-    The number of results to fetch (default 10, max 1000)
+    The number of results to fetch (default 100, max 1000)
     """
     limit: Int! = 100
 
@@ -15624,7 +16388,7 @@ type Organization implements Account & AccountWithContributions & AccountWithPla
   ): TransactionCollection!
   orders(
     """
-    The number of results to fetch (default 10, max 1000)
+    The number of results to fetch (default 100, max 1000)
     """
     limit: Int! = 100
 
@@ -15946,7 +16710,7 @@ type Organization implements Account & AccountWithContributions & AccountWithPla
     virtualCards: [VirtualCardReferenceInput]
 
     """
-    Filter expenses by the last user-role who replied to them
+    Filter expenses by the last user-role who replied to them. Requires some admin permissions on expenses.
     """
     lastCommentBy: [LastCommentBy]
 
@@ -16083,6 +16847,11 @@ type Organization implements Account & AccountWithContributions & AccountWithPla
     onlyChangelogUpdates: Boolean
     orderBy: UpdateChronologicalOrderInput! = { field: CREATED_AT, direction: DESC }
     searchTerm: String
+
+    """
+    Include updates from children accounts (events/projects).
+    """
+    includeChildren: Boolean! = false
   ): UpdateCollection!
 
   """
@@ -16124,9 +16893,9 @@ type Organization implements Account & AccountWithContributions & AccountWithPla
     searchTerm: String
 
     """
-    Order of the results. Defaults to createdAt DESC.
+    Order of the results. When not provided, children are grouped by type (Collectives/Organizations, then Projects, then Events, then internal Platform accounts) and sorted by createdAt DESC within each group.
     """
-    orderBy: OrderByInput! = { field: CREATED_AT, direction: DESC }
+    orderBy: OrderByInput
   ): AccountCollection!
 
   """
@@ -16145,7 +16914,7 @@ type Organization implements Account & AccountWithContributions & AccountWithPla
   permissions: AccountPermissions!
 
   """
-  Host application requests
+  Host application requests. Scope: "host".
   """
   hostApplicationRequests(
     """
@@ -16177,7 +16946,7 @@ type Organization implements Account & AccountWithContributions & AccountWithPla
     """
     Number of activities to retrieve
     """
-    limit: Int
+    limit: Int = 20
 
     """
     The classes of activity types to filter for
@@ -16194,41 +16963,6 @@ type Organization implements Account & AccountWithContributions & AccountWithPla
   If this account was duplicated, the accounts that were created from it
   """
   duplicatedAccounts(limit: Int! = 100, offset: Int! = 0): AccountCollection!
-
-  """
-  [!] Warning: this query is currently in beta and the API might change
-  """
-  transactionGroups(
-    """
-    The number of results to fetch (default 10, max 1000)
-    """
-    limit: Int! = 100
-
-    """
-    The offset to use to fetch
-    """
-    offset: Int! = 0
-
-    """
-    Filter transaction groups by the type of the primary transaction
-    """
-    type: TransactionType
-
-    """
-    Filter transaction groups by the kind of the primary transaction
-    """
-    kind: TransactionKind
-
-    """
-    Only return transaction groups that were created after this date
-    """
-    dateFrom: DateTime
-
-    """
-    Only return transaction groups that were created before this date
-    """
-    dateTo: DateTime
-  ): TransactionGroupCollection!
 
   """
   EXPERIMENTAL (this may change or be removed)
@@ -16287,7 +17021,7 @@ type Organization implements Account & AccountWithContributions & AccountWithPla
   ): Int!
   tiers(
     """
-    The number of results to fetch
+    The number of results to fetch (default 100, max 1000)
     """
     limit: Int! = 100
 
@@ -16324,7 +17058,7 @@ type Organization implements Account & AccountWithContributions & AccountWithPla
   ): ContributorCollection!
 
   """
-  [!] Warning: this query is currently in beta and the API might change
+  [!] Warning: this query is currently in beta and the API might change. Does not include private accounts.
   """
   activeContributors(
     """
@@ -16366,7 +17100,7 @@ type Organization implements Account & AccountWithContributions & AccountWithPla
   Returns the current platform subscription
   """
   platformSubscription: PlatformSubscription
-  platformBilling(billingPeriod: PlatformBillingPeriodInput): PlatformBilling!
+  platformBilling(billingPeriod: PlatformBillingPeriodInput): PlatformBilling
   legacyPlan: HostPlan!
   email: String @deprecated(reason: "2022-07-18: This field is deprecated and will return null")
 
@@ -16400,7 +17134,7 @@ type Organization implements Account & AccountWithContributions & AccountWithPla
   """
   vendors(
     """
-    The number of results to fetch (default 10, max 1000)
+    The number of results to fetch (default 100, max 1000)
     """
     limit: Int! = 100
 
@@ -16415,9 +17149,10 @@ type Organization implements Account & AccountWithContributions & AccountWithPla
     forAccount: AccountReferenceInput
 
     """
-    Only returns vendors that are visible to the given accounts
+    Only return vendors that can be used with the given accounts
     """
-    visibleToAccounts: [AccountReferenceInput]
+    canBeUsedWithAccounts: [AccountReferenceInput]
+    visibleToAccounts: [AccountReferenceInput] @deprecated(reason: "Use canBeUsedWithAccounts instead.")
 
     """
     Filter on archived vendors
@@ -16450,7 +17185,7 @@ type Organization implements Account & AccountWithContributions & AccountWithPla
   """
   potentialVendors(
     """
-    The number of results to fetch (default 10, max 1000)
+    The number of results to fetch (default 100, max 1000)
     """
     limit: Int! = 100
 
@@ -16501,7 +17236,7 @@ type Organization implements Account & AccountWithContributions & AccountWithPla
   ): [NonEmptyString]!
   offPlatformTransactions(
     """
-    The number of results to fetch (default 10, max 1000)
+    The number of results to fetch (default 100, max 1000)
     """
     limit: Int! = 100
 
@@ -16657,51 +17392,33 @@ type Organization implements Account & AccountWithContributions & AccountWithPla
     """
     account: AccountReferenceInput
   ): AccountingCategoryCollection!
+
+  """
+  Suggested balance/clearing accounting categories for a context: the rail the money moved through, then the bank accounts assigned to the account. Only computed for host admins and accountants.
+  """
+  suggestedBalanceAccountingCategories(
+    """
+    Suggest from the bank accounts assigned to this account
+    """
+    account: AccountReferenceInput
+
+    """
+    Suggest from the payment rail of this order
+    """
+    order: OrderReferenceInput
+
+    """
+    Suggest from the payout rail of this expense
+    """
+    expense: ExpenseReferenceInput
+  ): [AccountingCategory!]!
   contributionAccountingCategoryRules: [ContributionAccountingCategoryRule!]
 }
 
 """
-TransferWise related properties for bank transfer.
+This represents a Platform account: a per-host account (a hosted child of the fiscal host) that holds platform tips collected on behalf of the Open Collective platform.
 """
-type TransferWise {
-  """
-  Unique identifier for this Wise object
-  """
-  id: String!
-
-  """
-  The resource public id (ie: acc_xxxxxxxx)
-  """
-  publicId: String!
-  requiredFields(
-    """
-    The 3 letter code identifying the currency you want to receive (ie: USD, EUR, BRL, GBP)
-    """
-    currency: String!
-
-    """
-    The account JSON object being validated
-    """
-    accountDetails: JSON
-  ): [TransferWiseRequiredField]
-  availableCurrencies(
-    """
-    Ignores blocked currencies, used to generate the bank information form for manual payments
-    """
-    ignoreBlockedCurrencies: Boolean
-  ): [JSONObject]
-
-  """
-  Transferwise balances. Returns null if Transferwise account is not connected.
-  """
-  balances: [Amount]
-  amountBatched: Amount
-}
-
-"""
-This represents a Vendor account
-"""
-type Vendor implements Account & AccountWithContributions {
+type Platform implements Account & AccountWithHost & AccountWithParent {
   id: String!
   legacyId: Int!
 
@@ -16751,6 +17468,11 @@ type Vendor implements Account & AccountWithContributions {
   isIncognito: Boolean!
 
   """
+  Whether the account is private
+  """
+  isPrivate: Boolean!
+
+  """
   For an incognito account, returns the main profile. Only visible to users with the right permissions. Scope: "account".
   """
   mainProfile: Account
@@ -16789,9 +17511,14 @@ type Vendor implements Account & AccountWithContributions {
   isSuspended: Boolean!
 
   """
-  Returns whether the account accepts financial contributions.
+  Whether this account has a public profile that can be linked to
   """
-  isActive: Boolean
+  hasPublicProfile: Boolean!
+
+  """
+  Returns whether it's active: can accept financial contributions and pay expenses.
+  """
+  isActive: Boolean!
 
   """
   Returns whether the account has money management activated.
@@ -16806,7 +17533,7 @@ type Vendor implements Account & AccountWithContributions {
   parentAccount: Account @deprecated(reason: "2022-12-16: use parent on AccountWithParent instead")
 
   """
-  Get all members (admins, members, backers, followers)
+  Get all members (admins, members, backers)
   """
   members(
     limit: Int! = 100
@@ -16920,12 +17647,12 @@ type Vendor implements Account & AccountWithContributions {
   ): MemberOfCollection!
 
   """
-  Returns the emails of the account. Individuals only have one, but organizations can have multiple emails.
+  Returns the emails of the account. Individuals only have one, but organizations can have multiple emails. Scope: "email".
   """
   emails: [EmailAddress!]
   transactions(
     """
-    The number of results to fetch (default 10, max 1000)
+    The number of results to fetch (default 100, max 1000)
     """
     limit: Int! = 100
 
@@ -17122,7 +17849,7 @@ type Vendor implements Account & AccountWithContributions {
   ): TransactionCollection!
   orders(
     """
-    The number of results to fetch (default 10, max 1000)
+    The number of results to fetch (default 100, max 1000)
     """
     limit: Int! = 100
 
@@ -17444,7 +18171,7 @@ type Vendor implements Account & AccountWithContributions {
     virtualCards: [VirtualCardReferenceInput]
 
     """
-    Filter expenses by the last user-role who replied to them
+    Filter expenses by the last user-role who replied to them. Requires some admin permissions on expenses.
     """
     lastCommentBy: [LastCommentBy]
 
@@ -17583,6 +18310,11 @@ type Vendor implements Account & AccountWithContributions {
     onlyChangelogUpdates: Boolean
     orderBy: UpdateChronologicalOrderInput! = { field: CREATED_AT, direction: DESC }
     searchTerm: String
+
+    """
+    Include updates from children accounts (events/projects).
+    """
+    includeChildren: Boolean! = false
   ): UpdateCollection!
 
   """
@@ -17624,9 +18356,9 @@ type Vendor implements Account & AccountWithContributions {
     searchTerm: String
 
     """
-    Order of the results. Defaults to createdAt DESC.
+    Order of the results. When not provided, children are grouped by type (Collectives/Organizations, then Projects, then Events, then internal Platform accounts) and sorted by createdAt DESC within each group.
     """
-    orderBy: OrderByInput! = { field: CREATED_AT, direction: DESC }
+    orderBy: OrderByInput
   ): AccountCollection!
 
   """
@@ -17645,7 +18377,7 @@ type Vendor implements Account & AccountWithContributions {
   permissions: AccountPermissions!
 
   """
-  Host application requests
+  Host application requests. Scope: "host".
   """
   hostApplicationRequests(
     """
@@ -17677,7 +18409,7 @@ type Vendor implements Account & AccountWithContributions {
     """
     Number of activities to retrieve
     """
-    limit: Int
+    limit: Int = 20
 
     """
     The classes of activity types to filter for
@@ -17696,11 +18428,399 @@ type Vendor implements Account & AccountWithContributions {
   duplicatedAccounts(limit: Int! = 100, offset: Int! = 0): AccountCollection!
 
   """
-  [!] Warning: this query is currently in beta and the API might change
+  EXPERIMENTAL (this may change or be removed)
   """
-  transactionGroups(
+  transactionReports(timeUnit: TimeUnit = MONTH, dateFrom: DateTime, dateTo: DateTime): TransactionReports
+
+  """
+  Various stats about how this account is connected to the rest of the community
+  """
+  communityStats(host: AccountReferenceInput!): CommunityStats
+
+  """
+  KYC Verification requests made by this account
+  """
+  kycVerificationRequests(
     """
     The number of results to fetch (default 10, max 1000)
+    """
+    limit: Int! = 10
+
+    """
+    The offset to use to fetch
+    """
+    offset: Int! = 0
+
+    """
+    If set, returns only verification requests with this status
+    """
+    status: [KYCVerificationStatus!]
+
+    """
+    If set, returns only verification requests made to these accounts
+    """
+    accounts: [AccountReferenceInput!]
+  ): KYCVerificationCollection!
+  webhooks(
+    """
+    The number of results to fetch (default 10, max 1000)
+    """
+    limit: Int! = 10
+
+    """
+    The offset to use to fetch
+    """
+    offset: Int! = 0
+  ): WebhookCollection!
+
+  """
+  Returns the Fiscal Host
+  """
+  host: Host
+
+  """
+  Describe how the host charges the collective
+  """
+  hostFeesStructure: HostFeeStructure
+
+  """
+  Fees percentage that the host takes for this collective
+  """
+  hostFeePercent(paymentMethodService: PaymentMethodService, paymentMethodType: PaymentMethodType): Float
+
+  """
+  Returns the Fiscal Host application
+  """
+  hostApplication: HostApplication
+
+  """
+  Fees percentage that the platform takes for this collective
+  """
+  platformFeePercent: Float
+
+  """
+  Date of approval by the Fiscal Host.
+  """
+  approvedAt: DateTime
+
+  """
+  Date when the collective was last unfrozen by current Fiscal Host
+  """
+  unfrozenAt: DateTime
+
+  """
+  Returns whether it's approved by the Fiscal Host
+  """
+  isApproved: Boolean!
+
+  """
+  Returns agreements this account has with its host, or null if not enough permissions.
+  """
+  hostAgreements(
+    """
+    The number of results to fetch (default 30, max 1000)
+    """
+    limit: Int! = 30
+
+    """
+    The offset to use to fetch
+    """
+    offset: Int! = 0
+  ): AgreementCollection
+  summary(
+    """
+    Calculate amount after this date
+    """
+    dateFrom: DateTime
+
+    """
+    Calculate amount before this date
+    """
+    dateTo: DateTime
+  ): HostedAccountSummary
+
+  """
+  The Account parenting this account
+  """
+  parent: Account
+}
+
+"""
+TransferWise related properties for bank transfer.
+"""
+type TransferWise {
+  """
+  Unique identifier for this Wise object
+  """
+  id: String!
+
+  """
+  The resource public id (ie: acc_xxxxxxxx)
+  """
+  publicId: String!
+  requiredFields(
+    """
+    The 3 letter code identifying the currency you want to receive (ie: USD, EUR, BRL, GBP)
+    """
+    currency: String!
+
+    """
+    The account JSON object being validated
+    """
+    accountDetails: JSON
+  ): [TransferWiseRequiredField]
+  availableCurrencies(
+    """
+    Ignores blocked currencies, used to generate the bank information form for manual payments
+    """
+    ignoreBlockedCurrencies: Boolean
+  ): [JSONObject]
+
+  """
+  Transferwise balances. Returns null if Transferwise account is not connected.
+  """
+  balances: [Amount]
+  amountBatched: Amount
+}
+
+"""
+This represents a Vendor account
+"""
+type Vendor implements Account & AccountWithContributions {
+  id: String!
+  legacyId: Int!
+
+  """
+  The resource public id (ie: acc_xxxxxxxx)
+  """
+  publicId: String!
+
+  """
+  The slug identifying the account (ie: babel)
+  """
+  slug: String!
+  type: AccountType!
+
+  """
+  Public name
+  """
+  name: String
+
+  """
+  Private, legal name. Used for expense receipts, taxes, etc. Scope: "account".
+  """
+  legalName: String
+  description: String
+  longDescription: String
+  tags: [String]
+  website: String @deprecated(reason: "2023-01-16: Please use socialLinks")
+  twitterHandle: String @deprecated(reason: "2023-01-16: Please use socialLinks")
+  githubHandle: String @deprecated(reason: "2022-06-03: Please use repositoryUrl")
+  repositoryUrl: String @deprecated(reason: "2023-01-16: Please use socialLinks")
+  socialLinks: [SocialLink!]!
+
+  """
+  The currency of the account
+  """
+  currency: Currency!
+  expensePolicy: String @deprecated(reason: "2024-11-04: Please use policies.EXPENSE_POLICIES")
+
+  """
+  Whether the account is verified
+  """
+  isVerified: Boolean!
+
+  """
+  Defines if the contributors wants to be incognito (name not displayed)
+  """
+  isIncognito: Boolean!
+
+  """
+  Whether the account is private
+  """
+  isPrivate: Boolean!
+
+  """
+  For an incognito account, returns the main profile. Only visible to users with the right permissions. Scope: "account".
+  """
+  mainProfile: Account
+  imageUrl(height: Int, format: ImageFormat): String
+  backgroundImageUrl(height: Int, format: ImageFormat): String
+
+  """
+  The time of creation
+  """
+  createdAt: DateTime
+  updatedAt: DateTime
+
+  """
+  Date of unhosting by a given Fiscal Host.
+  """
+  unhostedAt(
+    """
+    The host account this collective was hosted by
+    """
+    host: AccountReferenceInput!
+  ): DateTime
+
+  """
+  Returns whether this account is archived
+  """
+  isArchived: Boolean!
+
+  """
+  Whether this account is frozen
+  """
+  isFrozen: Boolean!
+
+  """
+  Whether this account is suspended
+  """
+  isSuspended: Boolean!
+
+  """
+  Whether this account has a public profile that can be linked to
+  """
+  hasPublicProfile: Boolean!
+
+  """
+  Returns whether the account accepts financial contributions.
+  """
+  isActive: Boolean
+
+  """
+  Returns whether the account has money management activated.
+  """
+  isHost: Boolean!
+    @deprecated(reason: "2025-11-21: use hasMoneyManagement or hasHosting on the Organization object instead.")
+
+  """
+  Returns true if the remote user is an admin of this account
+  """
+  isAdmin: Boolean!
+  parentAccount: Account @deprecated(reason: "2022-12-16: use parent on AccountWithParent instead")
+
+  """
+  Get all members (admins, members, backers)
+  """
+  members(
+    limit: Int! = 100
+    offset: Int! = 0
+    role: [MemberRole]
+    accountType: [AccountType]
+
+    """
+    Admin only. To filter on the email address of a member, useful to check if a member exists.
+    """
+    email: EmailAddress
+
+    """
+    Order of the results
+    """
+    orderBy: ChronologicalOrderInput! = { field: CREATED_AT, direction: ASC }
+    includeInherited: Boolean = true
+
+    """
+    Filter members by tier. Pass null to filter for members without any tier.
+    """
+    tier: TierReferenceInput
+  ): MemberCollection!
+
+  """
+  Returns the pending invitations, or null if not allowed.
+  """
+  memberInvitations(
+    """
+    A reference to an account (usually Individual). Will return invitations sent to the account to join as a member
+    """
+    memberAccount: AccountReferenceInput
+
+    """
+    A reference to an account (usually Collective, Fund or Organization). Will return invitations sent to join this account as a member.
+    """
+    account: AccountReferenceInput
+
+    """
+    An array of Member roles to filter for
+    """
+    role: [MemberRole]
+  ): [MemberInvitation]
+
+  """
+  The legal documents associated with this account
+  """
+  legalDocuments(
+    """
+    Filter by type
+    """
+    type: [LegalDocumentType]
+  ): [LegalDocument]
+  memberOf(
+    limit: Int! = 150
+    offset: Int! = 0
+    role: [MemberRole]
+    accountType: [AccountType]
+    account: AccountReferenceInput
+
+    """
+    Filter on whether the account is a host or not
+    """
+    isHostAccount: Boolean
+      @deprecated(reason: "2025-12-20: Deprecated. Will be eventually replaced by hasMoneyManagement or hasHosting.")
+
+    """
+    Filter on (un)approved collectives
+    """
+    isApproved: Boolean
+
+    """
+    Filter on archived collectives
+    """
+    isArchived: Boolean
+
+    """
+    Filter on (not) frozen collectives
+    """
+    isFrozen: Boolean
+
+    """
+    Whether incognito profiles should be included in the result. Only works if requesting user is an admin of the account.
+    """
+    includeIncognito: Boolean = true
+
+    """
+    A term to search membership. Searches in collective tags, name, slug, members description and role.
+    """
+    searchTerm: String
+
+    """
+    Filters on the Host fees structure applied to this account
+    """
+    hostFeesStructure: HostFeeStructure
+
+    """
+    Order of the results
+    """
+    orderBy: OrderByInput! = { field: CREATED_AT, direction: DESC }
+
+    """
+    Order the query by requested role order
+    """
+    orderByRoles: Boolean
+
+    """
+    Filter members by tier
+    """
+    tier: TierReferenceInput
+  ): MemberOfCollection!
+
+  """
+  Returns the emails of the account. Individuals only have one, but organizations can have multiple emails. Scope: "email".
+  """
+  emails: [EmailAddress!]
+  transactions(
+    """
+    The number of results to fetch (default 100, max 1000)
     """
     limit: Int! = 100
 
@@ -17710,25 +18830,770 @@ type Vendor implements Account & AccountWithContributions {
     offset: Int! = 0
 
     """
-    Filter transaction groups by the type of the primary transaction
+    The transaction type (DEBIT or CREDIT)
     """
     type: TransactionType
 
     """
-    Filter transaction groups by the kind of the primary transaction
+    The payment method types. Can include `null` for transactions without a payment method
     """
-    kind: TransactionKind
+    paymentMethodType: [PaymentMethodType]
 
     """
-    Only return transaction groups that were created after this date
+    The payment method services.
+    """
+    paymentMethodService: [PaymentMethodService]
+
+    """
+    Reference of the account(s) assigned to the main side of the transaction you want to EXCLUDE from the results
+    """
+    excludeAccount: [AccountReferenceInput]
+
+    """
+    Reference of the account assigned to the other side of the transaction (CREDIT -> sender, DEBIT -> recipient). Avoid, favor account instead.
+    """
+    fromAccount: AccountReferenceInput
+
+    """
+    Reference of the host accounting the transaction
+    """
+    host: AccountReferenceInput
+
+    """
+    NOT IMPLEMENTED. Only return transactions that match these tags.
+    """
+    tags: [String] @deprecated(reason: "2020-08-09: Was never implemented.")
+
+    """
+    The order of results
+    """
+    orderBy: ChronologicalOrderInput! = { field: CREATED_AT, direction: DESC }
+
+    """
+    Only return expenses that match this amount range
+    """
+    amount: AmountRangeInput
+
+    """
+    Only return transactions where the amount is greater than or equal to this value (in cents)
+    """
+    minAmount: Int @deprecated(reason: "2020-08-09: GraphQL v2 should not expose amounts as integer.")
+
+    """
+    Only return transactions where the amount is lower than or equal to this value (in cents)
+    """
+    maxAmount: Int @deprecated(reason: "2020-08-09: GraphQL v2 should not expose amounts as integer.")
+
+    """
+    Only return transactions that were created after this date
     """
     dateFrom: DateTime
 
     """
-    Only return transaction groups that were created before this date
+    Only return transactions that were created before this date
     """
     dateTo: DateTime
-  ): TransactionGroupCollection!
+
+    """
+    Only return transactions that were cleared after this date
+    """
+    clearedFrom: DateTime
+
+    """
+    Only return transactions that were cleared before this date
+    """
+    clearedTo: DateTime
+
+    """
+    The term to search
+    """
+    searchTerm: String
+
+    """
+    If true, return transactions with debt attached, if false transactions without debt attached.
+    """
+    hasDebt: Boolean
+
+    """
+    Only return transactions with an Expense attached
+    """
+    hasExpense: Boolean
+
+    """
+    Only return transactions with this Expense attached
+    """
+    expense: ExpenseReferenceInput
+
+    """
+    Only return transactions that have an Expense of one of these expense types attached
+    """
+    expenseType: [ExpenseType]
+
+    """
+    Only return transactions with an Order attached
+    """
+    hasOrder: Boolean
+
+    """
+    Only return transactions for this order.
+    """
+    order: OrderReferenceInput
+
+    """
+    Only return transactions for contributions that used this manual payment provider.
+    """
+    manualPaymentProvider: [ManualPaymentProviderReferenceInput!]
+
+    """
+    Used when filtering with the `host` argument to determine whether to include transactions on the fiscal host account (and children)
+    """
+    includeHost: Boolean! = true
+
+    """
+    Whether to include regular transactions from the account (turn false if you only want Incognito or Gift Card transactions)
+    """
+    includeRegularTransactions: Boolean! = true
+
+    """
+    If the account is a user and this field is true, contributions from the incognito profile will be included too (admins only)
+    """
+    includeIncognitoTransactions: Boolean! = false
+
+    """
+    Whether to include transactions from children (Events and Projects)
+    """
+    includeChildrenTransactions: Boolean! = false
+
+    """
+    Whether to include transactions from Gift Cards issued by the account.
+    """
+    includeGiftCardTransactions: Boolean! = false
+
+    """
+    Whether to include debt transactions
+    """
+    includeDebts: Boolean! = false
+
+    """
+    Whether to include the reversed transactions created due to an edit.
+    """
+    includeEditedReversedTransactions: Boolean! = true
+
+    """
+    To filter by transaction kind
+    """
+    kind: [TransactionKind]
+
+    """
+    The transactions group to filter by
+    """
+    group: [String]
+    virtualCard: [VirtualCardReferenceInput]
+
+    """
+    Only return transactions that are refunds (or not refunds if false)
+    """
+    isRefund: Boolean
+
+    """
+    Only return transactions that are associated with these external merchant IDs
+    """
+    merchantId: [String]
+
+    """
+    Only return transactions that are associated with these accounting categories
+    """
+    accountingCategory: [String]
+
+    """
+    Only return transactions that are associated with this payment method
+    """
+    paymentMethod: [PaymentMethodReferenceInput]
+
+    """
+    Only return transactions that are associated with this payout method
+    """
+    payoutMethod: PayoutMethodReferenceInput
+  ): TransactionCollection!
+  orders(
+    """
+    The number of results to fetch (default 100, max 1000)
+    """
+    limit: Int! = 100
+
+    """
+    The offset to use to fetch
+    """
+    offset: Int! = 0
+
+    """
+    Only return orders that match these accounting categories
+    """
+    accountingCategory: [String]
+
+    """
+    If account is a host, also include hosted accounts orders
+    """
+    includeHostedAccounts: Boolean @deprecated(reason: "2025-11-20: Please use hostContext instead")
+
+    """
+    If account is a host, select whether to include ALL, INTERNAL or HOSTED accounts. When set (and `hostedAccounts` is not provided), this will automatically include children accounts (events/projects) of the selected accounts. If `hostedAccounts` is also provided, use `includeChildrenAccounts` to control children account inclusion.
+    """
+    hostContext: HostContext
+
+    """
+    Include orders from children events/projects. Only relevant when `hostedAccounts` is provided. When `hostContext` is set without `hostedAccounts`, children accounts are automatically included regardless of this parameter.
+    """
+    includeChildrenAccounts: Boolean! = false
+
+    """
+    Only return orders that were paused by these roles. status must be set to PAUSED.
+    """
+    pausedBy: [OrderPausedBy]
+
+    """
+    Only return orders that were paid with this payment method. Must be an admin of the account owning the payment method.
+    """
+    paymentMethod: [PaymentMethodReferenceInput]
+
+    """
+    Only return orders that match these payment method services
+    """
+    paymentMethodService: [PaymentMethodService]
+
+    """
+    Only return orders that match these payment method types
+    """
+    paymentMethodType: [PaymentMethodType]
+
+    """
+    Only return orders that used this manual payment provider.
+    """
+    manualPaymentProvider: [ManualPaymentProviderReferenceInput!]
+
+    """
+    Whether to include incognito orders. Must be admin or root. Only with filter null or OUTGOING.
+    """
+    includeIncognito: Boolean = false
+
+    """
+    Account orders filter (INCOMING or OUTGOING)
+    """
+    filter: AccountOrdersFilter
+
+    """
+    Use this field to filter orders on their frequency (ONETIME, MONTHLY or YEARLY)
+    """
+    frequency: [ContributionFrequency]
+
+    """
+    Use this field to filter orders on their statuses
+    """
+    status: [OrderStatus]
+
+    """
+    The order of results
+    """
+    orderBy: ChronologicalOrderInput! = { field: CREATED_AT, direction: DESC }
+
+    """
+    Only return expenses that match this amount range
+    """
+    amount: AmountRangeInput
+
+    """
+    Only return orders where the amount is greater than or equal to this value (in cents)
+    """
+    minAmount: Int
+
+    """
+    Only return orders where the amount is lower than or equal to this value (in cents)
+    """
+    maxAmount: Int
+
+    """
+    Only return orders that were created after this date
+    """
+    dateFrom: DateTime
+
+    """
+    Only return orders that were created before this date
+    """
+    dateTo: DateTime
+
+    """
+    Only return pending orders that were expected after this date
+    """
+    expectedDateFrom: DateTime
+
+    """
+    Only return pending orders that were expected before this date
+    """
+    expectedDateTo: DateTime
+
+    """
+    Return orders that were charged after this date
+    """
+    chargedDateFrom: DateTime
+
+    """
+    Return orders that were charged before this date
+    """
+    chargedDateTo: DateTime
+
+    """
+    The term to search
+    """
+    searchTerm: String
+    tierSlug: String @deprecated(reason: "2022-02-25: Should be replaced by a tier reference.")
+    tier: [TierReferenceInput]
+
+    """
+    Only returns orders that have a subscription (monthly/yearly). Don't use together with frequency.
+    """
+    onlySubscriptions: Boolean
+
+    """
+    Same as onlySubscriptions, but returns only orders with active subscriptions
+    """
+    onlyActiveSubscriptions: Boolean
+    expectedFundsFilter: ExpectedFundsFilter
+
+    """
+    Return only orders made from/to that opposite account (only works when orders are already filtered with a main account)
+    """
+    oppositeAccount: AccountReferenceInput
+
+    """
+    Return only orders made from/to these hosted accounts
+    """
+    hostedAccounts: [AccountReferenceInput]
+
+    """
+    Return orders only for this host
+    """
+    host: AccountReferenceInput
+
+    """
+    Filter orders by whether the opposite account is INTERNAL or EXTERNAL. For fiscal hosts, internal means within the same host. For regular accounts, internal means within the account and its children. When combined with `filter` (INCOMING/OUTGOING), the opposite account is the other side of the order.
+    """
+    oppositeAccountScope: OppositeAccountScope
+
+    """
+    Return only orders created by these users. Limited to 1000 users at a time.
+    """
+    createdBy: [AccountReferenceInput]
+  ): OrderCollection!
+  expenses(
+    direction: ExpenseDirection
+
+    """
+    The number of results to fetch (default 10, max 1000)
+    """
+    limit: Int! = 10
+
+    """
+    The offset to use to fetch
+    """
+    offset: Int! = 0
+
+    """
+    Reference of an account that is the payee of an expense
+    """
+    fromAccount: AccountReferenceInput
+
+    """
+    An alternative to filter by fromAccount (singular), both cannot be used together
+    """
+    fromAccounts: [AccountReferenceInput]
+
+    """
+    Reference of an account that is the payer of an expense
+    """
+    account: AccountReferenceInput
+
+    """
+    An alternative to filter by accounts, both cannot be used together
+    """
+    accounts: [AccountReferenceInput]
+
+    """
+    Return expenses only for this host (payer / collective side)
+    """
+    host: AccountReferenceInput
+
+    """
+    Return expenses only for payees (fromCollective) hosted by this host. Cannot be used together with `host`.
+    """
+    fromHost: AccountReferenceInput
+
+    """
+    If `host` or `fromHost` is provided, select whether to include ALL, INTERNAL or HOSTED accounts (payer when using `host`, payee when using `fromHost`).
+    """
+    hostContext: HostContext
+
+    """
+    Return expenses only created by this INDIVIDUAL account
+    """
+    createdByAccount: AccountReferenceInput
+
+    """
+    Return expenses only paid by this INDIVIDUAL account
+    """
+    paidByAccount: AccountReferenceInput
+
+    """
+    Return expenses only approved by this INDIVIDUAL account
+    """
+    approvedByAccount: AccountReferenceInput
+
+    """
+    Return expenses only rejected by this INDIVIDUAL account
+    """
+    rejectedByAccount: AccountReferenceInput
+
+    """
+    Return expenses only invited by this INDIVIDUAL account
+    """
+    invitedByAccount: AccountReferenceInput
+
+    """
+    Use this field to filter expenses on their statuses
+    """
+    status: [ExpenseStatusFilter]
+
+    """
+    Use this field to filter expenses on their type (RECEIPT/INVOICE)
+    """
+    type: ExpenseType
+    types: [ExpenseType]
+
+    """
+    Only expenses that match these tags
+    """
+    tags: [String] @deprecated(reason: "2020-06-30: Please use tag (singular)")
+
+    """
+    Only expenses that match these tags
+    """
+    tag: [String]
+
+    """
+    The order of results
+    """
+    orderBy: ChronologicalOrderInput! = { field: CREATED_AT, direction: DESC }
+
+    """
+    Only return expenses that match this amount range
+    """
+    amount: AmountRangeInput
+
+    """
+    Only return expenses where the amount is greater than or equal to this value (in cents)
+    """
+    minAmount: Int
+
+    """
+    Only return expenses where the amount is lower than or equal to this value (in cents)
+    """
+    maxAmount: Int
+
+    """
+    Only return expenses that use the given type as payout method
+    """
+    payoutMethodType: PayoutMethodType
+
+    """
+    Only return expenses that were created after this date
+    """
+    dateFrom: DateTime
+
+    """
+    Only return expenses that were created after this date
+    """
+    dateTo: DateTime
+
+    """
+    The term to search
+    """
+    searchTerm: String
+
+    """
+    Whether to include expenses from children of the account (Events and Projects)
+    """
+    includeChildrenExpenses: Boolean! = false
+
+    """
+    Only return expenses that contains this custom data. Requires being an admin of the collective, payee or host.
+    """
+    customData: JSON
+
+    """
+    Filter expenses of type charges based on presence of receipts
+    """
+    chargeHasReceipts: Boolean
+
+    """
+    Filter expenses of type charges using these virtual cards
+    """
+    virtualCards: [VirtualCardReferenceInput]
+
+    """
+    Filter expenses by the last user-role who replied to them. Requires some admin permissions on expenses.
+    """
+    lastCommentBy: [LastCommentBy]
+
+    """
+    Only return expenses that match these accounting categories
+    """
+    accountingCategory: [String]
+
+    """
+    Only return transactions that are associated with this payout method
+    """
+    payoutMethod: PayoutMethodReferenceInput
+
+    """
+    Filter expenses by activities
+    """
+    activity: ExpenseActivityFilter
+
+    """
+    Filter expenses by KYC status
+    """
+    kycStatus: ExpenseKYCStatusFilter
+  ): ExpenseCollection!
+  settings: JSON!
+  conversations(
+    limit: Int! = 15
+    offset: Int! = 0
+
+    """
+    Only return conversations matching this tag
+    """
+    tag: String
+  ): ConversationCollection!
+
+  """
+  Returns conversation's tags for collective sorted by popularity
+  """
+  conversationsTags(limit: Int! = 30): [TagStat]
+
+  """
+  Returns expense tags for collective sorted by popularity
+  """
+  expensesTags(limit: Int! = 30): [TagStat]
+
+  """
+  The list of expense types supported by this account
+  """
+  supportedExpenseTypes: [ExpenseType!]!
+  transferwise: TransferWise
+
+  """
+  The list of payout methods that this collective can use to get paid. In most cases, admin only and scope: "expenses".
+  """
+  payoutMethods(
+    """
+    Whether to include archived payout methods
+    """
+    includeArchived: Boolean = false
+  ): [PayoutMethod!]
+
+  """
+  The list of payment methods that this collective can use to pay for Orders. Admin or Host only. Scope: "orders".
+  """
+  paymentMethods(
+    type: [PaymentMethodType]
+    enumType: [PaymentMethodType] @deprecated(reason: "2021-08-20: use type instead from now")
+    service: [PaymentMethodService]
+
+    """
+    Whether to include expired payment methods. Payment methods expired since more than 6 months will never be returned.
+    """
+    includeExpired: Boolean
+  ): [PaymentMethod]
+
+  """
+  The list of payment methods for this account that are pending a client confirmation (3D Secure / SCA)
+  """
+  paymentMethodsWithPendingConfirmation: [PaymentMethod]
+
+  """
+  The list of connected accounts (Stripe, PayPal, etc ...). Admin only. Scope: "connectedAccounts".
+  """
+  connectedAccounts(
+    """
+    Filter connected accounts by service
+    """
+    service: ConnectedAccountService
+  ): [ConnectedAccount]
+
+  """
+  The list of applications created by this account. Admin only. Scope: "applications".
+  """
+  oAuthApplications(
+    """
+    The number of results to fetch (default 10, max 1000)
+    """
+    limit: Int! = 10
+
+    """
+    The offset to use to fetch
+    """
+    offset: Int! = 0
+  ): OAuthApplicationCollection
+
+  """
+  The address associated to this account. This field is always public for collectives and events.
+  """
+  location: Location
+  categories: [String]!
+  stats: AccountStats
+
+  """
+  Whether this account can have changelog updates
+  """
+  canHaveChangelogUpdates: Boolean!
+
+  """
+  Updates published by the account. To see unpublished updates, you need to be an admin and have the scope "updates".
+  """
+  updates(
+    """
+    The number of results to fetch (default 10, max 1000)
+    """
+    limit: Int! = 10
+
+    """
+    The offset to use to fetch
+    """
+    offset: Int! = 0
+
+    """
+    Only return published updates.
+    """
+    onlyPublishedUpdates: Boolean = false
+    isDraft: Boolean
+    onlyChangelogUpdates: Boolean
+    orderBy: UpdateChronologicalOrderInput! = { field: CREATED_AT, direction: DESC }
+    searchTerm: String
+
+    """
+    Include updates from children accounts (events/projects).
+    """
+    includeChildren: Boolean! = false
+  ): UpdateCollection!
+
+  """
+  Describes the features enabled and available for this account
+  """
+  features: CollectiveFeatures!
+
+  """
+  Virtual Cards attached to the account. Admin only. Scope: "virtualCards".
+  """
+  virtualCards(
+    limit: Int! = 100
+    offset: Int! = 0
+    state: String = null @deprecated(reason: "2023-11-06: Please use status.")
+    status: [VirtualCardStatus]
+    merchantAccount: AccountReferenceInput = null
+
+    """
+    Only return expenses that were created after this date
+    """
+    dateFrom: DateTime = null
+
+    """
+    Only return expenses that were created before this date
+    """
+    dateTo: DateTime = null
+    orderBy: ChronologicalOrderInput = { field: CREATED_AT, direction: DESC }
+  ): VirtualCardCollection
+
+  """
+  Virtual Cards Merchants used by the account. Admin only. Scope: "virtualCards".
+  """
+  virtualCardMerchants(limit: Int! = 100, offset: Int! = 0): AccountCollection
+  childrenAccounts(
+    limit: Int! = 100
+    offset: Int! = 0
+    isActive: Boolean
+    accountType: [AccountType]
+    searchTerm: String
+
+    """
+    Order of the results. When not provided, children are grouped by type (Collectives/Organizations, then Projects, then Events, then internal Platform accounts) and sorted by createdAt DESC within each group.
+    """
+    orderBy: OrderByInput
+  ): AccountCollection!
+
+  """
+  Policies for the account. To see non-public policies you need to be admin and have the scope: "account".
+  """
+  policies: Policies!
+
+  """
+  List of activities that the logged-in user is subscribed for this collective
+  """
+  activitySubscriptions(channel: ActivityChannel): [ActivitySubscription]
+
+  """
+  Logged-in user permissions on an account
+  """
+  permissions: AccountPermissions!
+
+  """
+  Host application requests. Scope: "host".
+  """
+  hostApplicationRequests(
+    """
+    The number of results to fetch (default 10, max 1000)
+    """
+    limit: Int! = 10
+
+    """
+    The offset to use to fetch
+    """
+    offset: Int! = 0
+
+    """
+    Order of the results
+    """
+    orderBy: ChronologicalOrderInput! = { field: CREATED_AT, direction: DESC }
+
+    """
+    Filter applications by status
+    """
+    status: HostApplicationStatus
+  ): HostApplicationCollection!
+  feed(
+    """
+    Only returns activities before this date
+    """
+    dateTo: DateTime
+
+    """
+    Number of activities to retrieve
+    """
+    limit: Int = 20
+
+    """
+    The classes of activity types to filter for
+    """
+    classes: [ActivityClassType]
+  ): [Activity]
+
+  """
+  If created by duplication, the account from which this one was duplicated
+  """
+  duplicatedFromAccount: Account
+
+  """
+  If this account was duplicated, the accounts that were created from it
+  """
+  duplicatedAccounts(limit: Int! = 100, offset: Int! = 0): AccountCollection!
 
   """
   EXPERIMENTAL (this may change or be removed)
@@ -17787,7 +19652,7 @@ type Vendor implements Account & AccountWithContributions {
   ): Int!
   tiers(
     """
-    The number of results to fetch
+    The number of results to fetch (default 100, max 1000)
     """
     limit: Int! = 100
 
@@ -17824,7 +19689,7 @@ type Vendor implements Account & AccountWithContributions {
   ): ContributorCollection!
 
   """
-  [!] Warning: this query is currently in beta and the API might change
+  [!] Warning: this query is currently in beta and the API might change. Does not include private accounts.
   """
   activeContributors(
     """
@@ -17869,14 +19734,20 @@ type Vendor implements Account & AccountWithContributions {
   hasPayoutMethod: Boolean
 
   """
-  The account who created this order
+  The account who created this vendor
   """
   createdByAccount: Account
 
   """
-  The accounts where this vendor is visible, if empty or null applies to all collectives under the vendor host
+  The accounts this vendor can be used with. If empty, the vendor can be used with any collective under the vendor host.
   """
-  visibleToAccounts: [Account]!
+  canBeUsedWithAccounts: [Account]!
+  visibleToAccounts: [Account]! @deprecated(reason: "Use canBeUsedWithAccounts instead.")
+
+  """
+  Per-vendor override for who can attribute financial activities to this vendor. Null means inherit from host.
+  """
+  useVendorPolicy: UseVendorPolicy
 }
 
 """
@@ -18163,7 +20034,7 @@ type Query {
   ): AccountCollection!
   activities(
     """
-    The number of results to fetch (default 10, max 1000)
+    The number of results to fetch (default 100, max 1000)
     """
     limit: Int! = 100
 
@@ -18302,7 +20173,15 @@ type Query {
     Only return accounts that expended within this amount range
     """
     totalExpended: AmountRangeInput
+
+    """
+    The number of results to fetch (default 100, max 1000)
+    """
     limit: Int! = 100
+
+    """
+    The offset to use to fetch
+    """
     offset: Int! = 0
   ): AccountCollection!
 
@@ -18505,7 +20384,7 @@ type Query {
     virtualCards: [VirtualCardReferenceInput]
 
     """
-    Filter expenses by the last user-role who replied to them
+    Filter expenses by the last user-role who replied to them. Requires some admin permissions on expenses.
     """
     lastCommentBy: [LastCommentBy]
 
@@ -18724,6 +20603,10 @@ type Query {
     """
     role: [MemberRole]
   ): [MemberInvitation]
+
+  """
+  Get an order by reference. Scope: "orders".
+  """
   order(
     """
     Identifiers to retrieve the Order
@@ -18737,7 +20620,7 @@ type Query {
     account: AccountReferenceInput
 
     """
-    The number of results to fetch (default 10, max 1000)
+    The number of results to fetch (default 100, max 1000)
     """
     limit: Int! = 100
 
@@ -19032,7 +20915,7 @@ type Query {
     account: [AccountReferenceInput!]
 
     """
-    The number of results to fetch (default 10, max 1000)
+    The number of results to fetch (default 100, max 1000)
     """
     limit: Int! = 100
 
@@ -19229,61 +21112,6 @@ type Query {
   ): TransactionCollection!
 
   """
-  [!] Warning: this query is currently in beta and the API might change
-  """
-  transactionGroup(
-    """
-    The public id identifying the transaction group (ie: rvelja97-pkzqbgq7-bbzyx6wd-50o8n4rm)
-    """
-    groupId: String!
-
-    """
-    Account associated to the transaction group
-    """
-    account: AccountReferenceInput!
-  ): TransactionGroup
-
-  """
-  [!] Warning: this query is currently in beta and the API might change
-  """
-  transactionGroups(
-    """
-    Reference of the account(s) assigned to the main side of the transaction group (CREDIT -> recipient, DEBIT -> sender)
-    """
-    account: AccountReferenceInput!
-
-    """
-    The number of results to fetch (default 10, max 1000)
-    """
-    limit: Int! = 100
-
-    """
-    The offset to use to fetch
-    """
-    offset: Int! = 0
-
-    """
-    Filter transaction groups by the type of the primary transaction
-    """
-    type: TransactionType
-
-    """
-    Filter transaction groups by the kind of the primary transaction
-    """
-    kind: TransactionKind
-
-    """
-    Only return transaction groups that were created after this date
-    """
-    dateFrom: DateTime
-
-    """
-    Only return transaction groups that were created before this date
-    """
-    dateTo: DateTime
-  ): TransactionGroupCollection!
-
-  """
   Fetch a transactions import
   """
   transactionsImport(
@@ -19435,6 +21263,81 @@ type Query {
   ): [OffPlatformTransactionsInstitution!]!
   loggedInAccount: Individual
   me: Individual
+
+  """
+  Returns a single payment intent identified by its public id
+  """
+  paymentIntent(
+    """
+    The public id identifying the payment intent (ie: pi_xxxxxxxx)
+    """
+    publicId: String!
+  ): PaymentIntent
+
+  """
+  Returns a list of payment intents
+  """
+  paymentIntents(
+    """
+    Filter payment intents involving this account
+    """
+    account: AccountReferenceInput
+
+    """
+    The number of results to fetch (default 100, max 1000)
+    """
+    limit: Int! = 100
+
+    """
+    The offset to use to fetch
+    """
+    offset: Int! = 0
+
+    """
+    Only return payment intents for this host
+    """
+    host: AccountReferenceInput
+
+    """
+    When `host` is provided, select whether to include ALL payment intents, only those involving the host organization internal accounts (INTERNAL) or only those involving hosted collectives (HOSTED)
+    """
+    hostContext: HostContext
+
+    """
+    Filter by direction relative to the account (INCOMING = payee, OUTGOING = payer)
+    """
+    direction: PaymentIntentDirection
+
+    """
+    Include payment intents for child accounts (Events, Projects)
+    """
+    includeChildrenPaymentIntents: Boolean! = false
+
+    """
+    Filter payment intents by status
+    """
+    status: [PaymentIntentStatus!]
+
+    """
+    Filter payment intents by type
+    """
+    type: [PaymentIntentType!]
+
+    """
+    Only return payment intents with an effective date after this date
+    """
+    dateFrom: DateTime
+
+    """
+    Only return payment intents with an effective date before this date
+    """
+    dateTo: DateTime
+
+    """
+    Only return payment intents involving this account as the other party
+    """
+    counterparty: AccountReferenceInput
+  ): PaymentIntentCollection!
   platformSubscriptionTiers: [PlatformSubscriptionTier]
 }
 
@@ -20709,6 +22612,7 @@ enum ActivityAndClassesType {
   COLLECTIVE_CREATED
   COLLECTIVE_EDITED
   COLLECTIVE_DELETED
+  COLLECTIVE_ARCHIVED
   COLLECTIVE_UNHOSTED
   COLLECTIVE_BALANCE_TRANSFERRED
   COLLECTIVE_CONVERTED_TO_ORGANIZATION
@@ -20721,6 +22625,7 @@ enum ActivityAndClassesType {
   EXPENSE_COMMENT_CREATED
   CONVERSATION_COMMENT_CREATED
   ORDER_COMMENT_CREATED
+  HOST_APPLICATION_COMMENT_CREATED
   COLLECTIVE_EXPENSE_CREATED
   COLLECTIVE_EXPENSE_DELETED
   COLLECTIVE_EXPENSE_UPDATED
@@ -20739,6 +22644,7 @@ enum ActivityAndClassesType {
   COLLECTIVE_EXPENSE_SCHEDULED_FOR_PAYMENT
   COLLECTIVE_EXPENSE_UNSCHEDULED_FOR_PAYMENT
   COLLECTIVE_EXPENSE_ERROR
+  COLLECTIVE_EXPENSE_PAYMENT_ERROR
   COLLECTIVE_EXPENSE_INVITE_DRAFTED
   COLLECTIVE_EXPENSE_INVITE_DECLINED
   COLLECTIVE_EXPENSE_RECURRING_DRAFTED
@@ -20777,8 +22683,9 @@ enum ActivityAndClassesType {
   COLLECTIVE_UPDATE_PUBLISHED
   COLLECTIVE_CONTACT
   HOST_APPLICATION_CONTACT
-  HOST_APPLICATION_COMMENT_CREATED
   CONTRIBUTION_REJECTED
+  CONTRIBUTION_REFUNDED
+  CONTRIBUTOR_REMOVED_BY_HOST
   SUBSCRIPTION_ACTIVATED
   SUBSCRIPTION_CANCELED
   SUBSCRIPTION_PAUSED
@@ -20816,6 +22723,7 @@ enum ActivityAndClassesType {
   USER_CREATED
   USER_NEW_TOKEN
   USER_SIGNIN
+  USER_NEW_PASSWORD_SIGNIN
   USER_RESET_PASSWORD
   USER_OTP_REQUESTED
   OAUTH_APPLICATION_AUTHORIZED
@@ -21083,6 +22991,11 @@ type Fund implements Account & AccountWithHost & AccountWithContributions {
   isIncognito: Boolean!
 
   """
+  Whether the account is private
+  """
+  isPrivate: Boolean!
+
+  """
   For an incognito account, returns the main profile. Only visible to users with the right permissions. Scope: "account".
   """
   mainProfile: Account
@@ -21121,6 +23034,11 @@ type Fund implements Account & AccountWithHost & AccountWithContributions {
   isSuspended: Boolean!
 
   """
+  Whether this account has a public profile that can be linked to
+  """
+  hasPublicProfile: Boolean!
+
+  """
   Returns whether it's active: can accept financial contributions and pay expenses.
   """
   isActive: Boolean!
@@ -21138,7 +23056,7 @@ type Fund implements Account & AccountWithHost & AccountWithContributions {
   parentAccount: Account @deprecated(reason: "2022-12-16: use parent on AccountWithParent instead")
 
   """
-  Get all members (admins, members, backers, followers)
+  Get all members (admins, members, backers)
   """
   members(
     limit: Int! = 100
@@ -21252,12 +23170,12 @@ type Fund implements Account & AccountWithHost & AccountWithContributions {
   ): MemberOfCollection!
 
   """
-  Returns the emails of the account. Individuals only have one, but organizations can have multiple emails.
+  Returns the emails of the account. Individuals only have one, but organizations can have multiple emails. Scope: "email".
   """
   emails: [EmailAddress!]
   transactions(
     """
-    The number of results to fetch (default 10, max 1000)
+    The number of results to fetch (default 100, max 1000)
     """
     limit: Int! = 100
 
@@ -21454,7 +23372,7 @@ type Fund implements Account & AccountWithHost & AccountWithContributions {
   ): TransactionCollection!
   orders(
     """
-    The number of results to fetch (default 10, max 1000)
+    The number of results to fetch (default 100, max 1000)
     """
     limit: Int! = 100
 
@@ -21776,7 +23694,7 @@ type Fund implements Account & AccountWithHost & AccountWithContributions {
     virtualCards: [VirtualCardReferenceInput]
 
     """
-    Filter expenses by the last user-role who replied to them
+    Filter expenses by the last user-role who replied to them. Requires some admin permissions on expenses.
     """
     lastCommentBy: [LastCommentBy]
 
@@ -21915,6 +23833,11 @@ type Fund implements Account & AccountWithHost & AccountWithContributions {
     onlyChangelogUpdates: Boolean
     orderBy: UpdateChronologicalOrderInput! = { field: CREATED_AT, direction: DESC }
     searchTerm: String
+
+    """
+    Include updates from children accounts (events/projects).
+    """
+    includeChildren: Boolean! = false
   ): UpdateCollection!
 
   """
@@ -21956,9 +23879,9 @@ type Fund implements Account & AccountWithHost & AccountWithContributions {
     searchTerm: String
 
     """
-    Order of the results. Defaults to createdAt DESC.
+    Order of the results. When not provided, children are grouped by type (Collectives/Organizations, then Projects, then Events, then internal Platform accounts) and sorted by createdAt DESC within each group.
     """
-    orderBy: OrderByInput! = { field: CREATED_AT, direction: DESC }
+    orderBy: OrderByInput
   ): AccountCollection!
 
   """
@@ -21977,7 +23900,7 @@ type Fund implements Account & AccountWithHost & AccountWithContributions {
   permissions: AccountPermissions!
 
   """
-  Host application requests
+  Host application requests. Scope: "host".
   """
   hostApplicationRequests(
     """
@@ -22009,7 +23932,7 @@ type Fund implements Account & AccountWithHost & AccountWithContributions {
     """
     Number of activities to retrieve
     """
-    limit: Int
+    limit: Int = 20
 
     """
     The classes of activity types to filter for
@@ -22026,41 +23949,6 @@ type Fund implements Account & AccountWithHost & AccountWithContributions {
   If this account was duplicated, the accounts that were created from it
   """
   duplicatedAccounts(limit: Int! = 100, offset: Int! = 0): AccountCollection!
-
-  """
-  [!] Warning: this query is currently in beta and the API might change
-  """
-  transactionGroups(
-    """
-    The number of results to fetch (default 10, max 1000)
-    """
-    limit: Int! = 100
-
-    """
-    The offset to use to fetch
-    """
-    offset: Int! = 0
-
-    """
-    Filter transaction groups by the type of the primary transaction
-    """
-    type: TransactionType
-
-    """
-    Filter transaction groups by the kind of the primary transaction
-    """
-    kind: TransactionKind
-
-    """
-    Only return transaction groups that were created after this date
-    """
-    dateFrom: DateTime
-
-    """
-    Only return transaction groups that were created before this date
-    """
-    dateTo: DateTime
-  ): TransactionGroupCollection!
 
   """
   EXPERIMENTAL (this may change or be removed)
@@ -22153,7 +24041,7 @@ type Fund implements Account & AccountWithHost & AccountWithContributions {
   """
   hostAgreements(
     """
-    The number of results to fetch (default 10, max 1000)
+    The number of results to fetch (default 30, max 1000)
     """
     limit: Int! = 30
 
@@ -22185,7 +24073,7 @@ type Fund implements Account & AccountWithHost & AccountWithContributions {
   ): Int!
   tiers(
     """
-    The number of results to fetch
+    The number of results to fetch (default 100, max 1000)
     """
     limit: Int! = 100
 
@@ -22222,7 +24110,7 @@ type Fund implements Account & AccountWithHost & AccountWithContributions {
   ): ContributorCollection!
 
   """
-  [!] Warning: this query is currently in beta and the API might change
+  [!] Warning: this query is currently in beta and the API might change. Does not include private accounts.
   """
   activeContributors(
     """
@@ -22319,6 +24207,11 @@ type Project implements Account & AccountWithHost & AccountWithContributions & A
   isIncognito: Boolean!
 
   """
+  Whether the account is private
+  """
+  isPrivate: Boolean!
+
+  """
   For an incognito account, returns the main profile. Only visible to users with the right permissions. Scope: "account".
   """
   mainProfile: Account
@@ -22357,6 +24250,11 @@ type Project implements Account & AccountWithHost & AccountWithContributions & A
   isSuspended: Boolean!
 
   """
+  Whether this account has a public profile that can be linked to
+  """
+  hasPublicProfile: Boolean!
+
+  """
   Returns whether it's active: can accept financial contributions and pay expenses.
   """
   isActive: Boolean!
@@ -22374,7 +24272,7 @@ type Project implements Account & AccountWithHost & AccountWithContributions & A
   parentAccount: Account @deprecated(reason: "2022-12-16: use parent on AccountWithParent instead")
 
   """
-  Get all members (admins, members, backers, followers)
+  Get all members (admins, members, backers)
   """
   members(
     limit: Int! = 100
@@ -22488,12 +24386,12 @@ type Project implements Account & AccountWithHost & AccountWithContributions & A
   ): MemberOfCollection!
 
   """
-  Returns the emails of the account. Individuals only have one, but organizations can have multiple emails.
+  Returns the emails of the account. Individuals only have one, but organizations can have multiple emails. Scope: "email".
   """
   emails: [EmailAddress!]
   transactions(
     """
-    The number of results to fetch (default 10, max 1000)
+    The number of results to fetch (default 100, max 1000)
     """
     limit: Int! = 100
 
@@ -22690,7 +24588,7 @@ type Project implements Account & AccountWithHost & AccountWithContributions & A
   ): TransactionCollection!
   orders(
     """
-    The number of results to fetch (default 10, max 1000)
+    The number of results to fetch (default 100, max 1000)
     """
     limit: Int! = 100
 
@@ -23012,7 +24910,7 @@ type Project implements Account & AccountWithHost & AccountWithContributions & A
     virtualCards: [VirtualCardReferenceInput]
 
     """
-    Filter expenses by the last user-role who replied to them
+    Filter expenses by the last user-role who replied to them. Requires some admin permissions on expenses.
     """
     lastCommentBy: [LastCommentBy]
 
@@ -23151,6 +25049,11 @@ type Project implements Account & AccountWithHost & AccountWithContributions & A
     onlyChangelogUpdates: Boolean
     orderBy: UpdateChronologicalOrderInput! = { field: CREATED_AT, direction: DESC }
     searchTerm: String
+
+    """
+    Include updates from children accounts (events/projects).
+    """
+    includeChildren: Boolean! = false
   ): UpdateCollection!
 
   """
@@ -23192,9 +25095,9 @@ type Project implements Account & AccountWithHost & AccountWithContributions & A
     searchTerm: String
 
     """
-    Order of the results. Defaults to createdAt DESC.
+    Order of the results. When not provided, children are grouped by type (Collectives/Organizations, then Projects, then Events, then internal Platform accounts) and sorted by createdAt DESC within each group.
     """
-    orderBy: OrderByInput! = { field: CREATED_AT, direction: DESC }
+    orderBy: OrderByInput
   ): AccountCollection!
 
   """
@@ -23213,7 +25116,7 @@ type Project implements Account & AccountWithHost & AccountWithContributions & A
   permissions: AccountPermissions!
 
   """
-  Host application requests
+  Host application requests. Scope: "host".
   """
   hostApplicationRequests(
     """
@@ -23245,7 +25148,7 @@ type Project implements Account & AccountWithHost & AccountWithContributions & A
     """
     Number of activities to retrieve
     """
-    limit: Int
+    limit: Int = 20
 
     """
     The classes of activity types to filter for
@@ -23262,41 +25165,6 @@ type Project implements Account & AccountWithHost & AccountWithContributions & A
   If this account was duplicated, the accounts that were created from it
   """
   duplicatedAccounts(limit: Int! = 100, offset: Int! = 0): AccountCollection!
-
-  """
-  [!] Warning: this query is currently in beta and the API might change
-  """
-  transactionGroups(
-    """
-    The number of results to fetch (default 10, max 1000)
-    """
-    limit: Int! = 100
-
-    """
-    The offset to use to fetch
-    """
-    offset: Int! = 0
-
-    """
-    Filter transaction groups by the type of the primary transaction
-    """
-    type: TransactionType
-
-    """
-    Filter transaction groups by the kind of the primary transaction
-    """
-    kind: TransactionKind
-
-    """
-    Only return transaction groups that were created after this date
-    """
-    dateFrom: DateTime
-
-    """
-    Only return transaction groups that were created before this date
-    """
-    dateTo: DateTime
-  ): TransactionGroupCollection!
 
   """
   EXPERIMENTAL (this may change or be removed)
@@ -23389,7 +25257,7 @@ type Project implements Account & AccountWithHost & AccountWithContributions & A
   """
   hostAgreements(
     """
-    The number of results to fetch (default 10, max 1000)
+    The number of results to fetch (default 30, max 1000)
     """
     limit: Int! = 30
 
@@ -23421,7 +25289,7 @@ type Project implements Account & AccountWithHost & AccountWithContributions & A
   ): Int!
   tiers(
     """
-    The number of results to fetch
+    The number of results to fetch (default 100, max 1000)
     """
     limit: Int! = 100
 
@@ -23458,7 +25326,7 @@ type Project implements Account & AccountWithHost & AccountWithContributions & A
   ): ContributorCollection!
 
   """
-  [!] Warning: this query is currently in beta and the API might change
+  [!] Warning: this query is currently in beta and the API might change. Does not include private accounts.
   """
   activeContributors(
     """
@@ -23513,7 +25381,7 @@ type SearchResults {
   """
   accounts(
     """
-    The number of results to fetch (default 10, max 1000)
+    The number of results to fetch (default 0, max 1000)
     """
     limit: Int! = 0
 
@@ -23543,7 +25411,7 @@ type SearchResults {
   """
   comments(
     """
-    The number of results to fetch (default 10, max 1000)
+    The number of results to fetch (default 0, max 1000)
     """
     limit: Int! = 0
 
@@ -23558,7 +25426,7 @@ type SearchResults {
   """
   expenses(
     """
-    The number of results to fetch (default 10, max 1000)
+    The number of results to fetch (default 0, max 1000)
     """
     limit: Int! = 0
 
@@ -23573,7 +25441,7 @@ type SearchResults {
   """
   hostApplications(
     """
-    The number of results to fetch (default 10, max 1000)
+    The number of results to fetch (default 0, max 1000)
     """
     limit: Int! = 0
 
@@ -23588,7 +25456,7 @@ type SearchResults {
   """
   orders(
     """
-    The number of results to fetch (default 10, max 1000)
+    The number of results to fetch (default 0, max 1000)
     """
     limit: Int! = 0
 
@@ -23603,7 +25471,7 @@ type SearchResults {
   """
   tiers(
     """
-    The number of results to fetch (default 10, max 1000)
+    The number of results to fetch (default 0, max 1000)
     """
     limit: Int! = 0
 
@@ -23618,7 +25486,7 @@ type SearchResults {
   """
   transactions(
     """
-    The number of results to fetch (default 10, max 1000)
+    The number of results to fetch (default 0, max 1000)
     """
     limit: Int! = 0
 
@@ -23633,7 +25501,7 @@ type SearchResults {
   """
   updates(
     """
-    The number of results to fetch (default 10, max 1000)
+    The number of results to fetch (default 0, max 1000)
     """
     limit: Int! = 0
 
@@ -23784,6 +25652,133 @@ enum OffPlatformTransactionsProvider {
 }
 
 """
+A payment intent representing a charge, transfer, or pending payment
+"""
+type PaymentIntent {
+  id: String!
+
+  """
+  The resource public id (ie: pi_xxxxxxxx)
+  """
+  publicId: String!
+  legacyId: Int! @deprecated(reason: "2026-07-02: use publicId")
+  type: PaymentIntentType!
+  status: PaymentIntentStatus!
+  payer: Account
+  payee: Account
+  host: Account
+  description: String
+  createdAt: DateTime!
+  paidAt: DateTime
+  order: Order
+  expense: Expense
+
+  """
+  Transactions linked to this payment intent
+  """
+  transactions: [Transaction!]
+
+  """
+  Intended amount from the linked order or expense
+  """
+  amountPledged(
+    """
+    Source of the currency to express the amount. Defaults to the account currency
+    """
+    currencySource: PaymentIntentAccountRole! = HOST
+  ): Amount
+
+  """
+  Total amount sent by the payer, computed from linked transactions
+  """
+  amountSent(
+    """
+    When true, includes payment processor fees, host fees, platform fees, and taxes recorded on linked transactions
+    """
+    net: Boolean! = false
+
+    """
+    Source of the currency to express the amount. Defaults to the account currency
+    """
+    currencySource: PaymentIntentAccountRole! = HOST
+  ): Amount
+
+  """
+  Total amount received by the payee, computed from linked transactions
+  """
+  amountReceived(
+    """
+    When true, includes payment processor fees, host fees, platform fees, and taxes recorded on linked transactions
+    """
+    net: Boolean! = false
+
+    """
+    Source of the currency to express the amount. Defaults to the account currency
+    """
+    currencySource: PaymentIntentAccountRole! = HOST
+  ): Amount
+}
+
+enum PaymentIntentType {
+  PlatformBilling
+  PlatformBillingTipSettlement
+  GrantRequest
+  PaymentRequest
+  CardCharge
+  Contribution
+  AddedMoney
+  BalanceTransfer
+  InternalTransfer
+  Other
+}
+
+enum PaymentIntentStatus {
+  PENDING
+  PAID
+  REVERSED
+  ERROR
+  CANCELED
+}
+
+"""
+Role of the account in the payment intent
+"""
+enum PaymentIntentAccountRole {
+  """
+  The host in which ledger entries are recorded
+  """
+  HOST
+
+  """
+  The account that is paying
+  """
+  PAYER
+
+  """
+  The account that is receiving the money
+  """
+  PAYEE
+}
+
+"""
+A collection of Payment Intents
+"""
+type PaymentIntentCollection implements Collection {
+  offset: Int
+  limit: Int
+  totalCount: Int
+  nodes: [PaymentIntent!]!
+}
+
+"""
+Payment intent direction relative to the filtered account (INCOMING = payee, OUTGOING = payer)
+"""
+enum PaymentIntentDirection {
+  INCOMING
+  OUTGOING
+}
+
+"""
 This is the root mutation
 """
 type Mutation {
@@ -23830,6 +25825,11 @@ type Mutation {
     List of members to invite on Collective creation.
     """
     inviteMembers: [InviteMemberInput]
+
+    """
+    Optional private note included in the invitation email sent to invited members.
+    """
+    privateNote: String
 
     """
     Marks the collective as approved directly. Only available in test/CI environments.
@@ -24240,6 +26240,11 @@ type Mutation {
     accountingCategory: AccountingCategoryReferenceInput
 
     """
+    The balance/clearing accounting category the funds were received through
+    """
+    balanceAccountingCategory: AccountingCategoryReferenceInput
+
+    """
     The transaction import row to associate with this order
     """
     transactionsImportRow: TransactionsImportRowReferenceInput
@@ -24313,19 +26318,24 @@ type Mutation {
     The accounting category of this order
     """
     accountingCategory: AccountingCategoryReferenceInput
+
+    """
+    The balance/clearing accounting category the funds were received through
+    """
+    balanceAccountingCategory: AccountingCategoryReferenceInput
   ): Order!
   createApplication(application: ApplicationCreateInput!): Application
   updateApplication(application: ApplicationUpdateInput!): Application
   deleteApplication(application: ApplicationReferenceInput!): Application
 
   """
-  Edit a comment. Scope: "conversations", "expenses" or "updates".
+  Edit a comment. Scope: "conversations", "expenses", "updates" or "orders".
   """
   editComment(comment: CommentUpdateInput!): Comment
   deleteComment(id: String!): Comment
 
   """
-  Create a comment. Scope: "conversations", "expenses" or "updates".
+  Create a comment. Scope: "conversations", "expenses", "updates" or "orders".
   """
   createComment(comment: CommentCreateInput!): Comment
 
@@ -24353,6 +26363,21 @@ type Mutation {
     """
     connectedAccount: ConnectedAccountReferenceInput!
   ): ConnectedAccount
+
+  """
+  Set the balance/clearing accounting category used to attribute payments processed through this connected account. Scope: "connectedAccounts".
+  """
+  setConnectedAccountBalanceAccountingCategory(
+    """
+    ConnectedAccount reference containing either id or legacyId
+    """
+    connectedAccount: ConnectedAccountReferenceInput!
+
+    """
+    The balance/clearing accounting category to set. Pass null to unset.
+    """
+    accountingCategory: AccountingCategoryReferenceInput
+  ): ConnectedAccount!
 
   """
   Create a conversation. Scope: "conversations".
@@ -24473,6 +26498,11 @@ type Mutation {
     transactionsImportRow: TransactionsImportRowReferenceInput
 
     """
+    Balance/clearing accounting category to record the expense against. Host admins only; defaults to the matched bank account category when created from an import row
+    """
+    balanceAccountingCategory: AccountingCategoryReferenceInput
+
+    """
     A optional private comment to add to the created expense
     """
     privateComment: String @deprecated(reason: "2025-11-03: This field is no longer used")
@@ -24511,6 +26541,21 @@ type Mutation {
     Reference of the account to move the expense to
     """
     destinationAccount: AccountReferenceInput!
+  ): Expense!
+
+  """
+  Update the balance/clearing accounting category of an expense. Scope: "expenses".
+  """
+  updateExpenseBalanceAccountingCategory(
+    """
+    Reference to the expense to update
+    """
+    expense: ExpenseReferenceInput!
+
+    """
+    The balance/clearing accounting category to set. Pass null to unset.
+    """
+    accountingCategory: AccountingCategoryReferenceInput
   ): Expense!
 
   """
@@ -24596,10 +26641,10 @@ type Mutation {
     Reference of the expense to process
     """
     expense: ExpenseReferenceInput!
-  ): PaymentIntent!
+  ): StripePaymentIntent!
 
   """
-  Create a new export request. Scope: "account".
+  Create a new export request. Scopes: "exportRequests" (+ "transactions" and "incognito" for TRANSACTIONS exports, "host" for HOSTED_COLLECTIVES exports).
   """
   createExportRequest(
     """
@@ -24609,7 +26654,7 @@ type Mutation {
   ): ExportRequest!
 
   """
-  Edit an existing export request. Scope: "account".
+  Edit an existing export request. Scopes: "exportRequests".
   """
   editExportRequest(
     """
@@ -24624,7 +26669,7 @@ type Mutation {
   ): ExportRequest!
 
   """
-  Remove an existing export request. Scope: "account".
+  Remove an existing export request. Scope: "exportRequests".
   """
   removeExportRequest(
     """
@@ -24843,6 +26888,11 @@ type Mutation {
     role: MemberRole!
     description: String
     since: DateTime
+
+    """
+    Optional private note included in the invitation email sent to the invitee.
+    """
+    privateNote: String
   ): MemberInvitation!
 
   """
@@ -24881,6 +26931,31 @@ type Mutation {
     description: String
     since: DateTime
   ): MemberInvitation
+
+  """
+  Cancel a pending member invitation. Scope: "account".
+  """
+  cancelMemberInvitation(
+    """
+    Reference to the invitation to cancel (by id or legacyId)
+    """
+    invitation: MemberInvitationReferenceInput
+
+    """
+    Reference to the invited account. Must be combined with account (and optionally role).
+    """
+    memberAccount: AccountReferenceInput
+
+    """
+    Reference to the collective the invitation belongs to. Must be combined with memberAccount.
+    """
+    account: AccountReferenceInput
+
+    """
+    Role of the invitation to cancel. Used to disambiguate when combined with account and memberAccount.
+    """
+    role: MemberRole
+  ): Boolean!
 
   """
   Endpoint to accept or reject an invitation to become a member. Scope: "account".
@@ -24956,26 +27031,6 @@ type Mutation {
     """
     providers: [ManualPaymentProviderReferenceInput!]!
   ): [ManualPaymentProvider!]!
-
-  """
-  Follows a given Collective. Scope: "account"
-  """
-  followAccount(
-    """
-    user will follow this account
-    """
-    account: AccountReferenceInput!
-  ): FollowAccountResult!
-
-  """
-  Unfollows a given Collective. Scope: "account"
-  """
-  unfollowAccount(
-    """
-    account to unfollow
-    """
-    account: AccountReferenceInput!
-  ): UnfollowAccountResult!
 
   """
   Edit the public message for the given Member of a Collective. Scope: "account".
@@ -25095,6 +27150,16 @@ type Mutation {
     Category for cancelling subscription
     """
     reasonCode: String
+
+    """
+    Remove the contributor from the collective public profile. Host admins only.
+    """
+    removeAsContributor: Boolean = false
+
+    """
+    Optional message to send to the contributor. Host admins only.
+    """
+    messageForContributor: String
   ): Order
 
   """
@@ -25122,10 +27187,30 @@ type Mutation {
     tier: TierReferenceInput
 
     """
-    An Amount to update the order to
+    New amount to charge the contributor, excluding the platform tip. Includes taxes if any.
     """
     amount: AmountInput
+
+    """
+    Platform tip for this order. Omit or pass null to keep the current tip; provide a value (including zero) to update it.
+    """
+    platformTipAmount: AmountInput
   ): Order
+
+  """
+  Update the balance/clearing accounting category of an order. Scope: "orders".
+  """
+  updateOrderBalanceAccountingCategory(
+    """
+    Reference to the Order to update
+    """
+    order: OrderReferenceInput!
+
+    """
+    The balance/clearing accounting category to set. Pass null to unset.
+    """
+    accountingCategory: AccountingCategoryReferenceInput
+  ): Order!
 
   """
   Update the accounting category of an order. Scope: "orders".
@@ -25197,7 +27282,10 @@ type Mutation {
   """
   Creates a Stripe payment intent
   """
-  createPaymentIntent(paymentIntent: PaymentIntentInput!, guestInfo: GuestInfoInput): PaymentIntent!
+  createStripePaymentIntent(
+    stripePaymentIntent: StripePaymentIntentInput!
+    guestInfo: GuestInfoInput
+  ): StripePaymentIntent!
 
   """
   To submit a new order. Scope: "orders".
@@ -25408,6 +27496,11 @@ type Mutation {
     publicToken: String!
 
     """
+    The link token returned by `generatePlaidLinkToken`, used to verify the request
+    """
+    linkToken: String!
+
+    """
     The account to which the Plaid account should be connected
     """
     host: AccountReferenceInput!
@@ -25494,6 +27587,71 @@ type Mutation {
   ): GoCardlessConnectAccountResponse!
 
   """
+  Get the Stripe OAuth URL to initiate the account connection flow for a host. Scope: "connectedAccounts".
+  """
+  getStripeOAuthUrl(
+    """
+    The host account to connect Stripe to
+    """
+    account: AccountReferenceInput!
+
+    """
+    The URL or path to redirect the user to once the OAuth flow is complete
+    """
+    redirect: String
+  ): URL!
+
+  """
+  Complete the Stripe OAuth flow and connect the account to the host. Scope: "connectedAccounts".
+  """
+  connectStripeAccount(
+    """
+    The authorization code returned by Stripe in the OAuth callback
+    """
+    code: NonEmptyString!
+
+    """
+    The OAuth state token that was generated when initiating the connection
+    """
+    state: NonEmptyString!
+  ): StripeConnectAccountResponse!
+
+  """
+  Get the Wise (TransferWise) OAuth URL to initiate the account connection flow for a host. Scope: "connectedAccounts".
+  """
+  getTransferwiseOAuthUrl(
+    """
+    The host account to connect Wise to
+    """
+    account: AccountReferenceInput!
+
+    """
+    The URL or path to redirect the user to once the OAuth flow is complete
+    """
+    redirect: String
+  ): URL!
+
+  """
+  Complete the Wise (TransferWise) OAuth flow and connect the account to the host. Scope: "connectedAccounts".
+  """
+  connectTransferwiseAccount(
+    """
+    The authorization code returned by Wise in the OAuth callback
+    """
+    code: NonEmptyString!
+
+    """
+    The Wise profile id returned in the OAuth callback
+    """
+    profileId: NonEmptyString!
+
+    """
+    The OAuth state token that was generated when initiating the connection
+    """
+    state: NonEmptyString!
+  ): TransferwiseConnectAccountResponse!
+
+  """
   [Root only] Edits account flags (deleted, banned, archived, trusted host)
   """
   editAccountFlags(
@@ -25516,6 +27674,11 @@ type Mutation {
     Set this to false to disable 2FA. Other values have no effect.
     """
     isTwoFactorAuthEnabled: Boolean
+
+    """
+    Specify whether the account is blocked due to unpaid platform billing
+    """
+    isBlockedForUnpaidPlatformBilling: Boolean
   ): Account!
 
   """
@@ -25646,6 +27809,21 @@ type Mutation {
     If true, the refund will be processed even if it exceeds the balance of the Collective
     """
     ignoreBalanceCheck: Boolean
+
+    """
+    If true, cancel the associated recurring contribution. Host admins only.
+    """
+    cancelRecurringContribution: Boolean = false
+
+    """
+    If true, remove the contributor from the collective public profile. Host admins only.
+    """
+    removeAsContributor: Boolean = false
+
+    """
+    Optional message to include in the contributor notification email. Host admins only.
+    """
+    messageForContributor: String
   ): Transaction
 
   """
@@ -25721,6 +27899,26 @@ type Mutation {
     Assignments for the import
     """
     assignments: [TransactionsImportAssignmentInput!]
+  ): TransactionsImport!
+
+  """
+  Set the balance/clearing accounting category used to attribute activity matched from a bank sub-account of this import. Scope: "transactions".
+  """
+  setTransactionsImportAccountBalanceAccountingCategory(
+    """
+    Reference to the transactions import
+    """
+    transactionsImport: TransactionsImportReferenceInput!
+
+    """
+    The bank sub-account id, as returned in `institutionAccounts`
+    """
+    importedAccountId: NonEmptyString!
+
+    """
+    The balance/clearing accounting category to set. Pass null to unset.
+    """
+    accountingCategory: AccountingCategoryReferenceInput
   ): TransactionsImport!
 
   """
@@ -26510,6 +28708,11 @@ input AccountUpdateSettingsInput {
   tos: String
   VAT: JSON
   GST: JSON
+  features: AccountUpdateSettingsFeaturesInput
+}
+
+input AccountUpdateSettingsFeaturesInput {
+  publicProfile: Boolean
 }
 
 input PoliciesInput {
@@ -26519,7 +28722,7 @@ input PoliciesInput {
   COLLECTIVE_ADMINS_CAN_REFUND: Boolean
   COLLECTIVE_MINIMUM_ADMINS: PoliciesCollectiveMinimumAdminsInput
   EXPENSE_CATEGORIZATION: PoliciesExpenseCategorizationInput
-  EXPENSE_PUBLIC_VENDORS: Boolean
+  USE_VENDOR_POLICY: UseVendorPolicy
   COLLECTIVE_ADMINS_CAN_SEE_PAYOUT_METHODS: Boolean
   CONTRIBUTOR_INFO_THRESHOLDS: PoliciesContributorInfoThresholdsInput
 }
@@ -27022,6 +29225,11 @@ input PayoutMethodInput {
   The type of payout method (e.g., PayPal, bank transfer)
   """
   type: PayoutMethodType
+
+  """
+  The currency for this payout method
+  """
+  currency: Currency
 }
 
 input ExpenseItemCreateInput {
@@ -27379,6 +29587,11 @@ input ProcessExpensePaymentParams {
   paymentMethodService: PaymentMethodService
 
   """
+  The balance/clearing accounting category the funds were paid from (for manual payments)
+  """
+  balanceAccountingCategory: AccountingCategoryReferenceInput
+
+  """
   Date funds were cleared on the fiscal host bank, Wise, PayPal, Stripe or any other external account holding these funds.
   """
   clearedAt: DateTime
@@ -27516,10 +29729,25 @@ input ExpenseInviteeOrganizationInput {
 """
 A Stripe payment intent
 """
-type PaymentIntent {
+type StripePaymentIntent {
+  """
+  The ID of the Stripe payment intent
+  """
   id: String!
+
+  """
+  The client secret of the Stripe payment intent
+  """
   paymentIntentClientSecret: String!
+
+  """
+  The associated Stripe account ID
+  """
   stripeAccount: String!
+
+  """
+  The publishable secret of the associated Stripe account
+  """
   stripeAccountPublishableSecret: String!
 }
 
@@ -27655,6 +29883,11 @@ input ManualPaymentProviderCreateInput {
   Bank account details for BANK_TRANSFER type providers
   """
   accountDetails: JSON
+
+  """
+  The balance/clearing accounting category to attribute payments through this provider to
+  """
+  balanceAccountingCategory: AccountingCategoryReferenceInput
 }
 
 input ManualPaymentProviderUpdateInput {
@@ -27677,16 +29910,11 @@ input ManualPaymentProviderUpdateInput {
   Bank account details for BANK_TRANSFER type providers
   """
   accountDetails: JSON
-}
 
-type FollowAccountResult {
-  individual: Individual!
-  member: Member!
-}
-
-type UnfollowAccountResult {
-  individual: Individual!
-  member: Member
+  """
+  The balance/clearing accounting category to attribute payments through this provider to. Pass null to unset.
+  """
+  balanceAccountingCategory: AccountingCategoryReferenceInput
 }
 
 input OAuthAuthorizationReferenceInput {
@@ -27915,9 +30143,9 @@ input PaymentMethodInput {
   paypalInfo: PaypalPaymentInput
 
   """
-  The Payment Intent ID used in this checkout
+  The Stripe Payment Intent ID used in this checkout
   """
-  paymentIntentId: String
+  stripePaymentIntentId: String
 
   """
   The Manual Payment Provider ID used in this checkout
@@ -27974,6 +30202,11 @@ input OrderContextInput {
   Whether this order was created using the new platform tip flow
   """
   isNewPlatformTipFlow: Boolean
+
+  """
+  Whether the platform tip was offered to the user in the contribution flow. When explicitly false, the order is persisted as not eligible for platform tips (used by the OSC platform tip A/B).
+  """
+  platformTipOffered: Boolean
 }
 
 input OrderUpdateInput {
@@ -28041,10 +30274,25 @@ enum ProcessOrderAction {
 """
 Input to create a Stripe payment intent
 """
-input PaymentIntentInput {
+input StripePaymentIntentInput {
+  """
+  The amount to create a Stripe payment intent for
+  """
   amount: AmountInput!
+
+  """
+  The payer account
+  """
   fromAccount: AccountReferenceInput
+
+  """
+  The payee account
+  """
   toAccount: AccountReferenceInput!
+
+  """
+  The frequency of the contribution
+  """
   frequency: ContributionFrequency
 }
 
@@ -28396,6 +30644,30 @@ type GoCardlessConnectAccountResponse {
   transactionsImport: TransactionsImport!
 }
 
+type StripeConnectAccountResponse {
+  """
+  The connected account that was created
+  """
+  connectedAccount: ConnectedAccount!
+
+  """
+  The URL to redirect the user to once the connection is complete
+  """
+  redirectUrl: URL
+}
+
+type TransferwiseConnectAccountResponse {
+  """
+  The connected account that was created
+  """
+  connectedAccount: ConnectedAccount!
+
+  """
+  The URL to redirect the user to once the connection is complete
+  """
+  redirectUrl: URL
+}
+
 enum AccountCacheType {
   CLOUDFLARE
   GRAPHQL_QUERIES
@@ -28617,11 +30889,6 @@ A positive float value between 0 and 100
 """
 scalar StrictPercentage
 
-"""
-A date string, such as 2007-12-03, compliant with the `full-date` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
-"""
-scalar Date
-
 type ExpenseItemParsedFileInfo {
   description: String
   amount: Amount
@@ -28797,6 +31064,9 @@ input PersonalTokenCreateInput {
   The account to use as the owner of the application. Defaults to currently logged in user.
   """
   account: AccountReferenceInput
+    @deprecated(
+      reason: "2026-06-03: This field is ignored, the account will always default to the currently logged in user."
+    )
 }
 
 """
@@ -28859,7 +31129,18 @@ input VendorCreateInput {
   imageUrl: String @deprecated(reason: "2024-11-26: Please use image + backgroundImage fields")
   vendorInfo: VendorInfoInput
   payoutMethod: PayoutMethodInput
-  visibleToAccounts: [AccountReferenceInput]
+  hasPublicProfile: Boolean
+
+  """
+  Restrict this vendor to specific accounts under the host. If empty/omitted, the vendor can be used with any hosted account.
+  """
+  canBeUsedWithAccounts: [AccountReferenceInput]
+  visibleToAccounts: [AccountReferenceInput] @deprecated(reason: "Use canBeUsedWithAccounts instead.")
+
+  """
+  Per-vendor override for who can attribute financial activities. Null means inherit from host.
+  """
+  useVendorPolicy: UseVendorPolicy
 
   """
   The profile avatar image
@@ -28914,7 +31195,18 @@ input VendorEditInput {
   imageUrl: String @deprecated(reason: "2024-11-26: Please use image + backgroundImage fields")
   vendorInfo: VendorInfoInput
   payoutMethod: PayoutMethodInput
-  visibleToAccounts: [AccountReferenceInput]
+  hasPublicProfile: Boolean
+
+  """
+  Restrict this vendor to specific accounts under the host. If empty/omitted, the vendor can be used with any hosted account.
+  """
+  canBeUsedWithAccounts: [AccountReferenceInput]
+  visibleToAccounts: [AccountReferenceInput] @deprecated(reason: "Use canBeUsedWithAccounts instead.")
+
+  """
+  Per-vendor override for who can attribute financial activities. Null means inherit from host.
+  """
+  useVendorPolicy: UseVendorPolicy
 
   """
   The profile avatar image

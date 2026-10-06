@@ -59,3 +59,29 @@ Be aware that `watch` currently doesn't auto-reload the express app.
 ## Deployment
 
 Merging to `main` branch will auto-deploy the pdf service to Heroku.
+
+## Monitoring (Sentry)
+
+Errors (including uncaught exceptions and unhandled rejections), traces, and profiles are
+reported to Sentry with `@sentry/node` when `SENTRY_DSN` is set. Sampling is off by default.
+The SDK is initialized in `instrument.ts`, loaded before the app via `node --import`
+(see https://docs.sentry.io/platforms/javascript/guides/express/).
+
+| Variable                      | Default               | Description                                             |
+| ----------------------------- | --------------------- | ------------------------------------------------------- |
+| `SENTRY_DSN`                  | (unset = disabled)    | Sentry project DSN for `opencollective-pdf`             |
+| `SENTRY_ENVIRONMENT`          | `OC_ENV` / `NODE_ENV` | Sentry environment                                      |
+| `SENTRY_TRACES_SAMPLE_RATE`   | `0`                   | Tracing sample rate (`0`–`1`)                           |
+| `SENTRY_PROFILES_SAMPLE_RATE` | `0`                   | Profiling sample rate (`0`–`1`, profiler loads when >0) |
+
+Set these as Heroku config vars on staging/production. Expected client errors (3xx/4xx,
+including `PDFServiceError` with a status below 500) are not reported; 5xx and status-less
+errors are. `Authorization` / API-key headers, cookies, and token query params are redacted
+before sending (see `server/lib/sentry.ts`).
+
+### Verifying Sentry end-to-end
+
+`GET /debug-sentry?key=<DEBUG_SENTRY_KEY>` throws a test error that Sentry captures.
+It behaves like an unknown route (404) unless `DEBUG_SENTRY_KEY` is configured and the
+`key` query parameter matches it. Set `DEBUG_SENTRY_KEY` only where you need to verify
+(e.g. staging), never as a long-lived production secret.

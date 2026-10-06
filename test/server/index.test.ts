@@ -1,4 +1,4 @@
-import { expect, test, describe, assert } from 'vitest';
+import { expect, test, describe, assert, vi, afterEach } from 'vitest';
 import request from 'supertest';
 import app from '../../server/index.js';
 import { PDFDocument, rgb } from 'pdf-lib';
@@ -89,5 +89,32 @@ describe('Tax forms', () => {
         await snapshotPDF(Buffer.from(pdfBytes), `tax-form-fields-${formType.toLowerCase()}.pdf`);
       }, 60_000); // 60 second timeout for PDF processing (slower in CI)
     }
+  });
+});
+
+describe('GET /debug-sentry', () => {
+  afterEach(() => {
+    vi.unstubAllEnvs();
+  });
+
+  test('returns a 404 when no debug key is configured', async () => {
+    vi.stubEnv('DEBUG_SENTRY_KEY', '');
+    const response = await request(app).get('/debug-sentry?key=anything');
+    expect(response.status).toBe(404);
+    expect(response.body.message).toBe('Route not found');
+  });
+
+  test('returns a 404 when the key does not match', async () => {
+    vi.stubEnv('DEBUG_SENTRY_KEY', 'test-secret');
+    const response = await request(app).get('/debug-sentry?key=wrong-secret');
+    expect(response.status).toBe(404);
+    expect(response.body.message).toBe('Route not found');
+  });
+
+  test('throws a 500 (reported to Sentry) when the key matches', async () => {
+    vi.stubEnv('DEBUG_SENTRY_KEY', 'test-secret');
+    const response = await request(app).get('/debug-sentry?key=test-secret');
+    expect(response.status).toBe(500);
+    expect(response.body.message).toBe('An internal server error occurred');
   });
 });

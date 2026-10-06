@@ -9,9 +9,9 @@ import { getFullName } from '../lib/tax-forms/utils.js';
 
 const router = express.Router();
 
-const getValuesFromRequest = (req: express.Request, res: express.Response) => {
+const getValuesFromRequest = (req: express.Request<{ formType: string }>, res: express.Response) => {
   const { formType: rawFormType, values: base64Values, isFinal } = req.query;
-  const formType = (rawFormType as string | undefined)?.toUpperCase();
+  const formType = ((rawFormType as string | undefined) || req.params.formType)?.toUpperCase();
   if (!formType) {
     res.status(400).send('Missing form type');
     return;
@@ -20,9 +20,18 @@ const getValuesFromRequest = (req: express.Request, res: express.Response) => {
     return;
   }
 
-  const rawValues = Buffer.from(base64Values as string, 'base64').toString() || '{}';
+  if (!base64Values) {
+    res.status(400).send('Missing values');
+    return;
+  }
+  const rawValues = (typeof base64Values === 'string' && Buffer.from(base64Values, 'base64').toString()) || '{}';
   try {
     const values = JSON.parse(rawValues);
+    if (!values || typeof values !== 'object' || Array.isArray(values)) {
+      res.status(400).send('Invalid values');
+      return;
+    }
+
     return { formType, rawValues, values, isFinal: isFinal?.toString() };
   } catch (e) {
     console.error('Error parsing values:', e);
@@ -39,10 +48,12 @@ router.options('/:formType.pdf', (req, res) => {
 
 const MAIN_FONT_BYTES = readFileSyncFromPublicStaticFolder('fonts/NanumGothic-Regular.ttf');
 
-router.get('/:formType.pdf', async (req: express.Request, res: express.Response) => {
+router.get('/:formType.pdf', async (req, res) => {
   const parsedRequest = getValuesFromRequest(req, res);
   if (!parsedRequest) {
-    res.status(400).send('Invalid request');
+    if (!res.headersSent) {
+      res.status(400).send('Invalid request');
+    }
     return;
   }
 

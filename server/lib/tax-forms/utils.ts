@@ -1,7 +1,10 @@
 import { mapValues } from 'lodash-es';
 import { isFieldTypeCombo, isFieldTypeMulti, isFieldTypeSplitText, PDFFieldDefinition } from '../pdf-lib-utils.js';
 
-export const getFullName = ({ firstName = undefined, middleName = undefined, lastName = undefined }): string => {
+type PersonName = { firstName?: string; middleName?: string; lastName?: string };
+
+export const getFullName = (name: PersonName | null | undefined = {}): string => {
+  const { firstName, middleName, lastName } = name || {};
   return [firstName, middleName, lastName].filter(Boolean).join(' ').trim();
 };
 
