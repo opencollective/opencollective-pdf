@@ -2,6 +2,9 @@ name: E2E
 
 on: [push]
 
+permissions:
+  contents: read
+
 env:
   TZ: UTC
   OC_ENV: ci
