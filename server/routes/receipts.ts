@@ -1,7 +1,7 @@
 import express from 'express';
 import { sendPDFResponse } from '../lib/pdf.js';
 import { authenticateRequest, AuthorizationHeaders } from '../lib/authentication.js';
-import { gql, QueryResult } from '@apollo/client/index.js';
+import { gql } from '@apollo/client/index.js';
 import { createClient } from '../lib/apollo-client.js';
 import { adaptApolloError } from '../lib/apollo-client.js';
 import { BadRequestError, InternalServerError, NotFoundError } from '../lib/errors.js';
@@ -213,11 +213,11 @@ async function fetchTransactionInvoice(transactionId: string, authorizationHeade
     console.log('Query Response', JSON.stringify(response.data));
   }
 
-  return response.data.transaction as QueryResult<TransactionInvoiceQuery>['data']['transaction'];
+  return response.data.transaction as TransactionInvoiceQuery['transaction'];
 }
 
 function getReceiptFromTransactionData(
-  originalTransaction: NonNullable<NonNullable<QueryResult<TransactionInvoiceQuery>['data']>['transaction']>,
+  originalTransaction: NonNullable<TransactionInvoiceQuery['transaction']>,
 ): React.ComponentProps<typeof Receipt>['receipt'] {
   let transaction = originalTransaction;
   if (transaction.type === 'DEBIT' && transaction.oppositeTransaction && !transaction.isRefund) {
@@ -347,7 +347,7 @@ async function fetchInvoiceByDateRange(
     throw new ForbiddenError(`You don't have permission to download this account's payment receipts`);
   }
 
-  return response.data as QueryResult<InvoiceByDateRangeQuery>['data'];
+  return response.data as InvoiceByDateRangeQuery;
 }
 
 const validateReceiptPeriodParams = (
