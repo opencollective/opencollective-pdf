@@ -1,0 +1,143 @@
+// Sentry is primarily initialized via `instrument.ts` (loaded with `node --import`),
+// which runs before this module. These imports are kept as a fallback so Sentry still
+// initializes when running without the `--import` flag (e.g. tests); modules are cached,
+// so `Sentry.init` in `server/lib/sentry.ts` only ever runs once per process.
+import './lib/dotenv.js';
+import './lib/sentry.js';
+
+import http from 'http';
+
+import express from 'express';
+import rateLimit from 'express-rate-limit';
+
+import expensesRouter from './routes/expenses.js';
+import receiptsRouter from './routes/receipts.js';
+import taxFormsRouter from './routes/tax-forms.js';
+import { PDFServiceError } from './lib/errors.js';
+import { isValidDebugSentryKey } from './lib/sentry.js';
+import hyperwatch, { isHyperwatchEnabled } from './lib/hyperwatch.js';
+
+import cloudflareIps from './cloudflare-ips.json' with { type: 'json' };
+import { parseToBooleanDefaultTrue } from './lib/env.js';
+
+const app = express();
+const port = process.env.PORT || 3002;
+
+// Created here rather than with `app.listen()` so Hyperwatch can handle WebSocket upgrades on it
+export const server = http.createServer(app);
+
+app.set('trust proxy', ['loopback', 'linklocal', 'uniquelocal'].concat(cloudflareIps));
+
+// After `trust proxy`, so the logs have the client IP. Before the rate limiter, so it doesn't apply to Hyperwatch.
+if (isHyperwatchEnabled()) {
+  hyperwatch(app, server);
+}
+
+if (process.env.VERBOSE) {
+  app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
+    console.log(`${req.method} ${req.url}`);
+    next();
+  });
+}
+
+// Configure rate limiter
+const apiLimiter = rateLimit({
+  // Limit each IP to 100 requests per 15 minutes
+  max: 100,
+  windowMs: 15 * 60 * 1000,
+  standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+  legacyHeaders: false,
+  // Skip rate limiter if request has the official OC API key
+  skip: req => {
+    const officialKey = process.env.OFFICIAL_OC_KEY;
+    if (!officialKey) {
+      return false;
+    } else {
+      const apiKey = req.headers['x-api-key'] || req.query.apiKey;
+      return apiKey === officialKey;
+    }
+  },
+});
+
+// Apply rate limiting to all routes
+app.use(apiLimiter);
+
+// Disable cache on all requests
+app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
+  res.setHeader('Cache-Control', 'private');
+  next();
+});
+
+// Set CORS headers
+app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
+  // Set Access-Control-Allow-Headers
+  res.setHeader('Access-Control-Allow-Headers', 'authorization,content-type,baggage,sentry-trace,x-api-key');
+
+  // Set Access-Control-Allow-Origin
+  if (process.env.NODE_ENV === 'production') {
+    res.setHeader('Access-Control-Allow-Origin', process.env.WEBSITE_URL || 'https://opencollective.com');
+  } else {
+    // Always allow requests on non-prod environments
+    res.setHeader('Access-Control-Allow-Origin', '*');
+  }
+
+  next();
+});
+
+// Routes
+app.get('/', (req: express.Request, res: express.Response) => {
+  res.status(200).json({
+    status: 'ok',
+  });
+});
+
+// Debug endpoint to verify Sentry reporting end-to-end. Protected by the `DEBUG_SENTRY_KEY`
+// shared secret (compared against the `key` query parameter); behaves like an unknown route
+// when the key is not configured or does not match, so scanners learn nothing.
+app.get('/debug-sentry', (req: express.Request, res: express.Response, next: express.NextFunction) => {
+  if (!isValidDebugSentryKey(req.query.key)) {
+    next();
+    return;
+  }
+  throw new Error('Sentry debug error triggered via /debug-sentry');
+});
+
+app.use('/expenses', expensesRouter);
+app.use('/receipts', receiptsRouter);
+app.use('/tax-forms', taxFormsRouter);
+
+// 404 handler
+app.use((req: express.Request, res: express.Response) => {
+  res.status(404).json({
+    message: 'Route not found',
+  });
+});
+
+// Error handling. Request errors are reported to Sentry automatically by
+// `Sentry.expressIntegration` (see `server/lib/sentry.ts`), so this middleware only shapes
+// the HTTP response and must not capture again to avoid duplicate events.
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+app.use((err: Error, req: express.Request, res: express.Response, _next: express.NextFunction) => {
+  // Node loses the error type when passing it around, we use the `isPDFServiceError` property to circumvent this
+  if (err && (err instanceof PDFServiceError || err['isPDFServiceError'])) {
+    if (process.env.VERBOSE) {
+      console.error('PDFServiceError', err);
+      console.error(JSON.stringify(err));
+    }
+
+    res.status((err as PDFServiceError).status).json({ message: err.message });
+  } else {
+    console.error('Unexpected error', err);
+    res.status(500).json({
+      message: 'An internal server error occurred',
+    });
+  }
+});
+
+if (parseToBooleanDefaultTrue(process.env.START_SERVER)) {
+  server.listen(port, () => {
+    console.log(`Server is running on port ${port}`);
+  });
+}
+
+export default app;

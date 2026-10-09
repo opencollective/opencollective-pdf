@@ -1,17 +1,23 @@
-.next
+# Environment
 .env
 .env.*
+!.env.local
+!.env.staging
+!.env.test
+
+# Node
 node_modules
 npm-debug.log.*
-*.log
 yarn.lock
-.DS_Store
 build
-cypress/screenshots
-*.swp
 dist
 out
+
+# Test
 coverage
+test/__snapshots__/*.diff.png
+test/__snapshots__/*.new.png
+test-report.junit.xml
 
 # VSCode
 .vscode
@@ -19,3 +25,9 @@ coverage
 
 # Typescript
 *.tsbuildinfo
+
+# Misc
+.DS_Store
+*.swp
+*.log
+.vercel

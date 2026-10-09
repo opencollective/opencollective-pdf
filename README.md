@@ -1,7 +1,5 @@
 # Open Collective PDF service
 
-![Build and Push](https://github.com/wei/pull/workflows/Build%20and%20Push/badge.svg)
-
 ## Foreword
 
 If you see a step below that could be improved (or is outdated), please update the instructions. We rarely go through this process ourselves, so your fresh pair of eyes and your recent experience with it, makes you the best candidate to improve them for other users. Thank you!
@@ -9,9 +7,6 @@ If you see a step below that could be improved (or is outdated), please update t
 ## Development
 
 ### Prerequisite
-
-Make sure you have Node.js version >= 10.
-We recommend using [nvm](https://github.com/creationix/nvm): `nvm use`.
 
 ### Install
 
@@ -23,15 +18,6 @@ cd opencollective/pdf
 npm install
 ```
 
-### Environment variables
-
-This project requires an access to the Open Collective API. You have two options:
-
-- `cp .env.staging .env` to connect to the Open Collective staging API
-- `cp .env.local .env` to connect to the API running locally
-
-If you decide to pick the local strategy, make sure you install and run the [opencollective-api](https://github.com/opencollective/opencollective-api) project.
-
 ### Start
 
 To start the service:
@@ -39,32 +25,6 @@ To start the service:
 ```
 npm run dev
 ```
-
-### Troubleshooting
-
-- SSL errors
-
-If you get an error like this while trying to generate a PDF:
-
-> Error: html-pdf: Unknown Error
-> Auto configuration failed
-> 140673035953984:error:25066067:DSO support routines:DLFCN_LOAD:could not load the shared library:dso_dlfcn.c:185:filename(libssl_conf.so): libssl_conf.so: cannot > open shared object file: No such file or directory
-> 140673035953984:error:25070067:DSO support routines:DSO_load:could not load the shared library:dso_lib.c:244:
-> 140673035953984:error:0E07506E:configuration file routines:MODULE_LOAD_DSO:error loading dso:conf_mod.c:285:module=ssl_conf, path=ssl_conf
-> 140673035953984:error:0E076071:configuration file routines:MODULE_RUN:unknown module name:conf_mod.c:222:module=ssl_conf
-
-Try adding this line to your `.env` ([source](https://github.com/bazelbuild/rules_closure/issues/351#issuecomment-854628326)):
-
-```
-OPENSSL_CONF=/dev/null
-```
-
-#### Usage with fixture data
-
-This is the easy way to start developing. Just go to the root URL http://localhost:3002/
-to see a list of test pages and click on any of them to load it in the right pane.
-
-The page will auto-refresh everytime a change is made.
 
 #### Usage with frontend
 
@@ -82,13 +42,6 @@ the graphql queries.
 The easier to make it work is to go to `/:userSlug/admin/for-developers` on the frontend,
 generate a personal token, and to add `?personalToken=your_key_here` to all your requests.
 
-**Tips**
-
-- Replace `.html` by `.pdf` to see the generated pdf.
-- Add `?pageFormat=A4` with `A4` or `Letter` to change page format
-- Add `?debug=true` to the URL to see verbose data on the document
-- Add `?raw=true` to disabled HTML sanitazing (useful to debug missing attributes)
-
 ## Contributing
 
 Code style? Commit convention? Please check our [Contributing guidelines](CONTRIBUTING.md).
@@ -97,8 +50,38 @@ TL;DR: we use [Prettier](https://prettier.io/) and [ESLint](https://eslint.org/)
 
 ## Tests
 
-You can run the tests using `npm test`.
+- Run all tests: `npm test`
+- Run tests in watch mode: `npm run test:watch`
+- Run tests with coverage report: `npm run test:coverage`
+
+Be aware that `watch` currently doesn't auto-reload the express app.
 
 ## Deployment
 
 Merging to `main` branch will auto-deploy the pdf service to Heroku.
+
+## Monitoring (Sentry)
+
+Errors (including uncaught exceptions and unhandled rejections), traces, and profiles are
+reported to Sentry with `@sentry/node` when `SENTRY_DSN` is set. Sampling is off by default.
+The SDK is initialized in `instrument.ts`, loaded before the app via `node --import`
+(see https://docs.sentry.io/platforms/javascript/guides/express/).
+
+| Variable                      | Default               | Description                                             |
+| ----------------------------- | --------------------- | ------------------------------------------------------- |
+| `SENTRY_DSN`                  | (unset = disabled)    | Sentry project DSN for `opencollective-pdf`             |
+| `SENTRY_ENVIRONMENT`          | `OC_ENV` / `NODE_ENV` | Sentry environment                                      |
+| `SENTRY_TRACES_SAMPLE_RATE`   | `0`                   | Tracing sample rate (`0`–`1`)                           |
+| `SENTRY_PROFILES_SAMPLE_RATE` | `0`                   | Profiling sample rate (`0`–`1`, profiler loads when >0) |
+
+Set these as Heroku config vars on staging/production. Expected client errors (3xx/4xx,
+including `PDFServiceError` with a status below 500) are not reported; 5xx and status-less
+errors are. `Authorization` / API-key headers, cookies, and token query params are redacted
+before sending (see `server/lib/sentry.ts`).
+
+### Verifying Sentry end-to-end
+
+`GET /debug-sentry?key=<DEBUG_SENTRY_KEY>` throws a test error that Sentry captures.
+It behaves like an unknown route (404) unless `DEBUG_SENTRY_KEY` is configured and the
+`key` query parameter matches it. Set `DEBUG_SENTRY_KEY` only where you need to verify
+(e.g. staging), never as a long-lived production secret.

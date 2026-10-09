@@ -1,5 +1,9 @@
 name: CI
 
+# Security: Do not replace `pull_request` with `pull_request_target` to expose secrets or
+# GITHUB_TOKEN write access to PR code. pull_request_target runs untrusted fork PR code with
+# base-branch privileges.
+
 on:
   push:
     branches:
@@ -11,16 +15,16 @@ on:
       - reopened
 
 env:
-  CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+  OC_ENV: ci
 
 jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
       - name: Setup node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version-file: 'package.json'
           cache: 'npm'
@@ -34,9 +38,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
       - name: Setup node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version-file: 'package.json'
           cache: 'npm'
@@ -48,9 +52,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
       - name: Setup node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version-file: 'package.json'
           cache: 'npm'
@@ -64,25 +68,52 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
       - name: Setup node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version-file: 'package.json'
           cache: 'npm'
       - name: Install dependencies
         run: npm ci --prefer-offline --no-audit
-      - run: |
-          npm run test -- --ci --coverage --reporters=default --reporters=jest-junit
-          npm run test:coverage
+      - run: npm run test:coverage
+      - uses: codecov/codecov-action@303a32d7a59b442fa8d48b6a1cc6825c09c847a5 # v7
+        with:
+          fail_ci_if_error: true
+          token: ${{ secrets.CODECOV_TOKEN }}
+      - name: Upload test results to Codecov
+        if: ${{ !cancelled() }}
+        uses: codecov/test-results-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+      - name: Upload snapshots on failure
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: snapshots-${{ github.run_id }}-${{ strategy.job-index }}
+          path: test/__snapshots__
+        if: ${{ failure() }}
+
+  check-tax-forms-config:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+      - name: Setup node
+        uses: actions/setup-node@v7
+        with:
+          node-version-file: 'package.json'
+          cache: 'npm'
+      - name: Install dependencies
+        run: npm ci --prefer-offline --no-audit
+      - run: npm run script scripts/check-tax-forms-config.ts
 
   depcheck:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
       - name: Setup node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version-file: 'package.json'
           cache: 'npm'
