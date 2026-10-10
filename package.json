@@ -62,7 +62,7 @@
     "eslint-plugin-react": "^7.37.5",
     "globals": "^17.13.0",
     "graphql": "^16.14.2",
-    "nock": "^14.0.17",
+    "nock": "^15.0.0",
     "node-fetch": "^3.3.2",
     "npm-run-all2": "^9.0.3",
     "pdf-visual-diff": "^0.16.0",
