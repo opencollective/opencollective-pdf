@@ -29,16 +29,9 @@
     "build:updates": "tsx scripts/update-cloudflare-ips.ts dist/server/cloudflare-ips.json",
     "build:finalize": "npm run build:updates",
     "graphql:refresh": "npm run graphql:codegen",
-    "dev:local": "npm run dev",
-    "build:compile:local": "npm run build:compile",
-    "type:check:local": "npm run type:check",
-    "test:local": "npm run test",
-    "build:local": "npm run build:updates",
     "dev:environment": "npm run dev -- \"$OC_DEV_ENV_PDF\"",
-    "dev:environment:local": "npm run dev:environment",
     "start:built": "node --import ./dist/instrument.js dist/server/index.js",
     "turbo": "turbo --single-package --root-turbo-json=turbo.standalone.json",
-    "test:watch:local": "npm run test:watch",
     "build:clean": "node -e \"require('fs').rmSync('dist', {recursive: true, force: true})\""
   },
   "dependencies": {

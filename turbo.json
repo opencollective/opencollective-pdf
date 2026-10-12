@@ -197,44 +197,6 @@
       "persistent": true,
       "passThroughEnv": ["*"]
     },
-    "dev:local": {
-      "cache": false,
-      "passThroughEnv": ["*"],
-      "persistent": true,
-      "dependsOn": ["//#taxes:link:packages"]
-    },
-    "build:compile:local": {
-      "cache": false,
-      "passThroughEnv": ["*"],
-      "dependsOn": ["//#taxes:link:packages", "build:clean"]
-    },
-    "type:check:local": {
-      "cache": false,
-      "passThroughEnv": ["*"],
-      "dependsOn": ["//#taxes:link:packages"]
-    },
-    "test:local": {
-      "cache": false,
-      "passThroughEnv": ["*"],
-      "dependsOn": ["//#taxes:link:packages"]
-    },
-    "build:local": {
-      "cache": false,
-      "passThroughEnv": ["*"],
-      "dependsOn": ["build:compile:local"]
-    },
-    "dev:environment:local": {
-      "cache": false,
-      "persistent": true,
-      "passThroughEnv": ["*"],
-      "dependsOn": ["//#taxes:link:packages"]
-    },
-    "test:watch:local": {
-      "cache": false,
-      "persistent": true,
-      "passThroughEnv": ["*"],
-      "dependsOn": ["//#taxes:link:packages"]
-    },
     "build:clean": {
       "cache": false,
       "passThroughEnv": ["*"]
