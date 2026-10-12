@@ -85,3 +85,16 @@ before sending (see `server/lib/sentry.ts`).
 It behaves like an unknown route (404) unless `DEBUG_SENTRY_KEY` is configured and the
 `key` query parameter matches it. Set `DEBUG_SENTRY_KEY` only where you need to verify
 (e.g. staging), never as a long-lived production secret.
+
+### Turborepo tasks
+
+Use the usual npm commands: `npm run build`, `npm run lint`, `npm test`,
+`npm run type:check`, and `npm run format:check`. They run through
+Turbo by default. Development and watch commands remain uncached; checks and
+compilation use the declared cache inputs and dependency graph.
+
+Forward runner arguments as usual, for example `npm test -- path/to/test`.
+Internal `:task` scripts contain the underlying commands and are scheduled directly
+by the parent workspace to avoid invoking Turbo recursively. For advanced Turbo
+options, use `npm run turbo -- run lint:task --dry=json`. Standalone installs
+keep this repository's own lockfile.

@@ -2,34 +2,30 @@
   "$schema": "https://turborepo.dev/schema.json",
   "extends": ["//"],
   "tasks": {
-    "build": {
-      "cache": false,
-      "passThroughEnv": ["*"]
-    },
     "start": {
       "cache": false,
       "passThroughEnv": ["*"],
       "persistent": true,
       "dependsOn": ["build:finalize"]
     },
-    "test": {
+    "test:task": {
       "cache": false,
       "passThroughEnv": ["*"]
     },
-    "test:watch": {
+    "test:watch:task": {
       "cache": false,
       "passThroughEnv": ["*"],
       "persistent": true
     },
-    "test:coverage": {
+    "test:coverage:task": {
       "cache": false,
       "passThroughEnv": ["*"]
     },
-    "test:update": {
+    "test:update:task": {
       "cache": false,
       "passThroughEnv": ["*"]
     },
-    "type:check": {
+    "type:check:task": {
       "inputs": [
         "$TURBO_DEFAULT$",
         "package-lock.json",
@@ -51,12 +47,12 @@
       "outputs": [],
       "cache": true
     },
-    "dev": {
+    "dev:task": {
       "cache": false,
       "passThroughEnv": ["*"],
       "persistent": true
     },
-    "lint": {
+    "lint:task": {
       "inputs": [
         "$TURBO_DEFAULT$",
         "package-lock.json",
@@ -78,11 +74,11 @@
       "outputs": [],
       "cache": true
     },
-    "lint:fix": {
+    "lint:fix:task": {
       "cache": false,
       "passThroughEnv": ["*"]
     },
-    "prettier:check": {
+    "prettier:check:task": {
       "inputs": [
         "$TURBO_DEFAULT$",
         "package-lock.json",
@@ -104,11 +100,7 @@
       "outputs": [],
       "cache": true
     },
-    "depcheck": {
-      "cache": false,
-      "passThroughEnv": ["*"]
-    },
-    "graphql:update": {
+    "depcheck:task": {
       "cache": false,
       "passThroughEnv": ["*"]
     },
@@ -124,7 +116,7 @@
       "cache": false,
       "passThroughEnv": ["*"]
     },
-    "format:check": {
+    "format:check:task": {
       "inputs": [
         "$TURBO_DEFAULT$",
         "package-lock.json",
@@ -146,7 +138,7 @@
       "outputs": [],
       "cache": true
     },
-    "format": {
+    "format:task": {
       "cache": false,
       "passThroughEnv": ["*"]
     },
@@ -198,6 +190,10 @@
       "passThroughEnv": ["*"]
     },
     "build:clean": {
+      "cache": false,
+      "passThroughEnv": ["*"]
+    },
+    "prettier:task": {
       "cache": false,
       "passThroughEnv": ["*"]
     }
