@@ -14,7 +14,20 @@ on:
       - synchronize
       - reopened
 
+permissions:
+  contents: read
+  id-token: write
+
 env:
+  TURBO_TEAM: ${{ vars.TURBO_TEAM }}
+  TURBO_AGENT_GUIDANCE: 'false'
+  # Repository branch pushes and same-repository PRs share the remote cache.
+  # Fork PRs, tag pushes, and runs without TURBO_TEAM stay local.
+  TURBO_CACHE: >-
+    ${{ vars.TURBO_TEAM != '' &&
+        ((github.event_name == 'push' && startsWith(github.ref, 'refs/heads/')) ||
+         (github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository)) &&
+        'local:rw,remote:rw' || 'local:rw' }}
   OC_ENV: ci
 
 jobs:
@@ -28,6 +41,12 @@ jobs:
         with:
           node-version-file: 'package.json'
           cache: 'npm'
+
+      - name: Set up Turborepo Remote Cache
+        if: ${{ env.TURBO_CACHE == 'local:rw,remote:rw' && env.TURBO_TEAM != '' }}
+        uses: vercel/setup-turborepo-remote-cache-action@49d7b1b46ba4c9251e1977986bfe18336feabc8f # v1.1.0
+        with:
+          team: ${{ env.TURBO_TEAM }}
       - name: Install dependencies
         run: npm ci --prefer-offline --no-audit
       - name: Install dependencies
@@ -44,6 +63,12 @@ jobs:
         with:
           node-version-file: 'package.json'
           cache: 'npm'
+
+      - name: Set up Turborepo Remote Cache
+        if: ${{ env.TURBO_CACHE == 'local:rw,remote:rw' && env.TURBO_TEAM != '' }}
+        uses: vercel/setup-turborepo-remote-cache-action@49d7b1b46ba4c9251e1977986bfe18336feabc8f # v1.1.0
+        with:
+          team: ${{ env.TURBO_TEAM }}
       - name: Install dependencies
         run: npm ci --prefer-offline --no-audit
       - run: npm run prettier:check
@@ -58,6 +83,12 @@ jobs:
         with:
           node-version-file: 'package.json'
           cache: 'npm'
+
+      - name: Set up Turborepo Remote Cache
+        if: ${{ env.TURBO_CACHE == 'local:rw,remote:rw' && env.TURBO_TEAM != '' }}
+        uses: vercel/setup-turborepo-remote-cache-action@49d7b1b46ba4c9251e1977986bfe18336feabc8f # v1.1.0
+        with:
+          team: ${{ env.TURBO_TEAM }}
       - name: Install dependencies
         run: npm ci --prefer-offline --no-audit
       - name: Install dependencies
@@ -74,6 +105,12 @@ jobs:
         with:
           node-version-file: 'package.json'
           cache: 'npm'
+
+      - name: Set up Turborepo Remote Cache
+        if: ${{ env.TURBO_CACHE == 'local:rw,remote:rw' && env.TURBO_TEAM != '' }}
+        uses: vercel/setup-turborepo-remote-cache-action@49d7b1b46ba4c9251e1977986bfe18336feabc8f # v1.1.0
+        with:
+          team: ${{ env.TURBO_TEAM }}
       - name: Install dependencies
         run: npm ci --prefer-offline --no-audit
       - run: npm run test:coverage
@@ -117,6 +154,12 @@ jobs:
         with:
           node-version-file: 'package.json'
           cache: 'npm'
+
+      - name: Set up Turborepo Remote Cache
+        if: ${{ env.TURBO_CACHE == 'local:rw,remote:rw' && env.TURBO_TEAM != '' }}
+        uses: vercel/setup-turborepo-remote-cache-action@49d7b1b46ba4c9251e1977986bfe18336feabc8f # v1.1.0
+        with:
+          team: ${{ env.TURBO_TEAM }}
       - name: Install dependencies
         run: npm ci --prefer-offline --no-audit
       - run: npm run depcheck

@@ -5,24 +5,47 @@
   "main": "dist/server/index.js",
   "type": "module",
   "scripts": {
-    "build": "tsc && tsx scripts/update-cloudflare-ips.ts dist/server/cloudflare-ips.json",
+    "build": "npm run turbo -- run build:finalize",
     "start": "node --import ./dist/instrument.js dist/server/index.js",
-    "test": "START_SERVER=false vitest --run",
-    "test:watch": "vitest --watch",
-    "test:coverage": "vitest --run --coverage --reporter=junit --reporter=default --outputFile=test-report.junit.xml",
-    "test:update": "rm test/__snapshots__/*.png && vitest --run",
-    "type:check": "tsc --noEmit",
-    "dev": "tsx --import ./instrument.ts watch server/index.ts",
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
-    "prettier": "prettier --write .",
-    "prettier:check": "prettier --check .",
-    "depcheck": "npx depcheck --ignores='server,@graphql-typed-document-node/core,@vitest/coverage-v8'",
+    "test": "npm run turbo -- run test:task --",
+    "test:watch": "npm run turbo -- run test:watch:task --",
+    "test:coverage": "npm run turbo -- run test:coverage:task --",
+    "test:update": "npm run turbo -- run test:update:task --",
+    "type:check": "npm run turbo -- run type:check:task --",
+    "dev": "npm run turbo -- run dev:task --",
+    "lint": "npm run turbo -- run lint:task --",
+    "lint:fix": "npm run turbo -- run lint:fix:task --",
+    "prettier": "npm run turbo -- run prettier:task --",
+    "prettier:check": "npm run turbo -- run prettier:check:task --",
+    "depcheck": "npm run turbo -- run depcheck:task --",
     "script": "tsx $@",
-    "graphql:update": "npm-run-all graphql:updateV1 graphql:updateV2 graphql:codegen",
+    "graphql:update": "npm run turbo -- run graphql:refresh",
     "graphql:codegen": "graphql-codegen --config scripts/config/graphql-codegen.ts && prettier server/graphql/types --write",
     "graphql:updateV1": "tsx ./scripts/update-gql-schemas.js http://localhost:3060/graphql/v1 server/graphql/schema.graphql && prettier server/graphql/schema.graphql --write",
-    "graphql:updateV2": "tsx ./scripts/update-gql-schemas.js http://localhost:3060/graphql/v2 server/graphql/schemaV2.graphql && prettier server/graphql/schemaV2.graphql --write"
+    "graphql:updateV2": "tsx ./scripts/update-gql-schemas.js http://localhost:3060/graphql/v2 server/graphql/schemaV2.graphql && prettier server/graphql/schemaV2.graphql --write",
+    "format:check": "npm run turbo -- run format:check:task --",
+    "format": "npm run turbo -- run format:task --",
+    "build:compile": "tsc",
+    "build:updates": "tsx scripts/update-cloudflare-ips.ts dist/server/cloudflare-ips.json",
+    "build:finalize": "npm run build:updates",
+    "graphql:refresh": "npm run graphql:codegen",
+    "dev:environment": "npm run dev:task -- \"$OC_DEV_ENV_PDF\"",
+    "start:built": "node --import ./dist/instrument.js dist/server/index.js",
+    "turbo": "turbo --skip-infer --single-package --root-turbo-json=turbo.standalone.json",
+    "build:clean": "node -e \"require('fs').rmSync('dist', {recursive: true, force: true})\"",
+    "test:task": "START_SERVER=false vitest --run",
+    "test:watch:task": "vitest --watch",
+    "test:coverage:task": "vitest --run --coverage --reporter=junit --reporter=default --outputFile=test-report.junit.xml",
+    "test:update:task": "rm test/__snapshots__/*.png && vitest --run",
+    "type:check:task": "tsc --noEmit",
+    "dev:task": "tsx --import ./instrument.ts watch server/index.ts",
+    "lint:task": "eslint .",
+    "lint:fix:task": "eslint . --fix",
+    "prettier:task": "prettier --write .",
+    "prettier:check:task": "prettier --check .",
+    "depcheck:task": "npx depcheck --ignores='server,@graphql-typed-document-node/core,@vitest/coverage-v8'",
+    "format:check:task": "npm run prettier:check:task",
+    "format:task": "npm run prettier:task"
   },
   "dependencies": {
     "@ag-media/react-pdf-table": "^2.0.3",
@@ -64,7 +87,6 @@
     "graphql": "^16.14.2",
     "nock": "^15.0.0",
     "node-fetch": "^3.3.2",
-    "npm-run-all2": "^9.0.3",
     "pdf-visual-diff": "^0.16.0",
     "prettier": "3.9.9",
     "supertest": "^7.3.0",
@@ -72,7 +94,8 @@
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.71.0",
     "vite": "^8.3.2",
-    "vitest": "^5.0.3"
+    "vitest": "^5.0.3",
+    "turbo": "2.11.7"
   },
   "overrides": {
     "@unicode/unicode-17.0.0": "2.0.7"
@@ -80,5 +103,6 @@
   "engines": {
     "node": "24.x",
     "npm": "11.x"
-  }
+  },
+  "packageManager": "npm@11.19.0"
 }
