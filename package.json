@@ -27,7 +27,7 @@
   "dependencies": {
     "@ag-media/react-pdf-table": "^2.0.3",
     "@apollo/client": "3.14.1",
-    "@hyperwatch/hyperwatch": "5.3.1",
+    "@hyperwatch/hyperwatch": "5.3.2",
     "@opencollective/taxes": "5.5.0",
     "@react-pdf/renderer": "4.9.0",
     "@sentry/node": "11.6.0",
