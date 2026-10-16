@@ -34,7 +34,7 @@
     "@sentry/profiling-node": "11.6.0",
     "dayjs": "1.11.23",
     "dotenv": "18.0.7",
-    "express": "5.2.1",
+    "express": "5.3.0",
     "express-basic-auth": "1.2.1",
     "express-rate-limit": "8.7.1",
     "i18n-iso-countries": "7.14.0",
