@@ -31,3 +31,6 @@ test-report.junit.xml
 *.swp
 *.log
 .vercel
+
+# Turborepo task logs and local cache
+.turbo/
