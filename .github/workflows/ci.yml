@@ -79,13 +79,13 @@ jobs:
       - run: npm run test:coverage
       - uses: codecov/codecov-action@303a32d7a59b442fa8d48b6a1cc6825c09c847a5 # v7
         with:
-          fail_ci_if_error: true
           token: ${{ secrets.CODECOV_TOKEN }}
       - name: Upload test results to Codecov
         if: ${{ !cancelled() }}
-        uses: codecov/test-results-action@v1
+        uses: codecov/codecov-action@303a32d7a59b442fa8d48b6a1cc6825c09c847a5 # v7
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
+          report_type: test_results
       - name: Upload snapshots on failure
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
