@@ -1,10 +1,16 @@
-import { expect, test, describe, beforeEach, afterEach } from 'vitest';
+import { expect, test, describe, beforeEach, afterEach, vi } from 'vitest';
 import express from 'express';
 import request from 'supertest';
 import nock from 'nock';
 import appRouter from '../../server/index.js';
 import { snapshotPDF } from '../utils.js';
 import { cloneDeep } from 'lodash-es';
+import { sendPDFResponse } from '../../server/lib/pdf.js';
+
+vi.mock('../../server/lib/pdf.js', async importOriginal => {
+  const original = await importOriginal<typeof import('../../server/lib/pdf.js')>();
+  return { ...original, sendPDFResponse: vi.fn(original.sendPDFResponse) };
+});
 
 // Test transaction data for a single transaction receipt
 const mockTransactionData = {
@@ -374,6 +380,31 @@ describe('Receipts Routes', () => {
         expect(pdfBuffer).toBeInstanceOf(Buffer);
         expect(pdfBuffer.length).toBeGreaterThan(0);
         await snapshotPDF(pdfBuffer, 'period_receipt.pdf');
+      });
+
+      test('should use the invoice template of the transactions', async () => {
+        const customTemplateData = cloneDeep(mockPeriodData);
+        customTemplateData.data.host.settings.invoice.templates['special'] = {
+          title: 'Special Receipt',
+          notes: 'Thank you for your special contributions',
+        };
+        customTemplateData.data.transactions = {
+          totalCount: 1,
+          nodes: [{ ...mockTransactionData.data.transaction, invoiceTemplate: 'special' }],
+        };
+
+        nock(API_URL)
+          .post(/\/graphql\/v2/)
+          .reply(200, JSON.stringify(customTemplateData));
+
+        const response = await request(app)
+          .get('/receipts/period/test-user/test-host/2025-01-01/2025-12-31/receipt.pdf')
+          .set('Authorization', 'Bearer test-token');
+
+        expect(response.status).toBe(200);
+        expect(vi.mocked(sendPDFResponse).mock.lastCall[2]).toMatchObject({
+          receipt: { template: { title: 'Special Receipt' } },
+        });
       });
 
       test('should return 404 for non-existent host', async () => {
