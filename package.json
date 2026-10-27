@@ -5,7 +5,7 @@
   "main": "dist/server/index.js",
   "type": "module",
   "scripts": {
-    "build": "tsc && tsx scripts/update-cloudflare-ips.ts dist/server/cloudflare-ips.json",
+    "build": "tsc -p tsconfig.build.json && tsx scripts/update-cloudflare-ips.ts dist/server/cloudflare-ips.json",
     "start": "node --import ./dist/instrument.js dist/server/index.js",
     "test": "START_SERVER=false vitest --run",
     "test:watch": "vitest --watch",
@@ -21,8 +21,8 @@
     "script": "tsx $@",
     "graphql:update": "npm-run-all graphql:updateV1 graphql:updateV2 graphql:codegen",
     "graphql:codegen": "graphql-codegen --config scripts/config/graphql-codegen.ts && prettier server/graphql/types --write",
-    "graphql:updateV1": "tsx ./scripts/update-gql-schemas.js http://localhost:3060/graphql/v1 server/graphql/schema.graphql && prettier server/graphql/schema.graphql --write",
-    "graphql:updateV2": "tsx ./scripts/update-gql-schemas.js http://localhost:3060/graphql/v2 server/graphql/schemaV2.graphql && prettier server/graphql/schemaV2.graphql --write"
+    "graphql:updateV1": "tsx ./scripts/update-gql-schemas.ts http://localhost:3060/graphql/v1 server/graphql/schema.graphql && prettier server/graphql/schema.graphql --write",
+    "graphql:updateV2": "tsx ./scripts/update-gql-schemas.ts http://localhost:3060/graphql/v2 server/graphql/schemaV2.graphql && prettier server/graphql/schemaV2.graphql --write"
   },
   "dependencies": {
     "@ag-media/react-pdf-table": "^2.0.3",
