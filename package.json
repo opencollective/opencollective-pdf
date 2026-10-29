@@ -75,7 +75,7 @@
     "vitest": "^5.0.3"
   },
   "overrides": {
-    "@unicode/unicode-17.0.0": "2.0.8"
+    "@unicode/unicode-17.0.0": "2.1.0"
   },
   "engines": {
     "node": "24.x",
