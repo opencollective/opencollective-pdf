@@ -12,7 +12,7 @@
     "test:coverage": "vitest --run --coverage --reporter=junit --reporter=default --outputFile=test-report.junit.xml",
     "test:update": "rm test/__snapshots__/*.png && vitest --run",
     "type:check": "tsc --noEmit",
-    "dev": "tsx --import ./instrument.ts watch server/index.ts",
+    "dev": "tsx watch --import ./instrument.ts server/index.ts",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "prettier": "prettier --write .",
