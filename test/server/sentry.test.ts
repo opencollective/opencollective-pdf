@@ -99,7 +99,7 @@ describe('sentry', () => {
         apiKey: '[Filtered]',
         slug: 'my-collective',
       });
-      expect(redactEventRequest({}).request).toBeUndefined();
+      expect(redactEventRequest<{ request?: unknown }>({}).request).toBeUndefined();
       expect(redactEventRequest(null)).toBeNull();
     });
   });

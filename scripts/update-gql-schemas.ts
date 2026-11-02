@@ -1,9 +1,8 @@
 import * as fs from 'fs';
 import * as path from 'path';
 
-import { buildClientSchema } from 'graphql/utilities/buildClientSchema';
-import { getIntrospectionQuery } from 'graphql/utilities/getIntrospectionQuery';
-import { printSchema } from 'graphql/utilities/printSchema';
+import { buildClientSchema, getIntrospectionQuery, printSchema } from 'graphql';
+import type { IntrospectionQuery } from 'graphql';
 import fetch from 'node-fetch';
 
 /**
@@ -22,7 +21,7 @@ async function getRemoteSchema(
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ query: introspectionQuery }),
-    }).then(res => res.json());
+    }).then(res => res.json() as Promise<{ data?: IntrospectionQuery; errors?: unknown }>);
 
     if (errors) {
       return { status: 'err', message: JSON.stringify(errors, null, 2) };
