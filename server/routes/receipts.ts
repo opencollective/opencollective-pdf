@@ -390,7 +390,7 @@ router.get('/period/:contributorSlug/:hostSlug/:dateFrom/:dateTo/:filename.pdf',
 
   const invoiceTemplateObj =
     await response.host?.settings?.invoice?.templates?.[
-      response.transactions[0]?.invoiceTemplate || response.transactions[0]?.order?.tier?.invoiceTemplate
+      response.transactions.nodes[0]?.invoiceTemplate || response.transactions.nodes[0]?.order?.tier?.invoiceTemplate
     ];
 
   const template = invoiceTemplateObj || response.host.settings?.invoice?.templates?.default;
