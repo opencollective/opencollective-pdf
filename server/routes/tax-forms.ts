@@ -2,7 +2,7 @@ import express from 'express';
 import fontkit from 'pdf-fontkit';
 import { PDFDocument, StandardFonts } from 'pdf-lib';
 import { readFileSyncFromPublicStaticFolder } from '../lib/file-utils.js';
-import { addNonFinalWaterMark, flattenForm } from '../lib/pdf-lib-utils.js';
+import { addNonFinalWaterMark, flattenForm, InvalidFieldValueError } from '../lib/pdf-lib-utils.js';
 import { allCharsValid } from '../lib/string-utils.js';
 import { isValidTaxFormType, TAX_FORMS } from '../lib/tax-forms/index.js';
 import { getFullName } from '../lib/tax-forms/utils.js';
@@ -65,7 +65,9 @@ router.get('/:formType.pdf', async (req, res) => {
 
   // Set metadata
   const signerFullName = getFullName(values.signer);
-  const entityName = values.organizationName || values.businessName || signerFullName;
+  const entityName = [values.organizationName, values.businessName, signerFullName].find(
+    name => typeof name === 'string' && name,
+  );
   pdfDoc.setTitle(`${formType} Form - ${entityName}`);
   pdfDoc.setSubject(`${formType} Form`);
   pdfDoc.setAuthor(signerFullName || '');
@@ -90,7 +92,16 @@ router.get('/:formType.pdf', async (req, res) => {
   }
 
   // Fill form
-  await formDefinition.fillPDF(pdfDoc, values, customFont);
+  try {
+    await formDefinition.fillPDF(pdfDoc, values, customFont);
+  } catch (e) {
+    if (e instanceof InvalidFieldValueError) {
+      console.warn(`Invalid values for ${formType} tax form: ${e.message}`);
+      res.status(400).send('Invalid values');
+      return;
+    }
+    throw e;
+  }
 
   // If final, flatten the form and attach raw data
   if (isFinal && ['true', '1'].includes(isFinal.toLowerCase())) {
