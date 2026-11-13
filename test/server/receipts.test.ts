@@ -275,6 +275,27 @@ describe('Receipts Routes', () => {
         await snapshotPDF(pdfBuffer, 'transaction_receipt_ticket.pdf');
       });
 
+      test('should ignore invalid (non-string) template fields', async () => {
+        const invalidTemplateData = cloneDeep(mockTransactionData);
+        invalidTemplateData.data.transaction.host.settings.invoice.templates.default = {
+          title: { a: 'x' },
+          info: ['not', 'a', 'string'],
+        } as unknown as (typeof invalidTemplateData.data.transaction.host.settings.invoice.templates)['default'];
+
+        nock(API_URL)
+          .post(/\/graphql\/v2/)
+          .reply(200, JSON.stringify(invalidTemplateData));
+
+        const response = await request(app)
+          .get('/receipts/transaction/txn1/receipt.pdf')
+          .set('Authorization', 'Bearer test-token');
+
+        expect(response.status).toBe(200);
+        expect(response.headers['content-type']).toBe('application/pdf');
+        expect(response.body).toBeInstanceOf(Buffer);
+        expect(response.body.length).toBeGreaterThan(0);
+      });
+
       test('should return 404 for non-existent transaction', async () => {
         // Mock GraphQL API call returning null transaction
         nock(API_URL)
