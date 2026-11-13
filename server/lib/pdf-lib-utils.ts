@@ -116,6 +116,35 @@ type FieldTypeMulti = {
   fields: PDFFieldDefinition[];
 };
 
+/**
+ * Thrown when a value provided for a PDF form field has an unsupported type (e.g. an object or an array).
+ */
+export class InvalidFieldValueError extends Error {
+  readonly fieldPath: string;
+  readonly valueType: string;
+
+  constructor(fieldPath: string, value: unknown) {
+    const valueType = Array.isArray(value) ? 'array' : typeof value;
+    super(`Invalid value of type "${valueType}" for field "${fieldPath}"`);
+    this.name = 'InvalidFieldValueError';
+    this.fieldPath = fieldPath;
+    this.valueType = valueType;
+  }
+}
+
+/**
+ * Converts a field value to a string, only accepting primitive values.
+ */
+function fieldValueToString(value: unknown, fieldPath: string): string {
+  if (typeof value === 'string') {
+    return value;
+  } else if (typeof value === 'number' || typeof value === 'boolean' || typeof value === 'bigint') {
+    return String(value);
+  } else {
+    throw new InvalidFieldValueError(fieldPath, value);
+  }
+}
+
 export function isFieldTypeCombo(field: PDFFieldDefinition): field is FieldTypeCombo {
   return (field as FieldTypeCombo).type === 'combo';
 }
@@ -175,7 +204,7 @@ function fillValueForField<Values>(
     if (isTextFormField(formField)) {
       if (!isNil(value) && value !== '') {
         formField.setAlignment(TextAlignment.Left);
-        setTextFieldContentWithFont(formField, value.toString().trim(), font);
+        setTextFieldContentWithFont(formField, fieldValueToString(value, field).trim(), font);
       }
     } else if (formField.constructor.name === 'PDFCheckBox') {
       if (value) {
@@ -204,11 +233,12 @@ function fillValueForField<Values>(
   } else if (isFieldTypeSplitText(field)) {
     const transformedValue = field.transform ? field.transform(value, allValues) : value;
     if (!isNil(transformedValue) && transformedValue !== '') {
+      const stringValue = fieldValueToString(transformedValue, field.fields[0]?.formPath);
       let start = 0;
       field.fields.forEach(({ formPath, maxLength }) => {
         const subField = form.getTextField(formPath);
         const end = start + (maxLength === 'auto' ? subField.getMaxLength() : maxLength);
-        const content = transformedValue.toString().slice(start, end).trim();
+        const content = stringValue.slice(start, end).trim();
         setTextFieldContentWithFont(subField, content, font);
         start = end;
       });
@@ -226,7 +256,7 @@ function fillValueForField<Values>(
       } else {
         const textField = form.getTextField(formPath);
         textField.setAlignment(TextAlignment.Left);
-        const content = transformedValue.toString().trim();
+        const content = fieldValueToString(transformedValue, formPath).trim();
         setTextFieldContentWithFont(textField, content, font);
       }
     }

@@ -45,7 +45,7 @@ export const W9FieldsDefinition: Partial<Record<keyof W9TaxFormValues, PDFFieldD
       {
         type: 'split-text',
         if: (value, values) => values.taxIdNumberType === 'SSN',
-        transform: value => value && value.replace(/-/g, '').trim(),
+        transform: value => (typeof value === 'string' ? value.replace(/-/g, '').trim() : value),
         fields: [
           { formPath: 'topmostSubform[0].Page1[0].f1_11[0]', maxLength: 3 },
           { formPath: 'topmostSubform[0].Page1[0].f1_12[0]', maxLength: 2 },
@@ -55,7 +55,7 @@ export const W9FieldsDefinition: Partial<Record<keyof W9TaxFormValues, PDFFieldD
       {
         type: 'split-text',
         if: (value, values) => values.taxIdNumberType === 'EIN',
-        transform: value => value && value.replace(/-/g, '').trim(),
+        transform: value => (typeof value === 'string' ? value.replace(/-/g, '').trim() : value),
         fields: [
           { formPath: 'topmostSubform[0].Page1[0].f1_14[0]', maxLength: 2 },
           { formPath: 'topmostSubform[0].Page1[0].f1_15[0]', maxLength: 7 },
