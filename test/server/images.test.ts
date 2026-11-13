@@ -15,8 +15,17 @@ describe('lib/images', () => {
       expect(getSvgStructureStats(buildNestedSvg(100_000)).maxDepth).toBe(100_001);
     });
 
-    test('ignores comments', () => {
-      expect(getSvgStructureStats('<svg><!-- <g><g><g> --></svg>').maxDepth).toBe(1);
+    test('ignores comments, CDATA, doctypes and processing instructions', () => {
+      const svg = '<?xml version="1.0"?><!DOCTYPE svg><svg><!-- <g><g><g> --><style><![CDATA[ <g><g> ]]></style></svg>';
+      expect(getSvgStructureStats(svg)).toEqual({ maxDepth: 2, elementsCount: 2 });
+    });
+
+    test('ignores ">" inside attribute values', () => {
+      expect(getSvgStructureStats('<svg><g data-x="a>b"><rect/></g></svg>')).toEqual({ maxDepth: 2, elementsCount: 3 });
+    });
+
+    test('does not let nested comment markers hide elements', () => {
+      expect(getSvgStructureStats('<svg><!<!--- x -->--><g><g></g></g></svg>').maxDepth).toBe(3);
     });
   });
 

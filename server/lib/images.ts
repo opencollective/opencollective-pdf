@@ -77,23 +77,63 @@ export const isSvgContent = (content: string, contentType?: string | null): bool
  * Iteratively (no recursion) computes the max element nesting depth and element count of an SVG/XML string.
  */
 export const getSvgStructureStats = (svg: string): { maxDepth: number; elementsCount: number } => {
-  const withoutComments = svg.replace(/<!--[\s\S]*?-->/g, '').replace(/<!\[CDATA\[[\s\S]*?\]\]>/g, '');
-  const tagRegex = /<(\/?)([a-zA-Z][^\s/>]*)[^>]*?(\/?)>/g;
+  // Single-pass scanner: comments, CDATA sections, doctypes and processing instructions are skipped in place
+  // (rather than stripped with a regex replace) so that nothing can be reassembled into new markup.
+  const skipUntil = (from: number, terminator: string): number => {
+    const end = svg.indexOf(terminator, from);
+    return end === -1 ? svg.length : end + terminator.length;
+  };
+
   let depth = 0;
   let maxDepth = 0;
   let elementsCount = 0;
-  let match: RegExpExecArray | null;
-  while ((match = tagRegex.exec(withoutComments)) !== null) {
-    const [, isClosing, , isSelfClosing] = match;
-    if (isClosing) {
-      depth = Math.max(0, depth - 1);
+  let i = svg.indexOf('<');
+  while (i !== -1 && i < svg.length) {
+    if (svg.startsWith('<!--', i)) {
+      i = skipUntil(i + 4, '-->');
+    } else if (svg.startsWith('<![CDATA[', i)) {
+      i = skipUntil(i + 9, ']]>');
+    } else if (svg.startsWith('<?', i)) {
+      i = skipUntil(i + 2, '?>');
+    } else if (svg.startsWith('<!', i)) {
+      i = skipUntil(i + 2, '>');
     } else {
-      elementsCount++;
-      if (!isSelfClosing) {
-        depth++;
-        maxDepth = Math.max(maxDepth, depth);
+      const isClosing = svg[i + 1] === '/';
+      const nameStart = isClosing ? i + 2 : i + 1;
+      if (!/[a-zA-Z_:]/.test(svg[nameStart] ?? '')) {
+        i = svg.indexOf('<', i + 1);
+        continue;
       }
+
+      // Find the end of the tag, ignoring `>` inside quoted attribute values
+      let j = nameStart;
+      let quote: string | null = null;
+      while (j < svg.length) {
+        const char = svg[j];
+        if (quote) {
+          if (char === quote) {
+            quote = null;
+          }
+        } else if (char === '"' || char === "'") {
+          quote = char;
+        } else if (char === '>') {
+          break;
+        }
+        j++;
+      }
+
+      if (isClosing) {
+        depth = Math.max(0, depth - 1);
+      } else {
+        elementsCount++;
+        if (svg[j - 1] !== '/') {
+          depth++;
+          maxDepth = Math.max(maxDepth, depth);
+        }
+      }
+      i = j + 1;
     }
+    i = svg.indexOf('<', i);
   }
   return { maxDepth, elementsCount };
 };
