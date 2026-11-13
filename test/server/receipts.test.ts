@@ -206,6 +206,56 @@ describe('Receipts Routes', () => {
         await snapshotPDF(pdfBuffer, 'transaction_receipt.pdf');
       });
 
+      test('should skip SVG images with an invalid viewBox instead of crashing', async () => {
+        const transactionData = cloneDeep(mockTransactionData);
+        transactionData.data.transaction.host.imageUrl = 'https://example.com/logo.svg';
+        transactionData.data.transaction.host.settings.invoice.templates.default['embeddedImage'] =
+          'https://example.com/signature.svg';
+
+        const invalidSvg =
+          '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 Infinity"><rect width="10" height="10"/></svg>';
+        nock(API_URL)
+          .post(/\/graphql\/v2/)
+          .reply(200, JSON.stringify(transactionData));
+        nock('https://example.com')
+          .get(/\/(logo|signature)\.svg/)
+          .times(4)
+          .reply(200, invalidSvg, { 'Content-Type': 'image/svg+xml' });
+
+        const response = await request(app)
+          .get('/receipts/transaction/txn1/receipt.pdf')
+          .set('Authorization', 'Bearer test-token');
+
+        expect(response.status).toBe(200);
+        expect(response.headers['content-type']).toBe('application/pdf');
+        expect(response.body.length).toBeGreaterThan(0);
+      });
+
+      test('should keep valid SVG images', async () => {
+        const transactionData = cloneDeep(mockTransactionData);
+        transactionData.data.transaction.host.settings.invoice.templates.default['embeddedImage'] =
+          'https://example.com/signature.svg';
+
+        const validSvg =
+          '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10"><rect width="10" height="10"/></svg>';
+        nock(API_URL)
+          .post(/\/graphql\/v2/)
+          .reply(200, JSON.stringify(transactionData));
+        const svgScope = nock('https://example.com')
+          .get('/signature.svg')
+          .times(2)
+          .reply(200, validSvg, { 'Content-Type': 'image/svg+xml' });
+
+        const response = await request(app)
+          .get('/receipts/transaction/txn1/receipt.pdf')
+          .set('Authorization', 'Bearer test-token');
+
+        expect(response.status).toBe(200);
+        expect(response.headers['content-type']).toBe('application/pdf');
+        // Fetched once for validation and once by react-pdf to render it
+        expect(svgScope.isDone()).toBe(true);
+      });
+
       test('should render CJK contributor details', async () => {
         const cjkTransactionData = cloneDeep(mockTransactionData);
         cjkTransactionData.data.transaction.fromAccount.legalName =
