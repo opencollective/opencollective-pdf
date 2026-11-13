@@ -11,6 +11,8 @@ import { AccountWithHost } from '../graphql/types/v2/graphql.js';
 import dayjs from '../lib/dayjs.js';
 import { InvoiceByDateRangeQuery, TransactionInvoiceQuery } from '../graphql/types/v2/graphql.js';
 import { parseToBoolean } from '../lib/env.js';
+import { imagePreview } from '../lib/images.js';
+import { sanitizeImageUrl } from '../lib/svg.js';
 
 const router = express.Router();
 
@@ -244,6 +246,26 @@ function getReceiptFromTransactionData(
   };
 }
 
+type ReceiptProps = React.ComponentProps<typeof Receipt>['receipt'];
+
+/**
+ * Removes the images that would crash the PDF renderer (e.g. SVGs with an invalid viewBox).
+ * The host logo is checked through the same URL that `CollectiveFooter` passes to react-pdf.
+ */
+async function sanitizeReceiptImages(receipt: ReceiptProps): Promise<ReceiptProps> {
+  const host = receipt.host as ReceiptProps['host'] & { imageUrl?: string | null };
+  const [isHostImageValid, embeddedImage] = await Promise.all([
+    sanitizeImageUrl(imagePreview(host?.imageUrl, null, { height: 200 })).then(Boolean),
+    sanitizeImageUrl(receipt.template?.embeddedImage),
+  ]);
+
+  return {
+    ...receipt,
+    host: host?.imageUrl && !isHostImageValid ? ({ ...host, imageUrl: null } as ReceiptProps['host']) : receipt.host,
+    template: receipt.template ? { ...receipt.template, embeddedImage } : receipt.template,
+  };
+}
+
 router.options('/transaction/:id/:filename.pdf', (req, res) => {
   res.sendStatus(204);
 });
@@ -252,7 +274,8 @@ router.get('/transaction/:id/:filename.pdf', async (req, res) => {
   const { id } = req.params;
   const authorizationHeaders = authenticateRequest(req);
   const transaction = await fetchTransactionInvoice(id, authorizationHeaders);
-  await sendPDFResponse(res, Receipt, { receipt: getReceiptFromTransactionData(transaction) });
+  const receipt = await sanitizeReceiptImages(getReceiptFromTransactionData(transaction));
+  await sendPDFResponse(res, Receipt, { receipt });
 });
 
 // ---- By period ----
@@ -394,24 +417,24 @@ router.get('/period/:contributorSlug/:hostSlug/:dateFrom/:dateTo/:filename.pdf',
     ];
 
   const template = invoiceTemplateObj || response.host.settings?.invoice?.templates?.default;
-  await sendPDFResponse(res, Receipt, {
-    receipt: {
-      totalAmount: response.transactions.nodes.reduce(
-        (total, t) => total + (t.amountInHostCurrency.valueInCents || 0),
-        0,
-      ),
-      currency: response.host.currency,
-      transactions: response.transactions.nodes as unknown as React.ComponentProps<
-        typeof Receipt
-      >['receipt']['transactions'],
-      host: response.host,
-      fromAccount: response.fromAccount,
-      fromAccountHost: (response.fromAccount as unknown as AccountWithHost).host,
-      dateFrom,
-      dateTo,
-      template,
-    },
+  const receipt = await sanitizeReceiptImages({
+    totalAmount: response.transactions.nodes.reduce(
+      (total, t) => total + (t.amountInHostCurrency.valueInCents || 0),
+      0,
+    ),
+    currency: response.host.currency,
+    transactions: response.transactions.nodes as unknown as React.ComponentProps<
+      typeof Receipt
+    >['receipt']['transactions'],
+    host: response.host,
+    fromAccount: response.fromAccount,
+    fromAccountHost: (response.fromAccount as unknown as AccountWithHost).host,
+    dateFrom,
+    dateTo,
+    template,
   });
+
+  await sendPDFResponse(res, Receipt, { receipt });
 });
 
 export default router;
