@@ -250,6 +250,11 @@ function getReceiptFromTransactionData(
  * them with data URLs. Images that are unreachable or unsafe to render (e.g. deeply nested SVGs that would
  * overflow `@react-pdf`'s recursive SVG parser) are removed so that the receipt can still be generated.
  */
+// Fully transparent 1x1 PNG, used in place of images that could not be loaded or were rejected so that the
+// document layout stays the same as when `@react-pdf` fails to load an image by itself (empty placeholder).
+const TRANSPARENT_PIXEL =
+  'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAC0lEQVR4nGNgAAIAAAUAAXpeqz8AAAAASUVORK5CYII=';
+
 async function loadReceiptImages(
   receipt: React.ComponentProps<typeof Receipt>['receipt'],
 ): Promise<React.ComponentProps<typeof Receipt>['receipt']> {
@@ -261,8 +266,18 @@ async function loadReceiptImages(
 
   return {
     ...receipt,
-    host: host ? ({ ...host, imageUrl: hostImageUrl } as typeof receipt.host) : host,
-    template: receipt.template ? { ...receipt.template, embeddedImage: embeddedImage || undefined } : receipt.template,
+    host: host
+      ? ({
+          ...host,
+          imageUrl: host.imageUrl ? hostImageUrl || TRANSPARENT_PIXEL : host.imageUrl,
+        } as typeof receipt.host)
+      : host,
+    template: receipt.template
+      ? {
+          ...receipt.template,
+          embeddedImage: receipt.template.embeddedImage ? embeddedImage || TRANSPARENT_PIXEL : undefined,
+        }
+      : receipt.template,
   };
 }
 
