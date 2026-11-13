@@ -11,6 +11,7 @@ import { AccountWithHost } from '../graphql/types/v2/graphql.js';
 import dayjs from '../lib/dayjs.js';
 import { InvoiceByDateRangeQuery, TransactionInvoiceQuery } from '../graphql/types/v2/graphql.js';
 import { parseToBoolean } from '../lib/env.js';
+import { imagePreview, loadSafeImage } from '../lib/images.js';
 
 const router = express.Router();
 
@@ -244,6 +245,27 @@ function getReceiptFromTransactionData(
   };
 }
 
+/**
+ * Pre-download the user-provided images (host logo, template embedded image) and validate them, replacing
+ * them with data URLs. Images that are unreachable or unsafe to render (e.g. deeply nested SVGs that would
+ * overflow `@react-pdf`'s recursive SVG parser) are removed so that the receipt can still be generated.
+ */
+async function loadReceiptImages(
+  receipt: React.ComponentProps<typeof Receipt>['receipt'],
+): Promise<React.ComponentProps<typeof Receipt>['receipt']> {
+  const host = receipt.host as typeof receipt.host & { imageUrl?: string | null };
+  const [hostImageUrl, embeddedImage] = await Promise.all([
+    loadSafeImage(imagePreview(host?.imageUrl, null, { height: 200 })),
+    loadSafeImage(receipt.template?.embeddedImage),
+  ]);
+
+  return {
+    ...receipt,
+    host: host ? ({ ...host, imageUrl: hostImageUrl } as typeof receipt.host) : host,
+    template: receipt.template ? { ...receipt.template, embeddedImage: embeddedImage || undefined } : receipt.template,
+  };
+}
+
 router.options('/transaction/:id/:filename.pdf', (req, res) => {
   res.sendStatus(204);
 });
@@ -252,7 +274,8 @@ router.get('/transaction/:id/:filename.pdf', async (req, res) => {
   const { id } = req.params;
   const authorizationHeaders = authenticateRequest(req);
   const transaction = await fetchTransactionInvoice(id, authorizationHeaders);
-  await sendPDFResponse(res, Receipt, { receipt: getReceiptFromTransactionData(transaction) });
+  const receipt = await loadReceiptImages(getReceiptFromTransactionData(transaction));
+  await sendPDFResponse(res, Receipt, { receipt });
 });
 
 // ---- By period ----
@@ -394,24 +417,24 @@ router.get('/period/:contributorSlug/:hostSlug/:dateFrom/:dateTo/:filename.pdf',
     ];
 
   const template = invoiceTemplateObj || response.host.settings?.invoice?.templates?.default;
-  await sendPDFResponse(res, Receipt, {
-    receipt: {
-      totalAmount: response.transactions.nodes.reduce(
-        (total, t) => total + (t.amountInHostCurrency.valueInCents || 0),
-        0,
-      ),
-      currency: response.host.currency,
-      transactions: response.transactions.nodes as unknown as React.ComponentProps<
-        typeof Receipt
-      >['receipt']['transactions'],
-      host: response.host,
-      fromAccount: response.fromAccount,
-      fromAccountHost: (response.fromAccount as unknown as AccountWithHost).host,
-      dateFrom,
-      dateTo,
-      template,
-    },
+  const receipt = await loadReceiptImages({
+    totalAmount: response.transactions.nodes.reduce(
+      (total, t) => total + (t.amountInHostCurrency.valueInCents || 0),
+      0,
+    ),
+    currency: response.host.currency,
+    transactions: response.transactions.nodes as unknown as React.ComponentProps<
+      typeof Receipt
+    >['receipt']['transactions'],
+    host: response.host,
+    fromAccount: response.fromAccount,
+    fromAccountHost: (response.fromAccount as unknown as AccountWithHost).host,
+    dateFrom,
+    dateTo,
+    template,
   });
+
+  await sendPDFResponse(res, Receipt, { receipt });
 });
 
 export default router;
