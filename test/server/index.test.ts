@@ -92,6 +92,42 @@ describe('Tax forms', () => {
   });
 });
 
+describe('GET /tax-forms/:formType.pdf', () => {
+  // Mimics clients (e.g. Python's `json.dumps`) that escape non-ASCII characters as `\uXXXX` sequences
+  const encodeValuesWithAsciiEscapes = (values: Record<string, unknown>): string => {
+    const json = JSON.stringify(values).replace(
+      /[\u007f-\uffff]/g,
+      c => `\\u${c.charCodeAt(0).toString(16).padStart(4, '0')}`,
+    );
+    return Buffer.from(json).toString('base64');
+  };
+
+  const values = {
+    submitterType: 'Business',
+    organizationName: '中文 Organization',
+    businessName: '中文 Business',
+    location: { country: 'US', structured: { address1: '中文 Street', city: 'Test City' } },
+  };
+
+  for (const isFinal of [false, true]) {
+    test(`renders unicode values sent as JSON escapes (isFinal=${isFinal})`, async () => {
+      const encodedValues = encodeValuesWithAsciiEscapes(values);
+      expect(Buffer.from(encodedValues, 'base64').toString()).toContain('\\u4e2d');
+      const response = await request(app)
+        .get(`/tax-forms/w9.pdf?values=${encodeURIComponent(encodedValues)}&isFinal=${isFinal}`)
+        .buffer(true)
+        .parse((res, callback) => {
+          const chunks: Buffer[] = [];
+          res.on('data', chunk => chunks.push(Buffer.from(chunk)));
+          res.on('end', () => callback(null, Buffer.concat(chunks)));
+        });
+      expect(response.status).toBe(200);
+      expect(response.headers['content-type']).toContain('application/pdf');
+      expect((response.body as Buffer).subarray(0, 4).toString()).toBe('%PDF');
+    }, 60_000);
+  }
+});
+
 describe('GET /debug-sentry', () => {
   afterEach(() => {
     vi.unstubAllEnvs();
