@@ -11,7 +11,13 @@ const router = express.Router();
 
 const getValuesFromRequest = (req: express.Request<{ formType: string }>, res: express.Response) => {
   const { formType: rawFormType, values: base64Values, isFinal } = req.query;
-  const formType = ((rawFormType as string | undefined) || req.params.formType)?.toUpperCase();
+  if (rawFormType !== undefined && typeof rawFormType !== 'string') {
+    res.status(400).send('Invalid form type');
+    return;
+  }
+
+  const queryFormType = typeof rawFormType === 'string' ? rawFormType : undefined;
+  const formType = (queryFormType || req.params.formType)?.toUpperCase();
   if (!formType) {
     res.status(400).send('Missing form type');
     return;
