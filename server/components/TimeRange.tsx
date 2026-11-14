@@ -15,8 +15,8 @@ export const TimeRange = ({ startsAt, endsAt, timezone }) => {
   const isSameDay = getIsSameDay(startsAt, endsAt, timezone);
   return (
     <Fragment>
-      <FormattedDate value={startsAt} weekday="long" day="numeric" month="long" year="numeric" timeZone={timezone} />
-      , <FormattedTime value={startsAt} timeZone={timezone} />{' '}
+      <FormattedDate value={startsAt} weekday="long" day="numeric" month="long" year="numeric" timeZone={timezone} />,{' '}
+      <FormattedTime value={startsAt} timeZone={timezone} />{' '}
       {endsAt && (
         <Fragment>
           -{' '}
