@@ -275,6 +275,31 @@ describe('Receipts Routes', () => {
         await snapshotPDF(pdfBuffer, 'transaction_receipt_ticket.pdf');
       });
 
+      test('should still generate the PDF when the host provides a deeply nested SVG', async () => {
+        const deepSvg = `<svg xmlns="http://www.w3.org/2000/svg">${'<g>'.repeat(20000)}${'</g>'.repeat(20000)}</svg>`;
+        const deepSvgData = cloneDeep(mockTransactionData);
+        deepSvgData.data.transaction.host.imageUrl = 'https://example.com/deep.svg';
+        deepSvgData.data.transaction.host.settings.invoice.templates.default['embeddedImage'] =
+          'https://example.com/deep-embedded.svg';
+
+        nock(API_URL)
+          .post(/\/graphql\/v2/)
+          .reply(200, JSON.stringify(deepSvgData));
+        nock('https://example.com')
+          .get('/deep.svg')
+          .reply(200, deepSvg, { 'Content-Type': 'image/svg+xml' })
+          .get('/deep-embedded.svg')
+          .reply(200, deepSvg, { 'Content-Type': 'image/svg+xml' });
+
+        const response = await request(app)
+          .get('/receipts/transaction/txn1/receipt.pdf')
+          .set('Authorization', 'Bearer test-token');
+
+        expect(response.status).toBe(200);
+        expect(response.headers['content-type']).toBe('application/pdf');
+        expect(response.body.length).toBeGreaterThan(0);
+      });
+
       test('should return 404 for non-existent transaction', async () => {
         // Mock GraphQL API call returning null transaction
         nock(API_URL)
