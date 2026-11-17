@@ -57,7 +57,7 @@ router.get('/:formType.pdf', async (req, res) => {
     return;
   }
 
-  const { formType, rawValues, values, isFinal } = parsedRequest;
+  const { formType, values, isFinal } = parsedRequest;
 
   // Load file
   const formDefinition = TAX_FORMS[formType];
@@ -79,7 +79,9 @@ router.get('/:formType.pdf', async (req, res) => {
   let customFont = undefined;
   try {
     const defaultCharacterSet = new Set(defaultFont.getCharacterSet());
-    if (!allCharsValid(rawValues, defaultCharacterSet)) {
+    // Check the decoded values rather than the raw JSON string: non-ASCII characters may be sent as JSON
+    // unicode escapes (e.g. `\u4e2d`), which would look like plain ASCII in `rawValues`.
+    if (!allCharsValid(JSON.stringify(values), defaultCharacterSet)) {
       pdfDoc.registerFontkit(fontkit);
       customFont = await pdfDoc.embedFont(MAIN_FONT_BYTES, { subset: true });
     }

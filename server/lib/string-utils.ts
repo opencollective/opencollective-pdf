@@ -1,9 +1,9 @@
 /**
- * Check if all characters in a string are included in a set of valid characters.
+ * Check if all characters in a string are included in a set of valid characters (as unicode code points).
  */
 export function allCharsValid(str: string, validChars: Set<number>) {
-  for (let i = 0; i < str.length; i++) {
-    if (!validChars.has(str.charCodeAt(i))) {
+  for (const char of str) {
+    if (!validChars.has(char.codePointAt(0))) {
       return false;
     }
   }
