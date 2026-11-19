@@ -1,10 +1,16 @@
+import type { IncomingMessage } from 'http';
+
 import { describe, expect, test, vi } from 'vitest';
 import hyperwatch from '@hyperwatch/hyperwatch';
 
 import { redactLog } from '../../server/lib/hyperwatch.js';
 
+// createLog() reads only these fields; Hyperwatch types it as a full http.IncomingMessage
 const createLog = (url: string, headers: Record<string, string>) =>
-  hyperwatch.util.createLog({ ip: '127.0.0.1', method: 'GET', originalUrl: url, headers }, { statusCode: 200 });
+  hyperwatch.util.createLog(
+    { ip: '127.0.0.1', method: 'GET', originalUrl: url, headers } as unknown as IncomingMessage,
+    { statusCode: 200 },
+  );
 
 describe('hyperwatch', () => {
   describe('redactLog', () => {
