@@ -1,3 +1,12 @@
 {
-  "extends": ["github>opencollective/renovate-config"]
+  "extends": ["github>opencollective/renovate-config"],
+  "packageRules": [
+    {
+      "description": "npm follows the version bundled with Node, do not propose a newer major",
+      "matchDepTypes": ["engines"],
+      "matchPackageNames": ["npm"],
+      "matchUpdateTypes": ["major"],
+      "enabled": false
+    }
+  ]
 }
