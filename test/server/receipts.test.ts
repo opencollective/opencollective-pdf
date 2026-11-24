@@ -3,7 +3,9 @@ import express from 'express';
 import request from 'supertest';
 import nock from 'nock';
 import appRouter from '../../server/index.js';
-import { snapshotPDF } from '../utils.js';
+import path from 'node:path';
+import { pathToFileURL } from 'node:url';
+import { createPng, getPdfImageWidths, snapshotPDF } from '../utils.js';
 import { cloneDeep } from 'lodash-es';
 import Receipt from '../../server/components/receipts/Receipt.js';
 
@@ -300,6 +302,82 @@ describe('Receipts Routes', () => {
         await snapshotPDF(pdfBuffer, 'transaction_receipt_ticket.pdf');
       });
 
+      describe('embedded image', () => {
+        const embeddedPng = createPng(3, 2);
+        const svg =
+          '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 Infinity"><rect width="10" height="10"/></svg>';
+        const complexSvgs = [
+          `<svg xmlns="http://www.w3.org/2000/svg">${'<g>'.repeat(3000)}<rect/>${'</g>'.repeat(3000)}</svg>`,
+          `<svg xmlns="http://www.w3.org/2000/svg">${'<g></x>'.repeat(3000)}<rect/></svg>`,
+          `<svg xmlns="http://www.w3.org/2000/svg"><g x="${'><g>'.repeat(3000)}<rect/>"/></svg>`,
+        ];
+
+        const requestReceipt = async (embeddedImage: unknown) => {
+          const transactionData = cloneDeep(mockTransactionData);
+          transactionData.data.transaction.host.settings.invoice.templates.default['embeddedImage'] = embeddedImage;
+          nock(API_URL)
+            .post(/\/graphql\/v2/)
+            .reply(200, JSON.stringify(transactionData));
+          const response = await request(app)
+            .get('/receipts/transaction/txn1/receipt.pdf')
+            .set('Authorization', 'Bearer test-token');
+          expect(response.status).toBe(200);
+          expect(response.headers['content-type']).toBe('application/pdf');
+          return getPdfImageWidths(response.body);
+        };
+
+        // Images that can't be used are replaced with a transparent 1x1 placeholder
+        const expectPlaceholderOnly = (imageWidths: number[]) => {
+          expect(imageWidths.length).toBeGreaterThan(0);
+          expect(imageWidths.every(width => width === 1)).toBe(true);
+        };
+
+        test('should embed a remote PNG image', async () => {
+          nock('https://example.com').get('/signature.png').reply(200, embeddedPng, { 'Content-Type': 'image/png' });
+          expect(await requestReceipt('https://example.com/signature.png')).toContain(3);
+        });
+
+        test('should embed a remote PNG image served with a generic content type', async () => {
+          nock('https://example.com')
+            .get('/signature')
+            .reply(200, embeddedPng, { 'Content-Type': 'application/octet-stream' });
+          expect(await requestReceipt('https://example.com/signature')).toContain(3);
+        });
+
+        test('should embed an inline PNG image', async () => {
+          expect(await requestReceipt(`data:image/png;base64,${embeddedPng.toString('base64')}`)).toContain(3);
+        });
+
+        test('should skip SVG images, including when served as PNG', async () => {
+          nock('https://example.com')
+            .get('/signature.svg')
+            .reply(200, svg, { 'Content-Type': 'image/svg+xml' })
+            .get('/signature.png')
+            .reply(200, svg, { 'Content-Type': 'image/png' });
+          expectPlaceholderOnly(await requestReceipt('https://example.com/signature.svg'));
+          expectPlaceholderOnly(await requestReceipt('https://example.com/signature.png'));
+          expectPlaceholderOnly(
+            await requestReceipt(`data:image/svg+xml;base64,${Buffer.from(svg).toString('base64')}`),
+          );
+        });
+
+        test('should skip complex SVG images', async () => {
+          for (const [index, complexSvg] of complexSvgs.entries()) {
+            nock('https://example.com')
+              .get(`/complex-${index}.svg`)
+              .reply(200, complexSvg, { 'Content-Type': 'image/svg+xml' });
+            expectPlaceholderOnly(await requestReceipt(`https://example.com/complex-${index}.svg`));
+          }
+        });
+
+        test('should only allow remote or inline images', async () => {
+          const localFile = path.resolve('public/static/images/giftcard.png');
+          for (const value of ['./public/static/images/giftcard.png', localFile, pathToFileURL(localFile).href]) {
+            expectPlaceholderOnly(await requestReceipt(value));
+          }
+        });
+      });
+
       test('should ignore invalid (non-string) template fields', async () => {
         const getRenderedTemplates = spyOnRenderedTemplates();
         const invalidTemplateData = cloneDeep(mockTransactionData);
@@ -445,6 +523,30 @@ describe('Receipts Routes', () => {
         expect(pdfBuffer).toBeInstanceOf(Buffer);
         expect(pdfBuffer.length).toBeGreaterThan(0);
         await snapshotPDF(pdfBuffer, 'period_receipt.pdf');
+      });
+
+      test('should only embed PNG or JPEG images from the invoice template', async () => {
+        const periodData = cloneDeep(mockPeriodData);
+        periodData.data.host.settings.invoice.templates.default['embeddedImage'] = 'https://example.com/signature.png';
+        nock(API_URL)
+          .post(/\/graphql\/v2/)
+          .reply(200, JSON.stringify(periodData))
+          .post(/\/graphql\/v2/)
+          .reply(200, JSON.stringify(periodData));
+        nock('https://example.com')
+          .get('/signature.png')
+          .reply(200, createPng(3, 2), { 'Content-Type': 'application/octet-stream' })
+          .get('/signature.png')
+          .reply(200, '<svg xmlns="http://www.w3.org/2000/svg"><rect/></svg>', { 'Content-Type': 'image/png' });
+
+        const url = '/receipts/period/test-user/test-host/2025-01-01/2025-12-31/receipt.pdf';
+        const withPng = await request(app).get(url).set('Authorization', 'Bearer test-token');
+        expect(withPng.status).toBe(200);
+        expect(getPdfImageWidths(withPng.body)).toContain(3);
+
+        const withSvg = await request(app).get(url).set('Authorization', 'Bearer test-token');
+        expect(withSvg.status).toBe(200);
+        expect(getPdfImageWidths(withSvg.body)).not.toContain(3);
       });
 
       test('should ignore invalid (non-string) template fields', async () => {
