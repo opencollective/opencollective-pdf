@@ -42,6 +42,13 @@ the graphql queries.
 The easier to make it work is to go to `/:userSlug/admin/for-developers` on the frontend,
 generate a personal token, and to add `?personalToken=your_key_here` to all your requests.
 
+#### Invoice template images
+
+Invoice template images (`embeddedImage`) are only downloaded from public addresses. In development
+(`NODE_ENV=development`), private addresses such as `localhost` are allowed so that MinIO and the local
+images service work. Set `ALLOW_PRIVATE_IMAGE_URLS=true` to allow them in other environments, or
+`ALLOW_PRIVATE_IMAGE_URLS=false` to block them in development.
+
 ## Contributing
 
 Code style? Commit convention? Please check our [Contributing guidelines](CONTRIBUTING.md).
