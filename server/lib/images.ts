@@ -1,3 +1,5 @@
+import { reportErrorToSentry, reportMessageToSentry } from './sentry.js';
+
 export const getBaseImagesUrl = () => process.env.IMAGES_URL || 'https://opencollective.com';
 
 export function resizeImage(
@@ -78,9 +80,18 @@ export const detectImageFormat = (buffer: Buffer): EmbeddedImageFormat | null =>
   }
 };
 
-const readBodyWithLimit = async (response: Response, maxBytes: number): Promise<Buffer | null> => {
+type RejectionReason = 'unsupported-source' | 'download-failed' | 'too-large' | 'unsupported-format';
+
+class ImageRejection {
+  constructor(
+    readonly reason: RejectionReason,
+    readonly extra: Record<string, unknown> = {},
+  ) {}
+}
+
+const readBodyWithLimit = async (response: Response, maxBytes: number): Promise<Buffer | ImageRejection> => {
   if (!response.body) {
-    return null;
+    return new ImageRejection('download-failed', { status: response.status });
   }
 
   const reader = response.body.getReader();
@@ -94,66 +105,88 @@ const readBodyWithLimit = async (response: Response, maxBytes: number): Promise<
     total += value.byteLength;
     if (total > maxBytes) {
       await reader.cancel();
-      return null;
+      return new ImageRejection('too-large', { size: total, maxSize: maxBytes });
     }
     chunks.push(value);
   }
   return Buffer.concat(chunks);
 };
 
-const downloadImage = async (url: string): Promise<Buffer | null> => {
+const downloadImage = async (url: string): Promise<Buffer | ImageRejection> => {
   const response = await fetch(url, { signal: AbortSignal.timeout(EMBEDDED_IMAGE_FETCH_TIMEOUT_MS) });
   if (!response.ok) {
     await response.body?.cancel();
-    return null;
+    return new ImageRejection('download-failed', { status: response.status });
   }
 
   const contentLength = Number(response.headers.get('content-length'));
   if (contentLength > MAX_EMBEDDED_IMAGE_SIZE_BYTES) {
     await response.body?.cancel();
-    return null;
+    return new ImageRejection('too-large', { size: contentLength, maxSize: MAX_EMBEDDED_IMAGE_SIZE_BYTES });
   }
 
   return readBodyWithLimit(response, MAX_EMBEDDED_IMAGE_SIZE_BYTES);
 };
 
-const getImageBuffer = async (src: string): Promise<Buffer | null> => {
+const getImageBuffer = async (src: string): Promise<Buffer | ImageRejection> => {
   const dataUrlMatch = /^data:image\/(?:png|jpe?g);base64,([a-z0-9+/=\s]*)$/i.exec(src);
   if (dataUrlMatch) {
     const buffer = Buffer.from(dataUrlMatch[1], 'base64');
-    return buffer.length <= MAX_EMBEDDED_IMAGE_SIZE_BYTES ? buffer : null;
+    return buffer.length <= MAX_EMBEDDED_IMAGE_SIZE_BYTES
+      ? buffer
+      : new ImageRejection('too-large', { size: buffer.length, maxSize: MAX_EMBEDDED_IMAGE_SIZE_BYTES });
   } else if (/^https?:\/\//i.test(src)) {
     return downloadImage(src);
   } else {
-    return null;
+    return new ImageRejection('unsupported-source');
   }
 };
 
-const truncateForLogs = (src: string) => (src.length > 200 ? `${src.slice(0, 200)}...` : src);
+const getReportOptions = (src: string, reason: RejectionReason, extra: Record<string, unknown> = {}) => ({
+  severity: 'warning' as const,
+  tags: { feature: 'pdf-images', reason },
+  extra: {
+    src: src.startsWith('data:') ? `${src.slice(0, 32)}...` : src.slice(0, 500),
+    srcLength: src.length,
+    ...extra,
+  },
+});
 
 /**
  * Loads a user-provided image for an invoice template (e.g. `template.embeddedImage`) and returns it
  * as a PNG or JPEG data URL, or `null` if it can't be used. Only remote http(s) images and inline
  * PNG/JPEG data URLs are accepted, and the content must be a PNG or JPEG file.
+ * Rejected images are reported to Sentry as warnings.
  */
 export async function loadEmbeddedImage(src: unknown): Promise<string | null> {
   if (typeof src !== 'string' || !src) {
     return null;
   }
 
-  let buffer: Buffer | null;
+  let result: Buffer | ImageRejection;
   try {
-    buffer = await getImageBuffer(src.trim());
+    result = await getImageBuffer(src.trim());
   } catch (e) {
-    console.warn(`Could not load embedded image ${truncateForLogs(src)}: ${(e as Error)?.message}`);
+    reportErrorToSentry(e, getReportOptions(src, 'download-failed'));
     return null;
   }
 
-  const format = buffer && detectImageFormat(buffer);
+  if (result instanceof ImageRejection) {
+    reportMessageToSentry(
+      `Invoice template image rejected: ${result.reason}`,
+      getReportOptions(src, result.reason, result.extra),
+    );
+    return null;
+  }
+
+  const format = detectImageFormat(result);
   if (!format) {
-    console.warn(`Ignoring embedded image ${truncateForLogs(src)}: not a PNG or JPEG image, or too large`);
+    reportMessageToSentry(
+      'Invoice template image rejected: unsupported-format',
+      getReportOptions(src, 'unsupported-format', { size: result.length }),
+    );
     return null;
   }
 
-  return `data:image/${format};base64,${buffer.toString('base64')}`;
+  return `data:image/${format};base64,${result.toString('base64')}`;
 }
