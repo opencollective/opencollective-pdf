@@ -16676,6 +16676,7 @@ type ReceiptTransactionFragment_Credit_Fragment = {
   type: TransactionType;
   kind?: TransactionKind | null;
   createdAt?: any | null;
+  clearedAt?: any | null;
   description?: string | null;
   hostCurrencyFxRate?: number | null;
   invoiceTemplate?: string | null;
@@ -17708,6 +17709,7 @@ type ReceiptTransactionFragment_Debit_Fragment = {
   type: TransactionType;
   kind?: TransactionKind | null;
   createdAt?: any | null;
+  clearedAt?: any | null;
   description?: string | null;
   hostCurrencyFxRate?: number | null;
   invoiceTemplate?: string | null;
@@ -18750,6 +18752,7 @@ export type TransactionInvoiceQuery = {
         type: TransactionType;
         kind?: TransactionKind | null;
         createdAt?: any | null;
+        clearedAt?: any | null;
         description?: string | null;
         hostCurrencyFxRate?: number | null;
         invoiceTemplate?: string | null;
@@ -19782,6 +19785,7 @@ export type TransactionInvoiceQuery = {
         type: TransactionType;
         kind?: TransactionKind | null;
         createdAt?: any | null;
+        clearedAt?: any | null;
         description?: string | null;
         hostCurrencyFxRate?: number | null;
         invoiceTemplate?: string | null;
@@ -19793,6 +19797,7 @@ export type TransactionInvoiceQuery = {
               type: TransactionType;
               kind?: TransactionKind | null;
               createdAt?: any | null;
+              clearedAt?: any | null;
               description?: string | null;
               hostCurrencyFxRate?: number | null;
               invoiceTemplate?: string | null;
@@ -20825,6 +20830,7 @@ export type TransactionInvoiceQuery = {
               type: TransactionType;
               kind?: TransactionKind | null;
               createdAt?: any | null;
+              clearedAt?: any | null;
               description?: string | null;
               hostCurrencyFxRate?: number | null;
               invoiceTemplate?: string | null;
@@ -22745,6 +22751,7 @@ export type InvoiceByDateRangeQuery = {
           type: TransactionType;
           kind?: TransactionKind | null;
           createdAt?: any | null;
+          clearedAt?: any | null;
           description?: string | null;
           hostCurrencyFxRate?: number | null;
           invoiceTemplate?: string | null;
@@ -23776,6 +23783,7 @@ export type InvoiceByDateRangeQuery = {
           type: TransactionType;
           kind?: TransactionKind | null;
           createdAt?: any | null;
+          clearedAt?: any | null;
           description?: string | null;
           hostCurrencyFxRate?: number | null;
           invoiceTemplate?: string | null;
@@ -24862,6 +24870,7 @@ export const ReceiptTransactionFragmentFragmentDoc = {
           { kind: 'Field', name: { kind: 'Name', value: 'type' } },
           { kind: 'Field', name: { kind: 'Name', value: 'kind' } },
           { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'clearedAt' } },
           { kind: 'Field', name: { kind: 'Name', value: 'description' } },
           { kind: 'Field', name: { kind: 'Name', value: 'hostCurrencyFxRate' } },
           { kind: 'Field', name: { kind: 'Name', value: 'invoiceTemplate' } },
@@ -25535,6 +25544,7 @@ export const TransactionInvoiceDocument = {
           { kind: 'Field', name: { kind: 'Name', value: 'type' } },
           { kind: 'Field', name: { kind: 'Name', value: 'kind' } },
           { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'clearedAt' } },
           { kind: 'Field', name: { kind: 'Name', value: 'description' } },
           { kind: 'Field', name: { kind: 'Name', value: 'hostCurrencyFxRate' } },
           { kind: 'Field', name: { kind: 'Name', value: 'invoiceTemplate' } },
@@ -26051,6 +26061,7 @@ export const InvoiceByDateRangeDocument = {
           { kind: 'Field', name: { kind: 'Name', value: 'type' } },
           { kind: 'Field', name: { kind: 'Name', value: 'kind' } },
           { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'clearedAt' } },
           { kind: 'Field', name: { kind: 'Name', value: 'description' } },
           { kind: 'Field', name: { kind: 'Name', value: 'hostCurrencyFxRate' } },
           { kind: 'Field', name: { kind: 'Name', value: 'invoiceTemplate' } },
