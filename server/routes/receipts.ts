@@ -11,7 +11,7 @@ import { AccountWithHost } from '../graphql/types/v2/graphql.js';
 import dayjs from '../lib/dayjs.js';
 import { InvoiceByDateRangeQuery, TransactionInvoiceQuery } from '../graphql/types/v2/graphql.js';
 import { parseToBoolean } from '../lib/env.js';
-import { imagePreview, loadSafeImage } from '../lib/images.js';
+import { loadEmbeddedImage } from '../lib/images.js';
 
 const router = express.Router();
 
@@ -246,40 +246,24 @@ function getReceiptFromTransactionData(
   };
 }
 
-/**
- * Pre-download the user-provided images (host logo, template embedded image) and validate them, replacing
- * them with data URLs. Images that are unreachable or unsafe to render (e.g. deeply nested SVGs that would
- * overflow `@react-pdf`'s recursive SVG parser) are removed so that the receipt can still be generated.
- */
-// Fully transparent 1x1 PNG, used in place of images that could not be loaded or were rejected so that the
-// document layout stays the same as when `@react-pdf` fails to load an image by itself (empty placeholder).
+// Fully transparent 1x1 PNG, used in place of embedded images that could not be loaded so that the
+// document layout stays the same as when the image is missing.
 const TRANSPARENT_PIXEL =
   'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAC0lEQVR4nGNgAAIAAAUAAXpeqz8AAAAASUVORK5CYII=';
 
-async function loadReceiptImages(
+/**
+ * Replaces the invoice template's embedded image (user-provided) with a validated PNG/JPEG data URL.
+ * The host logo doesn't need this: it always goes through the images proxy, which converts it to PNG/JPEG.
+ */
+async function loadReceiptEmbeddedImage(
   receipt: React.ComponentProps<typeof Receipt>['receipt'],
 ): Promise<React.ComponentProps<typeof Receipt>['receipt']> {
-  const host = receipt.host as typeof receipt.host & { imageUrl?: string | null };
-  const [hostImageUrl, embeddedImage] = await Promise.all([
-    loadSafeImage(imagePreview(host?.imageUrl, null, { height: 200 })),
-    loadSafeImage(receipt.template?.embeddedImage),
-  ]);
+  if (!receipt.template?.embeddedImage) {
+    return receipt;
+  }
 
-  return {
-    ...receipt,
-    host: host
-      ? ({
-          ...host,
-          imageUrl: host.imageUrl ? hostImageUrl || TRANSPARENT_PIXEL : host.imageUrl,
-        } as typeof receipt.host)
-      : host,
-    template: receipt.template
-      ? {
-          ...receipt.template,
-          embeddedImage: receipt.template.embeddedImage ? embeddedImage || TRANSPARENT_PIXEL : undefined,
-        }
-      : receipt.template,
-  };
+  const embeddedImage = await loadEmbeddedImage(receipt.template.embeddedImage);
+  return { ...receipt, template: { ...receipt.template, embeddedImage: embeddedImage || TRANSPARENT_PIXEL } };
 }
 
 router.options('/transaction/:id/:filename.pdf', (req, res) => {
@@ -290,7 +274,7 @@ router.get('/transaction/:id/:filename.pdf', async (req, res) => {
   const { id } = req.params;
   const authorizationHeaders = authenticateRequest(req);
   const transaction = await fetchTransactionInvoice(id, authorizationHeaders);
-  const receipt = await loadReceiptImages(getReceiptFromTransactionData(transaction));
+  const receipt = await loadReceiptEmbeddedImage(getReceiptFromTransactionData(transaction));
   await sendPDFResponse(res, Receipt, { receipt });
 });
 
@@ -433,7 +417,7 @@ router.get('/period/:contributorSlug/:hostSlug/:dateFrom/:dateTo/:filename.pdf',
     ];
 
   const template = invoiceTemplateObj || response.host.settings?.invoice?.templates?.default;
-  const receipt = await loadReceiptImages({
+  const receipt = await loadReceiptEmbeddedImage({
     totalAmount: response.transactions.nodes.reduce(
       (total, t) => total + (t.amountInHostCurrency.valueInCents || 0),
       0,

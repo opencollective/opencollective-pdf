@@ -1,5 +1,3 @@
-import { reportMessageToSentry } from './sentry.js';
-
 export const getBaseImagesUrl = () => process.env.IMAGES_URL || 'https://opencollective.com';
 
 export function resizeImage(
@@ -9,9 +7,9 @@ export function resizeImage(
   if (!imageUrl) {
     return null;
   }
-  if (imageUrl.substr(0, 1) === '/' || imageUrl.substr(0, 5).toLowerCase() === 'data:') {
+  if (imageUrl.substr(0, 1) === '/') {
     return imageUrl;
-  } // if image is a local image or an already-loaded data URL, we don't resize it with the proxy.
+  } // if image is a local image, we don't resize it with the proxy.
   if (imageUrl.substr(0, 4).toLowerCase() !== 'http') {
     return null;
   } // Invalid imageUrl;
@@ -58,90 +56,33 @@ export function imagePreview(
   return null;
 }
 
-export const MAX_IMAGE_SIZE_BYTES = 5 * 1024 * 1024; // 5MB
-export const IMAGE_FETCH_TIMEOUT_MS = 10_000;
-// `@react-pdf/layout` walks SVG nodes recursively (`convertParsedNode`), so a deeply nested SVG
-// overflows the call stack and crashes the whole PDF generation. Real logos stay far below this.
-export const MAX_SVG_DEPTH = 64;
-export const MAX_SVG_ELEMENTS = 20_000;
+// Invoice templates only render small images (signature, stamp), so we keep the limits tight
+export const MAX_EMBEDDED_IMAGE_SIZE_BYTES = 2 * 1024 * 1024; // 2MB
+export const EMBEDDED_IMAGE_FETCH_TIMEOUT_MS = 10_000;
 
-export const isSvgContent = (content: string, contentType?: string | null): boolean => {
-  if (contentType && /svg/i.test(contentType)) {
-    return true;
-  }
-  const trimmed = content.trimStart().slice(0, 1024).toLowerCase();
-  return trimmed.startsWith('<?xml') || trimmed.startsWith('<svg') || trimmed.includes('<svg');
-};
+type EmbeddedImageFormat = 'png' | 'jpeg';
 
 /**
- * Iteratively (no recursion) computes the max element nesting depth and element count of an SVG/XML string.
+ * Detects the image format from the file signature, regardless of the declared content type.
  */
-export const getSvgStructureStats = (svg: string): { maxDepth: number; elementsCount: number } => {
-  // Single-pass scanner: comments, CDATA sections, doctypes and processing instructions are skipped in place
-  // (rather than stripped with a regex replace) so that nothing can be reassembled into new markup.
-  const skipUntil = (from: number, terminator: string): number => {
-    const end = svg.indexOf(terminator, from);
-    return end === -1 ? svg.length : end + terminator.length;
-  };
-
-  let depth = 0;
-  let maxDepth = 0;
-  let elementsCount = 0;
-  let i = svg.indexOf('<');
-  while (i !== -1 && i < svg.length) {
-    if (svg.startsWith('<!--', i)) {
-      i = skipUntil(i + 4, '-->');
-    } else if (svg.startsWith('<![CDATA[', i)) {
-      i = skipUntil(i + 9, ']]>');
-    } else if (svg.startsWith('<?', i)) {
-      i = skipUntil(i + 2, '?>');
-    } else if (svg.startsWith('<!', i)) {
-      i = skipUntil(i + 2, '>');
-    } else {
-      const isClosing = svg[i + 1] === '/';
-      const nameStart = isClosing ? i + 2 : i + 1;
-      if (!/[a-zA-Z_:]/.test(svg[nameStart] ?? '')) {
-        i = svg.indexOf('<', i + 1);
-        continue;
-      }
-
-      // Find the end of the tag, ignoring `>` inside quoted attribute values
-      let j = nameStart;
-      let quote: string | null = null;
-      while (j < svg.length) {
-        const char = svg[j];
-        if (quote) {
-          if (char === quote) {
-            quote = null;
-          }
-        } else if (char === '"' || char === "'") {
-          quote = char;
-        } else if (char === '>') {
-          break;
-        }
-        j++;
-      }
-
-      if (isClosing) {
-        depth = Math.max(0, depth - 1);
-      } else {
-        elementsCount++;
-        if (svg[j - 1] !== '/') {
-          depth++;
-          maxDepth = Math.max(maxDepth, depth);
-        }
-      }
-      i = j + 1;
-    }
-    i = svg.indexOf('<', i);
+export const detectImageFormat = (buffer: Buffer): EmbeddedImageFormat | null => {
+  if (
+    buffer.length >= 8 &&
+    buffer.subarray(0, 8).equals(Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]))
+  ) {
+    return 'png';
+  } else if (buffer.length >= 3 && buffer[0] === 0xff && buffer[1] === 0xd8 && buffer[2] === 0xff) {
+    return 'jpeg';
+  } else {
+    return null;
   }
-  return { maxDepth, elementsCount };
 };
 
 const readBodyWithLimit = async (response: Response, maxBytes: number): Promise<Buffer | null> => {
   if (!response.body) {
-    return Buffer.from(await response.arrayBuffer());
+    return null;
   }
+
   const reader = response.body.getReader();
   const chunks: Uint8Array[] = [];
   let total = 0;
@@ -160,96 +101,59 @@ const readBodyWithLimit = async (response: Response, maxBytes: number): Promise<
   return Buffer.concat(chunks);
 };
 
-/**
- * Downloads a remote image and returns it as a data URL that can safely be passed to `@react-pdf`'s
- * `<Image>`. Returns `null` (so the image is simply omitted from the document) when the image
- * cannot be downloaded, is too large, or is an SVG whose structure would crash the renderer.
- * Local paths (starting with `/` or `./`) and data URLs are returned untouched.
- */
-export async function loadSafeImage(src: string | null | undefined): Promise<string | null> {
-  if (!src) {
-    return null;
-  } else if (src.startsWith('/') || src.startsWith('./')) {
-    return src;
-  } else if (src.startsWith('data:')) {
-    // Data URLs come from us (e.g. QR codes) - only SVGs need to be validated
-    if (!/^data:image\/svg/i.test(src)) {
-      return src;
-    }
-    const match = /^data:image\/svg\+xml;base64,(.*)$/i.exec(src);
-    if (!match) {
-      return null;
-    }
-    const content = Buffer.from(match[1], 'base64').toString('utf-8');
-    return validateSvg(src, content) ? src : null;
-  } else if (!/^https?:\/\//i.test(src)) {
-    return null;
-  }
-
-  let response: Response;
-  try {
-    response = await fetch(src, { signal: AbortSignal.timeout(IMAGE_FETCH_TIMEOUT_MS) });
-  } catch (e) {
-    console.warn(`Could not fetch image ${src}: ${(e as Error)?.message}`);
-    return null;
-  }
-
+const downloadImage = async (url: string): Promise<Buffer | null> => {
+  const response = await fetch(url, { signal: AbortSignal.timeout(EMBEDDED_IMAGE_FETCH_TIMEOUT_MS) });
   if (!response.ok) {
-    console.warn(`Could not fetch image ${src}: HTTP ${response.status}`);
+    await response.body?.cancel();
     return null;
   }
 
   const contentLength = Number(response.headers.get('content-length'));
-  if (contentLength && contentLength > MAX_IMAGE_SIZE_BYTES) {
-    reportRejectedImage(src, 'Image is too large', { contentLength });
+  if (contentLength > MAX_EMBEDDED_IMAGE_SIZE_BYTES) {
+    await response.body?.cancel();
+    return null;
+  }
+
+  return readBodyWithLimit(response, MAX_EMBEDDED_IMAGE_SIZE_BYTES);
+};
+
+const getImageBuffer = async (src: string): Promise<Buffer | null> => {
+  const dataUrlMatch = /^data:image\/(?:png|jpe?g);base64,([a-z0-9+/=\s]*)$/i.exec(src);
+  if (dataUrlMatch) {
+    const buffer = Buffer.from(dataUrlMatch[1], 'base64');
+    return buffer.length <= MAX_EMBEDDED_IMAGE_SIZE_BYTES ? buffer : null;
+  } else if (/^https?:\/\//i.test(src)) {
+    return downloadImage(src);
+  } else {
+    return null;
+  }
+};
+
+const truncateForLogs = (src: string) => (src.length > 200 ? `${src.slice(0, 200)}...` : src);
+
+/**
+ * Loads a user-provided image for an invoice template (e.g. `template.embeddedImage`) and returns it
+ * as a PNG or JPEG data URL, or `null` if it can't be used. Only remote http(s) images and inline
+ * PNG/JPEG data URLs are accepted, and the content must be a PNG or JPEG file.
+ */
+export async function loadEmbeddedImage(src: unknown): Promise<string | null> {
+  if (typeof src !== 'string' || !src) {
     return null;
   }
 
   let buffer: Buffer | null;
   try {
-    buffer = await readBodyWithLimit(response, MAX_IMAGE_SIZE_BYTES);
+    buffer = await getImageBuffer(src.trim());
   } catch (e) {
-    console.warn(`Could not download image ${src}: ${(e as Error)?.message}`);
+    console.warn(`Could not load embedded image ${truncateForLogs(src)}: ${(e as Error)?.message}`);
     return null;
   }
 
-  if (!buffer) {
-    reportRejectedImage(src, 'Image is too large', { maxBytes: MAX_IMAGE_SIZE_BYTES });
+  const format = buffer && detectImageFormat(buffer);
+  if (!format) {
+    console.warn(`Ignoring embedded image ${truncateForLogs(src)}: not a PNG or JPEG image, or too large`);
     return null;
   }
 
-  const contentType = response.headers.get('content-type');
-  const head = buffer.subarray(0, 1024).toString('utf-8');
-  if (isSvgContent(head, contentType)) {
-    const content = buffer.toString('utf-8');
-    if (!validateSvg(src, content)) {
-      return null;
-    }
-    return `data:image/svg+xml;base64,${buffer.toString('base64')}`;
-  }
-
-  const mimeType = contentType?.split(';')[0].trim() || 'image/png';
-  return `data:${mimeType};base64,${buffer.toString('base64')}`;
+  return `data:image/${format};base64,${buffer.toString('base64')}`;
 }
-
-const validateSvg = (src: string, content: string): boolean => {
-  const { maxDepth, elementsCount } = getSvgStructureStats(content);
-  if (maxDepth > MAX_SVG_DEPTH || elementsCount > MAX_SVG_ELEMENTS) {
-    reportRejectedImage(src, 'SVG image is too complex to be rendered', {
-      maxDepth,
-      elementsCount,
-      size: content.length,
-    });
-    return false;
-  }
-  return true;
-};
-
-const reportRejectedImage = (src: string, reason: string, extra: Record<string, unknown>) => {
-  console.warn(`Rejected image ${src}: ${reason}`, extra);
-  reportMessageToSentry(`Rejected image in PDF: ${reason}`, {
-    severity: 'warning',
-    tags: { feature: 'pdf-images' },
-    extra: { src: src.startsWith('data:') ? `${src.slice(0, 64)}...` : src, ...extra },
-  });
-};
