@@ -58,7 +58,7 @@ export const W8BenFieldsDefinition: Partial<Record<keyof W8BenTaxFormValues, PDF
   taxpayerIdentificationNumberForeign: 'topmostSubform[0].Page1[0].f_10[0]',
   taxpayerIdentificationNumberUS: {
     formPath: 'topmostSubform[0].Page1[0].f_9[0]',
-    transform: (value: string) => value.replaceAll('-', ''),
+    transform: (value: string | undefined) => (value ? value.replaceAll('-', '') : ''),
   },
   claimsArticleAndParagraph: {
     formPath: 'topmostSubform[0].Page1[0].f_14[0]',

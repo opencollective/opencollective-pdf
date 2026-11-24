@@ -13,6 +13,37 @@ describe('Tax forms', () => {
     expect(response.body.message).toBe('Route not found');
   });
 
+  describe('Invalid values', () => {
+    const encodeValues = (values: unknown) => Buffer.from(JSON.stringify(values)).toString('base64');
+
+    test('returns a 400 when a text field value is an object', async () => {
+      const values = encodeValues({ businessName: { toString: 1 } });
+      const response = await request(app).get(`/tax-forms/w9.pdf?values=${encodeURIComponent(values)}`);
+      expect(response.status).toBe(400);
+      expect(response.text).toBe('Invalid values');
+    });
+  });
+
+  describe('GET /tax-forms/w9.pdf', () => {
+    const encodeValues = (values: Record<string, unknown>) => Buffer.from(JSON.stringify(values)).toString('base64');
+
+    for (const taxIdNumberType of ['SSN', 'EIN']) {
+      for (const [label, taxIdNumber] of [
+        ['string', '123-45-6789'],
+        ['number', 123456789],
+        ['array', ['123', '45', '6789']],
+        ['object', { value: '123456789' }],
+      ] as const) {
+        test(`does not crash with a ${label} ${taxIdNumberType} taxIdNumber`, async () => {
+          const values = encodeValues({ submitterType: 'Individual', taxIdNumberType, taxIdNumber });
+          const response = await request(app).get(`/tax-forms/w9.pdf?values=${encodeURIComponent(values)}`);
+          expect(response.status).toBe(200);
+          expect(response.headers['content-type']).toContain('application/pdf');
+        }, 30_000);
+      }
+    }
+  });
+
   describe('PDF Field Visualization', () => {
     for (const [formType, formConfig] of Object.entries(TAX_FORMS)) {
       test(`Show fields for ${formType}`, async () => {
