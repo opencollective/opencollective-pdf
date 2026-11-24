@@ -5,6 +5,17 @@ import { getFullName } from './utils.js';
 import { SubmitterType, W9TaxFormValues } from './frontend-types.js';
 import { getCountryName } from '../i18n.js';
 
+/**
+ * Normalizes a tax ID number (SSN/EIN) by removing dashes and surrounding whitespace.
+ * Values are user-provided (decoded from the request), so non-string inputs must be handled gracefully.
+ */
+const normalizeTaxIdNumber = (value: unknown): string | undefined => {
+  if (typeof value === 'string' || typeof value === 'number') {
+    return String(value).replace(/-/g, '').trim();
+  }
+  return undefined;
+};
+
 export const W9FieldsDefinition: Partial<Record<keyof W9TaxFormValues, PDFFieldDefinition>> = {
   signer: {
     formPath: 'topmostSubform[0].Page1[0].f1_01[0]',
@@ -45,7 +56,7 @@ export const W9FieldsDefinition: Partial<Record<keyof W9TaxFormValues, PDFFieldD
       {
         type: 'split-text',
         if: (value, values) => values.taxIdNumberType === 'SSN',
-        transform: value => value && value.replace(/-/g, '').trim(),
+        transform: normalizeTaxIdNumber,
         fields: [
           { formPath: 'topmostSubform[0].Page1[0].f1_11[0]', maxLength: 3 },
           { formPath: 'topmostSubform[0].Page1[0].f1_12[0]', maxLength: 2 },
@@ -55,7 +66,7 @@ export const W9FieldsDefinition: Partial<Record<keyof W9TaxFormValues, PDFFieldD
       {
         type: 'split-text',
         if: (value, values) => values.taxIdNumberType === 'EIN',
-        transform: value => value && value.replace(/-/g, '').trim(),
+        transform: normalizeTaxIdNumber,
         fields: [
           { formPath: 'topmostSubform[0].Page1[0].f1_14[0]', maxLength: 2 },
           { formPath: 'topmostSubform[0].Page1[0].f1_15[0]', maxLength: 7 },

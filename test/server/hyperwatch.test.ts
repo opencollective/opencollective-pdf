@@ -1,10 +1,20 @@
+import { IncomingMessage } from 'http';
+import { Socket } from 'net';
+
 import { describe, expect, test, vi } from 'vitest';
 import hyperwatch from '@hyperwatch/hyperwatch';
 
 import { redactLog } from '../../server/lib/hyperwatch.js';
 
-const createLog = (url: string, headers: Record<string, string>) =>
-  hyperwatch.util.createLog({ ip: '127.0.0.1', method: 'GET', originalUrl: url, headers }, { statusCode: 200 });
+const createLog = (url: string, headers: Record<string, string>) => {
+  const req = Object.assign(new IncomingMessage(new Socket()), {
+    ip: '127.0.0.1',
+    method: 'GET',
+    originalUrl: url,
+    headers,
+  });
+  return hyperwatch.util.createLog(req, { statusCode: 200 });
+};
 
 describe('hyperwatch', () => {
   describe('redactLog', () => {
