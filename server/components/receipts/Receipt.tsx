@@ -136,6 +136,11 @@ const styles = StyleSheet.create({
     marginTop: 15,
     textAlign: 'right',
   },
+  dateLegend: {
+    fontSize: 8,
+    color: '#6E747A',
+    marginTop: 12,
+  },
   footer: {
     fontSize: 9,
     color: '#6E747A',
@@ -240,7 +245,22 @@ const TableWeighting = {
   netAmount: 0.15,
 };
 
-const CustomIntlDate = ({ date }: { date: Date }) => dayjs(date).format('YYYY-MM-DD');
+const formatDate = (date: Date | string) => dayjs(date).format('YYYY-MM-DD');
+
+const CustomIntlDate = ({ date }: { date: Date }) => formatDate(date);
+
+/**
+ * Returns the effective date (`clearedAt`) of the transaction, if it falls on a different day
+ * than the ledger date (`createdAt`). Returns null otherwise.
+ */
+const getEffectiveDateIfDifferent = (transaction: { createdAt?: string; clearedAt?: string | null }): string | null => {
+  if (!transaction.clearedAt || !transaction.createdAt) {
+    return null;
+  }
+
+  const effectiveDate = formatDate(transaction.clearedAt);
+  return effectiveDate !== formatDate(transaction.createdAt) ? effectiveDate : null;
+};
 
 const getAccountFontStyle = (account: {
   legalName?: string | null;
@@ -281,7 +301,14 @@ type Props = {
     transactions: Array<
       Pick<
         Transaction,
-        'id' | 'kind' | 'description' | 'createdAt' | 'amountInHostCurrency' | 'isRefund' | 'refundTransaction'
+        | 'id'
+        | 'kind'
+        | 'description'
+        | 'createdAt'
+        | 'clearedAt'
+        | 'amountInHostCurrency'
+        | 'isRefund'
+        | 'refundTransaction'
       > & {
         order?: null | (Pick<Order, 'legacyId' | 'data' | 'quantity'> & { tier: Pick<Order['tier'], 'type' | 'name'> });
         paymentMethod?: Pick<Transaction['paymentMethod'], 'name'>;
@@ -472,13 +499,25 @@ export class Receipt extends React.Component<Props> {
           const unitGrossPriceInHostCurrency = Math.abs(grossPriceInHostCurrency / quantity);
           const transactionCurrency = (transaction.hostCurrency as string) || this.props.receipt.currency;
           const isRefunded = !transaction.isRefund && transaction.refundTransaction;
+          const effectiveDate = getEffectiveDateIfDifferent(transaction);
 
           return (
             <TR key={transaction.id}>
               <TD style={styles.tableCell} weighting={TableWeighting.date}>
-                <Text>
-                  <CustomIntlDate date={new Date(transaction.createdAt)} />
-                </Text>
+                <View>
+                  <Text>
+                    <CustomIntlDate date={new Date(transaction.createdAt)} />
+                  </Text>
+                  {effectiveDate && (
+                    <Text style={styles.taxInfo}>
+                      <FormattedMessage
+                        defaultMessage="Effective: {date}"
+                        id="gO47qP"
+                        values={{ date: effectiveDate }}
+                      />
+                    </Text>
+                  )}
+                </View>
               </TD>
               <TD style={styles.tableCell} weighting={TableWeighting.descripion}>
                 <View>
@@ -729,6 +768,14 @@ export class Receipt extends React.Component<Props> {
 
             {pageNumber === chunkedTransactions.length - 1 && (
               <React.Fragment>
+                {transactions.some(t => getEffectiveDateIfDifferent(t)) && (
+                  <Text style={styles.dateLegend}>
+                    <FormattedMessage
+                      defaultMessage="Date: when the transaction was recorded on Open Collective. Effective: when the funds were received or sent by the fiscal host, if different."
+                      id="n3cEX+"
+                    />
+                  </Text>
+                )}
                 {receipt.template?.info && (
                   <Text style={[styles.footerInfo, getFontStyleForText(receipt.template.info)]}>
                     {receipt.template.info}
