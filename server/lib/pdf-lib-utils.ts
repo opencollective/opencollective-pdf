@@ -59,7 +59,7 @@ const getSignatureSize = (text: string): number => {
 export const addSignature = async (
   pdfDoc: PDFDocument,
   signerFullName: string,
-  { page = 0, x, y, fallbackFont }: { page?: number; x: number; y: number; fallbackFont: PDFFont },
+  { page = 0, x, y, fallbackFont }: { page?: number; x: number; y: number; fallbackFont?: PDFFont },
 ) => {
   pdfDoc.registerFontkit(fontkit);
   let signatureFont = await pdfDoc.embedFont(SIGNATURE_FONT_BYTES, { subset: true });
@@ -68,16 +68,17 @@ export const addSignature = async (
   // Handle unsupported characters in signature
   const supportedChars = new Set(signatureFont.getCharacterSet());
   if (!allCharsValid(signerFullName, supportedChars)) {
-    if (allCharsValid(signerFullName, new Set(fallbackFont.getCharacterSet()))) {
+    // The fallback font is only embedded when some values need it
+    if (fallbackFont && allCharsValid(signerFullName, new Set(fallbackFont.getCharacterSet()))) {
       signatureFont = fallbackFont;
       size = size * 0.7; // Fallback font is bigger
     } else {
       // Replace unsupported characters with a question mark
-      for (let i = 0; i < signerFullName.length; i++) {
-        if (!supportedChars.has(signerFullName.charCodeAt(i))) {
-          signerFullName = `${signerFullName.slice(0, i)}?${signerFullName.slice(i + 1)}`;
-        }
+      let sanitizedName = '';
+      for (const char of signerFullName) {
+        sanitizedName += supportedChars.has(char.codePointAt(0)) ? char : '?';
       }
+      signerFullName = sanitizedName;
     }
   }
 

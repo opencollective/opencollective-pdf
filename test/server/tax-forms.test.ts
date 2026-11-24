@@ -110,5 +110,11 @@ describe('Tax forms', () => {
         });
       }
     }
+
+    test('renders a signature with characters missing from the signature font', async () => {
+      // `‰` is supported by the default font (so no custom font gets embedded) but not by the signature font
+      const values = getW9Values('Acme', { firstName: 'John‰', lastName: 'Doe' });
+      expectPDF(await requestPDF('W9', encodeValues(values), true));
+    });
   });
 });
