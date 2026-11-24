@@ -13,6 +13,17 @@ describe('Tax forms', () => {
     expect(response.body.message).toBe('Route not found');
   });
 
+  describe('Invalid values', () => {
+    const encodeValues = (values: unknown) => Buffer.from(JSON.stringify(values)).toString('base64');
+
+    test('returns a 400 when a text field value is an object', async () => {
+      const values = encodeValues({ businessName: { toString: 1 } });
+      const response = await request(app).get(`/tax-forms/w9.pdf?values=${encodeURIComponent(values)}`);
+      expect(response.status).toBe(400);
+      expect(response.text).toBe('Invalid values');
+    });
+  });
+
   describe('GET /tax-forms/w9.pdf', () => {
     const encodeValues = (values: Record<string, unknown>) => Buffer.from(JSON.stringify(values)).toString('base64');
 

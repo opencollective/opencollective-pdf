@@ -5,7 +5,10 @@ type PersonName = { firstName?: string; middleName?: string; lastName?: string }
 
 export const getFullName = (name: PersonName | null | undefined = {}): string => {
   const { firstName, middleName, lastName } = name || {};
-  return [firstName, middleName, lastName].filter(Boolean).join(' ').trim();
+  return [firstName, middleName, lastName]
+    .filter(part => typeof part === 'string' && part)
+    .join(' ')
+    .trim();
 };
 
 const getPathsFromField = (field: PDFFieldDefinition): string[] => {
