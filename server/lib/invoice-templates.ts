@@ -1,3 +1,5 @@
+import { reportMessageToSentry } from './sentry.js';
+
 export type InvoiceTemplate = {
   title?: string;
   info?: string;
@@ -13,7 +15,7 @@ const isPlainObject = (value: unknown): value is Record<string, unknown> =>
   value !== null && typeof value === 'object' && !Array.isArray(value);
 
 /**
- * Describe an invalid value for logs. Templates are host-controlled, so we only log the type
+ * Describe an invalid value for error reports. Templates are host-controlled, so we only report the type
  * and size, never the content or key names.
  */
 const describeValue = (value: unknown): string => {
@@ -37,9 +39,11 @@ export const sanitizeInvoiceTemplate = (rawTemplate: unknown, hostSlug?: string)
   if (rawTemplate === null || rawTemplate === undefined) {
     return undefined;
   } else if (!isPlainObject(rawTemplate)) {
-    console.warn(
-      `Invalid invoice template for host "${hostSlug}": expected an object, got ${describeValue(rawTemplate)}`,
-    );
+    reportMessageToSentry('Invalid invoice template', {
+      severity: 'warning',
+      tags: { feature: 'invoice-templates' },
+      extra: { hostSlug, expected: 'object', received: describeValue(rawTemplate) },
+    });
     return undefined;
   }
 
@@ -53,9 +57,11 @@ export const sanitizeInvoiceTemplate = (rawTemplate: unknown, hostSlug?: string)
     } else if (typeof value === 'number' && Number.isFinite(value) && TEMPLATE_TEXT_FIELDS.includes(field)) {
       template[field] = String(value);
     } else {
-      console.warn(
-        `Invalid invoice template field "${field}" for host "${hostSlug}": expected a string, got ${describeValue(value)}`,
-      );
+      reportMessageToSentry('Invalid invoice template field', {
+        severity: 'warning',
+        tags: { feature: 'invoice-templates', field },
+        extra: { hostSlug, expected: 'string', received: describeValue(value) },
+      });
     }
   }
 

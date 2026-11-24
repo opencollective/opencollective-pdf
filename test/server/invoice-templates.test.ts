@@ -1,15 +1,32 @@
-import { afterEach, beforeEach, describe, expect, test, vi, type MockInstance } from 'vitest';
+import { afterEach, describe, expect, test, vi } from 'vitest';
 import { getInvoiceTemplate, sanitizeInvoiceTemplate } from '../../server/lib/invoice-templates.js';
+import { reportMessageToSentry } from '../../server/lib/sentry.js';
+
+vi.mock('../../server/lib/sentry.js', () => ({ reportMessageToSentry: vi.fn() }));
+
+const fieldReport = (hostSlug: string, field: string, received: string) => [
+  'Invalid invoice template field',
+  {
+    severity: 'warning',
+    tags: { feature: 'invoice-templates', field },
+    extra: { hostSlug, expected: 'string', received },
+  },
+];
+
+const templateReport = (hostSlug: string, received: string) => [
+  'Invalid invoice template',
+  {
+    severity: 'warning',
+    tags: { feature: 'invoice-templates' },
+    extra: { hostSlug, expected: 'object', received },
+  },
+];
 
 describe('invoice templates', () => {
-  let warn: MockInstance<typeof console.warn>;
-
-  beforeEach(() => {
-    warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
-  });
+  const report = vi.mocked(reportMessageToSentry);
 
   afterEach(() => {
-    warn.mockRestore();
+    report.mockReset();
   });
 
   describe('sanitizeInvoiceTemplate', () => {
@@ -19,13 +36,13 @@ describe('invoice templates', () => {
         info: 'Info',
         embeddedImage: 'img',
       });
-      expect(warn).not.toHaveBeenCalled();
+      expect(report).not.toHaveBeenCalled();
     });
 
     test('returns undefined for missing templates', () => {
       expect(sanitizeInvoiceTemplate(undefined)).toBeUndefined();
       expect(sanitizeInvoiceTemplate(null)).toBeUndefined();
-      expect(warn).not.toHaveBeenCalled();
+      expect(report).not.toHaveBeenCalled();
     });
 
     test('returns undefined for templates without any usable field', () => {
@@ -35,42 +52,32 @@ describe('invoice templates', () => {
 
     test('converts finite numbers to strings for text fields', () => {
       expect(sanitizeInvoiceTemplate({ title: 2024, info: 0 })).toEqual({ title: '2024', info: '0' });
-      expect(warn).not.toHaveBeenCalled();
+      expect(report).not.toHaveBeenCalled();
     });
 
     test('drops non-string embedded images', () => {
       expect(sanitizeInvoiceTemplate({ title: 'Receipt', embeddedImage: 42 }, 'test-host')).toEqual({
         title: 'Receipt',
       });
-      expect(warn).toHaveBeenCalledWith(
-        'Invalid invoice template field "embeddedImage" for host "test-host": expected a string, got number',
-      );
+      expect(report).toHaveBeenCalledWith(...fieldReport('test-host', 'embeddedImage', 'number'));
     });
 
-    test('drops and reports non-string fields without logging their content', () => {
+    test('drops and reports non-string fields without reporting their content', () => {
       const title = { 'secret\nkey': 'x', other: 'y' };
       expect(sanitizeInvoiceTemplate({ title, info: 'Info', embeddedImage: ['a'] }, 'test-host')).toEqual({
         info: 'Info',
       });
-      expect(warn).toHaveBeenCalledTimes(2);
-      expect(warn).toHaveBeenCalledWith(
-        'Invalid invoice template field "title" for host "test-host": expected a string, got object(2 keys)',
-      );
-      expect(warn).toHaveBeenCalledWith(
-        'Invalid invoice template field "embeddedImage" for host "test-host": expected a string, got array(1)',
-      );
-      expect(JSON.stringify(warn.mock.calls)).not.toContain('secret');
+      expect(report).toHaveBeenCalledTimes(2);
+      expect(report).toHaveBeenCalledWith(...fieldReport('test-host', 'title', 'object(2 keys)'));
+      expect(report).toHaveBeenCalledWith(...fieldReport('test-host', 'embeddedImage', 'array(1)'));
+      expect(JSON.stringify(report.mock.calls)).not.toContain('secret');
     });
 
     test('drops and reports non-object templates', () => {
       expect(sanitizeInvoiceTemplate('oops', 'test-host')).toBeUndefined();
       expect(sanitizeInvoiceTemplate(['oops'], 'test-host')).toBeUndefined();
-      expect(warn).toHaveBeenCalledWith(
-        'Invalid invoice template for host "test-host": expected an object, got string',
-      );
-      expect(warn).toHaveBeenCalledWith(
-        'Invalid invoice template for host "test-host": expected an object, got array(1)',
-      );
+      expect(report).toHaveBeenCalledWith(...templateReport('test-host', 'string'));
+      expect(report).toHaveBeenCalledWith(...templateReport('test-host', 'array(1)'));
     });
   });
 
@@ -106,7 +113,7 @@ describe('invoice templates', () => {
       const settings = settingsWithTemplates({ default: { title: 'Default' } });
       expect(getInvoiceTemplate(settings, 'constructor')).toEqual({ title: 'Default' });
       expect(getInvoiceTemplate(settings, '__proto__')).toEqual({ title: 'Default' });
-      expect(warn).not.toHaveBeenCalled();
+      expect(report).not.toHaveBeenCalled();
     });
 
     test('returns undefined when the settings have no valid templates', () => {

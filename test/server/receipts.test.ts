@@ -301,7 +301,6 @@ describe('Receipts Routes', () => {
       });
 
       test('should ignore invalid (non-string) template fields', async () => {
-        vi.spyOn(console, 'warn').mockImplementation(() => {});
         const getRenderedTemplates = spyOnRenderedTemplates();
         const invalidTemplateData = cloneDeep(mockTransactionData);
         invalidTemplateData.data.transaction.host.settings.invoice.templates.default = {
@@ -326,7 +325,6 @@ describe('Receipts Routes', () => {
       });
 
       test('should fall back to the default template when the named template is invalid', async () => {
-        vi.spyOn(console, 'warn').mockImplementation(() => {});
         const getRenderedTemplates = spyOnRenderedTemplates();
         const transactionData = cloneDeep(mockTransactionData);
         transactionData.data.transaction.invoiceTemplate = 'alternative';
@@ -450,7 +448,6 @@ describe('Receipts Routes', () => {
       });
 
       test('should ignore invalid (non-string) template fields', async () => {
-        vi.spyOn(console, 'warn').mockImplementation(() => {});
         const getRenderedTemplates = spyOnRenderedTemplates();
         const periodData = cloneDeep(mockPeriodData);
         periodData.data.host.settings.invoice.templates.default = {
