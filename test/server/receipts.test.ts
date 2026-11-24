@@ -1,10 +1,17 @@
-import { expect, test, describe, beforeEach, afterEach } from 'vitest';
+import { expect, test, describe, beforeEach, afterEach, vi } from 'vitest';
 import express from 'express';
 import request from 'supertest';
 import nock from 'nock';
 import appRouter from '../../server/index.js';
 import { snapshotPDF } from '../utils.js';
 import { cloneDeep } from 'lodash-es';
+import Receipt from '../../server/components/receipts/Receipt.js';
+
+/** Spy on the receipt rendering to get the template that was passed to the PDF */
+const spyOnRenderedTemplates = () => {
+  const spy = vi.spyOn(Receipt.prototype, 'render');
+  return () => spy.mock.contexts.map(receipt => (receipt as Receipt).props.receipt.template);
+};
 
 // Test transaction data for a single transaction receipt
 const mockTransactionData = {
@@ -177,6 +184,7 @@ describe('Receipts Routes', () => {
   afterEach(() => {
     nock.cleanAll();
     nock.enableNetConnect();
+    vi.restoreAllMocks();
   });
 
   describe('Transaction Receipts', () => {
@@ -293,10 +301,13 @@ describe('Receipts Routes', () => {
       });
 
       test('should ignore invalid (non-string) template fields', async () => {
+        vi.spyOn(console, 'warn').mockImplementation(() => {});
+        const getRenderedTemplates = spyOnRenderedTemplates();
         const invalidTemplateData = cloneDeep(mockTransactionData);
         invalidTemplateData.data.transaction.host.settings.invoice.templates.default = {
           title: { a: 'x' },
-          info: ['not', 'a', 'string'],
+          info: 'Valid info',
+          embeddedImage: ['not', 'a', 'string'],
         } as unknown as (typeof invalidTemplateData.data.transaction.host.settings.invoice.templates)['default'];
 
         nock(API_URL)
@@ -311,6 +322,30 @@ describe('Receipts Routes', () => {
         expect(response.headers['content-type']).toBe('application/pdf');
         expect(response.body).toBeInstanceOf(Buffer);
         expect(response.body.length).toBeGreaterThan(0);
+        expect(getRenderedTemplates().at(-1)).toEqual({ info: 'Valid info' });
+      });
+
+      test('should fall back to the default template when the named template is invalid', async () => {
+        vi.spyOn(console, 'warn').mockImplementation(() => {});
+        const getRenderedTemplates = spyOnRenderedTemplates();
+        const transactionData = cloneDeep(mockTransactionData);
+        transactionData.data.transaction.invoiceTemplate = 'alternative';
+        transactionData.data.transaction.host.settings.invoice.templates = {
+          default: { title: 'Default title', info: 'Default info' },
+          alternative: { title: { a: 'x' } },
+        } as unknown as typeof transactionData.data.transaction.host.settings.invoice.templates;
+
+        nock(API_URL)
+          .post(/\/graphql\/v2/)
+          .reply(200, JSON.stringify(transactionData));
+
+        const response = await request(app)
+          .get('/receipts/transaction/txn1/receipt.pdf')
+          .set('Authorization', 'Bearer test-token');
+
+        expect(response.status).toBe(200);
+        expect(response.headers['content-type']).toBe('application/pdf');
+        expect(getRenderedTemplates().at(-1)).toEqual({ title: 'Default title', info: 'Default info' });
       });
 
       test('should return 404 for non-existent transaction', async () => {
@@ -412,6 +447,29 @@ describe('Receipts Routes', () => {
         expect(pdfBuffer).toBeInstanceOf(Buffer);
         expect(pdfBuffer.length).toBeGreaterThan(0);
         await snapshotPDF(pdfBuffer, 'period_receipt.pdf');
+      });
+
+      test('should ignore invalid (non-string) template fields', async () => {
+        vi.spyOn(console, 'warn').mockImplementation(() => {});
+        const getRenderedTemplates = spyOnRenderedTemplates();
+        const periodData = cloneDeep(mockPeriodData);
+        periodData.data.host.settings.invoice.templates.default = {
+          title: { a: 'x' },
+          info: 'Valid info',
+        } as unknown as (typeof periodData.data.host.settings.invoice.templates)['default'];
+
+        nock(API_URL)
+          .post(/\/graphql\/v2/)
+          .reply(200, JSON.stringify(periodData));
+
+        const response = await request(app)
+          .get('/receipts/period/test-user/test-host/2025-01-01/2025-12-31/receipt.pdf')
+          .set('Authorization', 'Bearer test-token');
+
+        expect(response.status).toBe(200);
+        expect(response.headers['content-type']).toBe('application/pdf');
+        expect(response.body.length).toBeGreaterThan(0);
+        expect(getRenderedTemplates().at(-1)).toEqual({ info: 'Valid info' });
       });
 
       test('should render effective dates in period receipts', async () => {
