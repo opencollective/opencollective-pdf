@@ -1,4 +1,4 @@
-import { addSignature, fillPDFFormFromValues, PDFFieldDefinition } from '../pdf-lib-utils.js';
+import { addSignature, fillPDFFormFromValues, PDFFieldsDefinition } from '../pdf-lib-utils.js';
 import { PDFDocument, PDFFont } from 'pdf-lib';
 import { getFullName } from './utils.js';
 import { isNil } from 'lodash-es';
@@ -6,7 +6,7 @@ import { NFFEStatus, W8BenETaxFormValues } from './frontend-types.js';
 import { getCountryName } from '../i18n.js';
 import dayjs from '../dayjs.js';
 
-export const W8BenEFieldsDefinition: Partial<Record<keyof W8BenETaxFormValues, PDFFieldDefinition>> = {
+export const W8BenEFieldsDefinition: PDFFieldsDefinition<W8BenETaxFormValues> = {
   businessName: 'topmostSubform[0].Page1[0].f1_1[0]',
   disregardedBusinessName: 'topmostSubform[0].Page1[0].f1_3[0]',
   businessCountryOfIncorporationOrOrganization: {
@@ -166,7 +166,11 @@ export const W8BenEFieldsDefinition: Partial<Record<keyof W8BenETaxFormValues, P
   },
 } as const;
 
-export const fillW8BenETaxForm = async (pdfDoc: PDFDocument, values: W8BenETaxFormValues, font: PDFFont) => {
+export const fillW8BenETaxForm = async (
+  pdfDoc: PDFDocument,
+  values: W8BenETaxFormValues,
+  font: PDFFont | undefined,
+) => {
   const form = pdfDoc.getForm();
   const signerFullName = getFullName(values.signer);
 

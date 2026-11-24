@@ -11,7 +11,7 @@ export const getFullName = (name: PersonName | null | undefined = {}): string =>
     .trim();
 };
 
-const getPathsFromField = (field: PDFFieldDefinition): string[] => {
+const getPathsFromField = <Values>(field: PDFFieldDefinition<Values>): string[] => {
   if (typeof field === 'string') {
     return [field];
   } else if (isFieldTypeMulti(field) || isFieldTypeSplitText(field)) {
@@ -31,11 +31,14 @@ const getPathsFromField = (field: PDFFieldDefinition): string[] => {
  * Get a map of all fields from the definition, including all subfields.
  * @returns a map like: { attributeName: ["fieldPath1", "fieldPath2"] }
  */
-export const getAllFieldsFromDefinition = (
-  definition: Partial<Record<string, PDFFieldDefinition>>,
+export const getAllFieldsFromDefinition = <Values>(
+  definition: Partial<Record<string, PDFFieldDefinition<Values>>>,
 ): Record<string, string[]> => {
   const fields: Record<string, Set<string>> = {};
   for (const [attributeName, field] of Object.entries(definition)) {
+    if (!field) {
+      continue;
+    }
     const paths = getPathsFromField(field);
     if (paths.length > 0) {
       fields[attributeName] = fields[attributeName] || new Set();

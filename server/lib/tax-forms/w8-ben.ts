@@ -1,11 +1,11 @@
 import dayjs from '../dayjs.js';
-import { addSignature, fillPDFFormFromValues, PDFFieldDefinition } from '../pdf-lib-utils.js';
+import { addSignature, fillPDFFormFromValues, PDFFieldsDefinition } from '../pdf-lib-utils.js';
 import { PDFDocument, PDFFont } from 'pdf-lib';
 import { getFullName } from './utils.js';
 import { W8BenTaxFormValues } from './frontend-types.js';
 import { getCountryName } from '../i18n.js';
 
-export const W8BenFieldsDefinition: Partial<Record<keyof W8BenTaxFormValues, PDFFieldDefinition>> = {
+export const W8BenFieldsDefinition: PDFFieldsDefinition<W8BenTaxFormValues> = {
   beneficialOwner: { formPath: 'topmostSubform[0].Page1[0].f_1[0]', transform: getFullName },
   countryOfCitizenship: { formPath: 'topmostSubform[0].Page1[0].f_2[0]', transform: getCountryName },
   residenceAddress: {
@@ -13,7 +13,7 @@ export const W8BenFieldsDefinition: Partial<Record<keyof W8BenTaxFormValues, PDF
     fields: [
       {
         formPath: 'topmostSubform[0].Page1[0].f_5[0]',
-        transform: value => getCountryName(value?.country),
+        transform: (value: W8BenTaxFormValues['residenceAddress']) => getCountryName(value?.country),
       },
       {
         formPath: 'topmostSubform[0].Page1[0].f_3[0]',
@@ -27,7 +27,7 @@ export const W8BenFieldsDefinition: Partial<Record<keyof W8BenTaxFormValues, PDF
       },
       {
         formPath: 'topmostSubform[0].Page1[0].f_13[0]',
-        transform: value => getCountryName(value?.country),
+        transform: (value: W8BenTaxFormValues['residenceAddress']) => getCountryName(value?.country),
         if: (value, values) => values.claimsSpecialRatesAndConditions && values.certifiesResidentCountry,
       },
     ],
@@ -37,7 +37,7 @@ export const W8BenFieldsDefinition: Partial<Record<keyof W8BenTaxFormValues, PDF
     fields: [
       {
         formPath: 'topmostSubform[0].Page1[0].f_8[0]',
-        transform: value => getCountryName(value?.country),
+        transform: (value: W8BenTaxFormValues['mailingAddress']) => getCountryName(value?.country),
       },
       {
         formPath: 'topmostSubform[0].Page1[0].f_6[0]',
@@ -87,14 +87,14 @@ export const W8BenFieldsDefinition: Partial<Record<keyof W8BenTaxFormValues, PDF
       'topmostSubform[0].Page1[0].c1_02[0]',
       {
         formPath: 'topmostSubform[0].Page1[0].f_21[0]',
-        transform: (value, values) =>
+        transform: (value: W8BenTaxFormValues['signer'], values) =>
           values.isSignerTheBeneficialOwner ? getFullName(values.beneficialOwner) : getFullName(value),
       },
     ],
   },
 };
 
-export const fillW8BenTaxForm = async (pdfDoc: PDFDocument, values: W8BenTaxFormValues, font: PDFFont) => {
+export const fillW8BenTaxForm = async (pdfDoc: PDFDocument, values: W8BenTaxFormValues, font: PDFFont | undefined) => {
   const form = pdfDoc.getForm();
   const signerFullName = getFullName(values.signer);
 

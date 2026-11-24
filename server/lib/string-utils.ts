@@ -3,7 +3,8 @@
  */
 export function allCharsValid(str: string, validChars: Set<number>) {
   for (const char of str) {
-    if (!validChars.has(char.codePointAt(0))) {
+    // A character taken from a string always has a code point
+    if (!validChars.has(char.codePointAt(0)!)) {
       return false;
     }
   }

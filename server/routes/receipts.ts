@@ -204,6 +204,10 @@ async function fetchTransactionInvoice(transactionId: string, authorizationHeade
     throw adaptApolloError(response.error);
   }
 
+  if (!response.data) {
+    throw new Error('Missing response data'); // This used to fail on a TypeError
+  }
+
   const transaction = response.data.transaction;
   if (!transaction) {
     throw new NotFoundError(`Transaction ${transactionId} not found`);
@@ -215,7 +219,7 @@ async function fetchTransactionInvoice(transactionId: string, authorizationHeade
     console.log('Query Response', JSON.stringify(response.data));
   }
 
-  return response.data.transaction as QueryResult<TransactionInvoiceQuery>['data']['transaction'];
+  return transaction;
 }
 
 function getReceiptFromTransactionData(
@@ -362,6 +366,8 @@ async function fetchInvoiceByDateRange(
 
   if (response.error) {
     throw adaptApolloError(response.error);
+  } else if (!response.data) {
+    throw new Error('Missing response data'); // This used to fail on a TypeError
   } else if (!response.data.host) {
     throw new NotFoundError(`Host ${hostSlug} doesn't exist`);
   } else if (!response.data.fromAccount) {
@@ -370,7 +376,8 @@ async function fetchInvoiceByDateRange(
     throw new ForbiddenError(`You don't have permission to download this account's payment receipts`);
   }
 
-  return response.data as QueryResult<InvoiceByDateRangeQuery>['data'];
+  // Narrow `host` and `fromAccount`, which we checked above
+  return { ...response.data, host: response.data.host, fromAccount: response.data.fromAccount };
 }
 
 const validateReceiptPeriodParams = (
@@ -407,24 +414,31 @@ router.get('/period/:contributorSlug/:hostSlug/:dateFrom/:dateTo/:filename.pdf',
     authorizationHeaders,
   );
 
-  if (response.transactions.totalCount > response.transactions.nodes.length) {
+  const transactionNodes = response.transactions.nodes;
+  if (!transactionNodes) {
+    throw new Error('Missing transactions nodes'); // This used to fail on a TypeError
+  } else if ((response.transactions.totalCount ?? 0) > transactionNodes.length) {
     throw new InternalServerError('Too many transactions. Please contact support');
   }
 
+  // FIXME: `response.transactions` is a collection, not an array, so `firstTransaction` is always undefined and no
+  // specific template is ever picked here. It should be `response.transactions.nodes[0]`. Kept as is to preserve the
+  // current behavior.
+  const firstTransaction = (response.transactions as { [index: number]: (typeof transactionNodes)[number] })[0];
   const template = getInvoiceTemplate(
     response.host.settings,
-    response.transactions[0]?.invoiceTemplate || response.transactions[0]?.order?.tier?.invoiceTemplate,
+    firstTransaction?.invoiceTemplate || firstTransaction?.order?.tier?.invoiceTemplate,
     response.host.slug,
   );
   const receipt = await loadReceiptEmbeddedImage({
-    totalAmount: response.transactions.nodes.reduce(
-      (total, t) => total + (t.amountInHostCurrency.valueInCents || 0),
-      0,
-    ),
+    totalAmount: transactionNodes.reduce((total, t) => {
+      if (!t) {
+        throw new Error('Unexpected null transaction'); // This used to fail on a TypeError
+      }
+      return total + (t.amountInHostCurrency.valueInCents || 0);
+    }, 0),
     currency: response.host.currency,
-    transactions: response.transactions.nodes as unknown as React.ComponentProps<
-      typeof Receipt
-    >['receipt']['transactions'],
+    transactions: transactionNodes as unknown as React.ComponentProps<typeof Receipt>['receipt']['transactions'],
     host: response.host,
     fromAccount: response.fromAccount,
     fromAccountHost: (response.fromAccount as unknown as AccountWithHost).host,

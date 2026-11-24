@@ -119,7 +119,7 @@ app.use((req: express.Request, res: express.Response) => {
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 app.use((err: Error, req: express.Request, res: express.Response, _next: express.NextFunction) => {
   // Node loses the error type when passing it around, we use the `isPDFServiceError` property to circumvent this
-  if (err && (err instanceof PDFServiceError || err['isPDFServiceError'])) {
+  if (err && (err instanceof PDFServiceError || (err as Partial<PDFServiceError>).isPDFServiceError)) {
     if (process.env.VERBOSE) {
       console.error('PDFServiceError', err);
       console.error(JSON.stringify(err));

@@ -34,7 +34,12 @@ const styles = StyleSheet.create({
 });
 
 const CollectiveFooter = ({ collective }: { collective: Account | GraphQLV1Collective }) => {
-  const image = imagePreview(collective['imageUrl'] ?? collective['image'], null, { height: 200 });
+  const image = imagePreview(
+    ('imageUrl' in collective ? collective.imageUrl : undefined) ??
+      ('image' in collective ? collective.image : undefined),
+    null,
+    { height: 200 },
+  );
   return (
     <View style={styles.container}>
       {image && (

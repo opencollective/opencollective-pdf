@@ -33,12 +33,12 @@ export function resizeImage(
   return `${getBaseImagesUrl() || baseUrl || ''}/proxy/images?src=${encodeURIComponent(imageUrl)}${queryurl}`;
 }
 
-export function isValidImageUrl(src: string) {
+export function isValidImageUrl(src: string | null | undefined) {
   return src && (src.substr(0, 1) === '/' || src.substr(0, 4).toLowerCase() === 'http');
 }
 
 export function imagePreview(
-  src: string,
+  src: string | null | undefined,
   defaultImage: string | null,
   options: { width?: number | string; height?: number | string } = { width: 640 },
 ) {
