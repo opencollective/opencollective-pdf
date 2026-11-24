@@ -42,6 +42,7 @@ const receiptTransactionFragment = gql`
     type
     kind
     createdAt
+    clearedAt
     description
     hostCurrencyFxRate
     invoiceTemplate

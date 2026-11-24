@@ -14,6 +14,7 @@ const mockTransactionData = {
       type: 'CREDIT',
       kind: 'CONTRIBUTION',
       createdAt: '2025-01-01',
+      clearedAt: null as string | null,
       description: 'Test Contribution',
       hostCurrencyFxRate: 1,
       invoiceTemplate: 'default',
@@ -206,6 +207,22 @@ describe('Receipts Routes', () => {
         await snapshotPDF(pdfBuffer, 'transaction_receipt.pdf');
       });
 
+      test('should render the effective date when it differs from the ledger date', async () => {
+        const transactionData = cloneDeep(mockTransactionData);
+        transactionData.data.transaction.createdAt = '2025-01-05T10:00:00Z';
+        transactionData.data.transaction.clearedAt = '2024-12-28T10:00:00Z';
+        nock(API_URL)
+          .post(/\/graphql\/v2/)
+          .reply(200, JSON.stringify(transactionData));
+
+        const response = await request(app)
+          .get('/receipts/transaction/txn1/receipt.pdf')
+          .set('Authorization', 'Bearer test-token');
+
+        expect(response.status).toBe(200);
+        await snapshotPDF(response.body, 'transaction_receipt_effective_date.pdf');
+      });
+
       test('should render CJK contributor details', async () => {
         const cjkTransactionData = cloneDeep(mockTransactionData);
         cjkTransactionData.data.transaction.fromAccount.legalName =
@@ -395,6 +412,26 @@ describe('Receipts Routes', () => {
         expect(pdfBuffer).toBeInstanceOf(Buffer);
         expect(pdfBuffer.length).toBeGreaterThan(0);
         await snapshotPDF(pdfBuffer, 'period_receipt.pdf');
+      });
+
+      test('should render effective dates in period receipts', async () => {
+        const periodData = cloneDeep(mockPeriodData);
+        periodData.data.transactions.totalCount = 3;
+        periodData.data.transactions.nodes = [
+          { ...mockTransactionData.data.transaction, id: 'txn1', createdAt: '2025-01-05', clearedAt: '2025-01-05' },
+          { ...mockTransactionData.data.transaction, id: 'txn2', createdAt: '2025-02-10', clearedAt: '2025-01-30' },
+          { ...mockTransactionData.data.transaction, id: 'txn3', createdAt: '2025-03-15', clearedAt: null },
+        ];
+        nock(API_URL)
+          .post(/\/graphql\/v2/)
+          .reply(200, JSON.stringify(periodData));
+
+        const response = await request(app)
+          .get('/receipts/period/test-user/test-host/2025-01-01/2025-12-31/receipt.pdf')
+          .set('Authorization', 'Bearer test-token');
+
+        expect(response.status).toBe(200);
+        await snapshotPDF(response.body, 'period_receipt_effective_date.pdf');
       });
 
       test('should return 404 for non-existent host', async () => {
