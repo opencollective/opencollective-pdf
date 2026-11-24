@@ -136,10 +136,9 @@ const styles = StyleSheet.create({
     marginTop: 15,
     textAlign: 'right',
   },
-  dateLegend: {
+  dateLabel: {
     fontSize: 8,
     color: '#6E747A',
-    marginTop: 12,
   },
   footer: {
     fontSize: 9,
@@ -176,6 +175,9 @@ const styles = StyleSheet.create({
   },
   flexGrow: {
     flexGrow: 1,
+  },
+  mt1: {
+    marginTop: 4,
   },
   mb3: {
     marginBottom: 12,
@@ -504,20 +506,24 @@ export class Receipt extends React.Component<Props> {
           return (
             <TR key={transaction.id}>
               <TD style={styles.tableCell} weighting={TableWeighting.date}>
-                <View>
+                {effectiveDate ? (
+                  <View>
+                    <Text style={styles.dateLabel}>
+                      <FormattedMessage defaultMessage="Recorded:" id="uML1HX" />
+                    </Text>
+                    <Text>
+                      <CustomIntlDate date={new Date(transaction.createdAt)} />
+                    </Text>
+                    <Text style={[styles.dateLabel, styles.mt1]}>
+                      <FormattedMessage defaultMessage="Effective:" id="S1EGO9" />
+                    </Text>
+                    <Text>{effectiveDate}</Text>
+                  </View>
+                ) : (
                   <Text>
                     <CustomIntlDate date={new Date(transaction.createdAt)} />
                   </Text>
-                  {effectiveDate && (
-                    <Text style={styles.taxInfo}>
-                      <FormattedMessage
-                        defaultMessage="Effective: {date}"
-                        id="gO47qP"
-                        values={{ date: effectiveDate }}
-                      />
-                    </Text>
-                  )}
-                </View>
+                )}
               </TD>
               <TD style={styles.tableCell} weighting={TableWeighting.descripion}>
                 <View>
@@ -768,14 +774,6 @@ export class Receipt extends React.Component<Props> {
 
             {pageNumber === chunkedTransactions.length - 1 && (
               <React.Fragment>
-                {transactions.some(t => getEffectiveDateIfDifferent(t)) && (
-                  <Text style={styles.dateLegend}>
-                    <FormattedMessage
-                      defaultMessage="Date: when the transaction was recorded on Open Collective. Effective: when the funds were received or sent by the fiscal host, if different."
-                      id="n3cEX+"
-                    />
-                  </Text>
-                )}
                 {receipt.template?.info && (
                   <Text style={[styles.footerInfo, getFontStyleForText(receipt.template.info)]}>
                     {receipt.template.info}
