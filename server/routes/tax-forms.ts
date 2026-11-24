@@ -3,7 +3,7 @@ import fontkit from 'pdf-fontkit';
 import { PDFDocument, StandardFonts } from 'pdf-lib';
 import { readFileSyncFromPublicStaticFolder } from '../lib/file-utils.js';
 import { addNonFinalWaterMark, flattenForm, InvalidFieldValueError } from '../lib/pdf-lib-utils.js';
-import { allCharsValid } from '../lib/string-utils.js';
+import { allStringsCharsValid } from '../lib/string-utils.js';
 import { isValidTaxFormType, TAX_FORMS } from '../lib/tax-forms/index.js';
 import { getFullName } from '../lib/tax-forms/utils.js';
 
@@ -87,9 +87,9 @@ router.get('/:formType.pdf', async (req, res) => {
   let customFont = undefined;
   try {
     const defaultCharacterSet = new Set(defaultFont.getCharacterSet());
-    // Check the decoded values rather than the raw JSON string: non-ASCII characters may be sent as JSON
-    // unicode escapes (e.g. `\u4e2d`), which would look like plain ASCII in `rawValues`.
-    if (!allCharsValid(JSON.stringify(values), defaultCharacterSet)) {
+    // Check the decoded strings rather than a JSON string: non-ASCII characters may be sent as JSON unicode
+    // escapes (e.g. `\u4e2d`), and JSON escapes control characters and lone surrogates the same way.
+    if (!allStringsCharsValid(values, defaultCharacterSet)) {
       pdfDoc.registerFontkit(fontkit);
       customFont = await pdfDoc.embedFont(MAIN_FONT_BYTES, { subset: true });
     }

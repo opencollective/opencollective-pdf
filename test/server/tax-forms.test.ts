@@ -55,4 +55,60 @@ describe('Tax forms', () => {
       expect(field.transform(undefined)).toBe('');
     });
   });
+
+  describe('unicode values', () => {
+    // Mimics clients (e.g. Python's `json.dumps`) that escape non-ASCII characters as `\uXXXX` sequences
+    const encodeValuesWithAsciiEscapes = (values: Record<string, unknown>): string => {
+      const json = JSON.stringify(values).replace(
+        /[\u007f-\uffff]/g,
+        c => `\\u${c.charCodeAt(0).toString(16).padStart(4, '0')}`,
+      );
+      return Buffer.from(json).toString('base64');
+    };
+
+    const getW9Values = (name: string, signer = { firstName: 'John', lastName: 'Doe' }) => ({
+      submitterType: 'Business',
+      organizationName: `${name} Organization`,
+      businessName: `${name} Business`,
+      location: { country: 'US', structured: { address1: `${name} Street`, city: 'Test City' } },
+      signer,
+      isSigned: true,
+    });
+
+    const requestPDF = (formType: string, encodedValues: string, isFinal: boolean) =>
+      request(app)
+        .get(`/tax-forms/${formType}.pdf?values=${encodeURIComponent(encodedValues)}&isFinal=${isFinal}`)
+        .buffer(true)
+        .parse((res, callback) => {
+          const chunks: Buffer[] = [];
+          res.on('data', chunk => chunks.push(Buffer.from(chunk)));
+          res.on('end', () => callback(null, Buffer.concat(chunks)));
+        });
+
+    const expectPDF = (response: request.Response) => {
+      expect(response.status).toBe(200);
+      expect(response.headers['content-type']).toContain('application/pdf');
+      expect((response.body as Buffer).subarray(0, 4).toString()).toBe('%PDF');
+    };
+
+    for (const isFinal of [false, true]) {
+      test(`renders unicode values sent as JSON escapes (isFinal=${isFinal})`, async () => {
+        const encodedValues = encodeValuesWithAsciiEscapes(getW9Values('中文'));
+        expect(Buffer.from(encodedValues, 'base64').toString()).toContain('\\u4e2d');
+        expectPDF(await requestPDF('W9', encodedValues, isFinal));
+      });
+
+      // JSON.stringify always escapes these, so they never appear as raw characters in the request
+      for (const [label, char] of [
+        ['a control character', '\u0001'],
+        ['a lone surrogate', '\ud800'],
+      ]) {
+        test(`renders values containing ${label} (isFinal=${isFinal})`, async () => {
+          const encodedValues = encodeValues(getW9Values(`A${char}B`));
+          expect(Buffer.from(encodedValues, 'base64').toString()).toContain(JSON.stringify(char).slice(1, -1));
+          expectPDF(await requestPDF('W9', encodedValues, isFinal));
+        });
+      }
+    }
+  });
 });
