@@ -11,6 +11,7 @@ import { AccountWithHost } from '../graphql/types/v2/graphql.js';
 import dayjs from '../lib/dayjs.js';
 import { InvoiceByDateRangeQuery, TransactionInvoiceQuery } from '../graphql/types/v2/graphql.js';
 import { parseToBoolean } from '../lib/env.js';
+import { getInvoiceTemplate } from '../lib/invoice-templates.js';
 
 const router = express.Router();
 
@@ -231,7 +232,7 @@ function getReceiptFromTransactionData(
   }
 
   const invoiceName = transaction.invoiceTemplate || transaction.order?.tier?.invoiceTemplate || '';
-  const template = host.settings?.invoice?.templates?.[invoiceName] || host?.settings?.invoice?.templates?.default;
+  const template = getInvoiceTemplate(host.settings, invoiceName, host.slug);
   const fromAccount = transaction.isRefund ? transaction.toAccount : transaction.fromAccount;
   return {
     isRefundOnly: transaction.isRefund,
@@ -389,12 +390,11 @@ router.get('/period/:contributorSlug/:hostSlug/:dateFrom/:dateTo/:filename.pdf',
     throw new InternalServerError('Too many transactions. Please contact support');
   }
 
-  const invoiceTemplateObj =
-    await response.host?.settings?.invoice?.templates?.[
-      response.transactions[0]?.invoiceTemplate || response.transactions[0]?.order?.tier?.invoiceTemplate
-    ];
-
-  const template = invoiceTemplateObj || response.host.settings?.invoice?.templates?.default;
+  const template = getInvoiceTemplate(
+    response.host.settings,
+    response.transactions[0]?.invoiceTemplate || response.transactions[0]?.order?.tier?.invoiceTemplate,
+    response.host.slug,
+  );
   await sendPDFResponse(res, Receipt, {
     receipt: {
       totalAmount: response.transactions.nodes.reduce(
