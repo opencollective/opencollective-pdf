@@ -2,7 +2,7 @@ import type { CodegenConfig } from '@graphql-codegen/cli';
 
 const config: CodegenConfig = {
   documents: ['server/**/*.(ts|tsx)', '!server/graphql/types/**/*'],
-  emitLegacyCommonJSImports: false,
+  importExtension: '.js',
   config: {
     namingConvention: {
       enumValues: 'keep', // Otherwise we end up with duplicate enum value, e.g. in PaymentMethodType where we have "creditcard" (deprecated) and "CREDITCARD"
