@@ -195,7 +195,6 @@ async function fetchTransactionInvoice(transactionId: string, authorizationHeade
       fetchPolicy: 'no-cache',
     });
   } catch (e) {
-    console.error('Query Error', JSON.stringify(e, null, 2));
     throw adaptApolloError(e);
   }
 
