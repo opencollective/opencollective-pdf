@@ -3,7 +3,7 @@ import countriesEN from 'i18n-iso-countries/langs/en.json' with { type: 'json' }
 
 countries.registerLocale(countriesEN);
 
-export const getCountryName = (code: string): string => {
+export const getCountryName = (code: string | null | undefined): string | undefined => {
   if (!code) {
     return '';
   }

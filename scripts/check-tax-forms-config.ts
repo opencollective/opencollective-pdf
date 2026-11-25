@@ -10,9 +10,9 @@ import {
 } from '../server/lib/pdf-lib-utils.js';
 import { TAX_FORMS } from '../server/lib/tax-forms/index.js';
 
-import { PDFDocument } from 'pdf-lib';
+import { PDFDocument, PDFField } from 'pdf-lib';
 
-const checkField = (formFields, field: PDFFieldDefinition): string[] => {
+const checkField = <Values>(formFields: PDFField[], field: PDFFieldDefinition<Values>): string[] => {
   if (typeof field === 'string') {
     if (!formFields.find(f => f.getName() === field)) {
       return [field];
@@ -31,7 +31,7 @@ const checkField = (formFields, field: PDFFieldDefinition): string[] => {
 };
 
 const main = async () => {
-  const errors = [];
+  const errors: string[] = [];
 
   for (const [formName, config] of Object.entries(TAX_FORMS)) {
     const pdfDoc = await PDFDocument.load(config.bytes);
@@ -39,6 +39,9 @@ const main = async () => {
     const fields = form.getFields();
 
     for (const field of Object.values(config.definition)) {
+      if (!field) {
+        continue;
+      }
       const missingFields = checkField(fields, field);
       if (missingFields.length) {
         missingFields.forEach(missingFieldName => {

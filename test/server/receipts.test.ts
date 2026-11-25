@@ -282,7 +282,7 @@ describe('Receipts Routes', () => {
 
       test('should generate a PDF for a valid ticket transaction', async () => {
         const ticketData = cloneDeep(mockTransactionData);
-        ticketData.data.transaction.order['tier'] = { type: 'TICKET' };
+        Object.assign(ticketData.data.transaction.order, { tier: { type: 'TICKET' } });
 
         // Mock GraphQL API call
         nock(API_URL)
@@ -314,7 +314,9 @@ describe('Receipts Routes', () => {
 
         const requestReceipt = async (embeddedImage: unknown) => {
           const transactionData = cloneDeep(mockTransactionData);
-          transactionData.data.transaction.host.settings.invoice.templates.default['embeddedImage'] = embeddedImage;
+          (transactionData.data.transaction.host.settings.invoice.templates.default as Record<string, unknown>)[
+            'embeddedImage'
+          ] = embeddedImage;
           nock(API_URL)
             .post(/\/graphql\/v2/)
             .reply(200, JSON.stringify(transactionData));
@@ -527,7 +529,8 @@ describe('Receipts Routes', () => {
 
       test('should only embed PNG or JPEG images from the invoice template', async () => {
         const periodData = cloneDeep(mockPeriodData);
-        periodData.data.host.settings.invoice.templates.default['embeddedImage'] = 'https://example.com/signature.png';
+        (periodData.data.host.settings.invoice.templates.default as Record<string, unknown>)['embeddedImage'] =
+          'https://example.com/signature.png';
         nock(API_URL)
           .post(/\/graphql\/v2/)
           .reply(200, JSON.stringify(periodData))

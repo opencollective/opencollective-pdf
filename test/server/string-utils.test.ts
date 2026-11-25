@@ -15,7 +15,7 @@ describe('allCharsValid', () => {
   test('compares full code points for characters outside the BMP', () => {
     const emoji = '😀';
     expect(allCharsValid(emoji, asciiSet)).toBe(false);
-    expect(allCharsValid(emoji, new Set([emoji.codePointAt(0)]))).toBe(true);
+    expect(allCharsValid(emoji, new Set([emoji.codePointAt(0)!]))).toBe(true);
   });
 });
 

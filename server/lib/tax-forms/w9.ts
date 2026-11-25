@@ -1,6 +1,6 @@
 import dayjs from '../dayjs.js';
 import { PDFDocument, PDFFont } from 'pdf-lib';
-import { addSignature, fillPDFFormFromValues, PDFFieldDefinition } from '../pdf-lib-utils.js';
+import { addSignature, fillPDFFormFromValues, PDFFieldsDefinition } from '../pdf-lib-utils.js';
 import { getFullName } from './utils.js';
 import { SubmitterType, W9TaxFormValues } from './frontend-types.js';
 import { getCountryName } from '../i18n.js';
@@ -16,7 +16,7 @@ const normalizeTaxIdNumber = (value: unknown): string | undefined => {
   return undefined;
 };
 
-export const W9FieldsDefinition: Partial<Record<keyof W9TaxFormValues, PDFFieldDefinition>> = {
+export const W9FieldsDefinition: PDFFieldsDefinition<W9TaxFormValues> = {
   signer: {
     formPath: 'topmostSubform[0].Page1[0].f1_01[0]',
     transform: getFullName,
@@ -98,7 +98,7 @@ export const W9FieldsDefinition: Partial<Record<keyof W9TaxFormValues, PDFFieldD
   },
 };
 
-export const fillW9TaxForm = async (pdfDoc: PDFDocument, values: W9TaxFormValues, font: PDFFont) => {
+export const fillW9TaxForm = async (pdfDoc: PDFDocument, values: W9TaxFormValues, font: PDFFont | undefined) => {
   const form = pdfDoc.getForm();
   const signerFullName = getFullName(values.signer);
 

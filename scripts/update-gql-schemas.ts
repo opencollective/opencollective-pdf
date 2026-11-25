@@ -5,6 +5,8 @@ import { buildClientSchema, getIntrospectionQuery, printSchema } from 'graphql';
 import type { IntrospectionQuery } from 'graphql';
 import fetch from 'node-fetch';
 
+const getErrorMessage = (err: unknown): string => (err instanceof Error ? err.message : String(err));
+
 /**
  *
  * Fetch remote schema and turn it into string
@@ -21,19 +23,20 @@ async function getRemoteSchema(
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ query: introspectionQuery }),
-    }).then(res => res.json() as Promise<{ data?: IntrospectionQuery; errors?: unknown }>);
+    }).then(res => res.json() as Promise<{ data: IntrospectionQuery; errors?: unknown }>);
 
     if (errors) {
       return { status: 'err', message: JSON.stringify(errors, null, 2) };
     }
 
+    // `buildClientSchema` validates the introspection result at runtime
     const schema = buildClientSchema(data);
     return {
       status: 'ok',
       schema: printSchema(schema),
     };
   } catch (err) {
-    return { status: 'err', message: err.message };
+    return { status: 'err', message: getErrorMessage(err) };
   }
 }
 
@@ -53,12 +56,12 @@ function printToFile(
     fs.writeFileSync(output, schema);
     return { status: 'ok', path: output };
   } catch (err) {
-    console.error(err.message.slice(0, 100));
-    return { status: 'err', message: err.message };
+    console.error(getErrorMessage(err).slice(0, 100));
+    return { status: 'err', message: getErrorMessage(err) };
   }
 }
 
-async function main(endpoint, filePath): Promise<void> {
+async function main(endpoint: string, filePath: string): Promise<void> {
   /* Fetch schema */
   const schema = await getRemoteSchema(endpoint);
 

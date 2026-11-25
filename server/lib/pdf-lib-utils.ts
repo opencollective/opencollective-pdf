@@ -76,7 +76,7 @@ export const addSignature = async (
       // Replace unsupported characters with a question mark
       let sanitizedName = '';
       for (const char of signerFullName) {
-        sanitizedName += supportedChars.has(char.codePointAt(0)) ? char : '?';
+        sanitizedName += supportedChars.has(char.codePointAt(0)!) ? char : '?';
       }
       signerFullName = sanitizedName;
     }
@@ -86,35 +86,40 @@ export const addSignature = async (
   pdfPage.drawText(signerFullName, { x, y, font: signatureFont, size });
 };
 
-type FieldTypeCombo = {
+/**
+ * Optional callbacks supported by all rich field definitions.
+ *
+ * `value` is the raw value for the field: each definition can annotate it with the specific type it expects. They're
+ * declared with the method syntax on purpose, so that such annotations are accepted (parameter bivariance).
+ */
+type FieldCallbacks<Values> = {
+  // Only the truthiness of the result matters
+  if?(value: unknown, allValues: Values): unknown;
+  transform?(value: unknown, allValues: Values): string | null | undefined;
+};
+
+type FieldTypeCombo<Values> = FieldCallbacks<Values> & {
   type: 'combo';
   values: Record<string, string>;
-  if?: (value, allValues) => boolean;
-  transform?: (value, allValues) => string;
 };
 
 // Field types. Make sure to update `getAllFieldsFromDefinition` when adding new field types.
 
-type AdvancedPDFFieldDefinition = {
+type AdvancedPDFFieldDefinition<Values> = FieldCallbacks<Values> & {
   formPath: string;
-  if?: (value, allValues) => boolean;
-  transform?: (value, allValues) => string;
 };
 
-type FieldTypeSplitText = {
+type FieldTypeSplitText<Values> = FieldCallbacks<Values> & {
   type: 'split-text';
-  if?: (value, allValues) => boolean;
-  transform?: (value, allValues) => string;
   fields: Array<{
     formPath: string;
     maxLength: number | 'auto';
   }>;
 };
 
-type FieldTypeMulti = {
+type FieldTypeMulti<Values> = Pick<FieldCallbacks<Values>, 'if'> & {
   type: 'multi';
-  if?: (value, allValues) => boolean;
-  fields: PDFFieldDefinition[];
+  fields: PDFFieldDefinition<Values>[];
 };
 
 /**
@@ -146,31 +151,34 @@ function fieldValueToString(value: unknown, fieldPath: string): string {
   }
 }
 
-export function isFieldTypeCombo(field: PDFFieldDefinition): field is FieldTypeCombo {
-  return (field as FieldTypeCombo).type === 'combo';
+export function isFieldTypeCombo<Values>(field: PDFFieldDefinition<Values>): field is FieldTypeCombo<Values> {
+  return (field as FieldTypeCombo<Values>).type === 'combo';
 }
 
-export function isFieldTypeSplitText(field: PDFFieldDefinition): field is FieldTypeSplitText {
-  return (field as FieldTypeSplitText).type === 'split-text';
+export function isFieldTypeSplitText<Values>(field: PDFFieldDefinition<Values>): field is FieldTypeSplitText<Values> {
+  return (field as FieldTypeSplitText<Values>).type === 'split-text';
 }
 
-export function isFieldTypeMulti(field: PDFFieldDefinition): field is FieldTypeMulti {
-  return (field as FieldTypeMulti).type === 'multi';
+export function isFieldTypeMulti<Values>(field: PDFFieldDefinition<Values>): field is FieldTypeMulti<Values> {
+  return (field as FieldTypeMulti<Values>).type === 'multi';
 }
 
 export function isTextFormField(field: PDFField): field is PDFTextField {
   return field.constructor.name === 'PDFTextField';
 }
 
-export type PDFFieldDefinition =
+export type PDFFieldDefinition<Values = Record<string, unknown>> =
   /** The simplest type possible: just provide the path to the field in the PDF form. Works with text inputs and checkboxes. */
   | string
   /** Adds the ability to pass a transformer */
-  | AdvancedPDFFieldDefinition
+  | AdvancedPDFFieldDefinition<Values>
   /** For multi-checkboxes where only one should be checked */
-  | FieldTypeCombo
-  | FieldTypeSplitText
-  | FieldTypeMulti;
+  | FieldTypeCombo<Values>
+  | FieldTypeSplitText<Values>
+  | FieldTypeMulti<Values>;
+
+/** The definition of all the fields of a form, by attribute name */
+export type PDFFieldsDefinition<Values> = Partial<Record<keyof Values, PDFFieldDefinition<Values>>>;
 
 /**
  * After setting the value for a text field, PDF-Lib updates its appearance (updateAppearances) using the
@@ -194,7 +202,7 @@ function setTextFieldContentWithFont(textField: PDFTextField, content: string, f
 
 function fillValueForField<Values>(
   form: PDFForm,
-  field: PDFFieldDefinition,
+  field: PDFFieldDefinition<Values>,
   value: unknown,
   allValues: Values,
   font: PDFFont | null = null,
@@ -226,8 +234,8 @@ function fillValueForField<Values>(
       fillValueForField(form, subField, value, allValues, font);
     }
   } else if (isFieldTypeCombo(field)) {
-    const transform = field.transform || (v => v);
-    const checkbox = field.values[transform(value, allValues)];
+    const key = field.transform ? field.transform(value, allValues) : value;
+    const checkbox = field.values[String(key)];
     if (checkbox) {
       form.getCheckBox(checkbox).check();
     }
@@ -238,7 +246,8 @@ function fillValueForField<Values>(
       let start = 0;
       field.fields.forEach(({ formPath, maxLength }) => {
         const subField = form.getTextField(formPath);
-        const end = start + (maxLength === 'auto' ? subField.getMaxLength() : maxLength);
+        // An unset max length gives NaN (as it always did), which results in an empty content
+        const end = start + (maxLength === 'auto' ? (subField.getMaxLength() ?? NaN) : maxLength);
         const content = stringValue.slice(start, end).trim();
         setTextFieldContentWithFont(subField, content, font);
         start = end;
@@ -246,8 +255,7 @@ function fillValueForField<Values>(
     }
   } else {
     const formPath = field.formPath;
-    const transform = field.transform || (v => v);
-    const transformedValue = transform(value, allValues);
+    const transformedValue = field.transform ? field.transform(value, allValues) : value;
     if (!isNil(transformedValue) && transformedValue !== '') {
       const formField = form.getField(formPath);
       if (formField.constructor.name === 'PDFCheckBox') {
@@ -267,13 +275,18 @@ function fillValueForField<Values>(
 export function fillPDFFormFromValues<Values>(
   form: PDFForm,
   values: Values,
-  fields: Partial<Record<keyof Values, PDFFieldDefinition | PDFFieldDefinition[]>>,
-  font: PDFFont,
+  fields: Partial<Record<keyof Values, PDFFieldDefinition<Values> | PDFFieldDefinition<Values>[]>>,
+  font: PDFFont | undefined,
 ): void {
-  for (const [key, fieldDefinitions] of Object.entries<PDFFieldDefinition | PDFFieldDefinition[]>(fields)) {
+  for (const [key, fieldDefinitions] of Object.entries<
+    PDFFieldDefinition<Values> | PDFFieldDefinition<Values>[] | undefined
+  >(fields)) {
+    if (!fieldDefinitions) {
+      continue;
+    }
     const fieldDefinitionsArray = Array.isArray(fieldDefinitions) ? fieldDefinitions : [fieldDefinitions];
     fieldDefinitionsArray.forEach(field => {
-      const value = values[key];
+      const value = values[key as keyof Values];
       fillValueForField<Values>(form, field, value, values, font);
     });
   }

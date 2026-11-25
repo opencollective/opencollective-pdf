@@ -1,8 +1,8 @@
 import { get, isUndefined, round, sumBy, uniqBy } from 'lodash-es';
-import { Account, Transaction } from '../graphql/types/v2/graphql.js';
+import { Account, Transaction } from '../graphql/types/v2/schema-types.js';
 
 /** Given a transaction, return the collective that receive the money */
-export const getTransactionReceiver = (transaction: Transaction): Account => {
+export const getTransactionReceiver = (transaction: Transaction): Account | null | undefined => {
   return transaction.type === 'CREDIT' ? transaction.toAccount : transaction.fromAccount;
 };
 
@@ -10,9 +10,9 @@ export const getTransactionReceiver = (transaction: Transaction): Account => {
  * Return the tax percentage applied for this transaction
  */
 export const getTransactionTaxPercent = (transaction: {
-  taxAmount?: { valueInCents?: number };
-  amountInHostCurrency?: { valueInCents?: number };
-  order?: { taxPercentage?: number; data?: { tax: { percentage: number } } };
+  taxAmount?: { valueInCents?: number | null } | null;
+  amountInHostCurrency?: { valueInCents?: number | null } | null;
+  order?: { taxPercentage?: number | null; data?: { tax: { percentage: number } } } | null;
   hostCurrencyFxRate?: number;
   taxInfo?: { rate: number; percentage: number };
 }): number => {
@@ -25,21 +25,27 @@ export const getTransactionTaxPercent = (transaction: {
   } else if (transaction.order?.data?.tax) {
     const percent = get(transaction, 'order.data.tax.percentage');
     const percentV2 = get(transaction, 'order.taxPercentage');
-    if (percent || percentV2) {
-      return percent || percentV2;
+    const orderTaxPercent = percent || percentV2;
+    if (orderTaxPercent) {
+      return orderTaxPercent;
     }
   }
 
-  const taxAmount = Math.abs(transaction.taxAmount?.valueInCents);
-  if (!taxAmount) {
+  const taxAmountInCents = transaction.taxAmount?.valueInCents;
+  if (!taxAmountInCents) {
     return 0;
   }
+  const taxAmount = Math.abs(taxAmountInCents);
 
   // Calculate from amount
-  return round((taxAmount / (transaction.amountInHostCurrency.valueInCents - taxAmount)) * 100, 2);
+  if (!transaction.amountInHostCurrency) {
+    // This used to fail on a TypeError. A transaction with a tax always has an amount.
+    throw new Error('Cannot calculate the tax percentage of a transaction without amountInHostCurrency');
+  }
+  return round((taxAmount / (Number(transaction.amountInHostCurrency.valueInCents) - taxAmount)) * 100, 2);
 };
 
-const getTaxPercentageFromOrderData = data => {
+const getTaxPercentageFromOrderData = (data: unknown) => {
   const percentage = get(data, 'tax.percentage') as number | undefined;
   if (!isUndefined(percentage)) {
     return percentage;
@@ -56,13 +62,15 @@ const getTaxPercentageFromOrderData = data => {
 export const getTaxInfoFromTransaction = (
   transaction: Parameters<typeof getTransactionTaxPercent>[0] & {
     taxInfo?: { idNumber?: string; rate: number; type: string; id?: string };
-    order?: { tax?: { id: string; idNumber: string; percentage: number; rate: number } };
+    order?: { tax?: { id: string; idNumber: string; percentage: number; rate: number } } | null;
   },
-): {
-  type: string;
-  rate: number;
-  idNumber: string;
-} => {
+):
+  | {
+      type: string;
+      rate: number | undefined;
+      idNumber: string;
+    }
+  | undefined => {
   if (transaction.taxInfo) {
     return {
       ...transaction.taxInfo,
@@ -78,12 +86,16 @@ export const getTaxInfoFromTransaction = (
       idNumber: (get(transaction.order, 'tax.idNumber') as string) || 'Tax',
     };
   }
+
+  return undefined;
 };
 
 export const getTaxIdNumbersFromTransactions = (
   transactions: Array<Parameters<typeof getTaxInfoFromTransaction>[0]>,
 ): Array<{ type: string; idNumber: string }> => {
-  const taxesSummary = transactions.map(getTaxInfoFromTransaction).filter(t => t?.idNumber);
+  const taxesSummary = transactions
+    .map(getTaxInfoFromTransaction)
+    .filter((t): t is NonNullable<typeof t> => Boolean(t?.idNumber));
   const uniqTaxInfo = uniqBy(taxesSummary, s => `${s.type}-${s.idNumber}`);
   return uniqTaxInfo;
 };
@@ -95,7 +107,7 @@ export const getTaxIdNumbersFromTransactions = (
 export const getTaxesBreakdown = (transactions: Array<Transaction>) => {
   const groupedTransactions: Record<
     string,
-    { info: ReturnType<typeof getTaxInfoFromTransaction>; transactions: Array<Transaction> }
+    { info: NonNullable<ReturnType<typeof getTaxInfoFromTransaction>>; transactions: Array<Transaction> }
   > = {};
   for (const transaction of transactions) {
     const taxInfo = getTaxInfoFromTransaction(transaction as any);
@@ -109,9 +121,9 @@ export const getTaxesBreakdown = (transactions: Array<Transaction>) => {
   return Object.entries(groupedTransactions).map(([id, taxBreakdown]) => ({
     id,
     info: taxBreakdown.info,
-    amount: Math.abs(sumBy(taxBreakdown.transactions, t => t.taxAmount?.valueInCents)),
+    amount: Math.abs(sumBy(taxBreakdown.transactions, 'taxAmount.valueInCents')),
     amountInHostCurrency: Math.round(
-      Math.abs(sumBy(taxBreakdown.transactions, t => t.taxAmount?.valueInCents * (t.hostCurrencyFxRate || 1))),
+      Math.abs(sumBy(taxBreakdown.transactions, t => Number(t.taxAmount?.valueInCents) * (t.hostCurrencyFxRate || 1))),
     ),
   }));
 };
@@ -119,6 +131,10 @@ export const getTaxesBreakdown = (transactions: Array<Transaction>) => {
 export const getTransactionUrl = (transaction: Transaction) => {
   const domain = 'https://opencollective.com'; // We should have this one change based on env
   const toAccount = transaction.toAccount;
+  if (!toAccount) {
+    // Both branches below read `toAccount.slug`, so this would have thrown a TypeError anyway
+    throw new Error(`Transaction ${transaction.id} has no toAccount`);
+  }
   if (transaction.order?.legacyId) {
     return `${domain}/${toAccount.slug}/contributions/${transaction.order.legacyId}`;
   } else {

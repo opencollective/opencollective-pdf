@@ -2,6 +2,8 @@ import type http from 'http';
 
 import hyperwatch from '@hyperwatch/hyperwatch';
 import type express from 'express';
+import type { HyperwatchRequest } from '@hyperwatch/hyperwatch/types/src/input/express.js';
+import type { Log } from '@hyperwatch/hyperwatch/types/src/types.js';
 import expressBasicAuth from 'express-basic-auth';
 
 import { parseToBoolean } from './env.js';
@@ -27,7 +29,7 @@ const redactUrl = (url: string): string => {
 /**
  * Keeps credentials (auth headers, cookies, token query params) out of the logs sent to Hyperwatch.
  */
-export const redactLog = log => {
+export const redactLog = (log: Log): Log => {
   for (const name of log.getIn(['request', 'headers']).keys()) {
     if (SENSITIVE_KEYS.has(name.toLowerCase())) {
       log = log.setIn(['request', 'headers', name], '[Filtered]');
@@ -89,7 +91,9 @@ export function load(app: express.Application, server: http.Server) {
 
   // The log is sent when the response finishes: redact it before that
   app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
-    req['hyperwatch'].rawLog = redactLog(req['hyperwatch'].rawLog);
+    // The Hyperwatch middleware registered above sets `req.hyperwatch`
+    const hyperwatchRequest = (req as express.Request & { hyperwatch: HyperwatchRequest }).hyperwatch;
+    hyperwatchRequest.rawLog = redactLog(hyperwatchRequest.rawLog);
     next();
   });
 

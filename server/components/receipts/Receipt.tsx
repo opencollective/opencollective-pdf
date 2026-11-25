@@ -1,7 +1,7 @@
 import React from 'react';
 import { Document, Page, Text, View, StyleSheet, Image, Link } from '@react-pdf/renderer';
 import { Table, TR, TH, TD } from '@ag-media/react-pdf-table';
-import { get, chunk, sumBy, max, isNil, round, uniqBy } from 'lodash-es';
+import { get, chunk, compact, sumBy, max, isNil, round, uniqBy } from 'lodash-es';
 import QRCode from 'qrcode';
 import { FormattedMessage } from 'react-intl';
 
@@ -19,7 +19,7 @@ import { TimeRange } from '../TimeRange.js';
 import CollectiveFooter from '../CollectiveFooter.js';
 import { formatCurrency } from '../../../server/lib/currency.js';
 import { formatPaymentMethodName } from '../../../server/lib/payment-methods.js';
-import { Account, Event, Order, Transaction, PaymentMethod } from '../../../server/graphql/types/v2/graphql.js';
+import { Account, Event, Order, Transaction, PaymentMethod } from '../../../server/graphql/types/v2/schema-types.js';
 import dayjs from 'dayjs';
 import LocationParagraph from '../LocationParagraph.js';
 
@@ -312,8 +312,12 @@ type Props = {
         | 'isRefund'
         | 'refundTransaction'
       > & {
-        order?: null | (Pick<Order, 'legacyId' | 'data' | 'quantity'> & { tier: Pick<Order['tier'], 'type' | 'name'> });
-        paymentMethod?: Pick<Transaction['paymentMethod'], 'name'>;
+        order?:
+          | null
+          | (Pick<Order, 'legacyId' | 'data' | 'quantity'> & {
+              tier?: Pick<NonNullable<Order['tier']>, 'type' | 'name'> | null;
+            });
+        paymentMethod?: Pick<NonNullable<Transaction['paymentMethod']>, 'name'>;
         taxAmount?: { valueInCents: number; currency: string };
         hostCurrencyFxRate?: number;
         hostCurrency?: string;
@@ -403,7 +407,8 @@ export class Receipt extends React.Component<Props> {
   }
 
   getTaxTotal() {
-    const getTaxAmountInHostCurrency = t => Math.abs(t.taxAmount?.valueInCents) * (t.hostCurrencyFxRate || 1);
+    const getTaxAmountInHostCurrency = (t: Props['receipt']['transactions'][0]) =>
+      Math.abs(Number(t.taxAmount?.valueInCents)) * (t.hostCurrencyFxRate || 1);
     return Math.round(sumBy(this.props.receipt.transactions, t => getTaxAmountInHostCurrency(t) || 0));
   }
 
@@ -416,10 +421,12 @@ export class Receipt extends React.Component<Props> {
     if (!transactions.every(t => t.kind === 'EXPENSE')) {
       const getVatNumberFromAccount = (a: { settings?: { VAT?: { number?: string } } } | undefined | null) =>
         a?.settings?.VAT?.number;
-      if (getVatNumberFromAccount(fromAccount)) {
-        taxesSummary.push({ type: 'VAT', idNumber: getVatNumberFromAccount(fromAccount) });
-      } else if (getVatNumberFromAccount(fromAccountHost)) {
-        taxesSummary.push({ type: 'VAT', idNumber: getVatNumberFromAccount(fromAccountHost) });
+      const fromAccountVatNumber = getVatNumberFromAccount(fromAccount);
+      const fromAccountHostVatNumber = getVatNumberFromAccount(fromAccountHost);
+      if (fromAccountVatNumber) {
+        taxesSummary.push({ type: 'VAT', idNumber: fromAccountVatNumber });
+      } else if (fromAccountHostVatNumber) {
+        taxesSummary.push({ type: 'VAT', idNumber: fromAccountHostVatNumber });
       }
     }
 
@@ -438,7 +445,14 @@ export class Receipt extends React.Component<Props> {
   /** Get a description for transaction, with a mention to gift card emitter if necessary */
   transactionDescription(transaction: Props['receipt']['transactions'][0]) {
     const targetCollective = getTransactionReceiver(transaction as unknown as Transaction);
-    const transactionDescription = transaction.description || targetCollective.name || targetCollective.slug;
+    let transactionDescription = transaction.description;
+    if (!transactionDescription) {
+      if (!targetCollective) {
+        // This used to fail on a TypeError
+        throw new Error(`Transaction ${transaction.id} has no description and no receiver account`);
+      }
+      transactionDescription = targetCollective.name || targetCollective.slug;
+    }
 
     return !transaction.giftCardEmitterAccount ? (
       <Text style={getFontStyleForText(transactionDescription)}>{transactionDescription}</Text>
@@ -451,7 +465,7 @@ export class Receipt extends React.Component<Props> {
   }
 
   getTaxColumnHeader(transactions: Props['receipt']['transactions']) {
-    const taxInfoList = transactions.map(getTaxInfoFromTransaction).filter(Boolean);
+    const taxInfoList = compact(transactions.map(getTaxInfoFromTransaction));
     const taxTypes = uniqBy(taxInfoList, t => t.type);
     return taxTypes.length !== 1 ? <FormattedMessage defaultMessage="Tax" id="AwzkSM" /> : taxTypes[0].type;
   }
@@ -492,7 +506,7 @@ export class Receipt extends React.Component<Props> {
 
         {transactions.map(transaction => {
           const quantity = get(transaction, 'order.quantity') || 1;
-          const amountInHostCurrency = transaction.amountInHostCurrency.valueInCents;
+          const amountInHostCurrency = Number(transaction.amountInHostCurrency.valueInCents);
           const taxAmount = Math.abs(transaction.taxAmount?.valueInCents || 0);
           const hostCurrencyFxRate = transaction.hostCurrencyFxRate || 1;
           const taxAmountInHostCurrency = taxAmount * hostCurrencyFxRate;
@@ -549,7 +563,7 @@ export class Receipt extends React.Component<Props> {
                         transaction.amount.currency,
                       )}
                       &nbsp;x&nbsp;
-                      {round(transaction.hostCurrencyFxRate, 4)}%)
+                      {round(Number(transaction.hostCurrencyFxRate), 4)}%)
                     </Text>
                   )}
                 </View>
@@ -738,7 +752,7 @@ export class Receipt extends React.Component<Props> {
                         {getTaxesBreakdown(this.props.receipt.transactions as unknown as Transaction[]).map(tax => (
                           <View key={tax.id} style={styles.totalsRow}>
                             <Text>
-                              {tax.info.type} ({round(tax.info.rate * 100, 2)}%)
+                              {tax.info.type} ({round(Number(tax.info.rate) * 100, 2)}%)
                             </Text>
                             <Text style={styles.bold}>
                               {formatCurrency(tax.amountInHostCurrency, receipt.currency, { showCurrencySymbol: true })}

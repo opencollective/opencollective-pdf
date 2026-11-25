@@ -14,7 +14,7 @@ export const TAX_FORMS: Record<
   TaxFormType,
   {
     bytes: Uint8Array;
-    fillPDF: (pdfDoc: PDFDocument, values: Record<string, unknown>, font: PDFFont | null | undefined) => Promise<void>;
+    fillPDF: (pdfDoc: PDFDocument, values: Record<string, unknown>, font: PDFFont | undefined) => Promise<void>;
     definition: Partial<Record<string, PDFFieldDefinition>>;
   }
 > = {
