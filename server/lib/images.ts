@@ -112,14 +112,13 @@ const agents = new Map<string, http.Agent>();
 const getAgent = (protocol: 'http:' | 'https:'): http.Agent => {
   const allowPrivateIPAddress = allowsPrivateImageUrls();
   const key = `${protocol}${allowPrivateIPAddress}`;
-  if (!agents.has(key)) {
+  let agent = agents.get(key);
+  if (!agent) {
     const options = { allowPrivateIPAddress, allowMetaIPAddress: false };
-    agents.set(
-      key,
-      protocol === 'https:' ? new RequestFilteringHttpsAgent(options) : new RequestFilteringHttpAgent(options),
-    );
+    agent = protocol === 'https:' ? new RequestFilteringHttpsAgent(options) : new RequestFilteringHttpAgent(options);
+    agents.set(key, agent);
   }
-  return agents.get(key);
+  return agent;
 };
 
 const isBlockedAddressError = (error: unknown): boolean =>
