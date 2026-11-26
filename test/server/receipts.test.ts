@@ -3,6 +3,8 @@ import express from 'express';
 import request from 'supertest';
 import nock from 'nock';
 import appRouter from '../../server/index.js';
+import http from 'node:http';
+import { AddressInfo } from 'node:net';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { createPng, getPdfImageWidths, snapshotPDF } from '../utils.js';
@@ -369,6 +371,20 @@ describe('Receipts Routes', () => {
               .get(`/complex-${index}.svg`)
               .reply(200, complexSvg, { 'Content-Type': 'image/svg+xml' });
             expectPlaceholderOnly(await requestReceipt(`https://example.com/complex-${index}.svg`));
+          }
+        });
+
+        test('should only download images from public addresses', async () => {
+          const server = http.createServer((req, res) =>
+            res.writeHead(200, { 'Content-Type': 'image/png' }).end(embeddedPng),
+          );
+          await new Promise<void>(resolve => server.listen(0, resolve));
+          try {
+            nock.enableNetConnect('127.0.0.1');
+            const { port } = server.address() as AddressInfo;
+            expectPlaceholderOnly(await requestReceipt(`http://127.0.0.1:${port}/signature.png`));
+          } finally {
+            await new Promise(resolve => server.close(resolve));
           }
         });
 

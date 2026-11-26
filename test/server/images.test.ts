@@ -1,9 +1,17 @@
 import { Readable } from 'node:stream';
+import http from 'node:http';
+import { AddressInfo } from 'node:net';
+import { createRequire, syncBuiltinESMExports } from 'node:module';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { expect, test, describe, beforeEach, afterEach, vi } from 'vitest';
 import nock from 'nock';
-import { detectImageFormat, loadEmbeddedImage, MAX_EMBEDDED_IMAGE_SIZE_BYTES } from '../../server/lib/images.js';
+import {
+  detectImageFormat,
+  loadEmbeddedImage,
+  MAX_EMBEDDED_IMAGE_REDIRECTS,
+  MAX_EMBEDDED_IMAGE_SIZE_BYTES,
+} from '../../server/lib/images.js';
 import { reportErrorToSentry, reportMessageToSentry } from '../../server/lib/sentry.js';
 import { createPng } from '../utils.js';
 
@@ -150,6 +158,122 @@ describe('lib/images', () => {
         tags: { feature: 'pdf-images', reason: 'download-failed' },
         extra: expect.objectContaining({ src: 'https://example.com/error.png' }),
       });
+    });
+  });
+
+  describe('loadEmbeddedImage address filtering', () => {
+    const dns = createRequire(import.meta.url)('node:dns');
+    const originalLookup = dns.lookup;
+    let server: http.Server;
+    let port: number;
+
+    beforeEach(async () => {
+      // A local server that serves a valid PNG, to make sure requests are refused before reaching it
+      server = http.createServer((req, res) => res.writeHead(200, { 'Content-Type': 'image/png' }).end(png));
+      await new Promise<void>(resolve => server.listen(0, resolve));
+      port = (server.address() as AddressInfo).port;
+      nock.disableNetConnect();
+    });
+
+    afterEach(async () => {
+      await new Promise(resolve => server.close(resolve));
+      dns.lookup = originalLookup;
+      syncBuiltinESMExports();
+      delete process.env.ALLOW_PRIVATE_IMAGE_URLS;
+      nock.cleanAll();
+      nock.enableNetConnect();
+      vi.mocked(reportErrorToSentry).mockReset();
+      vi.mocked(reportMessageToSentry).mockReset();
+    });
+
+    test('only downloads images from public addresses', async () => {
+      nock.enableNetConnect();
+      for (const host of [
+        '127.0.0.1',
+        '127.1',
+        'localhost',
+        '[::1]',
+        '[::ffff:127.0.0.1]',
+        '[::ffff:7f00:1]',
+        '0.0.0.0',
+        '[::]',
+        '10.0.0.1',
+        '172.16.0.1',
+        '192.168.1.1',
+        '169.254.169.254',
+        '[fe80::1]',
+        '[fd00::1]',
+        '[::ffff:10.0.0.1]',
+        '224.0.0.1',
+      ]) {
+        vi.mocked(reportMessageToSentry).mockReset();
+        expect(await loadEmbeddedImage(`http://${host}:${port}/signature.png`), host).toBeNull();
+        expectRejectionReported('blocked-address');
+      }
+    });
+
+    test('checks the resolved address, not the hostname', async () => {
+      nock.enableNetConnect();
+      dns.lookup = (hostname, options, callback) => {
+        const cb = typeof options === 'function' ? options : callback;
+        const all = typeof options === 'object' && options?.all;
+        return all ? cb(null, [{ address: '10.0.0.5', family: 4 }]) : cb(null, '10.0.0.5', 4);
+      };
+      syncBuiltinESMExports();
+
+      expect(await loadEmbeddedImage(`http://images.example.org:${port}/signature.png`)).toBeNull();
+      expectRejectionReported('blocked-address', { host: 'images.example.org' });
+    });
+
+    test('checks every redirect', async () => {
+      nock.enableNetConnect('127.0.0.1');
+      nock('https://example.com')
+        .get('/signature.png')
+        .reply(302, '', { Location: `http://127.0.0.1:${port}/signature.png` });
+      expect(await loadEmbeddedImage('https://example.com/signature.png')).toBeNull();
+      expectRejectionReported('blocked-address', { host: '127.0.0.1', redirects: 1 });
+    });
+
+    test('follows a few redirects to public addresses', async () => {
+      nock('https://example.com')
+        .get('/signature.png')
+        .reply(301, '', { Location: 'https://cdn.example.com/signature.png' });
+      nock('https://cdn.example.com').get('/signature.png').reply(200, png, { 'Content-Type': 'image/png' });
+      expect(await loadEmbeddedImage('https://example.com/signature.png')).toBe(pngDataUrl);
+    });
+
+    test('stops after too many redirects', async () => {
+      const scope = nock('https://example.com');
+      for (let i = 0; i <= MAX_EMBEDDED_IMAGE_REDIRECTS; i++) {
+        scope.get(`/${i}.png`).reply(302, '', { Location: `/${i + 1}.png` });
+      }
+      expect(await loadEmbeddedImage('https://example.com/0.png')).toBeNull();
+      expectRejectionReported('too-many-redirects', { redirects: MAX_EMBEDDED_IMAGE_REDIRECTS + 1 });
+    });
+
+    test('only follows redirects to http(s) URLs', async () => {
+      nock('https://example.com').get('/signature.png').reply(302, '', { Location: 'file:///signature.png' });
+      expect(await loadEmbeddedImage('https://example.com/signature.png')).toBeNull();
+      expectRejectionReported('unsupported-source', { redirects: 1 });
+    });
+
+    test('allows private addresses when ALLOW_PRIVATE_IMAGE_URLS is enabled', async () => {
+      nock.enableNetConnect('127.0.0.1');
+      process.env.ALLOW_PRIVATE_IMAGE_URLS = 'true';
+      expect(await loadEmbeddedImage(`http://127.0.0.1:${port}/signature.png`)).toBe(pngDataUrl);
+    });
+
+    test('allows private addresses in development unless ALLOW_PRIVATE_IMAGE_URLS is disabled', async () => {
+      nock.enableNetConnect('127.0.0.1');
+      vi.stubEnv('NODE_ENV', 'development');
+      try {
+        expect(await loadEmbeddedImage(`http://127.0.0.1:${port}/signature.png`)).toBe(pngDataUrl);
+        process.env.ALLOW_PRIVATE_IMAGE_URLS = 'false';
+        expect(await loadEmbeddedImage(`http://127.0.0.1:${port}/signature.png`)).toBeNull();
+        expectRejectionReported('blocked-address');
+      } finally {
+        vi.unstubAllEnvs();
+      }
     });
   });
 });
