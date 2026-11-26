@@ -214,9 +214,10 @@ describe('lib/images', () => {
 
     test('checks the resolved address, not the hostname', async () => {
       nock.enableNetConnect();
-      dns.lookup = (hostname, options, callback) => {
-        const cb = typeof options === 'function' ? options : callback;
-        const all = typeof options === 'object' && options?.all;
+      type LookupCallback = (error: Error | null, address: unknown, family?: number) => void;
+      dns.lookup = (hostname: string, options: object | LookupCallback, callback?: LookupCallback) => {
+        const cb = (typeof options === 'function' ? options : callback) as LookupCallback;
+        const all = typeof options === 'object' && 'all' in options && options.all;
         return all ? cb(null, [{ address: '10.0.0.5', family: 4 }]) : cb(null, '10.0.0.5', 4);
       };
       syncBuiltinESMExports();
