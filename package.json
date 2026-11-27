@@ -44,7 +44,7 @@
     "qrcode": "1.5.4",
     "react": "19.3.1",
     "react-dom": "19.3.1",
-    "react-intl": "12.2.0",
+    "react-intl": "12.2.1",
     "request-filtering-agent": "3.3.1"
   },
   "devDependencies": {
