@@ -29,7 +29,7 @@
     "@apollo/client": "3.14.1",
     "@hyperwatch/hyperwatch": "5.8.0",
     "@opencollective/taxes": "5.5.0",
-    "@react-pdf/renderer": "4.9.0",
+    "@react-pdf/renderer": "4.9.1",
     "@sentry/node": "11.17.0",
     "@sentry/profiling-node": "11.17.0",
     "dayjs": "1.11.23",
